@@ -1,73 +1,70 @@
-Content-Type: multipart/mixed; boundary="===============7371029041342993763=="
+Content-Type: multipart/mixed; boundary="===============5913077506160152319=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 6/9] nfc: s3fwrn5: Constify s3fwrn5_fw_info when not modified
-Date: Sun, 06 Sep 2020 17:36:51 +0200
-Message-ID: <20200906153654.2925-7-krzk@kernel.org>
+Subject: [PATCH v2 7/9] MAINTAINERS: Add Krzysztof Kozlowski to Samsung S3FWRN5 and remove Robert
+Date: Sun, 06 Sep 2020 17:36:52 +0200
+Message-ID: <20200906153654.2925-8-krzk@kernel.org>
 In-Reply-To: <20200906153654.2925-1-krzk@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7371029041342993763==
+--===============5913077506160152319==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Two functions accept pointer to struct s3fwrn5_fw_info but do not
-modify the contents.  Make them const so the code is a little bit safer.
+Robert Ba=C5=82dyga's email does not work (bounces) since 2016 so remove it.
+Additionally there are no review/ack/tested tags from Krzysztof Opasiak
+so it looks like the driver is not supported.
+
+As a maintainer of Samsung ARM/ARM64 SoC, I can take care about this
+driver and provide some review.  However clearly driver is not in
+supported mode as I do not work in Samsung anymore.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/nfc/s3fwrn5/firmware.c | 4 ++--
- drivers/nfc/s3fwrn5/firmware.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ CREDITS     | 4 ++++
+ MAINTAINERS | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nfc/s3fwrn5/firmware.c b/drivers/nfc/s3fwrn5/firmware.c
-index 69857f080704..ec930ee2c847 100644
---- a/drivers/nfc/s3fwrn5/firmware.c
-+++ b/drivers/nfc/s3fwrn5/firmware.c
-@@ -348,7 +348,7 @@ static int s3fwrn5_fw_get_base_addr(
- }
+diff --git a/CREDITS b/CREDITS
+index 32ee70a7562e..1df63cdf71df 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -191,6 +191,10 @@ N: Krishna Balasubramanian
+ E: balasub(a)cis.ohio-state.edu
+ D: Wrote SYS V IPC (part of standard kernel since 0.99.10)
  =
 
- static inline bool
--s3fwrn5_fw_is_custom(struct s3fwrn5_fw_cmd_get_bootinfo_rsp *bootinfo)
-+s3fwrn5_fw_is_custom(const struct s3fwrn5_fw_cmd_get_bootinfo_rsp *bootinf=
-o)
- {
- 	return !!bootinfo->hw_version[2];
- }
-@@ -399,7 +399,7 @@ int s3fwrn5_fw_setup(struct s3fwrn5_fw_info *fw_info)
- 	return ret;
- }
++B: Robert Baldyga
++E: r.baldyga(a)hackerion.com
++D: Samsung S3FWRN5 NCI NFC Controller
++
+ N: Chris Ball
+ E: chris(a)printf.net
+ D: Former maintainer of the MMC/SD/SDIO subsystem.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ec4f1d9cb3dc..6888bd851caf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15269,10 +15269,10 @@ F:	drivers/media/platform/s3c-camif/
+ F:	include/media/drv-intf/s3c_camif.h
  =
 
--bool s3fwrn5_fw_check_version(struct s3fwrn5_fw_info *fw_info, u32 version)
-+bool s3fwrn5_fw_check_version(const struct s3fwrn5_fw_info *fw_info, u32 v=
-ersion)
- {
- 	struct s3fwrn5_fw_version *new =3D (void *) &fw_info->fw.version;
- 	struct s3fwrn5_fw_version *old =3D (void *) &version;
-diff --git a/drivers/nfc/s3fwrn5/firmware.h b/drivers/nfc/s3fwrn5/firmware.h
-index cf1a83a5a525..3c83e6730d30 100644
---- a/drivers/nfc/s3fwrn5/firmware.h
-+++ b/drivers/nfc/s3fwrn5/firmware.h
-@@ -91,7 +91,7 @@ struct s3fwrn5_fw_info {
- =
-
- void s3fwrn5_fw_init(struct s3fwrn5_fw_info *fw_info, const char *fw_name);
- int s3fwrn5_fw_setup(struct s3fwrn5_fw_info *fw_info);
--bool s3fwrn5_fw_check_version(struct s3fwrn5_fw_info *fw_info, u32 version=
-);
-+bool s3fwrn5_fw_check_version(const struct s3fwrn5_fw_info *fw_info, u32 v=
-ersion);
- int s3fwrn5_fw_download(struct s3fwrn5_fw_info *fw_info);
- void s3fwrn5_fw_cleanup(struct s3fwrn5_fw_info *fw_info);
+ SAMSUNG S3FWRN5 NFC DRIVER
+-M:	Robert Baldyga <r.baldyga@samsung.com>
++M:	Krzysztof Kozlowski <krzk@kernel.org>
+ M:	Krzysztof Opasiak <k.opasiak@samsung.com>
+ L:	linux-nfc(a)lists.01.org (moderated for non-subscribers)
+-S:	Supported
++S:	Maintained
+ F:	Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+ F:	drivers/nfc/s3fwrn5
  =
 
 -- =
 
 2.17.1
 
---===============7371029041342993763==--
+--===============5913077506160152319==--
 
