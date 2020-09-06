@@ -1,47 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============1418357203618706684=="
+Content-Type: multipart/mixed; boundary="===============9140169649710951282=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 8/9] arm64: dts: exynos: Use newer S3FWRN5 GPIO properties in Exynos5433 TM2
-Date: Sun, 06 Sep 2020 17:36:53 +0200
-Message-ID: <20200906153654.2925-9-krzk@kernel.org>
+Subject: [PATCH v2 9/9] arm64: defconfig: Enable Samsung S3FWRN5 NFC driver
+Date: Sun, 06 Sep 2020 17:36:54 +0200
+Message-ID: <20200906153654.2925-10-krzk@kernel.org>
 In-Reply-To: <20200906153654.2925-1-krzk@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1418357203618706684==
+--===============9140169649710951282==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Since "s3fwrn5" is not a valid vendor prefix, use new GPIO properties
-instead of the deprecated.
+Enable the Samsung S3FWRN5 NFC driver present in Exynos5433-based
+TM2/TM2E boards.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/configs/defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi b/arch/a=
-rm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-index 250fc01de78d..24aab3ea3f52 100644
---- a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-+++ b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-@@ -795,8 +795,8 @@
- 		reg =3D <0x27>;
- 		interrupt-parent =3D <&gpa1>;
- 		interrupts =3D <3 IRQ_TYPE_LEVEL_HIGH>;
--		s3fwrn5,en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
--		s3fwrn5,fw-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
-+		en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
-+		wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
- 	};
- };
- =
-
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index a03cefd58799..b78a14d43f3f 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -199,6 +199,9 @@ CONFIG_MAC80211_LEDS=3Dy
+ CONFIG_RFKILL=3Dm
+ CONFIG_NET_9P=3Dy
+ CONFIG_NET_9P_VIRTIO=3Dy
++CONFIG_NFC=3Dm
++CONFIG_NFC_NCI=3Dm
++CONFIG_NFC_S3FWRN5_I2C=3Dm
+ CONFIG_PCI=3Dy
+ CONFIG_PCIEPORTBUS=3Dy
+ CONFIG_PCI_IOV=3Dy
 -- =
 
 2.17.1
 
---===============1418357203618706684==--
+--===============9140169649710951282==--
 
