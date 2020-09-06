@@ -1,70 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============5913077506160152319=="
+Content-Type: multipart/mixed; boundary="===============1418357203618706684=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 7/9] MAINTAINERS: Add Krzysztof Kozlowski to Samsung S3FWRN5 and remove Robert
-Date: Sun, 06 Sep 2020 17:36:52 +0200
-Message-ID: <20200906153654.2925-8-krzk@kernel.org>
+Subject: [PATCH v2 8/9] arm64: dts: exynos: Use newer S3FWRN5 GPIO properties in Exynos5433 TM2
+Date: Sun, 06 Sep 2020 17:36:53 +0200
+Message-ID: <20200906153654.2925-9-krzk@kernel.org>
 In-Reply-To: <20200906153654.2925-1-krzk@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5913077506160152319==
+--===============1418357203618706684==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Robert Ba=C5=82dyga's email does not work (bounces) since 2016 so remove it.
-Additionally there are no review/ack/tested tags from Krzysztof Opasiak
-so it looks like the driver is not supported.
-
-As a maintainer of Samsung ARM/ARM64 SoC, I can take care about this
-driver and provide some review.  However clearly driver is not in
-supported mode as I do not work in Samsung anymore.
+Since "s3fwrn5" is not a valid vendor prefix, use new GPIO properties
+instead of the deprecated.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- CREDITS     | 4 ++++
- MAINTAINERS | 4 ++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/CREDITS b/CREDITS
-index 32ee70a7562e..1df63cdf71df 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -191,6 +191,10 @@ N: Krishna Balasubramanian
- E: balasub(a)cis.ohio-state.edu
- D: Wrote SYS V IPC (part of standard kernel since 0.99.10)
- =
-
-+B: Robert Baldyga
-+E: r.baldyga(a)hackerion.com
-+D: Samsung S3FWRN5 NCI NFC Controller
-+
- N: Chris Ball
- E: chris(a)printf.net
- D: Former maintainer of the MMC/SD/SDIO subsystem.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec4f1d9cb3dc..6888bd851caf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15269,10 +15269,10 @@ F:	drivers/media/platform/s3c-camif/
- F:	include/media/drv-intf/s3c_camif.h
- =
-
- SAMSUNG S3FWRN5 NFC DRIVER
--M:	Robert Baldyga <r.baldyga@samsung.com>
-+M:	Krzysztof Kozlowski <krzk@kernel.org>
- M:	Krzysztof Opasiak <k.opasiak@samsung.com>
- L:	linux-nfc(a)lists.01.org (moderated for non-subscribers)
--S:	Supported
-+S:	Maintained
- F:	Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
- F:	drivers/nfc/s3fwrn5
+diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi b/arch/a=
+rm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
+index 250fc01de78d..24aab3ea3f52 100644
+--- a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
++++ b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
+@@ -795,8 +795,8 @@
+ 		reg =3D <0x27>;
+ 		interrupt-parent =3D <&gpa1>;
+ 		interrupts =3D <3 IRQ_TYPE_LEVEL_HIGH>;
+-		s3fwrn5,en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
+-		s3fwrn5,fw-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
++		en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
++		wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
+ 	};
+ };
  =
 
 -- =
 
 2.17.1
 
---===============5913077506160152319==--
+--===============1418357203618706684==--
 
