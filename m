@@ -1,69 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============1848751847007383247=="
+Content-Type: multipart/mixed; boundary="===============0313150232923671531=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 3/8] nfc: s3fwrn5: Remove wrong vendor prefix from GPIOs
-Date: Thu, 10 Sep 2020 18:12:14 +0200
-Message-ID: <20200910161219.6237-4-krzk@kernel.org>
+Subject: [PATCH v3 4/8] nfc: s3fwrn5: Remove unneeded 'ret' variable
+Date: Thu, 10 Sep 2020 18:12:15 +0200
+Message-ID: <20200910161219.6237-5-krzk@kernel.org>
 In-Reply-To: <20200910161219.6237-1-krzk@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1848751847007383247==
+--===============0313150232923671531==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The device tree property prefix describes the vendor, which in case of
-S3FWRN5 chip is Samsung.  Therefore the "s3fwrn5" prefix for "en-gpios"
-and "fw-gpios" is not correct and should be deprecated.  Introduce
-properly named properties for these GPIOs but still support deprecated
-ones.
+The local variable 'ret' can be removed:
+
+  drivers/nfc/s3fwrn5/i2c.c:167:6: warning: variable 'ret' set but not used=
+ [-Wunused-but-set-variable]
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/nfc/s3fwrn5/i2c.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/nfc/s3fwrn5/i2c.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index b4eb926d220a..557279492503 100644
+index 557279492503..dc995286be84 100644
 --- a/drivers/nfc/s3fwrn5/i2c.c
 +++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -200,13 +200,21 @@ static int s3fwrn5_i2c_parse_dt(struct i2c_client *cl=
-ient)
- 	if (!np)
- 		return -ENODEV;
+@@ -164,7 +164,6 @@ static int s3fwrn5_i2c_read(struct s3fwrn5_i2c_phy *phy)
+ static irqreturn_t s3fwrn5_i2c_irq_thread_fn(int irq, void *phy_id)
+ {
+ 	struct s3fwrn5_i2c_phy *phy =3D phy_id;
+-	int ret =3D 0;
  =
 
--	phy->gpio_en =3D of_get_named_gpio(np, "s3fwrn5,en-gpios", 0);
--	if (!gpio_is_valid(phy->gpio_en))
--		return -ENODEV;
-+	phy->gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
-+	if (!gpio_is_valid(phy->gpio_en)) {
-+		/* Support also deprecated property */
-+		phy->gpio_en =3D of_get_named_gpio(np, "s3fwrn5,en-gpios", 0);
-+		if (!gpio_is_valid(phy->gpio_en))
-+			return -ENODEV;
-+	}
+ 	if (!phy || !phy->ndev) {
+ 		WARN_ON_ONCE(1);
+@@ -179,10 +178,9 @@ static irqreturn_t s3fwrn5_i2c_irq_thread_fn(int irq, =
+void *phy_id)
+ 	switch (phy->mode) {
+ 	case S3FWRN5_MODE_NCI:
+ 	case S3FWRN5_MODE_FW:
+-		ret =3D s3fwrn5_i2c_read(phy);
++		s3fwrn5_i2c_read(phy);
+ 		break;
+ 	case S3FWRN5_MODE_COLD:
+-		ret =3D -EREMOTEIO;
+ 		break;
+ 	}
  =
 
--	phy->gpio_fw_wake =3D of_get_named_gpio(np, "s3fwrn5,fw-gpios", 0);
--	if (!gpio_is_valid(phy->gpio_fw_wake))
--		return -ENODEV;
-+	phy->gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
-+	if (!gpio_is_valid(phy->gpio_fw_wake)) {
-+		/* Support also deprecated property */
-+		phy->gpio_fw_wake =3D of_get_named_gpio(np, "s3fwrn5,fw-gpios", 0);
-+		if (!gpio_is_valid(phy->gpio_fw_wake))
-+			return -ENODEV;
-+	}
- =
-
- 	return 0;
- }
 -- =
 
 2.17.1
 
---===============1848751847007383247==--
+--===============0313150232923671531==--
 
