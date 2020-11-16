@@ -1,63 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============6031123103054984628=="
+Content-Type: multipart/mixed; boundary="===============1151747925436262143=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 1/3] ci: show kernel headers version and difference against embedded nfc.h
-Date: Mon, 14 Feb 2022 13:31:07 +0100
-Message-ID: <20220214123110.27056-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH net-next 2/3] nfc: s3fwrn5: Fix the misspelling in a comment
+Date: Mon, 16 Nov 2020 10:17:55 +0900
+Message-ID: <20201116011755epcms2p7f7232e0865e8e1bc11a4b528c10d3571@epcms2p7>
+In-Reply-To: <CGME20201116011755epcms2p7f7232e0865e8e1bc11a4b528c10d3571@epcms2p7>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6031123103054984628==
+--===============1151747925436262143==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-We embed the /usr/include/linux/nfc.h as nfc_copy.h, to compile cleanly
-on older kernels (e.g. older than v4.15 without
-NFC_CMD_DEACTIVATE_TARGET).  See also commit fb7664e2995f ("include: Add
-a copy of the NFC kernel header").  We should sync our local
-nfc_copy.h with kernel sources from time to time, but it is easy to
-forget this.
+stucture should be replaced by structure.
 
-Add a separate Continuous Integration step to show kernel headers
-version and differences between kernel's nfc.h and our local copy, so we
-can notice kernel uses a different one.  This is purely for maintenance.
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 ---
- .github/workflows/ci.yml | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nfc/s3fwrn5/firmware.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index 2e1ad40debb9..8cd836d398a7 100644
---- a/.github/workflows/ci.yml
-+++ b/.github/workflows/ci.yml
-@@ -276,11 +276,20 @@ jobs:
-     - name: Display environment and Linux version
-       run: |
-         test -f /etc/issue && cat /etc/issue
-+        echo "############################################"
-         lsb_release -a || true
-+        echo "############################################"
-+        cat /usr/include/linux/version.h
-+        echo "############################################"
-         uname -a
-+        echo "############################################"
-         cat /proc/cmdline
-+        echo "############################################"
-         printenv
+diff --git a/drivers/nfc/s3fwrn5/firmware.c b/drivers/nfc/s3fwrn5/firmware.c
+index ec930ee2c847..4cde6dd5c019 100644
+--- a/drivers/nfc/s3fwrn5/firmware.c
++++ b/drivers/nfc/s3fwrn5/firmware.c
+@@ -266,7 +266,7 @@ static int s3fwrn5_fw_complete_update_mode(struct s3fwr=
+n5_fw_info *fw_info)
+ }
  =
 
-+    - name: Display nfc.h differences between local and Linux kernel heade=
-rs
-+      run: diff -uBb /usr/include/linux/nfc.h include/nfc_copy.h || true
-+
-     - name: Configure
-       id: configure
-       run: |
+ /*
+- * Firmware header stucture:
++ * Firmware header structure:
+  *
+  * 0x00 - 0x0B : Date and time string (w/o NUL termination)
+  * 0x10 - 0x13 : Firmware version
 -- =
 
-2.32.0
+2.17.1
 
---===============6031123103054984628==--
+--===============1151747925436262143==--
 
