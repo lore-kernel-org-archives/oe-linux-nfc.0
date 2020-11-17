@@ -1,272 +1,79 @@
-Content-Type: multipart/mixed; boundary="===============1902790176744526586=="
+Content-Type: multipart/mixed; boundary="===============5331361915325935129=="
 MIME-Version: 1.0
-From: Bongsu Jeon <bongsu.jeon2@gmail.com>
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next 2/2] net: nfc: s3fwrn5: Support a UART interface
-Date: Wed, 25 Nov 2020 13:43:10 +0900
-Message-ID: <CACwDmQCcP88jLmfRrsDAxOytHVv+tShfc7LnF4zO+F3UKmaybQ@mail.gmail.com>
-In-Reply-To: <CACwDmQC_ptQ+R1xLXRzZq=ewDsp2nA5v-Wb44yudcX92y=HQsA@mail.gmail.com>
+Subject: [PATCH net-next v2 3/3] nfc: s3fwrn5: Change the error code
+Date: Tue, 17 Nov 2020 10:18:50 +0900
+Message-ID: <20201117011850epcms2p568af074144630cd0f02b3a7f7eff8d1a@epcms2p5>
+In-Reply-To: <CGME20201117011850epcms2p568af074144630cd0f02b3a7f7eff8d1a@epcms2p5>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1902790176744526586==
+--===============5331361915325935129==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 11/25/20, Bongsu Jeon <bongsu.jeon2@gmail.com> wrote:
-> On 11/24/20, krzk(a)kernel.org <krzk@kernel.org> wrote:
->> On Tue, Nov 24, 2020 at 09:05:52PM +0900, Bongsu Jeon wrote:
->>> On Mon, Nov 23, 2020 at 5:55 PM krzk(a)kernel.org <krzk@kernel.org> w=
-rote:
->>> > > +static enum s3fwrn5_mode s3fwrn82_uart_get_mode(void *phy_id)
->>> > > +{
->>> > > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
->>> > > +     enum s3fwrn5_mode mode;
->>> > > +
->>> > > +     mutex_lock(&phy->mutex);
->>> > > +     mode =3D phy->mode;
->>> > > +     mutex_unlock(&phy->mutex);
->>> > > +     return mode;
->>> > > +}
->>> >
->>> > All this duplicates I2C version. You need to start either reusing
->>> > common
->>> > blocks.
->>> >
->>>
->>> Okay. I will do refactoring on i2c.c and uart.c to make common blocks.
->>>  is it okay to separate a patch for it?
->>
->> Yes, that would be the best - refactor the driver to split some common
->> methods and then in next patch add new s3fwrn82 UART driver.
->>
->>> > > +
->>> > > +static int s3fwrn82_uart_write(void *phy_id, struct sk_buff *out)
->>> > > +{
->>> > > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
->>> > > +     int err;
->>> > > +
->>> > > +     err =3D serdev_device_write(phy->ser_dev,
->>> > > +                               out->data, out->len,
->>> > > +                               MAX_SCHEDULE_TIMEOUT);
->>> > > +     if (err < 0)
->>> > > +             return err;
->>> > > +
->>> > > +     return 0;
->>> > > +}
->>> > > +
->>> > > +static const struct s3fwrn5_phy_ops uart_phy_ops =3D {
->>> > > +     .set_wake =3D s3fwrn82_uart_set_wake,
->>> > > +     .set_mode =3D s3fwrn82_uart_set_mode,
->>> > > +     .get_mode =3D s3fwrn82_uart_get_mode,
->>> > > +     .write =3D s3fwrn82_uart_write,
->>> > > +};
->>> > > +
->>> > > +static int s3fwrn82_uart_read(struct serdev_device *serdev,
->>> > > +                           const unsigned char *data,
->>> > > +                           size_t count)
->>> > > +{
->>> > > +     struct s3fwrn82_uart_phy *phy =3D
->>> > > serdev_device_get_drvdata(serdev);
->>> > > +     size_t i;
->>> > > +
->>> > > +     for (i =3D 0; i < count; i++) {
->>> > > +             skb_put_u8(phy->recv_skb, *data++);
->>> > > +
->>> > > +             if (phy->recv_skb->len < S3FWRN82_NCI_HEADER)
->>> > > +                     continue;
->>> > > +
->>> > > +             if ((phy->recv_skb->len - S3FWRN82_NCI_HEADER)
->>> > > +                             <
->>> > > phy->recv_skb->data[S3FWRN82_NCI_IDX])
->>> > > +                     continue;
->>> > > +
->>> > > +             s3fwrn5_recv_frame(phy->ndev, phy->recv_skb,
->>> > > phy->mode);
->>> > > +             phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN,
->>> > > GFP_KERNEL);
->>> > > +             if (!phy->recv_skb)
->>> > > +                     return 0;
->>> > > +     }
->>> > > +
->>> > > +     return i;
->>> > > +}
->>> > > +
->>> > > +static struct serdev_device_ops s3fwrn82_serdev_ops =3D {
->>> >
->>> > const
->>> >
->>> > > +     .receive_buf =3D s3fwrn82_uart_read,
->>> > > +     .write_wakeup =3D serdev_device_write_wakeup,
->>> > > +};
->>> > > +
->>> > > +static const struct of_device_id s3fwrn82_uart_of_match[] =3D {
->>> > > +     { .compatible =3D "samsung,s3fwrn82-uart", },
->>> > > +     {},
->>> > > +};
->>> > > +MODULE_DEVICE_TABLE(of, s3fwrn82_uart_of_match);
->>> > > +
->>> > > +static int s3fwrn82_uart_parse_dt(struct serdev_device *serdev)
->>> > > +{
->>> > > +     struct s3fwrn82_uart_phy *phy =3D
->>> > > serdev_device_get_drvdata(serdev);
->>> > > +     struct device_node *np =3D serdev->dev.of_node;
->>> > > +
->>> > > +     if (!np)
->>> > > +             return -ENODEV;
->>> > > +
->>> > > +     phy->gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
->>> > > +     if (!gpio_is_valid(phy->gpio_en))
->>> > > +             return -ENODEV;
->>> > > +
->>> > > +     phy->gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
->>> >
->>> > You should not cast it it unsigned int. I'll fix the s3fwrn5 from
->>> > which
->>> > you copied this apparently.
->>> >
->>>
->>> Okay. I will fix it.
->>>
->>> > > +     if (!gpio_is_valid(phy->gpio_fw_wake))
->>> > > +             return -ENODEV;
->>> > > +
->>> > > +     return 0;
->>> > > +}
->>> > > +
->>> > > +static int s3fwrn82_uart_probe(struct serdev_device *serdev)
->>> > > +{
->>> > > +     struct s3fwrn82_uart_phy *phy;
->>> > > +     int ret =3D -ENOMEM;
->>> > > +
->>> > > +     phy =3D devm_kzalloc(&serdev->dev, sizeof(*phy), GFP_KERNEL);
->>> > > +     if (!phy)
->>> > > +             goto err_exit;
->>> > > +
->>> > > +     phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN, GFP_KERNEL);
->>> > > +     if (!phy->recv_skb)
->>> > > +             goto err_free;
->>> > > +
->>> > > +     mutex_init(&phy->mutex);
->>> > > +     phy->mode =3D S3FWRN5_MODE_COLD;
->>> > > +
->>> > > +     phy->ser_dev =3D serdev;
->>> > > +     serdev_device_set_drvdata(serdev, phy);
->>> > > +     serdev_device_set_client_ops(serdev, &s3fwrn82_serdev_ops);
->>> > > +     ret =3D serdev_device_open(serdev);
->>> > > +     if (ret) {
->>> > > +             dev_err(&serdev->dev, "Unable to open device\n");
->>> > > +             goto err_skb;
->>> > > +     }
->>> > > +
->>> > > +     ret =3D serdev_device_set_baudrate(serdev, 115200);
->>> >
->>> > Why baudrate is fixed?
->>> >
->>>
->>> RN82 NFC chip only supports 115200 baudrate for UART.
->>
->> OK, I guess it could be extended in the future for other frequencies, if
->> needed.
->>
->>>
->>> > > +     if (ret !=3D 115200) {
->>> > > +             ret =3D -EINVAL;
->>> > > +             goto err_serdev;
->>> > > +     }
->>> > > +
->>> > > +     serdev_device_set_flow_control(serdev, false);
->>> > > +
->>> > > +     ret =3D s3fwrn82_uart_parse_dt(serdev);
->>> > > +     if (ret < 0)
->>> > > +             goto err_serdev;
->>> > > +
->>> > > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
->>> > > +                                 phy->gpio_en,
->>> > > +                                 GPIOF_OUT_INIT_HIGH,
->>> > > +                                 "s3fwrn82_en");
->>> >
->>> > This is weirdly wrapped.
->>> >
->>>
->>> Did you ask about devem_gpio_request_one function's parenthesis and
->>> parameters?
->>> If it is right, I changed it after i ran the checkpatch.pl --strict and
->>> i saw message like the alignment should match open parenthesis.
->>
->> Yeah, but it does not mean to wrap after each argument. It should be
->> something like:
->>
->>         ret =3D devm_gpio_request_one(&phy->ser_dev->dev, phy->gpio_en,
->>                                     GPIOF_OUT_INIT_HIGH, "s3fwrn82_en");
->>
->>>
->>> > > +     if (ret < 0)
->>> > > +             goto err_serdev;
->>> > > +
->>> > > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
->>> > > +                                 phy->gpio_fw_wake,
->>> > > +                                 GPIOF_OUT_INIT_LOW,
->>> > > +                                 "s3fwrn82_fw_wake");
->>> > > +     if (ret < 0)
->>> > > +             goto err_serdev;
->>> > > +
->>> > > +     ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->ser_dev->dev,
->>> > > &uart_phy_ops);
->>> > > +     if (ret < 0)
->>> > > +             goto err_serdev;
->>> > > +
->>> > > +     return ret;
->>> > > +
->>> > > +err_serdev:
->>> > > +     serdev_device_close(serdev);
->>> > > +err_skb:
->>> > > +     kfree_skb(phy->recv_skb);
->>> > > +err_free:
->>> > > +     kfree(phy);
->>> >
->>> > Eee.... why? Did you test this code?
->>> >
->>>
->>> I didn't test this code. i just added this code as defense code.
->>> If the error happens, then allocated memory and device will be free
->>> according to the fail case.
->>
->> Really, this won't work. It's kind of obvious why... You cannot use
->> kfree() on memory which is not allocated with kzalloc(). Or IOW, you
->> cannot use it if it is being freed by devm.
->>
->> I doubt that you tested either this or the remove callback because if
->> you did test it, you would see easily:
->>
->
-> Thanks to explain it in detail.
->
->> Please fix the double-free.
->>
->
-> I understand it and will remove the kfree(phy).
-> And i did the remove callback test using following echo command's
-> parameters on raspberry pi.
-> But i didn't see the error log like yours.
->
-> Echo serial0-0 > /sys/bus/serial/devices/serial0/serial0-0/driver/unbind
->
+ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP.
 
-Sorry to reply this email in a row.
-I could see the log like yours when i changed the code at uart probe
-functiom to make an error situation by force as below.
-ret =3D -EINVAL;
-     // s3fwrn5_probe(~~~
+Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+---
+ drivers/nfc/s3fwrn5/s3fwrn5.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-and i couldn't see the log when i removed the kfree(phy).
-Thanks to mention it.
+diff --git a/drivers/nfc/s3fwrn5/s3fwrn5.h b/drivers/nfc/s3fwrn5/s3fwrn5.h
+index 9d5f34759225..bb8f936d13a2 100644
+--- a/drivers/nfc/s3fwrn5/s3fwrn5.h
++++ b/drivers/nfc/s3fwrn5/s3fwrn5.h
+@@ -44,7 +44,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
+nfo,
+ 	enum s3fwrn5_mode mode)
+ {
+ 	if (!info->phy_ops->set_mode)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ =
 
+ 	info->phy_ops->set_mode(info->phy_id, mode);
+ =
 
->> Best regards,
->> Krzysztof
->>
->>
->
---===============1902790176744526586==--
+@@ -54,7 +54,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
+nfo,
+ static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s3fwrn5_info *info)
+ {
+ 	if (!info->phy_ops->get_mode)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ =
+
+ 	return info->phy_ops->get_mode(info->phy_id);
+ }
+@@ -62,7 +62,7 @@ static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s=
+3fwrn5_info *info)
+ static inline int s3fwrn5_set_wake(struct s3fwrn5_info *info, bool wake)
+ {
+ 	if (!info->phy_ops->set_wake)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ =
+
+ 	info->phy_ops->set_wake(info->phy_id, wake);
+ =
+
+@@ -72,7 +72,7 @@ static inline int s3fwrn5_set_wake(struct s3fwrn5_info *i=
+nfo, bool wake)
+ static inline int s3fwrn5_write(struct s3fwrn5_info *info, struct sk_buff =
+*skb)
+ {
+ 	if (!info->phy_ops->write)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ =
+
+ 	return info->phy_ops->write(info->phy_id, skb);
+ }
+-- =
+
+2.17.1
+
+--===============5331361915325935129==--
 
