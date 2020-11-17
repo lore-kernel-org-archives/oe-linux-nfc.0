@@ -1,32 +1,37 @@
-Content-Type: multipart/mixed; boundary="===============6066601310652507734=="
+Content-Type: multipart/mixed; boundary="===============2163998532722029575=="
 MIME-Version: 1.0
-From: krzk@kernel.org
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next 3/3] nfc: s3fwrn5: Change the error code
-Date: Mon, 16 Nov 2020 10:08:45 +0100
-Message-ID: <20201116090845.GC5937@kozik-lap>
-In-Reply-To: <20201116011950epcms2p68117cc4a7228db2baecb7d4a4840b955@epcms2p6>
+Subject: [PATCH net-next v2 0/3] nfc: s3fwrn5: Refactor the s3fwrn5 driver
+Date: Tue, 17 Nov 2020 10:14:20 +0900
+Message-ID: <20201117011420epcms2p28407a6596fdf1e63cb84af98fa768566@epcms2p2>
+In-Reply-To: <CGME20201117011420epcms2p28407a6596fdf1e63cb84af98fa768566@epcms2p2>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6066601310652507734==
+--===============2163998532722029575==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2020 at 10:19:50AM +0900, Bongsu Jeon wrote:
-> ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP.
-> =
+Changes from v1:
+- Remove the trailing dot from subject.
+- Remove an empty line at beginning of commit message.
+- Add a commit message.
 
-> Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
-> ---
->  drivers/nfc/s3fwrn5/s3fwrn5.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> =
+Bongsu Jeon (3):
+  nfc: s3fwrn5: Remove the max_payload
+  nfc: s3fwrn5: Fix the misspelling in a comment
+  nfc: s3fwrn5: Change the error code
 
+ drivers/nfc/s3fwrn5/core.c     |  3 +--
+ drivers/nfc/s3fwrn5/firmware.c |  2 +-
+ drivers/nfc/s3fwrn5/i2c.c      |  4 +---
+ drivers/nfc/s3fwrn5/s3fwrn5.h  | 11 +++++------
+ 4 files changed, 8 insertions(+), 12 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+-- =
 
-Best regards,
-Krzysztof
---===============6066601310652507734==--
+2.17.1
+
+--===============2163998532722029575==--
 
