@@ -1,54 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============1131076817580723061=="
+Content-Type: multipart/mixed; boundary="===============6026853938352456809=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 net-next 1/4] dt-bindings: net: nfc: s3fwrn5: Support a UART interface
-Date: Mon, 30 Nov 2020 20:29:35 +0200
-Message-ID: <20201130182935.GA28735@kozik-lap>
-In-Reply-To: <20201130085542.45184040@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+Subject: [PATCH net-next v2 1/3] nfc: s3fwrn5: Remove the max_payload
+Date: Tue, 17 Nov 2020 10:16:11 +0900
+Message-ID: <20201117011611epcms2p22fb0315814144e94856a96014c376a04@epcms2p2>
+In-Reply-To: <CGME20201117011611epcms2p22fb0315814144e94856a96014c376a04@epcms2p2>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1131076817580723061==
+--===============6026853938352456809==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 30, 2020 at 08:55:42AM -0800, Jakub Kicinski wrote:
-> On Mon, 30 Nov 2020 21:00:27 +0900 Bongsu jeon wrote:
-> > From: Bongsu Jeon <bongsu.jeon@samsung.com>
-> > =
+max_payload is unused.
 
-> > Since S3FWRN82 NFC Chip, The UART interface can be used.
-> > S3FWRN82 supports I2C and UART interface.
-> > =
+Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+---
+ drivers/nfc/s3fwrn5/core.c    | 3 +--
+ drivers/nfc/s3fwrn5/i2c.c     | 4 +---
+ drivers/nfc/s3fwrn5/s3fwrn5.h | 3 +--
+ 3 files changed, 3 insertions(+), 7 deletions(-)
 
-> > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
-> =
+diff --git a/drivers/nfc/s3fwrn5/core.c b/drivers/nfc/s3fwrn5/core.c
+index ba6c486d6465..f8e5d78d9078 100644
+--- a/drivers/nfc/s3fwrn5/core.c
++++ b/drivers/nfc/s3fwrn5/core.c
+@@ -136,7 +136,7 @@ static struct nci_ops s3fwrn5_nci_ops =3D {
+ };
+ =
 
-> All patches in the series should have the same version.
-> =
+ int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, struct device *pdev,
+-	const struct s3fwrn5_phy_ops *phy_ops, unsigned int max_payload)
++	const struct s3fwrn5_phy_ops *phy_ops)
+ {
+ 	struct s3fwrn5_info *info;
+ 	int ret;
+@@ -148,7 +148,6 @@ int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, =
+struct device *pdev,
+ 	info->phy_id =3D phy_id;
+ 	info->pdev =3D pdev;
+ 	info->phy_ops =3D phy_ops;
+-	info->max_payload =3D max_payload;
+ 	mutex_init(&info->mutex);
+ =
 
-> If the patch was not changes in the given repost you can add:
-> =
+ 	s3fwrn5_set_mode(info, S3FWRN5_MODE_COLD);
+diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
+index dc995286be84..0ffa389066a0 100644
+--- a/drivers/nfc/s3fwrn5/i2c.c
++++ b/drivers/nfc/s3fwrn5/i2c.c
+@@ -19,7 +19,6 @@
+ =
 
->  v3:
->   - no change
-> =
+ #define S3FWRN5_I2C_DRIVER_NAME "s3fwrn5_i2c"
+ =
 
-> Or just not mention the version in the changelog.
-> =
+-#define S3FWRN5_I2C_MAX_PAYLOAD 32
+ #define S3FWRN5_EN_WAIT_TIME 150
+ =
 
-> It's also best to provide a cover letter describing what the series
-> does as a whole for series with more than 2 patches.
+ struct s3fwrn5_i2c_phy {
+@@ -248,8 +247,7 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
+ 	if (ret < 0)
+ 		return ret;
+ =
 
-Beside that I received just 1/4 of v2. LKML has one as well:
-https://lore.kernel.org/lkml/1606737627-29485-1-git-send-email-bongsu.jeon(=
-a)samsung.com/
+-	ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->i2c_dev->dev, &i2c_phy_ops,
+-		S3FWRN5_I2C_MAX_PAYLOAD);
++	ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->i2c_dev->dev, &i2c_phy_ops);
+ 	if (ret < 0)
+ 		return ret;
+ =
 
-Where are the others?
+diff --git a/drivers/nfc/s3fwrn5/s3fwrn5.h b/drivers/nfc/s3fwrn5/s3fwrn5.h
+index ede68bb5eeae..9d5f34759225 100644
+--- a/drivers/nfc/s3fwrn5/s3fwrn5.h
++++ b/drivers/nfc/s3fwrn5/s3fwrn5.h
+@@ -34,7 +34,6 @@ struct s3fwrn5_info {
+ 	struct device *pdev;
+ =
 
-Best regards,
-Krzysztof
+ 	const struct s3fwrn5_phy_ops *phy_ops;
+-	unsigned int max_payload;
+ =
 
---===============1131076817580723061==--
+ 	struct s3fwrn5_fw_info fw_info;
+ =
+
+@@ -79,7 +78,7 @@ static inline int s3fwrn5_write(struct s3fwrn5_info *info=
+, struct sk_buff *skb)
+ }
+ =
+
+ int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, struct device *pdev,
+-	const struct s3fwrn5_phy_ops *phy_ops, unsigned int max_payload);
++	const struct s3fwrn5_phy_ops *phy_ops);
+ void s3fwrn5_remove(struct nci_dev *ndev);
+ =
+
+ int s3fwrn5_recv_frame(struct nci_dev *ndev, struct sk_buff *skb,
+-- =
+
+2.17.1
+
+--===============6026853938352456809==--
 
