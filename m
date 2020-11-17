@@ -1,80 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============1636782908430678623=="
+Content-Type: multipart/mixed; boundary="===============4453083310289801228=="
 MIME-Version: 1.0
-From: Bongsu Jeon <bongsu.jeon@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH net-next v2 3/3] nfc: s3fwrn5: Change the error code
-Date: Tue, 17 Nov 2020 17:11:37 +0900
-Message-ID: <20201117081137epcms2p84b5dd8d84ca608f44b0bb722b48f50b1@epcms2p8>
-In-Reply-To: <CGME20201117081137epcms2p84b5dd8d84ca608f44b0bb722b48f50b1@epcms2p8>
+Subject: Re: [PATCH net-next v2 1/3] nfc: s3fwrn5: Remove the max_payload
+Date: Tue, 17 Nov 2020 09:38:56 +0100
+Message-ID: <CAJKOXPdH49zOQ2caOvDDiZPkEptYiCjUmXw+O2dCC1tKHZgPag@mail.gmail.com>
+In-Reply-To: <CAEx-X7epecwBYV7UYoesQ9+Q8ir+kjYGyysiyDtCa0BzKiCGtA@mail.gmail.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1636782908430678623==
+--===============4453083310289801228==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP.
+On Tue, 17 Nov 2020 at 09:14, Bongsu Jeon <bs.jeon87@gmail.com> wrote:
+>
+> 2020-11-17 16:42 GMT+09:00, krzk(a)kernel.org <krzk@kernel.org>:
+> > On Tue, Nov 17, 2020 at 10:16:11AM +0900, Bongsu Jeon wrote:
+> >> max_payload is unused.
+> >
+> > Why did you resend the patch ignoring my review? I already provided you
+> > with a tag, so you should include it.
+> >
+> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> >
+> > Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> >
+> > Best regards,
+> > Krzysztof
+> >
+>
+> Sorry about that. I included the tag.
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
----
- drivers/nfc/s3fwrn5/s3fwrn5.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+You need to reduce the rate of sending new patches. You sent v1. Then
+you sent again v1, which I reviewed. Then you send v2 without my
+review. So I provided a review. Then you sent again a v2 with my
+reviewed tags. So there are two v1 patches and two v2. Since I
+provided you the review tags for v2, no need to send v2 again. It
+confuses.
 
-diff --git a/drivers/nfc/s3fwrn5/s3fwrn5.h b/drivers/nfc/s3fwrn5/s3fwrn5.h
-index 9d5f34759225..bb8f936d13a2 100644
---- a/drivers/nfc/s3fwrn5/s3fwrn5.h
-+++ b/drivers/nfc/s3fwrn5/s3fwrn5.h
-@@ -44,7 +44,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
-nfo,
- 	enum s3fwrn5_mode mode)
- {
- 	if (!info->phy_ops->set_mode)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	info->phy_ops->set_mode(info->phy_id, mode);
- =
-
-@@ -54,7 +54,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
-nfo,
- static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s3fwrn5_info *info)
- {
- 	if (!info->phy_ops->get_mode)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	return info->phy_ops->get_mode(info->phy_id);
- }
-@@ -62,7 +62,7 @@ static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s=
-3fwrn5_info *info)
- static inline int s3fwrn5_set_wake(struct s3fwrn5_info *info, bool wake)
- {
- 	if (!info->phy_ops->set_wake)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	info->phy_ops->set_wake(info->phy_id, wake);
- =
-
-@@ -72,7 +72,7 @@ static inline int s3fwrn5_set_wake(struct s3fwrn5_info *i=
-nfo, bool wake)
- static inline int s3fwrn5_write(struct s3fwrn5_info *info, struct sk_buff =
-*skb)
- {
- 	if (!info->phy_ops->write)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	return info->phy_ops->write(info->phy_id, skb);
- }
--- =
-
-2.17.1
-
---===============1636782908430678623==--
+Best regards,
+Krzysztof
+--===============4453083310289801228==--
 
