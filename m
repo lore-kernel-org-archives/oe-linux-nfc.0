@@ -1,45 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============4453083310289801228=="
+Content-Type: multipart/mixed; boundary="===============4941418680244298086=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next v2 1/3] nfc: s3fwrn5: Remove the max_payload
-Date: Tue, 17 Nov 2020 09:38:56 +0100
-Message-ID: <CAJKOXPdH49zOQ2caOvDDiZPkEptYiCjUmXw+O2dCC1tKHZgPag@mail.gmail.com>
-In-Reply-To: <CAEx-X7epecwBYV7UYoesQ9+Q8ir+kjYGyysiyDtCa0BzKiCGtA@mail.gmail.com>
+Subject: [PATCH net-next 1/2] dt-bindings: net: nfc: s3fwrn5: Support a UART interface
+Date: Mon, 23 Nov 2020 16:55:26 +0900
+Message-ID: <20201123075526epcms2p59410a8ba942f8942f53a593d9df764d0@epcms2p5>
+In-Reply-To: <CGME20201123075526epcms2p59410a8ba942f8942f53a593d9df764d0@epcms2p5>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4453083310289801228==
+--===============4941418680244298086==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 17 Nov 2020 at 09:14, Bongsu Jeon <bs.jeon87@gmail.com> wrote:
->
-> 2020-11-17 16:42 GMT+09:00, krzk(a)kernel.org <krzk@kernel.org>:
-> > On Tue, Nov 17, 2020 at 10:16:11AM +0900, Bongsu Jeon wrote:
-> >> max_payload is unused.
-> >
-> > Why did you resend the patch ignoring my review? I already provided you
-> > with a tag, so you should include it.
-> >
-> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> >
-> > Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-> >
-> > Best regards,
-> > Krzysztof
-> >
->
-> Sorry about that. I included the tag.
+Since S3FWRN82 NFC Chip, The UART interface can be used.
+S3FWRN82 supports I2C and UART interface.
 
-You need to reduce the rate of sending new patches. You sent v1. Then
-you sent again v1, which I reviewed. Then you send v2 without my
-review. So I provided a review. Then you sent again a v2 with my
-reviewed tags. So there are two v1 patches and two v2. Since I
-provided you the review tags for v2, no need to send v2 again. It
-confuses.
+Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+---
+ .../bindings/net/nfc/samsung,s3fwrn5.yaml     | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-Best regards,
-Krzysztof
---===============4453083310289801228==--
+diff --git a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml=
+ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+index cb0b8a560282..37b3e5ae5681 100644
+--- a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
++++ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+@@ -13,6 +13,7 @@ maintainers:
+ properties:
+   compatible:
+     const: samsung,s3fwrn5-i2c
++    const: samsung,s3fwrn82-uart
+ =
+
+   en-gpios:
+     maxItems: 1
+@@ -47,10 +48,19 @@ additionalProperties: false
+ required:
+   - compatible
+   - en-gpios
+-  - interrupts
+-  - reg
+   - wake-gpios
+ =
+
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: samsung,s3fwrn5-i2c
++    then:
++      required:
++        - interrupts
++        - reg
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+@@ -71,3 +81,17 @@ examples:
+             wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
+         };
+     };
++  # UART example on Raspberry Pi
++  - |
++    &uart0 {
++        status =3D "okay";
++
++        s3fwrn82_uart {
++            compatible =3D "samsung,s3fwrn82-uart";
++
++            en-gpios =3D <&gpio 20 0>;
++            wake-gpios =3D <&gpio 16 0>;
++
++            status =3D "okay";
++        };
++    };
+-- =
+
+2.17.1
+
+--===============4941418680244298086==--
 
