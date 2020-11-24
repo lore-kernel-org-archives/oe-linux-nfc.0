@@ -1,51 +1,100 @@
-Content-Type: multipart/mixed; boundary="===============5528406916598877313=="
+Content-Type: multipart/mixed; boundary="===============2613128923279269087=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Bongsu Jeon <bongsu.jeon2@gmail.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH] nfc: s3fwrn5: use signed integer for parsing GPIO numbers
-Date: Mon, 23 Nov 2020 17:23:51 +0100
-Message-ID: <20201123162351.209100-1-krzk@kernel.org>
+Subject: Re: [PATCH net-next 1/2] dt-bindings: net: nfc: s3fwrn5: Support a UART interface
+Date: Tue, 24 Nov 2020 20:39:40 +0900
+Message-ID: <CACwDmQBh77pqivk=bBv3SJ14HLucY42jZyEaKAX+n=yS3TSqFw@mail.gmail.com>
+In-Reply-To: <20201123080123.GA5656@kozik-lap>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5528406916598877313==
+--===============2613128923279269087==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-GPIOs - as returned by of_get_named_gpio() and used by the gpiolib - are
-signed integers, where negative number indicates error.  The return
-value of of_get_named_gpio() should not be assigned to an unsigned int
-because in case of !CONFIG_GPIOLIB such number would be a valid GPIO.
+On Mon, Nov 23, 2020 at 5:02 PM krzk(a)kernel.org <krzk@kernel.org> wrote:
+>
+> On Mon, Nov 23, 2020 at 04:55:26PM +0900, Bongsu Jeon wrote:
+> > Since S3FWRN82 NFC Chip, The UART interface can be used.
+> > S3FWRN82 supports I2C and UART interface.
+> >
+> > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+> > ---
+> >  .../bindings/net/nfc/samsung,s3fwrn5.yaml     | 28 +++++++++++++++++--
+> >  1 file changed, 26 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.=
+yaml b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> > index cb0b8a560282..37b3e5ae5681 100644
+> > --- a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> > +++ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> > @@ -13,6 +13,7 @@ maintainers:
+> >  properties:
+> >    compatible:
+> >      const: samsung,s3fwrn5-i2c
+> > +    const: samsung,s3fwrn82-uart
+>
+> This does not work, you need to use enum. Did you run at least
+> dt_bindings_check?
+>
+Sorry. I didn't. I fixed it as below and ran dt_bindings_check.
+    compatible:
+       oneOf:
+           - enum:
+               - samsung,s3fwrn5-i2c
+               - samsung,s3fwrn82
 
-Fixes: c04c674fadeb ("nfc: s3fwrn5: Add driver for Samsung S3FWRN5 NFC Chip=
-")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/nfc/s3fwrn5/i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index 0ffa389066a0..ae26594c7302 100644
---- a/drivers/nfc/s3fwrn5/i2c.c
-+++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -25,8 +25,8 @@ struct s3fwrn5_i2c_phy {
- 	struct i2c_client *i2c_dev;
- 	struct nci_dev *ndev;
- =
+> The compatible should be just "samsung,s3fwrn82". I think it was a
+> mistake in the first s3fwrn5 submission to add a interface to
+> compatible.
+>
+Ok. I will change the name.
 
--	unsigned int gpio_en;
--	unsigned int gpio_fw_wake;
-+	int gpio_en;
-+	int gpio_fw_wake;
- =
+> >
+> >    en-gpios:
+> >      maxItems: 1
+> > @@ -47,10 +48,19 @@ additionalProperties: false
+> >  required:
+> >    - compatible
+> >    - en-gpios
+> > -  - interrupts
+> > -  - reg
+> >    - wake-gpios
+> >
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: samsung,s3fwrn5-i2c
+> > +    then:
+> > +      required:
+> > +        - interrupts
+> > +        - reg
+> > +
+> >  examples:
+> >    - |
+> >      #include <dt-bindings/gpio/gpio.h>
+> > @@ -71,3 +81,17 @@ examples:
+> >              wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
+> >          };
+> >      };
+> > +  # UART example on Raspberry Pi
+> > +  - |
+> > +    &uart0 {
+> > +        status =3D "okay";
+> > +
+> > +        s3fwrn82_uart {
+>
+> Just "bluetooth" to follow Devicetree specification.
+Sorry. I don't understand this comment.
+Could you explain it?
+Does it mean i need to refer to the net/broadcom-bluetooth.txt?
 
- 	struct mutex mutex;
- =
-
--- =
-
-2.25.1
-
---===============5528406916598877313==--
+>
+> Best regards,
+> Krzysztof
+--===============2613128923279269087==--
 
