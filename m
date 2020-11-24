@@ -1,242 +1,394 @@
-Content-Type: multipart/mixed; boundary="===============1558112177963431469=="
+Content-Type: multipart/mixed; boundary="===============4377430932710451193=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Bongsu Jeon <bongsu.jeon2@gmail.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 5/7] dt-bindings: nfc: st, nci: convert to dtschema
-Date: Sun, 10 Oct 2021 16:23:15 +0200
-Message-ID: <20211010142317.168259-5-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20211010142317.168259-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH net-next 2/2] net: nfc: s3fwrn5: Support a UART interface
+Date: Tue, 24 Nov 2020 21:05:52 +0900
+Message-ID: <CACwDmQDOm6PAyphMiUFizueENMdW3Bo5PvdP_VC_sfBEHc9pMQ@mail.gmail.com>
+In-Reply-To: <20201123081940.GA9323@kozik-lap>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1558112177963431469==
+--===============4377430932710451193==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Convert the ST NCI (ST21NFCB) NFC controller to DT schema format.
+On Mon, Nov 23, 2020 at 5:55 PM krzk(a)kernel.org <krzk@kernel.org> wrote:
+>
+> On Mon, Nov 23, 2020 at 04:56:58PM +0900, Bongsu Jeon wrote:
+> > Since S3FWRN82 NFC Chip, The UART interface can be used.
+> > S3FWRN82 uses NCI protocol and supports I2C and UART interface.
+> >
+> > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+>
+> Please start sending emails properly, e.g. with git send-email, so all
+> your patches in the patchset are referencing the first patch.
+>
+Ok. I will do that.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- .../bindings/net/nfc/st,st-nci.yaml           | 114 ++++++++++++++++++
- .../bindings/net/nfc/st-nci-i2c.txt           |  38 ------
- .../bindings/net/nfc/st-nci-spi.txt           |  36 ------
- 3 files changed, 114 insertions(+), 74 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
+> > ---
+> >  drivers/nfc/s3fwrn5/Kconfig  |  12 ++
+> >  drivers/nfc/s3fwrn5/Makefile |   2 +
+> >  drivers/nfc/s3fwrn5/uart.c   | 250 +++++++++++++++++++++++++++++++++++
+> >  3 files changed, 264 insertions(+)
+> >  create mode 100644 drivers/nfc/s3fwrn5/uart.c
+> >
+> > diff --git a/drivers/nfc/s3fwrn5/Kconfig b/drivers/nfc/s3fwrn5/Kconfig
+> > index 3f8b6da58280..6f88737769e1 100644
+> > --- a/drivers/nfc/s3fwrn5/Kconfig
+> > +++ b/drivers/nfc/s3fwrn5/Kconfig
+> > @@ -20,3 +20,15 @@ config NFC_S3FWRN5_I2C
+> >         To compile this driver as a module, choose m here. The module w=
+ill
+> >         be called s3fwrn5_i2c.ko.
+> >         Say N if unsure.
+> > +
+> > +config NFC_S3FWRN82_UART
+> > +     tristate "Samsung S3FWRN82 UART support"
+> > +     depends on NFC_NCI && SERIAL_DEV_BUS
+>
+> What about SERIAL_DEV_BUS as module? Shouldn't this be
+> SERIAL_DEV_BUS || !SERIAL_DEV_BUS?
+>
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml b/Doc=
-umentation/devicetree/bindings/net/nfc/st,st-nci.yaml
-new file mode 100644
-index 000000000000..4486ae75f8a2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
-@@ -0,0 +1,114 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/nfc/st,st-nci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMicroelectronics ST NCI NFC controller
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - st,st21nfcb-i2c
-+      - st,st21nfcb-spi
-+      - st,st21nfcc-i2c
-+
-+  clock-frequency: true
-+
-+  reset-gpios:
-+    description: Output GPIO pin used for resetting the controller
-+
-+  ese-present:
-+    type: boolean
-+    description: |
-+      Specifies that an ese is physically connected to the controller
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency: true
-+
-+  uicc-present:
-+    type: boolean
-+    description: |
-+      Specifies that the uicc swp signal can be physically connected to the
-+      controller
-+
-+required:
-+  - compatible
-+  - interrupts
-+  - reg
-+  - reset-gpios
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - st,st21nfcb-i2c
-+          - st,st21nfcc-i2c
-+then:
-+  properties:
-+    spi-max-frequency: false
-+  required:
-+    - clock-frequency
-+else:
-+  properties:
-+    clock-frequency: false
-+  required:
-+    - spi-max-frequency
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        nfc(a)8 {
-+            compatible =3D "st,st21nfcb-i2c";
-+            reg =3D <0x08>;
-+
-+            clock-frequency =3D <400000>;
-+
-+            interrupt-parent =3D <&gpio5>;
-+            interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
-+            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
-+
-+            ese-present;
-+            uicc-present;
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    spi {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        nfc(a)0 {
-+            compatible =3D "st,st21nfcb-spi";
-+            reg =3D <0>;
-+
-+            spi-max-frequency =3D <4000000>;
-+
-+            interrupt-parent =3D <&gpio5>;
-+            interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
-+            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
-+
-+            ese-present;
-+            uicc-present;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt b/Doc=
-umentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
-deleted file mode 100644
-index baa8f8133d19..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--* STMicroelectronics SAS. ST NCI NFC Controller
--
--Required properties:
--- compatible: Should be "st,st21nfcb-i2c" or "st,st21nfcc-i2c".
--- clock-frequency: I=C2=B2C work frequency.
--- reg: address on the bus
--- interrupts: GPIO interrupt to which the chip is connected
--- reset-gpios: Output GPIO pin used to reset the ST21NFCB
--
--Optional SoC Specific Properties:
--- pinctrl-names: Contains only one value - "default".
--- pintctrl-0: Specifies the pin control groups used for this controller.
--- ese-present: Specifies that an ese is physically connected to the nfc
--controller.
--- uicc-present: Specifies that the uicc swp signal can be physically
--connected to the nfc controller.
--
--Example (for ARM-based BeagleBoard xM with ST21NFCB on I2C2):
--
--&i2c2 {
--
--
--	st21nfcb: st21nfcb(a)8 {
--
--		compatible =3D "st,st21nfcb-i2c";
--
--		reg =3D <0x08>;
--		clock-frequency =3D <400000>;
--
--		interrupt-parent =3D <&gpio5>;
--		interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
--
--		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
--
--		ese-present;
--		uicc-present;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt b/Doc=
-umentation/devicetree/bindings/net/nfc/st-nci-spi.txt
-deleted file mode 100644
-index d33343330b94..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
-+++ /dev/null
-@@ -1,36 +0,0 @@
--* STMicroelectronics SAS. ST NCI NFC Controller
--
--Required properties:
--- compatible: Should be "st,st21nfcb-spi"
--- spi-max-frequency: Maximum SPI frequency (<=3D 4000000).
--- interrupts: GPIO interrupt to which the chip is connected
--- reset-gpios: Output GPIO pin used to reset the ST21NFCB
--
--Optional SoC Specific Properties:
--- pinctrl-names: Contains only one value - "default".
--- pintctrl-0: Specifies the pin control groups used for this controller.
--- ese-present: Specifies that an ese is physically connected to the nfc
--controller.
--- uicc-present: Specifies that the uicc swp signal can be physically
--connected to the nfc controller.
--
--Example (for ARM-based BeagleBoard xM with ST21NFCB on SPI4):
--
--&mcspi4 {
--
--
--	st21nfcb: st21nfcb@0 {
--
--		compatible =3D "st,st21nfcb-spi";
--
--		clock-frequency =3D <4000000>;
--
--		interrupt-parent =3D <&gpio5>;
--		interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
--
--		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
--
--		ese-present;
--		uicc-present;
--	};
--};
--- =
+SERIAL_DEV_BUS is okay even if SERIAL_DEV_BUS is defined as module.
 
-2.30.2
+> > +     select NFC_S3FWRN5
+> > +     help
+> > +       This module adds support for a UART interface to the S3FWRN82 c=
+hip.
+> > +       Select this if your platform is using the UART bus.
+> > +
+> > +       To compile this driver as a module, choose m here. The module w=
+ill
+> > +       be called s3fwrn82_uart.ko.
+> > +       Say N if unsure.
+> > diff --git a/drivers/nfc/s3fwrn5/Makefile b/drivers/nfc/s3fwrn5/Makefile
+> > index d0ffa35f50e8..d1902102060b 100644
+> > --- a/drivers/nfc/s3fwrn5/Makefile
+> > +++ b/drivers/nfc/s3fwrn5/Makefile
+> > @@ -5,6 +5,8 @@
+> >
+> >  s3fwrn5-objs =3D core.o firmware.o nci.o
+> >  s3fwrn5_i2c-objs =3D i2c.o
+> > +s3fwrn82_uart-objs =3D uart.o
+> >
+> >  obj-$(CONFIG_NFC_S3FWRN5) +=3D s3fwrn5.o
+> >  obj-$(CONFIG_NFC_S3FWRN5_I2C) +=3D s3fwrn5_i2c.o
+> > +obj-$(CONFIG_NFC_S3FWRN82_UART) +=3D s3fwrn82_uart.o
+> > diff --git a/drivers/nfc/s3fwrn5/uart.c b/drivers/nfc/s3fwrn5/uart.c
+> > new file mode 100644
+> > index 000000000000..b3c36a5b28d3
+> > --- /dev/null
+> > +++ b/drivers/nfc/s3fwrn5/uart.c
+> > @@ -0,0 +1,250 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * UART Link Layer for S3FWRN82 NCI based Driver
+> > + *
+> > + * Copyright (C) 2020 Samsung Electronics
+> > + * Author: Bongsu Jeon <bongsu.jeon@samsung.com>
+>
+> You copied a lot from existing i2c.c. Please keep also the original
+> copyrights.
+>
 
---===============1558112177963431469==--
+Okay. I will keep also the original copyrights.
+
+> > + * All rights reserved.
+> > + */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/nfc.h>
+> > +#include <linux/netdevice.h>
+> > +#include <linux/of.h>
+> > +#include <linux/serdev.h>
+> > +#include <linux/gpio.h>
+> > +#include <linux/of_gpio.h>
+> > +
+> > +#include "s3fwrn5.h"
+> > +
+> > +#define S3FWRN82_UART_DRIVER_NAME "s3fwrn82_uart"
+>
+> Remove the define, it is used only once.
+>
+> > +#define S3FWRN82_NCI_HEADER 3
+> > +#define S3FWRN82_NCI_IDX 2
+> > +#define S3FWRN82_EN_WAIT_TIME 20
+> > +#define NCI_SKB_BUFF_LEN 258
+> > +
+> > +struct s3fwrn82_uart_phy {
+> > +     struct serdev_device *ser_dev;
+> > +     struct nci_dev *ndev;
+> > +     struct sk_buff *recv_skb;
+> > +
+> > +     unsigned int gpio_en;
+> > +     unsigned int gpio_fw_wake;
+> > +
+> > +     /* mutex is used to synchronize */
+>
+> Please do not write obvious comments. Mutex is always used to
+> synchronize, what else is it for? Instead you must describe what exactly
+> is protected with mutex.
+>
+
+I understand it. I will fix it.
+
+> > +     struct mutex mutex;
+> > +     enum s3fwrn5_mode mode;
+> > +};
+> > +
+> > +static void s3fwrn82_uart_set_wake(void *phy_id, bool wake)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
+> > +
+> > +     mutex_lock(&phy->mutex);
+> > +     gpio_set_value(phy->gpio_fw_wake, wake);
+> > +     msleep(S3FWRN82_EN_WAIT_TIME);
+> > +     mutex_unlock(&phy->mutex);
+> > +}
+> > +
+> > +static void s3fwrn82_uart_set_mode(void *phy_id, enum s3fwrn5_mode mod=
+e)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
+> > +
+> > +     mutex_lock(&phy->mutex);
+> > +     if (phy->mode =3D=3D mode)
+> > +             goto out;
+> > +     phy->mode =3D mode;
+> > +     gpio_set_value(phy->gpio_en, 1);
+> > +     gpio_set_value(phy->gpio_fw_wake, 0);
+> > +     if (mode =3D=3D S3FWRN5_MODE_FW)
+> > +             gpio_set_value(phy->gpio_fw_wake, 1);
+> > +     if (mode !=3D S3FWRN5_MODE_COLD) {
+> > +             msleep(S3FWRN82_EN_WAIT_TIME);
+> > +             gpio_set_value(phy->gpio_en, 0);
+> > +             msleep(S3FWRN82_EN_WAIT_TIME);
+> > +     }
+> > +out:
+> > +     mutex_unlock(&phy->mutex);
+> > +}
+> > +
+> > +static enum s3fwrn5_mode s3fwrn82_uart_get_mode(void *phy_id)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
+> > +     enum s3fwrn5_mode mode;
+> > +
+> > +     mutex_lock(&phy->mutex);
+> > +     mode =3D phy->mode;
+> > +     mutex_unlock(&phy->mutex);
+> > +     return mode;
+> > +}
+>
+> All this duplicates I2C version. You need to start either reusing common
+> blocks.
+>
+
+Okay. I will do refactoring on i2c.c and uart.c to make common blocks.
+ is it okay to separate a patch for it?
+
+> > +
+> > +static int s3fwrn82_uart_write(void *phy_id, struct sk_buff *out)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
+> > +     int err;
+> > +
+> > +     err =3D serdev_device_write(phy->ser_dev,
+> > +                               out->data, out->len,
+> > +                               MAX_SCHEDULE_TIMEOUT);
+> > +     if (err < 0)
+> > +             return err;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct s3fwrn5_phy_ops uart_phy_ops =3D {
+> > +     .set_wake =3D s3fwrn82_uart_set_wake,
+> > +     .set_mode =3D s3fwrn82_uart_set_mode,
+> > +     .get_mode =3D s3fwrn82_uart_get_mode,
+> > +     .write =3D s3fwrn82_uart_write,
+> > +};
+> > +
+> > +static int s3fwrn82_uart_read(struct serdev_device *serdev,
+> > +                           const unsigned char *data,
+> > +                           size_t count)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
+v);
+> > +     size_t i;
+> > +
+> > +     for (i =3D 0; i < count; i++) {
+> > +             skb_put_u8(phy->recv_skb, *data++);
+> > +
+> > +             if (phy->recv_skb->len < S3FWRN82_NCI_HEADER)
+> > +                     continue;
+> > +
+> > +             if ((phy->recv_skb->len - S3FWRN82_NCI_HEADER)
+> > +                             < phy->recv_skb->data[S3FWRN82_NCI_IDX])
+> > +                     continue;
+> > +
+> > +             s3fwrn5_recv_frame(phy->ndev, phy->recv_skb, phy->mode);
+> > +             phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN, GFP_KERNEL);
+> > +             if (!phy->recv_skb)
+> > +                     return 0;
+> > +     }
+> > +
+> > +     return i;
+> > +}
+> > +
+> > +static struct serdev_device_ops s3fwrn82_serdev_ops =3D {
+>
+> const
+>
+> > +     .receive_buf =3D s3fwrn82_uart_read,
+> > +     .write_wakeup =3D serdev_device_write_wakeup,
+> > +};
+> > +
+> > +static const struct of_device_id s3fwrn82_uart_of_match[] =3D {
+> > +     { .compatible =3D "samsung,s3fwrn82-uart", },
+> > +     {},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, s3fwrn82_uart_of_match);
+> > +
+> > +static int s3fwrn82_uart_parse_dt(struct serdev_device *serdev)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
+v);
+> > +     struct device_node *np =3D serdev->dev.of_node;
+> > +
+> > +     if (!np)
+> > +             return -ENODEV;
+> > +
+> > +     phy->gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
+> > +     if (!gpio_is_valid(phy->gpio_en))
+> > +             return -ENODEV;
+> > +
+> > +     phy->gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
+>
+> You should not cast it it unsigned int. I'll fix the s3fwrn5 from which
+> you copied this apparently.
+>
+
+Okay. I will fix it.
+
+> > +     if (!gpio_is_valid(phy->gpio_fw_wake))
+> > +             return -ENODEV;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int s3fwrn82_uart_probe(struct serdev_device *serdev)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy;
+> > +     int ret =3D -ENOMEM;
+> > +
+> > +     phy =3D devm_kzalloc(&serdev->dev, sizeof(*phy), GFP_KERNEL);
+> > +     if (!phy)
+> > +             goto err_exit;
+> > +
+> > +     phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN, GFP_KERNEL);
+> > +     if (!phy->recv_skb)
+> > +             goto err_free;
+> > +
+> > +     mutex_init(&phy->mutex);
+> > +     phy->mode =3D S3FWRN5_MODE_COLD;
+> > +
+> > +     phy->ser_dev =3D serdev;
+> > +     serdev_device_set_drvdata(serdev, phy);
+> > +     serdev_device_set_client_ops(serdev, &s3fwrn82_serdev_ops);
+> > +     ret =3D serdev_device_open(serdev);
+> > +     if (ret) {
+> > +             dev_err(&serdev->dev, "Unable to open device\n");
+> > +             goto err_skb;
+> > +     }
+> > +
+> > +     ret =3D serdev_device_set_baudrate(serdev, 115200);
+>
+> Why baudrate is fixed?
+>
+
+RN82 NFC chip only supports 115200 baudrate for UART.
+
+> > +     if (ret !=3D 115200) {
+> > +             ret =3D -EINVAL;
+> > +             goto err_serdev;
+> > +     }
+> > +
+> > +     serdev_device_set_flow_control(serdev, false);
+> > +
+> > +     ret =3D s3fwrn82_uart_parse_dt(serdev);
+> > +     if (ret < 0)
+> > +             goto err_serdev;
+> > +
+> > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
+> > +                                 phy->gpio_en,
+> > +                                 GPIOF_OUT_INIT_HIGH,
+> > +                                 "s3fwrn82_en");
+>
+> This is weirdly wrapped.
+>
+
+Did you ask about devem_gpio_request_one function's parenthesis and paramet=
+ers?
+If it is right, I changed it after i ran the checkpatch.pl --strict and
+i saw message like the alignment should match open parenthesis.
+
+> > +     if (ret < 0)
+> > +             goto err_serdev;
+> > +
+> > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
+> > +                                 phy->gpio_fw_wake,
+> > +                                 GPIOF_OUT_INIT_LOW,
+> > +                                 "s3fwrn82_fw_wake");
+> > +     if (ret < 0)
+> > +             goto err_serdev;
+> > +
+> > +     ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->ser_dev->dev, &uart_=
+phy_ops);
+> > +     if (ret < 0)
+> > +             goto err_serdev;
+> > +
+> > +     return ret;
+> > +
+> > +err_serdev:
+> > +     serdev_device_close(serdev);
+> > +err_skb:
+> > +     kfree_skb(phy->recv_skb);
+> > +err_free:
+> > +     kfree(phy);
+>
+> Eee.... why? Did you test this code?
+>
+
+I didn't test this code. i just added this code as defense code.
+If the error happens, then allocated memory and device will be free
+according to the fail case.
+
+> > +err_exit:
+> > +     return ret;
+> > +}
+> > +
+> > +static void s3fwrn82_uart_remove(struct serdev_device *serdev)
+> > +{
+> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
+v);
+> > +
+> > +     s3fwrn5_remove(phy->ndev);
+> > +     serdev_device_close(serdev);
+> > +     kfree_skb(phy->recv_skb);
+> > +     kfree(phy);
+>
+> This does not look like tested...
+>
+
+I tested this code using unbind of the serial device.
+It worked and I saw the debugging log that i added for checking the
+code to be sure.
+
+> Best regards,
+> Krzysztof
+--===============4377430932710451193==--
 
