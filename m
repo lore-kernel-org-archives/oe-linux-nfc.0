@@ -1,79 +1,55 @@
-Content-Type: multipart/mixed; boundary="===============5331361915325935129=="
+Content-Type: multipart/mixed; boundary="===============1507153669127065681=="
 MIME-Version: 1.0
-From: Bongsu Jeon <bongsu.jeon@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH net-next v2 3/3] nfc: s3fwrn5: Change the error code
-Date: Tue, 17 Nov 2020 10:18:50 +0900
-Message-ID: <20201117011850epcms2p568af074144630cd0f02b3a7f7eff8d1a@epcms2p5>
-In-Reply-To: <CGME20201117011850epcms2p568af074144630cd0f02b3a7f7eff8d1a@epcms2p5>
+Subject: Re: [PATCH net-next 1/2] dt-bindings: net: nfc: s3fwrn5: Support a UART interface
+Date: Wed, 25 Nov 2020 08:37:19 +0100
+Message-ID: <CAJKOXPc1sBvuZACRM_4fjiSJECg7eRqWB+c2aQPDE1iPWHbdmA@mail.gmail.com>
+In-Reply-To: <CACwDmQDWtfa8tXkG8W+EQxjdYJ6rkVgN9PjOVQdK8CwUXAURMg@mail.gmail.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5331361915325935129==
+--===============1507153669127065681==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP.
+On Wed, 25 Nov 2020 at 04:08, Bongsu Jeon <bongsu.jeon2@gmail.com> wrote:
+>
+> On 11/24/20, krzk(a)kernel.org <krzk@kernel.org> wrote:
+> > On Tue, Nov 24, 2020 at 08:39:40PM +0900, Bongsu Jeon wrote:
+> >> On Mon, Nov 23, 2020 at 5:02 PM krzk(a)kernel.org <krzk@kernel.org> =
+wrote:
+> >> >
+> >> > On Mon, Nov 23, 2020 at 04:55:26PM +0900, Bongsu Jeon wrote:
+> >  > >  examples:
+> >> > >    - |
+> >> > >      #include <dt-bindings/gpio/gpio.h>
+> >> > > @@ -71,3 +81,17 @@ examples:
+> >> > >              wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
+> >> > >          };
+> >> > >      };
+> >> > > +  # UART example on Raspberry Pi
+> >> > > +  - |
+> >> > > +    &uart0 {
+> >> > > +        status =3D "okay";
+> >> > > +
+> >> > > +        s3fwrn82_uart {
+> >> >
+> >> > Just "bluetooth" to follow Devicetree specification.
+> >> Sorry. I don't understand this comment.
+> >> Could you explain it?
+> >> Does it mean i need to refer to the net/broadcom-bluetooth.txt?
+> >
+> > The node name should be "bluetooth", not "s3fwrn82_uart", because of
+> > Devicetree naming convention - node names should represent generic class
+> > of a device.
+> >
+> Actually, RN82 is the nfc device.
+> So, is it okay to use the name as nfc instead of Bluetooth?
 
-Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
----
- drivers/nfc/s3fwrn5/s3fwrn5.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Oops, of course, nfc, I don't know why the Bluetooth stuck in my mind.
 
-diff --git a/drivers/nfc/s3fwrn5/s3fwrn5.h b/drivers/nfc/s3fwrn5/s3fwrn5.h
-index 9d5f34759225..bb8f936d13a2 100644
---- a/drivers/nfc/s3fwrn5/s3fwrn5.h
-+++ b/drivers/nfc/s3fwrn5/s3fwrn5.h
-@@ -44,7 +44,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
-nfo,
- 	enum s3fwrn5_mode mode)
- {
- 	if (!info->phy_ops->set_mode)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	info->phy_ops->set_mode(info->phy_id, mode);
- =
-
-@@ -54,7 +54,7 @@ static inline int s3fwrn5_set_mode(struct s3fwrn5_info *i=
-nfo,
- static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s3fwrn5_info *info)
- {
- 	if (!info->phy_ops->get_mode)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	return info->phy_ops->get_mode(info->phy_id);
- }
-@@ -62,7 +62,7 @@ static inline enum s3fwrn5_mode s3fwrn5_get_mode(struct s=
-3fwrn5_info *info)
- static inline int s3fwrn5_set_wake(struct s3fwrn5_info *info, bool wake)
- {
- 	if (!info->phy_ops->set_wake)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	info->phy_ops->set_wake(info->phy_id, wake);
- =
-
-@@ -72,7 +72,7 @@ static inline int s3fwrn5_set_wake(struct s3fwrn5_info *i=
-nfo, bool wake)
- static inline int s3fwrn5_write(struct s3fwrn5_info *info, struct sk_buff =
-*skb)
- {
- 	if (!info->phy_ops->write)
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
- =
-
- 	return info->phy_ops->write(info->phy_id, skb);
- }
--- =
-
-2.17.1
-
---===============5331361915325935129==--
+Best regards,
+Krzysztof
+--===============1507153669127065681==--
 
