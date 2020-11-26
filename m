@@ -1,53 +1,69 @@
-Content-Type: multipart/mixed; boundary="===============1724985283707550437=="
+Content-Type: multipart/mixed; boundary="===============2260995997039173273=="
 MIME-Version: 1.0
 From: bongsu.jeon2@gmail.com
 To: linux-nfc@lists.01.org
-Subject: [PATCH net-next 1/3] nfc: s3fwrn5: use signed integer for parsing GPIO numbers
-Date: Fri, 27 Nov 2020 00:33:37 +0900
-Message-ID: <1606404819-30647-1-git-send-email-bongsu.jeon@samsung.com>
+Subject: [PATCH net-next 2/3] nfc: s3fwrn5: reduce the EN_WAIT_TIME
+Date: Fri, 27 Nov 2020 00:33:38 +0900
+Message-ID: <1606404819-30647-2-git-send-email-bongsu.jeon@samsung.com>
+In-Reply-To: <1606404819-30647-1-git-send-email-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1724985283707550437==
+--===============2260995997039173273==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 
-GPIOs - as returned by of_get_named_gpio() and used by the gpiolib - are
-signed integers, where negative number indicates error.  The return
-value of of_get_named_gpio() should not be assigned to an unsigned int
-because in case of !CONFIG_GPIOLIB such number would be a valid GPIO.
+The delay of 20ms is enough to enable and
+wake up the Samsung's nfc chip.
 
-Fixes: c04c674fadeb ("nfc: s3fwrn5: Add driver for Samsung S3FWRN5 NFC Chip=
-")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 ---
- drivers/nfc/s3fwrn5/i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nfc/s3fwrn5/i2c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index 0ffa389..ae26594 100644
+index ae26594..9a64eea 100644
 --- a/drivers/nfc/s3fwrn5/i2c.c
 +++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -25,8 +25,8 @@ struct s3fwrn5_i2c_phy {
+@@ -19,7 +19,7 @@
+ =
+
+ #define S3FWRN5_I2C_DRIVER_NAME "s3fwrn5_i2c"
+ =
+
+-#define S3FWRN5_EN_WAIT_TIME 150
++#define S3FWRN5_EN_WAIT_TIME 20
+ =
+
+ struct s3fwrn5_i2c_phy {
  	struct i2c_client *i2c_dev;
- 	struct nci_dev *ndev;
+@@ -40,7 +40,7 @@ static void s3fwrn5_i2c_set_wake(void *phy_id, bool wake)
  =
 
--	unsigned int gpio_en;
--	unsigned int gpio_fw_wake;
-+	int gpio_en;
-+	int gpio_fw_wake;
+ 	mutex_lock(&phy->mutex);
+ 	gpio_set_value(phy->gpio_fw_wake, wake);
+-	msleep(S3FWRN5_EN_WAIT_TIME/2);
++	msleep(S3FWRN5_EN_WAIT_TIME);
+ 	mutex_unlock(&phy->mutex);
+ }
  =
 
- 	struct mutex mutex;
+@@ -63,7 +63,7 @@ static void s3fwrn5_i2c_set_mode(void *phy_id, enum s3fwr=
+n5_mode mode)
+ 	if (mode !=3D S3FWRN5_MODE_COLD) {
+ 		msleep(S3FWRN5_EN_WAIT_TIME);
+ 		gpio_set_value(phy->gpio_en, 0);
+-		msleep(S3FWRN5_EN_WAIT_TIME/2);
++		msleep(S3FWRN5_EN_WAIT_TIME);
+ 	}
  =
 
+ 	phy->irq_skip =3D true;
 -- =
 
 1.9.1
 
---===============1724985283707550437==--
+--===============2260995997039173273==--
 
