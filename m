@@ -1,465 +1,389 @@
-Content-Type: multipart/mixed; boundary="===============3688170852863134613=="
+Content-Type: multipart/mixed; boundary="===============3536239592518339752=="
 MIME-Version: 1.0
 From: bongsu.jeon2@gmail.com
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 net-next 3/3] nfc: s3fwrn5: extract the common phy blocks
-Date: Fri, 27 Nov 2020 20:22:18 +0900
-Message-ID: <1606476138-31992-1-git-send-email-bongsu.jeon2@gmail.com>
+Subject: [PATCH net-next v3] net/nfc/nci: Support NCI 2.x initial sequence
+Date: Fri, 27 Nov 2020 22:36:31 +0900
+Message-ID: <5fc100ec.1c69fb81.58b7b.2dee@mx.google.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3688170852863134613==
+--===============3536239592518339752==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: Bongsu Jeon <bongsu.jeon@samsung.com>
 
-Extract the common phy blocks to reuse it.
-The UART module will use the common blocks.
+implement the NCI 2.x initial sequence to support NCI 2.x NFCC.
+Since NCI 2.0, CORE_RESET and CORE_INIT sequence have been changed.
+If NFCEE supports NCI 2.x, then NCI 2.x initial sequence will work.
+
+In NCI 1.0, Initial sequence and payloads are as below:
+(DH)                     (NFCC)
+ |  -- CORE_RESET_CMD --> |
+ |  <-- CORE_RESET_RSP -- |
+ |  -- CORE_INIT_CMD -->  |
+ |  <-- CORE_INIT_RSP --  |
+ CORE_RESET_RSP payloads are Status, NCI version, Configuration Status.
+ CORE_INIT_CMD payloads are empty.
+ CORE_INIT_RSP payloads are Status, NFCC Features,
+    Number of Supported RF Interfaces, Supported RF Interface,
+    Max Logical Connections, Max Routing table Size,
+    Max Control Packet Payload Size, Max Size for Large Parameters,
+    Manufacturer ID, Manufacturer Specific Information.
+
+In NCI 2.0, Initial Sequence and Parameters are as below:
+(DH)                     (NFCC)
+ |  -- CORE_RESET_CMD --> |
+ |  <-- CORE_RESET_RSP -- |
+ |  <-- CORE_RESET_NTF -- |
+ |  -- CORE_INIT_CMD -->  |
+ |  <-- CORE_INIT_RSP --  |
+ CORE_RESET_RSP payloads are Status.
+ CORE_RESET_NTF payloads are Reset Trigger,
+    Configuration Status, NCI Version, Manufacturer ID,
+    Manufacturer Specific Information Length,
+    Manufacturer Specific Information.
+ CORE_INIT_CMD payloads are Feature1, Feature2.
+ CORE_INIT_RSP payloads are Status, NFCC Features,
+    Max Logical Connections, Max Routing Table Size,
+    Max Control Packet Payload Size,
+    Max Data Packet Payload Size of the Static HCI Connection,
+    Number of Credits of the Static HCI Connection,
+    Max NFC-V RF Frame Size, Number of Supported RF Interfaces,
+    Supported RF Interfaces.
 
 Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 ---
-Changes in v2:
- - remove the common function's definition in common header file.
- - make the common phy_common.c file to define the common function.
- - wrap the lines.
- - change the Header guard.
- - remove the unused common function.
+ Changes in v3:
+  - remove the unused struct nci_core_reset_rsp_nci_ver2.
+  - remove the __packed because of no need.
+  - remove the unnecessary brackets.
+  - change the asignment code for ndev->num_supported_rf_interfaces.
 
- drivers/nfc/s3fwrn5/Makefile     |   2 +-
- drivers/nfc/s3fwrn5/i2c.c        | 114 +++++++++++++----------------------=
+ Changes in v2:
+  - fix the warning of type casting.
+  - changed the __u8 type to unsigned char.
+
+ include/net/nfc/nci.h | 34 +++++++++++++++++++++
+ net/nfc/nci/core.c    | 24 +++++++++++++--
+ net/nfc/nci/ntf.c     | 21 +++++++++++++
+ net/nfc/nci/rsp.c     | 81 ++++++++++++++++++++++++++++++++++++++++++-----=
 ----
- drivers/nfc/s3fwrn5/phy_common.c |  60 +++++++++++++++++++++
- drivers/nfc/s3fwrn5/phy_common.h |  31 +++++++++++
- 4 files changed, 129 insertions(+), 78 deletions(-)
- create mode 100644 drivers/nfc/s3fwrn5/phy_common.c
- create mode 100644 drivers/nfc/s3fwrn5/phy_common.h
+ 4 files changed, 143 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nfc/s3fwrn5/Makefile b/drivers/nfc/s3fwrn5/Makefile
-index d0ffa35..a5279c6 100644
---- a/drivers/nfc/s3fwrn5/Makefile
-+++ b/drivers/nfc/s3fwrn5/Makefile
-@@ -4,7 +4,7 @@
- #
+diff --git a/include/net/nfc/nci.h b/include/net/nfc/nci.h
+index 0550e0380..825c6d2 100644
+--- a/include/net/nfc/nci.h
++++ b/include/net/nfc/nci.h
+@@ -25,6 +25,8 @@
+ #define NCI_MAX_PARAM_LEN					251
+ #define NCI_MAX_PAYLOAD_SIZE					255
+ #define NCI_MAX_PACKET_SIZE					258
++#define NCI_MAX_LARGE_PARAMS_NCI_v2				15
++#define NCI_VER_2_MASK						0x20
  =
 
- s3fwrn5-objs =3D core.o firmware.o nci.o
--s3fwrn5_i2c-objs =3D i2c.o
-+s3fwrn5_i2c-objs =3D i2c.o phy_common.o
+ /* NCI Status Codes */
+ #define NCI_STATUS_OK						0x00
+@@ -131,6 +133,9 @@
+ #define NCI_LF_CON_BITR_F_212					0x02
+ #define NCI_LF_CON_BITR_F_424					0x04
  =
 
- obj-$(CONFIG_NFC_S3FWRN5) +=3D s3fwrn5.o
- obj-$(CONFIG_NFC_S3FWRN5_I2C) +=3D s3fwrn5_i2c.o
-diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index 9a64eea..207f970 100644
---- a/drivers/nfc/s3fwrn5/i2c.c
-+++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -16,74 +16,30 @@
- #include <net/nfc/nfc.h>
- =
-
- #include "s3fwrn5.h"
-+#include "phy_common.h"
- =
-
- #define S3FWRN5_I2C_DRIVER_NAME "s3fwrn5_i2c"
- =
-
--#define S3FWRN5_EN_WAIT_TIME 20
--
- struct s3fwrn5_i2c_phy {
-+	struct phy_common common;
- 	struct i2c_client *i2c_dev;
--	struct nci_dev *ndev;
--
--	int gpio_en;
--	int gpio_fw_wake;
--
--	struct mutex mutex;
- =
-
--	enum s3fwrn5_mode mode;
- 	unsigned int irq_skip:1;
- };
- =
-
--static void s3fwrn5_i2c_set_wake(void *phy_id, bool wake)
--{
--	struct s3fwrn5_i2c_phy *phy =3D phy_id;
--
--	mutex_lock(&phy->mutex);
--	gpio_set_value(phy->gpio_fw_wake, wake);
--	msleep(S3FWRN5_EN_WAIT_TIME);
--	mutex_unlock(&phy->mutex);
--}
--
- static void s3fwrn5_i2c_set_mode(void *phy_id, enum s3fwrn5_mode mode)
- {
- 	struct s3fwrn5_i2c_phy *phy =3D phy_id;
- =
-
--	mutex_lock(&phy->mutex);
-+	mutex_lock(&phy->common.mutex);
- =
-
--	if (phy->mode =3D=3D mode)
-+	if (s3fwrn5_phy_power_ctrl(&phy->common, mode) =3D=3D false)
- 		goto out;
- =
-
--	phy->mode =3D mode;
--
--	gpio_set_value(phy->gpio_en, 1);
--	gpio_set_value(phy->gpio_fw_wake, 0);
--	if (mode =3D=3D S3FWRN5_MODE_FW)
--		gpio_set_value(phy->gpio_fw_wake, 1);
--
--	if (mode !=3D S3FWRN5_MODE_COLD) {
--		msleep(S3FWRN5_EN_WAIT_TIME);
--		gpio_set_value(phy->gpio_en, 0);
--		msleep(S3FWRN5_EN_WAIT_TIME);
--	}
--
- 	phy->irq_skip =3D true;
- =
-
- out:
--	mutex_unlock(&phy->mutex);
--}
--
--static enum s3fwrn5_mode s3fwrn5_i2c_get_mode(void *phy_id)
--{
--	struct s3fwrn5_i2c_phy *phy =3D phy_id;
--	enum s3fwrn5_mode mode;
--
--	mutex_lock(&phy->mutex);
--
--	mode =3D phy->mode;
--
--	mutex_unlock(&phy->mutex);
--
--	return mode;
-+	mutex_unlock(&phy->common.mutex);
- }
- =
-
- static int s3fwrn5_i2c_write(void *phy_id, struct sk_buff *skb)
-@@ -91,7 +47,7 @@ static int s3fwrn5_i2c_write(void *phy_id, struct sk_buff=
- *skb)
- 	struct s3fwrn5_i2c_phy *phy =3D phy_id;
- 	int ret;
- =
-
--	mutex_lock(&phy->mutex);
-+	mutex_lock(&phy->common.mutex);
- =
-
- 	phy->irq_skip =3D false;
- =
-
-@@ -102,7 +58,7 @@ static int s3fwrn5_i2c_write(void *phy_id, struct sk_buf=
-f *skb)
- 		ret  =3D i2c_master_send(phy->i2c_dev, skb->data, skb->len);
- 	}
- =
-
--	mutex_unlock(&phy->mutex);
-+	mutex_unlock(&phy->common.mutex);
- =
-
- 	if (ret < 0)
- 		return ret;
-@@ -114,9 +70,9 @@ static int s3fwrn5_i2c_write(void *phy_id, struct sk_buf=
-f *skb)
- }
- =
-
- static const struct s3fwrn5_phy_ops i2c_phy_ops =3D {
--	.set_wake =3D s3fwrn5_i2c_set_wake,
-+	.set_wake =3D s3fwrn5_phy_set_wake,
- 	.set_mode =3D s3fwrn5_i2c_set_mode,
--	.get_mode =3D s3fwrn5_i2c_get_mode,
-+	.get_mode =3D s3fwrn5_phy_get_mode,
- 	.write =3D s3fwrn5_i2c_write,
- };
- =
-
-@@ -128,7 +84,7 @@ static int s3fwrn5_i2c_read(struct s3fwrn5_i2c_phy *phy)
- 	char hdr[4];
- 	int ret;
- =
-
--	hdr_size =3D (phy->mode =3D=3D S3FWRN5_MODE_NCI) ?
-+	hdr_size =3D (phy->common.mode =3D=3D S3FWRN5_MODE_NCI) ?
- 		NCI_CTRL_HDR_SIZE : S3FWRN5_FW_HDR_SIZE;
- 	ret =3D i2c_master_recv(phy->i2c_dev, hdr, hdr_size);
- 	if (ret < 0)
-@@ -137,7 +93,7 @@ static int s3fwrn5_i2c_read(struct s3fwrn5_i2c_phy *phy)
- 	if (ret < hdr_size)
- 		return -EBADMSG;
- =
-
--	data_len =3D (phy->mode =3D=3D S3FWRN5_MODE_NCI) ?
-+	data_len =3D (phy->common.mode =3D=3D S3FWRN5_MODE_NCI) ?
- 		((struct nci_ctrl_hdr *)hdr)->plen :
- 		((struct s3fwrn5_fw_header *)hdr)->len;
- =
-
-@@ -157,24 +113,24 @@ static int s3fwrn5_i2c_read(struct s3fwrn5_i2c_phy *p=
-hy)
- 	}
- =
-
- out:
--	return s3fwrn5_recv_frame(phy->ndev, skb, phy->mode);
-+	return s3fwrn5_recv_frame(phy->common.ndev, skb, phy->common.mode);
- }
- =
-
- static irqreturn_t s3fwrn5_i2c_irq_thread_fn(int irq, void *phy_id)
- {
- 	struct s3fwrn5_i2c_phy *phy =3D phy_id;
- =
-
--	if (!phy || !phy->ndev) {
-+	if (!phy || !phy->common.ndev) {
- 		WARN_ON_ONCE(1);
- 		return IRQ_NONE;
- 	}
- =
-
--	mutex_lock(&phy->mutex);
-+	mutex_lock(&phy->common.mutex);
- =
-
- 	if (phy->irq_skip)
- 		goto out;
- =
-
--	switch (phy->mode) {
-+	switch (phy->common.mode) {
- 	case S3FWRN5_MODE_NCI:
- 	case S3FWRN5_MODE_FW:
- 		s3fwrn5_i2c_read(phy);
-@@ -184,7 +140,7 @@ static irqreturn_t s3fwrn5_i2c_irq_thread_fn(int irq, v=
-oid *phy_id)
- 	}
- =
-
- out:
--	mutex_unlock(&phy->mutex);
-+	mutex_unlock(&phy->common.mutex);
- =
-
- 	return IRQ_HANDLED;
- }
-@@ -197,19 +153,21 @@ static int s3fwrn5_i2c_parse_dt(struct i2c_client *cl=
-ient)
- 	if (!np)
- 		return -ENODEV;
- =
-
--	phy->gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
--	if (!gpio_is_valid(phy->gpio_en)) {
-+	phy->common.gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
-+	if (!gpio_is_valid(phy->common.gpio_en)) {
- 		/* Support also deprecated property */
--		phy->gpio_en =3D of_get_named_gpio(np, "s3fwrn5,en-gpios", 0);
--		if (!gpio_is_valid(phy->gpio_en))
-+		phy->common.gpio_en =3D
-+				of_get_named_gpio(np, "s3fwrn5,en-gpios", 0);
-+		if (!gpio_is_valid(phy->common.gpio_en))
- 			return -ENODEV;
- 	}
- =
-
--	phy->gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
--	if (!gpio_is_valid(phy->gpio_fw_wake)) {
-+	phy->common.gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
-+	if (!gpio_is_valid(phy->common.gpio_fw_wake)) {
- 		/* Support also deprecated property */
--		phy->gpio_fw_wake =3D of_get_named_gpio(np, "s3fwrn5,fw-gpios", 0);
--		if (!gpio_is_valid(phy->gpio_fw_wake))
-+		phy->common.gpio_fw_wake =3D
-+				of_get_named_gpio(np, "s3fwrn5,fw-gpios", 0);
-+		if (!gpio_is_valid(phy->common.gpio_fw_wake))
- 			return -ENODEV;
- 	}
- =
-
-@@ -226,8 +184,8 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
- 	if (!phy)
- 		return -ENOMEM;
- =
-
--	mutex_init(&phy->mutex);
--	phy->mode =3D S3FWRN5_MODE_COLD;
-+	mutex_init(&phy->common.mutex);
-+	phy->common.mode =3D S3FWRN5_MODE_COLD;
- 	phy->irq_skip =3D true;
- =
-
- 	phy->i2c_dev =3D client;
-@@ -237,17 +195,19 @@ static int s3fwrn5_i2c_probe(struct i2c_client *clien=
-t,
- 	if (ret < 0)
- 		return ret;
- =
-
--	ret =3D devm_gpio_request_one(&phy->i2c_dev->dev, phy->gpio_en,
--		GPIOF_OUT_INIT_HIGH, "s3fwrn5_en");
-+	ret =3D devm_gpio_request_one(&phy->i2c_dev->dev, phy->common.gpio_en,
-+				    GPIOF_OUT_INIT_HIGH, "s3fwrn5_en");
- 	if (ret < 0)
- 		return ret;
- =
-
--	ret =3D devm_gpio_request_one(&phy->i2c_dev->dev, phy->gpio_fw_wake,
--		GPIOF_OUT_INIT_LOW, "s3fwrn5_fw_wake");
-+	ret =3D devm_gpio_request_one(&phy->i2c_dev->dev,
-+				    phy->common.gpio_fw_wake,
-+				    GPIOF_OUT_INIT_LOW, "s3fwrn5_fw_wake");
- 	if (ret < 0)
- 		return ret;
- =
-
--	ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->i2c_dev->dev, &i2c_phy_ops);
-+	ret =3D s3fwrn5_probe(&phy->common.ndev, phy, &phy->i2c_dev->dev,
-+			    &i2c_phy_ops);
- 	if (ret < 0)
- 		return ret;
- =
-
-@@ -255,7 +215,7 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
- 		s3fwrn5_i2c_irq_thread_fn, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
- 		S3FWRN5_I2C_DRIVER_NAME, phy);
- 	if (ret)
--		s3fwrn5_remove(phy->ndev);
-+		s3fwrn5_remove(phy->common.ndev);
- =
-
- 	return ret;
- }
-@@ -264,7 +224,7 @@ static int s3fwrn5_i2c_remove(struct i2c_client *client)
- {
- 	struct s3fwrn5_i2c_phy *phy =3D i2c_get_clientdata(client);
- =
-
--	s3fwrn5_remove(phy->ndev);
-+	s3fwrn5_remove(phy->common.ndev);
- =
-
- 	return 0;
- }
-diff --git a/drivers/nfc/s3fwrn5/phy_common.c b/drivers/nfc/s3fwrn5/phy_com=
-mon.c
-new file mode 100644
-index 0000000..e333764
---- /dev/null
-+++ b/drivers/nfc/s3fwrn5/phy_common.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Link Layer for Samsung S3FWRN5 NCI based Driver
-+ *
-+ * Copyright (C) 2015 Samsung Electrnoics
-+ * Robert Baldyga <r.baldyga@samsung.com>
-+ * Copyright (C) 2020 Samsung Electrnoics
-+ * Bongsu Jeon <bongsu.jeon@samsung.com>
-+ */
++/* NCI 2.x Feature Enable Bit */
++#define NCI_FEATURE_DISABLE					0x00
 +
-+#include <linux/gpio.h>
-+#include <linux/delay.h>
+ /* NCI Reset types */
+ #define NCI_RESET_TYPE_KEEP_CONFIG				0x00
+ #define NCI_RESET_TYPE_RESET_CONFIG				0x01
+@@ -220,6 +225,11 @@ struct nci_core_reset_cmd {
+ } __packed;
+ =
+
+ #define NCI_OP_CORE_INIT_CMD		nci_opcode_pack(NCI_GID_CORE, 0x01)
++/* To support NCI 2.x */
++struct nci_core_init_v2_cmd {
++	unsigned char	feature1;
++	unsigned char	feature2;
++};
+ =
+
+ #define NCI_OP_CORE_SET_CONFIG_CMD	nci_opcode_pack(NCI_GID_CORE, 0x02)
+ struct set_config_param {
+@@ -334,6 +344,20 @@ struct nci_core_init_rsp_2 {
+ 	__le32	manufact_specific_info;
+ } __packed;
+ =
+
++/* To support NCI ver 2.x */
++struct nci_core_init_rsp_nci_ver2 {
++	unsigned char	status;
++	__le32	nfcc_features;
++	unsigned char	max_logical_connections;
++	__le16	max_routing_table_size;
++	unsigned char	max_ctrl_pkt_payload_len;
++	unsigned char	max_data_pkt_hci_payload_len;
++	unsigned char	number_of_hci_credit;
++	__le16	max_nfc_v_frame_size;
++	unsigned char	num_supported_rf_interfaces;
++	unsigned char	supported_rf_interfaces[];
++} __packed;
 +
-+#include "s3fwrn5.h"
-+#include "phy_common.h"
+ #define NCI_OP_CORE_SET_CONFIG_RSP	nci_opcode_pack(NCI_GID_CORE, 0x02)
+ struct nci_core_set_config_rsp {
+ 	__u8	status;
+@@ -372,6 +396,16 @@ struct nci_nfcee_discover_rsp {
+ /* --------------------------- */
+ /* ---- NCI Notifications ---- */
+ /* --------------------------- */
++#define NCI_OP_CORE_RESET_NTF		nci_opcode_pack(NCI_GID_CORE, 0x00)
++struct nci_core_reset_ntf {
++	unsigned char	reset_trigger;
++	unsigned char	config_status;
++	unsigned char	nci_ver;
++	unsigned char	manufact_id;
++	unsigned char	manufacturer_specific_len;
++	__le32	manufact_specific_info;
++} __packed;
 +
-+void s3fwrn5_phy_set_wake(void *phy_id, bool wake)
+ #define NCI_OP_CORE_CONN_CREDITS_NTF	nci_opcode_pack(NCI_GID_CORE, 0x06)
+ struct conn_credit_entry {
+ 	__u8	conn_id;
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index 4953ee5..b1ad276 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -165,7 +165,15 @@ static void nci_reset_req(struct nci_dev *ndev, unsign=
+ed long opt)
+ =
+
+ static void nci_init_req(struct nci_dev *ndev, unsigned long opt)
+ {
+-	nci_send_cmd(ndev, NCI_OP_CORE_INIT_CMD, 0, NULL);
++	struct nci_core_init_v2_cmd *cmd =3D (struct nci_core_init_v2_cmd *)opt;
++
++	if (!cmd)
++		nci_send_cmd(ndev, NCI_OP_CORE_INIT_CMD, 0, NULL);
++	else
++		/* if nci version is 2.0, then use the feature parameters */
++		nci_send_cmd(ndev, NCI_OP_CORE_INIT_CMD,
++			     sizeof(struct nci_core_init_v2_cmd), cmd);
++
+ }
+ =
+
+ static void nci_init_complete_req(struct nci_dev *ndev, unsigned long opt)
+@@ -497,8 +505,18 @@ static int nci_open_device(struct nci_dev *ndev)
+ 	}
+ =
+
+ 	if (!rc) {
+-		rc =3D __nci_request(ndev, nci_init_req, 0,
+-				   msecs_to_jiffies(NCI_INIT_TIMEOUT));
++		if (!(ndev->nci_ver & NCI_VER_2_MASK)) {
++			rc =3D __nci_request(ndev, nci_init_req, 0,
++					   msecs_to_jiffies(NCI_INIT_TIMEOUT));
++		} else {
++			struct nci_core_init_v2_cmd nci_init_v2_cmd;
++
++			nci_init_v2_cmd.feature1 =3D NCI_FEATURE_DISABLE;
++			nci_init_v2_cmd.feature2 =3D NCI_FEATURE_DISABLE;
++
++			rc =3D __nci_request(ndev, nci_init_req, (unsigned long)&nci_init_v2_cm=
+d,
++					   msecs_to_jiffies(NCI_INIT_TIMEOUT));
++		}
+ 	}
+ =
+
+ 	if (!rc && ndev->ops->post_setup)
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index 33e1170..98af04c 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -27,6 +27,23 @@
+ =
+
+ /* Handle NCI Notification packets */
+ =
+
++static void nci_core_reset_ntf_packet(struct nci_dev *ndev,
++				      struct sk_buff *skb)
 +{
-+	struct phy_common *phy =3D phy_id;
++	/* Handle NCI 2.x core reset notification */
++	struct nci_core_reset_ntf *ntf =3D (void *)skb->data;
 +
-+	mutex_lock(&phy->mutex);
-+	gpio_set_value(phy->gpio_fw_wake, wake);
-+	msleep(S3FWRN5_EN_WAIT_TIME);
-+	mutex_unlock(&phy->mutex);
++	ndev->nci_ver =3D ntf->nci_ver;
++	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
++		 ntf->nci_ver, ntf->config_status);
++
++	ndev->manufact_id =3D ntf->manufact_id;
++	ndev->manufact_specific_info =3D
++		__le32_to_cpu(ntf->manufact_specific_info);
++
++	nci_req_complete(ndev, NCI_STATUS_OK);
 +}
 +
-+bool s3fwrn5_phy_power_ctrl(struct phy_common *phy, enum s3fwrn5_mode mode)
+ static void nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+ 					     struct sk_buff *skb)
+ {
+@@ -756,6 +773,10 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_bu=
+ff *skb)
+ 	}
+ =
+
+ 	switch (ntf_opcode) {
++	case NCI_OP_CORE_RESET_NTF:
++		nci_core_reset_ntf_packet(ndev, skb);
++		break;
++
+ 	case NCI_OP_CORE_CONN_CREDITS_NTF:
+ 		nci_core_conn_credits_ntf_packet(ndev, skb);
+ 		break;
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index a48297b..ea9e603 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -31,16 +31,19 @@ static void nci_core_reset_rsp_packet(struct nci_dev *n=
+dev, struct sk_buff *skb)
+ =
+
+ 	pr_debug("status 0x%x\n", rsp->status);
+ =
+
+-	if (rsp->status =3D=3D NCI_STATUS_OK) {
+-		ndev->nci_ver =3D rsp->nci_ver;
+-		pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+-			 rsp->nci_ver, rsp->config_status);
+-	}
++	/* Handle NCI 1.x ver */
++	if (skb->len !=3D 1) {
++		if (rsp->status =3D=3D NCI_STATUS_OK) {
++			ndev->nci_ver =3D rsp->nci_ver;
++			pr_debug("nci_ver 0x%x, config_status 0x%x\n",
++				 rsp->nci_ver, rsp->config_status);
++		}
+ =
+
+-	nci_req_complete(ndev, rsp->status);
++		nci_req_complete(ndev, rsp->status);
++	}
+ }
+ =
+
+-static void nci_core_init_rsp_packet(struct nci_dev *ndev, struct sk_buff =
+*skb)
++static unsigned char nci_core_init_rsp_packet_v1(struct nci_dev *ndev, str=
+uct sk_buff *skb)
+ {
+ 	struct nci_core_init_rsp_1 *rsp_1 =3D (void *) skb->data;
+ 	struct nci_core_init_rsp_2 *rsp_2;
+@@ -48,16 +51,14 @@ static void nci_core_init_rsp_packet(struct nci_dev *nd=
+ev, struct sk_buff *skb)
+ 	pr_debug("status 0x%x\n", rsp_1->status);
+ =
+
+ 	if (rsp_1->status !=3D NCI_STATUS_OK)
+-		goto exit;
++		return rsp_1->status;
+ =
+
+ 	ndev->nfcc_features =3D __le32_to_cpu(rsp_1->nfcc_features);
+ 	ndev->num_supported_rf_interfaces =3D rsp_1->num_supported_rf_interfaces;
+ =
+
+-	if (ndev->num_supported_rf_interfaces >
+-	    NCI_MAX_SUPPORTED_RF_INTERFACES) {
+-		ndev->num_supported_rf_interfaces =3D
+-			NCI_MAX_SUPPORTED_RF_INTERFACES;
+-	}
++	ndev->num_supported_rf_interfaces =3D
++		min((int)ndev->num_supported_rf_interfaces,
++		    NCI_MAX_SUPPORTED_RF_INTERFACES);
+ =
+
+ 	memcpy(ndev->supported_rf_interfaces,
+ 	       rsp_1->supported_rf_interfaces,
+@@ -77,6 +78,58 @@ static void nci_core_init_rsp_packet(struct nci_dev *nde=
+v, struct sk_buff *skb)
+ 	ndev->manufact_specific_info =3D
+ 		__le32_to_cpu(rsp_2->manufact_specific_info);
+ =
+
++	return NCI_STATUS_OK;
++}
++
++static unsigned char nci_core_init_rsp_packet_v2(struct nci_dev *ndev, str=
+uct sk_buff *skb)
 +{
-+	if (phy->mode =3D=3D mode)
-+		return false;
++	struct nci_core_init_rsp_nci_ver2 *rsp =3D (void *)skb->data;
++	unsigned char rf_interface_idx =3D 0;
++	unsigned char rf_extension_cnt =3D 0;
++	unsigned char *supported_rf_interface =3D rsp->supported_rf_interfaces;
 +
-+	phy->mode =3D mode;
++	pr_debug("status %x\n", rsp->status);
 +
-+	gpio_set_value(phy->gpio_en, 1);
-+	gpio_set_value(phy->gpio_fw_wake, 0);
-+	if (mode =3D=3D S3FWRN5_MODE_FW)
-+		gpio_set_value(phy->gpio_fw_wake, 1);
++	if (rsp->status !=3D NCI_STATUS_OK)
++		return rsp->status;
 +
-+	if (mode !=3D S3FWRN5_MODE_COLD) {
-+		msleep(S3FWRN5_EN_WAIT_TIME);
-+		gpio_set_value(phy->gpio_en, 0);
-+		msleep(S3FWRN5_EN_WAIT_TIME);
++	ndev->nfcc_features =3D __le32_to_cpu(rsp->nfcc_features);
++	ndev->num_supported_rf_interfaces =3D rsp->num_supported_rf_interfaces;
++
++	ndev->num_supported_rf_interfaces =3D
++		min((int)ndev->num_supported_rf_interfaces,
++		    NCI_MAX_SUPPORTED_RF_INTERFACES);
++
++	while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
++		ndev->supported_rf_interfaces[rf_interface_idx++] =3D *supported_rf_inte=
+rface++;
++
++		/* skip rf extension parameters */
++		rf_extension_cnt =3D *supported_rf_interface++;
++		supported_rf_interface +=3D rf_extension_cnt;
 +	}
 +
-+	return true;
++	ndev->max_logical_connections =3D rsp->max_logical_connections;
++	ndev->max_routing_table_size =3D
++			__le16_to_cpu(rsp->max_routing_table_size);
++	ndev->max_ctrl_pkt_payload_len =3D
++			rsp->max_ctrl_pkt_payload_len;
++	ndev->max_size_for_large_params =3D NCI_MAX_LARGE_PARAMS_NCI_v2;
++
++	return NCI_STATUS_OK;
 +}
 +
-+enum s3fwrn5_mode s3fwrn5_phy_get_mode(void *phy_id)
++static void nci_core_init_rsp_packet(struct nci_dev *ndev, struct sk_buff =
+*skb)
 +{
-+	struct phy_common *phy =3D phy_id;
-+	enum s3fwrn5_mode mode;
++	unsigned char status =3D 0;
 +
-+	mutex_lock(&phy->mutex);
++	if (!(ndev->nci_ver & NCI_VER_2_MASK))
++		status =3D nci_core_init_rsp_packet_v1(ndev, skb);
++	else
++		status =3D nci_core_init_rsp_packet_v2(ndev, skb);
 +
-+	mode =3D phy->mode;
++	if (status !=3D NCI_STATUS_OK)
++		goto exit;
 +
-+	mutex_unlock(&phy->mutex);
-+
-+	return mode;
-+}
-diff --git a/drivers/nfc/s3fwrn5/phy_common.h b/drivers/nfc/s3fwrn5/phy_com=
-mon.h
-new file mode 100644
-index 0000000..b920f7f
---- /dev/null
-+++ b/drivers/nfc/s3fwrn5/phy_common.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Link Layer for Samsung S3FWRN5 NCI based Driver
-+ *
-+ * Copyright (C) 2015 Samsung Electrnoics
-+ * Robert Baldyga <r.baldyga@samsung.com>
-+ * Copyright (C) 2020 Samsung Electrnoics
-+ * Bongsu Jeon <bongsu.jeon@samsung.com>
-+ */
-+
-+#ifndef __NFC_S3FWRN5_PHY_COMMON_H
-+#define __NFC_S3FWRN5_PHY_COMMON_H
-+
-+#define S3FWRN5_EN_WAIT_TIME 20
-+
-+struct phy_common {
-+	struct nci_dev *ndev;
-+
-+	int gpio_en;
-+	int gpio_fw_wake;
-+
-+	struct mutex mutex;
-+
-+	enum s3fwrn5_mode mode;
-+};
-+
-+void s3fwrn5_phy_set_wake(void *phy_id, bool wake);
-+bool s3fwrn5_phy_power_ctrl(struct phy_common *phy, enum s3fwrn5_mode mode=
-);
-+enum s3fwrn5_mode s3fwrn5_phy_get_mode(void *phy_id);
-+
-+#endif /* __NFC_S3FWRN5_PHY_COMMON_H */
+ 	pr_debug("nfcc_features 0x%x\n",
+ 		 ndev->nfcc_features);
+ 	pr_debug("num_supported_rf_interfaces %d\n",
+@@ -103,7 +156,7 @@ static void nci_core_init_rsp_packet(struct nci_dev *nd=
+ev, struct sk_buff *skb)
+ 		 ndev->manufact_specific_info);
+ =
+
+ exit:
+-	nci_req_complete(ndev, rsp_1->status);
++	nci_req_complete(ndev, status);
+ }
+ =
+
+ static void nci_core_set_config_rsp_packet(struct nci_dev *ndev,
 -- =
 
 1.9.1
 
---===============3688170852863134613==--
+--===============3536239592518339752==--
 
