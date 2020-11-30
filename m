@@ -1,108 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============6026853938352456809=="
+Content-Type: multipart/mixed; boundary="===============1153181187574089438=="
 MIME-Version: 1.0
-From: Bongsu Jeon <bongsu.jeon@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH net-next v2 1/3] nfc: s3fwrn5: Remove the max_payload
-Date: Tue, 17 Nov 2020 10:16:11 +0900
-Message-ID: <20201117011611epcms2p22fb0315814144e94856a96014c376a04@epcms2p2>
-In-Reply-To: <CGME20201117011611epcms2p22fb0315814144e94856a96014c376a04@epcms2p2>
+Subject: Re: [PATCH net-next 2/4] nfc: s3fwrn5: reduce the EN_WAIT_TIME
+Date: Mon, 30 Nov 2020 20:40:41 +0200
+Message-ID: <20201130184041.GB28735@kozik-lap>
+In-Reply-To: <1606737750-29537-1-git-send-email-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6026853938352456809==
+--===============1153181187574089438==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-max_payload is unused.
+On Mon, Nov 30, 2020 at 09:02:30PM +0900, Bongsu Jeon wrote:
+> From: Bongsu Jeon <bongsu.jeon@samsung.com>
+> =
 
-Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
----
- drivers/nfc/s3fwrn5/core.c    | 3 +--
- drivers/nfc/s3fwrn5/i2c.c     | 4 +---
- drivers/nfc/s3fwrn5/s3fwrn5.h | 3 +--
- 3 files changed, 3 insertions(+), 7 deletions(-)
+> The delay of 20ms is enough to enable and
+> wake up the Samsung's nfc chip.
+> =
 
-diff --git a/drivers/nfc/s3fwrn5/core.c b/drivers/nfc/s3fwrn5/core.c
-index ba6c486d6465..f8e5d78d9078 100644
---- a/drivers/nfc/s3fwrn5/core.c
-+++ b/drivers/nfc/s3fwrn5/core.c
-@@ -136,7 +136,7 @@ static struct nci_ops s3fwrn5_nci_ops =3D {
- };
- =
+> Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+> ---
+>  drivers/nfc/s3fwrn5/i2c.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
- int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, struct device *pdev,
--	const struct s3fwrn5_phy_ops *phy_ops, unsigned int max_payload)
-+	const struct s3fwrn5_phy_ops *phy_ops)
- {
- 	struct s3fwrn5_info *info;
- 	int ret;
-@@ -148,7 +148,6 @@ int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, =
-struct device *pdev,
- 	info->phy_id =3D phy_id;
- 	info->pdev =3D pdev;
- 	info->phy_ops =3D phy_ops;
--	info->max_payload =3D max_payload;
- 	mutex_init(&info->mutex);
- =
+It's really not easy to work with your way of sending the patches.
 
- 	s3fwrn5_set_mode(info, S3FWRN5_MODE_COLD);
-diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index dc995286be84..0ffa389066a0 100644
---- a/drivers/nfc/s3fwrn5/i2c.c
-+++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -19,7 +19,6 @@
- =
+I am sorry but you have to adjust your style to the style of reviewers
+and the entire community.
 
- #define S3FWRN5_I2C_DRIVER_NAME "s3fwrn5_i2c"
- =
+1. Again, you ignored/dropped my Ack.
 
--#define S3FWRN5_I2C_MAX_PAYLOAD 32
- #define S3FWRN5_EN_WAIT_TIME 150
- =
+2. I asked you to send all patches referencing each other, which you can
+   achieve without any effort with git format-patch and send-email or
+   with in-reply-to.
+   Seriously, these tools work properly by default! You have to break
+   them on purpose - so stop.  Now, all your patches are scattered over
+   my mailbox. They are all over mailing list:
+   https://lore.kernel.org/lkml/?q=3Dbongsu.jeon2%40gmail.com
+   Browsing this patchset is uncomfortable. It's a pain.
 
- struct s3fwrn5_i2c_phy {
-@@ -248,8 +247,7 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
- 	if (ret < 0)
- 		return ret;
- =
+Please, work on your workflow. Get help in that - there are plenty of
+open-source contributors in Samsung. Ask them how to do it. If you
+cannot, read the mailing lists and see how others do it.
 
--	ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->i2c_dev->dev, &i2c_phy_ops,
--		S3FWRN5_I2C_MAX_PAYLOAD);
-+	ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->i2c_dev->dev, &i2c_phy_ops);
- 	if (ret < 0)
- 		return ret;
- =
+Recent example, one of thousands:
+https://lore.kernel.org/linux-arm-kernel/20201130131047.2648960-1-daniel(a)=
+0x0f.com/T/#m4a9ed644869b8018b8286a6b229012278141cb66
 
-diff --git a/drivers/nfc/s3fwrn5/s3fwrn5.h b/drivers/nfc/s3fwrn5/s3fwrn5.h
-index ede68bb5eeae..9d5f34759225 100644
---- a/drivers/nfc/s3fwrn5/s3fwrn5.h
-+++ b/drivers/nfc/s3fwrn5/s3fwrn5.h
-@@ -34,7 +34,6 @@ struct s3fwrn5_info {
- 	struct device *pdev;
- =
+1. It comes with a cover letter,
+2. All emails are properly linked with each other (scroll to the bottom).
 
- 	const struct s3fwrn5_phy_ops *phy_ops;
--	unsigned int max_payload;
- =
-
- 	struct s3fwrn5_fw_info fw_info;
- =
-
-@@ -79,7 +78,7 @@ static inline int s3fwrn5_write(struct s3fwrn5_info *info=
-, struct sk_buff *skb)
- }
- =
-
- int s3fwrn5_probe(struct nci_dev **ndev, void *phy_id, struct device *pdev,
--	const struct s3fwrn5_phy_ops *phy_ops, unsigned int max_payload);
-+	const struct s3fwrn5_phy_ops *phy_ops);
- void s3fwrn5_remove(struct nci_dev *ndev);
- =
-
- int s3fwrn5_recv_frame(struct nci_dev *ndev, struct sk_buff *skb,
--- =
-
-2.17.1
-
---===============6026853938352456809==--
+Best regards,
+Krzysztof
+--===============1153181187574089438==--
 
