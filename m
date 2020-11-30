@@ -1,59 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============1153181187574089438=="
+Content-Type: multipart/mixed; boundary="===============2877333503061293454=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next 2/4] nfc: s3fwrn5: reduce the EN_WAIT_TIME
-Date: Mon, 30 Nov 2020 20:40:41 +0200
-Message-ID: <20201130184041.GB28735@kozik-lap>
-In-Reply-To: <1606737750-29537-1-git-send-email-bongsu.jeon@samsung.com>
+Subject: Re: [PATCH v3 net-next 3/4] nfc: s3fwrn5: extract the common phy blocks
+Date: Mon, 30 Nov 2020 20:42:30 +0200
+Message-ID: <20201130184230.GC28735@kozik-lap>
+In-Reply-To: <1606737829-29586-1-git-send-email-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1153181187574089438==
+--===============2877333503061293454==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 30, 2020 at 09:02:30PM +0900, Bongsu Jeon wrote:
+On Mon, Nov 30, 2020 at 09:03:49PM +0900, Bongsu Jeon wrote:
 > From: Bongsu Jeon <bongsu.jeon@samsung.com>
 > =
 
-> The delay of 20ms is enough to enable and
-> wake up the Samsung's nfc chip.
+> Extract the common phy blocks to reuse it.
+> The UART module will use the common blocks.
 > =
 
 > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 > ---
->  drivers/nfc/s3fwrn5/i2c.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Changes in v3:
+>    - move the phy_common object to s3fwrn.ko to avoid duplication.
+>    - include the header files to include everything which is used inside.
+>    - wrap the lines.
+> =
 
-It's really not easy to work with your way of sending the patches.
+>  Changes in v2:
+>    - remove the common function's definition in common header file.
+>    - make the common phy_common.c file to define the common function.
+>    - wrap the lines.
+>    - change the Header guard.
+>    - remove the unused common function.
+> =
 
-I am sorry but you have to adjust your style to the style of reviewers
-and the entire community.
+>  drivers/nfc/s3fwrn5/Makefile     |   2 +-
+>  drivers/nfc/s3fwrn5/i2c.c        | 117 +++++++++++++--------------------=
+------
+>  drivers/nfc/s3fwrn5/phy_common.c |  63 +++++++++++++++++++++
+>  drivers/nfc/s3fwrn5/phy_common.h |  36 ++++++++++++
+>  4 files changed, 139 insertions(+), 79 deletions(-)
+>  create mode 100644 drivers/nfc/s3fwrn5/phy_common.c
+>  create mode 100644 drivers/nfc/s3fwrn5/phy_common.h
 
-1. Again, you ignored/dropped my Ack.
-
-2. I asked you to send all patches referencing each other, which you can
-   achieve without any effort with git format-patch and send-email or
-   with in-reply-to.
-   Seriously, these tools work properly by default! You have to break
-   them on purpose - so stop.  Now, all your patches are scattered over
-   my mailbox. They are all over mailing list:
-   https://lore.kernel.org/lkml/?q=3Dbongsu.jeon2%40gmail.com
-   Browsing this patchset is uncomfortable. It's a pain.
-
-Please, work on your workflow. Get help in that - there are plenty of
-open-source contributors in Samsung. Ask them how to do it. If you
-cannot, read the mailing lists and see how others do it.
-
-Recent example, one of thousands:
-https://lore.kernel.org/linux-arm-kernel/20201130131047.2648960-1-daniel(a)=
-0x0f.com/T/#m4a9ed644869b8018b8286a6b229012278141cb66
-
-1. It comes with a cover letter,
-2. All emails are properly linked with each other (scroll to the bottom).
+I am sorry, but I am not going to review this. Please send properly a
+next version - v4 of entire patchset - while fixing issues pointed out
+in my other email (so use proper workflow).
 
 Best regards,
 Krzysztof
---===============1153181187574089438==--
+--===============2877333503061293454==--
 
