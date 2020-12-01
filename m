@@ -1,29 +1,82 @@
-Received: from je.b8.nz (je.b8.nz [85.119.82.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D681628E7
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Oct 2022 14:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=je.b8.nz;
-	 s=li; h=Date:Subject:To:From:mime-version:in-reply-to:references;
-	bh=bmfy7zLA4Nh+JuB0ATMLTc6Fn1FoECAmVYX6iZcS8jE=; b=F8lAVPVXmDN00/0cMpZqU7gwF3
-	Pz+IPn3RU254IReOrO4G2KYq0Ewd30uIFW3krvWrUmRBzcnMkIPEfTyk21v/b+JpvAOHYu+kO0TFx
-	uuGeVAXfkia1ISLWDaO8hlyDaajh/V4ExWeWCa20htWY04Ny9rek/7Yu9jP0tuOIy01iMIDa1XvPk
-	XZklFvW/CN1nLMDYeht4E9UnzsrbpAsnq7ABjNdXhBaqm1XivcVnrnvf53OlZ3FtIEBbpfCcWW3fQ
-	mXYniTivhZRn2CI/6VsnQsN0o5ugQeVTyMVeNHueTY2g9J5HlBh7/c5rEp/jtfGqbem06lypKtDqE
-	wAnDFjfw==;
-Received: from root by je.b8.nz with local (Exim 4.93)
-	(envelope-from <testignore@je.b8.nz>)
-	id 1olspf-000IER-9m
-	for oe-linux-nfc@lists.linux.dev; Fri, 21 Oct 2022 10:17:07 -0400
-From: testignore@je.b8.nz
-To: oe-linux-nfc@lists.linux.dev
-Subject: test post. ignore
-Message-Id: <E1olspf-000IER-9m@je.b8.nz>
-Date: Fri, 21 Oct 2022 10:17:07 -0400
-Precedence: bulk
-X-Mailing-List: oe-linux-nfc@lists.linux.dev
+Content-Type: multipart/mixed; boundary="===============0602127173962538000=="
+MIME-Version: 1.0
+From: Bongsu Jeon <bongsu.jeon2@gmail.com>
+To: linux-nfc@lists.01.org
+Subject: [PATCH v4 net-next 0/4] nfc: s3fwrn5: Support a UART interface
+Date: Tue, 01 Dec 2020 22:50:24 +0900
+Message-ID: <1606830628-10236-1-git-send-email-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
-List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 
-If you see this, the test worked.
+--===============0602127173962538000==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
+
+S3FWRN82 is the Samsung's NFC chip that supports the UART communication.
+Before adding the UART driver module, I did refactoring the s3fwrn5_i2c mod=
+ule =
+
+to reuse the common blocks.
+
+1/4 is the dt bindings for the RN82 UART interface.
+2/4..3/4 are refactoring the s3fwrn5_i2c module.
+4/4 is the UART driver module implementation.
+
+ChangeLog:
+ v4:
+   1/4
+    - change 'oneOf' to 'items'.
+    - fix the indentation.
+   2/4
+    - add the ACK tag.
+   4/4
+    - remove the of_match_ptr macro.
+ v3:
+   3/4
+    - move the phy_common object to s3fwrn.ko to avoid duplication.
+    - include the header files to include everything which is used inside.
+    - wrap the lines.
+   4/4
+    - remove the kfree(phy) because of duplicated free.
+    - use the phy_common blocks.
+    - wrap lines properly.
+ v2:
+   1/4
+    - change the compatible name.
+    - change the const to enum for compatible.
+    - change the node name to nfc.
+   3/4
+    - remove the common function's definition in common header file.
+    - make the common phy_common.c file to define the common function.
+    - wrap the lines.
+    - change the Header guard.
+    - remove the unused common function.
+
+
+Bongsu Jeon (4):
+  dt-bindings: net: nfc: s3fwrn5: Support a UART interface
+  nfc: s3fwrn5: reduce the EN_WAIT_TIME
+  nfc: s3fwrn5: extract the common phy blocks
+  nfc: s3fwrn5: Support a UART interface
+
+ .../bindings/net/nfc/samsung,s3fwrn5.yaml          |  32 +++-
+ drivers/nfc/s3fwrn5/Kconfig                        |  12 ++
+ drivers/nfc/s3fwrn5/Makefile                       |   4 +-
+ drivers/nfc/s3fwrn5/i2c.c                          | 117 ++++--------
+ drivers/nfc/s3fwrn5/phy_common.c                   |  75 ++++++++
+ drivers/nfc/s3fwrn5/phy_common.h                   |  37 ++++
+ drivers/nfc/s3fwrn5/uart.c                         | 196 +++++++++++++++++=
+++++
+ 7 files changed, 391 insertions(+), 82 deletions(-)
+ create mode 100644 drivers/nfc/s3fwrn5/phy_common.c
+ create mode 100644 drivers/nfc/s3fwrn5/phy_common.h
+ create mode 100644 drivers/nfc/s3fwrn5/uart.c
+
+-- =
+
+1.9.1
+
+--===============0602127173962538000==--
+
