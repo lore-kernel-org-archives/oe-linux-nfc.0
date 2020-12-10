@@ -1,78 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============3585286313437677191=="
+Content-Type: multipart/mixed; boundary="===============7989053883663503312=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 net-next 2/2] nfc: s3fwrn5: Remove hard coded interrupt trigger type from the i2c module
-Date: Thu, 10 Dec 2020 09:18:22 +0100
-Message-ID: <20201210081822.GA3573@kozik-lap>
-In-Reply-To: <20201208141012.6033-3-bongsu.jeon@samsung.com>
+Subject: [PATCH] nfc: s3fwrn5: let core configure the interrupt trigger
+Date: Thu, 10 Dec 2020 22:18:24 +0100
+Message-ID: <20201210211824.214949-1-krzk@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3585286313437677191==
+--===============7989053883663503312==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 08, 2020 at 11:10:12PM +0900, Bongsu Jeon wrote:
-> From: Bongsu Jeon <bongsu.jeon@samsung.com>
-> =
+If interrupt trigger is not set when requesting the interrupt, the core
+will take care of reading trigger type from Devicetree.  There is no
+point to do it in the driver.
 
-> For the flexible control of interrupt trigger type, remove the hard coded
-> interrupt trigger type in the i2c module. The trigger type will be loaded
->  from a dts.
-> =
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ drivers/nfc/s3fwrn5/i2c.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-> Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
-> ---
->  drivers/nfc/s3fwrn5/i2c.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> =
+diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
+index 42f1f610ac2c..897394167522 100644
+--- a/drivers/nfc/s3fwrn5/i2c.c
++++ b/drivers/nfc/s3fwrn5/i2c.c
+@@ -179,8 +179,6 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
+ 				  const struct i2c_device_id *id)
+ {
+ 	struct s3fwrn5_i2c_phy *phy;
+-	struct irq_data *irq_data;
+-	unsigned long irqflags;
+ 	int ret;
+ =
 
-> diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-> index e1bdde105f24..42f1f610ac2c 100644
-> --- a/drivers/nfc/s3fwrn5/i2c.c
-> +++ b/drivers/nfc/s3fwrn5/i2c.c
-> @@ -179,6 +179,8 @@ static int s3fwrn5_i2c_probe(struct i2c_client *clien=
-t,
->  				  const struct i2c_device_id *id)
->  {
->  	struct s3fwrn5_i2c_phy *phy;
-> +	struct irq_data *irq_data;
-> +	unsigned long irqflags;
->  	int ret;
->  =
+ 	phy =3D devm_kzalloc(&client->dev, sizeof(*phy), GFP_KERNEL);
+@@ -214,11 +212,8 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client,
+ 	if (ret < 0)
+ 		return ret;
+ =
 
->  	phy =3D devm_kzalloc(&client->dev, sizeof(*phy), GFP_KERNEL);
-> @@ -212,8 +214,11 @@ static int s3fwrn5_i2c_probe(struct i2c_client *clie=
-nt,
->  	if (ret < 0)
->  		return ret;
->  =
+-	irq_data =3D irq_get_irq_data(client->irq);
+-	irqflags =3D irqd_get_trigger_type(irq_data) | IRQF_ONESHOT;
+-
+ 	ret =3D devm_request_threaded_irq(&client->dev, phy->i2c_dev->irq, NULL,
+-		s3fwrn5_i2c_irq_thread_fn, irqflags,
++		s3fwrn5_i2c_irq_thread_fn, IRQF_ONESHOT,
+ 		S3FWRN5_I2C_DRIVER_NAME, phy);
+ 	if (ret)
+ 		s3fwrn5_remove(phy->common.ndev);
+-- =
 
-> +	irq_data =3D irq_get_irq_data(client->irq);
-> +	irqflags =3D irqd_get_trigger_type(irq_data) | IRQF_ONESHOT;
+2.25.1
 
-This patch is wrong and should not be applied. David, please give few
-days to review the patches. :)
-
-The irqd_get_trigger_type is not necessary.
-
-I'll send follow ups to correct this.
-
-Best regards,
-Krzysztof
-
-
-> +
->  	ret =3D devm_request_threaded_irq(&client->dev, phy->i2c_dev->irq, NULL,
-> -		s3fwrn5_i2c_irq_thread_fn, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +		s3fwrn5_i2c_irq_thread_fn, irqflags,
->  		S3FWRN5_I2C_DRIVER_NAME, phy);
->  	if (ret)
->  		s3fwrn5_remove(phy->common.ndev);
-> -- =
-
-> 2.17.1
->=20
---===============3585286313437677191==--
+--===============7989053883663503312==--
 
