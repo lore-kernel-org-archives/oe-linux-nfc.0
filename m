@@ -1,49 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============1901966476656320058=="
+Content-Type: multipart/mixed; boundary="===============1160403270958747615=="
 MIME-Version: 1.0
 From: Bongsu Jeon <bongsu.jeon2@gmail.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH net-next] nfc: s3fwrn5: Release the nfc firmware
-Date: Sun, 13 Dec 2020 18:58:50 +0900
-Message-ID: <20201213095850.28169-1-bongsu.jeon@samsung.com>
+Subject: [PATCH net-next] nfc: s3fwrn5: Remove the delay for nfc sleep
+Date: Sun, 13 Dec 2020 19:12:38 +0900
+Message-ID: <20201213101238.28373-1-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1901966476656320058==
+--===============1160403270958747615==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: Bongsu Jeon <bongsu.jeon@samsung.com>
 
-add the code to release the nfc firmware when the firmware image size is
-wrong.
+remove the delay for nfc sleep because nfc doesn't need the sleep delay.
 
 Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 ---
- drivers/nfc/s3fwrn5/firmware.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nfc/s3fwrn5/phy_common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nfc/s3fwrn5/firmware.c b/drivers/nfc/s3fwrn5/firmware.c
-index 4b5352e2b915..b70737b3070e 100644
---- a/drivers/nfc/s3fwrn5/firmware.c
-+++ b/drivers/nfc/s3fwrn5/firmware.c
-@@ -293,8 +293,10 @@ int s3fwrn5_fw_request_firmware(struct s3fwrn5_fw_info=
- *fw_info)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/nfc/s3fwrn5/phy_common.c b/drivers/nfc/s3fwrn5/phy_com=
+mon.c
+index 497b02b30ae7..81318478d5fd 100644
+--- a/drivers/nfc/s3fwrn5/phy_common.c
++++ b/drivers/nfc/s3fwrn5/phy_common.c
+@@ -20,7 +20,8 @@ void s3fwrn5_phy_set_wake(void *phy_id, bool wake)
  =
 
--	if (fw->fw->size < S3FWRN5_FW_IMAGE_HEADER_SIZE)
-+	if (fw->fw->size < S3FWRN5_FW_IMAGE_HEADER_SIZE) {
-+		release_firmware(fw->fw);
- 		return -EINVAL;
-+	}
- =
-
- 	memcpy(fw->date, fw->fw->data + 0x00, 12);
- 	fw->date[12] =3D '\0';
+ 	mutex_lock(&phy->mutex);
+ 	gpio_set_value(phy->gpio_fw_wake, wake);
+-	msleep(S3FWRN5_EN_WAIT_TIME);
++	if (wake)
++		msleep(S3FWRN5_EN_WAIT_TIME);
+ 	mutex_unlock(&phy->mutex);
+ }
+ EXPORT_SYMBOL(s3fwrn5_phy_set_wake);
 -- =
 
 2.17.1
 
---===============1901966476656320058==--
+--===============1160403270958747615==--
 
