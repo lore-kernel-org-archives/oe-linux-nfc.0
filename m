@@ -1,39 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============5697895089186562353=="
+Content-Type: multipart/mixed; boundary="===============7192156228643448152=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next] MAINTAINERS: Update maintainer for SAMSUNG S3FWRN5 NFC
-Date: Mon, 14 Dec 2020 16:44:44 +0100
-Message-ID: <20201214154444.GA2493@kozik-lap>
-In-Reply-To: <20201214122823.2061-1-bongsu.jeon@samsung.com>
+Subject: Re: [PATCH net-next] nfc: s3fwrn5: Release the nfc firmware
+Date: Mon, 14 Dec 2020 16:47:45 +0100
+Message-ID: <20201214154745.GB2493@kozik-lap>
+In-Reply-To: <20201213095850.28169-1-bongsu.jeon@samsung.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5697895089186562353==
+--===============7192156228643448152==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 14, 2020 at 09:28:23PM +0900, Bongsu Jeon wrote:
+On Sun, Dec 13, 2020 at 06:58:50PM +0900, Bongsu Jeon wrote:
 > From: Bongsu Jeon <bongsu.jeon@samsung.com>
 > =
 
-> add an email to look after the SAMSUNG NFC driver.
+> add the code to release the nfc firmware when the firmware image size is
+> wrong.
 
-Hi Bongsu,
+s/add/Add/
+s/nfc/NFC/
 
-Review and testing is always appreciated. However before adding an entry
-to Maintainers, I would prefer to see some activity in maintainer-like
-tasks. So far there are none:
-https://lore.kernel.org/lkml/?q=3Df%3A%22Bongsu+Jeon%22
-
-Contributing patches is not the same as maintenance. Please subscribe to
-relevant mailing lists and devote effort for improving other people
-code.
-
-We had too many maintainers from many companies which did not perform
-actual maintainership for long time and clearly that's not the point.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
---===============5697895089186562353==--
+--===============7192156228643448152==--
 
