@@ -1,61 +1,62 @@
-Content-Type: multipart/mixed; boundary="===============8788328114147997521=="
+Content-Type: multipart/mixed; boundary="===============6739919431707942853=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Bongsu Jeon <bongsu.jeon2@gmail.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 3/3] include: sync nfc_copy.h with Linux kernel v5.17-rc4
-Date: Mon, 14 Feb 2022 13:31:10 +0100
-Message-ID: <20220214123110.27056-4-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220214123110.27056-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH net-next] nfc: Add a virtual nci device driver
+Date: Wed, 06 Jan 2021 08:16:47 +0900
+Message-ID: <CACwDmQCTj1T+25XBx8=3z=NmCtBSeHxHbUykA6r9_MwNJmJOQQ@mail.gmail.com>
+In-Reply-To: <20210104114842.2eccef83@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8788328114147997521==
+--===============6739919431707942853==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Use include/uapi/linux/nfc.h from Linux kernel v5.17-rc4.
+On Tue, Jan 5, 2021 at 4:48 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Thu, 31 Dec 2020 14:22:45 +0900 Bongsu Jeon wrote:
+> > On Tue, Dec 29, 2020 at 6:16 AM Jakub Kicinski <kuba@kernel.org> wrot=
+e:
+> > >
+> > > On Mon, 28 Dec 2020 18:45:07 +0900 Bongsu Jeon wrote:
+> > > > From: Bongsu Jeon <bongsu.jeon@samsung.com>
+> > > >
+> > > > A NCI virtual device can be made to simulate a NCI device in user s=
+pace.
+> > > > Using the virtual NCI device, The NCI module and application can be
+> > > > validated. This driver supports to communicate between the virtual =
+NCI
+> > > > device and NCI module.
+> > > >
+> > > > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
+> > >
+> > > net-next is still closed:
+> > >
+> > > http://vger.kernel.org/~davem/net-next.html
+> > >
+> > > Please repost in a few days.
+> > >
+> > > As far as the patch goes - please include some tests for the NCI/NFC
+> > > subsystem based on this virtual device, best if they live in tree und=
+er
+> > > tools/testing/selftest.
+> >
+> > thank you for your answer.
+> > I think that neard(NFC deamon) is necessary to test the NCI subsystem
+> > meaningfully.
+> > The NCI virtual device in user space can communicate with neard
+> > through this driver.
+> > Is it enough to make NCI virtual device at tools/nfc for some test?
+>
+> I'm not sure if I understand. Are you asking if it's okay for the test
+> or have a dependency on neard?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- include/nfc_copy.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/include/nfc_copy.h b/include/nfc_copy.h
-index f6e3c8c9c744..4fa4e979e948 100644
---- a/include/nfc_copy.h
-+++ b/include/nfc_copy.h
-@@ -263,7 +263,7 @@ enum nfc_sdp_attr {
- #define NFC_SE_ENABLED  0x1
- =
-
- struct sockaddr_nfc {
--	sa_family_t sa_family;
-+	__kernel_sa_family_t sa_family;
- 	__u32 dev_idx;
- 	__u32 target_idx;
- 	__u32 nfc_protocol;
-@@ -271,14 +271,14 @@ struct sockaddr_nfc {
- =
-
- #define NFC_LLCP_MAX_SERVICE_NAME 63
- struct sockaddr_nfc_llcp {
--	sa_family_t sa_family;
-+	__kernel_sa_family_t sa_family;
- 	__u32 dev_idx;
- 	__u32 target_idx;
- 	__u32 nfc_protocol;
- 	__u8 dsap; /* Destination SAP, if known */
- 	__u8 ssap; /* Source SAP to be bound to */
- 	char service_name[NFC_LLCP_MAX_SERVICE_NAME]; /* Service name URI */;
--	size_t service_name_len;
-+	__kernel_size_t service_name_len;
- };
- =
-
- /* NFC socket protocols */
--- =
-
-2.32.0
-
---===============8788328114147997521==--
+Sorry for confusing you.
+There is no dependency between neard and a NCI virtual device.
+But, To test the NCI module, it is necessary to make an application like ne=
+ard.
+Is it okay to just make a NCI virtual device as a tool at tools/nfc
+without the application?
+--===============6739919431707942853==--
 
