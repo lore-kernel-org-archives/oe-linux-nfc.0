@@ -1,122 +1,164 @@
-Content-Type: multipart/mixed; boundary="===============1891415581817140159=="
+Content-Type: multipart/mixed; boundary="===============2550341185037459122=="
 MIME-Version: 1.0
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] tag: Implement readout of tag UID via DBus interface
-Date: Tue, 16 Mar 2021 09:53:21 +0100
-Message-ID: <baa083e3-0f3c-6038-7b0b-f1c576d8f200@kontron.de>
-In-Reply-To: <20210312012140.GA316619@animalcreek.com>
+Subject: [PATCH v2] tag: Implement readout of tag UID via DBus interface
+Date: Tue, 16 Mar 2021 12:22:10 +0100
+Message-ID: <20210316112210.50100-1-frieder.schrempf@kontron.de>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1891415581817140159==
+--===============2550341185037459122==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-On 12.03.21 02:21, Mark Greer wrote:
-> On Thu, Mar 11, 2021 at 09:50:20AM +0100, Schrempf Frieder wrote:
->> From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> =
+NFC tags usually provide an unique identifier. Neard already checks
+if one of the two types of identifiers is available, reads them from
+tags and stores them in near_tag.nfcid or near_tag.iso15693_uid
+respectively.
 
-> Hi Frieder.
-> =
+Though currently it is not possible for any client application to get
+this information via the D-Bus interface as no property for the UID
+is implemented.
 
-> I am supposed to be taking over neard maintenance but I have been
-> completely derelict in my duties.  I need to refresh my brain's
-> cache and look at your patch in more detail.  In the meantime,
-> I have a few minor comments below.
+This adds a 'Uid' property to the D-Bus interface for tags, which
+exposes the UID of the tag as byte array. If nfcid is available this
+is returned as UID, otherwise if iso15693_uid is available this is
+returned. If no UID is available, no 'Uid' property is exposed.
 
-Good to hear that you are planning to take over maintainership. I was a =
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+---
+Changes in v2:
+* Add whitespaces after 'for' statements
+* Add more details to the commit message
+---
+ src/tag.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 54 insertions(+), 3 deletions(-)
 
-bit worried to see neard being abandoned.
+diff --git a/src/tag.c b/src/tag.c
+index 9eba4ee..d530893 100644
+--- a/src/tag.c
++++ b/src/tag.c
+@@ -53,6 +53,7 @@ struct near_tag {
+ 	uint8_t nfcid_len;
+ =
 
-I also recently found out that Qt has abandoned their support for neard =
+ 	uint8_t iso15693_dsfid;
++	uint8_t iso15693_uid_len;
+ 	uint8_t iso15693_uid[NFC_MAX_ISO15693_UID_LEN];
+ =
 
-in Qt 6 [1], which means that Qt 5.15 is the last version to offer =
+ 	size_t data_length;
+@@ -168,6 +169,29 @@ static const char *type_string(struct near_tag *tag)
+ 	return type;
+ }
+ =
 
-integration with neard.
++static const uint8_t uid_array(struct near_tag *tag, uint8_t **uid)
++{
++	if (tag->nfcid_len) {
++		DBG("NFCID: ");
++		for (int i =3D 0; i < tag->nfcid_len; i++)
++			DBG("%x", tag->nfcid[i]);
++
++		*uid =3D tag->nfcid;
++
++		return tag->nfcid_len;
++	} else if (tag->iso15693_uid_len) {
++		DBG("ISO-UID: ");
++		for (int i =3D 0; i < tag->iso15693_uid_len; i++)
++			DBG("%x", tag->iso15693_uid[i]);
++
++		*uid =3D tag->iso15693_uid;
++
++		return tag->iso15693_uid_len;
++	}
++
++	return 0;
++}
++
+ static const char *protocol_string(struct near_tag *tag)
+ {
+ 	const char *protocol;
+@@ -219,6 +243,30 @@ static gboolean property_get_type(const GDBusPropertyT=
+able *property,
+ 	return TRUE;
+ }
+ =
 
-I think that's very unfortunate as this provided a nice and mainline-ish =
++static gboolean property_get_uid(const GDBusPropertyTable *property,
++					DBusMessageIter *iter, void *user_data)
++{
++	struct near_tag *tag =3D user_data;
++	DBusMessageIter entry;
++	uint8_t *uid;
++	uint8_t len;
++
++	len =3D uid_array(tag, &uid);
++	if (!uid || !len)
++		return FALSE;
++
++	dbus_message_iter_open_container(iter, DBUS_TYPE_ARRAY,
++					 "{y}", &entry);
++
++	for (int i =3D 0; i < len; i++)
++		dbus_message_iter_append_basic(&entry, DBUS_TYPE_BYTE,
++					       (void *)&uid[i]);
++
++	dbus_message_iter_close_container(iter, &entry);
++
++	return TRUE;
++}
++
+ static gboolean property_get_protocol(const GDBusPropertyTable *property,
+ 					DBusMessageIter *iter, void *user_data)
+ {
+@@ -526,6 +574,7 @@ static const GDBusPropertyTable tag_properties[] =3D {
+ 	{ "Protocol", "s", property_get_protocol },
+ 	{ "ReadOnly", "b", property_get_readonly },
+ 	{ "Adapter", "o", property_get_adapter },
++	{ "Uid", "ay", property_get_uid },
+ =
 
-stack for NFC devices from the kernel up to the application layer. I =
+ 	{ }
+ };
+@@ -671,8 +720,10 @@ static int tag_initialize(struct near_tag *tag,
+ 	if (nfcid_len && nfcid_len <=3D NFC_MAX_NFCID1_LEN) {
+ 		tag->nfcid_len =3D nfcid_len;
+ 		memcpy(tag->nfcid, nfcid, nfcid_len);
+-	} else if (iso15693_uid_len) {
++	} else if (iso15693_uid_len &&
++		   iso15693_uid_len <=3D NFC_MAX_ISO15693_UID_LEN) {
+ 		tag->iso15693_dsfid =3D iso15693_dsfid;
++		tag->iso15693_uid_len =3D iso15693_uid_len;
+ 		memcpy(tag->iso15693_uid, iso15693_uid, iso15693_uid_len);
+ 	}
+ =
 
-don't know the reasons for this decision, but neard looking like it is =
+@@ -837,11 +888,11 @@ uint8_t *near_tag_get_iso15693_uid(uint32_t adapter_i=
+dx, uint32_t target_idx)
+ 	if (!tag)
+ 		goto fail;
+ =
 
-not maintained anymore is maybe one of them.
+-	iso15693_uid =3D g_try_malloc0(NFC_MAX_ISO15693_UID_LEN);
++	iso15693_uid =3D g_try_malloc0(tag->iso15693_uid_len);
+ 	if (!iso15693_uid)
+ 		goto fail;
+ =
 
-[1] https://bugreports.qt.io/browse/QTBUG-81824
+-	memcpy(iso15693_uid, tag->iso15693_uid, NFC_MAX_ISO15693_UID_LEN);
++	memcpy(iso15693_uid, tag->iso15693_uid, tag->iso15693_uid_len);
+ =
 
-> =
+ 	return iso15693_uid;
+ =
 
->>
->> This adds a 'Uid' property to the DBus interface for tags, which
->> returns the UID of the tag as byte array.
-> =
+-- =
 
-> Please add more high-level information to this commit description.
-> For example, what problem does it solve and how does it solve it?
-> Something that we can look back at in 5 years and be satisfied that
-> it solved a problem, that it solved the problem in reasonable way,
-> and that it was a change worth incorporating.
+2.25.1
 
-Ok, I will improve the description to provide more information about =
-
-what this does.
-
-> =
-
->> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
->> ---
->>   src/tag.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
->>   1 file changed, 54 insertions(+), 3 deletions(-)
->>
->> diff --git a/src/tag.c b/src/tag.c
->> index 9eba4ee..2039e48 100644
->> --- a/src/tag.c
->> +++ b/src/tag.c
->> @@ -53,6 +53,7 @@ struct near_tag {
->>   	uint8_t nfcid_len;
->>   =
-
->>   	uint8_t iso15693_dsfid;
->> +	uint8_t iso15693_uid_len;
->>   	uint8_t iso15693_uid[NFC_MAX_ISO15693_UID_LEN];
->>   =
-
->>   	size_t data_length;
->> @@ -168,6 +169,29 @@ static const char *type_string(struct near_tag *tag)
->>   	return type;
->>   }
->>   =
-
->> +static const uint8_t uid_array(struct near_tag *tag, uint8_t **uid)
->> +{
->> +	if (tag->nfcid_len) {
->> +		DBG("NFCID: ");
->> +		for(int i =3D 0; i < tag->nfcid_len; i++)
->                    ^^
-> nit: Please put a space between the 'for' and the "('.
-
-Sure
-
-> =
-
->> +			DBG("%x", tag->nfcid[i]);
->> +
->> +		*uid =3D tag->nfcid;
->> +
->> +		return tag->nfcid_len;
->> +	} else if (tag->iso15693_uid_len) {
->> +		DBG("ISO-UID: ");
->> +		for(int i =3D 0; i < tag->iso15693_uid_len; i++)
->                    ^^
-> nit: Please put a space between the 'for' and the "('.
-
-Sure
-
-Thanks
-Frieder
---===============1891415581817140159==--
+--===============2550341185037459122==--
 
