@@ -1,46 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============7684874399261414782=="
+Content-Type: multipart/mixed; boundary="===============5505038236962124957=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] nxp-nci: add NXP1002 id
-Date: Wed, 12 May 2021 09:56:08 -0400
-Message-ID: <154ad073-f5c8-0d76-7dcd-220623cca865@canonical.com>
-In-Reply-To: <20210512135451.32375-1-oneukum@suse.com>
+Subject: [PATCH] MAINTAINERS: nfc: drop Clément Perrochaud from NXP-NCI
+Date: Wed, 12 May 2021 10:00:46 -0400
+Message-ID: <20210512140046.25350-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7684874399261414782==
+--===============5505038236962124957==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 12/05/2021 09:54, Oliver Neukum wrote:
-> The driver also works with those new devices.
-> =
+Emails to Cl=C3=A9ment Perrochaud bounce with permanent error "user does not
+exist", so remove Cl=C3=A9ment Perrochaud from NXP-NCI driver maintainers
+entry.
 
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> ---
->  drivers/nfc/nxp-nci/i2c.c | 1 +
->  1 file changed, 1 insertion(+)
-> =
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-> index 7e451c10985d..94f7f6d9cbad 100644
-> --- a/drivers/nfc/nxp-nci/i2c.c
-> +++ b/drivers/nfc/nxp-nci/i2c.c
-> @@ -332,6 +332,7 @@ MODULE_DEVICE_TABLE(of, of_nxp_nci_i2c_match);
->  #ifdef CONFIG_ACPI
->  static const struct acpi_device_id acpi_id[] =3D {
->  	{ "NXP1001" },
-> +	{ "NXP1002" },
->  	{ "NXP7471" },
->  	{ }
->  };
-> =
+diff --git a/MAINTAINERS b/MAINTAINERS
+index efeaebe1bcae..cc81667e8bab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13208,7 +13208,6 @@ F:	Documentation/devicetree/bindings/sound/tfa9879.=
+txt
+ F:	sound/soc/codecs/tfa9879*
+ =
 
+ NXP-NCI NFC DRIVER
+-M:	Cl=C3=A9ment Perrochaud <clement.perrochaud@effinnov.com>
+ R:	Charles Gorand <charles.gorand@effinnov.com>
+ L:	linux-nfc(a)lists.01.org (moderated for non-subscribers)
+ S:	Supported
+-- =
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+2.25.1
 
-Best regards,
-Krzysztof
---===============7684874399261414782==--
+--===============5505038236962124957==--
 
