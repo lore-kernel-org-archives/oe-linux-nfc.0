@@ -1,47 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============7118327366692409324=="
+Content-Type: multipart/mixed; boundary="===============2983497332598568312=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 8/8] arm64: dts: exynos: Use newer S3FWRN5 GPIO properties in Exynos5433 TM2
-Date: Thu, 10 Sep 2020 18:12:19 +0200
-Message-ID: <20200910161219.6237-9-krzk@kernel.org>
-In-Reply-To: <20200910161219.6237-1-krzk@kernel.org>
+Subject: [PATCH 1/2] MAINTAINERS: nfc: add Krzysztof Kozlowski as maintainer
+Date: Wed, 12 May 2021 10:43:18 -0400
+Message-ID: <20210512144319.30852-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7118327366692409324==
+--===============2983497332598568312==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Since "s3fwrn5" is not a valid vendor prefix, use new GPIO properties
-instead of the deprecated.
+The NFC subsystem is orphaned.  I am happy to spend some cycles to
+review the patches, send pull requests and in general keep the NFC
+subsystem running.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
 ---
- arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi b/arch/a=
-rm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-index 250fc01de78d..24aab3ea3f52 100644
---- a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-+++ b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-@@ -795,8 +795,8 @@
- 		reg =3D <0x27>;
- 		interrupt-parent =3D <&gpa1>;
- 		interrupts =3D <3 IRQ_TYPE_LEVEL_HIGH>;
--		s3fwrn5,en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
--		s3fwrn5,fw-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
-+		en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
-+		wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
- 	};
- };
+I admit I don't have big experience in NFC part but this will be nice
+opportunity to learn something new.  I am already maintainer of few
+other parts: memory controller drivers, Samsung ARM/ARM64 SoC and some
+drviers.  I have a kernel.org account and my GPG key is:
+https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git/tree/keys/1B93437D3B=
+41629B.asc
+
+Best regards,
+Krzysztof
+---
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc81667e8bab..adc6cbe29f78 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12899,8 +12899,9 @@ F:	include/uapi/linux/nexthop.h
+ F:	net/ipv4/nexthop.c
  =
 
+ NFC SUBSYSTEM
++M:	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+ L:	netdev(a)vger.kernel.org
+-S:	Orphan
++S:	Maintained
+ F:	Documentation/devicetree/bindings/net/nfc/
+ F:	drivers/nfc/
+ F:	include/linux/platform_data/nfcmrvl.h
 -- =
 
-2.17.1
+2.25.1
 
---===============7118327366692409324==--
+--===============2983497332598568312==--
 
