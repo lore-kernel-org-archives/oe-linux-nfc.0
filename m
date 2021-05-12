@@ -1,102 +1,122 @@
-Content-Type: multipart/mixed; boundary="===============5590558457105992950=="
+Content-Type: multipart/mixed; boundary="===============0986497426487723435=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzk@kernel.org>
+From: Oliver Neukum <oneukum@suse.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 2/8] dt-bindings: net: nfc: s3fwrn5: Remove wrong vendor prefix from GPIOs
-Date: Thu, 10 Sep 2020 18:12:13 +0200
-Message-ID: <20200910161219.6237-3-krzk@kernel.org>
-In-Reply-To: <20200910161219.6237-1-krzk@kernel.org>
+Subject: [PATCH] NFC: cooperation with runtime PM
+Date: Wed, 12 May 2021 15:44:13 +0200
+Message-ID: <20210512134413.31808-1-oneukum@suse.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5590558457105992950==
+--===============0986497426487723435==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The device tree property prefix describes the vendor, which in case of
-S3FWRN5 chip is Samsung.  Therefore the "s3fwrn5" prefix for "en-gpios"
-and "fw-gpios" is not correct and should be deprecated.  Introduce
-properly named properties for these GPIOs and rename the fw-gpios" to
-"wake-gpios" to better describe its purpose.
+We cannot rely on the underlying hardware to do correct
+runtime PM. NFC core needs to get PM reference while
+a device is operational, lest it be suspended when
+it is supposed to be waiting for a target to come
+into range.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- .../bindings/net/nfc/samsung,s3fwrn5.yaml     | 24 ++++++++++++++-----
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ net/nfc/core.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml=
- b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-index f43d31a2d94b..cb0b8a560282 100644
---- a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-+++ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-@@ -14,30 +14,42 @@ properties:
-   compatible:
-     const: samsung,s3fwrn5-i2c
+diff --git a/net/nfc/core.c b/net/nfc/core.c
+index 573c80c6ff7a..5ca4597c39c7 100644
+--- a/net/nfc/core.c
++++ b/net/nfc/core.c
+@@ -15,6 +15,7 @@
+ #include <linux/slab.h>
+ #include <linux/rfkill.h>
+ #include <linux/nfc.h>
++#include <linux/pm_runtime.h>
  =
 
-+  en-gpios:
-+    maxItems: 1
-+    description:
-+      Output GPIO pin used for enabling/disabling the chip
+ #include <net/genetlink.h>
+ =
+
+@@ -37,6 +38,7 @@ int nfc_fw_download(struct nfc_dev *dev, const char *firm=
+ware_name)
+ 	pr_debug("%s do firmware %s\n", dev_name(&dev->dev), firmware_name);
+ =
+
+ 	device_lock(&dev->dev);
++	pm_runtime_get_sync(&dev->dev);
+ =
+
+ 	if (!device_is_registered(&dev->dev)) {
+ 		rc =3D -ENODEV;
+@@ -58,7 +60,10 @@ int nfc_fw_download(struct nfc_dev *dev, const char *fir=
+mware_name)
+ 	if (rc)
+ 		dev->fw_download_in_progress =3D false;
+ =
+
++	device_unlock(&dev->dev);
++	return rc;
+ error:
++	pm_runtime_put(&dev->dev);
+ 	device_unlock(&dev->dev);
+ 	return rc;
+ }
+@@ -73,9 +78,13 @@ int nfc_fw_download(struct nfc_dev *dev, const char *fir=
+mware_name)
+ int nfc_fw_download_done(struct nfc_dev *dev, const char *firmware_name,
+ 			 u32 result)
+ {
++	int rv;
 +
-   interrupts:
-     maxItems: 1
+ 	dev->fw_download_in_progress =3D false;
  =
 
-   reg:
-     maxItems: 1
+-	return nfc_genl_fw_download_done(dev, firmware_name, result);
++	rv =3D nfc_genl_fw_download_done(dev, firmware_name, result);
++	pm_runtime_put(&dev->dev);
++	return rv;
+ }
+ EXPORT_SYMBOL(nfc_fw_download_done);
  =
 
-+  wake-gpios:
-+    maxItems: 1
-+    description:
-+      Output GPIO pin used to enter firmware mode and sleep/wakeup control
+@@ -93,6 +102,7 @@ int nfc_dev_up(struct nfc_dev *dev)
+ 	pr_debug("dev_name=3D%s\n", dev_name(&dev->dev));
+ =
+
+ 	device_lock(&dev->dev);
++	pm_runtime_get_sync(&dev->dev);
+ =
+
+ 	if (dev->rfkill && rfkill_blocked(dev->rfkill)) {
+ 		rc =3D -ERFKILL;
+@@ -124,7 +134,11 @@ int nfc_dev_up(struct nfc_dev *dev)
+ 	if (dev->ops->discover_se && dev->ops->discover_se(dev))
+ 		pr_err("SE discovery failed\n");
+ =
+
++	device_unlock(&dev->dev);
++	return rc;
 +
-   s3fwrn5,en-gpios:
-     maxItems: 1
-+    deprecated: true
-     description:
--      Output GPIO pin used for enabling/disabling the chip
-+      Use en-gpios
+ error:
++	pm_runtime_put(&dev->dev);
+ 	device_unlock(&dev->dev);
+ 	return rc;
+ }
+@@ -161,6 +175,9 @@ int nfc_dev_down(struct nfc_dev *dev)
+ 		dev->ops->dev_down(dev);
  =
 
-   s3fwrn5,fw-gpios:
-     maxItems: 1
-+    deprecated: true
-     description:
--      Output GPIO pin used to enter firmware mode and sleep/wakeup control
-+      Use wake-gpios
+ 	dev->dev_up =3D false;
++	pm_runtime_put(&dev->dev);
++	device_unlock(&dev->dev);
++	return rc;
  =
 
- additionalProperties: false
- =
-
- required:
-   - compatible
-+  - en-gpios
-   - interrupts
-   - reg
--  - s3fwrn5,en-gpios
--  - s3fwrn5,fw-gpios
-+  - wake-gpios
- =
-
- examples:
-   - |
-@@ -55,7 +67,7 @@ examples:
-             interrupt-parent =3D <&gpa1>;
-             interrupts =3D <3 IRQ_TYPE_LEVEL_HIGH>;
- =
-
--            s3fwrn5,en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
--            s3fwrn5,fw-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
-+            en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
-+            wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
-         };
-     };
+ error:
+ 	device_unlock(&dev->dev);
 -- =
 
-2.17.1
+2.26.2
 
---===============5590558457105992950==--
+--===============0986497426487723435==--
 
