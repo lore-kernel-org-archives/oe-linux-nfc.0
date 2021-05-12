@@ -1,33 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============4150721793952359975=="
+Content-Type: multipart/mixed; boundary="===============7684874399261414782=="
 MIME-Version: 1.0
-From: Oliver Neukum <oneukum@suse.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] NFC: cooperation with runtime PM
-Date: Wed, 12 May 2021 15:56:04 +0200
-Message-ID: <a5eda19c63b1aef7141f2814109eb969020ca650.camel@suse.com>
-In-Reply-To: <20210512134413.31808-1-oneukum@suse.com>
+Subject: Re: [PATCH] nxp-nci: add NXP1002 id
+Date: Wed, 12 May 2021 09:56:08 -0400
+Message-ID: <154ad073-f5c8-0d76-7dcd-220623cca865@canonical.com>
+In-Reply-To: <20210512135451.32375-1-oneukum@suse.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4150721793952359975==
+--===============7684874399261414782==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Am Mittwoch, den 12.05.2021, 15:44 +0200 schrieb Oliver Neukum:
-> We cannot rely on the underlying hardware to do correct
-> runtime PM. NFC core needs to get PM reference while
-> a device is operational, lest it be suspended when
-> it is supposed to be waiting for a target to come
-> into range.
+On 12/05/2021 09:54, Oliver Neukum wrote:
+> The driver also works with those new devices.
+> =
+
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>  drivers/nfc/nxp-nci/i2c.c | 1 +
+>  1 file changed, 1 insertion(+)
+> =
+
+> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
+> index 7e451c10985d..94f7f6d9cbad 100644
+> --- a/drivers/nfc/nxp-nci/i2c.c
+> +++ b/drivers/nfc/nxp-nci/i2c.c
+> @@ -332,6 +332,7 @@ MODULE_DEVICE_TABLE(of, of_nxp_nci_i2c_match);
+>  #ifdef CONFIG_ACPI
+>  static const struct acpi_device_id acpi_id[] =3D {
+>  	{ "NXP1001" },
+> +	{ "NXP1002" },
+>  	{ "NXP7471" },
+>  	{ }
+>  };
 > =
 
 
-Sorry for sending this out with an uncompleted change log.
-It went out unintentionally early.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
-	Regards
-		Oliver
-
-
---===============4150721793952359975==--
+Best regards,
+Krzysztof
+--===============7684874399261414782==--
 
