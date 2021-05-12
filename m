@@ -1,43 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============5505038236962124957=="
+Content-Type: multipart/mixed; boundary="===============7029025851487436410=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Oliver Neukum <oneukum@suse.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH] MAINTAINERS: nfc: drop Clément Perrochaud from NXP-NCI
-Date: Wed, 12 May 2021 10:00:46 -0400
-Message-ID: <20210512140046.25350-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH] NFC: cooperation with runtime PM
+Date: Wed, 12 May 2021 16:15:55 +0200
+Message-ID: <2e1bb24b989e7ee56dcec3302a80d9e8f7d2db94.camel@suse.com>
+In-Reply-To: <0a8ca4c7-ce55-3c92-cc29-b383e546d563@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5505038236962124957==
+--===============7029025851487436410==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Emails to Cl=C3=A9ment Perrochaud bounce with permanent error "user does not
-exist", so remove Cl=C3=A9ment Perrochaud from NXP-NCI driver maintainers
-entry.
+Am Mittwoch, den 12.05.2021, 09:54 -0400 schrieb Krzysztof Kozlowski:
+> Hi,
+> =
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+> Thanks for the patch. Few notes:
+> =
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index efeaebe1bcae..cc81667e8bab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13208,7 +13208,6 @@ F:	Documentation/devicetree/bindings/sound/tfa9879.=
-txt
- F:	sound/soc/codecs/tfa9879*
- =
 
- NXP-NCI NFC DRIVER
--M:	Cl=C3=A9ment Perrochaud <clement.perrochaud@effinnov.com>
- R:	Charles Gorand <charles.gorand@effinnov.com>
- L:	linux-nfc(a)lists.01.org (moderated for non-subscribers)
- S:	Supported
--- =
+Hi,
 
-2.25.1
+thank you excellent suggestion. V2 is compiling and will
+be tested incorporating your suggestions.
 
---===============5505038236962124957==--
+	Regards
+		Oliver
+
+
+--===============7029025851487436410==--
 
