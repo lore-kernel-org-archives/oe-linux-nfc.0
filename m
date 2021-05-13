@@ -1,55 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============4763723572225962081=="
+Content-Type: multipart/mixed; boundary="===============1974987224161881884=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Mark Greer <mgreer@animalcreek.com>
 To: linux-nfc@lists.01.org
 Subject: Re: [PATCH 1/2] MAINTAINERS: nfc: add Krzysztof Kozlowski as maintainer
-Date: Wed, 12 May 2021 17:31:02 -0400
-Message-ID: <c23ad421-2d8a-16c7-9297-e0df04062a8e@canonical.com>
-In-Reply-To: <162085441038.10928.7471974213298679002.git-patchwork-notify@kernel.org>
+Date: Wed, 12 May 2021 18:35:38 -0700
+Message-ID: <20210513013538.GA239989@animalcreek.com>
+In-Reply-To: <cd7a0110-702a-6e14-527e-fb4b53705870@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4763723572225962081==
+--===============1974987224161881884==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 12/05/2021 17:20, patchwork-bot+netdevbpf(a)kernel.org wrote:
-> Hello:
+On Wed, May 12, 2021 at 04:21:25PM -0400, Krzysztof Kozlowski wrote:
+> On 12/05/2021 13:01, Mark Greer wrote:
+
+> > Re: QT - I've already talked to Alex Blasche from QT (CC'd).  With some
+> > work we can get Linux NFC/neard back into their good graces.  I/we need
+> > to find time to put in the work, though.
+> > =
+
+> > An example of the issues they have seen is:
+> > =
+
+> > 	https://bugreports.qt.io/browse/QTBUG-43802
+> > =
+
+> > Another issue I have--and I suspect you, Krzysztof, have as well--is
+> > lack of hardware.  If anyone reading this wants to volunteer to be a
+> > tester, please speak up.
 > =
 
-> This series was applied to netdev/net.git (refs/heads/master):
-> =
+> Yes, testing would be very appreciated. I don't know how many unit tests
+> neard has, but maybe some mockups with unit testing would solve some of
+> problems?
 
-> On Wed, 12 May 2021 10:43:18 -0400 you wrote:
->> The NFC subsystem is orphaned.  I am happy to spend some cycles to
->> review the patches, send pull requests and in general keep the NFC
->> subsystem running.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->>
->>
->> [...]
-> =
+I'm not sure what you mean by this.  Do you mean creating some tests that
+sit directly on top of the kernel and test the kernel parts (e.g., use
+netlink)?  If so, that would be useful but you may end up implementing
+some of the NFC stack.  If you mean more/better tests that use neard to
+exercise the whole stack then that would be really good too.
 
-> Here is the summary with links:
->   - [1/2] MAINTAINERS: nfc: add Krzysztof Kozlowski as maintainer
->     https://git.kernel.org/netdev/net/c/8aa5713d8b2c
->   - [2/2] MAINTAINERS: nfc: include linux-nfc mailing list
->     https://git.kernel.org/netdev/net/c/4a64541f2ceb
+Speaking of NFC stack, the NFC forum has their specs paywalled which is
+a real bummer/pain.  I can try reaching out to them to see if they will
+help us help their mission but I'm not hopeful.
 
+FYI, most of the issues that I ran into and know still exist are
+timing/race issues in neard.  I'm sure if we tested more, we could find
+some in the kernel though.
 
-Hi David and Jakub,
-
-Thanks for taking the patches above. Can you share your view (or point
-me to the docs) about maintenance process you would like to have?
-
-For example:
-1. Do you expect pull requests or only reviews?
-2. Shall I update anything on patchwork (or pwbot will take care about
-it entirely)?
-https://patchwork.kernel.org/project/netdevbpf/list/
-
-Best regards,
-Krzysztof
---===============4763723572225962081==--
+Mark
+--
+--===============1974987224161881884==--
 
