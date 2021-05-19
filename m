@@ -1,58 +1,121 @@
-Content-Type: multipart/mixed; boundary="===============8512175648759689833=="
+Content-Type: multipart/mixed; boundary="===============5023842805024311238=="
 MIME-Version: 1.0
-From: Stephan Gerhold <stephan@gerhold.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 1/2] dt-bindings: net: nfc: s3fwrn5: Add optional clock
-Date: Wed, 19 May 2021 11:16:12 +0200
-Message-ID: <20210519091613.7343-1-stephan@gerhold.net>
+Subject: Re: [PATCH 2/2] nfc: s3fwrn5: i2c: Enable optional clock from device tree
+Date: Wed, 19 May 2021 11:58:38 -0400
+Message-ID: <10b3a50e-877c-d5b1-3e35-e5dff4ef53d8@canonical.com>
+In-Reply-To: <YKTHXzUhcYa5YJIs@gerhold.net>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8512175648759689833==
+--===============5023842805024311238==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On some systems, S3FWRN5 depends on having an external clock enabled
-to function correctly. Allow declaring that clock in the device tree.
+On 19/05/2021 04:07, Stephan Gerhold wrote:
+> On Tue, May 18, 2021 at 11:25:55AM -0400, Krzysztof Kozlowski wrote:
+>> On 18/05/2021 11:00, Stephan Gerhold wrote:
+>>> On Tue, May 18, 2021 at 10:30:43AM -0400, Krzysztof Kozlowski wrote:
+>>>> On 18/05/2021 09:39, Stephan Gerhold wrote:
+>>>>> s3fwrn5 has a NFC_CLK_REQ output GPIO, which is asserted whenever
+>>>>> the clock is needed for the current operation. This GPIO can be either
+>>>>> connected directly to the clock provider, or must be monitored by
+>>>>> this driver.
+>>>>>
+>>>>> As an example for the first case, on many Qualcomm devices the
+>>>>> NFC clock is provided by the main PMIC. The clock can be either
+>>>>> permanently enabled (clocks =3D <&rpmcc RPM_SMD_BB_CLK2>) or enabled
+>>>>> only when requested through a special input pin on the PMIC
+>>>>> (clocks =3D <&rpmcc RPM_SMD_BB_CLK2_PIN>).
+>>>>>
+>>>>> On the Samsung Galaxy A3/A5 (2015, Qualcomm MSM8916) this mechanism
+>>>>> is used with S3FWRN5's NFC_CLK_REQ output GPIO to enable the clock
+>>>>> only when necessary. However, to make that work the s3fwrn5 driver
+>>>>> must keep the RPM_SMD_BB_CLK2_PIN clock enabled.
+>>>>
+>>>> This contradicts the code. You wrote that pin should be kept enabled
+>>>> (somehow... by driver? by it's firmware?) but your code requests the
+>>>> clock from provider.
+>>>>
+>>>
+>>> Yeah, I see how that's a bit confusing. Let me try to explain it a bit
+>>> better. So the Samsung Galaxy A5 (2015) has a "S3FWRN5XS1-YF30", some
+>>> variant of S3FWRN5 I guess. That S3FWRN5 has a "XI" and "XO" pin in the
+>>> schematics. "XO" seems to be floating, but "XI" goes to "BB_CLK2"
+>>> on PM8916 (the main PMIC).
+>>>
+>>> Then, there is "GPIO2/NFC_CLK_REQ" on the S3FWRN5. This goes to
+>>> GPIO_2_NFC_CLK_REQ on PM8916. (Note: I'm talking about two different
+>>> GPIO2 here, one on S3FWRN5 and one on PM8916, they just happen to have
+>>> the same number...)
+>>>
+>>> So in other words, S3FWRN5 gets some clock from BB_CLK2 on PM8916,
+>>> and can tell PM8916 that it needs the clock via GPIO2/NFC_CLK_REQ.
+>>>
+>>> Now the confusing part is that the rpmcc/clk-smd-rpm driver has two
+>>> clocks that represent BB_CLK2 (see include/dt-bindings/clock/qcom,rpmcc=
+.h):
+>>>
+>>>   - RPM_SMD_BB_CLK2
+>>>   - RPM_SMD_BB_CLK2_PIN
+>>>
+>>> (There are also *_CLK2_A variants but they are even more confusing
+>>>  and not needed here...)
+>>>
+>>> Those end up in different register settings in PM8916. There is one bit
+>>> to permanently enable BB_CLK2 (=3D RPM_SMD_BB_CLK2), and one bit to ena=
+ble
+>>> BB_CLK2 based on the status of GPIO_2_NFC_CLK_REQ on PM8916
+>>> (=3D RPM_SMD_BB_CLK2_PIN).
+>>>
+>>> So there is indeed some kind of "AND" inside PM8916 (the register bit
+>>> and "NFC_CLK_REQ" input pin). To make that "AND" work I need to make
+>>> some driver (here: the s3fwrn5 driver) enable the clock so the register
+>>> bit in PM8916 gets set.
+>>
+>> Thanks for the explanation, it sounds good. The GPIO2 (or how you call
+>> it NFC_CLK_REQ) on S3FWRN5 looks like non-configurable from Linux point
+>> of view. Probably the device firmware plays with it always or at least
+>> handles it in an unknown way for us.
+>>
+> =
 
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
----
-Changes in v2: Minor change in commit message only
-v1: https://lore.kernel.org/netdev/20210518133935.571298-1-stephan(a)gerhol=
-d.net/
----
- .../devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml         | 5 +++++
- 1 file changed, 5 insertions(+)
+> FWIW, I was looking at some more s3fwrn5 code yesterday and came
+> across this (in s3fwrn5_nci_rf_configure()):
+> =
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml=
- b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-index 477066e2b821..081742c2b726 100644
---- a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-+++ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
-@@ -27,6 +27,9 @@ properties:
-   reg:
-     maxItems: 1
- =
+> 	/* Set default clock configuration for external crystal */
+> 	fw_cfg.clk_type =3D 0x01;
+> 	fw_cfg.clk_speed =3D 0xff;
+> 	fw_cfg.clk_req =3D 0xff;
+> 	ret =3D nci_prop_cmd(info->ndev, NCI_PROP_FW_CFG,
+> 		sizeof(fw_cfg), (__u8 *)&fw_cfg);
+> 	if (ret < 0)
+> 		goto out;
+> =
 
-+  clocks:
-+    maxItems: 1
-+
-   wake-gpios:
-     maxItems: 1
-     description:
-@@ -80,6 +83,8 @@ examples:
- =
+> It does look quite suspiciously like that configures how s3fwrn5 expects
+> the clock and possibly (fw_cfg.clk_req?) how GPIO2 behaves. But it's not
+> particularly useful without some documentation for the magic numbers.
 
-             en-gpios =3D <&gpf1 4 GPIO_ACTIVE_HIGH>;
-             wake-gpios =3D <&gpj0 2 GPIO_ACTIVE_HIGH>;
-+
-+            clocks =3D <&rpmcc 20>;
-         };
-     };
-   # UART example on Raspberry Pi
--- =
+Right, without documentation of FW protocol there is not much we can
+deduct here. There is no proof even that the comment matches actual code.
 
-2.31.1
+Dear Bongsu,
+Maybe you could share some details about clock selection?
 
---===============8512175648759689833==--
+> =
+
+> Personally, I just skip all firmware/RF configuration (which works thanks
+> to commit 4fb7b98c7be3 ("nfc: s3fwrn5: skip the NFC bootloader mode")).
+> That way, S3FWRN5 just continues using the proper configuration
+> that was loaded by the vendor drivers at some point. :)
+
+But isn't that configuration lost after power off?
+
+
+Best regards,
+Krzysztof
+--===============5023842805024311238==--
 
