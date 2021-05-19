@@ -1,25 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============5936034711185905889=="
+Content-Type: multipart/mixed; boundary="===============6692643348261539876=="
 MIME-Version: 1.0
 From: Stephan Gerhold <stephan@gerhold.net>
 To: linux-nfc@lists.01.org
 Subject: Re: [PATCH 2/2] nfc: s3fwrn5: i2c: Enable optional clock from device tree
-Date: Tue, 18 May 2021 17:37:43 +0200
-Message-ID: <YKPfRxlA0L2zgkq5@gerhold.net>
+Date: Wed, 19 May 2021 10:07:59 +0200
+Message-ID: <YKTHXzUhcYa5YJIs@gerhold.net>
 In-Reply-To: <8b14159f-dca9-a213-031f-83ab2b3840a4@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5936034711185905889==
+--===============6692643348261539876==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
 On Tue, May 18, 2021 at 11:25:55AM -0400, Krzysztof Kozlowski wrote:
 > On 18/05/2021 11:00, Stephan Gerhold wrote:
-> > Hi,
-> > =
-
 > > On Tue, May 18, 2021 at 10:30:43AM -0400, Krzysztof Kozlowski wrote:
 > >> On 18/05/2021 09:39, Stephan Gerhold wrote:
 > >>> s3fwrn5 has a NFC_CLK_REQ output GPIO, which is asserted whenever
@@ -93,46 +88,28 @@ ble
 > handles it in an unknown way for us.
 > =
 
-> In such case there is no point to do anything more with the provided
-> clock than what you are doing - enable it when device is on, disable
-> when off.
-> =
 
-> I think it is enough to rephrase the msg:
-> 1. Add at beginning that device has one clock input (XI pin). The clock
-> input was so far ignored (assumed to be routed to some always-on
-> oscillator).
-> 2. The device should enable the clock when running.
-> 3. Add all of your paragraph about detailed logic on GPIO.
-> =
+FWIW, I was looking at some more s3fwrn5 code yesterday and came
+across this (in s3fwrn5_nci_rf_configure()):
 
-> Since the GPIO is non-controllable, it actually does not matter that
-> much for the driver, so you can add it for relevance, but not as main
-> point of the patch.
-> =
+	/* Set default clock configuration for external crystal */
+	fw_cfg.clk_type =3D 0x01;
+	fw_cfg.clk_speed =3D 0xff;
+	fw_cfg.clk_req =3D 0xff;
+	ret =3D nci_prop_cmd(info->ndev, NCI_PROP_FW_CFG,
+		sizeof(fw_cfg), (__u8 *)&fw_cfg);
+	if (ret < 0)
+		goto out;
 
+It does look quite suspiciously like that configures how s3fwrn5 expects
+the clock and possibly (fw_cfg.clk_req?) how GPIO2 behaves. But it's not
+particularly useful without some documentation for the magic numbers.
 
-The GPIO does not matter for the driver in my case (and requesting it
-from the s3fwrn5 driver would likely break my special pinctrl setup
-that muxes it to the "AND" in PM8916).
+Personally, I just skip all firmware/RF configuration (which works thanks
+to commit 4fb7b98c7be3 ("nfc: s3fwrn5: skip the NFC bootloader mode")).
+That way, S3FWRN5 just continues using the proper configuration
+that was loaded by the vendor drivers@some point. :)
 
-However, I did see some alternative code in the vendor NFC driver where
-they request it, set up an interrupt for it and then do the
-"clk_prepare_enable()" when it's asserted and clk_disable_unprepare()
-when de-asserted.
-
-I guess there are like 3 typical setups for the clock:
-
-  1. Always-on oscillator
-  2. GPIO2 magically handled by clock provider (my case)
-  3. GPIO2 connected to SoC, driver must monitor it
-
-We might need 3. at some point, but I don't think it makes sense to add
-it until someone actually needs it (and can test it).
-
-I will try to reword the message a bit and send a v2 tomorrow or so.
-
-Thanks!
 Stephan
---===============5936034711185905889==--
+--===============6692643348261539876==--
 
