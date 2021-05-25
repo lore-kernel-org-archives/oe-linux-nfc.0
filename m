@@ -1,36 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============6285098690354950399=="
+Content-Type: multipart/mixed; boundary="===============8588061596674950635=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] NFC: st95hf: remove unnecessary assignment and label
-Date: Tue, 25 May 2021 07:38:12 -0400
-Message-ID: <3fe26970-91ab-d598-92ff-e13d8d707d47@canonical.com>
-In-Reply-To: <20210525063801.11840-1-samirweng1979@163.com>
+Subject: Re: [PATCH] nfc: st-nci: remove unnecessary labels
+Date: Tue, 25 May 2021 07:42:30 -0400
+Message-ID: <93e67699-a0c4-7fe7-6c38-aeff68a3881f@canonical.com>
+In-Reply-To: <20210525031254.12196-1-samirweng1979@163.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6285098690354950399==
+--===============8588061596674950635==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 25/05/2021 02:38, samirweng1979 wrote:
+On 24/05/2021 23:12, samirweng1979 wrote:
 > From: wengjianfeng <wengjianfeng@yulong.com>
 > =
 
-> In function st95hf_in_send_cmd, the variable rc is assigned then goto
-> error label, which just return rc, so we use return to replace it. and
+> In some functions, use goto exit statement, which just return r.
 
-s/return/returns/
-s/. and/. Since/ (don't start sentences with "and", neither with
-lowercase letter).
+This is not parseable. Imperative "use goto" suggest that it's the
+change you make.
 
-> error label only used once in the function, so we remove error label.
+> and exit label only used once in each funciton, so we use return
 
-With these fixes and subject prefix fix to "nfc" (lowercase):
+Every sentence in English starts with capital letter. They however
+cannto start with "and" because it joins two parts of sentences.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+s/funciton/use the spellcheck please/
+
+The code looks good, but please spend some time to make the description
+understandable. You can also make it very short, to avoid complicated
+sentences. Look for examples in Linux kernel how other people wrote it.
+
 
 Best regards,
 Krzysztof
---===============6285098690354950399==--
+--===============8588061596674950635==--
 
