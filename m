@@ -1,40 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============8588061596674950635=="
+Content-Type: multipart/mixed; boundary="===============3870036177660112247=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] nfc: st-nci: remove unnecessary labels
-Date: Tue, 25 May 2021 07:42:30 -0400
-Message-ID: <93e67699-a0c4-7fe7-6c38-aeff68a3881f@canonical.com>
-In-Reply-To: <20210525031254.12196-1-samirweng1979@163.com>
+Subject: Re: [PATCH v2] nfc: st95hf: remove unnecessary assignment and label
+Date: Wed, 26 May 2021 09:56:00 -0400
+Message-ID: <1aecd37b-88e8-e00d-d0b1-2fd989514c19@canonical.com>
+In-Reply-To: <20210526005651.12652-1-samirweng1979@163.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8588061596674950635==
+--===============3870036177660112247==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 24/05/2021 23:12, samirweng1979 wrote:
+On 25/05/2021 20:56, samirweng1979 wrote:
 > From: wengjianfeng <wengjianfeng@yulong.com>
 > =
 
-> In some functions, use goto exit statement, which just return r.
+> In function st95hf_in_send_cmd, the variable rc is assigned then goto
+> error label, which just returns rc, so we use return to replace it.
+> Since error label only used once in the function, so we remove error labe=
+l.
+> =
 
-This is not parseable. Imperative "use goto" suggest that it's the
-change you make.
+> Signed-off-by: wengjianfeng <wengjianfeng@yulong.com>
+> ---
+>  drivers/nfc/st95hf/core.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> =
 
-> and exit label only used once in each funciton, so we use return
 
-Every sentence in English starts with capital letter. They however
-cannto start with "and" because it joins two parts of sentences.
-
-s/funciton/use the spellcheck please/
-
-The code looks good, but please spend some time to make the description
-understandable. You can also make it very short, to avoid complicated
-sentences. Look for examples in Linux kernel how other people wrote it.
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
 Best regards,
 Krzysztof
---===============8588061596674950635==--
+--===============3870036177660112247==--
 
