@@ -1,269 +1,165 @@
-Content-Type: multipart/mixed; boundary="===============7616676529920677027=="
+Content-Type: multipart/mixed; boundary="===============8738905066441703592=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 03/11] nfc: mrvl: use SPDX-License-Identifier
-Date: Fri, 28 May 2021 10:53:22 -0400
-Message-ID: <20210528145330.125055-3-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 04/11] nfc: mrvl: correct minor coding style violations
+Date: Fri, 28 May 2021 10:55:27 -0400
+Message-ID: <20210528145534.125460-1-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210528145330.125055-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7616676529920677027==
+--===============8738905066441703592==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Use SPDX-License-Identifier: GPL-2.0-only, instead of hand writing it.
+Correct block comments and usage of tab in function definition.  No
+functional change.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/nfcmrvl/fw_dnld.c | 13 +------------
- drivers/nfc/nfcmrvl/fw_dnld.h | 15 ++-------------
- drivers/nfc/nfcmrvl/i2c.c     | 15 ++-------------
- drivers/nfc/nfcmrvl/main.c    | 13 +------------
- drivers/nfc/nfcmrvl/nfcmrvl.h | 15 ++-------------
- drivers/nfc/nfcmrvl/spi.c     | 15 ++-------------
- drivers/nfc/nfcmrvl/uart.c    | 13 +------------
- drivers/nfc/nfcmrvl/usb.c     | 15 ++-------------
- 8 files changed, 13 insertions(+), 101 deletions(-)
+ drivers/nfc/nfcmrvl/fw_dnld.c | 10 +++++-----
+ drivers/nfc/nfcmrvl/nfcmrvl.h | 12 ++++++------
+ drivers/nfc/nfcmrvl/uart.c    | 16 ++++++++--------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-index 52c8ae504e32..05df7ad224d5 100644
+index 05df7ad224d5..c84658448415 100644
 --- a/drivers/nfc/nfcmrvl/fw_dnld.c
 +++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-@@ -1,19 +1,8 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Marvell NFC driver: Firmware downloader
-  *
-  * Copyright (C) 2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-  */
+@@ -39,8 +39,8 @@ enum {
+ };
  =
 
- #include <linux/module.h>
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.h b/drivers/nfc/nfcmrvl/fw_dnld.h
-index 058ce77b3cbc..7c4d91b01910 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.h
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.h
-@@ -1,20 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * Marvell NFC driver: Firmware downloader
-  *
-  * Copyright (C) 2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-- **/
+-** Patterns for responses
+-*/
++ * Patterns for responses
 + */
  =
 
- #ifndef __NFCMRVL_FW_DNLD_H__
- #define __NFCMRVL_FW_DNLD_H__
-diff --git a/drivers/nfc/nfcmrvl/i2c.c b/drivers/nfc/nfcmrvl/i2c.c
-index 3c9bbee98237..59a529e72d96 100644
---- a/drivers/nfc/nfcmrvl/i2c.c
-+++ b/drivers/nfc/nfcmrvl/i2c.c
-@@ -1,20 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Marvell NFC-over-I2C driver: I2C interface related functions
-  *
-  * Copyright (C) 2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-- **/
-+ */
+ static const uint8_t nci_pattern_core_reset_ntf[] =3D {
+ 	0x60, 0x00, 0x02, 0xA0, 0x01
+@@ -440,7 +440,7 @@ static void fw_dnld_rx_work(struct work_struct *work)
+ 	}
+ }
  =
 
- #include <linux/module.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/nfc/nfcmrvl/main.c b/drivers/nfc/nfcmrvl/main.c
-index 529be35ac178..a4620b480c4f 100644
---- a/drivers/nfc/nfcmrvl/main.c
-+++ b/drivers/nfc/nfcmrvl/main.c
-@@ -1,19 +1,8 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Marvell NFC driver: major functions
-  *
-  * Copyright (C) 2014-2015 Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-  */
+-int	nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
++int nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
+ {
+ 	char name[32];
  =
 
- #include <linux/module.h>
+@@ -454,12 +454,12 @@ int	nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
+ 	return 0;
+ }
+ =
+
+-void	nfcmrvl_fw_dnld_deinit(struct nfcmrvl_private *priv)
++void nfcmrvl_fw_dnld_deinit(struct nfcmrvl_private *priv)
+ {
+ 	destroy_workqueue(priv->fw_dnld.rx_wq);
+ }
+ =
+
+-void	nfcmrvl_fw_dnld_recv_frame(struct nfcmrvl_private *priv,
++void nfcmrvl_fw_dnld_recv_frame(struct nfcmrvl_private *priv,
+ 				   struct sk_buff *skb)
+ {
+ 	/* Discard command timer */
 diff --git a/drivers/nfc/nfcmrvl/nfcmrvl.h b/drivers/nfc/nfcmrvl/nfcmrvl.h
-index e84ee18c73ae..0b4220bb91bc 100644
+index 0b4220bb91bc..a715543bc9bf 100644
 --- a/drivers/nfc/nfcmrvl/nfcmrvl.h
 +++ b/drivers/nfc/nfcmrvl/nfcmrvl.h
-@@ -1,20 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
+@@ -25,16 +25,16 @@
+ #define NFCMRVL_NCI_MAX_EVENT_SIZE		260
+ =
+
  /*
-  * Marvell NFC driver
-  *
-  * Copyright (C) 2014-2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-- **/
+-** NCI FW Parmaters
+-*/
++ * NCI FW Parameters
 + */
  =
 
- #ifndef _NFCMRVL_H_
- #define _NFCMRVL_H_
-diff --git a/drivers/nfc/nfcmrvl/spi.c b/drivers/nfc/nfcmrvl/spi.c
-index 0647b85930a6..66696321c645 100644
---- a/drivers/nfc/nfcmrvl/spi.c
-+++ b/drivers/nfc/nfcmrvl/spi.c
-@@ -1,20 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+ #define NFCMRVL_PB_BAIL_OUT			0x11
+ #define NFCMRVL_PROP_REF_CLOCK			0xF0
+ #define NFCMRVL_PROP_SET_HI_CONFIG		0xF1
+ =
+
  /*
-  * Marvell NFC-over-SPI driver: SPI interface related functions
-  *
-  * Copyright (C) 2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-- **/
+-** HCI defines
+-*/
++ * HCI defines
 + */
  =
 
- #include <linux/module.h>
- #include <linux/interrupt.h>
+ #define NFCMRVL_HCI_EVENT_HEADER_SIZE		0x04
+ #define NFCMRVL_HCI_EVENT_CODE			0x04
+@@ -67,8 +67,8 @@ struct nfcmrvl_private {
+ 	bool support_fw_dnld;
+ =
+
+ 	/*
+-	** PHY related information
+-	*/
++	 * PHY related information
++	 */
+ =
+
+ 	/* PHY driver context */
+ 	void *drv_data;
 diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
-index 7194dd7ef0f1..d7ba5b5c653c 100644
+index d7ba5b5c653c..ed85645eb885 100644
 --- a/drivers/nfc/nfcmrvl/uart.c
 +++ b/drivers/nfc/nfcmrvl/uart.c
-@@ -1,19 +1,8 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Marvell NFC-over-UART driver
-  *
-  * Copyright (C) 2015, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-  */
+@@ -18,8 +18,8 @@ static unsigned int break_control;
+ static int reset_n_io =3D -EINVAL;
  =
 
- #include <linux/module.h>
-diff --git a/drivers/nfc/nfcmrvl/usb.c b/drivers/nfc/nfcmrvl/usb.c
-index bcd563cb556c..50f06dd1ba25 100644
---- a/drivers/nfc/nfcmrvl/usb.c
-+++ b/drivers/nfc/nfcmrvl/usb.c
-@@ -1,20 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
  /*
-  * Marvell NFC-over-USB driver: USB interface related functions
-  *
-  * Copyright (C) 2014, Marvell International Ltd.
-- *
-- * This software file (the "File") is distributed by Marvell International
-- * Ltd. under the terms of the GNU General Public License Version 2, June =
-1991
-- * (the "License").  You may use, redistribute and/or modify this File in
-- * accordance with the terms and conditions of the License, a copy of which
-- * is available on the worldwide web at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
-- *
-- * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
-- * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPO=
-SE
-- * ARE EXPRESSLY DISCLAIMED.  The License provides additional details about
-- * this warranty disclaimer.
-- **/
+-** NFCMRVL NCI OPS
+-*/
++ * NFCMRVL NCI OPS
 + */
  =
 
- #include <linux/module.h>
- #include <linux/usb.h>
+ static int nfcmrvl_uart_nci_open(struct nfcmrvl_private *priv)
+ {
+@@ -92,8 +92,8 @@ static int nfcmrvl_uart_parse_dt(struct device_node *node,
+ }
+ =
+
+ /*
+-** NCI UART OPS
+-*/
++ * NCI UART OPS
++ */
+ =
+
+ static int nfcmrvl_nci_uart_open(struct nci_uart *nu)
+ {
+@@ -167,10 +167,10 @@ static void nfcmrvl_nci_uart_tx_done(struct nci_uart =
+*nu)
+ 		return;
+ =
+
+ 	/*
+-	** To ensure that if the NFCC goes in DEEP SLEEP sate we can wake him
+-	** up. we set BREAK. Once we will be ready to send again we will remove
+-	** it.
+-	*/
++	 * To ensure that if the NFCC goes in DEEP SLEEP sate we can wake him
++	 * up. we set BREAK. Once we will be ready to send again we will remove
++	 * it.
++	 */
+ 	if (priv->config.break_control && nu->tty->ops->break_ctl) {
+ 		nu->tty->ops->break_ctl(nu->tty, -1);
+ 		usleep_range(1000, 3000);
 -- =
 
 2.27.0
 
---===============7616676529920677027==--
+--===============8738905066441703592==--
 
