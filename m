@@ -1,37 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============3318888705107561134=="
+Content-Type: multipart/mixed; boundary="===============1680177329252825994=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2] nfc: st-nci: remove unnecessary labels
-Date: Wed, 26 May 2021 09:56:22 -0400
-Message-ID: <dcb14fe3-4907-43f6-d79f-27599f1be249@canonical.com>
-In-Reply-To: <20210526011624.11204-1-samirweng1979@163.com>
+Subject: [PATCH 02/12] nfc: fdp: drop ACPI_PTR from device ID table
+Date: Fri, 28 May 2021 08:41:50 -0400
+Message-ID: <20210528124200.79655-2-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210528124200.79655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3318888705107561134==
+--===============1680177329252825994==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 25/05/2021 21:16, samirweng1979 wrote:
-> From: wengjianfeng <wengjianfeng@yulong.com>
-> =
+The driver can match only via the ACPI ID table so the table should be
+always used and the ACPI_PTR does not have any sense.  This fixes fixes
+compile warning (!CONFIG_ACPI):
 
-> Some labels are only used once, so we delete them and use the
-> return statement instead of the goto statement.
-> =
+    drivers/nfc/fdp/i2c.c:362:36: warning:
+        =E2=80=98fdp_nci_i2c_acpi_match=E2=80=99 defined but not used [-Wun=
+used-const-variable=3D]
 
-> Signed-off-by: wengjianfeng <wengjianfeng@yulong.com>
-> ---
->  drivers/nfc/st-nci/vendor_cmds.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> =
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ drivers/nfc/fdp/i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
+index adaa1a7147f9..997e0806821a 100644
+--- a/drivers/nfc/fdp/i2c.c
++++ b/drivers/nfc/fdp/i2c.c
+@@ -368,7 +368,7 @@ MODULE_DEVICE_TABLE(acpi, fdp_nci_i2c_acpi_match);
+ static struct i2c_driver fdp_nci_i2c_driver =3D {
+ 	.driver =3D {
+ 		   .name =3D FDP_I2C_DRIVER_NAME,
+-		   .acpi_match_table =3D ACPI_PTR(fdp_nci_i2c_acpi_match),
++		   .acpi_match_table =3D fdp_nci_i2c_acpi_match,
+ 		  },
+ 	.probe_new =3D fdp_nci_i2c_probe,
+ 	.remove =3D fdp_nci_i2c_remove,
+-- =
 
+2.27.0
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
-Best regards,
-Krzysztof
---===============3318888705107561134==--
+--===============1680177329252825994==--
 
