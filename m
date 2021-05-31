@@ -1,77 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============5234092287323288207=="
+Content-Type: multipart/mixed; boundary="===============8603848995190644836=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [RESEND PATCH 02/11] nfc: mei_phy: drop ftrace-like debugging messages
-Date: Mon, 31 May 2021 09:35:13 +0200
-Message-ID: <20210531073522.6720-2-krzysztof.kozlowski@canonical.com>
+Subject: [RESEND PATCH 05/11] nfc: mrvl: simplify with module_driver
+Date: Mon, 31 May 2021 09:38:56 +0200
+Message-ID: <20210531073902.7111-1-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210531073522.6720-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5234092287323288207==
+--===============8603848995190644836==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Now that the kernel has ftrace, any debugging calls that just do "made
-it to this function!" and "leaving this function!" can be removed.
-Better to use standard debugging tools.
+Remove standard module init/exit boilerplate with module_driver() which
+also annotates the functions with __init.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/mei_phy.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/nfc/nfcmrvl/uart.c | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/drivers/nfc/mei_phy.c b/drivers/nfc/mei_phy.c
-index 0f43bb389566..e56cea716cd2 100644
---- a/drivers/nfc/mei_phy.c
-+++ b/drivers/nfc/mei_phy.c
-@@ -98,8 +98,6 @@ static int mei_nfc_if_version(struct nfc_mei_phy *phy)
- 	size_t if_version_length;
- 	int bytes_recv, r;
- =
-
--	pr_info("%s\n", __func__);
+diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
+index ed85645eb885..50d86c90b9dd 100644
+--- a/drivers/nfc/nfcmrvl/uart.c
++++ b/drivers/nfc/nfcmrvl/uart.c
+@@ -189,23 +189,7 @@ static struct nci_uart nfcmrvl_nci_uart =3D {
+ 		.tx_done	=3D nfcmrvl_nci_uart_tx_done,
+ 	}
+ };
 -
- 	memset(&cmd, 0, sizeof(struct mei_nfc_cmd));
- 	cmd.hdr.cmd =3D MEI_NFC_CMD_MAINTENANCE;
- 	cmd.hdr.data_size =3D 1;
-@@ -146,8 +144,6 @@ static int mei_nfc_connect(struct nfc_mei_phy *phy)
- 	size_t connect_length, connect_resp_length;
- 	int bytes_recv, r;
- =
-
--	pr_info("%s\n", __func__);
+-/*
+-** Module init
+-*/
 -
- 	connect_length =3D sizeof(struct mei_nfc_cmd) +
- 			sizeof(struct mei_nfc_connect);
- =
-
-@@ -320,8 +316,6 @@ static int nfc_mei_phy_enable(void *phy_id)
- 	int r;
- 	struct nfc_mei_phy *phy =3D phy_id;
- =
-
--	pr_info("%s\n", __func__);
+-static int nfcmrvl_uart_init_module(void)
+-{
+-	return nci_uart_register(&nfcmrvl_nci_uart);
+-}
 -
- 	if (phy->powered =3D=3D 1)
- 		return 0;
- =
-
-@@ -363,8 +357,6 @@ static void nfc_mei_phy_disable(void *phy_id)
- {
- 	struct nfc_mei_phy *phy =3D phy_id;
- =
-
--	pr_info("%s\n", __func__);
+-static void nfcmrvl_uart_exit_module(void)
+-{
+-	nci_uart_unregister(&nfcmrvl_nci_uart);
+-}
 -
- 	mei_cldev_disable(phy->cldev);
+-module_init(nfcmrvl_uart_init_module);
+-module_exit(nfcmrvl_uart_exit_module);
++module_driver(nfcmrvl_nci_uart, nci_uart_register, nci_uart_unregister);
  =
 
- 	phy->powered =3D 0;
+ MODULE_AUTHOR("Marvell International Ltd.");
+ MODULE_DESCRIPTION("Marvell NFC-over-UART");
 -- =
 
 2.27.0
 
---===============5234092287323288207==--
+--===============8603848995190644836==--
 
