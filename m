@@ -1,232 +1,165 @@
-Content-Type: multipart/mixed; boundary="===============2991762966802816033=="
+Content-Type: multipart/mixed; boundary="===============5727420764602958989=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [RESEND PATCH 01/11] nfc: fdp: drop ftrace-like debugging messages
-Date: Mon, 31 May 2021 09:35:12 +0200
-Message-ID: <20210531073522.6720-1-krzysztof.kozlowski@canonical.com>
+Subject: [RESEND PATCH 04/11] nfc: mrvl: correct minor coding style violations
+Date: Mon, 31 May 2021 09:35:15 +0200
+Message-ID: <20210531073522.6720-4-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210531073522.6720-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2991762966802816033==
+--===============5727420764602958989==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Now that the kernel has ftrace, any debugging calls that just do "made
-it to this function!" and "leaving this function!" can be removed.
-Better to use standard debugging tools.
-
-This allows also to remove several local variables and entire
-fdp_nci_recv_frame() function (whose purpose was only to log).
+Correct block comments and usage of tab in function definition.  No
+functional change.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/fdp/fdp.c | 31 -------------------------------
- drivers/nfc/fdp/fdp.h |  1 -
- drivers/nfc/fdp/i2c.c | 12 +-----------
- 3 files changed, 1 insertion(+), 43 deletions(-)
+ drivers/nfc/nfcmrvl/fw_dnld.c | 10 +++++-----
+ drivers/nfc/nfcmrvl/nfcmrvl.h | 12 ++++++------
+ drivers/nfc/nfcmrvl/uart.c    | 16 ++++++++--------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/nfc/fdp/fdp.c b/drivers/nfc/fdp/fdp.c
-index 125d71c27b8b..7863b2536999 100644
---- a/drivers/nfc/fdp/fdp.c
-+++ b/drivers/nfc/fdp/fdp.c
-@@ -237,28 +237,18 @@ static int fdp_nci_send_patch(struct nci_dev *ndev, u=
-8 conn_id, u8 type)
- static int fdp_nci_open(struct nci_dev *ndev)
- {
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
--
--	dev_dbg(dev, "%s\n", __func__);
+diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
+index 05df7ad224d5..c84658448415 100644
+--- a/drivers/nfc/nfcmrvl/fw_dnld.c
++++ b/drivers/nfc/nfcmrvl/fw_dnld.c
+@@ -39,8 +39,8 @@ enum {
+ };
  =
 
- 	return info->phy_ops->enable(info->phy);
- }
+ /*
+-** Patterns for responses
+-*/
++ * Patterns for responses
++ */
  =
 
- static int fdp_nci_close(struct nci_dev *ndev)
- {
--	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
--
--	dev_dbg(dev, "%s\n", __func__);
- 	return 0;
- }
- =
-
- static int fdp_nci_send(struct nci_dev *ndev, struct sk_buff *skb)
- {
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
--
--	dev_dbg(dev, "%s\n", __func__);
- =
-
- 	if (atomic_dec_and_test(&info->data_pkt_counter))
- 		info->data_pkt_counter_cb(ndev);
-@@ -266,16 +256,6 @@ static int fdp_nci_send(struct nci_dev *ndev, struct s=
-k_buff *skb)
- 	return info->phy_ops->write(info->phy, skb);
- }
- =
-
--int fdp_nci_recv_frame(struct nci_dev *ndev, struct sk_buff *skb)
--{
--	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
--
--	dev_dbg(dev, "%s\n", __func__);
--	return nci_recv_frame(ndev, skb);
--}
--EXPORT_SYMBOL(fdp_nci_recv_frame);
--
- static int fdp_nci_request_firmware(struct nci_dev *ndev)
- {
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
-@@ -476,8 +456,6 @@ static int fdp_nci_setup(struct nci_dev *ndev)
- 	int r;
- 	u8 patched =3D 0;
- =
-
--	dev_dbg(dev, "%s\n", __func__);
--
- 	r =3D nci_core_init(ndev);
- 	if (r)
- 		goto error;
-@@ -585,9 +563,7 @@ static int fdp_nci_core_reset_ntf_packet(struct nci_dev=
- *ndev,
- 					  struct sk_buff *skb)
- {
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
- =
-
--	dev_dbg(dev, "%s\n", __func__);
- 	info->setup_reset_ntf =3D 1;
- 	wake_up(&info->setup_wq);
- =
-
-@@ -598,9 +574,7 @@ static int fdp_nci_prop_patch_ntf_packet(struct nci_dev=
- *ndev,
- 					  struct sk_buff *skb)
- {
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
- =
-
--	dev_dbg(dev, "%s\n", __func__);
- 	info->setup_patch_ntf =3D 1;
- 	info->setup_patch_status =3D skb->data[0];
- 	wake_up(&info->setup_wq);
-@@ -773,11 +747,6 @@ EXPORT_SYMBOL(fdp_nci_probe);
- =
-
- void fdp_nci_remove(struct nci_dev *ndev)
- {
--	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
--	struct device *dev =3D &info->phy->i2c_dev->dev;
--
--	dev_dbg(dev, "%s\n", __func__);
--
- 	nci_unregister_device(ndev);
- 	nci_free_device(ndev);
- }
-diff --git a/drivers/nfc/fdp/fdp.h b/drivers/nfc/fdp/fdp.h
-index 9bd1f3f23e2d..ead3b21ccae6 100644
---- a/drivers/nfc/fdp/fdp.h
-+++ b/drivers/nfc/fdp/fdp.h
-@@ -25,6 +25,5 @@ int fdp_nci_probe(struct fdp_i2c_phy *phy, struct nfc_phy=
-_ops *phy_ops,
- 		  struct nci_dev **ndev, int tx_headroom, int tx_tailroom,
- 		  u8 clock_type, u32 clock_freq, u8 *fw_vsc_cfg);
- void fdp_nci_remove(struct nci_dev *ndev);
--int fdp_nci_recv_frame(struct nci_dev *ndev, struct sk_buff *skb);
- =
-
- #endif /* __LOCAL_FDP_H_ */
-diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
-index 997e0806821a..c5596e514648 100644
---- a/drivers/nfc/fdp/i2c.c
-+++ b/drivers/nfc/fdp/i2c.c
-@@ -49,7 +49,6 @@ static int fdp_nci_i2c_enable(void *phy_id)
- {
- 	struct fdp_i2c_phy *phy =3D phy_id;
- =
-
--	dev_dbg(&phy->i2c_dev->dev, "%s\n", __func__);
- 	fdp_nci_i2c_reset(phy);
- =
-
- 	return 0;
-@@ -59,7 +58,6 @@ static void fdp_nci_i2c_disable(void *phy_id)
- {
- 	struct fdp_i2c_phy *phy =3D phy_id;
- =
-
--	dev_dbg(&phy->i2c_dev->dev, "%s\n", __func__);
- 	fdp_nci_i2c_reset(phy);
- }
- =
-
-@@ -197,7 +195,6 @@ static int fdp_nci_i2c_read(struct fdp_i2c_phy *phy, st=
-ruct sk_buff **skb)
- static irqreturn_t fdp_nci_i2c_irq_thread_fn(int irq, void *phy_id)
- {
- 	struct fdp_i2c_phy *phy =3D phy_id;
--	struct i2c_client *client;
- 	struct sk_buff *skb;
- 	int r;
- =
-
-@@ -206,9 +203,6 @@ static irqreturn_t fdp_nci_i2c_irq_thread_fn(int irq, v=
-oid *phy_id)
- 		return IRQ_NONE;
+ static const uint8_t nci_pattern_core_reset_ntf[] =3D {
+ 	0x60, 0x00, 0x02, 0xA0, 0x01
+@@ -440,7 +440,7 @@ static void fw_dnld_rx_work(struct work_struct *work)
  	}
- =
-
--	client =3D phy->i2c_dev;
--	dev_dbg(&client->dev, "%s\n", __func__);
--
- 	r =3D fdp_nci_i2c_read(phy, &skb);
- =
-
- 	if (r =3D=3D -EREMOTEIO)
-@@ -217,7 +211,7 @@ static irqreturn_t fdp_nci_i2c_irq_thread_fn(int irq, v=
-oid *phy_id)
- 		return IRQ_HANDLED;
- =
-
- 	if (skb !=3D NULL)
--		fdp_nci_recv_frame(phy->ndev, skb);
-+		nci_recv_frame(phy->ndev, skb);
- =
-
- 	return IRQ_HANDLED;
  }
-@@ -288,8 +282,6 @@ static int fdp_nci_i2c_probe(struct i2c_client *client)
- 	u32 clock_freq;
- 	int r =3D 0;
  =
 
--	dev_dbg(dev, "%s\n", __func__);
--
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
- 		nfc_err(dev, "No I2C_FUNC_I2C support\n");
- 		return -ENODEV;
-@@ -351,8 +343,6 @@ static int fdp_nci_i2c_remove(struct i2c_client *client)
+-int	nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
++int nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
  {
- 	struct fdp_i2c_phy *phy =3D i2c_get_clientdata(client);
+ 	char name[32];
  =
 
--	dev_dbg(&client->dev, "%s\n", __func__);
--
- 	fdp_nci_remove(phy->ndev);
- 	fdp_nci_i2c_disable(phy);
+@@ -454,12 +454,12 @@ int	nfcmrvl_fw_dnld_init(struct nfcmrvl_private *priv)
+ 	return 0;
+ }
  =
 
+-void	nfcmrvl_fw_dnld_deinit(struct nfcmrvl_private *priv)
++void nfcmrvl_fw_dnld_deinit(struct nfcmrvl_private *priv)
+ {
+ 	destroy_workqueue(priv->fw_dnld.rx_wq);
+ }
+ =
+
+-void	nfcmrvl_fw_dnld_recv_frame(struct nfcmrvl_private *priv,
++void nfcmrvl_fw_dnld_recv_frame(struct nfcmrvl_private *priv,
+ 				   struct sk_buff *skb)
+ {
+ 	/* Discard command timer */
+diff --git a/drivers/nfc/nfcmrvl/nfcmrvl.h b/drivers/nfc/nfcmrvl/nfcmrvl.h
+index 0b4220bb91bc..a715543bc9bf 100644
+--- a/drivers/nfc/nfcmrvl/nfcmrvl.h
++++ b/drivers/nfc/nfcmrvl/nfcmrvl.h
+@@ -25,16 +25,16 @@
+ #define NFCMRVL_NCI_MAX_EVENT_SIZE		260
+ =
+
+ /*
+-** NCI FW Parmaters
+-*/
++ * NCI FW Parameters
++ */
+ =
+
+ #define NFCMRVL_PB_BAIL_OUT			0x11
+ #define NFCMRVL_PROP_REF_CLOCK			0xF0
+ #define NFCMRVL_PROP_SET_HI_CONFIG		0xF1
+ =
+
+ /*
+-** HCI defines
+-*/
++ * HCI defines
++ */
+ =
+
+ #define NFCMRVL_HCI_EVENT_HEADER_SIZE		0x04
+ #define NFCMRVL_HCI_EVENT_CODE			0x04
+@@ -67,8 +67,8 @@ struct nfcmrvl_private {
+ 	bool support_fw_dnld;
+ =
+
+ 	/*
+-	** PHY related information
+-	*/
++	 * PHY related information
++	 */
+ =
+
+ 	/* PHY driver context */
+ 	void *drv_data;
+diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
+index d7ba5b5c653c..ed85645eb885 100644
+--- a/drivers/nfc/nfcmrvl/uart.c
++++ b/drivers/nfc/nfcmrvl/uart.c
+@@ -18,8 +18,8 @@ static unsigned int break_control;
+ static int reset_n_io =3D -EINVAL;
+ =
+
+ /*
+-** NFCMRVL NCI OPS
+-*/
++ * NFCMRVL NCI OPS
++ */
+ =
+
+ static int nfcmrvl_uart_nci_open(struct nfcmrvl_private *priv)
+ {
+@@ -92,8 +92,8 @@ static int nfcmrvl_uart_parse_dt(struct device_node *node,
+ }
+ =
+
+ /*
+-** NCI UART OPS
+-*/
++ * NCI UART OPS
++ */
+ =
+
+ static int nfcmrvl_nci_uart_open(struct nci_uart *nu)
+ {
+@@ -167,10 +167,10 @@ static void nfcmrvl_nci_uart_tx_done(struct nci_uart =
+*nu)
+ 		return;
+ =
+
+ 	/*
+-	** To ensure that if the NFCC goes in DEEP SLEEP sate we can wake him
+-	** up. we set BREAK. Once we will be ready to send again we will remove
+-	** it.
+-	*/
++	 * To ensure that if the NFCC goes in DEEP SLEEP sate we can wake him
++	 * up. we set BREAK. Once we will be ready to send again we will remove
++	 * it.
++	 */
+ 	if (priv->config.break_control && nu->tty->ops->break_ctl) {
+ 		nu->tty->ops->break_ctl(nu->tty, -1);
+ 		usleep_range(1000, 3000);
 -- =
 
 2.27.0
 
---===============2991762966802816033==--
+--===============5727420764602958989==--
 
