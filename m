@@ -1,59 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============3875777160583138749=="
+Content-Type: multipart/mixed; boundary="===============4630395067690559573=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] NFC: nci: Remove redundant assignment to len
-Date: Tue, 01 Jun 2021 12:11:18 +0200
-Message-ID: <bbe532a0-95d4-bdc8-2caf-dba8ecf4ecda@canonical.com>
-In-Reply-To: <1622540990-102660-1-git-send-email-yang.lee@linux.alibaba.com>
+Subject: Re: [PATCH] NFC: microread: Pass err variable to async_cb()
+Date: Tue, 01 Jun 2021 15:07:46 +0200
+Message-ID: <3e2f804b-107a-9f44-2ed2-95e4c2a2e426@canonical.com>
+In-Reply-To: <YLYvcbjuPg1JFr7/@fedora>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3875777160583138749==
+--===============4630395067690559573==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 01/06/2021 11:49, Yang Li wrote:
-> Variable 'len' is set to conn_info->max_pkt_payload_len but this
-> value is never read as it is overwritten with a new value later on,
-> hence it is a redundant assignment and can be removed.
+On 01/06/2021 15:00, Nigel Christian wrote:
+> In the case MICROREAD_CB_TYPE_READER_ALL clang reports a dead
+> code warning. The error code is being directly passed to =
+
+> async_cb(). Fix this by passing the err variable, which is also
+> done in another path.
 > =
 
-> Clean up the following clang-analyzer warning:
-> =
+> Addresses-Coverity: ("Unused value") =
 
-> net/nfc/nci/hci.c:164:3: warning: Value stored to 'len' is never read
-> [clang-analyzer-deadcode.DeadStores]
-> =
-
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> Signed-off-by: Nigel Christian <nigel.l.christian@gmail.com>
 > ---
->  net/nfc/nci/hci.c | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/nfc/microread/microread.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > =
 
-> diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
-> index 9686514..d6732e5 100644
-> --- a/net/nfc/nci/hci.c
-> +++ b/net/nfc/nci/hci.c
-> @@ -161,8 +161,6 @@ static int nci_hci_send_data(struct nci_dev *ndev, u8=
- pipe,
->  	*(u8 *)skb_push(skb, 1) =3D data_type;
+> diff --git a/drivers/nfc/microread/microread.c b/drivers/nfc/microread/mi=
+croread.c
+> index 8d3988457c58..130b0f554016 100644
+> --- a/drivers/nfc/microread/microread.c
+> +++ b/drivers/nfc/microread/microread.c
+> @@ -367,7 +367,7 @@ static void microread_im_transceive_cb(void *context,=
+ struct sk_buff *skb,
+>  				err =3D -EPROTO;
+
+Remove this line instead, please. The err is argument passed by value so
+assigning it within a function is ugly.
+
+>  				kfree_skb(skb);
+>  				info->async_cb(info->async_cb_context, NULL,
+> -					       -EPROTO);
+> +					       err);
+>  				return;
+>  			}
 >  =
 
->  	do {
-> -		len =3D conn_info->max_pkt_payload_len;
-> -
->  		/* If last packet add NCI_HFP_NO_CHAINING */
->  		if (i + conn_info->max_pkt_payload_len -
->  		    (skb->len + 1) >=3D data_len) {
 > =
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
 Best regards,
 Krzysztof
---===============3875777160583138749==--
+--===============4630395067690559573==--
 
