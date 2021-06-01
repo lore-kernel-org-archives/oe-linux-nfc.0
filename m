@@ -1,36 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============2773446360052608887=="
+Content-Type: multipart/mixed; boundary="===============3875777160583138749=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] nfc: nfcmrvl: spi: Fix irq_of_parse_and_map() return value
-Date: Sat, 23 Apr 2022 11:28:35 +0200
-Message-ID: <e7eb0c05-7056-7aeb-ebca-399f11d22122@linaro.org>
-In-Reply-To: <20220422161305.59e0be38@kernel.org>
+Subject: Re: [PATCH] NFC: nci: Remove redundant assignment to len
+Date: Tue, 01 Jun 2021 12:11:18 +0200
+Message-ID: <bbe532a0-95d4-bdc8-2caf-dba8ecf4ecda@canonical.com>
+In-Reply-To: <1622540990-102660-1-git-send-email-yang.lee@linux.alibaba.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2773446360052608887==
+--===============3875777160583138749==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 23/04/2022 01:13, Jakub Kicinski wrote:
-> On Fri, 22 Apr 2022 12:47:58 +0200 Krzysztof Kozlowski wrote:
->> The irq_of_parse_and_map() returns 0 on failure, not a negative ERRNO.
->>
->> Fixes: caf6e49bf6d0 ("NFC: nfcmrvl: add spi driver")
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->> This is another issue to https://lore.kernel.org/all/20220422084605.2775=
-542-1-lv.ruyi(a)zte.com.cn/
+On 01/06/2021 11:49, Yang Li wrote:
+> Variable 'len' is set to conn_info->max_pkt_payload_len but this
+> value is never read as it is overwritten with a new value later on,
+> hence it is a redundant assignment and can be removed.
 > =
 
-> Maybe send one patch that fixes both and also fixes the usage of ret?
+> Clean up the following clang-analyzer warning:
+> =
 
-Bah, I just blindly copied one part of his patch without deeper check.
-Thanks for noticing it.
+> net/nfc/nci/hci.c:164:3: warning: Value stored to 'len' is never read
+> [clang-analyzer-deadcode.DeadStores]
+> =
 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  net/nfc/nci/hci.c | 2 --
+>  1 file changed, 2 deletions(-)
+> =
+
+> diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
+> index 9686514..d6732e5 100644
+> --- a/net/nfc/nci/hci.c
+> +++ b/net/nfc/nci/hci.c
+> @@ -161,8 +161,6 @@ static int nci_hci_send_data(struct nci_dev *ndev, u8=
+ pipe,
+>  	*(u8 *)skb_push(skb, 1) =3D data_type;
+>  =
+
+>  	do {
+> -		len =3D conn_info->max_pkt_payload_len;
+> -
+>  		/* If last packet add NCI_HFP_NO_CHAINING */
+>  		if (i + conn_info->max_pkt_payload_len -
+>  		    (skb->len + 1) >=3D data_len) {
+> =
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
 Best regards,
 Krzysztof
---===============2773446360052608887==--
+--===============3875777160583138749==--
 
