@@ -1,47 +1,81 @@
-Content-Type: multipart/mixed; boundary="===============6729907332670720536=="
+Content-Type: multipart/mixed; boundary="===============1592024009467286163=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [neard][PATCH 1/8] build: adjust configure.ac syntax to match autoupdate
-Date: Thu, 23 Sep 2021 17:54:41 +0200
-Message-ID: <16360c35-bc5d-c2f6-4a44-1521b3b67962@canonical.com>
-In-Reply-To: <20210922161113.142758-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH 1/2] MAINTAINERS: nfc: add Krzysztof Kozlowski as maintainer
+Date: Fri, 09 Jul 2021 11:24:41 +0200
+Message-ID: <df2ec154-79fa-af7b-d337-913ed4a0692e@canonical.com>
+In-Reply-To: <20210512164952.GA222094@animalcreek.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6729907332670720536==
+--===============1592024009467286163==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 22/09/2021 18:11, Krzysztof Kozlowski wrote:
-> Effect of autoupdate, without changing the version.
+On 12/05/2021 18:49, Mark Greer wrote:
+> On Wed, May 12, 2021 at 11:43:13AM -0400, Krzysztof Kozlowski wrote:
+>> On 12/05/2021 11:11, Daniel Lezcano wrote:
+>>> On 12/05/2021 16:43, Krzysztof Kozlowski wrote:
+>>>> The NFC subsystem is orphaned.  I am happy to spend some cycles to
+>>>> review the patches, send pull requests and in general keep the NFC
+>>>> subsystem running.
+>>>>
+>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.co=
+m>
+>>>>
+>>>> ---
+>>>>
+>>>> I admit I don't have big experience in NFC part but this will be nice
+>>>> opportunity to learn something new. =
+
+>>>
+>>> NFC has been lost in the limbos since a while. Good to see someone
+>>> volunteering to take care of it.
+>>>
+>>> May I suggest to create a simple nfc reading program in the 'tools'
+>>> directory (could be a training exercise ;)
+>>>
+>>
+>> Noted, thanks. I also need to get a simple hardware dongle for this....
 > =
 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
->  configure.ac | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Krzysztof, the NFC portion of the kernel has a counterpart in userspace
+> called neard.  I'm supposed to be maintaining it but I have next to no
+> time to do so.  If you have spare cycles, any help would be appreciated.
 > =
 
-> diff --git a/configure.ac b/configure.ac
-> index 25b12b9a85d8..a1f7bd8bf56a 100644
-> --- a/configure.ac
-> +++ b/configure.ac
-> @@ -1,5 +1,5 @@
-> -AC_PREREQ(2.60)
-> -AC_INIT(neard, 0.17, [linux-nfc(a)lists.01.org])
-> +AC_PREREQ([2.60])
-> +AC_INIT([neard],[0.17],[linux-nfc(a)lists.01.org])
->  AC_CONFIG_MACRO_DIR([m4])
->  =
-
->  AM_INIT_AUTOMAKE([foreign subdir-objects color-tests])
+> Anyway, in neard, there are some simple test scripts (python2 - I/we need
+> to update to python3).  The current home of neard is:
 > =
 
+> git://git.kernel.org/pub/scm/network/nfc/neard.git
 
-All applied to master in https://github.com/linux-nfc/neard
+I guess none of us have problem of too much spare time :), so it took me
+a while before I looked at neard.
+
+With newer Gcc, neard did not even compile (which I am fixing now). I
+set up a fork:
+https://github.com/krzk/neard
+However I can give early disclaimer - playing with GLib userspace code
+is not something I am in long term interested. If this was written in
+Rust, would be different story. :)
+
+I also configured basic CI (or rather continuous building):
+https://github.com/krzk/neard/actions/runs/1014641944
+
+However I still do not have proper testing setup. No hardware. Would be
+nice if Samsung. ST, NXP or Intel could spare some development board
+with the NFC chip supported by kernel. Till then, I will try the NFC
+simulator and virtual NCI drivers.
+
+My next plan for neard is to extend the CI. There is no way I (or anyone
+else I believe) can keep good quality of releases without automated
+checks. I'll add some more distros, clang and later many some linters or
+cppcheck.
+
 
 Best regards,
 Krzysztof
---===============6729907332670720536==--
+--===============1592024009467286163==--
 
