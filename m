@@ -1,52 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============5270130308706699344=="
+Content-Type: multipart/mixed; boundary="===============3792130067017868568=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 05/16] dbus: fix -Wformat in near_dbus_encode_string()
-Date: Sat, 10 Jul 2021 05:38:48 +0200
-Message-ID: <20210710033859.3989-6-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 06/16] bootstrap: parse CROSS_COMPILE and set proper configure option
+Date: Sat, 10 Jul 2021 05:38:49 +0200
+Message-ID: <20210710033859.3989-7-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210710033859.3989-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5270130308706699344==
+--===============3792130067017868568==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Fix GCC warning:
-
-    src/dbus.c: In function =E2=80=98near_dbus_encode_string=E2=80=99:
-    src/dbus.c:71:37: error: format =E2=80=98%x=E2=80=99 expects argument o=
-f type =E2=80=98unsigned int=E2=80=99, but argument 3 has type =E2=80=98int=
-=E2=80=99 [-Werror=3Dformat=3D]
-       71 |    g_string_append_printf(str, "_%02x", tmp);
-          |                                  ~~~^   ~~~
-          |                                     |   |
-          |                                     |   int
-          |                                     unsigned int
-          |                                  %02x
+Makes cross compiling in CI easier.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/dbus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bootstrap-configure | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/src/dbus.c b/src/dbus.c
-index 9c67a9eec89a..ed4570d951ed 100644
---- a/src/dbus.c
-+++ b/src/dbus.c
-@@ -68,7 +68,7 @@ char *near_dbus_encode_string(const char *value)
- 		const char tmp =3D value[i];
- 		if ((tmp < '0' || tmp > '9') && (tmp < 'A' || tmp > 'Z') &&
- 						(tmp < 'a' || tmp > 'z'))
--			g_string_append_printf(str, "_%02x", tmp);
-+			g_string_append_printf(str, "_%02x", (unsigned int)tmp);
- 		else
- 			str =3D g_string_append_c(str, tmp);
- 	}
+diff --git a/bootstrap-configure b/bootstrap-configure
+index 7cb14588f816..0652e3b223b6 100755
+--- a/bootstrap-configure
++++ b/bootstrap-configure
+@@ -4,6 +4,11 @@ if [ -f config.status ]; then
+ 	make maintainer-clean
+ fi
+ =
+
++CONFIGURE_CROSS=3D""
++if [ "$CROSS_COMPILE" ]; then
++	CONFIGURE_CROSS=3D"--host=3D${CROSS_COMPILE}"
++fi
++
+ ./bootstrap && \
+     ./configure --enable-maintainer-mode \
+ 		--enable-debug \
+@@ -11,4 +16,5 @@ fi
+ 		--prefix=3D/usr \
+ 		--enable-ese \
+ 		--sysconfdir=3D/etc \
++		"$CONFIGURE_CROSS" \
+ 		--enable-tools "$@"
 -- =
 
 2.27.0
 
---===============5270130308706699344==--
+--===============3792130067017868568==--
 
