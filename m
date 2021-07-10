@@ -1,42 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============3472029073094310559=="
+Content-Type: multipart/mixed; boundary="===============6119952754511429723=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 09/16] ci: print executed commands when configuring debian
-Date: Sat, 10 Jul 2021 05:38:52 +0200
-Message-ID: <20210710033859.3989-10-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 10/16] ci: no need to print twice compiler version
+Date: Sat, 10 Jul 2021 05:38:53 +0200
+Message-ID: <20210710033859.3989-11-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210710033859.3989-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3472029073094310559==
+--===============6119952754511429723==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+There is separate step for showing compiler version.
+
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- ci/debian.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .github/workflows/ci.yml | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/ci/debian.sh b/ci/debian.sh
-index 004e7d84ae07..35eb3681f059 100755
---- a/ci/debian.sh
-+++ b/ci/debian.sh
-@@ -7,7 +7,7 @@
- # SPDX-License-Identifier: GPL-2.0
- #
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 866fa846c7f8..e746eb67df29 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -60,8 +60,6 @@ jobs:
+         lsb_release -a || true
+         uname -a
+         cat /proc/cmdline
+-        gcc --version || true
+-        clang --version || true
  =
 
--set -e -E
-+set -eEx
- =
-
- apt update
- =
-
+     - name: Configure
+       run: ./bootstrap-configure
 -- =
 
 2.27.0
 
---===============3472029073094310559==--
+--===============6119952754511429723==--
 
