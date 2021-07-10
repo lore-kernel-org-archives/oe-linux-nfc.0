@@ -1,62 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============0857691032811931849=="
+Content-Type: multipart/mixed; boundary="===============4369181250571442264=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 03/16] nfctool: fix nfctool_print_and_remove_snl() cast-function-type
-Date: Sat, 10 Jul 2021 05:38:46 +0200
-Message-ID: <20210710033859.3989-4-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 04/16] ci: temporarily disable Ubuntu Hirsute
+Date: Sat, 10 Jul 2021 05:38:47 +0200
+Message-ID: <20210710033859.3989-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210710033859.3989-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0857691032811931849==
+--===============4369181250571442264==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Fix on GCC v10:
+"Install additional packages" hangs on:
 
-    tools/nfctool/main.c: In function =E2=80=98nfctool_snl_cb=E2=80=99:
-    tools/nfctool/main.c:352:30: error: cast between incompatible function =
-types from =E2=80=98void (*)(struct nfc_snl *, guint32)=E2=80=99 {aka =E2=
-=80=98void (*)(struct nfc_snl *, unsigned int)=E2=80=99} to =E2=80=98void (=
-*)(void *, void *)=E2=80=99 [-Werror=3Dcast-function-type]
-      352 |  g_slist_foreach(sdres_list, (GFunc)nfctool_print_and_remove_sn=
-l,
-          |                              ^
+    Setting up tzdata (2021a-1ubuntu1) ...
+    debconf: unable to initialize frontend: Dialog
+    debconf: (TERM is not set, so the dialog frontend is not usable.)
+    debconf: falling back to frontend: Readline
+    Configuring tzdata
+    ------------------
+
+    Please select the geographic area in which you live. Subsequent configu=
+ration
+    questions will narrow this down by presenting a list of cities, represe=
+nting
+    the time zones in which they are located.
+
+      1. Africa   3. Antarctica  5. Arctic  7. Atlantic  9. Indian    11. US
+      2. America  4. Australia   6. Asia    8. Europe    10. Pacific  12. E=
+tc
+    Geographic area:
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- tools/nfctool/main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .github/workflows/ci.yml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/tools/nfctool/main.c b/tools/nfctool/main.c
-index 282df519fcc8..72a39de3ccbf 100644
---- a/tools/nfctool/main.c
-+++ b/tools/nfctool/main.c
-@@ -325,13 +325,13 @@ static int nfctool_poll_cb(guint8 cmd, guint32 idx, g=
-pointer data)
- }
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index bd6892343b4f..fb754ac78038 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -9,9 +9,10 @@ jobs:
+       fail-fast: false
+       matrix:
+         include:
+-          - container: "ubuntu:hirsute"
+-            env:
+-              CC: gcc
++          # Does pass installation - hangs on tzdata configuration
++          # - container: "ubuntu:hirsute"
++          #   env:
++          #     CC: gcc
  =
 
- static void nfctool_print_and_remove_snl(struct nfc_snl *sdres,
--					 guint32 adapter_idx)
-+					 gpointer adapter_idx)
- {
- 	GSList *elem;
- =
-
- 	printf(" uri: %s - sap: %d\n", sdres->uri, sdres->sap);
- =
-
--	if (adapter_idx =3D=3D opts.adapter_idx) {
-+	if (GPOINTER_TO_UINT(adapter_idx) =3D=3D opts.adapter_idx) {
- 		elem =3D g_slist_find_custom(opts.snl_list, sdres->uri,
- 					   (GCompareFunc)g_strcmp0);
- =
-
+           - container: "ubuntu:focal"
+             env:
 -- =
 
 2.27.0
 
---===============0857691032811931849==--
+--===============4369181250571442264==--
 
