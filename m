@@ -1,54 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============0935436339417855801=="
+Content-Type: multipart/mixed; boundary="===============5612416084308076919=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 09/34] nciattach: fix poll.h include location
-Date: Sun, 11 Jul 2021 22:20:37 +0200
-Message-ID: <20210711202102.18094-10-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 10/34] unit: use proper pointer to uint8_t in test_snep_read_recv_fragments()
+Date: Sun, 11 Jul 2021 22:20:38 +0200
+Message-ID: <20210711202102.18094-11-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210711202102.18094-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0935436339417855801==
+--===============5612416084308076919==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-poll.h header should not be included from include/sys.  This works fine
-on Glibc but fails on musl:
+Raw data bytes should be passed as pointer to uint8_t and the calling
+function already uses that type.  This fixes warning:
 
-    In file included from tools/nciattach.c:42:
-    /usr/include/sys/poll.h:1:2: error: #warning redirecting incorrect #inc=
-lude <sys/poll.h> to <poll.h> [-Werror=3Dcpp]
-        1 | #warning redirecting incorrect #include <sys/poll.h> to <poll.h>
+    unit/test-snep-read.c: In function =E2=80=98test_snep_read_recv_fragmen=
+ts=E2=80=99:
+    unit/test-snep-read.c:408:21: error: pointer of type =E2=80=98void *=E2=
+=80=99 used in arithmetic [-Werror=3Dpointer-arith]
+      408 |   memcpy(data_recvd + offset, resp, nbytes);
+          |                     ^
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- tools/nciattach.c | 2 +-
+ unit/test-snep-read.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/nciattach.c b/tools/nciattach.c
-index 370f98bb176c..574c0fbe784a 100644
---- a/tools/nciattach.c
-+++ b/tools/nciattach.c
-@@ -32,6 +32,7 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <unistd.h>
-+#include <poll.h>
- #include <stdlib.h>
- #include <string.h>
- #include <signal.h>
-@@ -39,7 +40,6 @@
- #include <termios.h>
- #include <time.h>
- #include <sys/time.h>
--#include <sys/poll.h>
- #include <sys/param.h>
- #include <sys/ioctl.h>
- #include <termios.h>
+diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
+index 5511fecf5c17..78db58ba859f 100644
+--- a/unit/test-snep-read.c
++++ b/unit/test-snep-read.c
+@@ -386,7 +386,7 @@ static bool test_snep_read_send_fragment(size_t frag_le=
+n,
+  * @param[out] data             Must be preallocated
+  */
+ static void test_snep_read_recv_fragments(uint32_t frag_len,
+-				uint32_t remaining_bytes, void *data_recvd)
++				uint32_t remaining_bytes, uint8_t *data_recvd)
+ {
+ 	struct p2p_snep_resp_frame *resp;
+ 	uint32_t offset =3D 0;
 -- =
 
 2.27.0
 
---===============0935436339417855801==--
+--===============5612416084308076919==--
 
