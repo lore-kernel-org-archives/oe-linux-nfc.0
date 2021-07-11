@@ -1,50 +1,71 @@
-Content-Type: multipart/mixed; boundary="===============5612416084308076919=="
+Content-Type: multipart/mixed; boundary="===============8271237278692856778=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 10/34] unit: use proper pointer to uint8_t in test_snep_read_recv_fragments()
-Date: Sun, 11 Jul 2021 22:20:38 +0200
-Message-ID: <20210711202102.18094-11-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 11/34] build: fix setting CFLAGS on dash shell (Alpine Linux)
+Date: Sun, 11 Jul 2021 22:20:39 +0200
+Message-ID: <20210711202102.18094-12-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210711202102.18094-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5612416084308076919==
+--===============8271237278692856778==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Raw data bytes should be passed as pointer to uint8_t and the calling
-function already uses that type.  This fixes warning:
+Syntax like "CFLAGS+=3D" does not work on simple shells, e.g. dash from
+BusyBox.  This seems to fail to properly configure CFLAGS on Alpine
+Linux:
 
-    unit/test-snep-read.c: In function =E2=80=98test_snep_read_recv_fragmen=
-ts=E2=80=99:
-    unit/test-snep-read.c:408:21: error: pointer of type =E2=80=98void *=E2=
-=80=99 used in arithmetic [-Werror=3Dpointer-arith]
-      408 |   memcpy(data_recvd + offset, resp, nbytes);
-          |                     ^
+    checking for pkg-config... /usr/bin/pkg-config
+    checking pkg-config is at least version 0.9.0... yes
+    ./configure: line 3441: CFLAGS+=3D -Werror -Wextra: not found
+    ./configure: line 3442: CFLAGS+=3D -Wno-unused-parameter: not found
+    ./configure: line 3443: CFLAGS+=3D -Wno-missing-field-initializers: not=
+ found
+    ./configure: line 3444: CFLAGS+=3D -Wdeclaration-after-statement: not f=
+ound
+    ./configure: line 3445: CFLAGS+=3D -Wmissing-declarations: not found
+    ./configure: line 3446: CFLAGS+=3D -Wredundant-decls: not found
+    ./configure: line 3447: CFLAGS+=3D -Wcast-align: not found
+    ./configure: line 3448: CFLAGS+=3D -DG_DISABLE_DEPRECATED: not found
+    checking for gcc... gcc
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- unit/test-snep-read.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ acinclude.m4 | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
-index 5511fecf5c17..78db58ba859f 100644
---- a/unit/test-snep-read.c
-+++ b/unit/test-snep-read.c
-@@ -386,7 +386,7 @@ static bool test_snep_read_send_fragment(size_t frag_le=
-n,
-  * @param[out] data             Must be preallocated
-  */
- static void test_snep_read_recv_fragments(uint32_t frag_len,
--				uint32_t remaining_bytes, void *data_recvd)
-+				uint32_t remaining_bytes, uint8_t *data_recvd)
- {
- 	struct p2p_snep_resp_frame *resp;
- 	uint32_t offset =3D 0;
+diff --git a/acinclude.m4 b/acinclude.m4
+index fbc7660dfb67..027ed69977db 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -15,13 +15,14 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
+ 		CFLAGS=3D"-Wall -O2 -D_FORTIFY_SOURCE=3D2"
+ 	fi
+ 	if (test "$USE_MAINTAINER_MODE" =3D "yes"); then
+-		CFLAGS+=3D" -Werror -Wextra"
+-		CFLAGS+=3D" -Wno-unused-parameter"
+-		CFLAGS+=3D" -Wno-missing-field-initializers"
+-		CFLAGS+=3D" -Wdeclaration-after-statement"
+-		CFLAGS+=3D" -Wmissing-declarations"
+-		CFLAGS+=3D" -Wredundant-decls"
+-		CFLAGS+=3D" -Wcast-align"
+-		CFLAGS+=3D" -DG_DISABLE_DEPRECATED"
++		CFLAGS=3D"$CFLAGS -Werror -Wextra"
++		CFLAGS=3D"$CFLAGS -Werror -Wextra"
++		CFLAGS=3D"$CFLAGS -Wno-unused-parameter"
++		CFLAGS=3D"$CFLAGS -Wno-missing-field-initializers"
++		CFLAGS=3D"$CFLAGS -Wdeclaration-after-statement"
++		CFLAGS=3D"$CFLAGS -Wmissing-declarations"
++		CFLAGS=3D"$CFLAGS -Wredundant-decls"
++		CFLAGS=3D"$CFLAGS -Wcast-align"
++		CFLAGS=3D"$CFLAGS -DG_DISABLE_DEPRECATED"
+ 	fi
+ ])
 -- =
 
 2.27.0
 
---===============5612416084308076919==--
+--===============8271237278692856778==--
 
