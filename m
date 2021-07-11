@@ -1,66 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============2206427917507088922=="
+Content-Type: multipart/mixed; boundary="===============3323438840786830712=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 14/34] nciattach: do not shadow other local 'opt' variable (-Wshadow)
-Date: Sun, 11 Jul 2021 22:23:31 +0200
-Message-ID: <20210711202351.18363-2-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 15/34] unit: do not shadow global 'uri' variable (-Wshadow)
+Date: Sun, 11 Jul 2021 22:23:32 +0200
+Message-ID: <20210711202351.18363-3-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210711202102.18094-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2206427917507088922==
+--===============3323438840786830712==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Fix -Wshadow warning:
+Fix -Wshadow warnings like:
 
-    tools/nciattach.c: In function =E2=80=98main=E2=80=99:
-    tools/nciattach.c:272:9: error: declaration of =E2=80=98opt=E2=80=99 sh=
-adows a previous local [-Werror=3Dshadow]
-      272 |   char *opt;
-          |         ^~~
-    tools/nciattach.c:236:24: note: shadowed declaration is here
-      236 |  int detach, printpid, opt, i, n, ld, err;
-          |                        ^~~
+    unit/test-ndef-parse.c: In function =E2=80=98test_ndef_single_sp=E2=80=
+=99:
+    unit/test-ndef-parse.c:291:32: error: declaration of =E2=80=98uri=E2=80=
+=99 shadows a global declaration [-Werror=3Dshadow]
+      291 |  struct near_ndef_uri_payload *uri;
+          |                                ^~~
+    unit/test-ndef-parse.c:145:16: note: shadowed declaration is here
+      145 | static uint8_t uri[] =3D {0xd1, 0x1, 0xa, 0x55, 0x1, 0x69, 0x6e=
+, 0x74,
+          |                ^~~
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- tools/nciattach.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ unit/test-ndef-parse.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/nciattach.c b/tools/nciattach.c
-index 574c0fbe784a..4ac37d82d545 100644
---- a/tools/nciattach.c
-+++ b/tools/nciattach.c
-@@ -269,16 +269,16 @@ int main(int argc, char *argv[])
- 	}
+diff --git a/unit/test-ndef-parse.c b/unit/test-ndef-parse.c
+index afcede57b0d8..cdeb1a1a24df 100644
+--- a/unit/test-ndef-parse.c
++++ b/unit/test-ndef-parse.c
+@@ -142,7 +142,7 @@ struct near_ndef_ac_payload {
+ };
  =
 
- 	for (n =3D 0; optind < argc; n++, optind++) {
--		char *opt;
-+		char *option;
+ /* http://www.intel.com URI NDEF */
+-static uint8_t uri[] =3D {0xd1, 0x1, 0xa, 0x55, 0x1, 0x69, 0x6e, 0x74,
++static uint8_t test_uri[] =3D {0xd1, 0x1, 0xa, 0x55, 0x1, 0x69, 0x6e, 0x74,
+ 			0x65, 0x6c, 0x2e, 0x63, 0x6f, 0x6d};
  =
 
--		opt =3D argv[optind];
-+		option =3D argv[optind];
+ /* 'hello =C5=BC=C3=B3=C5=82w' - UTF-8 - en-US Text NDEF */
+@@ -210,7 +210,7 @@ static void test_ndef_uri(void)
+ 	GList *records;
+ 	struct near_ndef_record *record;
  =
 
- 		switch(n) {
- 		case 0:
- 			dev[0] =3D 0;
--			if (!strchr(opt, '/'))
-+			if (!strchr(option, '/'))
- 				strcpy(dev, "/dev/");
--			strcat(dev, opt);
-+			strcat(dev, option);
- 			break;
+-	records =3D near_ndef_parse_msg(uri, sizeof(uri), NULL);
++	records =3D near_ndef_parse_msg(test_uri, sizeof(test_uri), NULL);
  =
 
- 		case 1:
+ 	g_assert(records);
+ 	g_assert_cmpuint(g_list_length(records), =3D=3D, 1);
 -- =
 
 2.27.0
 
---===============2206427917507088922==--
+--===============3323438840786830712==--
 
