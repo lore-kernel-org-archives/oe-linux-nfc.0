@@ -1,68 +1,54 @@
-Content-Type: multipart/mixed; boundary="===============4767362569871372222=="
+Content-Type: multipart/mixed; boundary="===============0935436339417855801=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 08/34] HACKING: refine required packages
-Date: Sun, 11 Jul 2021 22:20:36 +0200
-Message-ID: <20210711202102.18094-9-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 09/34] nciattach: fix poll.h include location
+Date: Sun, 11 Jul 2021 22:20:37 +0200
+Message-ID: <20210711202102.18094-10-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210711202102.18094-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4767362569871372222==
+--===============0935436339417855801==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Debian since Jessie (8.0 from 2015) seems to have automake v1.14, so
-mentioning some specific configuration for it is not needed.  In the
-same time other required libraries and tools are not mentioned, so let's
-refresh the requirements list.
+poll.h header should not be included from include/sys.  This works fine
+on Glibc but fails on musl:
+
+    In file included from tools/nciattach.c:42:
+    /usr/include/sys/poll.h:1:2: error: #warning redirecting incorrect #inc=
+lude <sys/poll.h> to <poll.h> [-Werror=3Dcpp]
+        1 | #warning redirecting incorrect #include <sys/poll.h> to <poll.h>
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- HACKING | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ tools/nciattach.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/HACKING b/HACKING
-index 478653c8a292..c1eb6d6189a6 100644
---- a/HACKING
-+++ b/HACKING
-@@ -5,17 +5,18 @@ Hacking on Near Field Communication manager
- Build tools requirements
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- =
-
--When building and testing directly from the repository it is important to
--have at least automake version 1.10 or later installed. All modern
--distributions should default to the latest version, but it seems that
--Debian's default is still an earlier version:
--
--  Check version
--    # dpkg -l '*automake*'
--
--  Install new version
--    # apt-get install automake1.10
--    # update-alternatives --config automake
-+Required packages and tools:
-+  autoconf
-+  automake
-+  dbus
-+  gcc/clang
-+  glib 2.0
-+  libtool
-+  libnl-3
-+  libnl-genl-3
-+  make
-+
-+See also installation scripts for  Continuous Integration in ci/ directory.
- =
-
- =
-
- Working with the source code repository
+diff --git a/tools/nciattach.c b/tools/nciattach.c
+index 370f98bb176c..574c0fbe784a 100644
+--- a/tools/nciattach.c
++++ b/tools/nciattach.c
+@@ -32,6 +32,7 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <unistd.h>
++#include <poll.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <signal.h>
+@@ -39,7 +40,6 @@
+ #include <termios.h>
+ #include <time.h>
+ #include <sys/time.h>
+-#include <sys/poll.h>
+ #include <sys/param.h>
+ #include <sys/ioctl.h>
+ #include <termios.h>
 -- =
 
 2.27.0
 
---===============4767362569871372222==--
+--===============0935436339417855801==--
 
