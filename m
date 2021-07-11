@@ -1,87 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============1246736504469482077=="
+Content-Type: multipart/mixed; boundary="===============7383588421825283893=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 22/34] mifare: use proper format for integers (-Wformat)
-Date: Sun, 11 Jul 2021 22:23:39 +0200
-Message-ID: <20210711202351.18363-10-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 23/34] p2p: use proper format for integers (-Wformat)
+Date: Sun, 11 Jul 2021 22:23:40 +0200
+Message-ID: <20210711202351.18363-11-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210711202102.18094-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1246736504469482077==
+--===============7383588421825283893==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 Properly print signed and unsigned integers.  This fixes warnings like:
 
-    plugins/mifare.c: In function =E2=80=98mifare_read=E2=80=99:
-    plugins/mifare.c:836:33: error: format =E2=80=98%d=E2=80=99 expects arg=
-ument of type =E2=80=98int=E2=80=99, but argument 2 has type =E2=80=98unsig=
-ned int=E2=80=99 [-Werror=3Dformat=3D]
-      836 |   near_error("Mifare tag type [%d] not supported.", tgt_subtype=
-);
-          |                                ~^                   ~~~~~~~~~~~
-          |                                 |                   |
-          |                                 int                 unsigned int
-          |                                %d
+    In file included from plugins/p2p.c:38:
+    plugins/p2p.c: In function =E2=80=98p2p_listener_event=E2=80=99:
+    ./include/near/log.h:45:14: error: format =E2=80=98%d=E2=80=99 expects =
+argument of type =E2=80=98int=E2=80=99, but argument 4 has type =E2=80=98__=
+u32=E2=80=99 {aka =E2=80=98unsigned int=E2=80=99} [-Werror=3Dformat=3D]
+       45 |   near_debug("%s:%s() " fmt, \
+          |              ^~~~~~~~~~
+    plugins/p2p.c:261:2: note: in expansion of macro =E2=80=98DBG=E2=80=99
+      261 |  DBG("target idx %d", client_addr.target_idx);
+          |  ^~~
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- plugins/mifare.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ plugins/p2p.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/plugins/mifare.c b/plugins/mifare.c
-index 3d376526735d..a4e4ba443995 100644
---- a/plugins/mifare.c
-+++ b/plugins/mifare.c
-@@ -833,7 +833,7 @@ int mifare_read(uint32_t adapter_idx, uint32_t target_i=
-dx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type [%d] not supported.", tgt_subtype);
-+		near_error("Mifare tag type [%u] not supported.", tgt_subtype);
- 		return -1;
+diff --git a/plugins/p2p.c b/plugins/p2p.c
+index 13702ade3e14..cf3e0accaf33 100644
+--- a/plugins/p2p.c
++++ b/plugins/p2p.c
+@@ -256,9 +256,9 @@ static gboolean p2p_listener_event(GIOChannel *channel,=
+ GIOCondition condition,
+ 		return FALSE;
  	}
  =
 
-@@ -900,7 +900,7 @@ int mifare_check_presence(uint32_t adapter_idx, uint32_=
-t target_idx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type %d not supported.", tgt_subtype);
-+		near_error("Mifare tag type %u not supported.", tgt_subtype);
- 		return -1;
- 	}
+-	DBG("client dsap %d ssap %d",
++	DBG("client dsap %u ssap %u",
+ 		client_addr.dsap, client_addr.ssap);
+-	DBG("target idx %d", client_addr.target_idx);
++	DBG("target idx %u", client_addr.target_idx);
  =
 
-@@ -1228,7 +1228,7 @@ static int writing_not_permitted(void *data)
- 		}
- 	}
- =
-
--	DBG("TAG writable sectors' size: [%d].", new_tag_size);
-+	DBG("TAG writable sectors' size: [%u].", new_tag_size);
- =
-
- 	/* Check if there's enough space on tag */
- 	if (new_tag_size < mf_ck->ndef->length) {
-@@ -1293,7 +1293,7 @@ int mifare_write(uint32_t adapter_idx, uint32_t targe=
-t_idx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type %d not supported.", tgt_subtype);
-+		near_error("Mifare tag type %u not supported.", tgt_subtype);
- 		return -1;
- 	}
- =
-
+ 	client_data =3D g_try_malloc0(sizeof(struct p2p_data));
+ 	if (!client_data) {
 -- =
 
 2.27.0
 
---===============1246736504469482077==--
+--===============7383588421825283893==--
 
