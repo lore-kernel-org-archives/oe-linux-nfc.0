@@ -1,91 +1,190 @@
-Content-Type: multipart/mixed; boundary="===============6752939461642675069=="
+Content-Type: multipart/mixed; boundary="===============5677241611873581723=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH 00/12] nfc: constify, continued (part 2)
-Date: Thu, 29 Jul 2021 13:58:32 +0200
-Message-ID: <f3521001-58f3-8c6c-5b07-9dd8dae0cba8@canonical.com>
-In-Reply-To: <7b0ae615-dcdc-251e-4067-959b31c28159@canonical.com>
+Subject: [neard][PATCH 16/16] ci: add build with sanitizers (asan, lsan and ubsan)
+Date: Wed, 14 Jul 2021 13:05:18 +0200
+Message-ID: <20210714110518.104655-17-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6752939461642675069==
+--===============5677241611873581723==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 29/07/2021 13:35, Krzysztof Kozlowski wrote:
-> On 29/07/2021 13:30, patchwork-bot+netdevbpf(a)kernel.org wrote:
->> Hello:
->>
->> This series was applied to netdev/net-next.git (refs/heads/master):
->>
->> On Thu, 29 Jul 2021 12:40:10 +0200 you wrote:
->>> Hi,
->>>
->>> On top of:
->>> nfc: constify pointed data
->>> https://lore.kernel.org/lkml/20210726145224.146006-1-krzysztof.kozlowsk=
-i(a)canonical.com/
->>>
->>> Best regards,
->>> Krzysztof
->>>
->>> [...]
->>
->> Here is the summary with links:
->>   - [01/12] nfc: constify passed nfc_dev
->>     https://git.kernel.org/netdev/net-next/c/dd8987a394c0
->>   - [02/12] nfc: mei_phy: constify buffer passed to mei_nfc_send()
->>     https://git.kernel.org/netdev/net-next/c/894a6e158633
->>   - [03/12] nfc: port100: constify several pointers
->>     https://git.kernel.org/netdev/net-next/c/9a4af01c35a5
->>   - [04/12] nfc: trf7970a: constify several pointers
->>     https://git.kernel.org/netdev/net-next/c/ea050c5ee74a
->>   - [05/12] nfc: virtual_ncidev: constify pointer to nfc_dev
->>     https://git.kernel.org/netdev/net-next/c/83428dbbac51
->>   - [06/12] nfc: nfcsim: constify drvdata (struct nfcsim)
->>     https://git.kernel.org/netdev/net-next/c/582fdc98adc8
->>   - [07/12] nfc: fdp: drop unneeded cast for printing firmware size in d=
-ev_dbg()
->>     https://git.kernel.org/netdev/net-next/c/6c755b1d2511
->>   - [08/12] nfc: fdp: use unsigned int as loop iterator
->>     https://git.kernel.org/netdev/net-next/c/c3e26b6dc1b4
->>   - [09/12] nfc: fdp: constify several pointers
->>     https://git.kernel.org/netdev/net-next/c/3d463dd5023b
->>   - [10/12] nfc: microread: constify several pointers
->>     https://git.kernel.org/netdev/net-next/c/a751449f8b47
->>   - [11/12] nfc: mrvl: constify several pointers
->>     https://git.kernel.org/netdev/net-next/c/fe53159fe3e0
-> =
+Check the results if sanitizers were correctly linked.
 
-> Oh, folks, too fast :)
-> =
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ .github/workflows/ci.yml | 44 ++++++++++++++++++++++++++++++++++++++--
+ HACKING                  |  5 ++++-
+ ci/debian.sanitizers.sh  | 18 ++++++++++++++++
+ ci/ubuntu.sanitizers.sh  |  1 +
+ 4 files changed, 65 insertions(+), 3 deletions(-)
+ create mode 100755 ci/debian.sanitizers.sh
+ create mode 120000 ci/ubuntu.sanitizers.sh
 
-> Sorry for the mess, but the patch 11/12 has one const which is wrong
-> (I sent an email for it) and this should be on top of my
-> previous set:
-> https://lore.kernel.org/lkml/20210726145224.146006-1-krzysztof.kozlowski(=
-a)canonical.com/
-> which I think you did not take in.
-> =
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 14cc4306de23..7c2eb3cb13f4 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -66,6 +66,13 @@ jobs:
+               CC: gcc
+               MODE: maintainer
+ =
 
-> I am not sure if it compiles cleanly without the one above.
++          - container: "debian:stable"
++            env:
++              ARCH: x86-64
++              CC: gcc
++              VARIANT: sanitizers
++              MODE: maintainer
++
+           - container: "debian:stable"
+             env:
+               ARCH: x86-64
+@@ -78,6 +85,13 @@ jobs:
+               CC: gcc
+               MODE: maintainer
+ =
 
-Hi David,
++          - container: "debian:testing"
++            env:
++              ARCH: x86-64
++              CC: gcc
++              VARIANT: sanitizers
++              MODE: maintainer
++
+           - container: "debian:testing"
+             env:
+               ARCH: x86-64
+@@ -153,6 +167,13 @@ jobs:
+               CC: gcc
+               MODE: maintainer
+ =
 
-This fails because of missing patchset above:
-../drivers/nfc/fdp/fdp.c: In function =E2=80=98fdp_nci_set_production_data=
-=E2=80=99:
-../drivers/nfc/fdp/fdp.c:116:60: warning: passing argument 4 of
-=E2=80=98nci_prop_cmd=E2=80=99 discards =E2=80=98const=E2=80=99 qualifier f=
-rom pointer target type
-[-Wdiscarded-qualifiers]
-  116 |  return nci_prop_cmd(ndev, NCI_OP_PROP_SET_PDATA_OID, len, data);
++          - container: "ubuntu:hirsute"
++            env:
++              ARCH: x86-64
++              CC: gcc
++              VARIANT: sanitizers
++              MODE: maintainer
++
+           - container: "ubuntu:hirsute"
+             env:
+               ARCH: x86-64
+@@ -165,6 +186,13 @@ jobs:
+               CC: gcc
+               MODE: maintainer
+ =
 
-It also has one issue in patch 11/12. Can you drop this from
-net-dev/master? I can send a v2 of both patchsets combined.
++          - container: "ubuntu:focal"
++            env:
++              ARCH: x86-64
++              CC: gcc
++              VARIANT: sanitizers
++              MODE: maintainer
++
+           - container: "ubuntu:focal"
+             env:
+               ARCH: x86-64
+@@ -235,9 +263,14 @@ jobs:
+     - name: Configure
+       run: |
+         echo "Bootstraping in mode: $MODE"
++        CONFIGURE_ARGS=3D""
++        if [ "$VARIANT" =3D "sanitizers" ]; then
++          CONFIGURE_ARGS=3D"--enable-asan --enable-lsan --enable-ubsan --e=
+nable-pie"
++        fi
+         if [ "$MODE" =3D "maintainer" ]; then
+           ./bootstrap-configure \
+-            --disable-silent-rules
++            --disable-silent-rules \
++            $CONFIGURE_ARGS
+         else
+           ./bootstrap && \
+             ./configure \
+@@ -246,7 +279,8 @@ jobs:
+             --prefix=3D/usr \
+             --enable-ese \
+             --sysconfdir=3D/etc \
+-            --enable-tools
++            --enable-tools \
++            $CONFIGURE_ARGS
+         fi
+ =
 
-Best regards,
-Krzysztof
---===============6752939461642675069==--
+     - name: Compile
+@@ -277,6 +311,12 @@ jobs:
+         esac
+         echo "Checking for built matching architecture: $ARCH_CHECK"
+         file src/neard | grep "$ARCH_CHECK"
++        if [ "$VARIANT" =3D "sanitizers" ]; then
++          echo "Checking for linking against sanitizer libraries"
++          ldd src/neard | grep libasan.so
++          # liblsan won't appear if asan is used
++          ldd src/neard | grep libubsan.so
++        fi
+ =
+
+     - name: Install
+       run: make install
+diff --git a/HACKING b/HACKING
+index 7326242506a6..40bde2fb3c8b 100644
+--- a/HACKING
++++ b/HACKING
+@@ -51,8 +51,11 @@ like this:
+     # git clone git://git.kernel.org/pub/scm/network/.../neard.git
+     # cd neard
+ =
+
+-  Configure and build
++  Configure (choose only one)
+     # ./bootstrap-configure
++    # ./bootstrap-configure --enable-asan --enable-lsan --enable-ubsan
++
++  Build
+     # make
+ =
+
+   Check installation
+diff --git a/ci/debian.sanitizers.sh b/ci/debian.sanitizers.sh
+new file mode 100755
+index 000000000000..40dc1f44b55a
+--- /dev/null
++++ b/ci/debian.sanitizers.sh
+@@ -0,0 +1,18 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2021 Canonical Ltd.
++# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
++#                             <krzk@kernel.org>
++#
++
++set -ex
++
++apt install -y --no-install-recommends \
++	liblsan0 \
++	libubsan1
++
++apt install -y --no-install-recommends libasan6 || \
++	apt install -y --no-install-recommends libasan5
++
++echo "Install finished: $0"
+diff --git a/ci/ubuntu.sanitizers.sh b/ci/ubuntu.sanitizers.sh
+new file mode 120000
+index 000000000000..53cd9418ed35
+--- /dev/null
++++ b/ci/ubuntu.sanitizers.sh
+@@ -0,0 +1 @@
++debian.sanitizers.sh
+\ No newline at end of file
+-- =
+
+2.27.0
+
+--===============5677241611873581723==--
 
