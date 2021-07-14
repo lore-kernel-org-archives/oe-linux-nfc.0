@@ -1,162 +1,148 @@
-Content-Type: multipart/mixed; boundary="===============2355838787064320907=="
+Content-Type: multipart/mixed; boundary="===============8360217091383466488=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 43/73] snep: fix double free of GSList
-Date: Mon, 19 Jul 2021 13:07:49 +0200
-Message-ID: <20210719110819.27340-44-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 10/16] build: add support for GCC sanitizers (asan, lsan and ubsan)
+Date: Wed, 14 Jul 2021 13:05:12 +0200
+Message-ID: <20210714110518.104655-11-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2355838787064320907==
+--===============8360217091383466488==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-g_slist_free_full() already frees entire GSList so calling it with
-g_slist_free causes a double free and memory corruption.
+Add support for GCC sanitizers: address (asan), leak (lsan) and
+undefined behavior (ubsan).  These can be toggled in ./configure with
+--enable-asan, --enable-lsan and --enable-ubsan.
 
-This can be seen with Valgrind:
-
-  Invalid read of size 8
-    at 0x48E3980: g_slice_free_chain_with_offset (in /usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0.6600.1)
-    by 0x122075: snep_core_process_request (snep.c:481)
-    by 0x122075: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x12457A: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:775)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F982: main (test-snep-read.c:960)
-   Address 0x501e198 is 8 bytes inside a block of size 16 free'd
-    at 0x483DA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_mem=
-check-amd64-linux.so)
-    by 0x48E3971: g_slice_free_chain_with_offset (in /usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0.6600.1)
-    by 0x122068: snep_core_process_request (snep.c:479)
-    by 0x122068: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x12457A: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:775)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F982: main (test-snep-read.c:960)
-   Block was alloc'd at
-    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
-emcheck-amd64-linux.so)
-    by 0x48CA698: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6=
-600.1)
-    by 0x48E2CF1: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
-o.0.6600.1)
-    by 0x48E4407: g_slist_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0.6600.1)
-    by 0x121AC7: snep_core_push_prepare_fragments (snep.c:377)
-    by 0x121AC7: near_snep_core_response (snep.c:695)
-    by 0x1224DB: near_snep_core_response_with_info (snep.c:779)
-    by 0x122E41: test_snep_dummy_req_get (test-snep-read.c:172)
-    by 0x121FF3: snep_core_process_request (snep.c:413)
-    by 0x121FF3: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x124449: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:746)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-
-  Invalid free() / delete / delete[] / realloc()
-    at 0x483DA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_mem=
-check-amd64-linux.so)
-    by 0x48E3971: g_slice_free_chain_with_offset (in /usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0.6600.1)
-    by 0x122075: snep_core_process_request (snep.c:481)
-    by 0x122075: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x12457A: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:775)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F982: main (test-snep-read.c:960)
-   Address 0x501e190 is 0 bytes inside a block of size 16 free'd
-    at 0x483DA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_mem=
-check-amd64-linux.so)
-    by 0x48E3971: g_slice_free_chain_with_offset (in /usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0.6600.1)
-    by 0x122068: snep_core_process_request (snep.c:479)
-    by 0x122068: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x12457A: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:775)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F982: main (test-snep-read.c:960)
-   Block was alloc'd at
-    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
-emcheck-amd64-linux.so)
-    by 0x48CA698: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6=
-600.1)
-    by 0x48E2CF1: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
-o.0.6600.1)
-    by 0x48E4407: g_slist_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0.6600.1)
-    by 0x121AC7: snep_core_push_prepare_fragments (snep.c:377)
-    by 0x121AC7: near_snep_core_response (snep.c:695)
-    by 0x1224DB: near_snep_core_response_with_info (snep.c:779)
-    by 0x122E41: test_snep_dummy_req_get (test-snep-read.c:172)
-    by 0x121FF3: snep_core_process_request (snep.c:413)
-    by 0x121FF3: near_snep_core_read (snep.c:620)
-    by 0x122CE4: test_snep_read_req_common (test-snep-read.c:348)
-    by 0x124449: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
-:746)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+The autoconf code for this derived from ell (mostly authored by Mat
+Martineau <mathew.j.martineau@linux.intel.com>):
+https://git.kernel.org/pub/scm/libs/ell/ell.git
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/snep.c | 2 --
- 1 file changed, 2 deletions(-)
+ acinclude.m4 | 36 ++++++++++++++++++++++++++++++++++++
+ configure.ac | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/src/snep.c b/src/snep.c
-index 737060139b07..bac93c115cb3 100644
---- a/src/snep.c
-+++ b/src/snep.c
-@@ -436,7 +436,6 @@ static bool snep_core_process_request(int client_fd,
+diff --git a/acinclude.m4 b/acinclude.m4
+index a12b93972cfa..e9ad0d63cc8c 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -9,3 +9,39 @@ AC_DEFUN([NEARD_PROG_CC_PIE], [
+ 		rm -rf conftest*
+ 	])
+ ])
++
++AC_DEFUN([NEARD_PROG_CC_ASAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Daddress], neard_cv_p=
+rog_cc_asan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Daddress -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_asan=3Dyes
++	else
++		neard_cv_prog_cc_asan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
++
++AC_DEFUN([NEARD_PROG_CC_LSAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dleak], neard_cv_prog=
+_cc_lsan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Dleak -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_lsan=3Dyes
++	else
++		neard_cv_prog_cc_lsan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
++
++AC_DEFUN([NEARD_PROG_CC_UBSAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dundefined], neard_cv=
+_prog_cc_ubsan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Dundefined -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_ubsan=3Dyes
++	else
++		neard_cv_prog_cc_ubsan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
+diff --git a/configure.ac b/configure.ac
+index 1ec6f4eb30ea..c1fdc44ae02d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -26,6 +26,9 @@ AC_LANG([C])
  =
 
- 		g_slist_free_full(snep_data->req->fragments,
- 						free_snep_core_fragment);
--		g_slist_free(snep_data->req->fragments);
+ AC_PROG_CC
+ NEARD_PROG_CC_PIE
++NEARD_PROG_CC_ASAN
++NEARD_PROG_CC_LSAN
++NEARD_PROG_CC_UBSAN
+ AC_PROG_INSTALL
+ AC_PROG_MKDIR_P
  =
 
- 		g_hash_table_remove(snep_client_hash,
- 						GINT_TO_POINTER(client_fd));
-@@ -476,7 +475,6 @@ leave_cont:
- 		/* No more fragment to send, clean memory */
- 		g_slist_free_full(snep_data->req->fragments,
- 						free_snep_core_fragment);
--		g_slist_free(snep_data->req->fragments);
+@@ -98,6 +101,48 @@ AC_ARG_ENABLE(pie, AS_HELP_STRING([--enable-pie],
+ AC_CHECK_LIB(dl, dlopen, dummy=3Dyes,
+ 			AC_MSG_ERROR(dynamic linking loader is required))
  =
 
- 		g_hash_table_remove(snep_client_hash,
- 						GINT_TO_POINTER(client_fd));
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(asan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(asan, AC_HELP_STRING([--enable-asan],
++			[enable linking with address sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_asan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_asan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Daddress";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Daddress"
++	fi
++])
++
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(lsan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(lsan, AC_HELP_STRING([--enable-lsan],
++			[enable linking with leak sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_lsan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_lsan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Dleak";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dleak"
++	fi
++])
++
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(ubsan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(ubsan, AC_HELP_STRING([--enable-ubsan],
++			[enable linking with undefined behavior sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_ubsan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_ubsan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Dundefined";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dundefined"
++	fi
++])
++
+ GLIB_DEPS=3D"glib-2.0 >=3D 2.28"
+ PKG_CHECK_MODULES(GLIB, [${GLIB_DEPS}], dummy=3Dyes,
+ 				AC_MSG_ERROR(GLib >=3D 2.28 is required))
 -- =
 
 2.27.0
 
---===============2355838787064320907==--
+--===============8360217091383466488==--
 
