@@ -1,68 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============1684174521470673189=="
+Content-Type: multipart/mixed; boundary="===============1975830079348727572=="
 MIME-Version: 1.0
-From: Mark Greer <mgreer@animalcreek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: About NFC Tag emulation on Linux
-Date: Thu, 22 Jul 2021 23:03:28 -0700
-Message-ID: <20210723060328.GA1042603@animalcreek.com>
-In-Reply-To: <CAPNCXk0qkc-5myby0TdzD=6kBXSd_o_iNGy6jjjO5YXeyZqceg@mail.gmail.com>
+Subject: [neard][PATCH 14/16] tag: do not open-code freeing ndef message
+Date: Wed, 14 Jul 2021 13:05:16 +0200
+Message-ID: <20210714110518.104655-15-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1684174521470673189==
+--===============1975830079348727572==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 22, 2021 at 01:59:17PM +0300, Vincas Dargis wrote:
-> Hi list,
+Use near_ndef_msg_free() instead of open-coding it.
 
-Hi Vincas.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ src/tag.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> I see there's "test-device", "test-tag" helpers in neard-tools package
-> in Debian, but it looks like it needs actual devices/tags to test
-> with..?
-> =
+diff --git a/src/tag.c b/src/tag.c
+index 520368b1552c..ce8c477d9527 100644
+--- a/src/tag.c
++++ b/src/tag.c
+@@ -459,14 +459,12 @@ static DBusMessage *write_ndef(DBusConnection *conn,
+ 		break;
+ =
 
-> Is there a way to emulate NFC tag, to "emit" NFC tag discovery events
-> and NDEF mesages on Linux? Qt supports NFC on Linux via neard daemon,
-> so I thought it would be very useful to emulate NFC tags (with various
-> payloads) for development and (automated even?) testing.
+ 	default:
+-		g_free(ndef->data);
+-		g_free(ndef);
++		near_ndef_msg_free(ndef);
+ =
 
-I won't repeat [much of] what others have said but I can add this:
+ 		return __near_error_failed(msg, EOPNOTSUPP);
+ 	}
+ =
 
+-	g_free(ndef->data);
+-	g_free(ndef);
++	near_ndef_msg_free(ndef);
+ =
 
-A: Try nfcsim
+ 	tag->write_ndef =3D ndef_with_header;
+ 	err =3D __near_tag_write(tag, ndef_with_header, write_cb);
+-- =
 
-Already mentioned in this thread.
+2.27.0
 
-B: Use real hardware
-
-B.1: Reader/Writers
-
-PN533 dongles are fairly inexpensive (e.g.,
-https://www.mikroe.com/nfc-usb-dongle) but most other are > $50 USD
-so they are a little expensive.
-
-B.2: Tags
-
-B.2.i: Use a dynamic tag
-
-That is a fancy term for a programmable device that looks like a "dumb"
-NFC tag from the reader/writer side but you can control it (including
-the data that is read by the reader) from the other side.  NXP, ST,
-and TI all have (or did have) versions.  There may be others.  These
-will almost certainly require a programming effort on your part.  If
-you chose the TI rf430cl33x, I may be able to help
-(e.g., https://www.ti.com/tool/DLP-RF430BP).
-
-B.2.ii: Buy some "dumb" tags
-
-They're cheap so buy a few (e.g., https://store.gototags.com/nfc-tags).
-Try different tags types.  Types 2, 3, 4A, 4B, and 5 all work.
-In theory type 1 tags work too but I have no way to test them so I
-cannot say for sure.
-
-Mark
---
---===============1684174521470673189==--
+--===============1975830079348727572==--
 
