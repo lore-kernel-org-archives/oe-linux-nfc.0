@@ -1,73 +1,156 @@
-Content-Type: multipart/mixed; boundary="===============6963944185935118772=="
+Content-Type: multipart/mixed; boundary="===============8957097735686358320=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 70/73] build: enable -Wunsafe-loop-optimizations and -Wstrict-overflow=2 warnings
-Date: Mon, 19 Jul 2021 13:08:16 +0200
-Message-ID: <20210719110819.27340-71-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 13/16] unit: fix memory leaks in test-ndef-parse
+Date: Wed, 14 Jul 2021 13:05:15 +0200
+Message-ID: <20210714110518.104655-14-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6963944185935118772==
+--===============8957097735686358320==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Enable basic overflow in optimization checks (portability related) and
-missed loop optimizations.  The latter (-Wunsafe-loop-optimizations)
-does not work well with GCC v7.5 so simply skip it there.
+test-ndef-parse.c was not freeing fully the ndef records it got.
+Replace the open-coded freeing with usage of near_ndef_records_free() to
+solve libasan errors like:
+
+    Direct leak of 8 byte(s) in 1 object(s) allocated from:
+        #0 0x7f678a64b518 in calloc (/usr/lib/x86_64-linux-gnu/libasan.so.5=
++0xe9518)
+        #1 0x557597045e89 in parse_sp_payload src/ndef.c:1468
+        #2 0x557597045e89 in near_ndef_parse_msg src/ndef.c:2921
+
+and valgring errors like:
+
+    2 bytes in 1 blocks are definitely lost in loss record 2 of 52
+    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
+emcheck-amd64-linux.so)
+    by 0x48CA698: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6=
+600.1)
+    by 0x48E4B3D: g_strndup (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.=
+6600.1)
+    by 0x11C9F6: parse_record_header (ndef.c:1131)
+    by 0x11C9F6: parse_record_header (ndef.c:1038)
+    by 0x11E3D9: near_ndef_parse_msg (ndef.c:2855)
+    by 0x121E6B: test_ndef_uri (test-ndef-parse.c:213)
+    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
+0.so.0.6600.1)
+    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
+.6600.1)
+    by 0x10F61A: main (test-ndef-parse.c:467)
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- accflags.m4 | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ unit/test-ndef-parse.c | 39 +++++----------------------------------
+ 1 file changed, 5 insertions(+), 34 deletions(-)
 
-diff --git a/accflags.m4 b/accflags.m4
-index 57cc48beecc2..0030ac339c86 100644
---- a/accflags.m4
-+++ b/accflags.m4
-@@ -24,6 +24,7 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
- 		AX_CHECK_COMPILE_FLAG([-Wjump-misses-init], [CFLAGS=3D"$CFLAGS -Wjump-mi=
-sses-init"])
- 		AX_CHECK_COMPILE_FLAG([-Wpointer-arith], [CFLAGS=3D"$CFLAGS -Wpointer-ar=
-ith"])
- 		AX_CHECK_COMPILE_FLAG([-Wshadow], [CFLAGS=3D"$CFLAGS -Wshadow"])
-+		AX_CHECK_COMPILE_FLAG([-Wstrict-overflow=3D2], [CFLAGS=3D"$CFLAGS -Wstri=
-ct-overflow=3D2"])
+diff --git a/unit/test-ndef-parse.c b/unit/test-ndef-parse.c
+index 0bc53eeac125..743bfa638d24 100644
+--- a/unit/test-ndef-parse.c
++++ b/unit/test-ndef-parse.c
+@@ -196,15 +196,6 @@ static uint8_t ho_hs_bt[] =3D {0x91, 0x02, 0x0A, 0x48,=
+ 0x73, 0x12, 0xD1, 0x02,
+ 			      0x09, 0x44, 0x65, 0x79, 0x69, 0x63, 0x65, 0x4e,
+ 			      0x61, 0x6d, 0x65};
  =
 
- 		# GCC v5.0
- 		AX_CHECK_COMPILE_FLAG([-Wformat-signedness], [CFLAGS=3D"$CFLAGS -Wformat=
--signedness"])
-@@ -36,10 +37,16 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
- 		AX_CHECK_COMPILE_FLAG([-Walloc-zero], [CFLAGS=3D"$CFLAGS -Walloc-zero"])
- 		# GCC v8.0
- 		AX_CHECK_COMPILE_FLAG([-Wstringop-truncation], [CFLAGS=3D"$CFLAGS -Wstri=
-ngop-truncation"])
-+
-+		# GCC v7.5 from Ubuntu Bionic incorrectly assumes several loops can over=
-flow, so enable
-+		# -Wunsafe-loop-optimizations only on newer GCC.
-+		CC_VERSION=3D`$CC --version | head -n 1 | sed -e 's/.*\ \(@<:@0-9@:>@\+\=
-.@<:@0-9@:>@\+\.@<:@0-9@:>@\+\)\(-@<:@0-9@:>@\+\)\?$/\1/'`
-+		AX_COMPARE_VERSION([$CC_VERSION],[ge],[8.0.0],
-+			[AX_CHECK_COMPILE_FLAG([-Wunsafe-loop-optimizations], [CFLAGS=3D"$CFLAG=
-S -Wunsafe-loop-optimizations"])], [])
- 	fi
- 	if (test "$USE_MAINTAINER_MODE" =3D "pedantic"); then
--		AX_CHECK_COMPILE_FLAG([-Wstrict-overflow=3D3], [CFLAGS=3D"$CFLAGS -Wstri=
-ct-overflow=3D3"])
- 		AX_CHECK_COMPILE_FLAG([-Wcast-qual], [CFLAGS=3D"$CFLAGS -Wcast-qual"])
--		AX_CHECK_COMPILE_FLAG([-Wunsafe-loop-optimizations], [CFLAGS=3D"$CFLAGS =
--Wunsafe-loop-optimizations"])
-+		# Instead of -Wstrict-overflow=3D2
-+		AX_CHECK_COMPILE_FLAG([-Wstrict-overflow=3D3], [CFLAGS=3D"$CFLAGS -Wstri=
-ct-overflow=3D3"])
- 	fi
- ])
+-static void test_ndef_free_record(struct near_ndef_record *record)
+-{
+-	g_free(record->header);
+-	g_free(record->type);
+-	g_free(record->data);
+-	g_free(record);
+-
+-}
+-
+ static void test_ndef_uri(void)
+ {
+ 	GList *records;
+@@ -229,9 +220,7 @@ static void test_ndef_uri(void)
+ 	if (g_test_verbose())
+ 		g_print("NDEF URI field: %s\n", record->uri->field);
+ =
+
+-	g_free(record->uri->field);
+-	g_free(record->uri);
+-	test_ndef_free_record(record);
++	near_ndef_records_free(records);
+ }
+ =
+
+ static void test_ndef_text_encoding(uint8_t *text, size_t len, const char =
+*encoding, const char *expected)
+@@ -262,11 +251,7 @@ static void test_ndef_text_encoding(uint8_t *text, siz=
+e_t len, const char *encod
+ 						record->text->language_code);
+ 	}
+ =
+
+-	g_free(record->text->data);
+-	g_free(record->text->encoding);
+-	g_free(record->text->language_code);
+-	g_free(record->text);
+-	test_ndef_free_record(record);
++	near_ndef_records_free(records);
+ }
+ =
+
+ static void test_ndef_text(void)
+@@ -318,10 +303,7 @@ static void test_ndef_single_sp(void)
+ 		g_print("NDEF SP URI field: %.*s\n", (int)uri->field_length,
+ 			(char *) uri->field);
+ =
+
+-	g_free(uri->field);
+-	g_free(uri);
+-	g_free(record->sp);
+-	test_ndef_free_record(record);
++	near_ndef_records_free(records);
+ }
+ =
+
+ static void test_ndef_title_sp(void)
+@@ -372,16 +354,7 @@ static void test_ndef_title_sp(void)
+ 		g_print("NDEF SP Title Language: %s\n", text->language_code);
+ 	}
+ =
+
+-	g_free(uri->field);
+-	g_free(uri);
+-
+-	g_free(text->data);
+-	g_free(text->encoding);
+-	g_free(text->language_code);
+-	g_free(text);
+-
+-	g_free(record->sp);
+-	test_ndef_free_record(record);
++	near_ndef_records_free(records);
+ }
+ =
+
+ static void test_ndef_aar(void)
+@@ -408,9 +381,7 @@ static void test_ndef_aar(void)
+ 	if (g_test_verbose())
+ 		g_print("NDEF AAR package: %s\n", record->aar->package);
+ =
+
+-	g_free(record->aar->package);
+-	g_free(record->aar);
+-	test_ndef_free_record(record);
++	near_ndef_records_free(records);
+ }
+ =
+
+ static void test_ndef_ho_hs_bt(void)
 -- =
 
 2.27.0
 
---===============6963944185935118772==--
+--===============8957097735686358320==--
 
