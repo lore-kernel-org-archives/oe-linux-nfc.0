@@ -1,47 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============8173931057576792153=="
+Content-Type: multipart/mixed; boundary="===============6651496905758018852=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 08/12] nfc: fdp: use unsigned int as loop iterator
-Date: Thu, 29 Jul 2021 12:40:18 +0200
-Message-ID: <20210729104022.47761-9-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 15/16] unit: do not open-code freeing ndef message
+Date: Wed, 14 Jul 2021 13:05:17 +0200
+Message-ID: <20210714110518.104655-16-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8173931057576792153==
+--===============6651496905758018852==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Loop iterators are simple integers, no point to optimize the size and
-use u8.  It only raises the question whether the variable is used in
-some other context.
+Use near_ndef_msg_free() instead of open-coding it.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/fdp/fdp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ unit/test-snep-read.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nfc/fdp/fdp.c b/drivers/nfc/fdp/fdp.c
-index 650a140bea46..3f5fba922c4d 100644
---- a/drivers/nfc/fdp/fdp.c
-+++ b/drivers/nfc/fdp/fdp.c
-@@ -611,7 +611,8 @@ static int fdp_nci_core_get_config_rsp_packet(struct nc=
-i_dev *ndev,
- 	struct fdp_nci_info *info =3D nci_get_drvdata(ndev);
- 	struct device *dev =3D &info->phy->i2c_dev->dev;
- 	struct nci_core_get_config_rsp *rsp =3D (void *) skb->data;
--	u8 i, *p;
-+	unsigned int i;
-+	u8 *p;
+diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
+index 414b801a5e71..0a2010a677e1 100644
+--- a/unit/test-snep-read.c
++++ b/unit/test-snep-read.c
+@@ -896,8 +896,7 @@ static void test_snep_response_put_get_ndef(gpointer co=
+ntext,
  =
 
- 	if (rsp->status =3D=3D NCI_STATUS_OK) {
+ 	g_free(req);
+ 	g_free(resp);
+-	g_free(ndef->data);
+-	g_free(ndef);
++	near_ndef_msg_free(ndef);
+ }
  =
 
+ int main(int argc, char **argv)
 -- =
 
 2.27.0
 
---===============8173931057576792153==--
+--===============6651496905758018852==--
 
