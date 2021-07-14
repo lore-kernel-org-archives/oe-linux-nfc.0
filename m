@@ -1,71 +1,81 @@
-Content-Type: multipart/mixed; boundary="===============2700666010926414751=="
+Content-Type: multipart/mixed; boundary="===============6198091970149710969=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 03/16] mifare: use unsigned int to suppress compiler -Wstrict-overflow
-Date: Wed, 14 Jul 2021 13:05:05 +0200
-Message-ID: <20210714110518.104655-4-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 02/16] nfctool: annotate printf-like functions as accepting format
+Date: Wed, 14 Jul 2021 13:05:04 +0200
+Message-ID: <20210714110518.104655-3-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2700666010926414751==
+--===============6198091970149710969==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-GCC v7.5 (Ubuntu Bionic) with optimizations has trouble spotting lack of
-possible overflow of a signed integer.  There is no overflow possible
-so this is a false positive which can be suppressed by simply using
-unsigned integer.  Unsigned also has more sense in that context.
+Printf-like functions should have the "format" argument annotated to:
+1. Help in detection of format string vulnerabilities (and mistakes).
+2. Satisfy -Wformat-nonliteral (-Wformat=3D2) warning.
 
-This fixes GCC 7.5 warning:
+This fixes clang warnings like:
 
-    plugins/mifare.c: In function 'mifare_process_MADs':
-    plugins/mifare.c:626:5: error: assuming signed overflow does not occur =
-when simplifying conditional to constant [-Werror=3Dstrict-overflow]
-      if (global_tag_size =3D=3D 0) {
-         ^
+    tools/nfctool/sniffer.c:206:18: error: format string is not a string li=
+teral [-Werror,-Wformat-nonliteral]
+                        sprintf(line, fmt, offset);
+                                      ^~~
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- plugins/mifare.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tools/nfctool/sniffer.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/plugins/mifare.c b/plugins/mifare.c
-index a4e4ba443995..f42007d5dfd7 100644
---- a/plugins/mifare.c
-+++ b/plugins/mifare.c
-@@ -560,7 +560,7 @@ static int mifare_process_MADs(void *data)
- 	struct mifare_cookie *mf_ck =3D data;
- 	int err;
- 	int i;
--	int global_tag_size =3D 0;
-+	unsigned int global_tag_size =3D 0;
- 	int ioffset;
- 	uint8_t *tag_data;
- 	size_t data_size;
-@@ -626,13 +626,13 @@ done_mad:
- 	if (global_tag_size =3D=3D 0) {
+diff --git a/tools/nfctool/sniffer.c b/tools/nfctool/sniffer.c
+index 3d1d230a50c5..6a38a213c74d 100644
+--- a/tools/nfctool/sniffer.c
++++ b/tools/nfctool/sniffer.c
+@@ -168,7 +168,6 @@ void sniffer_print_hexdump(FILE *file, guint8 *data, gu=
+int32 len,
+ 	gchar *hexa =3D NULL, *human =3D NULL;
+ 	guint8 offset_len;
+ 	guint8 human_offset;
+-	gchar *fmt;
  =
 
- 		/* no NFC sectors - mark tag as blank */
--		near_error("TAG Global size: [%d], not valid NFC tag.",
-+		near_error("TAG Global size: [%u], not valid NFC tag.",
- 				global_tag_size);
- 		return -ENODEV;
+ 	if (len =3D=3D 0)
+ 		return;
+@@ -185,11 +184,9 @@ void sniffer_print_hexdump(FILE *file, guint8 *data, g=
+uint32 len,
+ 	if (output_len > 0xFFFF) {
+ 		offset_len =3D 8;
+ 		human_offset =3D HUMAN_READABLE_OFFSET + 4;
+-		fmt =3D "%08X: ";
+ 	} else {
+ 		offset_len =3D 4;
+ 		human_offset =3D HUMAN_READABLE_OFFSET;
+-		fmt =3D "%04X: ";
  	}
  =
 
- 	/* n sectors, each sector is 3 blocks, each block is 16 bytes */
--	DBG("TAG Global size: [%d]", global_tag_size);
-+	DBG("TAG Global size: [%u]", global_tag_size);
+ 	if (print_len) {
+@@ -203,7 +200,10 @@ void sniffer_print_hexdump(FILE *file, guint8 *data, g=
+uint32 len,
+ 		if (digits =3D=3D 0) {
+ 			memset(line, ' ', human_offset);
  =
 
- 	mf_ck->tag =3D near_tag_get_tag(mf_ck->adapter_idx, mf_ck->target_idx);
- 	if (!mf_ck->tag) {
+-			sprintf(line, fmt, offset);
++			if (offset_len =3D=3D 8)
++				sprintf(line, "%08X: ", offset);
++			else
++				sprintf(line, "%04X: ", offset);
+ =
+
+ 			offset +=3D 16;
+ =
+
 -- =
 
 2.27.0
 
---===============2700666010926414751==--
+--===============6198091970149710969==--
 
