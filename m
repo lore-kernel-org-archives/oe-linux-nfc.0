@@ -1,80 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============6985734320825266614=="
+Content-Type: multipart/mixed; boundary="===============3604061247322178902=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 2/7] unit: fix memory leaks in test-ndef-build
-Date: Fri, 16 Jul 2021 12:08:39 +0200
-Message-ID: <20210716100844.51360-3-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 3/7] snep: remove useless NULL-ify of local pointer variable
+Date: Fri, 16 Jul 2021 12:08:40 +0200
+Message-ID: <20210716100844.51360-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210716100844.51360-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6985734320825266614==
+--===============3604061247322178902==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-test-ndef-build.c was not freeing the ndef records it got leading to
-memory leaks.  Report by valgrind:
-
-  (24 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss re=
-cord 24 of 38
-    at 0x483ED99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
-emcheck-amd64-linux.so)
-    by 0x11C176: ndef_message_alloc_complete.constprop.0 (ndef.c:1654)
-    by 0x11FEC5: ndef_message_alloc (ndef.c:1760)
-    by 0x11FEC5: near_ndef_prepare_text_record (ndef.c:3142)
-    by 0x121676: test_ndef_text_build (test-ndef-build.c:63)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F5A1: main (test-ndef-build.c:113)
+Assigning NULL to a local variable (a pointer) at the end of function
+does not have any effect as this NULL is not passed outside.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- unit/test-ndef-build.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ src/snep.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/unit/test-ndef-build.c b/unit/test-ndef-build.c
-index 44dce4bf9aef..54b502f4a40b 100644
---- a/unit/test-ndef-build.c
-+++ b/unit/test-ndef-build.c
-@@ -65,6 +65,8 @@ static void test_ndef_text_build(void)
- 	g_assert(ndef);
- 	g_assert_cmpuint(ndef->length, =3D=3D, ARRAY_SIZE(text));
- 	g_assert_cmpmem(ndef->data, ARRAY_SIZE(text), text, ARRAY_SIZE(text));
-+
-+	near_ndef_msg_free(ndef);
+diff --git a/src/snep.c b/src/snep.c
+index a1e90243c020..737060139b07 100644
+--- a/src/snep.c
++++ b/src/snep.c
+@@ -206,7 +206,6 @@ static void free_snep_core_fragment(gpointer data)
+ 		g_free(fragment->data);
+ =
+
+ 	g_free(fragment);
+-	fragment =3D NULL;
  }
  =
 
- static void test_ndef_wsc_with_passphrase_build(void)
-@@ -76,6 +78,8 @@ static void test_ndef_wsc_with_passphrase_build(void)
- 	g_assert(ndef);
- 	g_assert_cmpuint(ndef->length, =3D=3D, ARRAY_SIZE(wsc));
- 	g_assert_cmpmem(ndef->data, ARRAY_SIZE(wsc), wsc, ARRAY_SIZE(wsc));
-+
-+	near_ndef_msg_free(ndef);
- }
- =
-
- static void test_ndef_wsc_with_out_passphrase_build(void)
-@@ -87,6 +91,8 @@ static void test_ndef_wsc_with_out_passphrase_build(void)
- 	g_assert(ndef);
- 	g_assert_cmpuint(ndef->length, =3D=3D, ARRAY_SIZE(wsc_wo));
- 	g_assert_cmpmem(ndef->data, ARRAY_SIZE(wsc_wo), wsc_wo, ARRAY_SIZE(wsc_wo=
-));
-+
-+	near_ndef_msg_free(ndef);
- }
- =
-
- static void test_ndef_wsc_with_out_ssid_build(void)
+ static void free_snep_core_push_data(gpointer userdata, int status)
 -- =
 
 2.27.0
 
---===============6985734320825266614==--
+--===============3604061247322178902==--
 
