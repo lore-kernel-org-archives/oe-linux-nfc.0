@@ -1,75 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============2846430163083288387=="
+Content-Type: multipart/mixed; boundary="===============0407937334095317175=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 00/16] -Wformat=2 and few memory leaks
-Date: Wed, 14 Jul 2021 13:05:02 +0200
-Message-ID: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 7/7] unit: fix records GList memory leak in test-snep-read
+Date: Fri, 16 Jul 2021 12:08:44 +0200
+Message-ID: <20210716100844.51360-8-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210716100844.51360-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2846430163083288387==
+--===============0407937334095317175==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+The test_snep_dummy_req_put() stores one record in global stored_recd
+pointer, so the GList itself should be freed.  This fixes Valgrind
+warning:
 
-This is a third series of my patches, built on top of
-https://lore.kernel.org/linux-nfc/20210711202102.18094-1-krzysztof.kozlowsk=
-i(a)canonical.com/T/#t
+  24 bytes in 1 blocks are definitely lost in loss record 21 of 30
+    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
+emcheck-amd64-linux.so)
+    by 0x48CA698: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6=
+600.1)
+    by 0x48E2CF1: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
+o.0.6600.1)
+    by 0x48BFF07: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
+o.0.6600.1)
+    by 0x11E68A: near_ndef_parse_msg (ndef.c:2964)
+    by 0x122A23: test_snep_dummy_req_put (test-snep-read.c:131)
+    by 0x122005: snep_core_process_request (snep.c:397)
+    by 0x122005: near_snep_core_read (snep.c:617)
+    by 0x123042: test_snep_read_req_common.constprop.0 (test-snep-read.c:35=
+2)
+    by 0x1234E0: test_snep_read_put_req_ok (test-snep-read.c:500)
+    by 0x1234E0: test_snep_read_get_req_ok (test-snep-read.c:644)
+    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
+0.so.0.6600.1)
 
-The ASAN detected several leaks in the unit tests which lead me to
-investigate such leaks through neard.  The patchset fixes few easier
-ones.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ unit/test-snep-read.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
-Krzysztof
+diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
+index a4df6ec95f8f..2e977f749610 100644
+--- a/unit/test-snep-read.c
++++ b/unit/test-snep-read.c
+@@ -142,6 +142,7 @@ static bool test_snep_dummy_req_put(int fd, void *data)
+ 	g_free(nfc_data);
+ =
 
+ 	stored_recd =3D records->data;
++	g_list_free(records);
+ =
 
-Krzysztof Kozlowski (16):
-  gdbus: annotate printf-like functions as accepting format
-  nfctool: annotate printf-like functions as accepting format
-  mifare: use unsigned int to suppress compiler -Wstrict-overflow
-  build: enable -Wformat=3D2 warnings
-  build: enable -Wunsafe-loop-optimizations and -Wstrict-overflow=3D2
-    warnings
-  TODO: remove finished tasks
-  ci: build also on Ubuntu Hirsute in non-maintainer mode
-  ci: simplify getting test logs
-  build: fix missing usage of PIE check result
-  build: add support for GCC sanitizers (asan, lsan and ubsan)
-  ndef: make freeing near_ndef_message reusable
-  snep-send: fix near_ndef_message memory leak
-  unit: fix memory leaks in test-ndef-parse
-  tag: do not open-code freeing ndef message
-  unit: do not open-code freeing ndef message
-  ci: add build with sanitizers (asan, lsan and ubsan)
-
- .github/workflows/ci.yml | 58 +++++++++++++++++++++++++++++++++-------
- HACKING                  |  5 +++-
- TODO                     | 12 ---------
- accflags.m4              | 12 +++++++--
- acinclude.m4             | 36 +++++++++++++++++++++++++
- ci/debian.sanitizers.sh  | 18 +++++++++++++
- ci/ubuntu.sanitizers.sh  |  1 +
- configure.ac             | 47 +++++++++++++++++++++++++++++++-
- gdbus/gdbus.h            | 15 +++++++----
- include/ndef.h           |  1 +
- plugins/mifare.c         |  6 ++---
- src/adapter.c            |  1 +
- src/ndef.c               | 56 +++++++++++++++++++-------------------
- src/tag.c                |  6 ++---
- tools/nfctool/sniffer.c  |  8 +++---
- tools/snep-send.c        |  2 ++
- unit/test-ndef-parse.c   | 39 ++++-----------------------
- unit/test-snep-read.c    |  3 +--
- 18 files changed, 221 insertions(+), 105 deletions(-)
- create mode 100755 ci/debian.sanitizers.sh
- create mode 120000 ci/ubuntu.sanitizers.sh
-
+ 	TEST_SNEP_LOG("\t\tdummy_req_put STORED REC data=3D%p length=3D%zu\n",
+ 			stored_recd->data, stored_recd->data_len);
 -- =
 
 2.27.0
 
---===============2846430163083288387==--
+--===============0407937334095317175==--
 
