@@ -1,113 +1,168 @@
-Content-Type: multipart/mixed; boundary="===============3387461114722935039=="
+Content-Type: multipart/mixed; boundary="===============7226605732495169516=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 01/16] gdbus: annotate printf-like functions as accepting format
-Date: Wed, 14 Jul 2021 13:05:03 +0200
-Message-ID: <20210714110518.104655-2-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 72/73] build: add support for GCC sanitizers (asan, lsan and ubsan)
+Date: Mon, 19 Jul 2021 13:08:18 +0200
+Message-ID: <20210719110819.27340-73-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3387461114722935039==
+--===============7226605732495169516==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Printf-like functions should have the "format" argument annotated to:
-1. Help in detection of format string vulnerabilities (and mistakes).
-2. Satisfy -Wformat-nonliteral (-Wformat=3D2) warning.
+Add support for GCC sanitizers: address (asan), leak (lsan) and
+undefined behavior (ubsan).  These can be toggled in ./configure with
+--enable-asan, --enable-lsan and --enable-ubsan.
 
-This fixes clang warnings like:
-
-    gdbus/object.c:1416:31: error: format string is not a string literal [-=
-Werror,-Wformat-nonliteral]
-                    vsnprintf(str, sizeof(str), format, args);
-                                                ^~~~~~
-
-    src/adapter.c:255:7: error: format string is not a string literal (pote=
-ntially insecure) [-Werror,-Wformat-security]
-                                                    strerror(err));
-                                                    ^~~~~~~~~~~~~
-    src/adapter.c:255:7: note: treat the string as an argument to avoid this
-                                                    strerror(err));
-                                                    ^
-                                                    "%s",
+The autoconf code for this derived from ell (mostly authored by Mat
+Martineau <mathew.j.martineau@linux.intel.com>):
+https://git.kernel.org/pub/scm/libs/ell/ell.git
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- gdbus/gdbus.h | 15 ++++++++++-----
- src/adapter.c |  1 +
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ HACKING      |  5 ++++-
+ acinclude.m4 | 36 ++++++++++++++++++++++++++++++++++++
+ configure.ac | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 1 deletion(-)
 
-diff --git a/gdbus/gdbus.h b/gdbus/gdbus.h
-index d99c2549d056..e9ffd029e178 100644
---- a/gdbus/gdbus.h
-+++ b/gdbus/gdbus.h
-@@ -239,13 +239,15 @@ void g_dbus_pending_error(DBusConnection *connection,
- 					__attribute__((format(printf, 4, 5)));
- void g_dbus_pending_error_valist(DBusConnection *connection,
- 				GDBusPendingReply pending, const char *name,
--					const char *format, va_list args);
-+				const char *format, va_list args)
-+				__attribute__ ((format (printf, 4, 0)));
+diff --git a/HACKING b/HACKING
+index 7326242506a6..40bde2fb3c8b 100644
+--- a/HACKING
++++ b/HACKING
+@@ -51,8 +51,11 @@ like this:
+     # git clone git://git.kernel.org/pub/scm/network/.../neard.git
+     # cd neard
  =
 
- DBusMessage *g_dbus_create_error(DBusMessage *message, const char *name,
- 						const char *format, ...)
- 					__attribute__((format(printf, 3, 4)));
- DBusMessage *g_dbus_create_error_valist(DBusMessage *message, const char *=
-name,
--					const char *format, va_list args);
-+					const char *format, va_list args)
-+					__attribute__ ((format (printf, 3, 0)));
- DBusMessage *g_dbus_create_reply(DBusMessage *message, int type, ...);
- DBusMessage *g_dbus_create_reply_valist(DBusMessage *message,
- 						int type, va_list args);
-@@ -259,7 +261,8 @@ gboolean g_dbus_send_error(DBusConnection *connection, =
-DBusMessage *message,
- 					 __attribute__((format(printf, 4, 5)));
- gboolean g_dbus_send_error_valist(DBusConnection *connection,
- 					DBusMessage *message, const char *name,
--					const char *format, va_list args);
-+					const char *format, va_list args)
-+					__attribute__ ((format (printf, 4, 0)));
- gboolean g_dbus_send_reply(DBusConnection *connection,
- 				DBusMessage *message, int type, ...);
- gboolean g_dbus_send_reply_valist(DBusConnection *connection,
-@@ -294,9 +297,11 @@ void g_dbus_remove_all_watches(DBusConnection *connect=
-ion);
+-  Configure and build
++  Configure (choose only one)
+     # ./bootstrap-configure
++    # ./bootstrap-configure --enable-asan --enable-lsan --enable-ubsan
++
++  Build
+     # make
  =
 
- void g_dbus_pending_property_success(GDBusPendingPropertySet id);
- void g_dbus_pending_property_error_valist(GDBusPendingReply id,
--			const char *name, const char *format, va_list args);
-+			const char *name, const char *format, va_list args)
-+			__attribute__ ((format (printf, 3, 0)));
- void g_dbus_pending_property_error(GDBusPendingReply id, const char *name,
--						const char *format, ...);
-+				   const char *format, ...)
-+				   __attribute__((format(printf, 3, 4)));
- void g_dbus_emit_property_changed(DBusConnection *connection,
- 				const char *path, const char *interface,
- 				const char *name);
-diff --git a/src/adapter.c b/src/adapter.c
-index 420127f4f396..e0ab8c5d6055 100644
---- a/src/adapter.c
-+++ b/src/adapter.c
-@@ -252,6 +252,7 @@ static void set_powered(GDBusPendingPropertySet id, dbu=
-s_bool_t powered,
+   Check installation
+diff --git a/acinclude.m4 b/acinclude.m4
+index a12b93972cfa..e9ad0d63cc8c 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -9,3 +9,39 @@ AC_DEFUN([NEARD_PROG_CC_PIE], [
+ 		rm -rf conftest*
+ 	])
+ ])
++
++AC_DEFUN([NEARD_PROG_CC_ASAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Daddress], neard_cv_p=
+rog_cc_asan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Daddress -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_asan=3Dyes
++	else
++		neard_cv_prog_cc_asan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
++
++AC_DEFUN([NEARD_PROG_CC_LSAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dleak], neard_cv_prog=
+_cc_lsan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Dleak -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_lsan=3Dyes
++	else
++		neard_cv_prog_cc_lsan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
++
++AC_DEFUN([NEARD_PROG_CC_UBSAN], [
++AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dundefined], neard_cv=
+_prog_cc_ubsan, [
++	echo 'void f(){}' > conftest.c
++	if test -z "`${CC-cc} -fsanitize=3Dundefined -c conftest.c 2>&1`"; then
++		neard_cv_prog_cc_ubsan=3Dyes
++	else
++		neard_cv_prog_cc_ubsan=3Dno
++	fi
++	rm -rf conftest*
++])
++])
+diff --git a/configure.ac b/configure.ac
+index 1ec6f4eb30ea..c1fdc44ae02d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -26,6 +26,9 @@ AC_LANG([C])
  =
 
- 		g_dbus_pending_property_error(id,
- 						NFC_ERROR_INTERFACE ".Failed",
-+						"%s",
- 						strerror(err));
+ AC_PROG_CC
+ NEARD_PROG_CC_PIE
++NEARD_PROG_CC_ASAN
++NEARD_PROG_CC_LSAN
++NEARD_PROG_CC_UBSAN
+ AC_PROG_INSTALL
+ AC_PROG_MKDIR_P
  =
 
- 		return;
+@@ -98,6 +101,48 @@ AC_ARG_ENABLE(pie, AS_HELP_STRING([--enable-pie],
+ AC_CHECK_LIB(dl, dlopen, dummy=3Dyes,
+ 			AC_MSG_ERROR(dynamic linking loader is required))
+ =
+
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(asan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(asan, AC_HELP_STRING([--enable-asan],
++			[enable linking with address sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_asan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_asan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Daddress";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Daddress"
++	fi
++])
++
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(lsan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(lsan, AC_HELP_STRING([--enable-lsan],
++			[enable linking with leak sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_lsan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_lsan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Dleak";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dleak"
++	fi
++])
++
++save_LIBS=3D$LIBS
++AC_CHECK_LIB(ubsan, _init)
++LIBS=3D$save_LIBS
++
++AC_ARG_ENABLE(ubsan, AC_HELP_STRING([--enable-ubsan],
++			[enable linking with undefined behavior sanitizer]), [
++	if (test "${enableval}" =3D "yes" &&
++				test "${ac_cv_lib_ubsan__init}" =3D "yes" &&
++				test "${neard_cv_prog_cc_ubsan}" =3D "yes"); then
++		CFLAGS=3D"$CFLAGS -fsanitize=3Dundefined";
++		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dundefined"
++	fi
++])
++
+ GLIB_DEPS=3D"glib-2.0 >=3D 2.28"
+ PKG_CHECK_MODULES(GLIB, [${GLIB_DEPS}], dummy=3Dyes,
+ 				AC_MSG_ERROR(GLib >=3D 2.28 is required))
 -- =
 
 2.27.0
 
---===============3387461114722935039==--
+--===============7226605732495169516==--
 
