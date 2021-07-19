@@ -1,58 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============6860214119645456260=="
+Content-Type: multipart/mixed; boundary="===============2760152522105136906=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 41/73] snep: do not open-code freeing ndef message
-Date: Mon, 19 Jul 2021 13:07:47 +0200
-Message-ID: <20210719110819.27340-42-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 42/73] snep: remove useless NULL-ify of local pointer variable
+Date: Mon, 19 Jul 2021 13:07:48 +0200
+Message-ID: <20210719110819.27340-43-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6860214119645456260==
+--===============2760152522105136906==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Use near_ndef_msg_free() instead of open-coding it.
+Assigning NULL to a local variable (a pointer) at the end of function
+does not have any effect as this NULL is not passed outside.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/snep.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ src/snep.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/src/snep.c b/src/snep.c
-index c0a1d1a00491..a1e90243c020 100644
+index a1e90243c020..737060139b07 100644
 --- a/src/snep.c
 +++ b/src/snep.c
-@@ -147,8 +147,7 @@ void near_snep_core_parse_handover_record(int client_fd=
-, uint8_t *ndef,
- 	near_snep_core_response_with_info(client_fd, NEAR_SNEP_RESP_SUCCESS,
- 								msg->data, msg->length);
+@@ -206,7 +206,6 @@ static void free_snep_core_fragment(gpointer data)
+ 		g_free(fragment->data);
  =
 
--	g_free(msg->data);
--	g_free(msg);
-+	near_ndef_msg_free(msg);
+ 	g_free(fragment);
+-	fragment =3D NULL;
  }
  =
 
- /*
-@@ -787,9 +786,7 @@ done:
- 		}
- 	}
- =
-
--	if (ndef)
--		g_free(ndef->data);
--	g_free(ndef);
-+	near_ndef_msg_free(ndef);
- }
- =
-
- /* SNEP Core: on P2P push */
+ static void free_snep_core_push_data(gpointer userdata, int status)
 -- =
 
 2.27.0
 
---===============6860214119645456260==--
+--===============2760152522105136906==--
 
