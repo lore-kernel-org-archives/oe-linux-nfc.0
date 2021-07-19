@@ -1,148 +1,78 @@
-Content-Type: multipart/mixed; boundary="===============8360217091383466488=="
+Content-Type: multipart/mixed; boundary="===============4181278256481433351=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 10/16] build: add support for GCC sanitizers (asan, lsan and ubsan)
-Date: Wed, 14 Jul 2021 13:05:12 +0200
-Message-ID: <20210714110518.104655-11-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 44/73] snep: fix fragmented response memory leaks
+Date: Mon, 19 Jul 2021 13:07:50 +0200
+Message-ID: <20210719110819.27340-45-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8360217091383466488==
+--===============4181278256481433351==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add support for GCC sanitizers: address (asan), leak (lsan) and
-undefined behavior (ubsan).  These can be toggled in ./configure with
---enable-asan, --enable-lsan and --enable-ubsan.
+Sending long response might cause frame fragmentation and
+near_snep_core_response_with_info() does not free such 'struct
+p2p_snep_put_req_data'.  It looks like freeing the fragmented response
+is task for snep_core_process_request as it already frees the fragments.
+Add also freeing the response itself to fix Valgrind (and ASAN) reported
+memory leaks:
 
-The autoconf code for this derived from ell (mostly authored by Mat
-Martineau <mathew.j.martineau@linux.intel.com>):
-https://git.kernel.org/pub/scm/libs/ell/ell.git
+  $ valgrind  --leak-check=3Dfull unit/test-snep-read
+
+  80 bytes in 2 blocks are definitely lost in loss record 55 of 60
+    at 0x483ED99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
+emcheck-amd64-linux.so)
+    by 0x122496: near_snep_core_response_with_info (snep.c:762)
+    by 0x122E21: test_snep_dummy_req_get (test-snep-read.c:179)
+    by 0x121FF3: snep_core_process_request (snep.c:411)
+    by 0x121FF3: near_snep_core_read (snep.c:616)
+    by 0x122CC4: test_snep_read_req_common (test-snep-read.c:355)
+    by 0x124792: test_snep_read_get_req_frags_client_resp (test-snep-read.c=
+:760)
+    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
+    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
+0.so.0.6600.1)
+    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
+.6600.1)
+    by 0x10F982: main (test-snep-read.c:976)
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- acinclude.m4 | 36 ++++++++++++++++++++++++++++++++++++
- configure.ac | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
+ src/snep.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/acinclude.m4 b/acinclude.m4
-index a12b93972cfa..e9ad0d63cc8c 100644
---- a/acinclude.m4
-+++ b/acinclude.m4
-@@ -9,3 +9,39 @@ AC_DEFUN([NEARD_PROG_CC_PIE], [
- 		rm -rf conftest*
- 	])
- ])
-+
-+AC_DEFUN([NEARD_PROG_CC_ASAN], [
-+AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Daddress], neard_cv_p=
-rog_cc_asan, [
-+	echo 'void f(){}' > conftest.c
-+	if test -z "`${CC-cc} -fsanitize=3Daddress -c conftest.c 2>&1`"; then
-+		neard_cv_prog_cc_asan=3Dyes
-+	else
-+		neard_cv_prog_cc_asan=3Dno
-+	fi
-+	rm -rf conftest*
-+])
-+])
-+
-+AC_DEFUN([NEARD_PROG_CC_LSAN], [
-+AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dleak], neard_cv_prog=
-_cc_lsan, [
-+	echo 'void f(){}' > conftest.c
-+	if test -z "`${CC-cc} -fsanitize=3Dleak -c conftest.c 2>&1`"; then
-+		neard_cv_prog_cc_lsan=3Dyes
-+	else
-+		neard_cv_prog_cc_lsan=3Dno
-+	fi
-+	rm -rf conftest*
-+])
-+])
-+
-+AC_DEFUN([NEARD_PROG_CC_UBSAN], [
-+AC_CACHE_CHECK([whether ${CC-cc} accepts -fsanitize=3Dundefined], neard_cv=
-_prog_cc_ubsan, [
-+	echo 'void f(){}' > conftest.c
-+	if test -z "`${CC-cc} -fsanitize=3Dundefined -c conftest.c 2>&1`"; then
-+		neard_cv_prog_cc_ubsan=3Dyes
-+	else
-+		neard_cv_prog_cc_ubsan=3Dno
-+	fi
-+	rm -rf conftest*
-+])
-+])
-diff --git a/configure.ac b/configure.ac
-index 1ec6f4eb30ea..c1fdc44ae02d 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -26,6 +26,9 @@ AC_LANG([C])
+diff --git a/src/snep.c b/src/snep.c
+index bac93c115cb3..d4692c522df3 100644
+--- a/src/snep.c
++++ b/src/snep.c
+@@ -436,6 +436,8 @@ static bool snep_core_process_request(int client_fd,
  =
 
- AC_PROG_CC
- NEARD_PROG_CC_PIE
-+NEARD_PROG_CC_ASAN
-+NEARD_PROG_CC_LSAN
-+NEARD_PROG_CC_UBSAN
- AC_PROG_INSTALL
- AC_PROG_MKDIR_P
+ 		g_slist_free_full(snep_data->req->fragments,
+ 						free_snep_core_fragment);
++		g_free(snep_data->req);
++		snep_data->req =3D NULL;
  =
 
-@@ -98,6 +101,48 @@ AC_ARG_ENABLE(pie, AS_HELP_STRING([--enable-pie],
- AC_CHECK_LIB(dl, dlopen, dummy=3Dyes,
- 			AC_MSG_ERROR(dynamic linking loader is required))
+ 		g_hash_table_remove(snep_client_hash,
+ 						GINT_TO_POINTER(client_fd));
+@@ -475,6 +477,8 @@ leave_cont:
+ 		/* No more fragment to send, clean memory */
+ 		g_slist_free_full(snep_data->req->fragments,
+ 						free_snep_core_fragment);
++		g_free(snep_data->req);
++		snep_data->req =3D NULL;
  =
 
-+save_LIBS=3D$LIBS
-+AC_CHECK_LIB(asan, _init)
-+LIBS=3D$save_LIBS
-+
-+AC_ARG_ENABLE(asan, AC_HELP_STRING([--enable-asan],
-+			[enable linking with address sanitizer]), [
-+	if (test "${enableval}" =3D "yes" &&
-+				test "${ac_cv_lib_asan__init}" =3D "yes" &&
-+				test "${neard_cv_prog_cc_asan}" =3D "yes"); then
-+		CFLAGS=3D"$CFLAGS -fsanitize=3Daddress";
-+		LDFLAGS=3D"$LDFLAGS -fsanitize=3Daddress"
-+	fi
-+])
-+
-+save_LIBS=3D$LIBS
-+AC_CHECK_LIB(lsan, _init)
-+LIBS=3D$save_LIBS
-+
-+AC_ARG_ENABLE(lsan, AC_HELP_STRING([--enable-lsan],
-+			[enable linking with leak sanitizer]), [
-+	if (test "${enableval}" =3D "yes" &&
-+				test "${ac_cv_lib_lsan__init}" =3D "yes" &&
-+				test "${neard_cv_prog_cc_lsan}" =3D "yes"); then
-+		CFLAGS=3D"$CFLAGS -fsanitize=3Dleak";
-+		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dleak"
-+	fi
-+])
-+
-+save_LIBS=3D$LIBS
-+AC_CHECK_LIB(ubsan, _init)
-+LIBS=3D$save_LIBS
-+
-+AC_ARG_ENABLE(ubsan, AC_HELP_STRING([--enable-ubsan],
-+			[enable linking with undefined behavior sanitizer]), [
-+	if (test "${enableval}" =3D "yes" &&
-+				test "${ac_cv_lib_ubsan__init}" =3D "yes" &&
-+				test "${neard_cv_prog_cc_ubsan}" =3D "yes"); then
-+		CFLAGS=3D"$CFLAGS -fsanitize=3Dundefined";
-+		LDFLAGS=3D"$LDFLAGS -fsanitize=3Dundefined"
-+	fi
-+])
-+
- GLIB_DEPS=3D"glib-2.0 >=3D 2.28"
- PKG_CHECK_MODULES(GLIB, [${GLIB_DEPS}], dummy=3Dyes,
- 				AC_MSG_ERROR(GLib >=3D 2.28 is required))
+ 		g_hash_table_remove(snep_client_hash,
+ 						GINT_TO_POINTER(client_fd));
 -- =
 
 2.27.0
 
---===============8360217091383466488==--
+--===============4181278256481433351==--
 
