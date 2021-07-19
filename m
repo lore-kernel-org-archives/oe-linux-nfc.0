@@ -1,182 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============7884100868400671980=="
+Content-Type: multipart/mixed; boundary="===============2234203852903708391=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 67/73] build: add more compiler warnings
-Date: Mon, 19 Jul 2021 13:08:13 +0200
-Message-ID: <20210719110819.27340-68-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 68/73] build: enable -Wshadow and -Wformat-signedness compiler warnings
+Date: Mon, 19 Jul 2021 13:08:14 +0200
+Message-ID: <20210719110819.27340-69-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7884100868400671980==
+--===============2234203852903708391==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Use the AX_CHECK_COMPILE_FLAG() macro from autoconf-archive to check for
-support for more compiler warning flags (not enabled via -Wall and
--Wextra) and enable these which pass.
-
-These flags are warning for:
-1. Code bugs like dereferencing NULL or truncating string operations
-   functions.
-
-2. Minor code quality or portability issues like using undefined
-   defines, wrong casts of functions, missing global function
-   declarations, skipping variable initializations, duplicated if
-   conditions or branches, usage of variable-length arrays.
-
-3. Portability issues like implicit promoting float to double,
-   allocating zero bytes or depending of size of void *.
-
-Keep more warnings for later, because the code does not build with them.
-
-The AX_CHECK_COMPILE_FLAG() macro tries to compile C code with given
-flag, so move the code from acinclude.m4 (executed early, before AC_LANG
-and others) to separate accflags.m4.
+Enable code quality warnings - shadowing variables and using wrong
+signed data in formats (leading to conversions).
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- HACKING      |  1 +
- accflags.m4  | 45 +++++++++++++++++++++++++++++++++++++++++++++
- acinclude.m4 | 17 -----------------
- configure.ac |  5 +++--
- 4 files changed, 49 insertions(+), 19 deletions(-)
- create mode 100644 accflags.m4
+ accflags.m4 | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/HACKING b/HACKING
-index c1eb6d6189a6..7326242506a6 100644
---- a/HACKING
-+++ b/HACKING
-@@ -7,6 +7,7 @@ Build tools requirements
+diff --git a/accflags.m4 b/accflags.m4
+index b1bb1500324f..e4df62c13cf3 100644
+--- a/accflags.m4
++++ b/accflags.m4
+@@ -22,7 +22,10 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
+ 		AX_CHECK_COMPILE_FLAG([-Wmissing-prototypes], [CFLAGS=3D"$CFLAGS -Wmissi=
+ng-prototypes"])
+ 		AX_CHECK_COMPILE_FLAG([-Wjump-misses-init], [CFLAGS=3D"$CFLAGS -Wjump-mi=
+sses-init"])
+ 		AX_CHECK_COMPILE_FLAG([-Wpointer-arith], [CFLAGS=3D"$CFLAGS -Wpointer-ar=
+ith"])
++		AX_CHECK_COMPILE_FLAG([-Wshadow], [CFLAGS=3D"$CFLAGS -Wshadow"])
  =
 
- Required packages and tools:
-   autoconf
-+  autoconf-archive
-   automake
-   dbus
-   gcc/clang
-diff --git a/accflags.m4 b/accflags.m4
-new file mode 100644
-index 000000000000..b1bb1500324f
---- /dev/null
-+++ b/accflags.m4
-@@ -0,0 +1,45 @@
-+AC_DEFUN([NEARD_COMPILER_FLAGS], [
-+	# AX_CHECK_COMPILE_FLAG comes from autoconf-archive
-+	AC_REQUIRE([AC_PROG_CC])
-+	AC_REQUIRE([AX_CHECK_COMPILE_FLAG])
-+
-+	if (test "${CFLAGS}" =3D ""); then
-+		CFLAGS=3D"-Wall -O2 -D_FORTIFY_SOURCE=3D2"
-+	fi
-+	if (test "$USE_MAINTAINER_MODE" =3D "yes"); then
-+		CFLAGS=3D"$CFLAGS -Werror -Wextra"
-+		CFLAGS=3D"$CFLAGS -Wno-unused-parameter"
-+		CFLAGS=3D"$CFLAGS -Wno-missing-field-initializers"
-+		CFLAGS=3D"$CFLAGS -Wdeclaration-after-statement"
-+		CFLAGS=3D"$CFLAGS -Wmissing-declarations"
-+		CFLAGS=3D"$CFLAGS -Wredundant-decls"
-+		CFLAGS=3D"$CFLAGS -Wcast-align"
-+		CFLAGS=3D"$CFLAGS -DG_DISABLE_DEPRECATED"
-+
-+		AX_CHECK_COMPILE_FLAG([-Wdouble-promotion], [CFLAGS=3D"$CFLAGS -Wdouble-=
-promotion"])
-+		AX_CHECK_COMPILE_FLAG([-Wundef], [CFLAGS=3D"$CFLAGS -Wundef"])
-+		AX_CHECK_COMPILE_FLAG([-Wbad-function-cast], [CFLAGS=3D"$CFLAGS -Wbad-fu=
-nction-cast"])
-+		AX_CHECK_COMPILE_FLAG([-Wmissing-prototypes], [CFLAGS=3D"$CFLAGS -Wmissi=
-ng-prototypes"])
-+		AX_CHECK_COMPILE_FLAG([-Wjump-misses-init], [CFLAGS=3D"$CFLAGS -Wjump-mi=
-sses-init"])
-+		AX_CHECK_COMPILE_FLAG([-Wpointer-arith], [CFLAGS=3D"$CFLAGS -Wpointer-ar=
-ith"])
-+
-+		# GCC v6.0
-+		AX_CHECK_COMPILE_FLAG([-Wnull-dereference], [CFLAGS=3D"$CFLAGS -Wnull-de=
-reference"])
-+		AX_CHECK_COMPILE_FLAG([-Wduplicated-cond], [CFLAGS=3D"$CFLAGS -Wduplicat=
-ed-cond"])
-+		# GCC v7.0
-+		AX_CHECK_COMPILE_FLAG([-Wduplicated-branches], [CFLAGS=3D"$CFLAGS -Wdupl=
-icated-branches"])
-+		AX_CHECK_COMPILE_FLAG([-Wvla-larger-than=3D1], [CFLAGS=3D"$CFLAGS -Wvla-=
-larger-than=3D1"])
-+		AX_CHECK_COMPILE_FLAG([-Walloc-zero], [CFLAGS=3D"$CFLAGS -Walloc-zero"])
-+		# GCC v8.0
-+		AX_CHECK_COMPILE_FLAG([-Wstringop-truncation], [CFLAGS=3D"$CFLAGS -Wstri=
-ngop-truncation"])
-+	fi
-+	if (test "$USE_MAINTAINER_MODE" =3D "pedantic"); then
-+		AX_CHECK_COMPILE_FLAG([-Wstrict-overflow=3D3], [CFLAGS=3D"$CFLAGS -Wstri=
-ct-overflow=3D3"])
-+		AX_CHECK_COMPILE_FLAG([-Wshadow], [CFLAGS=3D"$CFLAGS -Wshadow"])
-+		AX_CHECK_COMPILE_FLAG([-Wcast-qual], [CFLAGS=3D"$CFLAGS -Wcast-qual"])
-+		AX_CHECK_COMPILE_FLAG([-Wunsafe-loop-optimizations], [CFLAGS=3D"$CFLAGS =
--Wunsafe-loop-optimizations"])
-+
 +		# GCC v5.0
 +		AX_CHECK_COMPILE_FLAG([-Wformat-signedness], [CFLAGS=3D"$CFLAGS -Wformat=
 -signedness"])
-+	fi
-+])
-diff --git a/acinclude.m4 b/acinclude.m4
-index 027ed69977db..a12b93972cfa 100644
---- a/acinclude.m4
-+++ b/acinclude.m4
-@@ -9,20 +9,3 @@ AC_DEFUN([NEARD_PROG_CC_PIE], [
- 		rm -rf conftest*
- 	])
+ 		# GCC v6.0
+ 		AX_CHECK_COMPILE_FLAG([-Wnull-dereference], [CFLAGS=3D"$CFLAGS -Wnull-de=
+reference"])
+ 		AX_CHECK_COMPILE_FLAG([-Wduplicated-cond], [CFLAGS=3D"$CFLAGS -Wduplicat=
+ed-cond"])
+@@ -35,11 +38,7 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
+ 	fi
+ 	if (test "$USE_MAINTAINER_MODE" =3D "pedantic"); then
+ 		AX_CHECK_COMPILE_FLAG([-Wstrict-overflow=3D3], [CFLAGS=3D"$CFLAGS -Wstri=
+ct-overflow=3D3"])
+-		AX_CHECK_COMPILE_FLAG([-Wshadow], [CFLAGS=3D"$CFLAGS -Wshadow"])
+ 		AX_CHECK_COMPILE_FLAG([-Wcast-qual], [CFLAGS=3D"$CFLAGS -Wcast-qual"])
+ 		AX_CHECK_COMPILE_FLAG([-Wunsafe-loop-optimizations], [CFLAGS=3D"$CFLAGS =
+-Wunsafe-loop-optimizations"])
+-
+-		# GCC v5.0
+-		AX_CHECK_COMPILE_FLAG([-Wformat-signedness], [CFLAGS=3D"$CFLAGS -Wformat=
+-signedness"])
+ 	fi
  ])
--
--AC_DEFUN([NEARD_COMPILER_FLAGS], [
--	if (test "${CFLAGS}" =3D ""); then
--		CFLAGS=3D"-Wall -O2 -D_FORTIFY_SOURCE=3D2"
--	fi
--	if (test "$USE_MAINTAINER_MODE" =3D "yes"); then
--		CFLAGS=3D"$CFLAGS -Werror -Wextra"
--		CFLAGS=3D"$CFLAGS -Werror -Wextra"
--		CFLAGS=3D"$CFLAGS -Wno-unused-parameter"
--		CFLAGS=3D"$CFLAGS -Wno-missing-field-initializers"
--		CFLAGS=3D"$CFLAGS -Wdeclaration-after-statement"
--		CFLAGS=3D"$CFLAGS -Wmissing-declarations"
--		CFLAGS=3D"$CFLAGS -Wredundant-decls"
--		CFLAGS=3D"$CFLAGS -Wcast-align"
--		CFLAGS=3D"$CFLAGS -DG_DISABLE_DEPRECATED"
--	fi
--])
-diff --git a/configure.ac b/configure.ac
-index c4e8993305b1..b9419c1fad74 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -22,8 +22,6 @@ AC_SUBST(se_plugindir)
- =
-
- PKG_PROG_PKG_CONFIG
- =
-
--NEARD_COMPILER_FLAGS
--
- AC_LANG([C])
- =
-
- AC_PROG_CC
-@@ -34,6 +32,9 @@ AC_PROG_MKDIR_P
- m4_define([_LT_AC_TAGCONFIG], [])
- m4_ifdef([AC_LIBTOOL_TAGS], [AC_LIBTOOL_TAGS([])])
- =
-
-+m4_include([accflags.m4])
-+NEARD_COMPILER_FLAGS
-+
- LT_INIT([disable-static])
- =
-
- AM_CONDITIONAL(READLINE, test "${enable_readline}" =3D "yes")
 -- =
 
 2.27.0
 
---===============7884100868400671980==--
+--===============2234203852903708391==--
 
