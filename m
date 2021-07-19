@@ -1,31 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============2771034399946655461=="
+Content-Type: multipart/mixed; boundary="===============2104597044349168033=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 58/73] unit: fix record memory leak in test-snep-read
-Date: Mon, 19 Jul 2021 13:08:04 +0200
-Message-ID: <20210719110819.27340-59-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 59/73] unit: fix records GList memory leak in test-snep-read
+Date: Mon, 19 Jul 2021 13:08:05 +0200
+Message-ID: <20210719110819.27340-60-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2771034399946655461==
+--===============2104597044349168033==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Instead of open-coding __near_ndef_record_free() with mistakes, use it
-directly to fix memory leaks like:
+The test_snep_dummy_req_put() stores one record in global stored_recd
+pointer, so the GList itself should be freed.  This fixes Valgrind
+warning:
 
-  2 bytes in 1 blocks are definitely lost in loss record 2 of 36
+  24 bytes in 1 blocks are definitely lost in loss record 21 of 30
     at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
 emcheck-amd64-linux.so)
     by 0x48CA698: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6=
 600.1)
-    by 0x48E4B3D: g_strndup (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.=
-6600.1)
-    by 0x11CB66: parse_record_header (ndef.c:1122)
-    by 0x11CB66: parse_record_header (ndef.c:1029)
-    by 0x11E549: near_ndef_parse_msg (ndef.c:2846)
+    by 0x48E2CF1: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
+o.0.6600.1)
+    by 0x48BFF07: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.s=
+o.0.6600.1)
+    by 0x11E68A: near_ndef_parse_msg (ndef.c:2964)
     by 0x122A23: test_snep_dummy_req_put (test-snep-read.c:131)
     by 0x122005: snep_core_process_request (snep.c:397)
     by 0x122005: near_snep_core_read (snep.c:617)
@@ -37,88 +38,29 @@ emcheck-amd64-linux.so)
     by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
     by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
 0.so.0.6600.1)
-
-  15 bytes in 1 blocks are definitely lost in loss record 13 of 36
-    at 0x483ED99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_m=
-emcheck-amd64-linux.so)
-    by 0x11E65F: near_ndef_parse_msg (ndef.c:2958)
-    by 0x122A23: test_snep_dummy_req_put (test-snep-read.c:131)
-    by 0x122005: snep_core_process_request (snep.c:397)
-    by 0x122005: near_snep_core_read (snep.c:617)
-    by 0x123042: test_snep_read_req_common.constprop.0 (test-snep-read.c:35=
-2)
-    by 0x1234E0: test_snep_read_put_req_ok (test-snep-read.c:500)
-    by 0x1234E0: test_snep_read_get_req_ok (test-snep-read.c:644)
-    by 0x48ECDCD: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ECBCA: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6600.1)
-    by 0x48ED2B9: g_test_run_suite (in /usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0.6600.1)
-    by 0x48ED2D4: g_test_run (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0=
-.6600.1)
-    by 0x10F784: main (test-snep-read.c:967)
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- unit/test-snep-read.c | 2 +-
- unit/test-utils.c     | 8 --------
- unit/test-utils.h     | 2 --
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ unit/test-snep-read.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
-index a463c1df30b8..f64ef0c6fce2 100644
+index f64ef0c6fce2..128937ed910f 100644
 --- a/unit/test-snep-read.c
 +++ b/unit/test-snep-read.c
-@@ -224,7 +224,7 @@ static void test_snep_cleanup(gpointer context, gconstp=
-ointer data)
- 	__near_snep_core_cleanup();
+@@ -142,6 +142,7 @@ static bool test_snep_dummy_req_put(int fd, void *data)
+ 	g_free(nfc_data);
  =
 
- 	if (stored_recd)
--		test_ndef_free_record(stored_recd);
-+		__near_ndef_record_free(stored_recd);
+ 	stored_recd =3D records->data;
++	g_list_free(records);
  =
 
- 	if (ctx->test_recd_msg)
- 		near_ndef_msg_free(ctx->test_recd_msg);
-diff --git a/unit/test-utils.c b/unit/test-utils.c
-index fe256561821f..369437421971 100644
---- a/unit/test-utils.c
-+++ b/unit/test-utils.c
-@@ -20,14 +20,6 @@
- =
-
- #include "test-utils.h"
- =
-
--void test_ndef_free_record(struct near_ndef_record *record)
--{
--	g_free(record->header);
--	g_free(record->type);
--	g_free(record->data);
--	g_free(record);
--}
--
- struct near_ndef_message *test_ndef_create_test_record(const char *str)
- {
- 	struct near_ndef_message *ndef;
-diff --git a/unit/test-utils.h b/unit/test-utils.h
-index c371d566a573..108f2a1fb139 100644
---- a/unit/test-utils.h
-+++ b/unit/test-utils.h
-@@ -143,8 +143,6 @@ struct near_ndef_record {
- 	size_t data_len;
- };
- =
-
--void test_ndef_free_record(struct near_ndef_record *record);
--
- struct near_ndef_message *test_ndef_create_test_record(const char *str);
- =
-
- #endif
+ 	TEST_SNEP_LOG("\t\tdummy_req_put STORED REC data=3D%p length=3D%zu\n",
+ 			stored_recd->data, stored_recd->data_len);
 -- =
 
 2.27.0
 
---===============2771034399946655461==--
+--===============2104597044349168033==--
 
