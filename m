@@ -1,52 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============2786263641131882854=="
+Content-Type: multipart/mixed; boundary="===============4740721549636220673=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 10/73] dbus: fix -Wformat in near_dbus_encode_string()
-Date: Mon, 19 Jul 2021 13:07:16 +0200
-Message-ID: <20210719110819.27340-11-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 11/73] unit: pass real UTF-8 for testing text NDEF
+Date: Mon, 19 Jul 2021 13:07:17 +0200
+Message-ID: <20210719110819.27340-12-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2786263641131882854==
+--===============4740721549636220673==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Fix GCC warning:
-
-    src/dbus.c: In function =E2=80=98near_dbus_encode_string=E2=80=99:
-    src/dbus.c:71:37: error: format =E2=80=98%x=E2=80=99 expects argument o=
-f type =E2=80=98unsigned int=E2=80=99, but argument 3 has type =E2=80=98int=
-=E2=80=99 [-Werror=3Dformat=3D]
-       71 |    g_string_append_printf(str, "_%02x", tmp);
-          |                                  ~~~^   ~~~
-          |                                     |   |
-          |                                     |   int
-          |                                     unsigned int
-          |                                  %02x
+Let's polish this UTF-8. :)
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/dbus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ unit/test-ndef-parse.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/src/dbus.c b/src/dbus.c
-index 9c67a9eec89a..ed4570d951ed 100644
---- a/src/dbus.c
-+++ b/src/dbus.c
-@@ -68,7 +68,7 @@ char *near_dbus_encode_string(const char *value)
- 		const char tmp =3D value[i];
- 		if ((tmp < '0' || tmp > '9') && (tmp < 'A' || tmp > 'Z') &&
- 						(tmp < 'a' || tmp > 'z'))
--			g_string_append_printf(str, "_%02x", tmp);
-+			g_string_append_printf(str, "_%02x", (unsigned int)tmp);
- 		else
- 			str =3D g_string_append_c(str, tmp);
- 	}
+diff --git a/unit/test-ndef-parse.c b/unit/test-ndef-parse.c
+index 8cfdc8f2cb9d..d26f4c595d9a 100644
+--- a/unit/test-ndef-parse.c
++++ b/unit/test-ndef-parse.c
+@@ -145,9 +145,10 @@ struct near_ndef_ac_payload {
+ static uint8_t uri[] =3D {0xd1, 0x1, 0xa, 0x55, 0x1, 0x69, 0x6e, 0x74,
+ 			0x65, 0x6c, 0x2e, 0x63, 0x6f, 0x6d};
+ =
+
+-/* 'hello' - UTF-8 - en-US Text NDEF */
+-static uint8_t text[] =3D {0xd1, 0x1, 0xb, 0x54, 0x5,  0x65, 0x6e, 0x2d,
+-			 0x55, 0x53, 0x68, 0x65, 0x6c, 0x6c, 0x6f};
++/* 'hello =C5=BC=C3=B3=C5=82w' - UTF-8 - en-US Text NDEF */
++static uint8_t text[] =3D {0xd1, 0x1, 0x13, 0x54, 0x5, 0x65, 0x6e, 0x2d,
++			 0x55, 0x53, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0xc5,
++			 0xbc, 0xc3, 0xb3, 0xc5, 0x82, 0x77};
+ =
+
+ /* Smart poster with a http://intel.com URI record */
+ static uint8_t single_sp[] =3D {0xd1, 0x2, 0xe, 0x53, 0x70, 0xd1, 0x1, 0xa,
+@@ -234,7 +235,7 @@ static void test_ndef_text(void)
+ 	g_assert(record->header->me =3D=3D 1);
+ =
+
+ 	g_assert(record->text);
+-	g_assert(strcmp(record->text->data, "hello") =3D=3D 0);
++	g_assert(strcmp(record->text->data, "hello =C5=BC=C3=B3=C5=82w") =3D=3D 0=
+);
+ 	g_assert(strcmp(record->text->encoding, "UTF-8") =3D=3D 0);
+ 	g_assert(strcmp(record->text->language_code, "en-US") =3D=3D 0);
+ =
+
 -- =
 
 2.27.0
 
---===============2786263641131882854==--
+--===============4740721549636220673==--
 
