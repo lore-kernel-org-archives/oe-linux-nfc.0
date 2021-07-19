@@ -1,63 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============3217640757120412205=="
+Content-Type: multipart/mixed; boundary="===============2617019838283823962=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 60/73] unit: do not pass NULL to memcpy()
-Date: Mon, 19 Jul 2021 13:08:06 +0200
-Message-ID: <20210719110819.27340-61-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 61/73] unit: do not search for headers locally where they do not exist
+Date: Mon, 19 Jul 2021 13:08:07 +0200
+Message-ID: <20210719110819.27340-62-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3217640757120412205==
+--===============2617019838283823962==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-memcpy() should not receive NULL as source pointer and such is passed
-from test_snep_read_get_req_frags_client_resp() and
-test_snep_read_verify_resp().  ASAN reports:
-
-    unit/test-snep-read.c:325:2: runtime error: null pointer passed as argu=
-ment 2, which is declared to never be null
-    unit/test-snep-read.c:266:2: runtime error: null pointer passed as argu=
-ment 2, which is declared to never be null
+near/ndef.h and src/near.h are coming from include path, so no point to
+look for them in current folder.  Also reverse the order to match
+unit/test-snep-read.c
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- unit/test-snep-read.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ unit/test-ndef-build.c | 4 ++--
+ unit/test-ndef-parse.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/unit/test-snep-read.c b/unit/test-snep-read.c
-index 128937ed910f..ea41ae03a8b2 100644
---- a/unit/test-snep-read.c
-+++ b/unit/test-snep-read.c
-@@ -261,7 +261,8 @@ static struct p2p_snep_req_frame *test_snep_build_req_f=
-rame(
- 	req->version =3D ver;
- 	req->request =3D req_type;
- 	req->length =3D GUINT_TO_BE(info_len);
--	memcpy(req->ndef, data, payload_len);
-+	if (data)
-+		memcpy(req->ndef, data, payload_len);
+diff --git a/unit/test-ndef-build.c b/unit/test-ndef-build.c
+index 54b502f4a40b..5174f053841e 100644
+--- a/unit/test-ndef-build.c
++++ b/unit/test-ndef-build.c
+@@ -30,8 +30,8 @@
+ #include <glib.h>
+ #include <glib/gprintf.h>
  =
 
- 	return req;
- }
-@@ -320,7 +321,8 @@ static struct p2p_snep_resp_frame *test_snep_build_resp=
-_frame(
- 	resp->version =3D ver;
- 	resp->response =3D resp_type;
- 	resp->length =3D GUINT_TO_BE(info_len);
--	memcpy(resp->info, data, info_len);
-+	if (data)
-+		memcpy(resp->info, data, info_len);
+-#include "src/near.h"
+-#include "include/ndef.h"
++#include <near/ndef.h>
++#include <src/near.h>
  =
 
- 	return resp;
- }
+ #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+ =
+
+diff --git a/unit/test-ndef-parse.c b/unit/test-ndef-parse.c
+index ace0f9038ad9..de3cac81b90d 100644
+--- a/unit/test-ndef-parse.c
++++ b/unit/test-ndef-parse.c
+@@ -30,8 +30,8 @@
+ #include <glib.h>
+ #include <glib/gprintf.h>
+ =
+
+-#include "src/near.h"
+-#include "include/ndef.h"
++#include <near/ndef.h>
++#include <src/near.h>
+ =
+
+ enum record_type {
+ 	RECORD_TYPE_WKT_SMART_POSTER          =3D   0x01,
 -- =
 
 2.27.0
 
---===============3217640757120412205==--
+--===============2617019838283823962==--
 
