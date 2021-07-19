@@ -1,43 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============4539600246126135071=="
+Content-Type: multipart/mixed; boundary="===============3646459429043609109=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 04/16] build: enable -Wformat=2 warnings
-Date: Wed, 14 Jul 2021 13:05:06 +0200
-Message-ID: <20210714110518.104655-5-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 27/73] nfctype3: use proper format for integers (-Wformat)
+Date: Mon, 19 Jul 2021 13:07:33 +0200
+Message-ID: <20210719110819.27340-28-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4539600246126135071==
+--===============3646459429043609109==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The -Wformat=3D2 compiler warning can detect potentials errors when using
-printf-like functions.  It is supported by GCC and clang.
+Properly print signed and unsigned integers.  This fixes warnings like:
+
+    In file included from plugins/nfctype3.c:36:
+    plugins/nfctype3.c: In function =E2=80=98data_recv=E2=80=99:
+    ./include/near/log.h:45:14: error: format =E2=80=98%zd=E2=80=99 expects=
+ argument of type =E2=80=98signed size_t=E2=80=99, but argument 4 has type =
+=E2=80=98size_t=E2=80=99 {aka =E2=80=98long unsigned int=E2=80=99} [-Werror=
+=3Dformat=3D]
+       45 |   near_debug("%s:%s() " fmt, \
+          |              ^~~~~~~~~~
+    plugins/nfctype3.c:249:3: note: in expansion of macro =E2=80=98DBG=E2=
+=80=99
+      249 |   DBG("Done reading %zd bytes at %p", data_length, nfc_data);
+          |   ^~~
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- accflags.m4 | 1 +
- 1 file changed, 1 insertion(+)
+ plugins/nfctype3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accflags.m4 b/accflags.m4
-index e4df62c13cf3..57cc48beecc2 100644
---- a/accflags.m4
-+++ b/accflags.m4
-@@ -14,6 +14,7 @@ AC_DEFUN([NEARD_COMPILER_FLAGS], [
- 		CFLAGS=3D"$CFLAGS -Wmissing-declarations"
- 		CFLAGS=3D"$CFLAGS -Wredundant-decls"
- 		CFLAGS=3D"$CFLAGS -Wcast-align"
-+		CFLAGS=3D"$CFLAGS -Wformat=3D2"
- 		CFLAGS=3D"$CFLAGS -DG_DISABLE_DEPRECATED"
+diff --git a/plugins/nfctype3.c b/plugins/nfctype3.c
+index d4fbed0dfc2f..c0502f15d9f2 100644
+--- a/plugins/nfctype3.c
++++ b/plugins/nfctype3.c
+@@ -246,7 +246,7 @@ static int data_recv(uint8_t *resp, int length, void *d=
+ata)
  =
 
- 		AX_CHECK_COMPILE_FLAG([-Wdouble-promotion], [CFLAGS=3D"$CFLAGS -Wdouble-=
-promotion"])
+ 		tag->current_block =3D 0;
+ =
+
+-		DBG("Done reading %zd bytes at %p", data_length, nfc_data);
++		DBG("Done reading %zu bytes at %p", data_length, nfc_data);
+ 		records =3D near_ndef_parse_msg(nfc_data, data_length, NULL);
+ 		near_tag_add_records(tag->tag, records, tag->cb, 0);
+ =
+
 -- =
 
 2.27.0
 
---===============4539600246126135071==--
+--===============3646459429043609109==--
 
