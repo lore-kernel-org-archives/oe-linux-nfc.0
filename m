@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6487145221429769327=="
+Content-Type: multipart/mixed; boundary="===============6860214119645456260=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 40/73] tag: do not open-code freeing ndef message
-Date: Mon, 19 Jul 2021 13:07:46 +0200
-Message-ID: <20210719110819.27340-41-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 41/73] snep: do not open-code freeing ndef message
+Date: Mon, 19 Jul 2021 13:07:47 +0200
+Message-ID: <20210719110819.27340-42-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6487145221429769327==
+--===============6860214119645456260==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,37 +17,42 @@ Use near_ndef_msg_free() instead of open-coding it.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/tag.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ src/snep.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/src/tag.c b/src/tag.c
-index 520368b1552c..ce8c477d9527 100644
---- a/src/tag.c
-+++ b/src/tag.c
-@@ -459,14 +459,12 @@ static DBusMessage *write_ndef(DBusConnection *conn,
- 		break;
+diff --git a/src/snep.c b/src/snep.c
+index c0a1d1a00491..a1e90243c020 100644
+--- a/src/snep.c
++++ b/src/snep.c
+@@ -147,8 +147,7 @@ void near_snep_core_parse_handover_record(int client_fd=
+, uint8_t *ndef,
+ 	near_snep_core_response_with_info(client_fd, NEAR_SNEP_RESP_SUCCESS,
+ 								msg->data, msg->length);
  =
 
- 	default:
--		g_free(ndef->data);
--		g_free(ndef);
-+		near_ndef_msg_free(ndef);
+-	g_free(msg->data);
+-	g_free(msg);
++	near_ndef_msg_free(msg);
+ }
  =
 
- 		return __near_error_failed(msg, EOPNOTSUPP);
+ /*
+@@ -787,9 +786,7 @@ done:
+ 		}
  	}
  =
 
--	g_free(ndef->data);
+-	if (ndef)
+-		g_free(ndef->data);
 -	g_free(ndef);
 +	near_ndef_msg_free(ndef);
+ }
  =
 
- 	tag->write_ndef =3D ndef_with_header;
- 	err =3D __near_tag_write(tag, ndef_with_header, write_cb);
+ /* SNEP Core: on P2P push */
 -- =
 
 2.27.0
 
---===============6487145221429769327==--
+--===============6860214119645456260==--
 
