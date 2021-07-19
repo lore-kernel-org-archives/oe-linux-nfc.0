@@ -1,84 +1,125 @@
-Content-Type: multipart/mixed; boundary="===============2815292741281278853=="
+Content-Type: multipart/mixed; boundary="===============0623749652080610945=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 25/73] bluetooth: use proper format for integers (-Wformat)
-Date: Mon, 19 Jul 2021 13:07:31 +0200
-Message-ID: <20210719110819.27340-26-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 26/73] nfctype2: use proper format for integers (-Wformat)
+Date: Mon, 19 Jul 2021 13:07:32 +0200
+Message-ID: <20210719110819.27340-27-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2815292741281278853==
+--===============0623749652080610945==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 Properly print signed and unsigned integers.  This fixes warnings like:
 
-    In file included from src/near.h:36,
-                     from src/bluetooth.c:32:
-    src/bluetooth.c: In function =E2=80=98bt_adapter_property_changed=E2=80=
-=99:
-    ./include/near/log.h:45:14: error: format =E2=80=98%x=E2=80=99 expects =
-argument of type =E2=80=98unsigned int=E2=80=99, but argument 5 has type =
-=E2=80=98int=E2=80=99 [-Werror=3Dformat=3D]
+    In file included from plugins/nfctype2.c:36:
+    plugins/nfctype2.c: In function =E2=80=98data_recv=E2=80=99:
+    ./include/near/log.h:45:14: error: format =E2=80=98%d=E2=80=99 expects =
+argument of type =E2=80=98int=E2=80=99, but argument 4 has type =E2=80=98ui=
+nt32_t=E2=80=99 {aka =E2=80=98unsigned int=E2=80=99} [-Werror=3Dformat=3D]
        45 |   near_debug("%s:%s() " fmt, \
           |              ^~~~~~~~~~
-    src/bluetooth.c:465:3: note: in expansion of macro =E2=80=98DBG=E2=80=
-=99
-      465 |   DBG("%s: %x", property, bt_def_oob_data.class_of_device);
-          |   ^~~
+    plugins/nfctype2.c:195:2: note: in expansion of macro =E2=80=98DBG=E2=
+=80=99
+      195 |  DBG("adapter %d", adapter_idx);
+          |  ^~~
 
-    In file included from src/near.h:36,
-                     from src/bluetooth.c:32:
-    src/bluetooth.c: In function =E2=80=98bt_adapter_property_changed=E2=80=
-=99:
-    ./include/near/log.h:45:14: error: format =E2=80=98%u=E2=80=99 expects =
-argument of type =E2=80=98unsigned int=E2=80=99, but argument 5 has type =
-=E2=80=98int=E2=80=99 [-Werror=3Dformat=3D]
-       45 |   near_debug("%s:%s() " fmt, \
-          |              ^~~~~~~~~~
-    src/bluetooth.c:475:3: note: in expansion of macro =E2=80=98DBG=E2=80=
-=99
-      475 |   DBG("%s: %u", property, bt_def_oob_data.powered);
-          |   ^~~
+    plugins/nfctype2.c: In function =E2=80=98nfctype2_write=E2=80=99:
+    plugins/nfctype2.c:458:43: error: format =E2=80=98%zd=E2=80=99 expects =
+argument of type =E2=80=98signed size_t=E2=80=99, but argument 2 has type =
+=E2=80=98size_t=E2=80=99 {aka =E2=80=98long unsigned int=E2=80=99} [-Werror=
+=3Dformat=3D]
+      458 |     near_error("Not enough space on tag %zd %zd",
+          |                                         ~~^
+          |                                           |
+          |                                           long int
+          |                                         %ld
+      459 |       ndef->length,
+          |       ~~~~~~~~~~~~
+          |           |
+          |           size_t {aka long unsigned int}
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/bluetooth.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ plugins/nfctype2.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/src/bluetooth.c b/src/bluetooth.c
-index 3e67f1c88b84..79cfbb38e334 100644
---- a/src/bluetooth.c
-+++ b/src/bluetooth.c
-@@ -462,7 +462,7 @@ static gboolean bt_adapter_property_changed(DBusConnect=
-ion *conn,
- 		dbus_message_iter_get_basic(&var, &class);
- 		bt_def_oob_data.class_of_device =3D class;
+diff --git a/plugins/nfctype2.c b/plugins/nfctype2.c
+index dec9615b69af..3618ca177363 100644
+--- a/plugins/nfctype2.c
++++ b/plugins/nfctype2.c
+@@ -192,7 +192,7 @@ static int data_recv(uint8_t *resp, int length, void *d=
+ata)
+ 	cmd.cmd =3D CMD_READ;
+ 	cmd.block =3D DATA_BLOCK_START + tag->current_block;
  =
 
--		DBG("%s: %x", property, bt_def_oob_data.class_of_device);
-+		DBG("%s: %x", property, (unsigned int)bt_def_oob_data.class_of_device);
- 	} else if (g_str_equal(property, "Powered")) {
- 		dbus_bool_t powered;
+-	DBG("adapter %d", adapter_idx);
++	DBG("adapter %u", adapter_idx);
  =
 
-@@ -472,7 +472,7 @@ static gboolean bt_adapter_property_changed(DBusConnect=
-ion *conn,
- 		dbus_message_iter_get_basic(&var, &powered);
- 		bt_def_oob_data.powered =3D powered;
+ 	return near_adapter_send(adapter_idx,
+ 				(uint8_t *) &cmd, CMD_READ_SIZE,
+@@ -341,7 +341,7 @@ static int nfctype2_read(uint32_t adapter_idx,
+ 			cb, tgt_subtype);
  =
 
--		DBG("%s: %u", property, bt_def_oob_data.powered);
-+		DBG("%s: %d", property, bt_def_oob_data.powered);
+ 	default:
+-		DBG("Unknown Tag Type 2 subtype %d", tgt_subtype);
++		DBG("Unknown Tag Type 2 subtype %u", tgt_subtype);
+ 		return -1;
+ 	}
+ }
+@@ -455,7 +455,7 @@ static int nfctype2_write(uint32_t adapter_idx, uint32_=
+t target_idx,
+ 		 */
+ 		if (near_tag_get_memory_layout(tag) =3D=3D NEAR_TAG_MEMORY_STATIC) {
+ 			if ((ndef->length + 3) > near_tag_get_data_length(tag)) {
+-				near_error("Not enough space on tag %zd %zd",
++				near_error("Not enough space on tag %zu %zu",
+ 						ndef->length,
+ 						near_tag_get_data_length(tag));
+ 				err =3D -ENOSPC;
+@@ -471,7 +471,7 @@ static int nfctype2_write(uint32_t adapter_idx, uint32_=
+t target_idx,
+ 		return mifare_write(adapter_idx, target_idx, ndef,
+ 				cb, tgt_subtype);
+ 	default:
+-		DBG("Unknown TAG Type 2 subtype %d", tgt_subtype);
++		DBG("Unknown TAG Type 2 subtype %u", tgt_subtype);
+ 		err =3D -EINVAL;
+ 		goto out_err;
+ 	}
+@@ -533,7 +533,7 @@ static int nfctype2_check_presence(uint32_t adapter_idx=
+, uint32_t target_idx,
+ 							cb, tgt_subtype);
+ =
+
+ 	default:
+-		DBG("Unknown TAG Type 2 subtype %d", tgt_subtype);
++		DBG("Unknown TAG Type 2 subtype %u", tgt_subtype);
+ =
+
+ 		return -1;
+ 	}
+@@ -586,7 +586,7 @@ static int nfctype2_format(uint32_t adapter_idx, uint32=
+_t target_idx,
+ 	tgt_subtype =3D near_tag_get_subtype(adapter_idx, target_idx);
+ =
+
+ 	if (tgt_subtype !=3D NEAR_TAG_NFC_T2_MIFARE_ULTRALIGHT) {
+-		DBG("Unknown Tag Type 2 subtype %d", tgt_subtype);
++		DBG("Unknown Tag Type 2 subtype %u", tgt_subtype);
+ 		return -1;
  	}
  =
 
- 	return TRUE;
 -- =
 
 2.27.0
 
---===============2815292741281278853==--
+--===============0623749652080610945==--
 
