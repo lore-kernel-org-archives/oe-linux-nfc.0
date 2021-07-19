@@ -1,54 +1,176 @@
-Content-Type: multipart/mixed; boundary="===============2761487987261048053=="
+Content-Type: multipart/mixed; boundary="===============7866267862576632718=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 06/16] TODO: remove finished tasks
-Date: Wed, 14 Jul 2021 13:05:08 +0200
-Message-ID: <20210714110518.104655-7-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210714110518.104655-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 00/73] combined fixes - warnings, memory leaks, memory corruption
+Date: Mon, 19 Jul 2021 13:07:06 +0200
+Message-ID: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2761487987261048053==
+--===============7866267862576632718==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Continuous Integration is ready with cross compile and clang.  clang
-warnings were fixed.
+Hi,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- TODO | 12 ------------
- 1 file changed, 12 deletions(-)
+Mark asked for resending fixes separate from setting up CI under Github
+Actions, so here is a combination of all my previously sent patches
+related only to the actual C code:
 
-diff --git a/TODO b/TODO
-index 1d5294519c3b..8d63f3571c85 100644
---- a/TODO
-+++ b/TODO
-@@ -11,18 +11,6 @@ Background
- Core
- =3D=3D=3D=3D
- =
+https://lore.kernel.org/linux-nfc/20210710033859.3989-1-krzysztof.kozlowski=
+(a)canonical.com/T/#t
+https://lore.kernel.org/linux-nfc/20210711202102.18094-1-krzysztof.kozlowsk=
+i(a)canonical.com/T/#t
+https://lore.kernel.org/linux-nfc/20210714110518.104655-1-krzysztof.kozlows=
+ki(a)canonical.com/T/#t
+https://lore.kernel.org/linux-nfc/20210716100844.51360-1-krzysztof.kozlowsk=
+i(a)canonical.com/T/#t
 
--- Add more Continuous Integration builds (32-bit x86, cross compile, clang=
-).
--  Priority: High
--  Complexity: C2
--
--- Add clang builds in Continuous Integration.
--  Priority: High
--  Complexity: C2
--
--- Fix clang build errors.
--  Priority: High
--  Complexity: C2
--
- - Add more GCC/clang warnings and fix them.
-   Priority: High
-   Complexity: C4
+This includes fixes for GCC/clang warnings, memory leaks, memory
+corruption and few other minor fixes. The UTF-8 and UTF-16 is not
+entirely fixed and I removed the work-in-progress patches.
+
+Changes since v1 are:
+1. Group all patches based on prefix (unit file), instead of topic.
+2. Put the build-related patches at the end.
+3. Remove all CI-related patches.
+4. Drop patch: ndef: fix parsing of UTF-16 text payload.
+5. Fix commit msg in: nfctool: pass the format as string literal
+
+Best regards,
+Krzysztof
+
+
+Krzysztof Kozlowski (73):
+  Drop empty NEWS
+  nfctool: fix adapter_get_devices() cast-function-type
+  nfctool: fix adapter_print_target() cast-function-type
+  nfctool: fix adapter_print_info() cast-function-type
+  nfctool: fix adapter_compare_idx() cast-function-type
+  nfctool: fix nfctool_send_dep_link_up() cast-function-type
+  nfctool: fix nfctool_print_and_remove_snl() cast-function-type
+  nfctool: use proper format for integers (-Wformat)
+  nfctool: pass the format as string literal
+  dbus: fix -Wformat in near_dbus_encode_string()
+  unit: pass real UTF-8 for testing text NDEF
+  ndef: check UTF-16 text payload length
+  ndef: silence clang -Wcast-align warning
+  ndef: use NDEF_TEXT_RECORD_UTF16_STATUS define
+  ndef: use proper format for integers (-Wformat)
+  ndef: make freeing near_ndef_message reusable
+  se: fix multiple apdu definitions
+  se: silence clang -Wcast-align warning
+  se: use proper format for integers (-Wformat)
+  adapter: adjust indentation of continued arguments
+  adapter: use proper format for integers (-Wformat)
+  gdbus: do not shadow global 'pending' variable (-Wshadow)
+  nciattach: fix poll.h include location
+  nciattach: do not shadow other local 'opt' variable (-Wshadow)
+  bluetooth: use proper format for integers (-Wformat)
+  nfctype2: use proper format for integers (-Wformat)
+  nfctype3: use proper format for integers (-Wformat)
+  nfctype5: use proper format for integers (-Wformat)
+  nfctype5: fix returning uninitialized stack value in
+    t5_tag_is_ti_pro()
+  mifare: use proper format for integers (-Wformat)
+  mifare: use unsigned int to suppress compiler -Wstrict-overflow
+  p2p: use proper format for integers (-Wformat)
+  npp: use proper format for integers (-Wformat)
+  device: use proper format for integers (-Wformat)
+  manager: use proper format for integers (-Wformat)
+  netlink: use proper format for integers (-Wformat)
+  gdbus: annotate printf-like functions as accepting format
+  snep-send: fix near_ndef_message memory leak
+  tag: use proper format for integers (-Wformat)
+  tag: do not open-code freeing ndef message
+  snep: do not open-code freeing ndef message
+  snep: remove useless NULL-ify of local pointer variable
+  snep: fix double free of GSList
+  snep: fix fragmented response memory leaks
+  unit: use g_assert_cmpstr()
+  unit: use g_assert_cmpint() and g_assert_cmpuint()
+  unit: fix recv() and send() return types
+  unit: use g_assert_null()
+  unit: use g_assert_cmpmem()
+  unit: use proper pointer to uint8_t in test_snep_read_recv_fragments()
+  unit: do not shadow global 'text' variable (-Wshadow)
+  unit: do not shadow global 'uri' variable (-Wshadow)
+  unit: use proper format for integers (-Wformat)
+  unit: fix memory leaks in test-ndef-parse
+  unit: do not open-code freeing ndef message
+  unit: fix memory leaks in test-ndef-build
+  unit: fix memory leaks in test-snep-read error paths
+  unit: fix record memory leak in test-snep-read
+  unit: fix records GList memory leak in test-snep-read
+  unit: do not pass NULL to memcpy()
+  unit: do not search for headers locally where they do not exist
+  unit: remove duplicated invalid definitions in test-snep-read
+  unit: remove duplicated definitions in test-ndef-parse
+  unit: add few asserts in test-snep-read
+  HACKING: refine required packages
+  build: fix setting CFLAGS on dash shell (Alpine Linux)
+  build: add more compiler warnings
+  build: enable -Wshadow and -Wformat-signedness compiler warnings
+  build: enable -Wformat=3D2 warnings
+  build: enable -Wunsafe-loop-optimizations and -Wstrict-overflow=3D2
+    warnings
+  build: fix missing usage of PIE check result
+  build: add support for GCC sanitizers (asan, lsan and ubsan)
+  AUTHORS: Mention Krzysztof Kozlowski's contributions
+
+ AUTHORS                     |   1 +
+ HACKING                     |  27 ++--
+ Makefile.am                 |   2 +-
+ NEWS                        |   0
+ accflags.m4                 |  52 +++++++
+ acinclude.m4                |  44 ++++--
+ configure.ac                |  52 ++++++-
+ gdbus/gdbus.h               |  15 +-
+ gdbus/object.c              |  22 +--
+ include/ndef.h              |   1 +
+ plugins/mifare.c            |  14 +-
+ plugins/nfctype2.c          |  12 +-
+ plugins/nfctype3.c          |   2 +-
+ plugins/nfctype5.c          |   8 +-
+ plugins/npp.c               |   2 +-
+ plugins/p2p.c               |   4 +-
+ se/ace.c                    |  64 ++++++---
+ se/apdu.c                   |   8 +-
+ se/plugins/nfc.c            |   8 +-
+ se/plugins/tizen.c          |   2 +-
+ se/se.c                     |   6 +-
+ se/seel.h                   |   2 +-
+ src/adapter.c               |  41 +++---
+ src/bluetooth.c             |   4 +-
+ src/dbus.c                  |   2 +-
+ src/device.c                |   6 +-
+ src/manager.c               |   4 +-
+ src/ndef-private.h          | 140 ++++++++++++++++++
+ src/ndef.c                  | 217 ++++++----------------------
+ src/netlink.c               |  16 +--
+ src/snep.c                  |  14 +-
+ src/tag.c                   |  14 +-
+ tools/nciattach.c           |  10 +-
+ tools/nfctool/adapter.c     |  20 +--
+ tools/nfctool/adapter.h     |   2 +-
+ tools/nfctool/llcp-decode.c |   4 +-
+ tools/nfctool/main.c        |  30 ++--
+ tools/nfctool/sniffer.c     |  10 +-
+ tools/snep-send.c           |   2 +
+ unit/test-ndef-build.c      |  24 ++--
+ unit/test-ndef-parse.c      | 278 +++++++++++-------------------------
+ unit/test-snep-read.c       | 117 ++++++++-------
+ unit/test-utils.c           |   8 --
+ unit/test-utils.h           |  83 +----------
+ 44 files changed, 691 insertions(+), 703 deletions(-)
+ delete mode 100644 NEWS
+ create mode 100644 accflags.m4
+ create mode 100644 src/ndef-private.h
+
 -- =
 
 2.27.0
 
---===============2761487987261048053==--
+--===============7866267862576632718==--
 
