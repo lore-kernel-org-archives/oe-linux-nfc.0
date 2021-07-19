@@ -1,71 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============0586221850480779551=="
+Content-Type: multipart/mixed; boundary="===============2141783910143096438=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 31/73] mifare: use unsigned int to suppress compiler -Wstrict-overflow
-Date: Mon, 19 Jul 2021 13:07:37 +0200
-Message-ID: <20210719110819.27340-32-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 32/73] p2p: use proper format for integers (-Wformat)
+Date: Mon, 19 Jul 2021 13:07:38 +0200
+Message-ID: <20210719110819.27340-33-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0586221850480779551==
+--===============2141783910143096438==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-GCC v7.5 (Ubuntu Bionic) with optimizations has trouble spotting lack of
-possible overflow of a signed integer.  There is no overflow possible
-so this is a false positive which can be suppressed by simply using
-unsigned integer.  Unsigned also has more sense in that context.
+Properly print signed and unsigned integers.  This fixes warnings like:
 
-This fixes GCC 7.5 warning:
-
-    plugins/mifare.c: In function 'mifare_process_MADs':
-    plugins/mifare.c:626:5: error: assuming signed overflow does not occur =
-when simplifying conditional to constant [-Werror=3Dstrict-overflow]
-      if (global_tag_size =3D=3D 0) {
-         ^
+    In file included from plugins/p2p.c:38:
+    plugins/p2p.c: In function =E2=80=98p2p_listener_event=E2=80=99:
+    ./include/near/log.h:45:14: error: format =E2=80=98%d=E2=80=99 expects =
+argument of type =E2=80=98int=E2=80=99, but argument 4 has type =E2=80=98__=
+u32=E2=80=99 {aka =E2=80=98unsigned int=E2=80=99} [-Werror=3Dformat=3D]
+       45 |   near_debug("%s:%s() " fmt, \
+          |              ^~~~~~~~~~
+    plugins/p2p.c:261:2: note: in expansion of macro =E2=80=98DBG=E2=80=99
+      261 |  DBG("target idx %d", client_addr.target_idx);
+          |  ^~~
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- plugins/mifare.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ plugins/p2p.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/plugins/mifare.c b/plugins/mifare.c
-index a4e4ba443995..f42007d5dfd7 100644
---- a/plugins/mifare.c
-+++ b/plugins/mifare.c
-@@ -560,7 +560,7 @@ static int mifare_process_MADs(void *data)
- 	struct mifare_cookie *mf_ck =3D data;
- 	int err;
- 	int i;
--	int global_tag_size =3D 0;
-+	unsigned int global_tag_size =3D 0;
- 	int ioffset;
- 	uint8_t *tag_data;
- 	size_t data_size;
-@@ -626,13 +626,13 @@ done_mad:
- 	if (global_tag_size =3D=3D 0) {
- =
-
- 		/* no NFC sectors - mark tag as blank */
--		near_error("TAG Global size: [%d], not valid NFC tag.",
-+		near_error("TAG Global size: [%u], not valid NFC tag.",
- 				global_tag_size);
- 		return -ENODEV;
+diff --git a/plugins/p2p.c b/plugins/p2p.c
+index 13702ade3e14..cf3e0accaf33 100644
+--- a/plugins/p2p.c
++++ b/plugins/p2p.c
+@@ -256,9 +256,9 @@ static gboolean p2p_listener_event(GIOChannel *channel,=
+ GIOCondition condition,
+ 		return FALSE;
  	}
  =
 
- 	/* n sectors, each sector is 3 blocks, each block is 16 bytes */
--	DBG("TAG Global size: [%d]", global_tag_size);
-+	DBG("TAG Global size: [%u]", global_tag_size);
+-	DBG("client dsap %d ssap %d",
++	DBG("client dsap %u ssap %u",
+ 		client_addr.dsap, client_addr.ssap);
+-	DBG("target idx %d", client_addr.target_idx);
++	DBG("target idx %u", client_addr.target_idx);
  =
 
- 	mf_ck->tag =3D near_tag_get_tag(mf_ck->adapter_idx, mf_ck->target_idx);
- 	if (!mf_ck->tag) {
+ 	client_data =3D g_try_malloc0(sizeof(struct p2p_data));
+ 	if (!client_data) {
 -- =
 
 2.27.0
 
---===============0586221850480779551==--
+--===============2141783910143096438==--
 
