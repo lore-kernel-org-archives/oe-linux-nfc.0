@@ -1,52 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============0498793003104144108=="
+Content-Type: multipart/mixed; boundary="===============0552899176717597175=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 13/73] ndef: silence clang -Wcast-align warning
-Date: Mon, 19 Jul 2021 13:07:19 +0200
-Message-ID: <20210719110819.27340-14-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 14/73] ndef: use NDEF_TEXT_RECORD_UTF16_STATUS define
+Date: Mon, 19 Jul 2021 13:07:20 +0200
+Message-ID: <20210719110819.27340-15-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0498793003104144108==
+--===============0552899176717597175==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Fix clang warning:
-
-    src/ndef.c:1196:28: error: cast from 'char *' to 'gunichar2 *' (aka 'un=
-signed short *') increases required alignment from 1 to 2 [-Werror,-Wcast-a=
-lign]
-                            g_str =3D g_utf16_to_utf8((gunichar2 *)txt, len=
-, NULL,
-                                                    ^~~~~~~~~~~~~~~~
-
-The case is safe as length of string is an even number.
+Don't hard-code 0x80 because there is a define for it.  No functional
+change.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- src/ndef.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ src/ndef.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/ndef.c b/src/ndef.c
-index fdd44b467027..13e3356c2c4c 100644
+index 13e3356c2c4c..928e6a10a999 100644
 --- a/src/ndef.c
 +++ b/src/ndef.c
-@@ -1198,7 +1198,8 @@ parse_text_payload(uint8_t *payload, uint32_t length)
- 		txt =3D (char *)(payload + offset);
+@@ -1164,8 +1164,8 @@ parse_text_payload(uint8_t *payload, uint32_t length)
+ 	if (!text_payload)
+ 		return NULL;
  =
 
- 		if (status)
--			g_str =3D g_utf16_to_utf8((gunichar2 *)txt, len, NULL,
-+			/* Cast to void to silence the 1-to-2 alignment warning */
-+			g_str =3D g_utf16_to_utf8((gunichar2 *)(void *)txt, len, NULL,
- 						NULL, NULL);
- 		else
- 			g_str =3D txt;
+-	/* 0x80 is used to get 7th bit value (0th bit is LSB) */
+-	status =3D ((payload[offset] & 0x80) >> 7);
++	/* 0th bit is LSB */
++	status =3D ((payload[offset] & NDEF_TEXT_RECORD_UTF16_STATUS) >> 7);
+ =
+
+ 	text_payload->encoding =3D (status =3D=3D 0) ?
+ 					g_strdup("UTF-8") : g_strdup("UTF-16");
 -- =
 
 2.27.0
 
---===============0498793003104144108==--
+--===============0552899176717597175==--
 
