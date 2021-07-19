@@ -1,87 +1,71 @@
-Content-Type: multipart/mixed; boundary="===============5826843353542475089=="
+Content-Type: multipart/mixed; boundary="===============0586221850480779551=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 30/73] mifare: use proper format for integers (-Wformat)
-Date: Mon, 19 Jul 2021 13:07:36 +0200
-Message-ID: <20210719110819.27340-31-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 31/73] mifare: use unsigned int to suppress compiler -Wstrict-overflow
+Date: Mon, 19 Jul 2021 13:07:37 +0200
+Message-ID: <20210719110819.27340-32-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210719110819.27340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5826843353542475089==
+--===============0586221850480779551==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Properly print signed and unsigned integers.  This fixes warnings like:
+GCC v7.5 (Ubuntu Bionic) with optimizations has trouble spotting lack of
+possible overflow of a signed integer.  There is no overflow possible
+so this is a false positive which can be suppressed by simply using
+unsigned integer.  Unsigned also has more sense in that context.
 
-    plugins/mifare.c: In function =E2=80=98mifare_read=E2=80=99:
-    plugins/mifare.c:836:33: error: format =E2=80=98%d=E2=80=99 expects arg=
-ument of type =E2=80=98int=E2=80=99, but argument 2 has type =E2=80=98unsig=
-ned int=E2=80=99 [-Werror=3Dformat=3D]
-      836 |   near_error("Mifare tag type [%d] not supported.", tgt_subtype=
-);
-          |                                ~^                   ~~~~~~~~~~~
-          |                                 |                   |
-          |                                 int                 unsigned int
-          |                                %d
+This fixes GCC 7.5 warning:
+
+    plugins/mifare.c: In function 'mifare_process_MADs':
+    plugins/mifare.c:626:5: error: assuming signed overflow does not occur =
+when simplifying conditional to constant [-Werror=3Dstrict-overflow]
+      if (global_tag_size =3D=3D 0) {
+         ^
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- plugins/mifare.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ plugins/mifare.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/plugins/mifare.c b/plugins/mifare.c
-index 3d376526735d..a4e4ba443995 100644
+index a4e4ba443995..f42007d5dfd7 100644
 --- a/plugins/mifare.c
 +++ b/plugins/mifare.c
-@@ -833,7 +833,7 @@ int mifare_read(uint32_t adapter_idx, uint32_t target_i=
-dx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type [%d] not supported.", tgt_subtype);
-+		near_error("Mifare tag type [%u] not supported.", tgt_subtype);
- 		return -1;
+@@ -560,7 +560,7 @@ static int mifare_process_MADs(void *data)
+ 	struct mifare_cookie *mf_ck =3D data;
+ 	int err;
+ 	int i;
+-	int global_tag_size =3D 0;
++	unsigned int global_tag_size =3D 0;
+ 	int ioffset;
+ 	uint8_t *tag_data;
+ 	size_t data_size;
+@@ -626,13 +626,13 @@ done_mad:
+ 	if (global_tag_size =3D=3D 0) {
+ =
+
+ 		/* no NFC sectors - mark tag as blank */
+-		near_error("TAG Global size: [%d], not valid NFC tag.",
++		near_error("TAG Global size: [%u], not valid NFC tag.",
+ 				global_tag_size);
+ 		return -ENODEV;
  	}
  =
 
-@@ -900,7 +900,7 @@ int mifare_check_presence(uint32_t adapter_idx, uint32_=
-t target_idx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type %d not supported.", tgt_subtype);
-+		near_error("Mifare tag type %u not supported.", tgt_subtype);
- 		return -1;
- 	}
+ 	/* n sectors, each sector is 3 blocks, each block is 16 bytes */
+-	DBG("TAG Global size: [%d]", global_tag_size);
++	DBG("TAG Global size: [%u]", global_tag_size);
  =
 
-@@ -1228,7 +1228,7 @@ static int writing_not_permitted(void *data)
- 		}
- 	}
- =
-
--	DBG("TAG writable sectors' size: [%d].", new_tag_size);
-+	DBG("TAG writable sectors' size: [%u].", new_tag_size);
- =
-
- 	/* Check if there's enough space on tag */
- 	if (new_tag_size < mf_ck->ndef->length) {
-@@ -1293,7 +1293,7 @@ int mifare_write(uint32_t adapter_idx, uint32_t targe=
-t_idx,
- 	case NEAR_TAG_NFC_T2_MIFARE_CLASSIC_4K:
- 		break;
- 	default:
--		near_error("Mifare tag type %d not supported.", tgt_subtype);
-+		near_error("Mifare tag type %u not supported.", tgt_subtype);
- 		return -1;
- 	}
- =
-
+ 	mf_ck->tag =3D near_tag_get_tag(mf_ck->adapter_idx, mf_ck->target_idx);
+ 	if (!mf_ck->tag) {
 -- =
 
 2.27.0
 
---===============5826843353542475089==--
+--===============0586221850480779551==--
 
