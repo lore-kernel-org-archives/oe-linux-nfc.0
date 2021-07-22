@@ -1,22 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============6911322136307781556=="
+Content-Type: multipart/mixed; boundary="===============5302536555886525780=="
 MIME-Version: 1.0
 From: Vincas Dargis <vindrg@gmail.com>
 To: linux-nfc@lists.01.org
 Subject: Re: About NFC Tag emulation on Linux
-Date: Thu, 22 Jul 2021 20:13:20 +0300
-Message-ID: <338d62d6-b59b-1742-b146-1278ae1b9139@gmail.com>
-In-Reply-To: <e35ac631-3b84-f6c5-3f34-b6859f3b709f@kontron.de>
+Date: Thu, 22 Jul 2021 20:16:45 +0300
+Message-ID: <c60058e4-73d3-4545-7165-7d03df865822@gmail.com>
+In-Reply-To: <c3e98408-8d27-fe0e-4d99-6c1ae1d961ab@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6911322136307781556==
+--===============5302536555886525780==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-2021-07-22 15:34, Frieder Schrempf wrote:
-> By the way, this is only true for Qt up to version 5.15. They dropped nea=
-rd support for Qt 6 (see https://bugreports.qt.io/browse/QTBUG-81824).
+2021-07-22 14:53, Krzysztof Kozlowski wrote:
+> I think nfcsim kernel module could help you but I am not sure how much
+> you can emulate.
 
-Ouch... good catch, so I just scrap the idea... Thanks.
---===============6911322136307781556==--
+That's interesting, though I'm not sure how should I use it too, and I gues=
+s it would be too low level?. And as another =
+
+post mentioned, Qt will not have NFC support on Linux so I just scraping th=
+e idea...
+
+Thanks.
+--===============5302536555886525780==--
 
