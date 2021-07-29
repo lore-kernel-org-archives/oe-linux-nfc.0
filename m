@@ -1,66 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============7846875080838347699=="
+Content-Type: multipart/mixed; boundary="===============2798878350367099042=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 00/12] nfc: constify, continued (part 2)
-Date: Thu, 29 Jul 2021 12:40:10 +0200
-Message-ID: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 01/12] nfc: constify passed nfc_dev
+Date: Thu, 29 Jul 2021 12:40:11 +0200
+Message-ID: <20210729104022.47761-2-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7846875080838347699==
+--===============2798878350367099042==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+The struct nfc_dev is not modified by nfc_get_drvdata() and
+nfc_device_name() so it can be made a const.
 
-On top of:
-nfc: constify pointed data
-https://lore.kernel.org/lkml/20210726145224.146006-1-krzysztof.kozlowski(a)=
-canonical.com/
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ include/net/nfc/nfc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Krzysztof
-
-
-Krzysztof Kozlowski (12):
-  nfc: constify passed nfc_dev
-  nfc: mei_phy: constify buffer passed to mei_nfc_send()
-  nfc: port100: constify several pointers
-  nfc: trf7970a: constify several pointers
-  nfc: virtual_ncidev: constify pointer to nfc_dev
-  nfc: nfcsim: constify drvdata (struct nfcsim)
-  nfc: fdp: drop unneeded cast for printing firmware size in dev_dbg()
-  nfc: fdp: use unsigned int as loop iterator
-  nfc: fdp: constify several pointers
-  nfc: microread: constify several pointers
-  nfc: mrvl: constify several pointers
-  nfc: mrvl: constify static nfcmrvl_if_ops
-
- drivers/nfc/fdp/fdp.c             | 27 +++++++++++-----------
- drivers/nfc/fdp/fdp.h             |  2 +-
- drivers/nfc/fdp/i2c.c             |  6 ++---
- drivers/nfc/mei_phy.c             |  2 +-
- drivers/nfc/microread/i2c.c       |  2 +-
- drivers/nfc/microread/microread.c |  4 ++--
- drivers/nfc/microread/microread.h |  2 +-
- drivers/nfc/nfcmrvl/fw_dnld.c     | 16 +++++++------
- drivers/nfc/nfcmrvl/i2c.c         |  4 ++--
- drivers/nfc/nfcmrvl/main.c        |  4 ++--
- drivers/nfc/nfcmrvl/nfcmrvl.h     |  6 ++---
- drivers/nfc/nfcmrvl/spi.c         |  6 ++---
- drivers/nfc/nfcmrvl/uart.c        |  4 ++--
- drivers/nfc/nfcmrvl/usb.c         |  2 +-
- drivers/nfc/nfcsim.c              |  2 +-
- drivers/nfc/port100.c             | 37 +++++++++++++++++--------------
- drivers/nfc/trf7970a.c            | 17 +++++++-------
- drivers/nfc/virtual_ncidev.c      |  2 +-
- include/net/nfc/nfc.h             |  4 ++--
- 19 files changed, 78 insertions(+), 71 deletions(-)
-
+diff --git a/include/net/nfc/nfc.h b/include/net/nfc/nfc.h
+index c9ff341d57e4..5dee575fbe86 100644
+--- a/include/net/nfc/nfc.h
++++ b/include/net/nfc/nfc.h
+@@ -245,7 +245,7 @@ static inline void nfc_set_drvdata(struct nfc_dev *dev,=
+ void *data)
+  *
+  * @dev: The nfc device
+  */
+-static inline void *nfc_get_drvdata(struct nfc_dev *dev)
++static inline void *nfc_get_drvdata(const struct nfc_dev *dev)
+ {
+ 	return dev_get_drvdata(&dev->dev);
+ }
+@@ -255,7 +255,7 @@ static inline void *nfc_get_drvdata(struct nfc_dev *dev)
+  *
+  * @dev: The nfc device whose name to return
+  */
+-static inline const char *nfc_device_name(struct nfc_dev *dev)
++static inline const char *nfc_device_name(const struct nfc_dev *dev)
+ {
+ 	return dev_name(&dev->dev);
+ }
 -- =
 
 2.27.0
 
---===============7846875080838347699==--
+--===============2798878350367099042==--
 
