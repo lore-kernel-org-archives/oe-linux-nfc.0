@@ -1,44 +1,191 @@
-Content-Type: multipart/mixed; boundary="===============6135362564576682353=="
+Content-Type: multipart/mixed; boundary="===============0946370449748105599=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 02/12] nfc: mei_phy: constify buffer passed to mei_nfc_send()
-Date: Thu, 29 Jul 2021 12:40:12 +0200
-Message-ID: <20210729104022.47761-3-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 03/12] nfc: port100: constify several pointers
+Date: Thu, 29 Jul 2021 12:40:13 +0200
+Message-ID: <20210729104022.47761-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6135362564576682353==
+--===============0946370449748105599==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The buffer passed to mei_nfc_send() can be const for correctness and
-safety.
+Several functions do not modify pointed data so arguments and local
+variables can be const for correctness and safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/mei_phy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nfc/port100.c | 37 ++++++++++++++++++++-----------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nfc/mei_phy.c b/drivers/nfc/mei_phy.c
-index 41146bb99474..f9cca885beec 100644
---- a/drivers/nfc/mei_phy.c
-+++ b/drivers/nfc/mei_phy.c
-@@ -202,7 +202,7 @@ static int mei_nfc_connect(struct nfc_mei_phy *phy)
- 	return r;
+diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
+index ccb5c5fab905..517376c43b86 100644
+--- a/drivers/nfc/port100.c
++++ b/drivers/nfc/port100.c
+@@ -526,7 +526,7 @@ static inline u8 port100_checksum(u16 value)
  }
  =
 
--static int mei_nfc_send(struct nfc_mei_phy *phy, u8 *buf, size_t length)
-+static int mei_nfc_send(struct nfc_mei_phy *phy, const u8 *buf, size_t len=
-gth)
+ /* The rule: sum(data elements) + checksum =3D 0 */
+-static u8 port100_data_checksum(u8 *data, int datalen)
++static u8 port100_data_checksum(const u8 *data, int datalen)
  {
- 	struct mei_nfc_hdr *hdr;
- 	u8 *mei_buf;
+ 	u8 sum =3D 0;
+ 	int i;
+@@ -568,10 +568,10 @@ static void port100_tx_update_payload_len(void *_fram=
+e, int len)
+ 	le16_add_cpu(&frame->datalen, len);
+ }
+ =
+
+-static bool port100_rx_frame_is_valid(void *_frame)
++static bool port100_rx_frame_is_valid(const void *_frame)
+ {
+ 	u8 checksum;
+-	struct port100_frame *frame =3D _frame;
++	const struct port100_frame *frame =3D _frame;
+ =
+
+ 	if (frame->start_frame !=3D cpu_to_be16(PORT100_FRAME_SOF) ||
+ 	    frame->extended_frame !=3D cpu_to_be16(PORT100_FRAME_EXT))
+@@ -589,23 +589,24 @@ static bool port100_rx_frame_is_valid(void *_frame)
+ 	return true;
+ }
+ =
+
+-static bool port100_rx_frame_is_ack(struct port100_ack_frame *frame)
++static bool port100_rx_frame_is_ack(const struct port100_ack_frame *frame)
+ {
+ 	return (frame->start_frame =3D=3D cpu_to_be16(PORT100_FRAME_SOF) &&
+ 		frame->ack_frame =3D=3D cpu_to_be16(PORT100_FRAME_ACK));
+ }
+ =
+
+-static inline int port100_rx_frame_size(void *frame)
++static inline int port100_rx_frame_size(const void *frame)
+ {
+-	struct port100_frame *f =3D frame;
++	const struct port100_frame *f =3D frame;
+ =
+
+ 	return sizeof(struct port100_frame) + le16_to_cpu(f->datalen) +
+ 	       PORT100_FRAME_TAIL_LEN;
+ }
+ =
+
+-static bool port100_rx_frame_is_cmd_response(struct port100 *dev, void *fr=
+ame)
++static bool port100_rx_frame_is_cmd_response(const struct port100 *dev,
++					     const void *frame)
+ {
+-	struct port100_frame *f =3D frame;
++	const struct port100_frame *f =3D frame;
+ =
+
+ 	return (PORT100_FRAME_CMD(f) =3D=3D PORT100_CMD_RESPONSE(dev->cmd->code));
+ }
+@@ -655,7 +656,8 @@ static void port100_recv_response(struct urb *urb)
+ 	schedule_work(&dev->cmd_complete_work);
+ }
+ =
+
+-static int port100_submit_urb_for_response(struct port100 *dev, gfp_t flag=
+s)
++static int port100_submit_urb_for_response(const struct port100 *dev,
++					   gfp_t flags)
+ {
+ 	dev->in_urb->complete =3D port100_recv_response;
+ =
+
+@@ -666,7 +668,7 @@ static void port100_recv_ack(struct urb *urb)
+ {
+ 	struct port100 *dev =3D urb->context;
+ 	struct port100_cmd *cmd =3D dev->cmd;
+-	struct port100_ack_frame *in_frame;
++	const struct port100_ack_frame *in_frame;
+ 	int rc;
+ =
+
+ 	cmd->status =3D urb->status;
+@@ -708,7 +710,7 @@ static void port100_recv_ack(struct urb *urb)
+ 	schedule_work(&dev->cmd_complete_work);
+ }
+ =
+
+-static int port100_submit_urb_for_ack(struct port100 *dev, gfp_t flags)
++static int port100_submit_urb_for_ack(const struct port100 *dev, gfp_t fla=
+gs)
+ {
+ 	dev->in_urb->complete =3D port100_recv_ack;
+ =
+
+@@ -753,8 +755,9 @@ static int port100_send_ack(struct port100 *dev)
+ 	return rc;
+ }
+ =
+
+-static int port100_send_frame_async(struct port100 *dev, struct sk_buff *o=
+ut,
+-				    struct sk_buff *in, int in_len)
++static int port100_send_frame_async(struct port100 *dev,
++				    const struct sk_buff *out,
++				    const struct sk_buff *in, int in_len)
+ {
+ 	int rc;
+ =
+
+@@ -960,7 +963,7 @@ static void port100_abort_cmd(struct nfc_digital_dev *d=
+dev)
+ 	usb_kill_urb(dev->in_urb);
+ }
+ =
+
+-static struct sk_buff *port100_alloc_skb(struct port100 *dev, unsigned int=
+ size)
++static struct sk_buff *port100_alloc_skb(const struct port100 *dev, unsign=
+ed int size)
+ {
+ 	struct sk_buff *skb;
+ =
+
+@@ -1152,7 +1155,7 @@ static int port100_in_configure_hw(struct nfc_digital=
+_dev *ddev, int type,
+ static void port100_in_comm_rf_complete(struct port100 *dev, void *arg,
+ 				       struct sk_buff *resp)
+ {
+-	struct port100_cb_arg *cb_arg =3D arg;
++	const struct port100_cb_arg *cb_arg =3D arg;
+ 	nfc_digital_cmd_complete_t cb =3D cb_arg->complete_cb;
+ 	u32 status;
+ 	int rc;
+@@ -1330,7 +1333,7 @@ static void port100_tg_comm_rf_complete(struct port10=
+0 *dev, void *arg,
+ 					struct sk_buff *resp)
+ {
+ 	u32 status;
+-	struct port100_cb_arg *cb_arg =3D arg;
++	const struct port100_cb_arg *cb_arg =3D arg;
+ 	nfc_digital_cmd_complete_t cb =3D cb_arg->complete_cb;
+ 	struct port100_tg_comm_rf_res *hdr;
+ =
+
+@@ -1453,7 +1456,7 @@ static int port100_listen_mdaa(struct nfc_digital_dev=
+ *ddev,
+ static int port100_listen(struct nfc_digital_dev *ddev, u16 timeout,
+ 			  nfc_digital_cmd_complete_t cb, void *arg)
+ {
+-	struct port100 *dev =3D nfc_digital_get_drvdata(ddev);
++	const struct port100 *dev =3D nfc_digital_get_drvdata(ddev);
+ 	struct sk_buff *skb;
+ =
+
+ 	skb =3D port100_alloc_skb(dev, 0);
 -- =
 
 2.27.0
 
---===============6135362564576682353==--
+--===============0946370449748105599==--
 
