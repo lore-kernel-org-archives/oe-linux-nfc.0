@@ -1,44 +1,62 @@
-Content-Type: multipart/mixed; boundary="===============7934467504712344562=="
+Content-Type: multipart/mixed; boundary="===============4172857886592797779=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 05/12] nfc: virtual_ncidev: constify pointer to nfc_dev
-Date: Thu, 29 Jul 2021 12:40:15 +0200
-Message-ID: <20210729104022.47761-6-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 07/12] nfc: fdp: drop unneeded cast for printing firmware size in dev_dbg()
+Date: Thu, 29 Jul 2021 12:40:17 +0200
+Message-ID: <20210729104022.47761-8-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7934467504712344562==
+--===============4172857886592797779==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-virtual_ncidev_ioctl() does not modify struct nfc_dev, so local variable
-can be a pointer to const.
+Size of firmware is a type of size_t, so print it directly instead of
+casting to int.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/virtual_ncidev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nfc/fdp/fdp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nfc/virtual_ncidev.c b/drivers/nfc/virtual_ncidev.c
-index b914ab2c2109..2ee0ec4bb739 100644
---- a/drivers/nfc/virtual_ncidev.c
-+++ b/drivers/nfc/virtual_ncidev.c
-@@ -170,7 +170,7 @@ static int virtual_ncidev_close(struct inode *inode, st=
-ruct file *file)
- static long virtual_ncidev_ioctl(struct file *flip, unsigned int cmd,
- 				 unsigned long arg)
- {
--	struct nfc_dev *nfc_dev =3D ndev->nfc_dev;
-+	const struct nfc_dev *nfc_dev =3D ndev->nfc_dev;
- 	void __user *p =3D (void __user *)arg;
+diff --git a/drivers/nfc/fdp/fdp.c b/drivers/nfc/fdp/fdp.c
+index 3e542b7389cb..650a140bea46 100644
+--- a/drivers/nfc/fdp/fdp.c
++++ b/drivers/nfc/fdp/fdp.c
+@@ -276,8 +276,8 @@ static int fdp_nci_request_firmware(struct nci_dev *nde=
+v)
+ 		(data[FDP_FW_HEADER_SIZE + 2] << 16) |
+ 		(data[FDP_FW_HEADER_SIZE + 3] << 24);
  =
 
- 	if (cmd !=3D IOCTL_GET_NCIDEV_IDX)
+-	dev_dbg(dev, "RAM patch version: %d, size: %d\n",
+-		  info->ram_patch_version, (int) info->ram_patch->size);
++	dev_dbg(dev, "RAM patch version: %d, size: %zu\n",
++		  info->ram_patch_version, info->ram_patch->size);
+ =
+
+ =
+
+ 	r =3D request_firmware(&info->otp_patch, FDP_OTP_PATCH_NAME, dev);
+@@ -293,8 +293,8 @@ static int fdp_nci_request_firmware(struct nci_dev *nde=
+v)
+ 		(data[FDP_FW_HEADER_SIZE+2] << 16) |
+ 		(data[FDP_FW_HEADER_SIZE+3] << 24);
+ =
+
+-	dev_dbg(dev, "OTP patch version: %d, size: %d\n",
+-		 info->otp_patch_version, (int) info->otp_patch->size);
++	dev_dbg(dev, "OTP patch version: %d, size: %zu\n",
++		 info->otp_patch_version, info->otp_patch->size);
+ 	return 0;
+ }
+ =
+
 -- =
 
 2.27.0
 
---===============7934467504712344562==--
+--===============4172857886592797779==--
 
