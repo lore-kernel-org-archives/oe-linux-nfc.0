@@ -1,52 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============2798878350367099042=="
+Content-Type: multipart/mixed; boundary="===============6135362564576682353=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 01/12] nfc: constify passed nfc_dev
-Date: Thu, 29 Jul 2021 12:40:11 +0200
-Message-ID: <20210729104022.47761-2-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 02/12] nfc: mei_phy: constify buffer passed to mei_nfc_send()
+Date: Thu, 29 Jul 2021 12:40:12 +0200
+Message-ID: <20210729104022.47761-3-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2798878350367099042==
+--===============6135362564576682353==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The struct nfc_dev is not modified by nfc_get_drvdata() and
-nfc_device_name() so it can be made a const.
+The buffer passed to mei_nfc_send() can be const for correctness and
+safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- include/net/nfc/nfc.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nfc/mei_phy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/net/nfc/nfc.h b/include/net/nfc/nfc.h
-index c9ff341d57e4..5dee575fbe86 100644
---- a/include/net/nfc/nfc.h
-+++ b/include/net/nfc/nfc.h
-@@ -245,7 +245,7 @@ static inline void nfc_set_drvdata(struct nfc_dev *dev,=
- void *data)
-  *
-  * @dev: The nfc device
-  */
--static inline void *nfc_get_drvdata(struct nfc_dev *dev)
-+static inline void *nfc_get_drvdata(const struct nfc_dev *dev)
- {
- 	return dev_get_drvdata(&dev->dev);
+diff --git a/drivers/nfc/mei_phy.c b/drivers/nfc/mei_phy.c
+index 41146bb99474..f9cca885beec 100644
+--- a/drivers/nfc/mei_phy.c
++++ b/drivers/nfc/mei_phy.c
+@@ -202,7 +202,7 @@ static int mei_nfc_connect(struct nfc_mei_phy *phy)
+ 	return r;
  }
-@@ -255,7 +255,7 @@ static inline void *nfc_get_drvdata(struct nfc_dev *dev)
-  *
-  * @dev: The nfc device whose name to return
-  */
--static inline const char *nfc_device_name(struct nfc_dev *dev)
-+static inline const char *nfc_device_name(const struct nfc_dev *dev)
+ =
+
+-static int mei_nfc_send(struct nfc_mei_phy *phy, u8 *buf, size_t length)
++static int mei_nfc_send(struct nfc_mei_phy *phy, const u8 *buf, size_t len=
+gth)
  {
- 	return dev_name(&dev->dev);
- }
+ 	struct mei_nfc_hdr *hdr;
+ 	u8 *mei_buf;
 -- =
 
 2.27.0
 
---===============2798878350367099042==--
+--===============6135362564576682353==--
 
