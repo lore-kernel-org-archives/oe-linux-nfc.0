@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0946370449748105599=="
+Content-Type: multipart/mixed; boundary="===============5487559545088770078=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 03/12] nfc: port100: constify several pointers
-Date: Thu, 29 Jul 2021 12:40:13 +0200
-Message-ID: <20210729104022.47761-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 04/12] nfc: trf7970a: constify several pointers
+Date: Thu, 29 Jul 2021 12:40:14 +0200
+Message-ID: <20210729104022.47761-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210729104022.47761-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0946370449748105599==
+--===============5487559545088770078==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,174 +18,100 @@ variables can be const for correctness and safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/port100.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+ drivers/nfc/trf7970a.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index ccb5c5fab905..517376c43b86 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -526,7 +526,7 @@ static inline u8 port100_checksum(u16 value)
+diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
+index 1aed44629aaa..8890fcd59c39 100644
+--- a/drivers/nfc/trf7970a.c
++++ b/drivers/nfc/trf7970a.c
+@@ -643,7 +643,7 @@ static void trf7970a_send_err_upstream(struct trf7970a =
+*trf, int errno)
  }
  =
 
- /* The rule: sum(data elements) + checksum =3D 0 */
--static u8 port100_data_checksum(u8 *data, int datalen)
-+static u8 port100_data_checksum(const u8 *data, int datalen)
+ static int trf7970a_transmit(struct trf7970a *trf, struct sk_buff *skb,
+-			     unsigned int len, u8 *prefix,
++			     unsigned int len, const u8 *prefix,
+ 			     unsigned int prefix_len)
  {
- 	u8 sum =3D 0;
- 	int i;
-@@ -568,10 +568,10 @@ static void port100_tx_update_payload_len(void *_fram=
-e, int len)
- 	le16_add_cpu(&frame->datalen, len);
+ 	struct spi_transfer t[2];
+@@ -1387,9 +1387,10 @@ static int trf7970a_is_iso15693_write_or_lock(u8 cmd)
+ 	}
  }
  =
 
--static bool port100_rx_frame_is_valid(void *_frame)
-+static bool port100_rx_frame_is_valid(const void *_frame)
+-static int trf7970a_per_cmd_config(struct trf7970a *trf, struct sk_buff *s=
+kb)
++static int trf7970a_per_cmd_config(struct trf7970a *trf,
++				   const struct sk_buff *skb)
  {
- 	u8 checksum;
--	struct port100_frame *frame =3D _frame;
-+	const struct port100_frame *frame =3D _frame;
+-	u8 *req =3D skb->data;
++	const u8 *req =3D skb->data;
+ 	u8 special_fcn_reg1, iso_ctrl;
+ 	int ret;
  =
 
- 	if (frame->start_frame !=3D cpu_to_be16(PORT100_FRAME_SOF) ||
- 	    frame->extended_frame !=3D cpu_to_be16(PORT100_FRAME_EXT))
-@@ -589,23 +589,24 @@ static bool port100_rx_frame_is_valid(void *_frame)
- 	return true;
+@@ -1791,7 +1792,7 @@ static int _trf7970a_tg_listen(struct nfc_digital_dev=
+ *ddev, u16 timeout,
+ static int trf7970a_tg_listen(struct nfc_digital_dev *ddev, u16 timeout,
+ 			      nfc_digital_cmd_complete_t cb, void *arg)
+ {
+-	struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
++	const struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
+ =
+
+ 	dev_dbg(trf->dev, "Listen - state: %d, timeout: %d ms\n",
+ 		trf->state, timeout);
+@@ -1803,7 +1804,7 @@ static int trf7970a_tg_listen_md(struct nfc_digital_d=
+ev *ddev,
+ 				 u16 timeout, nfc_digital_cmd_complete_t cb,
+ 				 void *arg)
+ {
+-	struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
++	const struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
+ 	int ret;
+ =
+
+ 	dev_dbg(trf->dev, "Listen MD - state: %d, timeout: %d ms\n",
+@@ -1824,7 +1825,7 @@ static int trf7970a_tg_listen_md(struct nfc_digital_d=
+ev *ddev,
+ =
+
+ static int trf7970a_tg_get_rf_tech(struct nfc_digital_dev *ddev, u8 *rf_te=
+ch)
+ {
+-	struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
++	const struct trf7970a *trf =3D nfc_digital_get_drvdata(ddev);
+ =
+
+ 	dev_dbg(trf->dev, "Get RF Tech - state: %d, rf_tech: %d\n",
+ 		trf->state, trf->md_rf_tech);
+@@ -1974,7 +1975,7 @@ static void trf7970a_shutdown(struct trf7970a *trf)
+ 	trf7970a_power_down(trf);
  }
  =
 
--static bool port100_rx_frame_is_ack(struct port100_ack_frame *frame)
-+static bool port100_rx_frame_is_ack(const struct port100_ack_frame *frame)
+-static int trf7970a_get_autosuspend_delay(struct device_node *np)
++static int trf7970a_get_autosuspend_delay(const struct device_node *np)
  {
- 	return (frame->start_frame =3D=3D cpu_to_be16(PORT100_FRAME_SOF) &&
- 		frame->ack_frame =3D=3D cpu_to_be16(PORT100_FRAME_ACK));
- }
+ 	int autosuspend_delay, ret;
  =
 
--static inline int port100_rx_frame_size(void *frame)
-+static inline int port100_rx_frame_size(const void *frame)
+@@ -1987,7 +1988,7 @@ static int trf7970a_get_autosuspend_delay(struct devi=
+ce_node *np)
+ =
+
+ static int trf7970a_probe(struct spi_device *spi)
  {
--	struct port100_frame *f =3D frame;
-+	const struct port100_frame *f =3D frame;
- =
-
- 	return sizeof(struct port100_frame) + le16_to_cpu(f->datalen) +
- 	       PORT100_FRAME_TAIL_LEN;
- }
- =
-
--static bool port100_rx_frame_is_cmd_response(struct port100 *dev, void *fr=
-ame)
-+static bool port100_rx_frame_is_cmd_response(const struct port100 *dev,
-+					     const void *frame)
- {
--	struct port100_frame *f =3D frame;
-+	const struct port100_frame *f =3D frame;
- =
-
- 	return (PORT100_FRAME_CMD(f) =3D=3D PORT100_CMD_RESPONSE(dev->cmd->code));
- }
-@@ -655,7 +656,8 @@ static void port100_recv_response(struct urb *urb)
- 	schedule_work(&dev->cmd_complete_work);
- }
- =
-
--static int port100_submit_urb_for_response(struct port100 *dev, gfp_t flag=
-s)
-+static int port100_submit_urb_for_response(const struct port100 *dev,
-+					   gfp_t flags)
- {
- 	dev->in_urb->complete =3D port100_recv_response;
- =
-
-@@ -666,7 +668,7 @@ static void port100_recv_ack(struct urb *urb)
- {
- 	struct port100 *dev =3D urb->context;
- 	struct port100_cmd *cmd =3D dev->cmd;
--	struct port100_ack_frame *in_frame;
-+	const struct port100_ack_frame *in_frame;
- 	int rc;
- =
-
- 	cmd->status =3D urb->status;
-@@ -708,7 +710,7 @@ static void port100_recv_ack(struct urb *urb)
- 	schedule_work(&dev->cmd_complete_work);
- }
- =
-
--static int port100_submit_urb_for_ack(struct port100 *dev, gfp_t flags)
-+static int port100_submit_urb_for_ack(const struct port100 *dev, gfp_t fla=
-gs)
- {
- 	dev->in_urb->complete =3D port100_recv_ack;
- =
-
-@@ -753,8 +755,9 @@ static int port100_send_ack(struct port100 *dev)
- 	return rc;
- }
- =
-
--static int port100_send_frame_async(struct port100 *dev, struct sk_buff *o=
-ut,
--				    struct sk_buff *in, int in_len)
-+static int port100_send_frame_async(struct port100 *dev,
-+				    const struct sk_buff *out,
-+				    const struct sk_buff *in, int in_len)
- {
- 	int rc;
- =
-
-@@ -960,7 +963,7 @@ static void port100_abort_cmd(struct nfc_digital_dev *d=
-dev)
- 	usb_kill_urb(dev->in_urb);
- }
- =
-
--static struct sk_buff *port100_alloc_skb(struct port100 *dev, unsigned int=
- size)
-+static struct sk_buff *port100_alloc_skb(const struct port100 *dev, unsign=
-ed int size)
- {
- 	struct sk_buff *skb;
- =
-
-@@ -1152,7 +1155,7 @@ static int port100_in_configure_hw(struct nfc_digital=
-_dev *ddev, int type,
- static void port100_in_comm_rf_complete(struct port100 *dev, void *arg,
- 				       struct sk_buff *resp)
- {
--	struct port100_cb_arg *cb_arg =3D arg;
-+	const struct port100_cb_arg *cb_arg =3D arg;
- 	nfc_digital_cmd_complete_t cb =3D cb_arg->complete_cb;
- 	u32 status;
- 	int rc;
-@@ -1330,7 +1333,7 @@ static void port100_tg_comm_rf_complete(struct port10=
-0 *dev, void *arg,
- 					struct sk_buff *resp)
- {
- 	u32 status;
--	struct port100_cb_arg *cb_arg =3D arg;
-+	const struct port100_cb_arg *cb_arg =3D arg;
- 	nfc_digital_cmd_complete_t cb =3D cb_arg->complete_cb;
- 	struct port100_tg_comm_rf_res *hdr;
- =
-
-@@ -1453,7 +1456,7 @@ static int port100_listen_mdaa(struct nfc_digital_dev=
- *ddev,
- static int port100_listen(struct nfc_digital_dev *ddev, u16 timeout,
- 			  nfc_digital_cmd_complete_t cb, void *arg)
- {
--	struct port100 *dev =3D nfc_digital_get_drvdata(ddev);
-+	const struct port100 *dev =3D nfc_digital_get_drvdata(ddev);
- 	struct sk_buff *skb;
- =
-
- 	skb =3D port100_alloc_skb(dev, 0);
+-	struct device_node *np =3D spi->dev.of_node;
++	const struct device_node *np =3D spi->dev.of_node;
+ 	struct trf7970a *trf;
+ 	int uvolts, autosuspend_delay, ret;
+ 	u32 clk_freq =3D TRF7970A_13MHZ_CLOCK_FREQUENCY;
 -- =
 
 2.27.0
 
---===============0946370449748105599==--
+--===============5487559545088770078==--
 
