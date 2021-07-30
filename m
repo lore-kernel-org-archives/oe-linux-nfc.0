@@ -1,109 +1,167 @@
-Content-Type: multipart/mixed; boundary="===============1966276488139572788=="
+Content-Type: multipart/mixed; boundary="===============7456903224403396963=="
 MIME-Version: 1.0
-From: Mark Greer <mgreer@animalcreek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH 1/2] MAINTAINERS: nfc: add Krzysztof Kozlowski as maintainer
-Date: Thu, 15 Jul 2021 11:34:13 -0700
-Message-ID: <20210715183413.GB525255@animalcreek.com>
-In-Reply-To: <df2ec154-79fa-af7b-d337-913ed4a0692e@canonical.com>
+Subject: [PATCH v2 8/8] nfc: hci: cleanup unneeded spaces
+Date: Fri, 30 Jul 2021 08:56:25 +0200
+Message-ID: <20210730065625.34010-9-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210730065625.34010-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1966276488139572788==
+--===============7456903224403396963==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 09, 2021 at 11:24:41AM +0200, Krzysztof Kozlowski wrote:
-> On 12/05/2021 18:49, Mark Greer wrote:
-> > On Wed, May 12, 2021 at 11:43:13AM -0400, Krzysztof Kozlowski wrote:
-> >> On 12/05/2021 11:11, Daniel Lezcano wrote:
-> >>> On 12/05/2021 16:43, Krzysztof Kozlowski wrote:
-> >>>> The NFC subsystem is orphaned.  I am happy to spend some cycles to
-> >>>> review the patches, send pull requests and in general keep the NFC
-> >>>> subsystem running.
-> >>>>
-> >>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.=
-com>
-> >>>>
-> >>>> ---
-> >>>>
-> >>>> I admit I don't have big experience in NFC part but this will be nice
-> >>>> opportunity to learn something new. =
+No need for multiple spaces in variable declaration (the code does not
+use them in other places).  No functional change.
 
-> >>>
-> >>> NFC has been lost in the limbos since a while. Good to see someone
-> >>> volunteering to take care of it.
-> >>>
-> >>> May I suggest to create a simple nfc reading program in the 'tools'
-> >>> directory (could be a training exercise ;)
-> >>>
-> >>
-> >> Noted, thanks. I also need to get a simple hardware dongle for this....
-> > =
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ net/nfc/nci/core.c |  8 ++++----
+ net/nfc/nci/hci.c  | 14 +++++++-------
+ net/nfc/nci/ntf.c  |  4 ++--
+ net/nfc/nci/rsp.c  |  2 +-
+ 4 files changed, 14 insertions(+), 14 deletions(-)
 
-> > Krzysztof, the NFC portion of the kernel has a counterpart in userspace
-> > called neard.  I'm supposed to be maintaining it but I have next to no
-> > time to do so.  If you have spare cycles, any help would be appreciated.
-> > =
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index a17635612bcc..b814d92da7a5 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -405,7 +405,7 @@ static void nci_send_data_req(struct nci_dev *ndev, con=
+st void *opt)
+ static void nci_nfcc_loopback_cb(void *context, struct sk_buff *skb, int e=
+rr)
+ {
+ 	struct nci_dev *ndev =3D (struct nci_dev *)context;
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
 
-> > Anyway, in neard, there are some simple test scripts (python2 - I/we ne=
-ed
-> > to update to python3).  The current home of neard is:
-> > =
+ 	conn_info =3D nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
+ 	if (!conn_info) {
+@@ -1002,7 +1002,7 @@ static int nci_transceive(struct nfc_dev *nfc_dev, st=
+ruct nfc_target *target,
+ {
+ 	struct nci_dev *ndev =3D nfc_get_drvdata(nfc_dev);
+ 	int rc;
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
 
-> > git://git.kernel.org/pub/scm/network/nfc/neard.git
-> =
+ 	conn_info =3D ndev->rf_conn_info;
+ 	if (!conn_info)
+@@ -1267,7 +1267,7 @@ EXPORT_SYMBOL(nci_register_device);
+  */
+ void nci_unregister_device(struct nci_dev *ndev)
+ {
+-	struct nci_conn_info    *conn_info, *n;
++	struct nci_conn_info *conn_info, *n;
+ =
 
-> I guess none of us have problem of too much spare time :), so it took me
-> a while before I looked at neard.
-> =
+ 	nci_close_device(ndev);
+ =
 
-> With newer Gcc, neard did not even compile (which I am fixing now). I
-> set up a fork:
-> https://github.com/krzk/neard
-> However I can give early disclaimer - playing with GLib userspace code
-> is not something I am in long term interested. If this was written in
-> Rust, would be different story. :)
-> =
+@@ -1439,7 +1439,7 @@ int nci_core_ntf_packet(struct nci_dev *ndev, __u16 o=
+pcode,
+ static void nci_tx_work(struct work_struct *work)
+ {
+ 	struct nci_dev *ndev =3D container_of(work, struct nci_dev, tx_work);
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct sk_buff *skb;
+ =
 
-> I also configured basic CI (or rather continuous building):
-> https://github.com/krzk/neard/actions/runs/1014641944
-> =
+ 	conn_info =3D nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
+diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
+index 163e5de7eda6..e199912ee1e5 100644
+--- a/net/nfc/nci/hci.c
++++ b/net/nfc/nci/hci.c
+@@ -16,11 +16,11 @@
+ #include <linux/nfc.h>
+ =
 
-> However I still do not have proper testing setup. No hardware. Would be
-> nice if Samsung. ST, NXP or Intel could spare some development board
-> with the NFC chip supported by kernel. Till then, I will try the NFC
-> simulator and virtual NCI drivers.
-> =
+ struct nci_data {
+-	u8              conn_id;
+-	u8              pipe;
+-	u8              cmd;
+-	const u8        *data;
+-	u32             data_len;
++	u8 conn_id;
++	u8 pipe;
++	u8 cmd;
++	const u8 *data;
++	u32 data_len;
+ } __packed;
+ =
 
-> My next plan for neard is to extend the CI. There is no way I (or anyone
-> else I believe) can keep good quality of releases without automated
-> checks. I'll add some more distros, clang and later many some linters or
-> cppcheck.
+ struct nci_hci_create_pipe_params {
+@@ -363,7 +363,7 @@ static void nci_hci_cmd_received(struct nci_dev *ndev, =
+u8 pipe,
+ static void nci_hci_resp_received(struct nci_dev *ndev, u8 pipe,
+ 				  struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
 
-Hi Krzysztof, I see you've been busy.  Thanks for that.
+ 	conn_info =3D ndev->hci_dev->conn_info;
+ 	if (!conn_info)
+@@ -712,7 +712,7 @@ static int nci_hci_dev_connect_gates(struct nci_dev *nd=
+ev,
+ =
 
-FYI, I made a repo on github some time back but never announced it.  The
-only reason I mention it is because the name/link looks more official:
+ int nci_hci_dev_session_init(struct nci_dev *ndev)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct sk_buff *skb;
+ 	int r;
+ =
 
-	https://github.com/linux-nfc/neard
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index 0a2ed25b9797..dde36e19f652 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -48,7 +48,7 @@ static void nci_core_conn_credits_ntf_packet(struct nci_d=
+ev *ndev,
+ 					     struct sk_buff *skb)
+ {
+ 	struct nci_core_conn_credit_ntf *ntf =3D (void *) skb->data;
+-	struct nci_conn_info	*conn_info;
++	struct nci_conn_info *conn_info;
+ 	int i;
+ =
 
-Let see what happens with permssion on kernel.org and go from there.
+ 	pr_debug("num_entries %d\n", ntf->num_entries);
+@@ -528,7 +528,7 @@ static int nci_store_general_bytes_nfc_dep(struct nci_d=
+ev *ndev,
+ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 					     const struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct nci_rf_intf_activated_ntf ntf;
+ 	const __u8 *data =3D skb->data;
+ 	int err =3D NCI_STATUS_OK;
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index ebed2a7a0071..8539a39a8e1d 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -185,7 +185,7 @@ static void nci_rf_disc_map_rsp_packet(struct nci_dev *=
+ndev,
+ static void nci_rf_disc_rsp_packet(struct nci_dev *ndev,
+ 				   const struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	__u8 status =3D skb->data[0];
+ =
 
-Re: hardware - I don't have much reader hardware either.  I almost
-exclusively use BeagleBone[Black] + RF Cape + trf7970atb.  I also have
-a USB dongle with a pn533, FWIW. I do have a decent collection of NFC tags,
-though.  I'll contact you privately to arrange to send some to you.
+ 	pr_debug("status 0x%x\n", status);
+-- =
 
-For peer-to-peer testing, your smartphone probably has an NFC reader but
-you'll have to play around to find the sweet spot where they put the
-antenna (older phones were notoriously bad for NFC antenna design; newer
-ones are generally better).
+2.27.0
 
-I will review your patch sets but the earliest I will get to them will
-be Sunday.
-
-Mark
---
---===============1966276488139572788==--
+--===============7456903224403396963==--
 
