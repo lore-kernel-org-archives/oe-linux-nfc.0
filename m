@@ -1,43 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============5542217659490654566=="
+Content-Type: multipart/mixed; boundary="===============7597517306806807626=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 2/7] nfc: annotate af_nfc_exit() as __exit
-Date: Fri, 30 Jul 2021 16:41:57 +0200
-Message-ID: <20210730144202.255890-3-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v3 3/7] nfc: hci: annotate nfc_llc_init() as __init
+Date: Fri, 30 Jul 2021 16:41:58 +0200
+Message-ID: <20210730144202.255890-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210730144202.255890-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5542217659490654566==
+--===============7597517306806807626==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The af_nfc_exit() is used only in other __exit annotated context
-(nfc_exit()).
+The nfc_llc_init() is used only in other __init annotated context.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/af_nfc.c | 2 +-
+ net/nfc/hci/llc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/nfc/af_nfc.c b/net/nfc/af_nfc.c
-index 4a9e72073564..6024fad905ff 100644
---- a/net/nfc/af_nfc.c
-+++ b/net/nfc/af_nfc.c
-@@ -79,7 +79,7 @@ int __init af_nfc_init(void)
- 	return sock_register(&nfc_sock_family_ops);
- }
+diff --git a/net/nfc/hci/llc.c b/net/nfc/hci/llc.c
+index fc6b63de3462..2140f6724644 100644
+--- a/net/nfc/hci/llc.c
++++ b/net/nfc/hci/llc.c
+@@ -11,7 +11,7 @@
  =
 
--void af_nfc_exit(void)
-+void __exit af_nfc_exit(void)
+ static LIST_HEAD(llc_engines);
+ =
+
+-int nfc_llc_init(void)
++int __init nfc_llc_init(void)
  {
- 	sock_unregister(PF_NFC);
- }
+ 	int r;
+ =
+
 -- =
 
 2.27.0
 
---===============5542217659490654566==--
+--===============7597517306806807626==--
 
