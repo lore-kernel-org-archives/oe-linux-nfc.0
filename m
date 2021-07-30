@@ -1,47 +1,167 @@
-Content-Type: multipart/mixed; boundary="===============7456835083560401676=="
+Content-Type: multipart/mixed; boundary="===============0996785174996783669=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 7/8] nfc: hci: pass callback data param as pointer in nci_request()
-Date: Fri, 30 Jul 2021 16:03:27 +0200
-Message-ID: <6f609952-cf76-58f9-1917-f06f3f376843@canonical.com>
-In-Reply-To: <20210730065830.547df546@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Subject: [PATCH v3 7/7] nfc: hci: cleanup unneeded spaces
+Date: Fri, 30 Jul 2021 16:42:02 +0200
+Message-ID: <20210730144202.255890-8-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210730144202.255890-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7456835083560401676==
+--===============0996785174996783669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 30/07/2021 15:58, Jakub Kicinski wrote:
-> On Fri, 30 Jul 2021 15:56:19 +0200 Krzysztof Kozlowski wrote:
->> On 30/07/2021 15:49, Jakub Kicinski wrote:
->>> This generates a bunch of warnings:
->>>
->>> net/nfc/nci/core.c:381:51: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:388:50: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:494:57: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:520:65: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:570:44: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:815:34: warning: Using plain integer as NULL pointer
->>> net/nfc/nci/core.c:856:50: warning: Using plain integer as NULL pointer=
-  =
+No need for multiple spaces in variable declaration (the code does not
+use them in other places).  No functional change.
 
->>
->> Indeed. Not that code before was better - the logic was exactly the
->> same. I might think more how to avoid these and maybe pass pointer to
->> stack value (like in other cases).
->>
->> The 7/8 and 8/8 could be skipped in such case.
-> =
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ net/nfc/nci/core.c |  8 ++++----
+ net/nfc/nci/hci.c  | 14 +++++++-------
+ net/nfc/nci/ntf.c  |  4 ++--
+ net/nfc/nci/rsp.c  |  2 +-
+ 4 files changed, 14 insertions(+), 14 deletions(-)
 
-> We don't usually take parts of series, would you mind resending first 6
-> or respinning with the warnings addressed?
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index 774ddf957388..80a5c2a8e9fa 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -409,7 +409,7 @@ static void nci_send_data_req(struct nci_dev *ndev, uns=
+igned long opt)
+ static void nci_nfcc_loopback_cb(void *context, struct sk_buff *skb, int e=
+rr)
+ {
+ 	struct nci_dev *ndev =3D (struct nci_dev *)context;
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
 
-Sure, no problem.
+ 	conn_info =3D nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
+ 	if (!conn_info) {
+@@ -1006,7 +1006,7 @@ static int nci_transceive(struct nfc_dev *nfc_dev, st=
+ruct nfc_target *target,
+ {
+ 	struct nci_dev *ndev =3D nfc_get_drvdata(nfc_dev);
+ 	int rc;
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
 
+ 	conn_info =3D ndev->rf_conn_info;
+ 	if (!conn_info)
+@@ -1271,7 +1271,7 @@ EXPORT_SYMBOL(nci_register_device);
+  */
+ void nci_unregister_device(struct nci_dev *ndev)
+ {
+-	struct nci_conn_info    *conn_info, *n;
++	struct nci_conn_info *conn_info, *n;
+ =
 
-Best regards,
-Krzysztof
---===============7456835083560401676==--
+ 	nci_close_device(ndev);
+ =
+
+@@ -1443,7 +1443,7 @@ int nci_core_ntf_packet(struct nci_dev *ndev, __u16 o=
+pcode,
+ static void nci_tx_work(struct work_struct *work)
+ {
+ 	struct nci_dev *ndev =3D container_of(work, struct nci_dev, tx_work);
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct sk_buff *skb;
+ =
+
+ 	conn_info =3D nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
+diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
+index 71a306b29735..a8ff794a8084 100644
+--- a/net/nfc/nci/hci.c
++++ b/net/nfc/nci/hci.c
+@@ -16,11 +16,11 @@
+ #include <linux/nfc.h>
+ =
+
+ struct nci_data {
+-	u8              conn_id;
+-	u8              pipe;
+-	u8              cmd;
+-	const u8        *data;
+-	u32             data_len;
++	u8 conn_id;
++	u8 pipe;
++	u8 cmd;
++	const u8 *data;
++	u32 data_len;
+ } __packed;
+ =
+
+ struct nci_hci_create_pipe_params {
+@@ -363,7 +363,7 @@ static void nci_hci_cmd_received(struct nci_dev *ndev, =
+u8 pipe,
+ static void nci_hci_resp_received(struct nci_dev *ndev, u8 pipe,
+ 				  struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ =
+
+ 	conn_info =3D ndev->hci_dev->conn_info;
+ 	if (!conn_info)
+@@ -714,7 +714,7 @@ static int nci_hci_dev_connect_gates(struct nci_dev *nd=
+ev,
+ =
+
+ int nci_hci_dev_session_init(struct nci_dev *ndev)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct sk_buff *skb;
+ 	int r;
+ =
+
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index d6251363b72b..c5eacaac41ae 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -48,7 +48,7 @@ static void nci_core_conn_credits_ntf_packet(struct nci_d=
+ev *ndev,
+ 					     struct sk_buff *skb)
+ {
+ 	struct nci_core_conn_credit_ntf *ntf =3D (void *) skb->data;
+-	struct nci_conn_info	*conn_info;
++	struct nci_conn_info *conn_info;
+ 	int i;
+ =
+
+ 	pr_debug("num_entries %d\n", ntf->num_entries);
+@@ -528,7 +528,7 @@ static int nci_store_general_bytes_nfc_dep(struct nci_d=
+ev *ndev,
+ static void nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 					     const struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	struct nci_rf_intf_activated_ntf ntf;
+ 	const __u8 *data =3D skb->data;
+ 	int err =3D NCI_STATUS_OK;
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index dbb0b55a1757..a2e72c003805 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -185,7 +185,7 @@ static void nci_rf_disc_map_rsp_packet(struct nci_dev *=
+ndev,
+ static void nci_rf_disc_rsp_packet(struct nci_dev *ndev,
+ 				   const struct sk_buff *skb)
+ {
+-	struct nci_conn_info    *conn_info;
++	struct nci_conn_info *conn_info;
+ 	__u8 status =3D skb->data[0];
+ =
+
+ 	pr_debug("status 0x%x\n", status);
+-- =
+
+2.27.0
+
+--===============0996785174996783669==--
 
