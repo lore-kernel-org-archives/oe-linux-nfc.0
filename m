@@ -1,34 +1,81 @@
-Content-Type: multipart/mixed; boundary="===============4077942059590204584=="
+Content-Type: multipart/mixed; boundary="===============0729743417489670316=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [neard][PATCH v2 00/73] combined fixes - warnings, memory leaks, memory corruption
-Date: Wed, 04 Aug 2021 09:56:00 +0200
-Message-ID: <CA+Eumj6wuufroVja4PMk+NbmQm57AZEYhtECXZJRH-j08UtJng@mail.gmail.com>
-In-Reply-To: <47b15b65-61cc-9cec-ca6c-c9a6d84ff7d5@canonical.com>
+Subject: [neard][PATCH v2 00/11] CI under Github
+Date: Wed, 04 Aug 2021 10:42:07 +0200
+Message-ID: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4077942059590204584==
+--===============0729743417489670316==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2 Aug 2021 at 09:51, Krzysztof Kozlowski
-<krzysztof.kozlowski@canonical.com> wrote:
-> > FYI, I built neard natively with these patches applied on an amd64
-> > (ubuntu 20.04) and an ARM Cortext A8 (debian 10).  Both build cleanly
-> > and I could read & write tags.
-> >
-> > My plans include:
-> > - python3-ize the python test scripts
+Hi,
 
-I checked now Ubuntu/Debian packages and dependency on Python2 was
-reason of removal of neard from their package repository.
-Convertinging these to Python3 would allow bring it back, so it's
-quite useful task.
+Add a Continuous Integration builds under Github (with its Actions) to
+build and unit test on several configurations.
+
+Changes since v1 [1]:
+1. Rebase on latest master.
+2. Remove CI-unrelated patches from this set.
+3. Add CodeQL analysis.
+4. Add builds and tests with GCC sanitizers.
+5. Use matrix to extend the build configuration.
+
+[1] https://lore.kernel.org/linux-nfc/20210710033859.3989-1-krzysztof.kozlo=
+wski(a)canonical.com/
 
 
 Best regards,
 Krzysztof
---===============4077942059590204584==--
+
+
+Krzysztof Kozlowski (11):
+  ci: add GitHub actions for building
+  bootstrap: parse CROSS_COMPILE and set proper configure option
+  ci: add clang builds
+  ci: add building without maintainer options
+  ci: be verbose when building
+  ci: add more build configurations (Fedora, Alpine, Debian,
+    cross-compile, i386)
+  ci: run unit tests
+  ci: add build with sanitizers (asan, lsan and ubsan)
+  ci: add CodeQL static analysis
+  ci: print configure logs on failures
+  ci: use matrix instead of duplicating each build configuration
+
+ .github/workflows/ci.yml              | 255 ++++++++++++++++++++++++++
+ .github/workflows/codeql-analysis.yml |  45 +++++
+ bootstrap-configure                   |   6 +
+ ci/alpine.sh                          |  42 +++++
+ ci/debian.cross-compile.sh            |  41 +++++
+ ci/debian.i386.sh                     |  32 ++++
+ ci/debian.sanitizers.sh               |  18 ++
+ ci/debian.sh                          |  41 +++++
+ ci/fedora.sh                          |  33 ++++
+ ci/ubuntu.cross-compile.sh            |   1 +
+ ci/ubuntu.i386.sh                     |   1 +
+ ci/ubuntu.sanitizers.sh               |   1 +
+ ci/ubuntu.sh                          |   1 +
+ 13 files changed, 517 insertions(+)
+ create mode 100644 .github/workflows/ci.yml
+ create mode 100644 .github/workflows/codeql-analysis.yml
+ create mode 100755 ci/alpine.sh
+ create mode 100755 ci/debian.cross-compile.sh
+ create mode 100755 ci/debian.i386.sh
+ create mode 100755 ci/debian.sanitizers.sh
+ create mode 100755 ci/debian.sh
+ create mode 100755 ci/fedora.sh
+ create mode 120000 ci/ubuntu.cross-compile.sh
+ create mode 120000 ci/ubuntu.i386.sh
+ create mode 120000 ci/ubuntu.sanitizers.sh
+ create mode 120000 ci/ubuntu.sh
+
+-- =
+
+2.30.2
+
+--===============0729743417489670316==--
 
