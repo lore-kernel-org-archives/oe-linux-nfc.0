@@ -1,51 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============8778021307939958959=="
+Content-Type: multipart/mixed; boundary="===============3127544441594694404=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 02/11] bootstrap: parse CROSS_COMPILE and set proper configure option
-Date: Wed, 04 Aug 2021 10:42:09 +0200
-Message-ID: <20210804084218.14677-3-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 03/11] ci: add clang builds
+Date: Wed, 04 Aug 2021 10:42:10 +0200
+Message-ID: <20210804084218.14677-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8778021307939958959==
+--===============3127544441594694404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Makes cross compiling in CI easier.
-
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- bootstrap-configure | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .github/workflows/ci.yml | 10 ++++++++++
+ ci/debian.sh             | 10 ++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/bootstrap-configure b/bootstrap-configure
-index 7cb14588f816..0652e3b223b6 100755
---- a/bootstrap-configure
-+++ b/bootstrap-configure
-@@ -4,6 +4,11 @@ if [ -f config.status ]; then
- 	make maintainer-clean
- fi
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index e48ee0eb6815..3d9b50251602 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -20,6 +20,7 @@ jobs:
+       fail-fast: false
+       matrix:
+         include:
++          # Ubuntu gcc
+           - container: "ubuntu:hirsute"
+             env:
+               CC: gcc
+@@ -36,6 +37,15 @@ jobs:
+             env:
+               CC: gcc
  =
 
-+CONFIGURE_CROSS=3D""
-+if [ "$CROSS_COMPILE" ]; then
-+	CONFIGURE_CROSS=3D"--host=3D${CROSS_COMPILE}"
++          # Ubuntu clang
++          - container: "ubuntu:hirsute"
++            env:
++              CC: clang
++
++          - container: "ubuntu:focal"
++            env:
++              CC: clang
++
+     container:
+       image: ${{ matrix.container }}
+       env: ${{ matrix.env }}
+diff --git a/ci/debian.sh b/ci/debian.sh
+index 07b7c9305cdb..8cc4d307cccf 100755
+--- a/ci/debian.sh
++++ b/ci/debian.sh
+@@ -19,14 +19,20 @@ tzdata tzdata/Zones/Europe select Berlin
+ " > /tmp/tzdata-preseed.txt
+ debconf-set-selections /tmp/tzdata-preseed.txt
+ =
+
++PKGS_CC=3D"build-essential"
++if [ "$CC" =3D "clang" ]; then
++	PKGS_CC=3D"clang"
 +fi
 +
- ./bootstrap && \
-     ./configure --enable-maintainer-mode \
- 		--enable-debug \
-@@ -11,4 +16,5 @@ fi
- 		--prefix=3D/usr \
- 		--enable-ese \
- 		--sysconfdir=3D/etc \
-+		"$CONFIGURE_CROSS" \
- 		--enable-tools "$@"
++
+ apt install -y --no-install-recommends \
+ 	autoconf \
+ 	autoconf-archive \
+ 	automake \
+-	build-essential \
+ 	libdbus-1-dev \
+ 	libglib2.0-dev \
+ 	libnl-3-dev \
+ 	libnl-genl-3-dev \
+ 	libtool \
+-
++	make \
++	$PKGS_CC
 -- =
 
 2.30.2
 
---===============8778021307939958959==--
+--===============3127544441594694404==--
 
