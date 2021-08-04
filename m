@@ -1,170 +1,81 @@
-Content-Type: multipart/mixed; boundary="===============8598961177616840365=="
+Content-Type: multipart/mixed; boundary="===============4614862876490488785=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 08/11] ci: add build with sanitizers (asan, lsan and ubsan)
-Date: Wed, 04 Aug 2021 10:42:15 +0200
-Message-ID: <20210804084218.14677-9-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 09/11] ci: add CodeQL static analysis
+Date: Wed, 04 Aug 2021 10:42:16 +0200
+Message-ID: <20210804084218.14677-10-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8598961177616840365==
+--===============4614862876490488785==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Check the results if sanitizers were correctly linked.
+Add Github CodeQL static analysis workflow.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .github/workflows/ci.yml | 44 ++++++++++++++++++++++++++++++++++++++--
- ci/debian.sanitizers.sh  | 18 ++++++++++++++++
- ci/ubuntu.sanitizers.sh  |  1 +
- 3 files changed, 61 insertions(+), 2 deletions(-)
- create mode 100755 ci/debian.sanitizers.sh
- create mode 120000 ci/ubuntu.sanitizers.sh
+ .github/workflows/codeql-analysis.yml | 45 +++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 .github/workflows/codeql-analysis.yml
 
-diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index e8f507a128e0..b6f29cf9ddfb 100644
---- a/.github/workflows/ci.yml
-+++ b/.github/workflows/ci.yml
-@@ -70,6 +70,13 @@ jobs:
-               CC: gcc
-               MODE: maintainer
- =
-
-+          - container: "debian:stable"
-+            env:
-+              ARCH: x86-64
-+              CC: gcc
-+              VARIANT: sanitizers
-+              MODE: maintainer
-+
-           - container: "debian:stable"
-             env:
-               ARCH: x86-64
-@@ -82,6 +89,13 @@ jobs:
-               CC: gcc
-               MODE: maintainer
- =
-
-+          - container: "debian:testing"
-+            env:
-+              ARCH: x86-64
-+              CC: gcc
-+              VARIANT: sanitizers
-+              MODE: maintainer
-+
-           - container: "debian:testing"
-             env:
-               ARCH: x86-64
-@@ -157,6 +171,13 @@ jobs:
-               CC: gcc
-               MODE: maintainer
- =
-
-+          - container: "ubuntu:hirsute"
-+            env:
-+              ARCH: x86-64
-+              CC: gcc
-+              VARIANT: sanitizers
-+              MODE: maintainer
-+
-           - container: "ubuntu:hirsute"
-             env:
-               ARCH: x86-64
-@@ -169,6 +190,13 @@ jobs:
-               CC: gcc
-               MODE: maintainer
- =
-
-+          - container: "ubuntu:focal"
-+            env:
-+              ARCH: x86-64
-+              CC: gcc
-+              VARIANT: sanitizers
-+              MODE: maintainer
-+
-           - container: "ubuntu:focal"
-             env:
-               ARCH: x86-64
-@@ -239,9 +267,14 @@ jobs:
-     - name: Configure
-       run: |
-         echo "Bootstraping in mode: $MODE"
-+        CONFIGURE_ARGS=3D""
-+        if [ "$VARIANT" =3D "sanitizers" ]; then
-+          CONFIGURE_ARGS=3D"--enable-asan --enable-lsan --enable-ubsan --e=
-nable-pie"
-+        fi
-         if [ "$MODE" =3D "maintainer" ]; then
-           ./bootstrap-configure \
--            --disable-silent-rules
-+            --disable-silent-rules \
-+            $CONFIGURE_ARGS
-         else
-           ./bootstrap && \
-             ./configure \
-@@ -250,7 +283,8 @@ jobs:
-             --prefix=3D/usr \
-             --enable-ese \
-             --sysconfdir=3D/etc \
--            --enable-tools
-+            --enable-tools \
-+            $CONFIGURE_ARGS
-         fi
- =
-
-     - name: Compile
-@@ -281,6 +315,12 @@ jobs:
-         esac
-         echo "Checking for built matching architecture: $ARCH_CHECK"
-         file src/neard | grep "$ARCH_CHECK"
-+        if [ "$VARIANT" =3D "sanitizers" ]; then
-+          echo "Checking for linking against sanitizer libraries"
-+          ldd src/neard | grep libasan.so
-+          # liblsan won't appear if asan is used
-+          ldd src/neard | grep libubsan.so
-+        fi
- =
-
-     - name: Install
-       run: make install
-diff --git a/ci/debian.sanitizers.sh b/ci/debian.sanitizers.sh
-new file mode 100755
-index 000000000000..40dc1f44b55a
+diff --git a/.github/workflows/codeql-analysis.yml b/.github/workflows/code=
+ql-analysis.yml
+new file mode 100644
+index 000000000000..66ad27d5eca0
 --- /dev/null
-+++ b/ci/debian.sanitizers.sh
-@@ -0,0 +1,18 @@
-+#!/bin/sh
++++ b/.github/workflows/codeql-analysis.yml
+@@ -0,0 +1,45 @@
 +# SPDX-License-Identifier: GPL-2.0
 +#
 +# Copyright (c) 2021 Canonical Ltd.
 +# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 +#                             <krzk@kernel.org>
 +#
++name: "CodeQL"
++on: [push, pull_request]
 +
-+set -ex
++jobs:
++  analyze:
++    name: Analyze
++    runs-on: ubuntu-latest
++    permissions:
++      actions: read
++      contents: read
++      security-events: write
 +
-+apt install -y --no-install-recommends \
-+	liblsan0 \
-+	libubsan1
++    strategy:
++      fail-fast: false
++      matrix:
++        language: [ 'cpp', 'python' ]
 +
-+apt install -y --no-install-recommends libasan6 || \
-+	apt install -y --no-install-recommends libasan5
++    steps:
++    - name: Checkout repository
++      uses: actions/checkout(a)v2
 +
-+echo "Install finished: $0"
-diff --git a/ci/ubuntu.sanitizers.sh b/ci/ubuntu.sanitizers.sh
-new file mode 120000
-index 000000000000..53cd9418ed35
---- /dev/null
-+++ b/ci/ubuntu.sanitizers.sh
-@@ -0,0 +1 @@
-+debian.sanitizers.sh
-\ No newline at end of file
++    - name: Initialize CodeQL
++      uses: github/codeql-action/init(a)v1
++      with:
++        languages: ${{ matrix.language }}
++
++    - name: Install additional packages
++      run: sudo ./ci/ubuntu.sh
++
++    - name: Configure
++      run: ./bootstrap-configure
++
++    - name: Compile
++      run: |
++        make -j$(nproc)
++        make check
++
++    - name: Perform CodeQL Analysis
++      uses: github/codeql-action/analyze(a)v1
 -- =
 
 2.30.2
 
---===============8598961177616840365==--
+--===============4614862876490488785==--
 
