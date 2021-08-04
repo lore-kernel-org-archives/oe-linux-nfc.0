@@ -1,84 +1,111 @@
-Content-Type: multipart/mixed; boundary="===============3127544441594694404=="
+Content-Type: multipart/mixed; boundary="===============0647432116490740087=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 03/11] ci: add clang builds
-Date: Wed, 04 Aug 2021 10:42:10 +0200
-Message-ID: <20210804084218.14677-4-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 04/11] ci: add building without maintainer options
+Date: Wed, 04 Aug 2021 10:42:11 +0200
+Message-ID: <20210804084218.14677-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3127544441594694404==
+--===============0647432116490740087==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+Check also silent builds.
+
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .github/workflows/ci.yml | 10 ++++++++++
- ci/debian.sh             | 10 ++++++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
+ .github/workflows/ci.yml | 36 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index e48ee0eb6815..3d9b50251602 100644
+index 3d9b50251602..589ad66280f5 100644
 --- a/.github/workflows/ci.yml
 +++ b/.github/workflows/ci.yml
-@@ -20,6 +20,7 @@ jobs:
-       fail-fast: false
-       matrix:
-         include:
-+          # Ubuntu gcc
+@@ -24,27 +24,49 @@ jobs:
            - container: "ubuntu:hirsute"
              env:
                CC: gcc
-@@ -36,6 +37,15 @@ jobs:
-             env:
-               CC: gcc
- =
-
-+          # Ubuntu clang
++              MODE: maintainer
++
 +          - container: "ubuntu:hirsute"
 +            env:
-+              CC: clang
++              ARCH: x86-64
++              CC: gcc
++              MODE: no-maintainer
+ =
+
+           - container: "ubuntu:focal"
+             env:
+               CC: gcc
++              MODE: maintainer
++
++          - container: "ubuntu:focal"
++            env:
++              CC: gcc
++              MODE: no-maintainer
+ =
+
+           - container: "ubuntu:bionic"
+             env:
+               CC: gcc
++              MODE: maintainer
+ =
+
+           - container: "ubuntu:xenial"
+             env:
+               CC: gcc
++              MODE: maintainer
+ =
+
+           # Ubuntu clang
+           - container: "ubuntu:hirsute"
+             env:
+               CC: clang
++              MODE: maintainer
 +
 +          - container: "ubuntu:focal"
 +            env:
 +              CC: clang
-+
-     container:
-       image: ${{ matrix.container }}
-       env: ${{ matrix.env }}
-diff --git a/ci/debian.sh b/ci/debian.sh
-index 07b7c9305cdb..8cc4d307cccf 100755
---- a/ci/debian.sh
-+++ b/ci/debian.sh
-@@ -19,14 +19,20 @@ tzdata tzdata/Zones/Europe select Berlin
- " > /tmp/tzdata-preseed.txt
- debconf-set-selections /tmp/tzdata-preseed.txt
++              MODE: maintainer
  =
 
-+PKGS_CC=3D"build-essential"
-+if [ "$CC" =3D "clang" ]; then
-+	PKGS_CC=3D"clang"
-+fi
-+
-+
- apt install -y --no-install-recommends \
- 	autoconf \
- 	autoconf-archive \
- 	automake \
--	build-essential \
- 	libdbus-1-dev \
- 	libglib2.0-dev \
- 	libnl-3-dev \
- 	libnl-genl-3-dev \
- 	libtool \
--
-+	make \
-+	$PKGS_CC
+           - container: "ubuntu:focal"
+             env:
+               CC: clang
++              MODE: no-maintainer
+ =
+
+     container:
+       image: ${{ matrix.container }}
+@@ -77,7 +99,19 @@ jobs:
+         printenv
+ =
+
+     - name: Configure
+-      run: ./bootstrap-configure
++      run: |
++        echo "Bootstraping in mode: $MODE"
++        if [ "$MODE" =3D "maintainer" ]; then
++          ./bootstrap-configure
++        else
++          ./bootstrap && \
++            ./configure \
++            --disable-systemd \
++            --prefix=3D/usr \
++            --enable-ese \
++            --sysconfdir=3D/etc \
++            --enable-tools
++        fi
+ =
+
+     - name: Compile
+       run: make -j$(nproc)
 -- =
 
 2.30.2
 
---===============3127544441594694404==--
+--===============0647432116490740087==--
 
