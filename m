@@ -1,81 +1,162 @@
-Content-Type: multipart/mixed; boundary="===============0729743417489670316=="
+Content-Type: multipart/mixed; boundary="===============4245832207217719734=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 00/11] CI under Github
-Date: Wed, 04 Aug 2021 10:42:07 +0200
-Message-ID: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 01/11] ci: add GitHub actions for building
+Date: Wed, 04 Aug 2021 10:42:08 +0200
+Message-ID: <20210804084218.14677-2-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0729743417489670316==
+--===============4245832207217719734==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-Add a Continuous Integration builds under Github (with its Actions) to
-build and unit test on several configurations.
-
-Changes since v1 [1]:
-1. Rebase on latest master.
-2. Remove CI-unrelated patches from this set.
-3. Add CodeQL analysis.
-4. Add builds and tests with GCC sanitizers.
-5. Use matrix to extend the build configuration.
-
-[1] https://lore.kernel.org/linux-nfc/20210710033859.3989-1-krzysztof.kozlo=
-wski(a)canonical.com/
-
-
-Best regards,
-Krzysztof
-
-
-Krzysztof Kozlowski (11):
-  ci: add GitHub actions for building
-  bootstrap: parse CROSS_COMPILE and set proper configure option
-  ci: add clang builds
-  ci: add building without maintainer options
-  ci: be verbose when building
-  ci: add more build configurations (Fedora, Alpine, Debian,
-    cross-compile, i386)
-  ci: run unit tests
-  ci: add build with sanitizers (asan, lsan and ubsan)
-  ci: add CodeQL static analysis
-  ci: print configure logs on failures
-  ci: use matrix instead of duplicating each build configuration
-
- .github/workflows/ci.yml              | 255 ++++++++++++++++++++++++++
- .github/workflows/codeql-analysis.yml |  45 +++++
- bootstrap-configure                   |   6 +
- ci/alpine.sh                          |  42 +++++
- ci/debian.cross-compile.sh            |  41 +++++
- ci/debian.i386.sh                     |  32 ++++
- ci/debian.sanitizers.sh               |  18 ++
- ci/debian.sh                          |  41 +++++
- ci/fedora.sh                          |  33 ++++
- ci/ubuntu.cross-compile.sh            |   1 +
- ci/ubuntu.i386.sh                     |   1 +
- ci/ubuntu.sanitizers.sh               |   1 +
- ci/ubuntu.sh                          |   1 +
- 13 files changed, 517 insertions(+)
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ .github/workflows/ci.yml | 79 ++++++++++++++++++++++++++++++++++++++++
+ ci/debian.sh             | 32 ++++++++++++++++
+ ci/ubuntu.sh             |  1 +
+ 3 files changed, 112 insertions(+)
  create mode 100644 .github/workflows/ci.yml
- create mode 100644 .github/workflows/codeql-analysis.yml
- create mode 100755 ci/alpine.sh
- create mode 100755 ci/debian.cross-compile.sh
- create mode 100755 ci/debian.i386.sh
- create mode 100755 ci/debian.sanitizers.sh
  create mode 100755 ci/debian.sh
- create mode 100755 ci/fedora.sh
- create mode 120000 ci/ubuntu.cross-compile.sh
- create mode 120000 ci/ubuntu.i386.sh
- create mode 120000 ci/ubuntu.sanitizers.sh
  create mode 120000 ci/ubuntu.sh
 
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+new file mode 100644
+index 000000000000..e48ee0eb6815
+--- /dev/null
++++ b/.github/workflows/ci.yml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2021 Canonical Ltd.
++# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
++#                             <krzk@kernel.org>
++# Loosely based on https://github.com/linux-test-project/ltp
++#
++name: "Builds"
++on: [push, pull_request]
++
++jobs:
++  job:
++    name: Build
++    runs-on: ubuntu-latest
++    permissions:
++      actions: read
++      contents: read
++
++    strategy:
++      fail-fast: false
++      matrix:
++        include:
++          - container: "ubuntu:hirsute"
++            env:
++              CC: gcc
++
++          - container: "ubuntu:focal"
++            env:
++              CC: gcc
++
++          - container: "ubuntu:bionic"
++            env:
++              CC: gcc
++
++          - container: "ubuntu:xenial"
++            env:
++              CC: gcc
++
++    container:
++      image: ${{ matrix.container }}
++      env: ${{ matrix.env }}
++
++    steps:
++    - name: Show OS
++      run: cat /etc/os-release
++
++    - name: Git checkout
++      uses: actions/checkout(a)v2
++
++    - name: Install additional packages
++      run: |
++        INSTALL=3D${{ matrix.container }}
++        INSTALL=3D"${INSTALL%%:*}"
++        INSTALL=3D"${INSTALL%%/*}"
++        ./ci/$INSTALL.sh
++        if [ "$VARIANT" ]; then ./ci/$INSTALL.$VARIANT.sh; fi
++
++    - name: Compiler version
++      run: $CC --version
++
++    - name: Display environment and Linux version
++      run: |
++        test -f /etc/issue && cat /etc/issue
++        lsb_release -a || true
++        uname -a
++        cat /proc/cmdline
++        printenv
++
++    - name: Configure
++      run: ./bootstrap-configure
++
++    - name: Compile
++      run: make -j$(nproc)
++
++    - name: Install
++      run: make install
++
++    - name: Distribution check
++      run: make distcheck
+diff --git a/ci/debian.sh b/ci/debian.sh
+new file mode 100755
+index 000000000000..07b7c9305cdb
+--- /dev/null
++++ b/ci/debian.sh
+@@ -0,0 +1,32 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2021 Canonical Ltd.
++# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
++#                             <krzk@kernel.org>
++#
++
++set -eEx
++
++apt update
++
++# Some distros (e.g. Ubuntu Hirsute) might pull tzdata which asks questions
++export DEBIAN_FRONTEND=3Dnoninteractive DEBCONF_NONINTERACTIVE_SEEN=3Dtrue
++
++# Choose some random place in Europe
++echo "tzdata tzdata/Areas select Europe
++tzdata tzdata/Zones/Europe select Berlin
++" > /tmp/tzdata-preseed.txt
++debconf-set-selections /tmp/tzdata-preseed.txt
++
++apt install -y --no-install-recommends \
++	autoconf \
++	autoconf-archive \
++	automake \
++	build-essential \
++	libdbus-1-dev \
++	libglib2.0-dev \
++	libnl-3-dev \
++	libnl-genl-3-dev \
++	libtool \
++
+diff --git a/ci/ubuntu.sh b/ci/ubuntu.sh
+new file mode 120000
+index 000000000000..0edcb8b838ca
+--- /dev/null
++++ b/ci/ubuntu.sh
+@@ -0,0 +1 @@
++debian.sh
+\ No newline at end of file
 -- =
 
 2.30.2
 
---===============0729743417489670316==--
+--===============4245832207217719734==--
 
