@@ -1,81 +1,55 @@
-Content-Type: multipart/mixed; boundary="===============4614862876490488785=="
+Content-Type: multipart/mixed; boundary="===============1532326063932067611=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH v2 09/11] ci: add CodeQL static analysis
-Date: Wed, 04 Aug 2021 10:42:16 +0200
-Message-ID: <20210804084218.14677-10-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH v2 10/11] ci: print configure logs on failures
+Date: Wed, 04 Aug 2021 10:42:17 +0200
+Message-ID: <20210804084218.14677-11-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210804084218.14677-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4614862876490488785==
+--===============1532326063932067611==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add Github CodeQL static analysis workflow.
+Helps debugging of container-specific configure failures.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .github/workflows/codeql-analysis.yml | 45 +++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 .github/workflows/codeql-analysis.yml
+ .github/workflows/ci.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/.github/workflows/codeql-analysis.yml b/.github/workflows/code=
-ql-analysis.yml
-new file mode 100644
-index 000000000000..66ad27d5eca0
---- /dev/null
-+++ b/.github/workflows/codeql-analysis.yml
-@@ -0,0 +1,45 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright (c) 2021 Canonical Ltd.
-+# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-+#                             <krzk@kernel.org>
-+#
-+name: "CodeQL"
-+on: [push, pull_request]
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index b6f29cf9ddfb..d4ddcdd3f8f4 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -265,6 +265,7 @@ jobs:
+         printenv
+ =
+
+     - name: Configure
++      id: configure
+       run: |
+         echo "Bootstraping in mode: $MODE"
+         CONFIGURE_ARGS=3D""
+@@ -287,6 +288,11 @@ jobs:
+             $CONFIGURE_ARGS
+         fi
+ =
+
++    - name: Get configure logs
++      run: cat config.log
++      if: ${{ always() && ((steps.configure.outcome =3D=3D 'failure') ||
++                           (steps.configure.outcome =3D=3D 'success')) }}
 +
-+jobs:
-+  analyze:
-+    name: Analyze
-+    runs-on: ubuntu-latest
-+    permissions:
-+      actions: read
-+      contents: read
-+      security-events: write
-+
-+    strategy:
-+      fail-fast: false
-+      matrix:
-+        language: [ 'cpp', 'python' ]
-+
-+    steps:
-+    - name: Checkout repository
-+      uses: actions/checkout(a)v2
-+
-+    - name: Initialize CodeQL
-+      uses: github/codeql-action/init(a)v1
-+      with:
-+        languages: ${{ matrix.language }}
-+
-+    - name: Install additional packages
-+      run: sudo ./ci/ubuntu.sh
-+
-+    - name: Configure
-+      run: ./bootstrap-configure
-+
-+    - name: Compile
-+      run: |
-+        make -j$(nproc)
-+        make check
-+
-+    - name: Perform CodeQL Analysis
-+      uses: github/codeql-action/analyze(a)v1
+     - name: Compile
+       run: make -j$(nproc)
+ =
+
 -- =
 
 2.30.2
 
---===============4614862876490488785==--
+--===============1532326063932067611==--
 
