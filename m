@@ -1,45 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============0633462321445643026=="
+Content-Type: multipart/mixed; boundary="===============3644895360934865199=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH] build: fix missing pkglibdir substitute in neard.pc
-Date: Wed, 04 Aug 2021 13:01:45 +0200
-Message-ID: <20210804110145.85210-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH] README: describe contributions
+Date: Wed, 04 Aug 2021 13:19:56 +0200
+Message-ID: <20210804111956.86833-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0633462321445643026==
+--===============3644895360934865199==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The pkglibdir is used by neard.pc.in (so by autoconf) however the
-automake defines it, not autoconf.  Add early definition of pkglibdir so
-substitute in neard.pc.in will work correctly.
+Mention the linux-nfc mailing list for contributions and current
+repositories - GitHub and kernel.org.  Document explicitly that
+contributions can come also via GitHub pull request.  For many
+developers without experience in development of Linux kernel, the GitHub
+PRs are easier than the patch-email workflow.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- configure.ac | 4 ++++
- 1 file changed, 4 insertions(+)
+ README | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/configure.ac b/configure.ac
-index c1fdc44ae02d..ffe453049939 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -15,6 +15,10 @@ if (test "${libdir}" =3D '${exec_prefix}/lib'); then
- 	libdir=3D'${prefix}/lib'
- fi
- =
-
-+# pkglibdir is defined by automake but autoconf parses the neard.pc.in
-+# which uses pkglibdir, therefore define it manually in autoconf.
-+AC_SUBST([pkglibdir], ["\${libdir}/${PACKAGE_NAME}"])
+diff --git a/README b/README
+index 8204b690eda0..509363bccac3 100644
+--- a/README
++++ b/README
+@@ -54,3 +54,21 @@ disabled with the following configuration options:
+ Running ./bootstrap-configure will build the configure script and then
+ run it, with maintainer mode enabled. bootstrap-configure will configure
+ neard with all features enabled.
 +
- plugindir=3D'${pkglibdir}/plugins'
- se_plugindir=3D'${pkglibdir}/plugins-se'
- AC_SUBST(plugindir)
++Bugs and contributing
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Please send bug reports to mailing list:
++	linux-nfc(a)lists.01.org
++
++The project development happens on GitHub:
++	https://github.com/linux-nfc/neard
++
++However for historical reasons the releases are also mirrored on kernel.org
++repository:
++	https://git.kernel.org/pub/scm/network/nfc/neard.git/
++
++Contributions can come in a form of patches sent to linux-nfc(a)lists.01.o=
+rg or
++GitHub pull requests on mentioned GitHub repository.
++
++See also HACKING and doc/coding-style.txt files.
 -- =
 
 2.30.2
 
---===============0633462321445643026==--
+--===============3644895360934865199==--
 
