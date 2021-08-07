@@ -1,22 +1,24 @@
-Content-Type: multipart/mixed; boundary="===============5713843898592338990=="
+Content-Type: multipart/mixed; boundary="===============7114869833666978446=="
 MIME-Version: 1.0
 From: Mark Greer <mgreer@animalcreek.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [neard][PATCH] build: fix missing pkglibdir substitute in neard.pc
-Date: Sat, 07 Aug 2021 15:05:30 -0700
-Message-ID: <20210807220530.GB124928@animalcreek.com>
-In-Reply-To: <20210804110145.85210-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [neard][PATCH] README: describe contributions
+Date: Sat, 07 Aug 2021 15:05:48 -0700
+Message-ID: <20210807220548.GC124928@animalcreek.com>
+In-Reply-To: <20210804111956.86833-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5713843898592338990==
+--===============7114869833666978446==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 04, 2021 at 01:01:45PM +0200, Krzysztof Kozlowski wrote:
-> The pkglibdir is used by neard.pc.in (so by autoconf) however the
-> automake defines it, not autoconf.  Add early definition of pkglibdir so
-> substitute in neard.pc.in will work correctly.
+On Wed, Aug 04, 2021 at 01:19:56PM +0200, Krzysztof Kozlowski wrote:
+> Mention the linux-nfc mailing list for contributions and current
+> repositories - GitHub and kernel.org.  Document explicitly that
+> contributions can come also via GitHub pull request.  For many
+> developers without experience in development of Linux kernel, the GitHub
+> PRs are easier than the patch-email workflow.
 > =
 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
@@ -28,5 +30,5 @@ Thank you.
 
 Mark
 --
---===============5713843898592338990==--
+--===============7114869833666978446==--
 
