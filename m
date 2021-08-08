@@ -1,34 +1,36 @@
-Content-Type: multipart/mixed; boundary="===============7114869833666978446=="
+Content-Type: multipart/mixed; boundary="===============6314750694039934457=="
 MIME-Version: 1.0
 From: Mark Greer <mgreer@animalcreek.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [neard][PATCH] README: describe contributions
-Date: Sat, 07 Aug 2021 15:05:48 -0700
-Message-ID: <20210807220548.GC124928@animalcreek.com>
-In-Reply-To: <20210804111956.86833-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH] ndef: Only register interface for known records
+Date: Sat, 07 Aug 2021 18:38:30 -0700
+Message-ID: <20210808013830.GD124928@animalcreek.com>
+In-Reply-To: <20180921032904.GA19759@animalcreek.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7114869833666978446==
+--===============6314750694039934457==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 04, 2021 at 01:19:56PM +0200, Krzysztof Kozlowski wrote:
-> Mention the linux-nfc mailing list for contributions and current
-> repositories - GitHub and kernel.org.  Document explicitly that
-> contributions can come also via GitHub pull request.  For many
-> developers without experience in development of Linux kernel, the GitHub
-> PRs are easier than the patch-email workflow.
+On Thu, Sep 20, 2018 at 08:29:04PM -0700, Mark Greer wrote:
+> On Wed, Sep 19, 2018 at 10:03:59AM -0700, Mark Greer wrote:
 > =
 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
+> > Thanks for the data.  I'll decipher it later today.
+> =
+
+> Hi Ricardo.  I sort of got hit with some stuff so it may be a few days.
+> =
+
+> Sorry for the delay.
+
+Well, a few days turned into a few years but it is in there now.
+Thanks for your patience Ricardo.
 
 Applied.
 
-Thank you.
-
 Mark
 --
---===============7114869833666978446==--
+--===============6314750694039934457==--
 
