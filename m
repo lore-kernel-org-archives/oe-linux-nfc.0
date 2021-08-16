@@ -1,45 +1,37 @@
-Content-Type: multipart/mixed; boundary="===============7662360678585534375=="
+Content-Type: multipart/mixed; boundary="===============8736804181498597221=="
 MIME-Version: 1.0
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: bongsu.jeon2@gmail.com
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] ndef: Only register interface for known records
-Date: Fri, 13 Aug 2021 10:02:19 +0200
-Message-ID: <CAPybu_2tXU9w_dF_nGaD2j9pnri94FNN5ceELkS44S2YwCwhgA@mail.gmail.com>
-In-Reply-To: <20210808013830.GD124928@animalcreek.com>
+Subject: [PATCH net-next 0/3] Update the virtual NCI driver and the NCI selftests
+Date: Sun, 15 Aug 2021 21:05:57 -0700
+Message-ID: <20210816040600.175813-1-bongsu.jeon2@gmail.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7662360678585534375==
+--===============8736804181498597221==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Absolutely no worries.
+From: Bongsu Jeon <bongsu.jeon@samsung.com>
 
-Thanks for your work Mark :)
+This series updates the virtual NCI device driver and NCI selftest code
+and add the NCI test case in selftests.
+1/3 is the patch to use wait queue in virtual device driver.
+2/3 is the patch to remove the polling code in selftests.
+3/3 is the patch to add the NCI testcase in selftests.
 
-On Sun, Aug 8, 2021 at 3:38 AM Mark Greer <mgreer@animalcreek.com> wrote:
->
-> On Thu, Sep 20, 2018 at 08:29:04PM -0700, Mark Greer wrote:
-> > On Wed, Sep 19, 2018 at 10:03:59AM -0700, Mark Greer wrote:
-> >
-> > > Thanks for the data.  I'll decipher it later today.
-> >
-> > Hi Ricardo.  I sort of got hit with some stuff so it may be a few days.
-> >
-> > Sorry for the delay.
->
-> Well, a few days turned into a few years but it is in there now.
-> Thanks for your patience Ricardo.
->
-> Applied.
->
-> Mark
-> --
+Bongsu Jeon (3):
+  nfc: Change the virtual NCI device driver to use Wait Queue
+  selftests: Remove the polling code to read a NCI frame
+  selftests: Add the NCI testcase reading T4T Tag
 
-
+ drivers/nfc/virtual_ncidev.c          |  10 +-
+ tools/testing/selftests/nci/nci_dev.c | 417 ++++++++++++++++++++++----
+ 2 files changed, 362 insertions(+), 65 deletions(-)
 
 -- =
 
-Ricardo Ribalda
---===============7662360678585534375==--
+2.32.0
+
+--===============8736804181498597221==--
 
