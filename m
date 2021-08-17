@@ -1,99 +1,124 @@
-Content-Type: multipart/mixed; boundary="===============2747988403876621141=="
+Content-Type: multipart/mixed; boundary="===============3985366296118821116=="
 MIME-Version: 1.0
 From: bongsu.jeon2@gmail.com
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 net-next 6/8] selftests: nci: Add the flags parameter for the send_cmd_mt_nla
-Date: Tue, 17 Aug 2021 06:28:16 -0700
-Message-ID: <20210817132818.8275-7-bongsu.jeon2@gmail.com>
+Subject: [PATCH v2 net-next 7/8] selftests: nci: Extract the start/stop discovery function
+Date: Tue, 17 Aug 2021 06:28:17 -0700
+Message-ID: <20210817132818.8275-8-bongsu.jeon2@gmail.com>
 In-Reply-To: <20210817132818.8275-1-bongsu.jeon2@gmail.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2747988403876621141==
+--===============3985366296118821116==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: Bongsu Jeon <bongsu.jeon@samsung.com>
 
-To reuse the send_cmd_mt_nla for NLM_F_REQUEST and NLM_F_DUMP flag,
-add the flags parameter to the function.
+To reuse the start/stop discovery code in other testcase, extract the code.
 
 Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
 ---
- tools/testing/selftests/nci/nci_dev.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ tools/testing/selftests/nci/nci_dev.c | 53 +++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 15 deletions(-)
 
 diff --git a/tools/testing/selftests/nci/nci_dev.c b/tools/testing/selftest=
 s/nci/nci_dev.c
-index a1786cef73bc..2b90379523c6 100644
+index 2b90379523c6..a68b14642c20 100644
 --- a/tools/testing/selftests/nci/nci_dev.c
 +++ b/tools/testing/selftests/nci/nci_dev.c
-@@ -87,7 +87,7 @@ static int create_nl_socket(void)
+@@ -517,38 +517,61 @@ static void *virtual_poll_stop(void *data)
+ 	return (void *)-1;
+ }
  =
 
- static int send_cmd_mt_nla(int sd, __u16 nlmsg_type, __u32 nlmsg_pid,
- 			   __u8 genl_cmd, int nla_num, __u16 nla_type[],
--			   void *nla_data[], int nla_len[])
-+			   void *nla_data[], int nla_len[], __u16 flags)
+-TEST_F(NCI, start_poll)
++int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid,=
+ int pid)
  {
- 	struct sockaddr_nl nladdr;
- 	struct msgtemplate msg;
-@@ -98,7 +98,7 @@ static int send_cmd_mt_nla(int sd, __u16 nlmsg_type, __u3=
-2 nlmsg_pid,
+ 	__u16 nla_start_poll_type[2] =3D {NFC_ATTR_DEVICE_INDEX,
+ 					 NFC_ATTR_PROTOCOLS};
+-	void *nla_start_poll_data[2] =3D {&self->dev_idex, &self->proto};
++	void *nla_start_poll_data[2] =3D {&dev_idx, &proto};
+ 	int nla_start_poll_len[2] =3D {4, 4};
+ 	pthread_t thread_t;
+ 	int status;
+ 	int rc;
  =
 
- 	msg.n.nlmsg_len =3D NLMSG_LENGTH(GENL_HDRLEN);
- 	msg.n.nlmsg_type =3D nlmsg_type;
--	msg.n.nlmsg_flags =3D NLM_F_REQUEST;
-+	msg.n.nlmsg_flags =3D flags;
- 	msg.n.nlmsg_seq =3D 0;
- 	msg.n.nlmsg_pid =3D nlmsg_pid;
- 	msg.g.cmd =3D genl_cmd;
-@@ -146,8 +146,8 @@ static int send_get_nfc_family(int sd, __u32 pid)
- 	nla_get_family_data =3D family_name;
+ 	rc =3D pthread_create(&thread_t, NULL, virtual_poll_start,
+-			    (void *)&self->virtual_nci_fd);
+-	ASSERT_GT(rc, -1);
++			    (void *)&virtual_fd);
++	if (rc < 0)
++		return rc;
  =
 
- 	return send_cmd_mt_nla(sd, GENL_ID_CTRL, pid, CTRL_CMD_GETFAMILY,
--				1, &nla_get_family_type,
--				&nla_get_family_data, &nla_get_family_len);
-+				1, &nla_get_family_type, &nla_get_family_data,
-+				&nla_get_family_len, NLM_F_REQUEST);
- }
- =
-
- static int get_family_id(int sd, __u32 pid)
-@@ -189,7 +189,7 @@ static int send_cmd_with_idx(int sd, __u16 nlmsg_type, =
-__u32 nlmsg_pid,
- 	int nla_len =3D 4;
- =
-
- 	return send_cmd_mt_nla(sd, nlmsg_type, nlmsg_pid, genl_cmd, 1,
--				&nla_type, &nla_data, &nla_len);
-+				&nla_type, &nla_data, &nla_len, NLM_F_REQUEST);
- }
- =
-
- static int get_nci_devid(int sd, __u16 fid, __u32 pid, int dev_id, struct =
-msgtemplate *msg)
-@@ -531,9 +531,9 @@ TEST_F(NCI, start_poll)
- 			    (void *)&self->virtual_nci_fd);
- 	ASSERT_GT(rc, -1);
- =
-
--	rc =3D send_cmd_mt_nla(self->sd, self->fid, self->pid,
--			     NFC_CMD_START_POLL, 2, nla_start_poll_type,
--			     nla_start_poll_data, nla_start_poll_len);
-+	rc =3D send_cmd_mt_nla(self->sd, self->fid, self->pid, NFC_CMD_START_POLL=
+-	rc =3D send_cmd_mt_nla(self->sd, self->fid, self->pid, NFC_CMD_START_POLL=
 , 2,
-+			     nla_start_poll_type, nla_start_poll_data,
-+			     nla_start_poll_len, NLM_F_REQUEST);
- 	EXPECT_EQ(rc, 0);
+-			     nla_start_poll_type, nla_start_poll_data,
+-			     nla_start_poll_len, NLM_F_REQUEST);
+-	EXPECT_EQ(rc, 0);
++	rc =3D send_cmd_mt_nla(sd, fid, pid, NFC_CMD_START_POLL, 2, nla_start_pol=
+l_type,
++			     nla_start_poll_data, nla_start_poll_len, NLM_F_REQUEST);
++	if (rc !=3D 0)
++		return rc;
  =
 
  	pthread_join(thread_t, (void **)&status);
+-	ASSERT_EQ(status, 0);
++	return status;
++}
++
++int stop_polling(int dev_idx, int virtual_fd, int sd, int fid, int pid)
++{
++	pthread_t thread_t;
++	int status;
++	int rc;
+ =
+
+ 	rc =3D pthread_create(&thread_t, NULL, virtual_poll_stop,
+-			    (void *)&self->virtual_nci_fd);
+-	ASSERT_GT(rc, -1);
++			    (void *)&virtual_fd);
++	if (rc < 0)
++		return rc;
+ =
+
+-	rc =3D send_cmd_with_idx(self->sd, self->fid, self->pid,
+-			       NFC_CMD_STOP_POLL, self->dev_idex);
+-	EXPECT_EQ(rc, 0);
++	rc =3D send_cmd_with_idx(sd, fid, pid,
++			       NFC_CMD_STOP_POLL, dev_idx);
++	if (rc !=3D 0)
++		return rc;
+ =
+
+ 	pthread_join(thread_t, (void **)&status);
+-	ASSERT_EQ(status, 0);
++	return status;
++}
++
++TEST_F(NCI, start_poll)
++{
++	int status;
++
++	status =3D start_polling(self->dev_idex, self->proto, self->virtual_nci_f=
+d,
++			       self->sd, self->fid, self->pid);
++	EXPECT_EQ(status, 0);
++
++	status =3D stop_polling(self->dev_idex, self->virtual_nci_fd, self->sd,
++			      self->fid, self->pid);
++	EXPECT_EQ(status, 0);
+ }
+ =
+
+ TEST_F(NCI, deinit)
 -- =
 
 2.32.0
 
---===============2747988403876621141==--
+--===============3985366296118821116==--
 
