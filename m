@@ -1,112 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============6945224313620458603=="
+Content-Type: multipart/mixed; boundary="===============4229907449423183742=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Mark Greer <mgreer@animalcreek.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH] NFC: NCI: make parent aware in PM terms
-Date: Thu, 19 Aug 2021 16:58:18 +0200
-Message-ID: <41c3e936-482a-9000-8fe3-4d6986f905a7@canonical.com>
-In-Reply-To: <7ff001e9-8e82-cecb-96af-458baac30dfc@canonical.com>
+Subject: Re: [PATCH v2] tag: Implement readout of tag UID via DBus interface
+Date: Fri, 20 Aug 2021 08:31:25 -0700
+Message-ID: <20210820153125.GA355224@animalcreek.com>
+In-Reply-To: <47a612c7-2a97-fc31-1735-dec5648d6167@kontron.de>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6945224313620458603==
+--===============4229907449423183742==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 19/08/2021 16:45, Krzysztof Kozlowski wrote:
+On Tue, Aug 10, 2021 at 11:58:31AM +0200, Frieder Schrempf wrote:
+> On 08.08.21 03:55, Mark Greer wrote:
+> > On Thu, Mar 18, 2021 at 05:14:35PM +0100, Frieder Schrempf wrote:
+> >> Hi Fabian,
+> >>
+> >> On 16.03.21 19:49, Gottstein, Fabian wrote:
+> >>> Hi Frieder,
+> >>>
+> >>> thanks for the patch.
+> >>
+> >> thanks for your feedback.
+> >>
+> >>>
+> >>> Could you please also consider the following situation:
+> >>> In the case of a NFC Tag Type 1, the identifier is delivered via the =
+RID command (see NFC Digital Protocol). Thus, the Tag's nfcid property is u=
+pdated in a later step.
+> >>> To inform the neard users, a property changed signal has to be emitte=
+d when nfcid has changed (in near_tag_set_nfcid). Also, a exists() handler =
+for the new DBus property should be implemented.
+> >>
+> >> I'm new to NFC and D-Bus, so I don't know much about what use-cases and
+> >> requirements there are.
+> >>
+> >> Your request sounds reasonable and I think I have a rough understandin=
+g of
+> >> what is probably needed to implement this. Still to actually do this I=
+ need
+> >> to look at the specifications and the code more closely and I don't kn=
+ow
+> >> if/when I will find time to do this.
+> >>
+> >> Also I don't have any hardware to test this with NFC type 1 tags.
+> >>
+> >>>
+> >>> Another thing regarding building the response message:
+> >>> The following code snippet could simplify and improve the readability=
+ of the usage of the dbus message builder:
+> >>>
+> >>> dbus_message_iter_open_container(iter, DBUS_TYPE_ARRAY, DBUS_TYPE_BYT=
+E_AS_STRING, &entry);
+> >>> dbus_message_iter_append_fixed_array(&entry, DBUS_TYPE_BYTE, &uid, le=
+n);
+> >>> dbus_message_iter_close_container(iter, &entry);
+> >>>
+> >> Thanks for the improved code, I will use this instead.
+> >>
+> >> Frieder
+> > =
+
+> > Hi Frieder.
+> > =
+
+> > Do you have an updated version of this patch (or did I miss it)?
 > =
 
-> On 19/08/2021 16:02, Oliver Neukum wrote:
->> The NCI device is a child of an i2c device.
->> If the i2c layer uses runtime PM the power to
->> the NFC device can be cut whenever the i2c
->> layer is done transmitting data to the NFC
->> device.
->> Under these conditions NFC can not work, as
->> it needs power to wait for reception of packets.
-> =
+> No, unfortunately not. I implemented this fix for a project that is now d=
+iscontinued. I can try to find some time in my spare time to implement at l=
+east Fabian's code improvement suggestion. But I don't know if it makes sen=
+se to upstream this without the changes Fabian suggested in regard to NFC T=
+ag Type 1 and I currently have neither time to dig into this, nor hardware =
+to test it.
 
-> Hi,
-> =
+Okay, no problem.
 
-> Thanks for the patch.
-> However this
-> is unparseable.
-> Please wrap commit
-> message around 75th character:
-> https://elixir.bootlin.com/linux/v5.13/source/Documentation/process/submi=
-tting-patches.rst#L124
-> =
-
-> The subject prefix: "nfc: nxp-nci: "
-> =
-
-> Please also Cc all people and lists. You missed here netdev
-> and linux-kernel, so this cannot be applied.
-> =
-
->>
->> The necessary extension of runtime PM
->> to the NFC device requires that it
->> be activated as a child of the i2c device.
->> It is not necessary to do any runtime PM
->> operations. This will disable runtime PM
->> for this branch of the tree, but otherwise
->> the NFC device is inoperable.
->>
->> Signed-off-by: Oliver Neukum <oneukum@suse.com>
->> ---
->>  drivers/nfc/nxp-nci/i2c.c | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
->> index 94f7f6d9cbad..dba78a5d217a 100644
->> --- a/drivers/nfc/nxp-nci/i2c.c
->> +++ b/drivers/nfc/nxp-nci/i2c.c
->> @@ -18,6 +18,7 @@
->>  #include <linux/interrupt.h>
->>  #include <linux/module.h>
->>  #include <linux/nfc.h>
->> +#include <linux/pm_runtime.h>
->>  #include <linux/gpio/consumer.h>
->>  #include <asm/unaligned.h>
->>  =
-
->> @@ -261,6 +262,7 @@ static int nxp_nci_i2c_probe(struct i2c_client *clie=
-nt,
->>  {
->>  	struct device *dev =3D &client->dev;
->>  	struct nxp_nci_i2c_phy *phy;
->> +	struct nfc_dev *ndev;
->>  	int r;
->>  =
-
->>  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->> @@ -297,6 +299,11 @@ static int nxp_nci_i2c_probe(struct i2c_client *cli=
-ent,
->>  	if (r < 0)
->>  		return r;
->>  =
-
->> +	ndev =3D phy->ndev->nfc_dev;
->> +	pm_runtime_set_active(&ndev->dev);
->> +	pm_runtime_enable(&ndev->dev);
->> +	pm_runtime_mark_last_busy(&ndev->dev);
-> =
-
-> Setting PM for someone else does not look correct. This breaks
-> encapsulation and separation of these files. The NCI device
-> (nxp_nci_probe() and other parts of core.c) should instead manage
-> it's own runtime PM.
-> =
-
-
-Except this, the code is really weird... there is no runtime PM in the
-drivers but this enables it. For what purpose? It also marks it as last
-busy but there is no autosuspend. I think I missed entirely the purpose
-of this code.
-
-Best regards,
-Krzysztof
---===============6945224313620458603==--
+Mark
+--
+--===============4229907449423183742==--
 
