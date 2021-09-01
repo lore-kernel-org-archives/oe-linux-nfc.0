@@ -1,87 +1,95 @@
-Content-Type: multipart/mixed; boundary="===============4819114028250039324=="
+Content-Type: multipart/mixed; boundary="===============3602655320879977969=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: LinMa <linma@zju.edu.cn>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 3/6] nfc: llcp: use centralized exiting of bind on errors
-Date: Wed, 19 Jan 2022 08:52:58 +0100
-Message-ID: <20220119075301.7346-4-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220119075301.7346-1-krzysztof.kozlowski@canonical.com>
+Subject: set dev->rfkill to NULL in device cleanup routine
+Date: Wed, 01 Sep 2021 07:39:43 +0000
+Message-ID: <5b6649e2.af5bf.17ba04c8d62.Coremail.linma@zju.edu.cn>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4819114028250039324==
+--===============3602655320879977969==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Coding style encourages centralized exiting of functions, so rewrite
-llcp_sock_bind() error paths to use such pattern.  This reduces the
-duplicated cleanup code, make success path visually shorter and also
-cleans up the errors in proper order (in reversed way from
-initialization).
+In nfc_unregister_device() function, the dev->rfkill is forgotten to set to=
+ NULL after the rfkill_destroy(). This may lead to possible cocurrency UAF =
+in other functions like nfc_dev_up().
 
-No functional impact expected.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
+The FREE chain is like
+
+
+void nfc_unregister_device(struct nfc_dev *dev)
+{
+  int rc;
+  pr_debug("dev_name=3D%s\n", dev_name(&dev->dev));
+  if (dev->rfkill) {
+    rfkill_unregister(dev->rfkill);
+    rfkill_destroy(dev->rfkill);
+  // ......
+}
+
+
+
+The USE chain is like
+
+
+static int nfc_genl_dev_up(struct sk_buff *skb, struct genl_info *info)
+{
+  struct nfc_dev *dev;
+  int rc;
+  u32 idx;
+  if (!info->attrs[NFC_ATTR_DEVICE_INDEX])
+    return -EINVAL;
+  idx =3D nla_get_u32(info->attrs[NFC_ATTR_DEVICE_INDEX]);
+  dev =3D nfc_get_device(idx);
+  if (!dev)
+    return -ENODEV;
+  rc =3D nfc_dev_up(dev);
+
+  // ......
+}
+
+
+int nfc_dev_up(struct nfc_dev *dev)
+{
+  int rc =3D 0;
+  pr_debug("dev_name=3D%s\n", dev_name(&dev->dev));
+  device_lock(&dev->dev);
+  if (dev->rfkill && rfkill_blocked(dev->rfkill)) { // dev->rfkill is not N=
+ULL here
+    rc =3D -ERFKILL;
+    goto error;
+  }
+  // ......
+}
+
+
+The FREE chain and USE chain can be like below (as there is no locking prot=
+ection).
+
+
+Therefore, the below patch can be added.
+
+
+Signed-off-by: Lin Ma <linma@zju.edu.cn>
 ---
- net/nfc/llcp_sock.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
-
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index a1b245b399f8..60985d1834a5 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -108,21 +108,13 @@ static int llcp_sock_bind(struct socket *sock, struct=
- sockaddr *addr, int alen)
- 					  llcp_sock->service_name_len,
- 					  GFP_KERNEL);
- 	if (!llcp_sock->service_name) {
--		nfc_llcp_local_put(llcp_sock->local);
--		llcp_sock->local =3D NULL;
--		llcp_sock->dev =3D NULL;
- 		ret =3D -ENOMEM;
--		goto put_dev;
-+		goto sock_llcp_put_local;
- 	}
- 	llcp_sock->ssap =3D nfc_llcp_get_sdp_ssap(local, llcp_sock);
- 	if (llcp_sock->ssap =3D=3D LLCP_SAP_MAX) {
--		nfc_llcp_local_put(llcp_sock->local);
--		llcp_sock->local =3D NULL;
--		kfree(llcp_sock->service_name);
--		llcp_sock->service_name =3D NULL;
--		llcp_sock->dev =3D NULL;
- 		ret =3D -EADDRINUSE;
--		goto put_dev;
-+		goto free_service_name;
- 	}
- =
-
- 	llcp_sock->reserved_ssap =3D llcp_sock->ssap;
-@@ -132,6 +124,19 @@ static int llcp_sock_bind(struct socket *sock, struct =
-sockaddr *addr, int alen)
- 	pr_debug("Socket bound to SAP %d\n", llcp_sock->ssap);
- =
-
- 	sk->sk_state =3D LLCP_BOUND;
-+	nfc_put_device(dev);
-+	release_sock(sk);
-+
-+	return 0;
-+
-+free_service_name:
-+	kfree(llcp_sock->service_name);
-+	llcp_sock->service_name =3D NULL;
-+
-+sock_llcp_put_local:
-+	nfc_llcp_local_put(llcp_sock->local);
-+	llcp_sock->local =3D NULL;
-+	llcp_sock->dev =3D NULL;
- =
-
- put_dev:
- 	nfc_put_device(dev);
--- =
-
+ net/nfc/core.c | 1 +
+ 1 file changed, 1 insertion(+)
+diff --git a/net/nfc/core.c b/net/nfc/core.c
+index 573c80c6ff7a..d0b3224e65d7 100644
+--- a/net/nfc/core.c
++++ b/net/nfc/core.c
+@@ -1157,6 +1157,7 @@ void nfc_unregister_device(struct nfc_dev *dev)
+  if (dev->rfkill) {
+  rfkill_unregister(dev->rfkill);
+  rfkill_destroy(dev->rfkill);
++ dev->rfkill =3D NULL;
+  }
+  if (dev->ops->check_presence) {
+--
 2.32.0
-
---===============4819114028250039324==--
+--===============3602655320879977969==--
 
