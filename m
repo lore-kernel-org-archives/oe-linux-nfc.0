@@ -1,160 +1,71 @@
-Content-Type: multipart/mixed; boundary="===============4609329342267573584=="
+Content-Type: multipart/mixed; boundary="===============0327148787438612296=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: set dev->rfkill to NULL in device cleanup routine
-Date: Wed, 01 Sep 2021 10:27:20 +0200
-Message-ID: <2a052383-6c82-d3a4-fc61-5ecd7b7c49d9@canonical.com>
-In-Reply-To: <5b6649e2.af5bf.17ba04c8d62.Coremail.linma@zju.edu.cn>
+Subject: [PATCH 00/15] nfc: minor printk cleanup
+Date: Tue, 07 Sep 2021 14:18:01 +0200
+Message-ID: <20210907121816.37750-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4609329342267573584==
+--===============0327148787438612296==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 01/09/2021 09:39, LinMa wrote:
-> In nfc_unregister_device() function, the dev->rfkill is forgotten to set =
-to NULL after the rfkill_destroy(). This may lead to possible cocurrency UA=
-F in other functions like nfc_dev_up().
+Hi,
 
-Commit msg should be wrapper at 75 char.
-https://elixir.bootlin.com/linux/v5.13/source/Documentation/process/submitt=
-ing-patches.rst#L124
-
-
-Use also scripts/get_maintainers.pl to get list of people and lists
-you need to CC. You skipped Networking maintainers and two mailing lists.
-
-> =
-
-> The FREE chain is like
-> =
-
-
-Please trim multiple blank lines and organize the commit msg to be readable.
-No need to paste existing code into the commit msg.
-
-> =
-
-> void nfc_unregister_device(struct nfc_dev *dev)
-> {
->   int rc;
->   pr_debug("dev_name=3D%s\n", dev_name(&dev->dev));
->   if (dev->rfkill) {
->     rfkill_unregister(dev->rfkill);
->     rfkill_destroy(dev->rfkill);
->   // ......
-> }
-> =
-
-> =
-
-> =
-
-> The USE chain is like
-> =
-
-> =
-
-> static int nfc_genl_dev_up(struct sk_buff *skb, struct genl_info *info)
-> {
->   struct nfc_dev *dev;
->   int rc;
->   u32 idx;
->   if (!info->attrs[NFC_ATTR_DEVICE_INDEX])
->     return -EINVAL;
->   idx =3D nla_get_u32(info->attrs[NFC_ATTR_DEVICE_INDEX]);
->   dev =3D nfc_get_device(idx);
->   if (!dev)
->     return -ENODEV;
->   rc =3D nfc_dev_up(dev);
-> =
-
->   // ......
-> }
-> =
-
-> =
-
-> int nfc_dev_up(struct nfc_dev *dev)
-> {
->   int rc =3D 0;
->   pr_debug("dev_name=3D%s\n", dev_name(&dev->dev));
->   device_lock(&dev->dev);
->   if (dev->rfkill && rfkill_blocked(dev->rfkill)) { // dev->rfkill is not=
- NULL here
->     rc =3D -ERFKILL;
->     goto error;
->   }
->   // ......
-> }
-> =
-
-> =
-
-> The FREE chain and USE chain can be like below (as there is no locking pr=
-otection).
-
-Something is missing.
-
-> =
-
-> =
-
-> Therefore, the below patch can be added.
-
-Use imperative form:
-https://elixir.bootlin.com/linux/v5.13/source/Documentation/process/submitt=
-ing-patches.rst#L89
-
-> =
-
-> =
-
-> Signed-off-by: Lin Ma <linma@zju.edu.cn>
-> ---
->  net/nfc/core.c | 1 +
->  1 file changed, 1 insertion(+)
-> diff --git a/net/nfc/core.c b/net/nfc/core.c
-> index 573c80c6ff7a..d0b3224e65d7 100644
-> --- a/net/nfc/core.c
-> +++ b/net/nfc/core.c
-> @@ -1157,6 +1157,7 @@ void nfc_unregister_device(struct nfc_dev *dev)
->   if (dev->rfkill) {
->   rfkill_unregister(dev->rfkill);
->   rfkill_destroy(dev->rfkill);
-> + dev->rfkill =3D NULL;
-
-This is not a valid patch. Does not match the code.
-For example, use git format-patch and git send-email.
-
-About the topic:
-Your code does not prevent a race condition, since you say there is no
-locking. Even if you move dev->rfkill=3DNULL before rfkill_unregister(),
-still nfc_dev_up() could happen between.
-
-The questions are:
-1. Whether nfc_unregister_device() can happen after nfc_get_device()?
-2. Whether netlink nfc_genl_dev_up() can happen after nfc_unregister_device=
-()
-started.
-
-
-
->   }
->   if (dev->ops->check_presence) {
-> --
-> 2.32.0
-> _______________________________________________
-> Linux-nfc mailing list -- linux-nfc(a)lists.01.org
-> To unsubscribe send an email to linux-nfc-leave(a)lists.01.org
-> %(web_page_url)slistinfo%(cgiext)s/%(_internal_name)s
-> =
-
-
+No dependencies, patches can be picked up as is.
 
 Best regards,
 Krzysztof
---===============4609329342267573584==--
+
+
+Krzysztof Kozlowski (15):
+  nfc: drop unneeded debug prints
+  nfc: do not break pr_debug() call into separate lines
+  nfc: nci: replace GPLv2 boilerplate with SPDX
+  nfc: fdp: drop unneeded debug prints
+  nfc: pn533: drop unneeded debug prints
+  nfc: pn533: use dev_err() instead of pr_err()
+  nfc: pn544: drop unneeded debug prints
+  nfc: pn544: drop unneeded memory allocation fail messages
+  nfc: s3fwrn5: simplify dereferencing pointer to struct device
+  nfc: st-nci: drop unneeded debug prints
+  nfc: st21nfca: drop unneeded debug prints
+  nfc: trf7970a: drop unneeded debug prints
+  nfc: microread: drop unneeded debug prints
+  nfc: microread: drop unneeded memory allocation fail messages
+  nfc: mrvl: drop unneeded memory allocation fail messages
+
+ drivers/nfc/fdp/i2c.c          |  1 -
+ drivers/nfc/microread/i2c.c    |  4 ----
+ drivers/nfc/microread/mei.c    |  6 +-----
+ drivers/nfc/nfcmrvl/fw_dnld.c  |  4 +---
+ drivers/nfc/pn533/i2c.c        |  1 -
+ drivers/nfc/pn533/pn533.c      |  4 +---
+ drivers/nfc/pn544/mei.c        |  8 +-------
+ drivers/nfc/s3fwrn5/firmware.c | 29 +++++++++++-----------------
+ drivers/nfc/s3fwrn5/nci.c      | 18 +++++++----------
+ drivers/nfc/st-nci/i2c.c       |  4 ----
+ drivers/nfc/st-nci/ndlc.c      |  4 ----
+ drivers/nfc/st-nci/se.c        |  6 ------
+ drivers/nfc/st-nci/spi.c       |  4 ----
+ drivers/nfc/st21nfca/i2c.c     |  4 ----
+ drivers/nfc/st21nfca/se.c      |  4 ----
+ drivers/nfc/trf7970a.c         |  8 --------
+ net/nfc/hci/command.c          | 16 ----------------
+ net/nfc/hci/llc_shdlc.c        | 35 +++++++++-------------------------
+ net/nfc/llcp_commands.c        |  8 --------
+ net/nfc/llcp_core.c            |  5 +----
+ net/nfc/nci/core.c             |  4 ----
+ net/nfc/nci/hci.c              |  4 ----
+ net/nfc/nci/ntf.c              |  9 ---------
+ net/nfc/nci/uart.c             | 16 ++--------------
+ 24 files changed, 34 insertions(+), 172 deletions(-)
+
+-- =
+
+2.30.2
+
+--===============0327148787438612296==--
 
