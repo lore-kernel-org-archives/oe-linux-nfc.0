@@ -1,72 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============3144702018520294826=="
+Content-Type: multipart/mixed; boundary="===============5985971122971376745=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 13/15] nfc: microread: drop unneeded debug prints
-Date: Tue, 07 Sep 2021 14:18:14 +0200
-Message-ID: <20210907121816.37750-14-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 14/15] nfc: microread: drop unneeded memory allocation fail messages
+Date: Tue, 07 Sep 2021 14:18:15 +0200
+Message-ID: <20210907121816.37750-15-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210907121816.37750-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3144702018520294826==
+--===============5985971122971376745==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-ftrace is a preferred and standard way to debug entering and exiting
-functions so drop useless debug prints.
+nfc_mei_phy_alloc() already prints an error message on memory allocation
+failure.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/microread/i2c.c | 4 ----
- drivers/nfc/microread/mei.c | 2 --
- 2 files changed, 6 deletions(-)
+ drivers/nfc/microread/mei.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
-index 86f593c73ed6..067295124eb9 100644
---- a/drivers/nfc/microread/i2c.c
-+++ b/drivers/nfc/microread/i2c.c
-@@ -237,8 +237,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	struct microread_i2c_phy *phy;
- 	int r;
- =
-
--	dev_dbg(&client->dev, "client %p\n", client);
--
- 	phy =3D devm_kzalloc(&client->dev, sizeof(struct microread_i2c_phy),
- 			   GFP_KERNEL);
- 	if (!phy)
-@@ -262,8 +260,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	if (r < 0)
- 		goto err_irq;
- =
-
--	nfc_info(&client->dev, "Probed\n");
--
- 	return 0;
- =
-
- err_irq:
 diff --git a/drivers/nfc/microread/mei.c b/drivers/nfc/microread/mei.c
-index 8edf761a6b2a..686be3381727 100644
+index 686be3381727..e2a77a5fc887 100644
 --- a/drivers/nfc/microread/mei.c
 +++ b/drivers/nfc/microread/mei.c
-@@ -23,8 +23,6 @@ static int microread_mei_probe(struct mei_cl_device *clde=
-v,
- 	struct nfc_mei_phy *phy;
+@@ -24,10 +24,8 @@ static int microread_mei_probe(struct mei_cl_device *cld=
+ev,
  	int r;
  =
 
--	pr_info("Probing NFC microread\n");
--
  	phy =3D nfc_mei_phy_alloc(cldev);
- 	if (!phy) {
- 		pr_err("Cannot allocate memory for microread mei phy.\n");
+-	if (!phy) {
+-		pr_err("Cannot allocate memory for microread mei phy.\n");
++	if (!phy)
+ 		return -ENOMEM;
+-	}
+ =
+
+ 	r =3D microread_probe(phy, &mei_phy_ops, LLC_NOP_NAME,
+ 			    MEI_NFC_HEADER_SIZE, 0, MEI_NFC_MAX_HCI_PAYLOAD,
 -- =
 
 2.30.2
 
---===============3144702018520294826==--
+--===============5985971122971376745==--
 
