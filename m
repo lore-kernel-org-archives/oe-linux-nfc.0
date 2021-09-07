@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7713294866792653118=="
+Content-Type: multipart/mixed; boundary="===============3144702018520294826=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 12/15] nfc: trf7970a: drop unneeded debug prints
-Date: Tue, 07 Sep 2021 14:18:13 +0200
-Message-ID: <20210907121816.37750-13-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 13/15] nfc: microread: drop unneeded debug prints
+Date: Tue, 07 Sep 2021 14:18:14 +0200
+Message-ID: <20210907121816.37750-14-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210907121816.37750-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7713294866792653118==
+--===============3144702018520294826==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,61 +18,55 @@ functions so drop useless debug prints.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/trf7970a.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/nfc/microread/i2c.c | 4 ----
+ drivers/nfc/microread/mei.c | 2 --
+ 2 files changed, 6 deletions(-)
 
-diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-index 8890fcd59c39..29ca9c328df2 100644
---- a/drivers/nfc/trf7970a.c
-+++ b/drivers/nfc/trf7970a.c
-@@ -2170,8 +2170,6 @@ static int trf7970a_suspend(struct device *dev)
- 	struct spi_device *spi =3D to_spi_device(dev);
- 	struct trf7970a *trf =3D spi_get_drvdata(spi);
+diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
+index 86f593c73ed6..067295124eb9 100644
+--- a/drivers/nfc/microread/i2c.c
++++ b/drivers/nfc/microread/i2c.c
+@@ -237,8 +237,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
+t,
+ 	struct microread_i2c_phy *phy;
+ 	int r;
  =
 
--	dev_dbg(dev, "Suspend\n");
+-	dev_dbg(&client->dev, "client %p\n", client);
 -
- 	mutex_lock(&trf->lock);
+ 	phy =3D devm_kzalloc(&client->dev, sizeof(struct microread_i2c_phy),
+ 			   GFP_KERNEL);
+ 	if (!phy)
+@@ -262,8 +260,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
+t,
+ 	if (r < 0)
+ 		goto err_irq;
  =
 
- 	trf7970a_shutdown(trf);
-@@ -2187,8 +2185,6 @@ static int trf7970a_resume(struct device *dev)
- 	struct trf7970a *trf =3D spi_get_drvdata(spi);
- 	int ret;
- =
-
--	dev_dbg(dev, "Resume\n");
+-	nfc_info(&client->dev, "Probed\n");
 -
- 	mutex_lock(&trf->lock);
+ 	return 0;
  =
 
- 	ret =3D trf7970a_startup(trf);
-@@ -2206,8 +2202,6 @@ static int trf7970a_pm_runtime_suspend(struct device =
-*dev)
- 	struct trf7970a *trf =3D spi_get_drvdata(spi);
- 	int ret;
+ err_irq:
+diff --git a/drivers/nfc/microread/mei.c b/drivers/nfc/microread/mei.c
+index 8edf761a6b2a..686be3381727 100644
+--- a/drivers/nfc/microread/mei.c
++++ b/drivers/nfc/microread/mei.c
+@@ -23,8 +23,6 @@ static int microread_mei_probe(struct mei_cl_device *clde=
+v,
+ 	struct nfc_mei_phy *phy;
+ 	int r;
  =
 
--	dev_dbg(dev, "Runtime suspend\n");
+-	pr_info("Probing NFC microread\n");
 -
- 	mutex_lock(&trf->lock);
- =
-
- 	ret =3D trf7970a_power_down(trf);
-@@ -2223,8 +2217,6 @@ static int trf7970a_pm_runtime_resume(struct device *=
-dev)
- 	struct trf7970a *trf =3D spi_get_drvdata(spi);
- 	int ret;
- =
-
--	dev_dbg(dev, "Runtime resume\n");
--
- 	ret =3D trf7970a_power_up(trf);
- 	if (!ret)
- 		pm_runtime_mark_last_busy(dev);
+ 	phy =3D nfc_mei_phy_alloc(cldev);
+ 	if (!phy) {
+ 		pr_err("Cannot allocate memory for microread mei phy.\n");
 -- =
 
 2.30.2
 
---===============7713294866792653118==--
+--===============3144702018520294826==--
 
