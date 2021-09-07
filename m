@@ -1,48 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============0844673297312220366=="
+Content-Type: multipart/mixed; boundary="===============0552067835164519423=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 15/15] nfc: mrvl: drop unneeded memory allocation fail messages
-Date: Tue, 07 Sep 2021 14:18:16 +0200
-Message-ID: <20210907121816.37750-16-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210907121816.37750-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH 05/15] nfc: pn533: drop unneeded debug prints
+Date: Tue, 07 Sep 2021 18:05:25 +0200
+Message-ID: <35626061-ff2e-cb01-21ff-87a6f776dc28@canonical.com>
+In-Reply-To: <20210907121816.37750-6-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0844673297312220366==
+--===============0552067835164519423==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-nci_skb_alloc() already prints an error message on memory allocation
-failure.
+On 07/09/2021 14:18, Krzysztof Kozlowski wrote:
+> ftrace is a preferred and standard way to debug entering and exiting
+> functions so drop useless debug prints.
+> =
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/nfc/nfcmrvl/fw_dnld.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  drivers/nfc/pn533/i2c.c   | 1 -
+>  drivers/nfc/pn533/pn533.c | 2 --
+>  2 files changed, 3 deletions(-)
+> =
 
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-index edac56b01fd1..e83f65596a88 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.c
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-@@ -76,10 +76,8 @@ static struct sk_buff *alloc_lc_skb(struct nfcmrvl_priva=
-te *priv, uint8_t plen)
- 	struct nci_data_hdr *hdr;
- =
+> diff --git a/drivers/nfc/pn533/i2c.c b/drivers/nfc/pn533/i2c.c
+> index e6bf8cfe3aa7..91d4a035eb63 100644
+> --- a/drivers/nfc/pn533/i2c.c
+> +++ b/drivers/nfc/pn533/i2c.c
+> @@ -138,7 +138,6 @@ static irqreturn_t pn533_i2c_irq_thread_fn(int irq, v=
+oid *data)
+>  	}
+>  =
 
- 	skb =3D nci_skb_alloc(priv->ndev, (NCI_DATA_HDR_SIZE + plen), GFP_KERNEL);
--	if (!skb) {
--		pr_err("no memory for data\n");
-+	if (!skb)
- 		return NULL;
--	}
- =
+>  	client =3D phy->i2c_dev;
 
- 	hdr =3D skb_put(skb, NCI_DATA_HDR_SIZE);
- 	hdr->conn_id =3D NCI_CORE_LC_CONNID_PROP_FW_DL;
--- =
+This line should also be removed (reported by kbuild robot).
 
-2.30.2
+I will send a v2.
 
---===============0844673297312220366==--
+
+Best regards,
+Krzysztof
+--===============0552067835164519423==--
 
