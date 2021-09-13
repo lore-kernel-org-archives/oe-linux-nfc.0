@@ -1,44 +1,54 @@
-Content-Type: multipart/mixed; boundary="===============2002040445414285095=="
+Content-Type: multipart/mixed; boundary="===============2377634103622924569=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 06/15] nfc: pn533: use dev_err() instead of pr_err()
-Date: Mon, 13 Sep 2021 15:20:26 +0200
-Message-ID: <20210913132035.242870-7-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 07/15] nfc: pn544: drop unneeded debug prints
+Date: Mon, 13 Sep 2021 15:20:27 +0200
+Message-ID: <20210913132035.242870-8-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210913132035.242870-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2002040445414285095==
+--===============2377634103622924569==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Print error message with reference to a device.
+ftrace is a preferred and standard way to debug entering and exiting
+functions so drop useless debug prints.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/pn533/pn533.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nfc/pn544/mei.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index c5f127fe2d45..da180335422c 100644
---- a/drivers/nfc/pn533/pn533.c
-+++ b/drivers/nfc/pn533/pn533.c
-@@ -2171,7 +2171,7 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_bu=
-ff *skb, int status)
- 	}
+diff --git a/drivers/nfc/pn544/mei.c b/drivers/nfc/pn544/mei.c
+index 5c10aac085a4..a519fa0a53e2 100644
+--- a/drivers/nfc/pn544/mei.c
++++ b/drivers/nfc/pn544/mei.c
+@@ -22,8 +22,6 @@ static int pn544_mei_probe(struct mei_cl_device *cldev,
+ 	struct nfc_mei_phy *phy;
+ 	int r;
  =
 
- 	if (skb =3D=3D NULL) {
--		pr_err("NULL Frame -> link is dead\n");
-+		dev_err(dev->dev, "NULL Frame -> link is dead\n");
- 		goto sched_wq;
- 	}
+-	pr_info("Probing NFC pn544\n");
+-
+ 	phy =3D nfc_mei_phy_alloc(cldev);
+ 	if (!phy) {
+ 		pr_err("Cannot allocate memory for pn544 mei phy.\n");
+@@ -46,8 +44,6 @@ static void pn544_mei_remove(struct mei_cl_device *cldev)
+ {
+ 	struct nfc_mei_phy *phy =3D mei_cldev_get_drvdata(cldev);
  =
 
+-	pr_info("Removing pn544\n");
+-
+ 	pn544_hci_remove(phy->hdev);
+ =
+
+ 	nfc_mei_phy_free(phy);
 -- =
 
 2.30.2
 
---===============2002040445414285095==--
+--===============2377634103622924569==--
 
