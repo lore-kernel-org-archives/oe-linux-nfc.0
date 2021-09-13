@@ -1,48 +1,82 @@
-Content-Type: multipart/mixed; boundary="===============5890542561386730162=="
+Content-Type: multipart/mixed; boundary="===============1924794384079988177=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Mark Greer <mgreer@animalcreek.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 15/15] nfc: mrvl: drop unneeded memory allocation fail messages
-Date: Mon, 13 Sep 2021 15:20:35 +0200
-Message-ID: <20210913132035.242870-16-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210913132035.242870-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH v2 12/15] nfc: trf7970a: drop unneeded debug prints
+Date: Mon, 13 Sep 2021 09:57:57 -0700
+Message-ID: <20210913165757.GA1309751@animalcreek.com>
+In-Reply-To: <20210913132035.242870-13-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5890542561386730162==
+--===============1924794384079988177==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-nci_skb_alloc() already prints an error message on memory allocation
-failure.
+On Mon, Sep 13, 2021 at 03:20:32PM +0200, Krzysztof Kozlowski wrote:
+> ftrace is a preferred and standard way to debug entering and exiting
+> functions so drop useless debug prints.
+> =
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/nfc/nfcmrvl/fw_dnld.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  drivers/nfc/trf7970a.c | 8 --------
+>  1 file changed, 8 deletions(-)
+> =
 
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-index edac56b01fd1..e83f65596a88 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.c
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-@@ -76,10 +76,8 @@ static struct sk_buff *alloc_lc_skb(struct nfcmrvl_priva=
-te *priv, uint8_t plen)
- 	struct nci_data_hdr *hdr;
- =
+> diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
+> index 8890fcd59c39..29ca9c328df2 100644
+> --- a/drivers/nfc/trf7970a.c
+> +++ b/drivers/nfc/trf7970a.c
+> @@ -2170,8 +2170,6 @@ static int trf7970a_suspend(struct device *dev)
+>  	struct spi_device *spi =3D to_spi_device(dev);
+>  	struct trf7970a *trf =3D spi_get_drvdata(spi);
+>  =
 
- 	skb =3D nci_skb_alloc(priv->ndev, (NCI_DATA_HDR_SIZE + plen), GFP_KERNEL);
--	if (!skb) {
--		pr_err("no memory for data\n");
-+	if (!skb)
- 		return NULL;
--	}
- =
+> -	dev_dbg(dev, "Suspend\n");
+> -
+>  	mutex_lock(&trf->lock);
+>  =
 
- 	hdr =3D skb_put(skb, NCI_DATA_HDR_SIZE);
- 	hdr->conn_id =3D NCI_CORE_LC_CONNID_PROP_FW_DL;
--- =
+>  	trf7970a_shutdown(trf);
+> @@ -2187,8 +2185,6 @@ static int trf7970a_resume(struct device *dev)
+>  	struct trf7970a *trf =3D spi_get_drvdata(spi);
+>  	int ret;
+>  =
 
-2.30.2
+> -	dev_dbg(dev, "Resume\n");
+> -
+>  	mutex_lock(&trf->lock);
+>  =
 
---===============5890542561386730162==--
+>  	ret =3D trf7970a_startup(trf);
+> @@ -2206,8 +2202,6 @@ static int trf7970a_pm_runtime_suspend(struct devic=
+e *dev)
+>  	struct trf7970a *trf =3D spi_get_drvdata(spi);
+>  	int ret;
+>  =
+
+> -	dev_dbg(dev, "Runtime suspend\n");
+> -
+>  	mutex_lock(&trf->lock);
+>  =
+
+>  	ret =3D trf7970a_power_down(trf);
+> @@ -2223,8 +2217,6 @@ static int trf7970a_pm_runtime_resume(struct device=
+ *dev)
+>  	struct trf7970a *trf =3D spi_get_drvdata(spi);
+>  	int ret;
+>  =
+
+> -	dev_dbg(dev, "Runtime resume\n");
+> -
+>  	ret =3D trf7970a_power_up(trf);
+>  	if (!ret)
+>  		pm_runtime_mark_last_busy(dev);
+> -- =
+
+> 2.30.2
+
+Acked-by: Mark Greer <mgreer@animalcreek.com>
+--===============1924794384079988177==--
 
