@@ -1,82 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============1924794384079988177=="
+Content-Type: multipart/mixed; boundary="===============8803015732854560930=="
 MIME-Version: 1.0
-From: Mark Greer <mgreer@animalcreek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 12/15] nfc: trf7970a: drop unneeded debug prints
-Date: Mon, 13 Sep 2021 09:57:57 -0700
-Message-ID: <20210913165757.GA1309751@animalcreek.com>
-In-Reply-To: <20210913132035.242870-13-krzysztof.kozlowski@canonical.com>
+Subject: [neard] neard release v0.17
+Date: Wed, 22 Sep 2021 14:13:06 +0200
+Message-ID: <f3701543-8ee0-fefa-c57d-590832a1f951@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1924794384079988177==
+--===============8803015732854560930==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 13, 2021 at 03:20:32PM +0200, Krzysztof Kozlowski wrote:
-> ftrace is a preferred and standard way to debug entering and exiting
-> functions so drop useless debug prints.
-> =
+Hi all,
 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
->  drivers/nfc/trf7970a.c | 8 --------
->  1 file changed, 8 deletions(-)
-> =
+v0.17
+=3D=3D=3D=3D=3D
+After quiet period, the neard user-space counterpart of Linux kernel NFC
+stack, gets a new release - v0.17.
 
-> diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-> index 8890fcd59c39..29ca9c328df2 100644
-> --- a/drivers/nfc/trf7970a.c
-> +++ b/drivers/nfc/trf7970a.c
-> @@ -2170,8 +2170,6 @@ static int trf7970a_suspend(struct device *dev)
->  	struct spi_device *spi =3D to_spi_device(dev);
->  	struct trf7970a *trf =3D spi_get_drvdata(spi);
->  =
+The release includes several fixes (including potential security fixes)
+and improvements, plus few new features.
 
-> -	dev_dbg(dev, "Suspend\n");
-> -
->  	mutex_lock(&trf->lock);
->  =
+Source code release:
+https://git.kernel.org/pub/scm/network/nfc/neard.git/tag/?h=3Dv0.17
+https://git.kernel.org/pub/scm/network/nfc/neard.git/snapshot/neard-0.17.ta=
+r.gz
 
->  	trf7970a_shutdown(trf);
-> @@ -2187,8 +2185,6 @@ static int trf7970a_resume(struct device *dev)
->  	struct trf7970a *trf =3D spi_get_drvdata(spi);
->  	int ret;
->  =
+Few notes on new names and maintainers
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The neard package was previously maintained Samuel Ortiz and Marcel
+Holtmann, which were also main contributors. Last years Mark Greer was
+looking after neard. I joined in 2021, both as a maintainer of Linux
+kernel NFC stack and the neard.
 
-> -	dev_dbg(dev, "Resume\n");
-> -
->  	mutex_lock(&trf->lock);
->  =
+The project development still happens via linux-nfc mailing list but
+also got a second home on GitHub:
+https://github.com/linux-nfc/neard
 
->  	ret =3D trf7970a_startup(trf);
-> @@ -2206,8 +2202,6 @@ static int trf7970a_pm_runtime_suspend(struct devic=
-e *dev)
->  	struct trf7970a *trf =3D spi_get_drvdata(spi);
->  	int ret;
->  =
+Under GitHub I set up also Continuous Integration:
+https://github.com/linux-nfc/neard/actions
 
-> -	dev_dbg(dev, "Runtime suspend\n");
-> -
->  	mutex_lock(&trf->lock);
->  =
+Feel free join and hack via both channels.
 
->  	ret =3D trf7970a_power_down(trf);
-> @@ -2223,8 +2217,6 @@ static int trf7970a_pm_runtime_resume(struct device=
- *dev)
->  	struct trf7970a *trf =3D spi_get_drvdata(spi);
->  	int ret;
->  =
-
-> -	dev_dbg(dev, "Runtime resume\n");
-> -
->  	ret =3D trf7970a_power_up(trf);
->  	if (!ret)
->  		pm_runtime_mark_last_busy(dev);
-> -- =
-
-> 2.30.2
-
-Acked-by: Mark Greer <mgreer@animalcreek.com>
---===============1924794384079988177==--
+Best regards,
+Krzysztof
+--===============8803015732854560930==--
 
