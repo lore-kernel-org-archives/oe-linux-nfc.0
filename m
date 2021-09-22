@@ -1,50 +1,40 @@
-Content-Type: multipart/mixed; boundary="===============8803015732854560930=="
+Content-Type: multipart/mixed; boundary="===============0964934821212227955=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard] neard release v0.17
-Date: Wed, 22 Sep 2021 14:13:06 +0200
-Message-ID: <f3701543-8ee0-fefa-c57d-590832a1f951@canonical.com>
+Subject: [neard][PATCH 1/8] build: adjust configure.ac syntax to match autoupdate
+Date: Wed, 22 Sep 2021 18:11:06 +0200
+Message-ID: <20210922161113.142758-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8803015732854560930==
+--===============0964934821212227955==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Effect of autoupdate, without changing the version.
 
-v0.17
-=3D=3D=3D=3D=3D
-After quiet period, the neard user-space counterpart of Linux kernel NFC
-stack, gets a new release - v0.17.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The release includes several fixes (including potential security fixes)
-and improvements, plus few new features.
+diff --git a/configure.ac b/configure.ac
+index 25b12b9a85d8..a1f7bd8bf56a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,5 +1,5 @@
+-AC_PREREQ(2.60)
+-AC_INIT(neard, 0.17, [linux-nfc(a)lists.01.org])
++AC_PREREQ([2.60])
++AC_INIT([neard],[0.17],[linux-nfc(a)lists.01.org])
+ AC_CONFIG_MACRO_DIR([m4])
+ =
 
-Source code release:
-https://git.kernel.org/pub/scm/network/nfc/neard.git/tag/?h=3Dv0.17
-https://git.kernel.org/pub/scm/network/nfc/neard.git/snapshot/neard-0.17.ta=
-r.gz
+ AM_INIT_AUTOMAKE([foreign subdir-objects color-tests])
+-- =
 
-Few notes on new names and maintainers
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-The neard package was previously maintained Samuel Ortiz and Marcel
-Holtmann, which were also main contributors. Last years Mark Greer was
-looking after neard. I joined in 2021, both as a maintainer of Linux
-kernel NFC stack and the neard.
+2.30.2
 
-The project development still happens via linux-nfc mailing list but
-also got a second home on GitHub:
-https://github.com/linux-nfc/neard
-
-Under GitHub I set up also Continuous Integration:
-https://github.com/linux-nfc/neard/actions
-
-Feel free join and hack via both channels.
-
-Best regards,
-Krzysztof
---===============8803015732854560930==--
+--===============0964934821212227955==--
 
