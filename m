@@ -1,83 +1,78 @@
-Content-Type: multipart/mixed; boundary="===============7789094182237866362=="
+Content-Type: multipart/mixed; boundary="===============7987692794865710845=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 4/8] ci: add more Fedora containers
-Date: Wed, 22 Sep 2021 18:11:09 +0200
-Message-ID: <20210922161113.142758-4-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 5/8] ci: add ArchLinux container
+Date: Wed, 22 Sep 2021 18:11:10 +0200
+Message-ID: <20210922161113.142758-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20210922161113.142758-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7789094182237866362==
+--===============7987692794865710845==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Build in Fedora rawhide and in stable release containers.
-
-Rawhide fails to install packages in two rounds (with two dnf/yum
-commands), so combine these.  Rawhide also needs explicit pkg-config as
-it is not pulled in by other packages.
+Build in ArchLinux latest container.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .github/workflows/ci.yml |  4 ++++
- ci/fedora.sh             | 13 ++++++++-----
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ .github/workflows/ci.yml |  1 +
+ ci/archlinux.sh          | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100755 ci/archlinux.sh
 
 diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index 6a4eeedf3d66..cc977670e380 100644
+index cc977670e380..734969325692 100644
 --- a/.github/workflows/ci.yml
 +++ b/.github/workflows/ci.yml
-@@ -25,7 +25,11 @@ jobs:
+@@ -23,6 +23,7 @@ jobs:
+         compiler: [gcc, clang]
+         container:
            - alpine:latest
++          - archlinux:latest
            - debian:testing
            - debian:stable
-+          # Fails on configure on GCC and clang (process restrictions?)
-+          # - fedora:rawhide
-           - fedora:latest
-+          - fedora:33
-+          - fedora:32
-           - ubuntu:hirsute
-           - ubuntu:focal
-           - ubuntu:bionic
-diff --git a/ci/fedora.sh b/ci/fedora.sh
-index f054f7d296d4..f9ec67a15062 100755
---- a/ci/fedora.sh
-+++ b/ci/fedora.sh
-@@ -15,19 +15,22 @@ case $CC in
- 	;;
- esac
- =
-
-+# Packages needed by CI
-+PKGS_MORE=3D"file"
+           # Fails on configure on GCC and clang (process restrictions?)
+diff --git a/ci/archlinux.sh b/ci/archlinux.sh
+new file mode 100755
+index 000000000000..b08069ad2589
+--- /dev/null
++++ b/ci/archlinux.sh
+@@ -0,0 +1,30 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2021 Canonical Ltd.
++# Author: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
++#                             <krzk@kernel.org>
++#
 +
-+# diffutils: Rawhide/35 needs "cmp" for configure
- dnf -y install \
- 	autoconf \
- 	autoconf-archive \
- 	automake \
- 	dbus-devel \
-+	diffutils \
- 	glib2-devel \
- 	libnl3-devel \
- 	libtool \
- 	make \
--	$PKGS_CC
--
--# Packages needed by CI
--dnf -y install \
--	file
++set -ex
++
++PKGS_CC=3D"gcc"
++case $CC in
++	clang*)
++		PKGS_CC=3D"clang"
++	;;
++esac
++
++pacman -Sy --noconfirm \
++	autoconf \
++	autoconf-archive \
++	automake \
++	dbus \
++	glib2 \
++	libnl \
++	libtool \
++	make \
 +	pkg-config \
-+	$PKGS_CC \
-+	$PKGS_MORE
- =
-
- echo "Install finished: $0"
++	$PKGS_CC
++
++echo "Install finished: $0"
 -- =
 
 2.30.2
 
---===============7789094182237866362==--
+--===============7987692794865710845==--
 
