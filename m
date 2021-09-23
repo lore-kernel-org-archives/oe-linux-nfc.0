@@ -1,55 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============3778797871726451256=="
+Content-Type: multipart/mixed; boundary="===============6729907332670720536=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 8/8] ci: group package installation on Alpine
-Date: Wed, 22 Sep 2021 18:11:13 +0200
-Message-ID: <20210922161113.142758-8-krzysztof.kozlowski@canonical.com>
+Subject: Re: [neard][PATCH 1/8] build: adjust configure.ac syntax to match autoupdate
+Date: Thu, 23 Sep 2021 17:54:41 +0200
+Message-ID: <16360c35-bc5d-c2f6-4a44-1521b3b67962@canonical.com>
 In-Reply-To: <20210922161113.142758-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3778797871726451256==
+--===============6729907332670720536==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- ci/alpine.sh | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On 22/09/2021 18:11, Krzysztof Kozlowski wrote:
+> Effect of autoupdate, without changing the version.
+> =
 
-diff --git a/ci/alpine.sh b/ci/alpine.sh
-index bf87068228f3..550bf86370bf 100755
---- a/ci/alpine.sh
-+++ b/ci/alpine.sh
-@@ -20,6 +20,9 @@ case $CC in
- 	;;
- esac
- =
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  configure.ac | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> =
 
-+# Packages needed by CI
-+PKGS_MORE=3D"file"
-+
- # gzip: for distcheck
- apk add \
- 	autoconf \
-@@ -34,10 +37,7 @@ apk add \
- 	make \
- 	musl-dev \
- 	pkgconfig \
--	$PKGS_CC
--
--# Packages needed by CI
--apk add \
--	file
-+	$PKGS_CC \
-+	$PKGS_MORE
- =
+> diff --git a/configure.ac b/configure.ac
+> index 25b12b9a85d8..a1f7bd8bf56a 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -1,5 +1,5 @@
+> -AC_PREREQ(2.60)
+> -AC_INIT(neard, 0.17, [linux-nfc(a)lists.01.org])
+> +AC_PREREQ([2.60])
+> +AC_INIT([neard],[0.17],[linux-nfc(a)lists.01.org])
+>  AC_CONFIG_MACRO_DIR([m4])
+>  =
 
- echo "Install finished: $0"
--- =
+>  AM_INIT_AUTOMAKE([foreign subdir-objects color-tests])
+> =
 
-2.30.2
 
---===============3778797871726451256==--
+All applied to master in https://github.com/linux-nfc/neard
+
+Best regards,
+Krzysztof
+--===============6729907332670720536==--
 
