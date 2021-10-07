@@ -1,41 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============1136214658388089752=="
+Content-Type: multipart/mixed; boundary="===============7009906188640666697=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 12/15] nfc: trf7970a: drop unneeded debug prints
-Date: Thu, 07 Oct 2021 15:01:25 +0200
-Message-ID: <47eae95d-d34c-1fa7-fea9-6e77a130aa97@canonical.com>
-In-Reply-To: <20210913165757.GA1309751@animalcreek.com>
+Subject: [RESEND PATCH v2 0/7] nfc: minor printk cleanup
+Date: Thu, 07 Oct 2021 15:30:14 +0200
+Message-ID: <20211007133021.32704-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1136214658388089752==
+--===============7009906188640666697==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 13/09/2021 18:57, Mark Greer wrote:
-> On Mon, Sep 13, 2021 at 03:20:32PM +0200, Krzysztof Kozlowski wrote:
->> ftrace is a preferred and standard way to debug entering and exiting
->> functions so drop useless debug prints.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->> ---
->>  drivers/nfc/trf7970a.c | 8 --------
->>  1 file changed, 8 deletions(-)
->>
+Hi,
 
-Hi Jakub and David,
+This is a rebase and resend of v2. No other changes.
 
-Some patches from this set were applied, but rest was not. All of them
-are however marked as accepted:
-https://patchwork.kernel.org/project/netdevbpf/list/?series=3D545829&state=
-=3D*
-
-I think something got lost. Could you apply missing ones or maybe I
-should rebase and resend?
-
+Changes since v1:
+1. Remove unused variable in pn533 (reported by kbuild).
 
 Best regards,
 Krzysztof
---===============1136214658388089752==--
+
+Krzysztof Kozlowski (7):
+  nfc: drop unneeded debug prints
+  nfc: nci: replace GPLv2 boilerplate with SPDX
+  nfc: s3fwrn5: simplify dereferencing pointer to struct device
+  nfc: st-nci: drop unneeded debug prints
+  nfc: st21nfca: drop unneeded debug prints
+  nfc: trf7970a: drop unneeded debug prints
+  nfc: microread: drop unneeded debug prints
+
+ drivers/nfc/microread/i2c.c    |  4 ----
+ drivers/nfc/microread/mei.c    |  2 --
+ drivers/nfc/s3fwrn5/firmware.c | 29 +++++++++++------------------
+ drivers/nfc/s3fwrn5/nci.c      | 18 +++++++-----------
+ drivers/nfc/st-nci/i2c.c       |  4 ----
+ drivers/nfc/st-nci/ndlc.c      |  4 ----
+ drivers/nfc/st-nci/se.c        |  6 ------
+ drivers/nfc/st-nci/spi.c       |  4 ----
+ drivers/nfc/st21nfca/i2c.c     |  4 ----
+ drivers/nfc/st21nfca/se.c      |  4 ----
+ drivers/nfc/trf7970a.c         |  8 --------
+ net/nfc/hci/command.c          | 16 ----------------
+ net/nfc/hci/llc_shdlc.c        | 12 ------------
+ net/nfc/llcp_commands.c        |  8 --------
+ net/nfc/llcp_core.c            |  5 +----
+ net/nfc/nci/core.c             |  4 ----
+ net/nfc/nci/hci.c              |  4 ----
+ net/nfc/nci/ntf.c              |  9 ---------
+ net/nfc/nci/uart.c             | 16 ++--------------
+ 19 files changed, 21 insertions(+), 140 deletions(-)
+
+-- =
+
+2.30.2
+
+--===============7009906188640666697==--
 
