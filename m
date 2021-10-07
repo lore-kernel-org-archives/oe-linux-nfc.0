@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2264532694358392799=="
+Content-Type: multipart/mixed; boundary="===============8335836202736717709=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [RESEND PATCH v2 5/7] nfc: st21nfca: drop unneeded debug prints
-Date: Thu, 07 Oct 2021 15:30:19 +0200
-Message-ID: <20211007133021.32704-6-krzysztof.kozlowski@canonical.com>
+Subject: [RESEND PATCH v2 6/7] nfc: trf7970a: drop unneeded debug prints
+Date: Thu, 07 Oct 2021 15:30:20 +0200
+Message-ID: <20211007133021.32704-7-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211007133021.32704-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2264532694358392799==
+--===============8335836202736717709==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,69 +17,63 @@ ftrace is a preferred and standard way to debug entering and exiting
 functions so drop useless debug prints.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Acked-by: Mark Greer <mgreer@animalcreek.com>
 ---
- drivers/nfc/st21nfca/i2c.c | 4 ----
- drivers/nfc/st21nfca/se.c  | 4 ----
- 2 files changed, 8 deletions(-)
+ drivers/nfc/trf7970a.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
-index 279d88128b2e..f126ce96a7df 100644
---- a/drivers/nfc/st21nfca/i2c.c
-+++ b/drivers/nfc/st21nfca/i2c.c
-@@ -421,7 +421,6 @@ static int st21nfca_hci_i2c_read(struct st21nfca_i2c_ph=
-y *phy,
- static irqreturn_t st21nfca_hci_irq_thread_fn(int irq, void *phy_id)
- {
- 	struct st21nfca_i2c_phy *phy =3D phy_id;
--	struct i2c_client *client;
+diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
+index 8890fcd59c39..29ca9c328df2 100644
+--- a/drivers/nfc/trf7970a.c
++++ b/drivers/nfc/trf7970a.c
+@@ -2170,8 +2170,6 @@ static int trf7970a_suspend(struct device *dev)
+ 	struct spi_device *spi =3D to_spi_device(dev);
+ 	struct trf7970a *trf =3D spi_get_drvdata(spi);
  =
 
- 	int r;
- =
-
-@@ -430,9 +429,6 @@ static irqreturn_t st21nfca_hci_irq_thread_fn(int irq, =
-void *phy_id)
- 		return IRQ_NONE;
- 	}
- =
-
--	client =3D phy->i2c_dev;
--	dev_dbg(&client->dev, "IRQ\n");
+-	dev_dbg(dev, "Suspend\n");
 -
- 	if (phy->hard_fault !=3D 0)
- 		return IRQ_HANDLED;
+ 	mutex_lock(&trf->lock);
  =
 
-diff --git a/drivers/nfc/st21nfca/se.c b/drivers/nfc/st21nfca/se.c
-index c8bdf078d111..a43fc4117fa5 100644
---- a/drivers/nfc/st21nfca/se.c
-+++ b/drivers/nfc/st21nfca/se.c
-@@ -257,8 +257,6 @@ static void st21nfca_se_wt_timeout(struct timer_list *t)
- 	struct st21nfca_hci_info *info =3D from_timer(info, t,
- 						    se_info.bwi_timer);
+ 	trf7970a_shutdown(trf);
+@@ -2187,8 +2185,6 @@ static int trf7970a_resume(struct device *dev)
+ 	struct trf7970a *trf =3D spi_get_drvdata(spi);
+ 	int ret;
  =
 
--	pr_debug("\n");
+-	dev_dbg(dev, "Resume\n");
 -
- 	info->se_info.bwi_active =3D false;
+ 	mutex_lock(&trf->lock);
  =
 
- 	if (!info->se_info.xch_error) {
-@@ -278,8 +276,6 @@ static void st21nfca_se_activation_timeout(struct timer=
-_list *t)
- 	struct st21nfca_hci_info *info =3D from_timer(info, t,
- 						    se_info.se_active_timer);
+ 	ret =3D trf7970a_startup(trf);
+@@ -2206,8 +2202,6 @@ static int trf7970a_pm_runtime_suspend(struct device =
+*dev)
+ 	struct trf7970a *trf =3D spi_get_drvdata(spi);
+ 	int ret;
  =
 
--	pr_debug("\n");
+-	dev_dbg(dev, "Runtime suspend\n");
 -
- 	info->se_info.se_active =3D false;
+ 	mutex_lock(&trf->lock);
  =
 
- 	complete(&info->se_info.req_completion);
+ 	ret =3D trf7970a_power_down(trf);
+@@ -2223,8 +2217,6 @@ static int trf7970a_pm_runtime_resume(struct device *=
+dev)
+ 	struct trf7970a *trf =3D spi_get_drvdata(spi);
+ 	int ret;
+ =
+
+-	dev_dbg(dev, "Runtime resume\n");
+-
+ 	ret =3D trf7970a_power_up(trf);
+ 	if (!ret)
+ 		pm_runtime_mark_last_busy(dev);
 -- =
 
 2.30.2
 
---===============2264532694358392799==--
+--===============8335836202736717709==--
 
