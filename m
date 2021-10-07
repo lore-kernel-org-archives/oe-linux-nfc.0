@@ -1,72 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============1296399511702564330=="
+Content-Type: multipart/mixed; boundary="===============2685704491535281197=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [RESEND PATCH v2 7/7] nfc: microread: drop unneeded debug prints
-Date: Thu, 07 Oct 2021 15:30:21 +0200
-Message-ID: <20211007133021.32704-8-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20211007133021.32704-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH] nfc: nci: fix the UAF of rf_conn_info object
+Date: Thu, 07 Oct 2021 19:44:30 +0200
+Message-ID: <20211007174430.62558-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1296399511702564330==
+--===============2685704491535281197==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-ftrace is a preferred and standard way to debug entering and exiting
-functions so drop useless debug prints.
+From: Lin Ma <linma@zju.edu.cn>
 
+The nci_core_conn_close_rsp_packet() function will release the conn_info
+with given conn_id. However, it needs to set the rf_conn_info to NULL to
+prevent other routines like nci_rf_intf_activated_ntf_packet() to trigger
+the UAF.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Signed-off-by: Lin Ma <linma@zju.edu.cn>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/microread/i2c.c | 4 ----
- drivers/nfc/microread/mei.c | 2 --
- 2 files changed, 6 deletions(-)
+ net/nfc/nci/rsp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
-index 86f593c73ed6..067295124eb9 100644
---- a/drivers/nfc/microread/i2c.c
-+++ b/drivers/nfc/microread/i2c.c
-@@ -237,8 +237,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	struct microread_i2c_phy *phy;
- 	int r;
- =
-
--	dev_dbg(&client->dev, "client %p\n", client);
--
- 	phy =3D devm_kzalloc(&client->dev, sizeof(struct microread_i2c_phy),
- 			   GFP_KERNEL);
- 	if (!phy)
-@@ -262,8 +260,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	if (r < 0)
- 		goto err_irq;
- =
-
--	nfc_info(&client->dev, "Probed\n");
--
- 	return 0;
- =
-
- err_irq:
-diff --git a/drivers/nfc/microread/mei.c b/drivers/nfc/microread/mei.c
-index 00689e18dc46..e2a77a5fc887 100644
---- a/drivers/nfc/microread/mei.c
-+++ b/drivers/nfc/microread/mei.c
-@@ -23,8 +23,6 @@ static int microread_mei_probe(struct mei_cl_device *clde=
-v,
- 	struct nfc_mei_phy *phy;
- 	int r;
- =
-
--	pr_info("Probing NFC microread\n");
--
- 	phy =3D nfc_mei_phy_alloc(cldev);
- 	if (!phy)
- 		return -ENOMEM;
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index a2e72c003805..b911ab78bed9 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -334,6 +334,8 @@ static void nci_core_conn_close_rsp_packet(struct nci_d=
+ev *ndev,
+ 							 ndev->cur_conn_id);
+ 		if (conn_info) {
+ 			list_del(&conn_info->list);
++			if (conn_info =3D=3D ndev->rf_conn_info)
++				ndev->rf_conn_info =3D NULL;
+ 			devm_kfree(&ndev->nfc_dev->dev, conn_info);
+ 		}
+ 	}
 -- =
 
 2.30.2
 
---===============1296399511702564330==--
+--===============2685704491535281197==--
 
