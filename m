@@ -1,36 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============8579489957686967800=="
+Content-Type: multipart/mixed; boundary="===============4405355016224504552=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [RESEND PATCH v2 0/7] nfc: minor printk cleanup
-Date: Fri, 08 Oct 2021 12:18:36 +0200
-Message-ID: <CA+Eumj5k9K9DUsPifDchNixj0QG5WrTJX+dzADmAgYSFe49+4g@mail.gmail.com>
-In-Reply-To: <20211008.111646.1874039740182175606.davem@davemloft.net>
+Subject: Re: [RESEND PATCH v2 2/7] nfc: nci: replace GPLv2 boilerplate with SPDX
+Date: Fri, 08 Oct 2021 12:46:31 +0200
+Message-ID: <9669a6cd-77de-ca0c-153c-75b531bd2490@canonical.com>
+In-Reply-To: <34cc3eda06fa2e793c46b48ee734fd879e6f8ab1.camel@perches.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8579489957686967800==
+--===============4405355016224504552==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 8 Oct 2021 at 12:17, David Miller <davem@davemloft.net> wrote:
->
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Date: Thu,  7 Oct 2021 15:30:14 +0200
->
-> > Hi,
-> >
-> > This is a rebase and resend of v2. No other changes.
-> >
-> > Changes since v1:
-> > 1. Remove unused variable in pn533 (reported by kbuild).
->
-> Please CC: netdev for nfc patches otherwise they will not get tracked
-> and applied.
+On 08/10/2021 12:33, Joe Perches wrote:
+> On Thu, 2021-10-07 at 15:30 +0200, Krzysztof Kozlowski wrote:
+>> Replace standard GPLv2 only license text with SPDX tag.
+> =
 
-netdev(a)vger.kernel.org is here. Which address I missed?
+> Nak
+> =
+
+> This is actually licenced with GPL-2.0-or-later
+> =
+
+>> diff --git a/net/nfc/nci/uart.c b/net/nfc/nci/uart.c
+> []
+>> @@ -1,20 +1,8 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+> []
+> You may use, redistribute and/or modify this File in
+>> - * accordance with the terms and conditions of the License, a copy of w=
+hich
+>> - * is available on the worldwide web at
+>> - * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+> =
+
+> See the actual text at the old link which includes:
+> =
+
+>     This program is free software; you can redistribute it and/or modify
+>     it under the terms of the GNU General Public License as published by
+>     the Free Software Foundation; either version 2 of the License, or
+>     (at your option) any later version.
+
+
+Thanks Joe for checking this. Isn't this conflicting with first
+paragraph in the source file:
+
+  This software file (the "File") is distributed by Marvell
+InternationalLtd. under the terms of the GNU General Public License
+Version 2, June 1991(the "License").
+
+This part does not specify "or later".
 
 Best regards,
 Krzysztof
---===============8579489957686967800==--
+--===============4405355016224504552==--
 
