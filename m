@@ -1,48 +1,36 @@
-Content-Type: multipart/mixed; boundary="===============2685704491535281197=="
+Content-Type: multipart/mixed; boundary="===============8579489957686967800=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH] nfc: nci: fix the UAF of rf_conn_info object
-Date: Thu, 07 Oct 2021 19:44:30 +0200
-Message-ID: <20211007174430.62558-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [RESEND PATCH v2 0/7] nfc: minor printk cleanup
+Date: Fri, 08 Oct 2021 12:18:36 +0200
+Message-ID: <CA+Eumj5k9K9DUsPifDchNixj0QG5WrTJX+dzADmAgYSFe49+4g@mail.gmail.com>
+In-Reply-To: <20211008.111646.1874039740182175606.davem@davemloft.net>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2685704491535281197==
+--===============8579489957686967800==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-From: Lin Ma <linma@zju.edu.cn>
+On Fri, 8 Oct 2021 at 12:17, David Miller <davem@davemloft.net> wrote:
+>
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Date: Thu,  7 Oct 2021 15:30:14 +0200
+>
+> > Hi,
+> >
+> > This is a rebase and resend of v2. No other changes.
+> >
+> > Changes since v1:
+> > 1. Remove unused variable in pn533 (reported by kbuild).
+>
+> Please CC: netdev for nfc patches otherwise they will not get tracked
+> and applied.
 
-The nci_core_conn_close_rsp_packet() function will release the conn_info
-with given conn_id. However, it needs to set the rf_conn_info to NULL to
-prevent other routines like nci_rf_intf_activated_ntf_packet() to trigger
-the UAF.
+netdev(a)vger.kernel.org is here. Which address I missed?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Signed-off-by: Lin Ma <linma@zju.edu.cn>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- net/nfc/nci/rsp.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index a2e72c003805..b911ab78bed9 100644
---- a/net/nfc/nci/rsp.c
-+++ b/net/nfc/nci/rsp.c
-@@ -334,6 +334,8 @@ static void nci_core_conn_close_rsp_packet(struct nci_d=
-ev *ndev,
- 							 ndev->cur_conn_id);
- 		if (conn_info) {
- 			list_del(&conn_info->list);
-+			if (conn_info =3D=3D ndev->rf_conn_info)
-+				ndev->rf_conn_info =3D NULL;
- 			devm_kfree(&ndev->nfc_dev->dev, conn_info);
- 		}
- 	}
--- =
-
-2.30.2
-
---===============2685704491535281197==--
+Best regards,
+Krzysztof
+--===============8579489957686967800==--
 
