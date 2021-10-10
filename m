@@ -1,32 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1241317848443412686=="
+Content-Type: multipart/mixed; boundary="===============1954662631803314187=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH 6/7] dt-bindings: nfc: ti, trf7970a: convert to dtschema
-Date: Sun, 10 Oct 2021 22:51:28 +0200
-Message-ID: <a16d9765-a5d1-c8bc-729d-1c807b24e393@canonical.com>
-In-Reply-To: <1633894316.452946.3158671.nullmailer@robh.at.kernel.org>
+Subject: Re: [PATCH 1/7] dt-bindings: nfc: nxp, nci: convert to dtschema
+Date: Sun, 10 Oct 2021 22:52:56 +0200
+Message-ID: <0e26d0e6-9468-63b5-a357-af4c4e7ec677@canonical.com>
+In-Reply-To: <1633894316.441793.3158669.nullmailer@robh.at.kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1241317848443412686==
+--===============1954662631803314187==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 On 10/10/2021 21:31, Rob Herring wrote:
-> On Sun, 10 Oct 2021 16:23:16 +0200, Krzysztof Kozlowski wrote:
->> Convert the TI TRF7970A NFC to DT schema format.
+> On Sun, 10 Oct 2021 16:23:11 +0200, Krzysztof Kozlowski wrote:
+>> Convert the NXP NCI NFC controller to DT schema format.
 >>
 >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 >> ---
->>  .../bindings/net/nfc/ti,trf7970a.yaml         | 98 +++++++++++++++++++
->>  .../devicetree/bindings/net/nfc/trf7970a.txt  | 43 --------
->>  MAINTAINERS                                   |  2 +-
->>  3 files changed, 99 insertions(+), 44 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/net/nfc/ti,trf7970=
-a.yaml
->>  delete mode 100644 Documentation/devicetree/bindings/net/nfc/trf7970a.t=
-xt
+>>  .../devicetree/bindings/net/nfc/nxp,nci.yaml  | 61 +++++++++++++++++++
+>>  .../devicetree/bindings/net/nfc/nxp-nci.txt   | 33 ----------
+>>  MAINTAINERS                                   |  1 +
+>>  3 files changed, 62 insertions(+), 33 deletions(-)
+>>  create mode 100644 Documentation/devicetree/bindings/net/nfc/nxp,nci.ya=
+ml
+>>  delete mode 100644 Documentation/devicetree/bindings/net/nfc/nxp-nci.txt
 >>
 > =
 
@@ -39,19 +38,50 @@ xt
 > This will change in the future.
 > =
 
-> Full log is available here: https://patchwork.ozlabs.org/patch/1539014
+> Full log is available here: https://patchwork.ozlabs.org/patch/1539010
 > =
 
 > =
 
-> nfc(a)0: 't5t-rmb-extra-byte-quirk', 'vin-voltage-override' do not match =
-any of the regexes: 'pinctrl-[0-9]+'
-> 	arch/arm/boot/dts/imx6dl-prtrvt.dt.yaml
+> nfc(a)28: 'clock-frequency' is a required property
+> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
+> =
 
-I already sent a patch for this one.
+> nfc(a)28: compatible:0: 'nxp,nxp-nci-i2c' was expected
+> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
+> =
 
+> nfc(a)28: compatible: Additional items are not allowed ('nxp,nxp-nci-i2c'=
+ was unexpected)
+> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
+> =
+
+> nfc(a)28: compatible: ['nxp,pn547', 'nxp,nxp-nci-i2c'] is too long
+> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
+> =
+
+> nfc(a)30: 'clock-frequency' is a required property
+> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
+> =
+
+> nfc(a)30: compatible:0: 'nxp,nxp-nci-i2c' was expected
+> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
+> =
+
+> nfc(a)30: compatible: Additional items are not allowed ('nxp,nxp-nci-i2c'=
+ was unexpected)
+> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
+> =
+
+> nfc(a)30: compatible: ['nxp,pn547', 'nxp,nxp-nci-i2c'] is too long
+> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
+> =
+
+
+I missed that new compatible. I'll send a patch adding nxp,nxp-nci-i2c
+and try to fix the DTS (missing clock-frequency).
 
 Best regards,
 Krzysztof
---===============1241317848443412686==--
+--===============1954662631803314187==--
 
