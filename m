@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1954662631803314187=="
+Content-Type: multipart/mixed; boundary="===============4836153185116417638=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
 Subject: Re: [PATCH 1/7] dt-bindings: nfc: nxp, nci: convert to dtschema
-Date: Sun, 10 Oct 2021 22:52:56 +0200
-Message-ID: <0e26d0e6-9468-63b5-a357-af4c4e7ec677@canonical.com>
+Date: Sun, 10 Oct 2021 22:58:59 +0200
+Message-ID: <f955726a-eb2d-7b3e-9c5f-978358710eb6@canonical.com>
 In-Reply-To: <1633894316.441793.3158669.nullmailer@robh.at.kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1954662631803314187==
+--===============4836153185116417638==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -47,41 +47,16 @@ ml
 > 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
 > =
 
-> nfc(a)28: compatible:0: 'nxp,nxp-nci-i2c' was expected
-> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
-> =
 
-> nfc(a)28: compatible: Additional items are not allowed ('nxp,nxp-nci-i2c'=
- was unexpected)
-> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
-> =
+Hmm, this actually looks as mistake in bindings. First, clock-frequency
+is a property of a I2C bus, not I2C child device. Second, it should not
+be a required property anyway, as I2C will choose a default one matching
+driver (e.g. standard speed of 100 kHz).
 
-> nfc(a)28: compatible: ['nxp,pn547', 'nxp,nxp-nci-i2c'] is too long
-> 	arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dt.yaml
-> =
-
-> nfc(a)30: 'clock-frequency' is a required property
-> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
-> =
-
-> nfc(a)30: compatible:0: 'nxp,nxp-nci-i2c' was expected
-> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
-> =
-
-> nfc(a)30: compatible: Additional items are not allowed ('nxp,nxp-nci-i2c'=
- was unexpected)
-> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
-> =
-
-> nfc(a)30: compatible: ['nxp,pn547', 'nxp,nxp-nci-i2c'] is too long
-> 	arch/arm/boot/dts/ste-ux500-samsung-janice.dt.yaml
-> =
-
-
-I missed that new compatible. I'll send a patch adding nxp,nxp-nci-i2c
-and try to fix the DTS (missing clock-frequency).
+Except the trf7970a NFC driver, none of other NFC drivers parse the
+clock-frequency.
 
 Best regards,
 Krzysztof
---===============1954662631803314187==--
+--===============4836153185116417638==--
 
