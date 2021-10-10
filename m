@@ -1,52 +1,64 @@
-Content-Type: multipart/mixed; boundary="===============0170858204544651717=="
+Content-Type: multipart/mixed; boundary="===============1558112177963431469=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 4/7] dt-bindings: nfc: st, st95hf: convert to dtschema
-Date: Sun, 10 Oct 2021 16:23:14 +0200
-Message-ID: <20211010142317.168259-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 5/7] dt-bindings: nfc: st, nci: convert to dtschema
+Date: Sun, 10 Oct 2021 16:23:15 +0200
+Message-ID: <20211010142317.168259-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211010142317.168259-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0170858204544651717==
+--===============1558112177963431469==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Convert the ST ST95HF NFC controller to DT schema format.
+Convert the ST NCI (ST21NFCB) NFC controller to DT schema format.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/net/nfc/st,st95hf.yaml           | 57 +++++++++++++++++++
- .../devicetree/bindings/net/nfc/st95hf.txt    | 45 ---------------
- 2 files changed, 57 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/net/nfc/st,st95hf.yaml
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/st95hf.txt
+ .../bindings/net/nfc/st,st-nci.yaml           | 114 ++++++++++++++++++
+ .../bindings/net/nfc/st-nci-i2c.txt           |  38 ------
+ .../bindings/net/nfc/st-nci-spi.txt           |  36 ------
+ 3 files changed, 114 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/st,st95hf.yaml b/Doc=
-umentation/devicetree/bindings/net/nfc/st,st95hf.yaml
+diff --git a/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml b/Doc=
+umentation/devicetree/bindings/net/nfc/st,st-nci.yaml
 new file mode 100644
-index 000000000000..d3bca376039e
+index 000000000000..4486ae75f8a2
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/net/nfc/st,st95hf.yaml
-@@ -0,0 +1,57 @@
++++ b/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
+@@ -0,0 +1,114 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/net/nfc/st,st95hf.yaml#
++$id: http://devicetree.org/schemas/net/nfc/st,st-nci.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: STMicroelectronics ST95HF NFC controller
++title: STMicroelectronics ST NCI NFC controller
 +
 +maintainers:
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 +
 +properties:
 +  compatible:
-+    const: st,st95hf
++    enum:
++      - st,st21nfcb-i2c
++      - st,st21nfcb-spi
++      - st,st21nfcc-i2c
 +
-+  enable-gpio:
-+    description: Output GPIO pin used for enabling/disabling the controller
++  clock-frequency: true
++
++  reset-gpios:
++    description: Output GPIO pin used for resetting the controller
++
++  ese-present:
++    type: boolean
++    description: |
++      Specifies that an ese is physically connected to the controller
 +
 +  interrupts:
 +    maxItems: 1
@@ -54,17 +66,37 @@ index 000000000000..d3bca376039e
 +  reg:
 +    maxItems: 1
 +
-+  st95hfvin-supply:
-+    description: ST95HF transceiver's Vin regulator supply
-+
 +  spi-max-frequency: true
++
++  uicc-present:
++    type: boolean
++    description: |
++      Specifies that the uicc swp signal can be physically connected to the
++      controller
 +
 +required:
 +  - compatible
-+  - enable-gpio
 +  - interrupts
 +  - reg
-+  - spi-max-frequency
++  - reset-gpios
++
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - st,st21nfcb-i2c
++          - st,st21nfcc-i2c
++then:
++  properties:
++    spi-max-frequency: false
++  required:
++    - clock-frequency
++else:
++  properties:
++    clock-frequency: false
++  required:
++    - spi-max-frequency
 +
 +additionalProperties: false
 +
@@ -73,75 +105,138 @@ index 000000000000..d3bca376039e
 +    #include <dt-bindings/gpio/gpio.h>
 +    #include <dt-bindings/interrupt-controller/irq.h>
 +
++    i2c {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        nfc(a)8 {
++            compatible =3D "st,st21nfcb-i2c";
++            reg =3D <0x08>;
++
++            clock-frequency =3D <400000>;
++
++            interrupt-parent =3D <&gpio5>;
++            interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
++            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
++
++            ese-present;
++            uicc-present;
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
 +    spi {
 +        #address-cells =3D <1>;
 +        #size-cells =3D <0>;
 +
-+        nfc(a)0{
-+            compatible =3D "st,st95hf";
++        nfc(a)0 {
++            compatible =3D "st,st21nfcb-spi";
 +            reg =3D <0>;
 +
-+            spi-max-frequency =3D <1000000>;
-+            enable-gpio =3D <&pio4 GPIO_ACTIVE_HIGH>;
-+            interrupt-parent =3D <&pio0>;
-+            interrupts =3D <7 IRQ_TYPE_EDGE_FALLING>;
++            spi-max-frequency =3D <4000000>;
++
++            interrupt-parent =3D <&gpio5>;
++            interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
++            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
++
++            ese-present;
++            uicc-present;
 +        };
 +    };
-diff --git a/Documentation/devicetree/bindings/net/nfc/st95hf.txt b/Documen=
-tation/devicetree/bindings/net/nfc/st95hf.txt
+diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt b/Doc=
+umentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
 deleted file mode 100644
-index 3f373a1e20ff..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/st95hf.txt
+index baa8f8133d19..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
 +++ /dev/null
-@@ -1,45 +0,0 @@
--* STMicroelectronics : NFC Transceiver ST95HF
--
--ST NFC Transceiver is required to attach with SPI bus.
--ST95HF node should be defined in DT as SPI slave device of SPI
--master with which ST95HF transceiver is physically connected.
--The properties defined below are required to be the part of DT
--to include ST95HF transceiver into the platform.
+@@ -1,38 +0,0 @@
+-* STMicroelectronics SAS. ST NCI NFC Controller
 -
 -Required properties:
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--- reg: Address of SPI slave "ST95HF transceiver" on SPI master bus.
+-- compatible: Should be "st,st21nfcb-i2c" or "st,st21nfcc-i2c".
+-- clock-frequency: I=C2=B2C work frequency.
+-- reg: address on the bus
+-- interrupts: GPIO interrupt to which the chip is connected
+-- reset-gpios: Output GPIO pin used to reset the ST21NFCB
 -
--- compatible: should be "st,st95hf" for ST95HF NFC transceiver
+-Optional SoC Specific Properties:
+-- pinctrl-names: Contains only one value - "default".
+-- pintctrl-0: Specifies the pin control groups used for this controller.
+-- ese-present: Specifies that an ese is physically connected to the nfc
+-controller.
+-- uicc-present: Specifies that the uicc swp signal can be physically
+-connected to the nfc controller.
 -
--- spi-max-frequency: Max. operating SPI frequency for ST95HF
--	transceiver.
+-Example (for ARM-based BeagleBoard xM with ST21NFCB on I2C2):
 -
--- enable-gpio: GPIO line to enable ST95HF transceiver.
+-&i2c2 {
 -
--- interrupts : Standard way to define ST95HF transceiver's out
--	interrupt.
 -
--Optional property:
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--- st95hfvin-supply : This is an optional property. It contains a
--	phandle to ST95HF transceiver's regulator supply node in DT.
+-	st21nfcb: st21nfcb(a)8 {
 -
--Example:
--=3D=3D=3D=3D=3D=3D=3D
--spi(a)9840000 {
--	reg =3D <0x9840000 0x110>;
--	#address-cells =3D <1>;
--	#size-cells =3D <0>;
--	cs-gpios =3D <&pio0 4>;
+-		compatible =3D "st,st21nfcb-i2c";
 -
--	st95hf(a)0{
--		reg =3D <0>;
--		compatible =3D "st,st95hf";
--		spi-max-frequency =3D <1000000>;
--		enable-gpio =3D <&pio4 0>;
--		interrupt-parent =3D <&pio0>;
--		interrupts =3D <7 IRQ_TYPE_EDGE_FALLING>;
+-		reg =3D <0x08>;
+-		clock-frequency =3D <400000>;
+-
+-		interrupt-parent =3D <&gpio5>;
+-		interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
+-
+-		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
+-
+-		ese-present;
+-		uicc-present;
 -	};
+-};
+diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt b/Doc=
+umentation/devicetree/bindings/net/nfc/st-nci-spi.txt
+deleted file mode 100644
+index d33343330b94..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-* STMicroelectronics SAS. ST NCI NFC Controller
 -
+-Required properties:
+-- compatible: Should be "st,st21nfcb-spi"
+-- spi-max-frequency: Maximum SPI frequency (<=3D 4000000).
+-- interrupts: GPIO interrupt to which the chip is connected
+-- reset-gpios: Output GPIO pin used to reset the ST21NFCB
+-
+-Optional SoC Specific Properties:
+-- pinctrl-names: Contains only one value - "default".
+-- pintctrl-0: Specifies the pin control groups used for this controller.
+-- ese-present: Specifies that an ese is physically connected to the nfc
+-controller.
+-- uicc-present: Specifies that the uicc swp signal can be physically
+-connected to the nfc controller.
+-
+-Example (for ARM-based BeagleBoard xM with ST21NFCB on SPI4):
+-
+-&mcspi4 {
+-
+-
+-	st21nfcb: st21nfcb@0 {
+-
+-		compatible =3D "st,st21nfcb-spi";
+-
+-		clock-frequency =3D <4000000>;
+-
+-		interrupt-parent =3D <&gpio5>;
+-		interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
+-
+-		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
+-
+-		ese-present;
+-		uicc-present;
+-	};
 -};
 -- =
 
 2.30.2
 
---===============0170858204544651717==--
+--===============1558112177963431469==--
 
