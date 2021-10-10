@@ -1,394 +1,207 @@
-Content-Type: multipart/mixed; boundary="===============4377430932710451193=="
+Content-Type: multipart/mixed; boundary="===============8421914211985534386=="
 MIME-Version: 1.0
-From: Bongsu Jeon <bongsu.jeon2@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH net-next 2/2] net: nfc: s3fwrn5: Support a UART interface
-Date: Tue, 24 Nov 2020 21:05:52 +0900
-Message-ID: <CACwDmQDOm6PAyphMiUFizueENMdW3Bo5PvdP_VC_sfBEHc9pMQ@mail.gmail.com>
-In-Reply-To: <20201123081940.GA9323@kozik-lap>
+Subject: [PATCH 6/7] dt-bindings: nfc: ti, trf7970a: convert to dtschema
+Date: Sun, 10 Oct 2021 16:23:16 +0200
+Message-ID: <20211010142317.168259-6-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20211010142317.168259-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4377430932710451193==
+--===============8421914211985534386==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 23, 2020 at 5:55 PM krzk(a)kernel.org <krzk@kernel.org> wrote:
->
-> On Mon, Nov 23, 2020 at 04:56:58PM +0900, Bongsu Jeon wrote:
-> > Since S3FWRN82 NFC Chip, The UART interface can be used.
-> > S3FWRN82 uses NCI protocol and supports I2C and UART interface.
-> >
-> > Signed-off-by: Bongsu Jeon <bongsu.jeon@samsung.com>
->
-> Please start sending emails properly, e.g. with git send-email, so all
-> your patches in the patchset are referencing the first patch.
->
-Ok. I will do that.
+Convert the TI TRF7970A NFC to DT schema format.
 
-> > ---
-> >  drivers/nfc/s3fwrn5/Kconfig  |  12 ++
-> >  drivers/nfc/s3fwrn5/Makefile |   2 +
-> >  drivers/nfc/s3fwrn5/uart.c   | 250 +++++++++++++++++++++++++++++++++++
-> >  3 files changed, 264 insertions(+)
-> >  create mode 100644 drivers/nfc/s3fwrn5/uart.c
-> >
-> > diff --git a/drivers/nfc/s3fwrn5/Kconfig b/drivers/nfc/s3fwrn5/Kconfig
-> > index 3f8b6da58280..6f88737769e1 100644
-> > --- a/drivers/nfc/s3fwrn5/Kconfig
-> > +++ b/drivers/nfc/s3fwrn5/Kconfig
-> > @@ -20,3 +20,15 @@ config NFC_S3FWRN5_I2C
-> >         To compile this driver as a module, choose m here. The module w=
-ill
-> >         be called s3fwrn5_i2c.ko.
-> >         Say N if unsure.
-> > +
-> > +config NFC_S3FWRN82_UART
-> > +     tristate "Samsung S3FWRN82 UART support"
-> > +     depends on NFC_NCI && SERIAL_DEV_BUS
->
-> What about SERIAL_DEV_BUS as module? Shouldn't this be
-> SERIAL_DEV_BUS || !SERIAL_DEV_BUS?
->
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ .../bindings/net/nfc/ti,trf7970a.yaml         | 98 +++++++++++++++++++
+ .../devicetree/bindings/net/nfc/trf7970a.txt  | 43 --------
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 99 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/nfc/ti,trf7970a.y=
+aml
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/trf7970a.txt
 
-SERIAL_DEV_BUS is okay even if SERIAL_DEV_BUS is defined as module.
+diff --git a/Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml b/D=
+ocumentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
+new file mode 100644
+index 000000000000..40da2ac98978
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/nfc/ti,trf7970a.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TRF7970A RFID/NFC/15693 Transceiver
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
++  - Mark Greer <mgreer@animalcreek.com>
++
++properties:
++  compatible:
++    const: ti,trf7970a
++
++  autosuspend-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      Specify autosuspend delay in milliseconds.
++
++  clock-frequency:
++    description: |
++      Set to specify that the input frequency to the trf7970a is 13560000H=
+z or
++      27120000Hz
++
++  en2-rf-quirk:
++    type: boolean
++    description: |
++      Specify that the trf7970a being used has the "EN2 RF" erratum
++
++  interrupts:
++    maxItems: 1
++
++  irq-status-read-quirk:
++    type: boolean
++    description: |
++      Specify that the trf7970a being used has the "IRQ Status Read" errat=
+um
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency: true
++
++  ti,enable-gpios:
++    minItems: 1
++    maxItems: 2
++    description: |
++      One or two GPIO entries used for 'EN' and 'EN2' pins on the TRF7970A=
+. EN2
++      is optional.
++
++  vdd-io-supply:
++    description: |
++      Regulator specifying voltage for VDD-IO
++
++  vin-supply:
++    description: |
++      Regulator for supply voltage to VIN pin
++
++required:
++  - compatible
++  - interrupts
++  - reg
++  - spi-max-frequency
++  - ti,enable-gpios
++  - vin-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        nfc(a)0 {
++            compatible =3D "ti,trf7970a";
++            reg =3D <0>;
++
++            pinctrl-names =3D "default";
++            pinctrl-0 =3D <&trf7970a_default>;
++            spi-max-frequency =3D <2000000>;
++            interrupt-parent =3D <&gpio2>;
++            interrupts =3D <14 0>;
++
++            ti,enable-gpios =3D <&gpio2 2 GPIO_ACTIVE_HIGH>,
++                              <&gpio2 5 GPIO_ACTIVE_HIGH>;
++            vin-supply =3D <&ldo3_reg>;
++            vdd-io-supply =3D <&ldo2_reg>;
++            autosuspend-delay =3D <30000>;
++            irq-status-read-quirk;
++            en2-rf-quirk;
++            clock-frequency =3D <27120000>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/net/nfc/trf7970a.txt b/Docum=
+entation/devicetree/bindings/net/nfc/trf7970a.txt
+deleted file mode 100644
+index ba1934b950e5..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/trf7970a.txt
++++ /dev/null
+@@ -1,43 +0,0 @@
+-* Texas Instruments TRF7970A RFID/NFC/15693 Transceiver
+-
+-Required properties:
+-- compatible: Should be "ti,trf7970a".
+-- spi-max-frequency: Maximum SPI frequency (<=3D 2000000).
+-- interrupts: A single interrupt specifier.
+-- ti,enable-gpios: One or two GPIO entries used for 'EN' and 'EN2' pins on=
+ the
+-  TRF7970A. EN2 is optional.
+-- vin-supply: Regulator for supply voltage to VIN pin
+-
+-Optional SoC Specific Properties:
+-- pinctrl-names: Contains only one value - "default".
+-- pintctrl-0: Specifies the pin control groups used for this controller.
+-- autosuspend-delay: Specify autosuspend delay in milliseconds.
+-- irq-status-read-quirk: Specify that the trf7970a being used has the
+-  "IRQ Status Read" erratum.
+-- en2-rf-quirk: Specify that the trf7970a being used has the "EN2 RF"
+-  erratum.
+-- vdd-io-supply: Regulator specifying voltage for vdd-io
+-- clock-frequency: Set to specify that the input frequency to the trf7970a=
+ is 13560000Hz or 27120000Hz
+-
+-Example (for ARM-based BeagleBone with TRF7970A on SPI1):
+-
+-&spi1 {
+-
+-	nfc@0 {
+-		compatible =3D "ti,trf7970a";
+-		reg =3D <0>;
+-		pinctrl-names =3D "default";
+-		pinctrl-0 =3D <&trf7970a_default>;
+-		spi-max-frequency =3D <2000000>;
+-		interrupt-parent =3D <&gpio2>;
+-		interrupts =3D <14 0>;
+-		ti,enable-gpios =3D <&gpio2 2 GPIO_ACTIVE_HIGH>,
+-				  <&gpio2 5 GPIO_ACTIVE_HIGH>;
+-		vin-supply =3D <&ldo3_reg>;
+-		vdd-io-supply =3D <&ldo2_reg>;
+-		autosuspend-delay =3D <30000>;
+-		irq-status-read-quirk;
+-		en2-rf-quirk;
+-		clock-frequency =3D <27120000>;
+-	};
+-};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3294aaf5e56c..23dd7aac38a0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18916,7 +18916,7 @@ M:	Mark Greer <mgreer@animalcreek.com>
+ L:	linux-wireless(a)vger.kernel.org
+ L:	linux-nfc(a)lists.01.org (subscribers-only)
+ S:	Supported
+-F:	Documentation/devicetree/bindings/net/nfc/trf7970a.txt
++F:	Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
+ F:	drivers/nfc/trf7970a.c
+ =
 
-> > +     select NFC_S3FWRN5
-> > +     help
-> > +       This module adds support for a UART interface to the S3FWRN82 c=
-hip.
-> > +       Select this if your platform is using the UART bus.
-> > +
-> > +       To compile this driver as a module, choose m here. The module w=
-ill
-> > +       be called s3fwrn82_uart.ko.
-> > +       Say N if unsure.
-> > diff --git a/drivers/nfc/s3fwrn5/Makefile b/drivers/nfc/s3fwrn5/Makefile
-> > index d0ffa35f50e8..d1902102060b 100644
-> > --- a/drivers/nfc/s3fwrn5/Makefile
-> > +++ b/drivers/nfc/s3fwrn5/Makefile
-> > @@ -5,6 +5,8 @@
-> >
-> >  s3fwrn5-objs =3D core.o firmware.o nci.o
-> >  s3fwrn5_i2c-objs =3D i2c.o
-> > +s3fwrn82_uart-objs =3D uart.o
-> >
-> >  obj-$(CONFIG_NFC_S3FWRN5) +=3D s3fwrn5.o
-> >  obj-$(CONFIG_NFC_S3FWRN5_I2C) +=3D s3fwrn5_i2c.o
-> > +obj-$(CONFIG_NFC_S3FWRN82_UART) +=3D s3fwrn82_uart.o
-> > diff --git a/drivers/nfc/s3fwrn5/uart.c b/drivers/nfc/s3fwrn5/uart.c
-> > new file mode 100644
-> > index 000000000000..b3c36a5b28d3
-> > --- /dev/null
-> > +++ b/drivers/nfc/s3fwrn5/uart.c
-> > @@ -0,0 +1,250 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * UART Link Layer for S3FWRN82 NCI based Driver
-> > + *
-> > + * Copyright (C) 2020 Samsung Electronics
-> > + * Author: Bongsu Jeon <bongsu.jeon@samsung.com>
->
-> You copied a lot from existing i2c.c. Please keep also the original
-> copyrights.
->
+ TI TSC2046 ADC DRIVER
+-- =
 
-Okay. I will keep also the original copyrights.
+2.30.2
 
-> > + * All rights reserved.
-> > + */
-> > +
-> > +#include <linux/device.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/nfc.h>
-> > +#include <linux/netdevice.h>
-> > +#include <linux/of.h>
-> > +#include <linux/serdev.h>
-> > +#include <linux/gpio.h>
-> > +#include <linux/of_gpio.h>
-> > +
-> > +#include "s3fwrn5.h"
-> > +
-> > +#define S3FWRN82_UART_DRIVER_NAME "s3fwrn82_uart"
->
-> Remove the define, it is used only once.
->
-> > +#define S3FWRN82_NCI_HEADER 3
-> > +#define S3FWRN82_NCI_IDX 2
-> > +#define S3FWRN82_EN_WAIT_TIME 20
-> > +#define NCI_SKB_BUFF_LEN 258
-> > +
-> > +struct s3fwrn82_uart_phy {
-> > +     struct serdev_device *ser_dev;
-> > +     struct nci_dev *ndev;
-> > +     struct sk_buff *recv_skb;
-> > +
-> > +     unsigned int gpio_en;
-> > +     unsigned int gpio_fw_wake;
-> > +
-> > +     /* mutex is used to synchronize */
->
-> Please do not write obvious comments. Mutex is always used to
-> synchronize, what else is it for? Instead you must describe what exactly
-> is protected with mutex.
->
-
-I understand it. I will fix it.
-
-> > +     struct mutex mutex;
-> > +     enum s3fwrn5_mode mode;
-> > +};
-> > +
-> > +static void s3fwrn82_uart_set_wake(void *phy_id, bool wake)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
-> > +
-> > +     mutex_lock(&phy->mutex);
-> > +     gpio_set_value(phy->gpio_fw_wake, wake);
-> > +     msleep(S3FWRN82_EN_WAIT_TIME);
-> > +     mutex_unlock(&phy->mutex);
-> > +}
-> > +
-> > +static void s3fwrn82_uart_set_mode(void *phy_id, enum s3fwrn5_mode mod=
-e)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
-> > +
-> > +     mutex_lock(&phy->mutex);
-> > +     if (phy->mode =3D=3D mode)
-> > +             goto out;
-> > +     phy->mode =3D mode;
-> > +     gpio_set_value(phy->gpio_en, 1);
-> > +     gpio_set_value(phy->gpio_fw_wake, 0);
-> > +     if (mode =3D=3D S3FWRN5_MODE_FW)
-> > +             gpio_set_value(phy->gpio_fw_wake, 1);
-> > +     if (mode !=3D S3FWRN5_MODE_COLD) {
-> > +             msleep(S3FWRN82_EN_WAIT_TIME);
-> > +             gpio_set_value(phy->gpio_en, 0);
-> > +             msleep(S3FWRN82_EN_WAIT_TIME);
-> > +     }
-> > +out:
-> > +     mutex_unlock(&phy->mutex);
-> > +}
-> > +
-> > +static enum s3fwrn5_mode s3fwrn82_uart_get_mode(void *phy_id)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
-> > +     enum s3fwrn5_mode mode;
-> > +
-> > +     mutex_lock(&phy->mutex);
-> > +     mode =3D phy->mode;
-> > +     mutex_unlock(&phy->mutex);
-> > +     return mode;
-> > +}
->
-> All this duplicates I2C version. You need to start either reusing common
-> blocks.
->
-
-Okay. I will do refactoring on i2c.c and uart.c to make common blocks.
- is it okay to separate a patch for it?
-
-> > +
-> > +static int s3fwrn82_uart_write(void *phy_id, struct sk_buff *out)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D phy_id;
-> > +     int err;
-> > +
-> > +     err =3D serdev_device_write(phy->ser_dev,
-> > +                               out->data, out->len,
-> > +                               MAX_SCHEDULE_TIMEOUT);
-> > +     if (err < 0)
-> > +             return err;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct s3fwrn5_phy_ops uart_phy_ops =3D {
-> > +     .set_wake =3D s3fwrn82_uart_set_wake,
-> > +     .set_mode =3D s3fwrn82_uart_set_mode,
-> > +     .get_mode =3D s3fwrn82_uart_get_mode,
-> > +     .write =3D s3fwrn82_uart_write,
-> > +};
-> > +
-> > +static int s3fwrn82_uart_read(struct serdev_device *serdev,
-> > +                           const unsigned char *data,
-> > +                           size_t count)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
-v);
-> > +     size_t i;
-> > +
-> > +     for (i =3D 0; i < count; i++) {
-> > +             skb_put_u8(phy->recv_skb, *data++);
-> > +
-> > +             if (phy->recv_skb->len < S3FWRN82_NCI_HEADER)
-> > +                     continue;
-> > +
-> > +             if ((phy->recv_skb->len - S3FWRN82_NCI_HEADER)
-> > +                             < phy->recv_skb->data[S3FWRN82_NCI_IDX])
-> > +                     continue;
-> > +
-> > +             s3fwrn5_recv_frame(phy->ndev, phy->recv_skb, phy->mode);
-> > +             phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN, GFP_KERNEL);
-> > +             if (!phy->recv_skb)
-> > +                     return 0;
-> > +     }
-> > +
-> > +     return i;
-> > +}
-> > +
-> > +static struct serdev_device_ops s3fwrn82_serdev_ops =3D {
->
-> const
->
-> > +     .receive_buf =3D s3fwrn82_uart_read,
-> > +     .write_wakeup =3D serdev_device_write_wakeup,
-> > +};
-> > +
-> > +static const struct of_device_id s3fwrn82_uart_of_match[] =3D {
-> > +     { .compatible =3D "samsung,s3fwrn82-uart", },
-> > +     {},
-> > +};
-> > +MODULE_DEVICE_TABLE(of, s3fwrn82_uart_of_match);
-> > +
-> > +static int s3fwrn82_uart_parse_dt(struct serdev_device *serdev)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
-v);
-> > +     struct device_node *np =3D serdev->dev.of_node;
-> > +
-> > +     if (!np)
-> > +             return -ENODEV;
-> > +
-> > +     phy->gpio_en =3D of_get_named_gpio(np, "en-gpios", 0);
-> > +     if (!gpio_is_valid(phy->gpio_en))
-> > +             return -ENODEV;
-> > +
-> > +     phy->gpio_fw_wake =3D of_get_named_gpio(np, "wake-gpios", 0);
->
-> You should not cast it it unsigned int. I'll fix the s3fwrn5 from which
-> you copied this apparently.
->
-
-Okay. I will fix it.
-
-> > +     if (!gpio_is_valid(phy->gpio_fw_wake))
-> > +             return -ENODEV;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int s3fwrn82_uart_probe(struct serdev_device *serdev)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy;
-> > +     int ret =3D -ENOMEM;
-> > +
-> > +     phy =3D devm_kzalloc(&serdev->dev, sizeof(*phy), GFP_KERNEL);
-> > +     if (!phy)
-> > +             goto err_exit;
-> > +
-> > +     phy->recv_skb =3D alloc_skb(NCI_SKB_BUFF_LEN, GFP_KERNEL);
-> > +     if (!phy->recv_skb)
-> > +             goto err_free;
-> > +
-> > +     mutex_init(&phy->mutex);
-> > +     phy->mode =3D S3FWRN5_MODE_COLD;
-> > +
-> > +     phy->ser_dev =3D serdev;
-> > +     serdev_device_set_drvdata(serdev, phy);
-> > +     serdev_device_set_client_ops(serdev, &s3fwrn82_serdev_ops);
-> > +     ret =3D serdev_device_open(serdev);
-> > +     if (ret) {
-> > +             dev_err(&serdev->dev, "Unable to open device\n");
-> > +             goto err_skb;
-> > +     }
-> > +
-> > +     ret =3D serdev_device_set_baudrate(serdev, 115200);
->
-> Why baudrate is fixed?
->
-
-RN82 NFC chip only supports 115200 baudrate for UART.
-
-> > +     if (ret !=3D 115200) {
-> > +             ret =3D -EINVAL;
-> > +             goto err_serdev;
-> > +     }
-> > +
-> > +     serdev_device_set_flow_control(serdev, false);
-> > +
-> > +     ret =3D s3fwrn82_uart_parse_dt(serdev);
-> > +     if (ret < 0)
-> > +             goto err_serdev;
-> > +
-> > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
-> > +                                 phy->gpio_en,
-> > +                                 GPIOF_OUT_INIT_HIGH,
-> > +                                 "s3fwrn82_en");
->
-> This is weirdly wrapped.
->
-
-Did you ask about devem_gpio_request_one function's parenthesis and paramet=
-ers?
-If it is right, I changed it after i ran the checkpatch.pl --strict and
-i saw message like the alignment should match open parenthesis.
-
-> > +     if (ret < 0)
-> > +             goto err_serdev;
-> > +
-> > +     ret =3D devm_gpio_request_one(&phy->ser_dev->dev,
-> > +                                 phy->gpio_fw_wake,
-> > +                                 GPIOF_OUT_INIT_LOW,
-> > +                                 "s3fwrn82_fw_wake");
-> > +     if (ret < 0)
-> > +             goto err_serdev;
-> > +
-> > +     ret =3D s3fwrn5_probe(&phy->ndev, phy, &phy->ser_dev->dev, &uart_=
-phy_ops);
-> > +     if (ret < 0)
-> > +             goto err_serdev;
-> > +
-> > +     return ret;
-> > +
-> > +err_serdev:
-> > +     serdev_device_close(serdev);
-> > +err_skb:
-> > +     kfree_skb(phy->recv_skb);
-> > +err_free:
-> > +     kfree(phy);
->
-> Eee.... why? Did you test this code?
->
-
-I didn't test this code. i just added this code as defense code.
-If the error happens, then allocated memory and device will be free
-according to the fail case.
-
-> > +err_exit:
-> > +     return ret;
-> > +}
-> > +
-> > +static void s3fwrn82_uart_remove(struct serdev_device *serdev)
-> > +{
-> > +     struct s3fwrn82_uart_phy *phy =3D serdev_device_get_drvdata(serde=
-v);
-> > +
-> > +     s3fwrn5_remove(phy->ndev);
-> > +     serdev_device_close(serdev);
-> > +     kfree_skb(phy->recv_skb);
-> > +     kfree(phy);
->
-> This does not look like tested...
->
-
-I tested this code using unbind of the serial device.
-It worked and I saw the debugging log that i added for checking the
-code to be sure.
-
-> Best regards,
-> Krzysztof
---===============4377430932710451193==--
+--===============8421914211985534386==--
 
