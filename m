@@ -1,106 +1,149 @@
-Content-Type: multipart/mixed; boundary="===============6881553009655614690=="
+Content-Type: multipart/mixed; boundary="===============4801600784775775260=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 7/8] dt-bindings: nfc: ti, trf7970a: convert to dtschema
-Date: Mon, 11 Oct 2021 09:39:33 +0200
-Message-ID: <20211011073934.34340-8-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 8/8] dt-bindings: nfc: marvell, nci: convert to dtschema
+Date: Mon, 11 Oct 2021 09:39:34 +0200
+Message-ID: <20211011073934.34340-9-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211011073934.34340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6881553009655614690==
+--===============4801600784775775260==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Convert the TI TRF7970A NFC to DT schema format.
+Convert the Marvell NCI NFC controller to DT schema format.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/net/nfc/ti,trf7970a.yaml         | 98 +++++++++++++++++++
- .../devicetree/bindings/net/nfc/trf7970a.txt  | 43 --------
- MAINTAINERS                                   |  2 +-
- 3 files changed, 99 insertions(+), 44 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/net/nfc/ti,trf7970a.y=
+ .../bindings/net/nfc/marvell,nci.yaml         | 170 ++++++++++++++++++
+ .../devicetree/bindings/net/nfc/nfcmrvl.txt   |  84 ---------
+ 2 files changed, 170 insertions(+), 84 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/nfc/marvell,nci.y=
 aml
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/trf7970a.txt
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml b/D=
-ocumentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
+diff --git a/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml b/D=
+ocumentation/devicetree/bindings/net/nfc/marvell,nci.yaml
 new file mode 100644
-index 000000000000..40da2ac98978
+index 000000000000..15a45db3899a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
-@@ -0,0 +1,98 @@
++++ b/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml
+@@ -0,0 +1,170 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/net/nfc/ti,trf7970a.yaml#
++$id: http://devicetree.org/schemas/net/nfc/marvell,nci.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Texas Instruments TRF7970A RFID/NFC/15693 Transceiver
++title: Marvell International Ltd. NCI NFC controller
 +
 +maintainers:
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-+  - Mark Greer <mgreer@animalcreek.com>
 +
 +properties:
 +  compatible:
-+    const: ti,trf7970a
++    enum:
++      - marvell,nfc-i2c
++      - marvell,nfc-spi
++      - marvell,nfc-uart
 +
-+  autosuspend-delay:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Specify autosuspend delay in milliseconds.
-+
-+  clock-frequency:
-+    description: |
-+      Set to specify that the input frequency to the trf7970a is 13560000H=
-z or
-+      27120000Hz
-+
-+  en2-rf-quirk:
++  hci-muxed:
 +    type: boolean
 +    description: |
-+      Specify that the trf7970a being used has the "EN2 RF" erratum
++      Specifies that the chip is muxing NCI over HCI frames
 +
 +  interrupts:
 +    maxItems: 1
 +
-+  irq-status-read-quirk:
-+    type: boolean
-+    description: |
-+      Specify that the trf7970a being used has the "IRQ Status Read" errat=
-um
-+
 +  reg:
 +    maxItems: 1
 +
++  reset-n-io:
++    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    maxItems: 1
++    description: |
++      Output GPIO pin used to reset the chip (active low)
++
++  i2c-int-falling:
++    type: boolean
++    description: |
++      For I2C type of connection. Specifies that the chip read event shall=
+ be
++      trigged on falling edge.
++
++  i2c-int-rising:
++    type: boolean
++    description: |
++      For I2C type of connection.  Specifies that the chip read event shal=
+l be
++      trigged on rising edge.
++
++  break-control:
++    type: boolean
++    description: |
++      For UART type of connection. Specifies that the chip needs specific =
+break
++      management.
++
++  flow-control:
++    type: boolean
++    description: |
++      For UART type of connection. Specifies that the chip is using RTS/CT=
+S.
++
++  spi-cpha: true
++  spi-cpol: true
 +  spi-max-frequency: true
-+
-+  ti,enable-gpios:
-+    minItems: 1
-+    maxItems: 2
-+    description: |
-+      One or two GPIO entries used for 'EN' and 'EN2' pins on the TRF7970A=
-. EN2
-+      is optional.
-+
-+  vdd-io-supply:
-+    description: |
-+      Regulator specifying voltage for VDD-IO
-+
-+  vin-supply:
-+    description: |
-+      Regulator for supply voltage to VIN pin
 +
 +required:
 +  - compatible
-+  - interrupts
-+  - reg
-+  - spi-max-frequency
-+  - ti,enable-gpios
-+  - vin-supply
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: marvell,nfc-i2c
++    then:
++      properties:
++        break-control: false
++        flow-control: false
++        spi-cpha: false
++        spi-cpol: false
++        spi-max-frequency: false
++      required:
++        - reg
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: marvell,nfc-spi
++    then:
++      properties:
++        break-control: false
++        flow-control: false
++        i2c-int-falling: false
++        i2c-int-rising: false
++      required:
++        - reg
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: marvell,nfc-uart
++    then:
++      properties:
++        i2c-int-falling: false
++        i2c-int-rising: false
++        interrupts: false
++        spi-cpha: false
++        spi-cpol: false
++        spi-max-frequency: false
++        reg: false
 +
 +additionalProperties: false
 +
@@ -113,95 +156,149 @@ um
 +        #address-cells =3D <1>;
 +        #size-cells =3D <0>;
 +
-+        nfc(a)0 {
-+            compatible =3D "ti,trf7970a";
-+            reg =3D <0>;
++        nfc(a)8 {
++            compatible =3D "marvell,nfc-i2c";
++            reg =3D <0x8>;
 +
-+            pinctrl-names =3D "default";
-+            pinctrl-0 =3D <&trf7970a_default>;
-+            spi-max-frequency =3D <2000000>;
-+            interrupt-parent =3D <&gpio2>;
-+            interrupts =3D <14 0>;
++            interrupt-parent =3D <&gpio3>;
++            interrupts =3D <21 IRQ_TYPE_EDGE_RISING>;
 +
-+            ti,enable-gpios =3D <&gpio2 2 GPIO_ACTIVE_HIGH>,
-+                              <&gpio2 5 GPIO_ACTIVE_HIGH>;
-+            vin-supply =3D <&ldo3_reg>;
-+            vdd-io-supply =3D <&ldo2_reg>;
-+            autosuspend-delay =3D <30000>;
-+            irq-status-read-quirk;
-+            en2-rf-quirk;
-+            clock-frequency =3D <27120000>;
++            i2c-int-rising;
++
++            reset-n-io =3D <&gpio3 19 GPIO_ACTIVE_HIGH>;
 +        };
 +    };
-diff --git a/Documentation/devicetree/bindings/net/nfc/trf7970a.txt b/Docum=
-entation/devicetree/bindings/net/nfc/trf7970a.txt
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        nfc(a)0 {
++            compatible =3D "marvell,nfc-spi";
++            reg =3D <0>;
++
++            spi-max-frequency =3D <3000000>;
++            spi-cpha;
++            spi-cpol;
++
++            interrupt-parent =3D <&gpio1>;
++            interrupts =3D <17 IRQ_TYPE_EDGE_RISING>;
++
++            reset-n-io =3D <&gpio3 19 GPIO_ACTIVE_HIGH>;
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    uart {
++        nfc {
++            compatible =3D "marvell,nfc-uart";
++
++            reset-n-io =3D <&gpio3 16 GPIO_ACTIVE_HIGH>;
++
++            hci-muxed;
++            flow-control;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt b/Docume=
+ntation/devicetree/bindings/net/nfc/nfcmrvl.txt
 deleted file mode 100644
-index ba1934b950e5..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/trf7970a.txt
+index c9b35251bb20..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt
 +++ /dev/null
-@@ -1,43 +0,0 @@
--* Texas Instruments TRF7970A RFID/NFC/15693 Transceiver
+@@ -1,84 +0,0 @@
+-* Marvell International Ltd. NCI NFC Controller
 -
 -Required properties:
--- compatible: Should be "ti,trf7970a".
--- spi-max-frequency: Maximum SPI frequency (<=3D 2000000).
--- interrupts: A single interrupt specifier.
--- ti,enable-gpios: One or two GPIO entries used for 'EN' and 'EN2' pins on=
- the
--  TRF7970A. EN2 is optional.
--- vin-supply: Regulator for supply voltage to VIN pin
+-- compatible: Should be:
+-  - "marvell,nfc-uart" or "mrvl,nfc-uart" for UART devices
+-  - "marvell,nfc-i2c" for I2C devices
+-  - "marvell,nfc-spi" for SPI devices
 -
--Optional SoC Specific Properties:
+-Optional SoC specific properties:
 -- pinctrl-names: Contains only one value - "default".
 -- pintctrl-0: Specifies the pin control groups used for this controller.
--- autosuspend-delay: Specify autosuspend delay in milliseconds.
--- irq-status-read-quirk: Specify that the trf7970a being used has the
--  "IRQ Status Read" erratum.
--- en2-rf-quirk: Specify that the trf7970a being used has the "EN2 RF"
--  erratum.
--- vdd-io-supply: Regulator specifying voltage for vdd-io
--- clock-frequency: Set to specify that the input frequency to the trf7970a=
- is 13560000Hz or 27120000Hz
+-- reset-n-io: Output GPIO pin used to reset the chip (active low).
+-- hci-muxed: Specifies that the chip is muxing NCI over HCI frames.
 -
--Example (for ARM-based BeagleBone with TRF7970A on SPI1):
+-Optional UART-based chip specific properties:
+-- flow-control: Specifies that the chip is using RTS/CTS.
+-- break-control: Specifies that the chip needs specific break management.
 -
--&spi1 {
+-Optional I2C-based chip specific properties:
+-- i2c-int-falling: Specifies that the chip read event shall be trigged on
+-  		   falling edge.
+-- i2c-int-rising: Specifies that the chip read event shall be trigged on
+-  		  rising edge.
 -
--	nfc@0 {
--		compatible =3D "ti,trf7970a";
--		reg =3D <0>;
--		pinctrl-names =3D "default";
--		pinctrl-0 =3D <&trf7970a_default>;
--		spi-max-frequency =3D <2000000>;
--		interrupt-parent =3D <&gpio2>;
--		interrupts =3D <14 0>;
--		ti,enable-gpios =3D <&gpio2 2 GPIO_ACTIVE_HIGH>,
--				  <&gpio2 5 GPIO_ACTIVE_HIGH>;
--		vin-supply =3D <&ldo3_reg>;
--		vdd-io-supply =3D <&ldo2_reg>;
--		autosuspend-delay =3D <30000>;
--		irq-status-read-quirk;
--		en2-rf-quirk;
--		clock-frequency =3D <27120000>;
+-Example (for ARM-based BeagleBoard Black with 88W8887 on UART5):
+-
+-&uart5 {
+-
+-	nfcmrvluart: nfcmrvluart(a)5 {
+-		compatible =3D "marvell,nfc-uart";
+-
+-		reset-n-io =3D <&gpio3 16 0>;
+-
+-		hci-muxed;
+-		flow-control;
+-        }
+-};
+-
+-
+-Example (for ARM-based BeagleBoard Black with 88W8887 on I2C1):
+-
+-&i2c1 {
+-	clock-frequency =3D <400000>;
+-
+-	nfcmrvli2c0: i2c(a)1 {
+-		compatible =3D "marvell,nfc-i2c";
+-
+-		reg =3D <0x8>;
+-
+-		/* I2C INT configuration */
+-		interrupt-parent =3D <&gpio3>;
+-		interrupts =3D <21 0>;
+-
+-		/* I2C INT trigger configuration */
+-		i2c-int-rising;
+-
+-		/* Reset IO */
+-		reset-n-io =3D <&gpio3 19 0>;
 -	};
 -};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3294aaf5e56c..23dd7aac38a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18916,7 +18916,7 @@ M:	Mark Greer <mgreer@animalcreek.com>
- L:	linux-wireless(a)vger.kernel.org
- L:	linux-nfc(a)lists.01.org (subscribers-only)
- S:	Supported
--F:	Documentation/devicetree/bindings/net/nfc/trf7970a.txt
-+F:	Documentation/devicetree/bindings/net/nfc/ti,trf7970a.yaml
- F:	drivers/nfc/trf7970a.c
- =
-
- TI TSC2046 ADC DRIVER
+-
+-
+-Example (for ARM-based BeagleBoard Black on SPI0):
+-
+-&spi0 {
+-
+-	mrvlnfcspi0: spi(a)0 {
+-		compatible =3D "marvell,nfc-spi";
+-
+-		reg =3D <0>;
+-
+-		/* SPI Bus configuration */
+-		spi-max-frequency =3D <3000000>;
+-		spi-cpha;
+-		spi-cpol;
+-
+-		/* SPI INT configuration */
+-		interrupt-parent =3D <&gpio1>;
+-		interrupts =3D <17 0>;
+-
+-		/* Reset IO */
+-       		reset-n-io =3D <&gpio3 19 0>;
+-	};
+-};
 -- =
 
 2.30.2
 
---===============6881553009655614690==--
+--===============4801600784775775260==--
 
