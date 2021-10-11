@@ -1,43 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============4801600784775775260=="
+Content-Type: multipart/mixed; boundary="===============7769873066604358272=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 8/8] dt-bindings: nfc: marvell, nci: convert to dtschema
-Date: Mon, 11 Oct 2021 09:39:34 +0200
-Message-ID: <20211011073934.34340-9-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 6/8] dt-bindings: nfc: st, nci: convert to dtschema
+Date: Mon, 11 Oct 2021 09:39:32 +0200
+Message-ID: <20211011073934.34340-7-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211011073934.34340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4801600784775775260==
+--===============7769873066604358272==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Convert the Marvell NCI NFC controller to DT schema format.
+Convert the ST NCI (ST21NFCB) NFC controller to DT schema format.
+
+Changes during bindings conversion:
+1. Add a new required "reg" property for SPI binding, because SPI child
+   devices use it as chip-select.
+2. Drop the "clock-frequency" property during conversion because it is a
+   property of I2C bus controller, not I2C slave device.  It was also
+   never used by the driver.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/net/nfc/marvell,nci.yaml         | 170 ++++++++++++++++++
- .../devicetree/bindings/net/nfc/nfcmrvl.txt   |  84 ---------
- 2 files changed, 170 insertions(+), 84 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/net/nfc/marvell,nci.y=
-aml
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt
+ .../bindings/net/nfc/st,st-nci.yaml           | 106 ++++++++++++++++++
+ .../bindings/net/nfc/st-nci-i2c.txt           |  38 -------
+ .../bindings/net/nfc/st-nci-spi.txt           |  36 ------
+ 3 files changed, 106 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
+ delete mode 100644 Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml b/D=
-ocumentation/devicetree/bindings/net/nfc/marvell,nci.yaml
+diff --git a/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml b/Doc=
+umentation/devicetree/bindings/net/nfc/st,st-nci.yaml
 new file mode 100644
-index 000000000000..15a45db3899a
+index 000000000000..a6a1bc788d29
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml
-@@ -0,0 +1,170 @@
++++ b/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
+@@ -0,0 +1,106 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/net/nfc/marvell,nci.yaml#
++$id: http://devicetree.org/schemas/net/nfc/st,st-nci.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Marvell International Ltd. NCI NFC controller
++title: STMicroelectronics ST NCI NFC controller
 +
 +maintainers:
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
@@ -45,14 +53,17 @@ index 000000000000..15a45db3899a
 +properties:
 +  compatible:
 +    enum:
-+      - marvell,nfc-i2c
-+      - marvell,nfc-spi
-+      - marvell,nfc-uart
++      - st,st21nfcb-i2c
++      - st,st21nfcb-spi
++      - st,st21nfcc-i2c
 +
-+  hci-muxed:
++  reset-gpios:
++    description: Output GPIO pin used for resetting the controller
++
++  ese-present:
 +    type: boolean
 +    description: |
-+      Specifies that the chip is muxing NCI over HCI frames
++      Specifies that an ese is physically connected to the controller
 +
 +  interrupts:
 +    maxItems: 1
@@ -60,90 +71,33 @@ index 000000000000..15a45db3899a
 +  reg:
 +    maxItems: 1
 +
-+  reset-n-io:
-+    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+    maxItems: 1
-+    description: |
-+      Output GPIO pin used to reset the chip (active low)
-+
-+  i2c-int-falling:
-+    type: boolean
-+    description: |
-+      For I2C type of connection. Specifies that the chip read event shall=
- be
-+      trigged on falling edge.
-+
-+  i2c-int-rising:
-+    type: boolean
-+    description: |
-+      For I2C type of connection.  Specifies that the chip read event shal=
-l be
-+      trigged on rising edge.
-+
-+  break-control:
-+    type: boolean
-+    description: |
-+      For UART type of connection. Specifies that the chip needs specific =
-break
-+      management.
-+
-+  flow-control:
-+    type: boolean
-+    description: |
-+      For UART type of connection. Specifies that the chip is using RTS/CT=
-S.
-+
-+  spi-cpha: true
-+  spi-cpol: true
 +  spi-max-frequency: true
++
++  uicc-present:
++    type: boolean
++    description: |
++      Specifies that the uicc swp signal can be physically connected to the
++      controller
 +
 +required:
 +  - compatible
++  - interrupts
++  - reg
++  - reset-gpios
 +
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: marvell,nfc-i2c
-+    then:
-+      properties:
-+        break-control: false
-+        flow-control: false
-+        spi-cpha: false
-+        spi-cpol: false
-+        spi-max-frequency: false
-+      required:
-+        - reg
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: marvell,nfc-spi
-+    then:
-+      properties:
-+        break-control: false
-+        flow-control: false
-+        i2c-int-falling: false
-+        i2c-int-rising: false
-+      required:
-+        - reg
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: marvell,nfc-uart
-+    then:
-+      properties:
-+        i2c-int-falling: false
-+        i2c-int-rising: false
-+        interrupts: false
-+        spi-cpha: false
-+        spi-cpol: false
-+        spi-max-frequency: false
-+        reg: false
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - st,st21nfcb-i2c
++          - st,st21nfcc-i2c
++then:
++  properties:
++    spi-max-frequency: false
++else:
++  required:
++    - spi-max-frequency
 +
 +additionalProperties: false
 +
@@ -157,15 +111,15 @@ S.
 +        #size-cells =3D <0>;
 +
 +        nfc(a)8 {
-+            compatible =3D "marvell,nfc-i2c";
-+            reg =3D <0x8>;
++            compatible =3D "st,st21nfcb-i2c";
++            reg =3D <0x08>;
 +
-+            interrupt-parent =3D <&gpio3>;
-+            interrupts =3D <21 IRQ_TYPE_EDGE_RISING>;
++            interrupt-parent =3D <&gpio5>;
++            interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
++            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
 +
-+            i2c-int-rising;
-+
-+            reset-n-io =3D <&gpio3 19 GPIO_ACTIVE_HIGH>;
++            ese-present;
++            uicc-present;
 +        };
 +    };
 +
@@ -178,127 +132,110 @@ S.
 +        #size-cells =3D <0>;
 +
 +        nfc(a)0 {
-+            compatible =3D "marvell,nfc-spi";
++            compatible =3D "st,st21nfcb-spi";
 +            reg =3D <0>;
 +
-+            spi-max-frequency =3D <3000000>;
-+            spi-cpha;
-+            spi-cpol;
++            spi-max-frequency =3D <4000000>;
 +
-+            interrupt-parent =3D <&gpio1>;
-+            interrupts =3D <17 IRQ_TYPE_EDGE_RISING>;
++            interrupt-parent =3D <&gpio5>;
++            interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
++            reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
 +
-+            reset-n-io =3D <&gpio3 19 GPIO_ACTIVE_HIGH>;
++            ese-present;
++            uicc-present;
 +        };
 +    };
-+
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    uart {
-+        nfc {
-+            compatible =3D "marvell,nfc-uart";
-+
-+            reset-n-io =3D <&gpio3 16 GPIO_ACTIVE_HIGH>;
-+
-+            hci-muxed;
-+            flow-control;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt b/Docume=
-ntation/devicetree/bindings/net/nfc/nfcmrvl.txt
+diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt b/Doc=
+umentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
 deleted file mode 100644
-index c9b35251bb20..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/nfcmrvl.txt
+index baa8f8133d19..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/st-nci-i2c.txt
 +++ /dev/null
-@@ -1,84 +0,0 @@
--* Marvell International Ltd. NCI NFC Controller
+@@ -1,38 +0,0 @@
+-* STMicroelectronics SAS. ST NCI NFC Controller
 -
 -Required properties:
--- compatible: Should be:
--  - "marvell,nfc-uart" or "mrvl,nfc-uart" for UART devices
--  - "marvell,nfc-i2c" for I2C devices
--  - "marvell,nfc-spi" for SPI devices
+-- compatible: Should be "st,st21nfcb-i2c" or "st,st21nfcc-i2c".
+-- clock-frequency: I=C2=B2C work frequency.
+-- reg: address on the bus
+-- interrupts: GPIO interrupt to which the chip is connected
+-- reset-gpios: Output GPIO pin used to reset the ST21NFCB
 -
--Optional SoC specific properties:
+-Optional SoC Specific Properties:
 -- pinctrl-names: Contains only one value - "default".
 -- pintctrl-0: Specifies the pin control groups used for this controller.
--- reset-n-io: Output GPIO pin used to reset the chip (active low).
--- hci-muxed: Specifies that the chip is muxing NCI over HCI frames.
+-- ese-present: Specifies that an ese is physically connected to the nfc
+-controller.
+-- uicc-present: Specifies that the uicc swp signal can be physically
+-connected to the nfc controller.
 -
--Optional UART-based chip specific properties:
--- flow-control: Specifies that the chip is using RTS/CTS.
--- break-control: Specifies that the chip needs specific break management.
+-Example (for ARM-based BeagleBoard xM with ST21NFCB on I2C2):
 -
--Optional I2C-based chip specific properties:
--- i2c-int-falling: Specifies that the chip read event shall be trigged on
--  		   falling edge.
--- i2c-int-rising: Specifies that the chip read event shall be trigged on
--  		  rising edge.
--
--Example (for ARM-based BeagleBoard Black with 88W8887 on UART5):
--
--&uart5 {
--
--	nfcmrvluart: nfcmrvluart(a)5 {
--		compatible =3D "marvell,nfc-uart";
--
--		reset-n-io =3D <&gpio3 16 0>;
--
--		hci-muxed;
--		flow-control;
--        }
--};
+-&i2c2 {
 -
 -
--Example (for ARM-based BeagleBoard Black with 88W8887 on I2C1):
+-	st21nfcb: st21nfcb(a)8 {
 -
--&i2c1 {
--	clock-frequency =3D <400000>;
+-		compatible =3D "st,st21nfcb-i2c";
 -
--	nfcmrvli2c0: i2c(a)1 {
--		compatible =3D "marvell,nfc-i2c";
+-		reg =3D <0x08>;
+-		clock-frequency =3D <400000>;
 -
--		reg =3D <0x8>;
+-		interrupt-parent =3D <&gpio5>;
+-		interrupts =3D <2 IRQ_TYPE_LEVEL_HIGH>;
 -
--		/* I2C INT configuration */
--		interrupt-parent =3D <&gpio3>;
--		interrupts =3D <21 0>;
+-		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
 -
--		/* I2C INT trigger configuration */
--		i2c-int-rising;
--
--		/* Reset IO */
--		reset-n-io =3D <&gpio3 19 0>;
+-		ese-present;
+-		uicc-present;
 -	};
 -};
+diff --git a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt b/Doc=
+umentation/devicetree/bindings/net/nfc/st-nci-spi.txt
+deleted file mode 100644
+index d33343330b94..000000000000
+--- a/Documentation/devicetree/bindings/net/nfc/st-nci-spi.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-* STMicroelectronics SAS. ST NCI NFC Controller
+-
+-Required properties:
+-- compatible: Should be "st,st21nfcb-spi"
+-- spi-max-frequency: Maximum SPI frequency (<=3D 4000000).
+-- interrupts: GPIO interrupt to which the chip is connected
+-- reset-gpios: Output GPIO pin used to reset the ST21NFCB
+-
+-Optional SoC Specific Properties:
+-- pinctrl-names: Contains only one value - "default".
+-- pintctrl-0: Specifies the pin control groups used for this controller.
+-- ese-present: Specifies that an ese is physically connected to the nfc
+-controller.
+-- uicc-present: Specifies that the uicc swp signal can be physically
+-connected to the nfc controller.
+-
+-Example (for ARM-based BeagleBoard xM with ST21NFCB on SPI4):
+-
+-&mcspi4 {
 -
 -
--Example (for ARM-based BeagleBoard Black on SPI0):
+-	st21nfcb: st21nfcb@0 {
 -
--&spi0 {
+-		compatible =3D "st,st21nfcb-spi";
 -
--	mrvlnfcspi0: spi(a)0 {
--		compatible =3D "marvell,nfc-spi";
+-		clock-frequency =3D <4000000>;
 -
--		reg =3D <0>;
+-		interrupt-parent =3D <&gpio5>;
+-		interrupts =3D <2 IRQ_TYPE_EDGE_RISING>;
 -
--		/* SPI Bus configuration */
--		spi-max-frequency =3D <3000000>;
--		spi-cpha;
--		spi-cpol;
+-		reset-gpios =3D <&gpio5 29 GPIO_ACTIVE_HIGH>;
 -
--		/* SPI INT configuration */
--		interrupt-parent =3D <&gpio1>;
--		interrupts =3D <17 0>;
--
--		/* Reset IO */
--       		reset-n-io =3D <&gpio3 19 0>;
+-		ese-present;
+-		uicc-present;
 -	};
 -};
 -- =
 
 2.30.2
 
---===============4801600784775775260==--
+--===============7769873066604358272==--
 
