@@ -1,161 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============4851317162857814390=="
+Content-Type: multipart/mixed; boundary="===============3276897098728672118=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 3/8] dt-bindings: nfc: nxp, pn532: convert to dtschema
-Date: Mon, 11 Oct 2021 09:39:29 +0200
-Message-ID: <20211011073934.34340-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 2/8] dt-bindings: nfc: nxp, nci: document NXP PN547 binding
+Date: Mon, 11 Oct 2021 09:39:28 +0200
+Message-ID: <20211011073934.34340-3-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211011073934.34340-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4851317162857814390==
+--===============3276897098728672118==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Convert the NXP PN532 NFC controller to DT schema format.
-
-Drop the "clock-frequency" property during conversion because it is a
-property of I2C bus controller, not I2C slave device.  It was also never
-used by the driver.
+NXP PN547 NFC controller seems to be compatible with the NXP NCI and
+there already DTS files using two compatibles.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/net/nfc/nxp,pn532.yaml           | 65 +++++++++++++++++++
- .../devicetree/bindings/net/nfc/pn532.txt     | 46 -------------
- 2 files changed, 65 insertions(+), 46 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
- delete mode 100644 Documentation/devicetree/bindings/net/nfc/pn532.txt
+ Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml b/Doc=
-umentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
-new file mode 100644
-index 000000000000..d8ba5a18db98
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/nfc/nxp,pn532.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NXP Semiconductors PN532 NFC controller
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-+
-+properties:
-+  compatible:
+diff --git a/Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml b/Docum=
+entation/devicetree/bindings/net/nfc/nxp,nci.yaml
+index 70634d20d4d7..7465aea2e1c0 100644
+--- a/Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
++++ b/Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
+@@ -12,7 +12,11 @@ maintainers:
+ =
+
+ properties:
+   compatible:
+-    const: nxp,nxp-nci-i2c
 +    oneOf:
-+      - const: nxp,pn532
-+      - description: Deprecated bindings
-+        enum:
-+          - nxp,pn532-i2c
-+          - nxp,pn533-i2c
-+        deprecated: true
-+
-+  interrupts:
-+    description: Required if connected via I2C
-+    maxItems: 1
-+
-+  reg:
-+    description: Required if connected via I2C
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+
-+dependencies:
-+  interrupts: [ 'reg' ]
-+
-+additionalProperties: false
-+
-+examples:
-+  # PN532 on I2C bus
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        nfc(a)24 {
-+            compatible =3D "nxp,pn532";
-+
-+            reg =3D <0x24>;
-+
-+            interrupt-parent =3D <&gpio1>;
-+            interrupts =3D <17 IRQ_TYPE_LEVEL_HIGH>;
-+        };
-+    };
-+
-+  # PN532 connected via UART
-+  - |
-+    serial(a)49042000 {
-+        reg =3D <0x49042000 0x400>;
-+
-+        nfc {
-+            compatible =3D "nxp,pn532";
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/net/nfc/pn532.txt b/Document=
-ation/devicetree/bindings/net/nfc/pn532.txt
-deleted file mode 100644
-index a5507dc499bc..000000000000
---- a/Documentation/devicetree/bindings/net/nfc/pn532.txt
-+++ /dev/null
-@@ -1,46 +0,0 @@
--* NXP Semiconductors PN532 NFC Controller
--
--Required properties:
--- compatible: Should be
--    - "nxp,pn532" Place a node with this inside the devicetree node of the=
- bus
--                  where the NFC chip is connected to.
--                  Currently the kernel has phy bindings for uart and i2c.
--    - "nxp,pn532-i2c" (DEPRECATED) only works for the i2c binding.
--    - "nxp,pn533-i2c" (DEPRECATED) only works for the i2c binding.
--
--Required properties if connected on i2c:
--- clock-frequency: I=C2=B2C work frequency.
--- reg: for the I=C2=B2C bus address. This is fixed at 0x24 for the PN532.
--- interrupts: GPIO interrupt to which the chip is connected
--
--Optional SoC Specific Properties:
--- pinctrl-names: Contains only one value - "default".
--- pintctrl-0: Specifies the pin control groups used for this controller.
--
--Example (for ARM-based BeagleBone with PN532 on I2C2):
--
--&i2c2 {
--
--
--	pn532: nfc(a)24 {
--
--		compatible =3D "nxp,pn532";
--
--		reg =3D <0x24>;
--		clock-frequency =3D <400000>;
--
--		interrupt-parent =3D <&gpio1>;
--		interrupts =3D <17 IRQ_TYPE_EDGE_FALLING>;
--
--	};
--};
--
--Example (for PN532 connected via uart):
--
--uart4: serial(a)49042000 {
--        compatible =3D "ti,omap3-uart";
--
--        pn532: nfc {
--                compatible =3D "nxp,pn532";
--        };
--};
++      - const: nxp,nxp-nci-i2c
++      - items:
++          - const: nxp,pn547
++          - const: nxp,nxp-nci-i2c
+ =
+
+   enable-gpios:
+     description: Output GPIO pin used for enabling/disabling the controller
 -- =
 
 2.30.2
 
---===============4851317162857814390==--
+--===============3276897098728672118==--
 
