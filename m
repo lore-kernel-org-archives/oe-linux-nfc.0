@@ -1,227 +1,147 @@
-Content-Type: multipart/mixed; boundary="===============1389175321919330654=="
+Content-Type: multipart/mixed; boundary="===============3561736336137940975=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 3/7] nfc: s3fwrn5: simplify dereferencing pointer to struct device
-Date: Mon, 11 Oct 2021 15:38:31 +0200
-Message-ID: <20211011133835.236347-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v3 4/7] nfc: st-nci: drop unneeded debug prints
+Date: Mon, 11 Oct 2021 15:38:32 +0200
+Message-ID: <20211011133835.236347-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211011133835.236347-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1389175321919330654==
+--===============3561736336137940975==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Simplify the code dereferencing several pointers to reach the struct
-device.
+ftrace is a preferred and standard way to debug entering and exiting
+functions so drop useless debug prints.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/s3fwrn5/firmware.c | 29 +++++++++++------------------
- drivers/nfc/s3fwrn5/nci.c      | 18 +++++++-----------
- 2 files changed, 18 insertions(+), 29 deletions(-)
+ drivers/nfc/st-nci/i2c.c  | 4 ----
+ drivers/nfc/st-nci/ndlc.c | 4 ----
+ drivers/nfc/st-nci/se.c   | 6 ------
+ drivers/nfc/st-nci/spi.c  | 4 ----
+ 4 files changed, 18 deletions(-)
 
-diff --git a/drivers/nfc/s3fwrn5/firmware.c b/drivers/nfc/s3fwrn5/firmware.c
-index 1af7a1e632cf..c20fdbac51c5 100644
---- a/drivers/nfc/s3fwrn5/firmware.c
-+++ b/drivers/nfc/s3fwrn5/firmware.c
-@@ -357,6 +357,7 @@ s3fwrn5_fw_is_custom(const struct s3fwrn5_fw_cmd_get_bo=
-otinfo_rsp *bootinfo)
- =
-
- int s3fwrn5_fw_setup(struct s3fwrn5_fw_info *fw_info)
+diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
+index ccf6152ebb9f..cbd968f013c7 100644
+--- a/drivers/nfc/st-nci/i2c.c
++++ b/drivers/nfc/st-nci/i2c.c
+@@ -157,7 +157,6 @@ static int st_nci_i2c_read(struct st_nci_i2c_phy *phy,
+ static irqreturn_t st_nci_irq_thread_fn(int irq, void *phy_id)
  {
-+	struct device *dev =3D &fw_info->ndev->nfc_dev->dev;
- 	struct s3fwrn5_fw_cmd_get_bootinfo_rsp bootinfo;
- 	int ret;
+ 	struct st_nci_i2c_phy *phy =3D phy_id;
+-	struct i2c_client *client;
+ 	struct sk_buff *skb =3D NULL;
+ 	int r;
  =
 
-@@ -364,8 +365,7 @@ int s3fwrn5_fw_setup(struct s3fwrn5_fw_info *fw_info)
- =
-
- 	ret =3D s3fwrn5_fw_get_bootinfo(fw_info, &bootinfo);
- 	if (ret < 0) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Failed to get bootinfo, ret=3D%02x\n", ret);
-+		dev_err(dev, "Failed to get bootinfo, ret=3D%02x\n", ret);
- 		goto err;
+@@ -166,9 +165,6 @@ static irqreturn_t st_nci_irq_thread_fn(int irq, void *=
+phy_id)
+ 		return IRQ_NONE;
  	}
  =
 
-@@ -373,8 +373,7 @@ int s3fwrn5_fw_setup(struct s3fwrn5_fw_info *fw_info)
+-	client =3D phy->i2c_dev;
+-	dev_dbg(&client->dev, "IRQ\n");
+-
+ 	if (phy->ndlc->hard_fault)
+ 		return IRQ_HANDLED;
  =
 
- 	ret =3D s3fwrn5_fw_get_base_addr(&bootinfo, &fw_info->base_addr);
- 	if (ret < 0) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Unknown hardware version\n");
-+		dev_err(dev, "Unknown hardware version\n");
- 		goto err;
- 	}
- =
-
-@@ -409,6 +408,7 @@ bool s3fwrn5_fw_check_version(const struct s3fwrn5_fw_i=
-nfo *fw_info, u32 version
- =
-
- int s3fwrn5_fw_download(struct s3fwrn5_fw_info *fw_info)
+diff --git a/drivers/nfc/st-nci/ndlc.c b/drivers/nfc/st-nci/ndlc.c
+index e9dc313b333e..755460a73c0d 100644
+--- a/drivers/nfc/st-nci/ndlc.c
++++ b/drivers/nfc/st-nci/ndlc.c
+@@ -239,8 +239,6 @@ static void ndlc_t1_timeout(struct timer_list *t)
  {
-+	struct device *dev =3D &fw_info->ndev->nfc_dev->dev;
- 	struct s3fwrn5_fw_image *fw =3D &fw_info->fw;
- 	u8 hash_data[SHA1_DIGEST_SIZE];
- 	struct crypto_shash *tfm;
-@@ -421,8 +421,7 @@ int s3fwrn5_fw_download(struct s3fwrn5_fw_info *fw_info)
+ 	struct llt_ndlc *ndlc =3D from_timer(ndlc, t, t1_timer);
  =
 
- 	tfm =3D crypto_alloc_shash("sha1", 0, 0);
- 	if (IS_ERR(tfm)) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Cannot allocate shash (code=3D%pe)\n", tfm);
-+		dev_err(dev, "Cannot allocate shash (code=3D%pe)\n", tfm);
- 		return PTR_ERR(tfm);
- 	}
- =
-
-@@ -430,21 +429,18 @@ int s3fwrn5_fw_download(struct s3fwrn5_fw_info *fw_in=
-fo)
- =
-
- 	crypto_free_shash(tfm);
- 	if (ret) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Cannot compute hash (code=3D%d)\n", ret);
-+		dev_err(dev, "Cannot compute hash (code=3D%d)\n", ret);
- 		return ret;
- 	}
- =
-
- 	/* Firmware update process */
- =
-
--	dev_info(&fw_info->ndev->nfc_dev->dev,
--		"Firmware update: %s\n", fw_info->fw_name);
-+	dev_info(dev, "Firmware update: %s\n", fw_info->fw_name);
- =
-
- 	ret =3D s3fwrn5_fw_enter_update_mode(fw_info, hash_data,
- 		SHA1_DIGEST_SIZE, fw_info->sig, fw_info->sig_size);
- 	if (ret < 0) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Unable to enter update mode\n");
-+		dev_err(dev, "Unable to enter update mode\n");
- 		return ret;
- 	}
- =
-
-@@ -452,21 +448,18 @@ int s3fwrn5_fw_download(struct s3fwrn5_fw_info *fw_in=
-fo)
- 		ret =3D s3fwrn5_fw_update_sector(fw_info,
- 			fw_info->base_addr + off, fw->image + off);
- 		if (ret < 0) {
--			dev_err(&fw_info->ndev->nfc_dev->dev,
--				"Firmware update error (code=3D%d)\n", ret);
-+			dev_err(dev, "Firmware update error (code=3D%d)\n", ret);
- 			return ret;
- 		}
- 	}
- =
-
- 	ret =3D s3fwrn5_fw_complete_update_mode(fw_info);
- 	if (ret < 0) {
--		dev_err(&fw_info->ndev->nfc_dev->dev,
--			"Unable to complete update mode\n");
-+		dev_err(dev, "Unable to complete update mode\n");
- 		return ret;
- 	}
- =
-
--	dev_info(&fw_info->ndev->nfc_dev->dev,
--		"Firmware update: success\n");
-+	dev_info(dev, "Firmware update: success\n");
- =
-
- 	return ret;
+-	pr_debug("\n");
+-
+ 	schedule_work(&ndlc->sm_work);
  }
-diff --git a/drivers/nfc/s3fwrn5/nci.c b/drivers/nfc/s3fwrn5/nci.c
-index e374e670b36b..ca6828f55ba0 100644
---- a/drivers/nfc/s3fwrn5/nci.c
-+++ b/drivers/nfc/s3fwrn5/nci.c
-@@ -47,6 +47,7 @@ const struct nci_driver_ops s3fwrn5_nci_prop_ops[4] =3D {
  =
 
- int s3fwrn5_nci_rf_configure(struct s3fwrn5_info *info, const char *fw_nam=
-e)
+@@ -248,8 +246,6 @@ static void ndlc_t2_timeout(struct timer_list *t)
  {
-+	struct device *dev =3D &info->ndev->nfc_dev->dev;
- 	const struct firmware *fw;
- 	struct nci_prop_fw_cfg_cmd fw_cfg;
- 	struct nci_prop_set_rfreg_cmd set_rfreg;
-@@ -55,7 +56,7 @@ int s3fwrn5_nci_rf_configure(struct s3fwrn5_info *info, c=
-onst char *fw_name)
- 	int i, len;
- 	int ret;
+ 	struct llt_ndlc *ndlc =3D from_timer(ndlc, t, t2_timer);
  =
 
--	ret =3D request_firmware(&fw, fw_name, &info->ndev->nfc_dev->dev);
-+	ret =3D request_firmware(&fw, fw_name, dev);
- 	if (ret < 0)
- 		return ret;
+-	pr_debug("\n");
+-
+ 	schedule_work(&ndlc->sm_work);
+ }
  =
 
-@@ -77,13 +78,11 @@ int s3fwrn5_nci_rf_configure(struct s3fwrn5_info *info,=
- const char *fw_name)
+diff --git a/drivers/nfc/st-nci/se.c b/drivers/nfc/st-nci/se.c
+index 5fd89f72969d..7764b1a4c3cf 100644
+--- a/drivers/nfc/st-nci/se.c
++++ b/drivers/nfc/st-nci/se.c
+@@ -638,8 +638,6 @@ int st_nci_se_io(struct nci_dev *ndev, u32 se_idx,
+ {
+ 	struct st_nci_info *info =3D nci_get_drvdata(ndev);
  =
 
- 	/* Start rfreg configuration */
+-	pr_debug("\n");
+-
+ 	switch (se_idx) {
+ 	case ST_NCI_ESE_HOST_ID:
+ 		info->se_info.cb =3D cb;
+@@ -671,8 +669,6 @@ static void st_nci_se_wt_timeout(struct timer_list *t)
+ 	u8 param =3D 0x01;
+ 	struct st_nci_info *info =3D from_timer(info, t, se_info.bwi_timer);
  =
 
--	dev_info(&info->ndev->nfc_dev->dev,
--		"rfreg configuration update: %s\n", fw_name);
-+	dev_info(dev, "rfreg configuration update: %s\n", fw_name);
+-	pr_debug("\n");
+-
+ 	info->se_info.bwi_active =3D false;
  =
 
- 	ret =3D nci_prop_cmd(info->ndev, NCI_PROP_START_RFREG, 0, NULL);
- 	if (ret < 0) {
--		dev_err(&info->ndev->nfc_dev->dev,
--			"Unable to start rfreg update\n");
-+		dev_err(dev, "Unable to start rfreg update\n");
- 		goto out;
+ 	if (!info->se_info.xch_error) {
+@@ -692,8 +688,6 @@ static void st_nci_se_activation_timeout(struct timer_l=
+ist *t)
+ 	struct st_nci_info *info =3D from_timer(info, t,
+ 					      se_info.se_active_timer);
+ =
+
+-	pr_debug("\n");
+-
+ 	info->se_info.se_active =3D false;
+ =
+
+ 	complete(&info->se_info.req_completion);
+diff --git a/drivers/nfc/st-nci/spi.c b/drivers/nfc/st-nci/spi.c
+index 0875b773fb41..4e723992e74c 100644
+--- a/drivers/nfc/st-nci/spi.c
++++ b/drivers/nfc/st-nci/spi.c
+@@ -169,7 +169,6 @@ static int st_nci_spi_read(struct st_nci_spi_phy *phy,
+ static irqreturn_t st_nci_irq_thread_fn(int irq, void *phy_id)
+ {
+ 	struct st_nci_spi_phy *phy =3D phy_id;
+-	struct spi_device *dev;
+ 	struct sk_buff *skb =3D NULL;
+ 	int r;
+ =
+
+@@ -178,9 +177,6 @@ static irqreturn_t st_nci_irq_thread_fn(int irq, void *=
+phy_id)
+ 		return IRQ_NONE;
  	}
  =
 
-@@ -97,8 +96,7 @@ int s3fwrn5_nci_rf_configure(struct s3fwrn5_info *info, c=
-onst char *fw_name)
- 		ret =3D nci_prop_cmd(info->ndev, NCI_PROP_SET_RFREG,
- 			len+1, (__u8 *)&set_rfreg);
- 		if (ret < 0) {
--			dev_err(&info->ndev->nfc_dev->dev,
--				"rfreg update error (code=3D%d)\n", ret);
-+			dev_err(dev, "rfreg update error (code=3D%d)\n", ret);
- 			goto out;
- 		}
- 		set_rfreg.index++;
-@@ -110,13 +108,11 @@ int s3fwrn5_nci_rf_configure(struct s3fwrn5_info *inf=
-o, const char *fw_name)
- 	ret =3D nci_prop_cmd(info->ndev, NCI_PROP_STOP_RFREG,
- 		sizeof(stop_rfreg), (__u8 *)&stop_rfreg);
- 	if (ret < 0) {
--		dev_err(&info->ndev->nfc_dev->dev,
--			"Unable to stop rfreg update\n");
-+		dev_err(dev, "Unable to stop rfreg update\n");
- 		goto out;
- 	}
+-	dev =3D phy->spi_dev;
+-	dev_dbg(&dev->dev, "IRQ\n");
+-
+ 	if (phy->ndlc->hard_fault)
+ 		return IRQ_HANDLED;
  =
 
--	dev_info(&info->ndev->nfc_dev->dev,
--		"rfreg configuration update: success\n");
-+	dev_info(dev, "rfreg configuration update: success\n");
- out:
- 	release_firmware(fw);
- 	return ret;
 -- =
 
 2.30.2
 
---===============1389175321919330654==--
+--===============3561736336137940975==--
 
