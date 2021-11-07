@@ -1,60 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============4800295084234966471=="
+Content-Type: multipart/mixed; boundary="===============3610949820197446222=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH] nfc: port100: lower verbosity of cancelled URB messages
-Date: Sun, 07 Nov 2021 15:14:00 +0100
-Message-ID: <20211107141400.523651-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 1/4] include: include endian.h to fix missing __BYTE_ORDER definition on Debian Stretch
+Date: Sun, 07 Nov 2021 18:26:16 +0100
+Message-ID: <20211107172619.13560-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4800295084234966471==
+--===============3610949820197446222==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-It is not an error to receive an URB with -ENOENT because it can come
-from regular user operations, e.g. pressing CTRL+C when running nfctool
-from neard.  Make it a debugging message, not an error.
+Code should pull explicitly headers for necessary symbols instead of
+relying on dependencies.  Lack of endian.h caused build failures on
+Debian Stretch:
+
+    In file included from tools/nfctool/ndef-decode.c:28:0:
+    include/near/types.h:43:5: error: "__BYTE_ORDER" is not defined [-Werro=
+r=3Dundef]
+     #if __BYTE_ORDER =3D=3D __LITTLE_ENDIAN
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/nfc/port100.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/types.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index 16ceb763594f..d7db1a0e6be1 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -624,7 +624,7 @@ static void port100_recv_response(struct urb *urb)
- 		break; /* success */
- 	case -ECONNRESET:
- 	case -ENOENT:
--		nfc_err(&dev->interface->dev,
-+		nfc_dbg(&dev->interface->dev,
- 			"The urb has been canceled (status %d)\n", urb->status);
- 		goto sched_wq;
- 	case -ESHUTDOWN:
-@@ -678,7 +678,7 @@ static void port100_recv_ack(struct urb *urb)
- 		break; /* success */
- 	case -ECONNRESET:
- 	case -ENOENT:
--		nfc_err(&dev->interface->dev,
-+		nfc_dbg(&dev->interface->dev,
- 			"The urb has been stopped (status %d)\n", urb->status);
- 		goto sched_wq;
- 	case -ESHUTDOWN:
-@@ -942,7 +942,7 @@ static void port100_send_complete(struct urb *urb)
- 		break; /* success */
- 	case -ECONNRESET:
- 	case -ENOENT:
--		nfc_err(&dev->interface->dev,
-+		nfc_dbg(&dev->interface->dev,
- 			"The urb has been stopped (status %d)\n", urb->status);
- 		break;
- 	case -ESHUTDOWN:
+diff --git a/include/types.h b/include/types.h
+index c4a8d6a31886..1dd8de530d58 100644
+--- a/include/types.h
++++ b/include/types.h
+@@ -23,6 +23,7 @@
+ #define __NEAR_TYPES_H
+ =
+
+ #include <byteswap.h>
++#include <endian.h>
+ =
+
+ #define near_get_unaligned(ptr)			\
+ ({						\
 -- =
 
 2.32.0
 
---===============4800295084234966471==--
+--===============3610949820197446222==--
 
