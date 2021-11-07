@@ -1,64 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============7560478583157764528=="
+Content-Type: multipart/mixed; boundary="===============4800295084234966471=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: task hung in port100_send_cmd_sync
-Date: Tue, 20 Sep 2022 15:54:29 +0200
-Message-ID: <18828928-415f-2faa-8069-b4d01fa38fc6@linaro.org>
-In-Reply-To: <CAB7eexL3ac2jxVQ70Q06F6sK9VdwY2aoO=S6OqYu7DTgFMg6tQ@mail.gmail.com>
+Subject: [PATCH] nfc: port100: lower verbosity of cancelled URB messages
+Date: Sun, 07 Nov 2021 15:14:00 +0100
+Message-ID: <20211107141400.523651-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7560478583157764528==
+--===============4800295084234966471==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 18/09/2022 15:22, Rondreis wrote:
-> Hello,
-> =
+It is not an error to receive an URB with -ENOENT because it can come
+from regular user operations, e.g. pressing CTRL+C when running nfctool
+from neard.  Make it a debugging message, not an error.
 
-> When fuzzing the Linux kernel driver v6.0-rc4, the following crash was
-> triggered.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ drivers/nfc/port100.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Hi,
+diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
+index 16ceb763594f..d7db1a0e6be1 100644
+--- a/drivers/nfc/port100.c
++++ b/drivers/nfc/port100.c
+@@ -624,7 +624,7 @@ static void port100_recv_response(struct urb *urb)
+ 		break; /* success */
+ 	case -ECONNRESET:
+ 	case -ENOENT:
+-		nfc_err(&dev->interface->dev,
++		nfc_dbg(&dev->interface->dev,
+ 			"The urb has been canceled (status %d)\n", urb->status);
+ 		goto sched_wq;
+ 	case -ESHUTDOWN:
+@@ -678,7 +678,7 @@ static void port100_recv_ack(struct urb *urb)
+ 		break; /* success */
+ 	case -ECONNRESET:
+ 	case -ENOENT:
+-		nfc_err(&dev->interface->dev,
++		nfc_dbg(&dev->interface->dev,
+ 			"The urb has been stopped (status %d)\n", urb->status);
+ 		goto sched_wq;
+ 	case -ESHUTDOWN:
+@@ -942,7 +942,7 @@ static void port100_send_complete(struct urb *urb)
+ 		break; /* success */
+ 	case -ECONNRESET:
+ 	case -ENOENT:
+-		nfc_err(&dev->interface->dev,
++		nfc_dbg(&dev->interface->dev,
+ 			"The urb has been stopped (status %d)\n", urb->status);
+ 		break;
+ 	case -ESHUTDOWN:
+-- =
 
-Thanks for the report.
+2.32.0
 
-> =
-
-> HEAD commit: 7e18e42e4b280c85b76967a9106a13ca61c16179
-> git tree: upstream
-> =
-
-> kernel config: https://pastebin.com/raw/xtrgsXP3
-> C reproducer: https://pastebin.com/raw/hjSnLzDh
-> console output: https://pastebin.com/raw/3ixbVNcR
-> =
-
-> Basically, in the c reproducer, we use the gadget module to emulate
-> attaching a USB device(vendor id: 0x54c, product id: 0x6c1, with the
-> printer function) and executing some simple sequence of system calls.
-> To reproduce this crash, we utilize a third-party library to emulate
-> the attaching process: https://github.com/linux-usb-gadgets/libusbgx.
-> Just clone this repository, install it, and compile the c
-> reproducer with ``` gcc crash.c -lusbgx -lconfig -o crash ``` will do
-> the trick.
-> =
-
-> I would appreciate it if you have any idea how to solve this bug.
-
-You can try to bisect. Or you can build kernel with lockdep and try to
-reproduce.
-
-> =
-
-> The crash report is as follows:
-
-It's not a crash, but a blocked task, so there might be deadlock,
-incorrect synchronization or some missing cleanup path. Actually quite a
-lot could lead to this.
-
-Best regards,
-Krzysztof
---===============7560478583157764528==--
+--===============4800295084234966471==--
 
