@@ -1,48 +1,76 @@
-Content-Type: multipart/mixed; boundary="===============3610949820197446222=="
+Content-Type: multipart/mixed; boundary="===============8255470812859366759=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 1/4] include: include endian.h to fix missing __BYTE_ORDER definition on Debian Stretch
-Date: Sun, 07 Nov 2021 18:26:16 +0100
-Message-ID: <20211107172619.13560-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 2/4] ci: add Ubuntu Impish (21.10)
+Date: Sun, 07 Nov 2021 18:26:17 +0100
+Message-ID: <20211107172619.13560-2-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20211107172619.13560-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3610949820197446222==
+--===============8255470812859366759==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Code should pull explicitly headers for necessary symbols instead of
-relying on dependencies.  Lack of endian.h caused build failures on
-Debian Stretch:
-
-    In file included from tools/nfctool/ndef-decode.c:28:0:
-    include/near/types.h:43:5: error: "__BYTE_ORDER" is not defined [-Werro=
-r=3Dundef]
-     #if __BYTE_ORDER =3D=3D __LITTLE_ENDIAN
+Build on newest Ubuntu 21.10.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- include/types.h | 1 +
- 1 file changed, 1 insertion(+)
+ .github/workflows/ci.yml | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/include/types.h b/include/types.h
-index c4a8d6a31886..1dd8de530d58 100644
---- a/include/types.h
-+++ b/include/types.h
-@@ -23,6 +23,7 @@
- #define __NEAR_TYPES_H
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 734969325692..5540ad2ebc39 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -31,6 +31,7 @@ jobs:
+           - fedora:latest
+           - fedora:33
+           - fedora:32
++          - ubuntu:impish
+           - ubuntu:hirsute
+           - ubuntu:focal
+           - ubuntu:bionic
+@@ -97,6 +98,20 @@ jobs:
+             variant: sanitizers
  =
 
- #include <byteswap.h>
-+#include <endian.h>
+           # Ubuntu 32-bit builds
++          - container: "ubuntu:impish"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: maintainer
++            variant: i386
++
++          - container: "ubuntu:impish"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: no-maintainer
++            variant: i386
++
+           - container: "ubuntu:hirsute"
+             arch: i386
+             compiler: gcc -m32
+@@ -126,6 +141,12 @@ jobs:
+             variant: i386
  =
 
- #define near_get_unaligned(ptr)			\
- ({						\
+           # Ubuntu GCC sanitizer builds
++          - container: "ubuntu:impish"
++            arch: x86-64
++            compiler: gcc
++            mode: maintainer
++            variant: sanitizers
++
+           - container: "ubuntu:hirsute"
+             arch: x86-64
+             compiler: gcc
 -- =
 
 2.32.0
 
---===============3610949820197446222==--
+--===============8255470812859366759==--
 
