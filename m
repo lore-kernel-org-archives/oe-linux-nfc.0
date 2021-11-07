@@ -1,101 +1,89 @@
-Content-Type: multipart/mixed; boundary="===============7837865895172270723=="
+Content-Type: multipart/mixed; boundary="===============2788132835450977036=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH 3/4] ci: add Debian Buster and Stretch
-Date: Sun, 07 Nov 2021 18:26:18 +0100
-Message-ID: <20211107172619.13560-3-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH 4/4] ci: add Debian Testing for i386 and cross compile
+Date: Sun, 07 Nov 2021 18:26:19 +0100
+Message-ID: <20211107172619.13560-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211107172619.13560-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7837865895172270723==
+--===============2788132835450977036==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add older releases of Debian: Buster and Stretch.
+Build also Debian Testing on i386 and cross compile configurations.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .github/workflows/ci.yml | 39 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ .github/workflows/ci.yml | 42 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index 5540ad2ebc39..aed8c089351d 100644
+index aed8c089351d..2e1ad40debb9 100644
 --- a/.github/workflows/ci.yml
 +++ b/.github/workflows/ci.yml
-@@ -26,6 +26,9 @@ jobs:
-           - archlinux:latest
-           - debian:testing
-           - debian:stable
-+          - debian:bullseye
-+          - debian:buster
-+          - debian:stretch
-           # Fails on configure on GCC and clang (process restrictions?)
-           # - fedora:rawhide
-           - fedora:latest
-@@ -55,6 +58,34 @@ jobs:
-             mode: no-maintainer
+@@ -44,6 +44,20 @@ jobs:
+         variant: [""]
+         include:
+           # Debian 32-bit builds
++          - container: "debian:testing"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: maintainer
++            variant: i386
++
++          - container: "debian:testing"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: no-maintainer
++            variant: i386
++
+           - container: "debian:stable"
+             arch: i386
+             compiler: gcc -m32
+@@ -87,6 +101,34 @@ jobs:
              variant: i386
  =
 
-+          - container: "debian:buster"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: maintainer
-+            variant: i386
-+
-+          - container: "debian:buster"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: no-maintainer
-+            variant: i386
-+
-+          - container: "debian:stretch"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: maintainer
-+            variant: i386
-+
-+          - container: "debian:stretch"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: no-maintainer
-+            variant: i386
-+
            # Debian cross compilation builds
++          - container: "debian:testing"
++            arch: armel
++            compiler: arm-linux-gnueabi-gcc
++            cross_compile: arm-linux-gnueabi
++            mode: maintainer
++            variant: cross-compile
++
++          - container: "debian:testing"
++            arch: arm64
++            compiler: aarch64-linux-gnu-gcc
++            cross_compile: aarch64-linux-gnu
++            mode: maintainer
++            variant: cross-compile
++
++          - container: "debian:testing"
++            arch: ppc64el
++            compiler: powerpc64le-linux-gnu-gcc
++            cross_compile: powerpc64le-linux-gnu
++            mode: maintainer
++            variant: cross-compile
++
++          - container: "debian:testing"
++            arch: s390x
++            compiler: s390x-linux-gnu-gcc
++            cross_compile: s390x-linux-gnu
++            mode: maintainer
++            variant: cross-compile
++
            - container: "debian:stable"
              arch: armel
-@@ -85,13 +116,19 @@ jobs:
-             variant: cross-compile
- =
-
-           # Debian GCC sanitizer builds
-+          - container: "debian:testing"
-+            arch: x86-64
-+            compiler: gcc
-+            mode: maintainer
-+            variant: sanitizers
-+
-           - container: "debian:stable"
-             arch: x86-64
-             compiler: gcc
-             mode: maintainer
-             variant: sanitizers
- =
-
--          - container: "debian:testing"
-+          - container: "debian:buster"
-             arch: x86-64
-             compiler: gcc
-             mode: maintainer
+             compiler: arm-linux-gnueabi-gcc
 -- =
 
 2.32.0
 
---===============7837865895172270723==--
+--===============2788132835450977036==--
 
