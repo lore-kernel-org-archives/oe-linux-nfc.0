@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8302039388391629140=="
+Content-Type: multipart/mixed; boundary="===============1605782333430705753=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH stable v4.4 - v4.14] NFC: add necessary privilege flags in netlink layer
-Date: Mon, 15 Nov 2021 18:35:52 +0100
-Message-ID: <20211115173553.521371-2-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH stable v4.19] NFC: add necessary privilege flags in netlink layer
+Date: Mon, 15 Nov 2021 18:35:53 +0100
+Message-ID: <20211115173553.521371-3-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20211115173553.521371-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8302039388391629140==
+--===============1605782333430705753==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -30,17 +30,14 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
 [krzysztof: context changes and backport]
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
-
-Please apply for v4.4, v4.9 and v4.14.
-
- net/nfc/netlink.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ net/nfc/netlink.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/net/nfc/netlink.c b/net/nfc/netlink.c
-index c90dc2fd13a7..20ea14791a9d 100644
+index 4884e1987562..113250946e05 100644
 --- a/net/nfc/netlink.c
 +++ b/net/nfc/netlink.c
-@@ -1639,31 +1639,37 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1682,31 +1682,37 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_DEV_UP,
  		.doit =3D nfc_genl_dev_up,
  		.policy =3D nfc_genl_policy,
@@ -78,7 +75,7 @@ index c90dc2fd13a7..20ea14791a9d 100644
  	},
  	{
  		.cmd =3D NFC_CMD_GET_TARGET,
-@@ -1680,26 +1686,31 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1723,26 +1729,31 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_LLC_SET_PARAMS,
  		.doit =3D nfc_genl_llc_set_params,
  		.policy =3D nfc_genl_policy,
@@ -110,7 +107,7 @@ index c90dc2fd13a7..20ea14791a9d 100644
  	},
  	{
  		.cmd =3D NFC_CMD_GET_SE,
-@@ -1711,16 +1722,19 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1754,21 +1765,25 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_SE_IO,
  		.doit =3D nfc_genl_se_io,
  		.policy =3D nfc_genl_policy,
@@ -128,6 +125,12 @@ index c90dc2fd13a7..20ea14791a9d 100644
  		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
+ 	{
+ 		.cmd =3D NFC_CMD_DEACTIVATE_TARGET,
+ 		.doit =3D nfc_genl_deactivate_target,
+ 		.policy =3D nfc_genl_policy,
++		.flags =3D GENL_ADMIN_PERM,
+ 	},
  };
  =
 
@@ -135,5 +138,5 @@ index c90dc2fd13a7..20ea14791a9d 100644
 
 2.32.0
 
---===============8302039388391629140==--
+--===============1605782333430705753==--
 
