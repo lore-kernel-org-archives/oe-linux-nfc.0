@@ -1,13 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1025615465400463268=="
+Content-Type: multipart/mixed; boundary="===============8302039388391629140=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH stable v5.4+] NFC: add necessary privilege flags in netlink layer
-Date: Mon, 15 Nov 2021 18:35:51 +0100
-Message-ID: <20211115173553.521371-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH stable v4.4 - v4.14] NFC: add necessary privilege flags in netlink layer
+Date: Mon, 15 Nov 2021 18:35:52 +0100
+Message-ID: <20211115173553.521371-2-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20211115173553.521371-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1025615465400463268==
+--===============8302039388391629140==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -26,107 +27,105 @@ read operations.
 
 Signed-off-by: Lin Ma <linma@zju.edu.cn>
 Signed-off-by: David S. Miller <davem@davemloft.net>
+[krzysztof: context changes and backport]
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/netlink.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+
+Please apply for v4.4, v4.9 and v4.14.
+
+ net/nfc/netlink.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/net/nfc/netlink.c b/net/nfc/netlink.c
-index 99b06a16b808..f8bfe068108e 100644
+index c90dc2fd13a7..20ea14791a9d 100644
 --- a/net/nfc/netlink.c
 +++ b/net/nfc/netlink.c
-@@ -1672,31 +1672,37 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1639,31 +1639,37 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_DEV_UP,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_dev_up,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_DEV_DOWN,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_dev_down,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_START_POLL,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_start_poll,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_STOP_POLL,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_stop_poll,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_DEP_LINK_UP,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_dep_link_up,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_DEP_LINK_DOWN,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_dep_link_down,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_GET_TARGET,
-@@ -1713,26 +1719,31 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1680,26 +1686,31 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_LLC_SET_PARAMS,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_llc_set_params,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_LLC_SDREQ,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_llc_sdreq,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_FW_DOWNLOAD,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_fw_download,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_ENABLE_SE,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_enable_se,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_DISABLE_SE,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_disable_se,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_GET_SE,
-@@ -1744,21 +1755,25 @@ static const struct genl_ops nfc_genl_ops[] =3D {
+@@ -1711,16 +1722,19 @@ static const struct genl_ops nfc_genl_ops[] =3D {
  		.cmd =3D NFC_CMD_SE_IO,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_se_io,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_ACTIVATE_TARGET,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_activate_target,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  	{
  		.cmd =3D NFC_CMD_VENDOR,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
  		.doit =3D nfc_genl_vendor_cmd,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DEACTIVATE_TARGET,
- 		.validate =3D GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
- 		.doit =3D nfc_genl_deactivate_target,
+ 		.policy =3D nfc_genl_policy,
 +		.flags =3D GENL_ADMIN_PERM,
  	},
  };
@@ -136,5 +135,5 @@ index 99b06a16b808..f8bfe068108e 100644
 
 2.32.0
 
---===============1025615465400463268==--
+--===============8302039388391629140==--
 
