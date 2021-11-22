@@ -1,142 +1,62 @@
-Content-Type: multipart/mixed; boundary="===============1605782333430705753=="
+Content-Type: multipart/mixed; boundary="===============3777613931764486731=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH stable v4.19] NFC: add necessary privilege flags in netlink layer
-Date: Mon, 15 Nov 2021 18:35:53 +0100
-Message-ID: <20211115173553.521371-3-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20211115173553.521371-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard] neard release v0.18
+Date: Mon, 22 Nov 2021 14:23:59 +0100
+Message-ID: <c2a668ef-6395-f056-6f39-e909e6b370a7@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============1605782333430705753==
+--===============3777613931764486731==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-From: Lin Ma <linma@zju.edu.cn>
+Hi all,
 
-commit aedddb4e45b34426cfbfa84454b6f203712733c5 upstream.
+v0.18
+=3D=3D=3D=3D=3D
+This is announce of new release of neard, an user-space counterpart of
+Linux kernel NFC stack, v0.18.
 
-The CAP_NET_ADMIN checks are needed to prevent attackers faking a
-device under NCIUARTSETDRIVER and exploit privileged commands.
+I am sending this email to few distro lists and folks involved in
+packaging neard (and updating existing packages). Please let me know if
+I should skip notifying you or you think I should Cc someone else.
 
-This patch add GENL_ADMIN_PERM flags in genl_ops to fulfill the check.
-Except for commands like NFC_CMD_GET_DEVICE, NFC_CMD_GET_TARGET,
-NFC_CMD_LLC_GET_PARAMS, and NFC_CMD_GET_SE, which are mainly information-
-read operations.
+The release includes few fixes.
 
-Signed-off-by: Lin Ma <linma@zju.edu.cn>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-[krzysztof: context changes and backport]
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- net/nfc/netlink.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Source code release:
+https://git.kernel.org/pub/scm/network/nfc/neard.git/tag/?h=3Dv0.18
+https://git.kernel.org/pub/scm/network/nfc/neard.git/snapshot/neard-0.18.ta=
+r.gz
 
-diff --git a/net/nfc/netlink.c b/net/nfc/netlink.c
-index 4884e1987562..113250946e05 100644
---- a/net/nfc/netlink.c
-+++ b/net/nfc/netlink.c
-@@ -1682,31 +1682,37 @@ static const struct genl_ops nfc_genl_ops[] =3D {
- 		.cmd =3D NFC_CMD_DEV_UP,
- 		.doit =3D nfc_genl_dev_up,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DEV_DOWN,
- 		.doit =3D nfc_genl_dev_down,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_START_POLL,
- 		.doit =3D nfc_genl_start_poll,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_STOP_POLL,
- 		.doit =3D nfc_genl_stop_poll,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DEP_LINK_UP,
- 		.doit =3D nfc_genl_dep_link_up,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DEP_LINK_DOWN,
- 		.doit =3D nfc_genl_dep_link_down,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_GET_TARGET,
-@@ -1723,26 +1729,31 @@ static const struct genl_ops nfc_genl_ops[] =3D {
- 		.cmd =3D NFC_CMD_LLC_SET_PARAMS,
- 		.doit =3D nfc_genl_llc_set_params,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_LLC_SDREQ,
- 		.doit =3D nfc_genl_llc_sdreq,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_FW_DOWNLOAD,
- 		.doit =3D nfc_genl_fw_download,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_ENABLE_SE,
- 		.doit =3D nfc_genl_enable_se,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DISABLE_SE,
- 		.doit =3D nfc_genl_disable_se,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_GET_SE,
-@@ -1754,21 +1765,25 @@ static const struct genl_ops nfc_genl_ops[] =3D {
- 		.cmd =3D NFC_CMD_SE_IO,
- 		.doit =3D nfc_genl_se_io,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_ACTIVATE_TARGET,
- 		.doit =3D nfc_genl_activate_target,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_VENDOR,
- 		.doit =3D nfc_genl_vendor_cmd,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- 	{
- 		.cmd =3D NFC_CMD_DEACTIVATE_TARGET,
- 		.doit =3D nfc_genl_deactivate_target,
- 		.policy =3D nfc_genl_policy,
-+		.flags =3D GENL_ADMIN_PERM,
- 	},
- };
- =
 
--- =
+Packaging updates
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+With previous release v0.17, build requires autoconf-archive. I saw
+Fedora and Arch already updated their packaging to include it. No
+further changes here. The full list is:
+https://github.com/linux-nfc/neard/blob/master/HACKING#L5
 
-2.32.0
 
---===============1605782333430705753==--
+Bugs/comments
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+1. linux-nfc(a)lists.01.org
+2. https://github.com/linux-nfc/neard (as GitHub issues)
+
+
+Few notes on new names and maintainers
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The neard package was previously maintained Samuel Ortiz and Marcel
+Holtmann, which were also main contributors. Last years Mark Greer was
+looking after neard. I joined in 2021, both as a maintainer of Linux
+kernel NFC stack and the neard.
+
+Under GitHub I set up also Continuous Integration:
+https://github.com/linux-nfc/neard/actions
+
+Best regards,
+Krzysztof
+--===============3777613931764486731==--
 
