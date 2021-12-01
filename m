@@ -1,48 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============8643291478517686324=="
+Content-Type: multipart/mixed; boundary="===============4863593943177813017=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2 1/6] test: Use spaces for Python test scripts
-Date: Wed, 01 Dec 2021 09:56:48 +0100
-Message-ID: <b9b5b510-40d5-b945-61ba-a069e9847bf2@canonical.com>
-In-Reply-To: <20211129050606.873494-2-mgreer@animalcreek.com>
+Subject: Re: [PATCH v2 2/6] test: Convert test script from Python2 to Python3
+Date: Wed, 01 Dec 2021 10:00:36 +0100
+Message-ID: <e7ff7ef9-f3f2-d063-141a-63019616db52@canonical.com>
+In-Reply-To: <20211129050606.873494-3-mgreer@animalcreek.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8643291478517686324==
+--===============4863593943177813017==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 On 29/11/2021 06:06, Mark Greer wrote:
-> The Python PEP 8 style guide prefers spaces over tabs so replace all
-> tabs in the Python test scripts with spaces. See:
-> =
-
-> 	https://www.python.org/dev/peps/pep-0008/#tabs-or-spaces
-
-Reformatting entire code is quite intrusive although useful. But while
-reformatting - why not indenting it according to PEP 8 with four spaces?
-Otherwise we will need second commit touching all the lines again.
-
+> Python2 is deprecated so convert the neard test scripts, which are
+> Python2, to Python3.
 > =
 
 > Signed-off-by: Mark Greer <mgreer@animalcreek.com>
 > ---
->  test/bt-handover         | 192 ++++++++++++++++-----------------
->  test/handover-agent      | 208 ++++++++++++++++++------------------
->  test/monitor-near        |  50 ++++-----
->  test/ndef-agent          | 112 ++++++++++----------
->  test/neardutils.py       | 128 +++++++++++-----------
->  test/phdc-simple-manager | 154 +++++++++++++--------------
->  test/test-adapter        | 160 ++++++++++++++--------------
->  test/test-device         | 180 +++++++++++++++----------------
->  test/test-tag            | 224 +++++++++++++++++++--------------------
->  9 files changed, 704 insertions(+), 704 deletions(-)
+>  test/bt-handover         |  8 ++---
+>  test/handover-agent      | 34 +++++++++----------
+>  test/monitor-near        | 10 +++---
+>  test/ndef-agent          | 20 ++++++------
+>  test/neard-ui.py         | 70 ++++++++++++++++++++--------------------
+>  test/neardutils.py       | 17 ++++------
+>  test/phdc-simple-manager | 50 ++++++++++++++--------------
+>  test/test-adapter        | 16 ++++-----
+>  test/test-device         | 34 +++++++++----------
+>  test/test-tag            | 10 +++---
+>  10 files changed, 132 insertions(+), 137 deletions(-)
 > =
 
-> diff --git a/test/bt-handover b/test/
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
 
 Best regards,
 Krzysztof
---===============8643291478517686324==--
+--===============4863593943177813017==--
 
