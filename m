@@ -1,66 +1,87 @@
-Content-Type: multipart/mixed; boundary="===============9122605330043014415=="
+Content-Type: multipart/mixed; boundary="===============3264918214421230002=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 3/7] nfc: llcp: simplify llcp_sock_connect() error paths
-Date: Sat, 15 Jan 2022 13:26:46 +0100
-Message-ID: <20220115122650.128182-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 4/7] nfc: llcp: use centralized exiting of bind on errors
+Date: Sat, 15 Jan 2022 13:26:47 +0100
+Message-ID: <20220115122650.128182-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20220115122650.128182-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============9122605330043014415==
+--===============3264918214421230002==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The llcp_sock_connect() error paths were using a mixed way of central
-exit (goto) and cleanup
+Coding style encourages centralized exiting of functions, so rewrite
+llcp_sock_bind() error paths to use such pattern.  This reduces the
+duplicated cleanup code, make success path visually shorter and also
+cleans up the errors in proper order (in reversed way from
+initialization).
+
+No functional impact expected.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/llcp_sock.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ net/nfc/llcp_sock.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
 diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index e92440c0c4c7..fdf0856182c6 100644
+index fdf0856182c6..c9d5c427f035 100644
 --- a/net/nfc/llcp_sock.c
 +++ b/net/nfc/llcp_sock.c
-@@ -712,10 +712,8 @@ static int llcp_sock_connect(struct socket *sock, stru=
-ct sockaddr *_addr,
- 	llcp_sock->local =3D nfc_llcp_local_get(local);
- 	llcp_sock->ssap =3D nfc_llcp_get_local_ssap(local);
- 	if (llcp_sock->ssap =3D=3D LLCP_SAP_MAX) {
+@@ -108,21 +108,13 @@ static int llcp_sock_bind(struct socket *sock, struct=
+ sockaddr *addr, int alen)
+ 					  llcp_sock->service_name_len,
+ 					  GFP_KERNEL);
+ 	if (!llcp_sock->service_name) {
 -		nfc_llcp_local_put(llcp_sock->local);
 -		llcp_sock->local =3D NULL;
+-		llcp_sock->dev =3D NULL;
  		ret =3D -ENOMEM;
 -		goto put_dev;
 +		goto sock_llcp_put_local;
  	}
+ 	llcp_sock->ssap =3D nfc_llcp_get_sdp_ssap(local, llcp_sock);
+ 	if (llcp_sock->ssap =3D=3D LLCP_SAP_MAX) {
+-		nfc_llcp_local_put(llcp_sock->local);
+-		llcp_sock->local =3D NULL;
+-		kfree(llcp_sock->service_name);
+-		llcp_sock->service_name =3D NULL;
+-		llcp_sock->dev =3D NULL;
+ 		ret =3D -EADDRINUSE;
+-		goto put_dev;
++		goto free_service_name;
+ 	}
  =
 
  	llcp_sock->reserved_ssap =3D llcp_sock->ssap;
-@@ -760,11 +758,13 @@ static int llcp_sock_connect(struct socket *sock, str=
-uct sockaddr *_addr,
+@@ -132,6 +124,19 @@ static int llcp_sock_bind(struct socket *sock, struct =
+sockaddr *addr, int alen)
+ 	pr_debug("Socket bound to SAP %d\n", llcp_sock->ssap);
  =
 
- sock_llcp_release:
- 	nfc_llcp_put_ssap(local, llcp_sock->ssap);
+ 	sk->sk_state =3D LLCP_BOUND;
++	nfc_put_device(dev);
++	release_sock(sk);
++
++	return 0;
++
++free_service_name:
++	kfree(llcp_sock->service_name);
++	llcp_sock->service_name =3D NULL;
 +
 +sock_llcp_put_local:
- 	nfc_llcp_local_put(llcp_sock->local);
- 	llcp_sock->local =3D NULL;
++	nfc_llcp_local_put(llcp_sock->local);
++	llcp_sock->local =3D NULL;
 +	llcp_sock->dev =3D NULL;
  =
 
  put_dev:
--	llcp_sock->dev =3D NULL;
  	nfc_put_device(dev);
- =
-
- error:
 -- =
 
 2.32.0
 
---===============9122605330043014415==--
+--===============3264918214421230002==--
 
