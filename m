@@ -1,67 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============0425466358602981389=="
+Content-Type: multipart/mixed; boundary="===============8709416094893419178=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 0/7] nfc: llcp: fix and improvements
-Date: Sat, 15 Jan 2022 13:26:43 +0100
-Message-ID: <20220115122650.128182-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 2/7] nfc: llcp: nullify llcp_sock->dev on connect() error paths
+Date: Sat, 15 Jan 2022 13:26:45 +0100
+Message-ID: <20220115122650.128182-3-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220115122650.128182-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============0425466358602981389==
+--===============8709416094893419178==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Nullify the llcp_sock->dev on llcp_sock_connect() error paths,
+symmetrically to the code llcp_sock_bind().  The non-NULL value of
+llcp_sock->dev is used in a few places to check whether the socket is
+still valid.
 
-Patch #1:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Syzbot reported an easily reproducible NULL pointer dereference which I was
-struggling to analyze:
-https://syzkaller.appspot.com/bug?extid=3D7f23bcddf626e0593a39
+There was no particular issue observed with missing NULL assignment in
+connect() error path, however an similar case - in the bind() error path
+- was triggereable.  That one was fixed in commit 4ac06a1e013c ("nfc:
+fix NULL ptr dereference in llcp_sock_getname() after failed connect"),
+so the change here seems logical as well.
 
-Although direct fix is obvious, I could not actually find the exact race
-condition scenario leading to it.  The patch fixes the issue - at least und=
-er
-my QEMU - however all this code looks racy, so I have a feeling I am plumbi=
-ng
-one leak without fixing root cause.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ net/nfc/llcp_sock.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Therefore I would appreciate some more thoughts on first commit.
+diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+index 0b93a17b9f11..e92440c0c4c7 100644
+--- a/net/nfc/llcp_sock.c
++++ b/net/nfc/llcp_sock.c
+@@ -764,6 +764,7 @@ static int llcp_sock_connect(struct socket *sock, struc=
+t sockaddr *_addr,
+ 	llcp_sock->local =3D NULL;
+ =
 
-The rest of patches:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-These are improvements, rebased on top of #1, although should be independen=
-t.
-They do not fix any experienced issue, just look correct to me from the code
-point of view.
+ put_dev:
++	llcp_sock->dev =3D NULL;
+ 	nfc_put_device(dev);
+ =
 
-Testing
-=3D=3D=3D=3D=3D=3D=3D
-Under QEMU only. The NFC/LLCP code was not really tested on a device.
-
-Best regards,
-Krzysztof
-
-Krzysztof Kozlowski (7):
-  nfc: llcp: fix NULL error pointer dereference on sendmsg() after
-    failed bind()
-  nfc: llcp: nullify llcp_sock->dev on connect() error paths
-  nfc: llcp: simplify llcp_sock_connect() error paths
-  nfc: llcp: use centralized exiting of bind on errors
-  nfc: llcp: use test_bit()
-  nfc: llcp: protect nfc_llcp_sock_unlink() calls
-  nfc: llcp: Revert "NFC: Keep socket alive until the DISC PDU is
-    actually sent"
-
- net/nfc/llcp.h      |  1 -
- net/nfc/llcp_core.c |  9 +-------
- net/nfc/llcp_sock.c | 54 ++++++++++++++++++++++++---------------------
- 3 files changed, 30 insertions(+), 34 deletions(-)
-
+ error:
 -- =
 
 2.32.0
 
---===============0425466358602981389==--
+--===============8709416094893419178==--
 
