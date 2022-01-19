@@ -1,51 +1,62 @@
-Content-Type: multipart/mixed; boundary="===============8274342014885388508=="
+Content-Type: multipart/mixed; boundary="===============4621999607913334106=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 0/6] nfc: llcp: few cleanups/improvements
-Date: Wed, 19 Jan 2022 08:52:55 +0100
-Message-ID: <20220119075301.7346-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 5/6] nfc: llcp: protect nfc_llcp_sock_unlink() calls
+Date: Wed, 19 Jan 2022 08:53:00 +0100
+Message-ID: <20220119075301.7346-6-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220119075301.7346-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============8274342014885388508==
+--===============4621999607913334106==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+nfc_llcp_sock_link() is called in all paths (bind/connect) as a last
+action, still protected with lock_sock().  When cleaning up in
+llcp_sock_release(), call nfc_llcp_sock_unlink() in a mirrored way:
+earlier and still under the lock_sock().
 
-These are improvements, not fixing any experienced issue, just looking corr=
-ect
-to me from the code point of view.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+---
+ net/nfc/llcp_sock.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Changes since v1
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-1. Split from the fix.
+diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+index 60985d1834a5..2d4cdce88a54 100644
+--- a/net/nfc/llcp_sock.c
++++ b/net/nfc/llcp_sock.c
+@@ -631,6 +631,11 @@ static int llcp_sock_release(struct socket *sock)
+ 		}
+ 	}
+ =
 
-Testing
-=3D=3D=3D=3D=3D=3D=3D
-Under QEMU only. The NFC/LLCP code was not really tested on a device.
++	if (sock->type =3D=3D SOCK_RAW)
++		nfc_llcp_sock_unlink(&local->raw_sockets, sk);
++	else
++		nfc_llcp_sock_unlink(&local->sockets, sk);
++
+ 	if (llcp_sock->reserved_ssap < LLCP_SAP_MAX)
+ 		nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
+ =
 
-Best regards,
-Krzysztof
+@@ -643,11 +648,6 @@ static int llcp_sock_release(struct socket *sock)
+ 	if (sk->sk_state =3D=3D LLCP_DISCONNECTING)
+ 		return err;
+ =
 
-Krzysztof Kozlowski (6):
-  nfc: llcp: nullify llcp_sock->dev on connect() error paths
-  nfc: llcp: simplify llcp_sock_connect() error paths
-  nfc: llcp: use centralized exiting of bind on errors
-  nfc: llcp: use test_bit()
-  nfc: llcp: protect nfc_llcp_sock_unlink() calls
-  nfc: llcp: Revert "NFC: Keep socket alive until the DISC PDU is
-    actually sent"
-
- net/nfc/llcp.h      |  1 -
- net/nfc/llcp_core.c |  9 +--------
- net/nfc/llcp_sock.c | 49 ++++++++++++++++++++++-----------------------
- 3 files changed, 25 insertions(+), 34 deletions(-)
-
+-	if (sock->type =3D=3D SOCK_RAW)
+-		nfc_llcp_sock_unlink(&local->raw_sockets, sk);
+-	else
+-		nfc_llcp_sock_unlink(&local->sockets, sk);
+-
+ out:
+ 	sock_orphan(sk);
+ 	sock_put(sk);
 -- =
 
 2.32.0
 
---===============8274342014885388508==--
+--===============4621999607913334106==--
 
