@@ -1,87 +1,87 @@
-Content-Type: multipart/mixed; boundary="===============5007113569046914421=="
+Content-Type: multipart/mixed; boundary="===============4819114028250039324=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 6/6] nfc: llcp: Revert "NFC: Keep socket alive until the DISC PDU is actually sent"
-Date: Wed, 19 Jan 2022 08:53:01 +0100
-Message-ID: <20220119075301.7346-7-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 3/6] nfc: llcp: use centralized exiting of bind on errors
+Date: Wed, 19 Jan 2022 08:52:58 +0100
+Message-ID: <20220119075301.7346-4-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20220119075301.7346-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5007113569046914421==
+--===============4819114028250039324==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 17f7ae16aef1f58bc4af4c7a16b8778a91a30255.
+Coding style encourages centralized exiting of functions, so rewrite
+llcp_sock_bind() error paths to use such pattern.  This reduces the
+duplicated cleanup code, make success path visually shorter and also
+cleans up the errors in proper order (in reversed way from
+initialization).
 
-The commit brought a new socket state LLCP_DISCONNECTING, which was
-never set, only read, so socket could never set to such state.
-
-Remove the dead code.
+No functional impact expected.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/llcp.h      | 1 -
- net/nfc/llcp_core.c | 7 -------
- net/nfc/llcp_sock.c | 7 -------
- 3 files changed, 15 deletions(-)
-
-diff --git a/net/nfc/llcp.h b/net/nfc/llcp.h
-index d49d4bf2e37c..c1d9be636933 100644
---- a/net/nfc/llcp.h
-+++ b/net/nfc/llcp.h
-@@ -6,7 +6,6 @@
- enum llcp_state {
- 	LLCP_CONNECTED =3D 1, /* wait_for_packet() wants that */
- 	LLCP_CONNECTING,
--	LLCP_DISCONNECTING,
- 	LLCP_CLOSED,
- 	LLCP_BOUND,
- 	LLCP_LISTEN,
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index b70d5042bf74..3364caabef8b 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -737,13 +737,6 @@ static void nfc_llcp_tx_work(struct work_struct *work)
- 			print_hex_dump_debug("LLCP Tx: ", DUMP_PREFIX_OFFSET,
- 					     16, 1, skb->data, skb->len, true);
- =
-
--			if (ptype =3D=3D LLCP_PDU_DISC && sk !=3D NULL &&
--			    sk->sk_state =3D=3D LLCP_DISCONNECTING) {
--				nfc_llcp_sock_unlink(&local->sockets, sk);
--				sock_orphan(sk);
--				sock_put(sk);
--			}
--
- 			if (ptype =3D=3D LLCP_PDU_I)
- 				copy_skb =3D skb_copy(skb, GFP_ATOMIC);
- =
+ net/nfc/llcp_sock.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
 diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 2d4cdce88a54..14afed5916d1 100644
+index a1b245b399f8..60985d1834a5 100644
 --- a/net/nfc/llcp_sock.c
 +++ b/net/nfc/llcp_sock.c
-@@ -641,13 +641,6 @@ static int llcp_sock_release(struct socket *sock)
+@@ -108,21 +108,13 @@ static int llcp_sock_bind(struct socket *sock, struct=
+ sockaddr *addr, int alen)
+ 					  llcp_sock->service_name_len,
+ 					  GFP_KERNEL);
+ 	if (!llcp_sock->service_name) {
+-		nfc_llcp_local_put(llcp_sock->local);
+-		llcp_sock->local =3D NULL;
+-		llcp_sock->dev =3D NULL;
+ 		ret =3D -ENOMEM;
+-		goto put_dev;
++		goto sock_llcp_put_local;
+ 	}
+ 	llcp_sock->ssap =3D nfc_llcp_get_sdp_ssap(local, llcp_sock);
+ 	if (llcp_sock->ssap =3D=3D LLCP_SAP_MAX) {
+-		nfc_llcp_local_put(llcp_sock->local);
+-		llcp_sock->local =3D NULL;
+-		kfree(llcp_sock->service_name);
+-		llcp_sock->service_name =3D NULL;
+-		llcp_sock->dev =3D NULL;
+ 		ret =3D -EADDRINUSE;
+-		goto put_dev;
++		goto free_service_name;
+ 	}
  =
 
- 	release_sock(sk);
+ 	llcp_sock->reserved_ssap =3D llcp_sock->ssap;
+@@ -132,6 +124,19 @@ static int llcp_sock_bind(struct socket *sock, struct =
+sockaddr *addr, int alen)
+ 	pr_debug("Socket bound to SAP %d\n", llcp_sock->ssap);
  =
 
--	/* Keep this sock alive and therefore do not remove it from the sockets
--	 * list until the DISC PDU has been actually sent. Otherwise we would
--	 * reply with DM PDUs before sending the DISC one.
--	 */
--	if (sk->sk_state =3D=3D LLCP_DISCONNECTING)
--		return err;
--
- out:
- 	sock_orphan(sk);
- 	sock_put(sk);
+ 	sk->sk_state =3D LLCP_BOUND;
++	nfc_put_device(dev);
++	release_sock(sk);
++
++	return 0;
++
++free_service_name:
++	kfree(llcp_sock->service_name);
++	llcp_sock->service_name =3D NULL;
++
++sock_llcp_put_local:
++	nfc_llcp_local_put(llcp_sock->local);
++	llcp_sock->local =3D NULL;
++	llcp_sock->dev =3D NULL;
+ =
+
+ put_dev:
+ 	nfc_put_device(dev);
 -- =
 
 2.32.0
 
---===============5007113569046914421==--
+--===============4819114028250039324==--
 
