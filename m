@@ -1,52 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============2885031406288976361=="
+Content-Type: multipart/mixed; boundary="===============7575414926088027664=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2 1/6] nfc: llcp: nullify llcp_sock->dev on connect() error paths
-Date: Wed, 19 Jan 2022 08:52:56 +0100
-Message-ID: <20220119075301.7346-2-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH v2 4/6] nfc: llcp: use test_bit()
+Date: Wed, 19 Jan 2022 08:52:59 +0100
+Message-ID: <20220119075301.7346-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20220119075301.7346-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============2885031406288976361==
+--===============7575414926088027664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Nullify the llcp_sock->dev on llcp_sock_connect() error paths,
-symmetrically to the code llcp_sock_bind().  The non-NULL value of
-llcp_sock->dev is used in a few places to check whether the socket is
-still valid.
-
-There was no particular issue observed with missing NULL assignment in
-connect() error path, however a similar case - in the bind() error path
-- was triggereable.  That one was fixed in commit 4ac06a1e013c ("nfc:
-fix NULL ptr dereference in llcp_sock_getname() after failed connect"),
-so the change here seems logical as well.
+Use test_bit() instead of open-coding it, just like in other places
+touching the bitmap.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/llcp_sock.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/nfc/llcp_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 6cfd30fc0798..d951d4f0c87f 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -764,6 +764,7 @@ static int llcp_sock_connect(struct socket *sock, struc=
-t sockaddr *_addr,
- 	llcp_sock->local =3D NULL;
+diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+index 5ad5157aa9c5..b70d5042bf74 100644
+--- a/net/nfc/llcp_core.c
++++ b/net/nfc/llcp_core.c
+@@ -383,7 +383,7 @@ u8 nfc_llcp_get_sdp_ssap(struct nfc_llcp_local *local,
+ 			pr_debug("WKS %d\n", ssap);
  =
 
- put_dev:
-+	llcp_sock->dev =3D NULL;
- 	nfc_put_device(dev);
+ 			/* This is a WKS, let's check if it's free */
+-			if (local->local_wks & BIT(ssap)) {
++			if (test_bit(ssap, &local->local_wks)) {
+ 				mutex_unlock(&local->sdp_lock);
  =
 
- error:
+ 				return LLCP_SAP_MAX;
 -- =
 
 2.32.0
 
---===============2885031406288976361==--
+--===============7575414926088027664==--
 
