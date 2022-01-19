@@ -1,28 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============3034670542977312282=="
+Content-Type: multipart/mixed; boundary="===============8338098369214616788=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH 0/7] nfc: llcp: fix and improvements
-Date: Sun, 16 Jan 2022 17:58:28 +0100
-Message-ID: <9fcef93a-7afa-06ad-66e4-2cb22c6ea0ae@canonical.com>
-In-Reply-To: <20220116.123211.1251576778673440603.davem@davemloft.net>
+Subject: [PATCH v2 0/1] nfc: llcp: a fix after syzbot report
+Date: Wed, 19 Jan 2022 08:48:15 +0100
+Message-ID: <20220119074816.6505-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3034670542977312282==
+--===============8338098369214616788==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 16/01/2022 13:32, David Miller wrote:
-> =
+Hi,
 
-> Please don't mix cleanups and bug fixes.
+Syzbot reported an easily reproducible NULL pointer dereference which I was
+struggling to analyze:
+https://syzkaller.appspot.com/bug?extid=3D7f23bcddf626e0593a39
 
-The fix is the first patch, so it is easy to apply. Do you wish me to
-resend it?
+Although direct fix is obvious, I could not actually find the exact race
+condition scenario leading to it.  The patch fixes the issue - at least und=
+er
+my QEMU - however all this code looks racy, so I have a feeling I am plumbi=
+ng
+one leak without fixing root cause.
 
+Therefore I would appreciate some more thoughts on first commit.
+
+Testing
+=3D=3D=3D=3D=3D=3D=3D
+Under QEMU only. The NFC/LLCP code was not really tested on a device.
 
 Best regards,
 Krzysztof
---===============3034670542977312282==--
+
+Krzysztof Kozlowski (1):
+  nfc: llcp: fix NULL error pointer dereference on sendmsg() after
+    failed bind()
+
+ net/nfc/llcp_sock.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+-- =
+
+2.32.0
+
+--===============8338098369214616788==--
 
