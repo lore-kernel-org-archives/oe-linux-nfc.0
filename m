@@ -1,72 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============6298475137033003010=="
+Content-Type: multipart/mixed; boundary="===============0633712360752035925=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v3 7/7] nfc: microread: drop unneeded debug prints
-Date: Mon, 11 Oct 2021 15:38:35 +0200
-Message-ID: <20211011133835.236347-8-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20211011133835.236347-1-krzysztof.kozlowski@canonical.com>
+Subject: [RESEND PATCH v2 0/6] nfc: llcp: few cleanups/improvements
+Date: Wed, 02 Mar 2022 20:25:17 +0100
+Message-ID: <20220302192523.57444-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6298475137033003010==
+--===============0633712360752035925==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-ftrace is a preferred and standard way to debug entering and exiting
-functions so drop useless debug prints.
+Hi,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/nfc/microread/i2c.c | 4 ----
- drivers/nfc/microread/mei.c | 2 --
- 2 files changed, 6 deletions(-)
+These are improvements, not fixing any experienced issue, just looking corr=
+ect
+to me from the code point of view.
 
-diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
-index 86f593c73ed6..067295124eb9 100644
---- a/drivers/nfc/microread/i2c.c
-+++ b/drivers/nfc/microread/i2c.c
-@@ -237,8 +237,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	struct microread_i2c_phy *phy;
- 	int r;
- =
+Changes since v1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+1. Split from the fix.
 
--	dev_dbg(&client->dev, "client %p\n", client);
--
- 	phy =3D devm_kzalloc(&client->dev, sizeof(struct microread_i2c_phy),
- 			   GFP_KERNEL);
- 	if (!phy)
-@@ -262,8 +260,6 @@ static int microread_i2c_probe(struct i2c_client *clien=
-t,
- 	if (r < 0)
- 		goto err_irq;
- =
+Testing
+=3D=3D=3D=3D=3D=3D=3D
+Under QEMU only. The NFC/LLCP code was not really tested on a device.
 
--	nfc_info(&client->dev, "Probed\n");
--
- 	return 0;
- =
+Best regards,
+Krzysztof
 
- err_irq:
-diff --git a/drivers/nfc/microread/mei.c b/drivers/nfc/microread/mei.c
-index 00689e18dc46..e2a77a5fc887 100644
---- a/drivers/nfc/microread/mei.c
-+++ b/drivers/nfc/microread/mei.c
-@@ -23,8 +23,6 @@ static int microread_mei_probe(struct mei_cl_device *clde=
-v,
- 	struct nfc_mei_phy *phy;
- 	int r;
- =
+Krzysztof Kozlowski (6):
+  nfc: llcp: nullify llcp_sock->dev on connect() error paths
+  nfc: llcp: simplify llcp_sock_connect() error paths
+  nfc: llcp: use centralized exiting of bind on errors
+  nfc: llcp: use test_bit()
+  nfc: llcp: protect nfc_llcp_sock_unlink() calls
+  nfc: llcp: Revert "NFC: Keep socket alive until the DISC PDU is
+    actually sent"
 
--	pr_info("Probing NFC microread\n");
--
- 	phy =3D nfc_mei_phy_alloc(cldev);
- 	if (!phy)
- 		return -ENOMEM;
+ net/nfc/llcp.h      |  1 -
+ net/nfc/llcp_core.c |  9 +--------
+ net/nfc/llcp_sock.c | 49 ++++++++++++++++++++++-----------------------
+ 3 files changed, 25 insertions(+), 34 deletions(-)
+
 -- =
 
-2.30.2
+2.32.0
 
---===============6298475137033003010==--
+--===============0633712360752035925==--
 
