@@ -1,87 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============3327168965961620507=="
+Content-Type: multipart/mixed; boundary="===============4447912698970595820=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: linux-nfc@lists.01.org
-Subject: [RESEND PATCH v2 3/6] nfc: llcp: use centralized exiting of bind on errors
-Date: Wed, 02 Mar 2022 20:25:20 +0100
-Message-ID: <20220302192523.57444-4-krzysztof.kozlowski@canonical.com>
+Subject: [RESEND PATCH v2 4/6] nfc: llcp: use test_bit()
+Date: Wed, 02 Mar 2022 20:25:21 +0100
+Message-ID: <20220302192523.57444-5-krzysztof.kozlowski@canonical.com>
 In-Reply-To: <20220302192523.57444-1-krzysztof.kozlowski@canonical.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============3327168965961620507==
+--===============4447912698970595820==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Coding style encourages centralized exiting of functions, so rewrite
-llcp_sock_bind() error paths to use such pattern.  This reduces the
-duplicated cleanup code, make success path visually shorter and also
-cleans up the errors in proper order (in reversed way from
-initialization).
-
-No functional impact expected.
+Use test_bit() instead of open-coding it, just like in other places
+touching the bitmap.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- net/nfc/llcp_sock.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ net/nfc/llcp_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index fdf0856182c6..c9d5c427f035 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -108,21 +108,13 @@ static int llcp_sock_bind(struct socket *sock, struct=
- sockaddr *addr, int alen)
- 					  llcp_sock->service_name_len,
- 					  GFP_KERNEL);
- 	if (!llcp_sock->service_name) {
--		nfc_llcp_local_put(llcp_sock->local);
--		llcp_sock->local =3D NULL;
--		llcp_sock->dev =3D NULL;
- 		ret =3D -ENOMEM;
--		goto put_dev;
-+		goto sock_llcp_put_local;
- 	}
- 	llcp_sock->ssap =3D nfc_llcp_get_sdp_ssap(local, llcp_sock);
- 	if (llcp_sock->ssap =3D=3D LLCP_SAP_MAX) {
--		nfc_llcp_local_put(llcp_sock->local);
--		llcp_sock->local =3D NULL;
--		kfree(llcp_sock->service_name);
--		llcp_sock->service_name =3D NULL;
--		llcp_sock->dev =3D NULL;
- 		ret =3D -EADDRINUSE;
--		goto put_dev;
-+		goto free_service_name;
- 	}
+diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+index 5ad5157aa9c5..b70d5042bf74 100644
+--- a/net/nfc/llcp_core.c
++++ b/net/nfc/llcp_core.c
+@@ -383,7 +383,7 @@ u8 nfc_llcp_get_sdp_ssap(struct nfc_llcp_local *local,
+ 			pr_debug("WKS %d\n", ssap);
  =
 
- 	llcp_sock->reserved_ssap =3D llcp_sock->ssap;
-@@ -132,6 +124,19 @@ static int llcp_sock_bind(struct socket *sock, struct =
-sockaddr *addr, int alen)
- 	pr_debug("Socket bound to SAP %d\n", llcp_sock->ssap);
+ 			/* This is a WKS, let's check if it's free */
+-			if (local->local_wks & BIT(ssap)) {
++			if (test_bit(ssap, &local->local_wks)) {
+ 				mutex_unlock(&local->sdp_lock);
  =
 
- 	sk->sk_state =3D LLCP_BOUND;
-+	nfc_put_device(dev);
-+	release_sock(sk);
-+
-+	return 0;
-+
-+free_service_name:
-+	kfree(llcp_sock->service_name);
-+	llcp_sock->service_name =3D NULL;
-+
-+sock_llcp_put_local:
-+	nfc_llcp_local_put(llcp_sock->local);
-+	llcp_sock->local =3D NULL;
-+	llcp_sock->dev =3D NULL;
- =
-
- put_dev:
- 	nfc_put_device(dev);
+ 				return LLCP_SAP_MAX;
 -- =
 
 2.32.0
 
---===============3327168965961620507==--
+--===============4447912698970595820==--
 
