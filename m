@@ -1,40 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============7631410815472805823=="
+Content-Type: multipart/mixed; boundary="===============2091399872469351597=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH 6/6] nfc: st95hf: remove unused header includes
-Date: Wed, 25 Aug 2021 16:24:59 +0200
-Message-ID: <20210825142459.226168-6-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210825142459.226168-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH 0/2] MAINTAINERS/dt-bindings: changes to my emails
+Date: Mon, 04 Apr 2022 15:45:02 +0200
+Message-ID: <164907989905.809631.16161802401962719876.b4-ty@linaro.org>
+In-Reply-To: <20220330074016.12896-1-krzysztof.kozlowski@linaro.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7631410815472805823==
+--===============2091399872469351597==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Do not include unnecessary headers.
+On Wed, 30 Mar 2022 09:40:14 +0200, Krzysztof Kozlowski wrote:
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> =
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/nfc/st95hf/core.c | 1 -
- 1 file changed, 1 deletion(-)
+> Hi,
+> =
 
-diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
-index 993818742570..d16cf3ff644e 100644
---- a/drivers/nfc/st95hf/core.c
-+++ b/drivers/nfc/st95hf/core.c
-@@ -16,7 +16,6 @@
- #include <linux/nfc.h>
- #include <linux/of_gpio.h>
- #include <linux/of.h>
--#include <linux/of_irq.h>
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
- #include <linux/wait.h>
+> I can take both patches via my Samsung SoC tree, if that's ok.
+> =
+
+> Best regards,
+> Krzysztof
+> =
+
+> [...]
+
+Applied, thanks!
+
+[1/2] dt-bindings: update Krzysztof Kozlowski's email
+      commit: 8a1e6bb3f78f06432e095758476358d8cb63c03d
+[2/2] MAINTAINERS: update Krzysztof Kozlowski's email to Linaro
+      commit: 1a9f338f9cf96f8338d5592dee5fce222929e4f7
+
+Best regards,
 -- =
 
-2.30.2
-
---===============7631410815472805823==--
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--===============2091399872469351597==--
 
