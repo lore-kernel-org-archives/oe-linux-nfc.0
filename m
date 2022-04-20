@@ -1,38 +1,41 @@
-Content-Type: multipart/mixed; boundary="===============5009149164988427339=="
+Content-Type: multipart/mixed; boundary="===============0826895669055451123=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH 0/2] MAINTAINERS/dt-bindings: changes to my emails
-Date: Mon, 04 Apr 2022 15:46:38 +0200
-Message-ID: <d470dd28-8084-2cda-10b4-006bb90c552a@linaro.org>
-In-Reply-To: <164907989905.809631.16161802401962719876.b4-ty@linaro.org>
+Subject: [PATCH] nfc: MAINTAINERS: add Bug entry
+Date: Wed, 20 Apr 2022 12:46:01 +0200
+Message-ID: <20220420104601.106540-1-krzysztof.kozlowski@linaro.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5009149164988427339==
+--===============0826895669055451123==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On 04/04/2022 15:45, Krzysztof Kozlowski wrote:
-> On Wed, 30 Mar 2022 09:40:14 +0200, Krzysztof Kozlowski wrote:
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->>
->> Hi,
->>
->> I can take both patches via my Samsung SoC tree, if that's ok.
->>
->> Best regards,
->> Krzysztof
->>
->> [...]
-> =
+Add a Bug section, indicating preferred mailing method for bug reports,
+to NFC Subsystem entry.
 
-> Applied, thanks!
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Applied to fixes, as Rob asked for.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2d746723306a..1786cbdd43a2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13842,6 +13842,7 @@ M:	Krzysztof Kozlowski <krzysztof.kozlowski@linar=
+o.org>
+ L:	linux-nfc(a)lists.01.org (subscribers-only)
+ L:	netdev(a)vger.kernel.org
+ S:	Maintained
++B:	mailto:linux-nfc(a)lists.01.org
+ F:	Documentation/devicetree/bindings/net/nfc/
+ F:	drivers/nfc/
+ F:	include/linux/platform_data/nfcmrvl.h
+-- =
 
+2.32.0
 
-Best regards,
-Krzysztof
---===============5009149164988427339==--
+--===============0826895669055451123==--
 
