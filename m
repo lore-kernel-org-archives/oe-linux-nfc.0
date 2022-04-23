@@ -1,48 +1,36 @@
-Content-Type: multipart/mixed; boundary="===============6872946950928981758=="
+Content-Type: multipart/mixed; boundary="===============2773446360052608887=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH] nfc: nfcmrvl: spi: Fix irq_of_parse_and_map() return value
-Date: Fri, 22 Apr 2022 12:47:58 +0200
-Message-ID: <20220422104758.64039-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] nfc: nfcmrvl: spi: Fix irq_of_parse_and_map() return value
+Date: Sat, 23 Apr 2022 11:28:35 +0200
+Message-ID: <e7eb0c05-7056-7aeb-ebca-399f11d22122@linaro.org>
+In-Reply-To: <20220422161305.59e0be38@kernel.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============6872946950928981758==
+--===============2773446360052608887==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The irq_of_parse_and_map() returns 0 on failure, not a negative ERRNO.
+On 23/04/2022 01:13, Jakub Kicinski wrote:
+> On Fri, 22 Apr 2022 12:47:58 +0200 Krzysztof Kozlowski wrote:
+>> The irq_of_parse_and_map() returns 0 on failure, not a negative ERRNO.
+>>
+>> Fixes: caf6e49bf6d0 ("NFC: nfcmrvl: add spi driver")
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>> This is another issue to https://lore.kernel.org/all/20220422084605.2775=
+542-1-lv.ruyi(a)zte.com.cn/
+> =
 
-Fixes: caf6e49bf6d0 ("NFC: nfcmrvl: add spi driver")
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Maybe send one patch that fixes both and also fixes the usage of ret?
 
----
+Bah, I just blindly copied one part of his patch without deeper check.
+Thanks for noticing it.
 
-This is another issue to https://lore.kernel.org/all/20220422084605.2775542=
--1-lv.ruyi(a)zte.com.cn/
----
- drivers/nfc/nfcmrvl/spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nfc/nfcmrvl/spi.c b/drivers/nfc/nfcmrvl/spi.c
-index a38e2fcdfd39..01f0a08a381c 100644
---- a/drivers/nfc/nfcmrvl/spi.c
-+++ b/drivers/nfc/nfcmrvl/spi.c
-@@ -115,7 +115,7 @@ static int nfcmrvl_spi_parse_dt(struct device_node *nod=
-e,
- 	}
- =
-
- 	ret =3D irq_of_parse_and_map(node, 0);
--	if (ret < 0) {
-+	if (!ret) {
- 		pr_err("Unable to get irq, error: %d\n", ret);
- 		return ret;
- 	}
--- =
-
-2.32.0
-
---===============6872946950928981758==--
+Best regards,
+Krzysztof
+--===============2773446360052608887==--
 
