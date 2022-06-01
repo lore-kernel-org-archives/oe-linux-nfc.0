@@ -1,63 +1,75 @@
-Content-Type: multipart/mixed; boundary="===============5913754283850947803=="
+Content-Type: multipart/mixed; boundary="===============7543143362667110335=="
 MIME-Version: 1.0
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: linux-nfc@lists.01.org
-Subject: [PATCH v2] nfc: port100: fix using -ERRNO as command type mask
-Date: Mon, 25 Oct 2021 16:49:36 +0200
-Message-ID: <20211025144936.556495-1-krzysztof.kozlowski@canonical.com>
+Subject: [neard][PATCH] ci: build on newest Ubuntu Jammy Jellyfish (22.04)
+Date: Wed, 01 Jun 2022 14:16:34 +0200
+Message-ID: <20220601121634.192225-1-krzysztof.kozlowski@linaro.org>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============5913754283850947803==
+--===============7543143362667110335==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-During probing, the driver tries to get a list (mask) of supported
-command types in port100_get_command_type_mask() function.  The value
-is u64 and 0 is treated as invalid mask (no commands supported).  The
-function however returns also -ERRNO as u64 which will be interpret as
-valid command mask.
+Add building under CI on Ubuntu Jammy Jellyfish (22.04).
 
-Return 0 on every error case of port100_get_command_type_mask(), so the
-probing will stop.
-
-Cc: <stable@vger.kernel.org>
-Fixes: 0347a6ab300a ("NFC: port100: Commands mechanism implementation")
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
+ .github/workflows/ci.yml | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-Changes since v1:
-1. Drop debug code.
----
- drivers/nfc/port100.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index 517376c43b86..16ceb763594f 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -1006,11 +1006,11 @@ static u64 port100_get_command_type_mask(struct por=
-t100 *dev)
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 1759d6571e74..2adf6f102d36 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -34,6 +34,7 @@ jobs:
+           - fedora:latest
+           - fedora:35
+           - fedora:34
++          - ubuntu:jammy
+           - ubuntu:impish
+           - ubuntu:hirsute
+           - ubuntu:focal
+@@ -177,6 +178,20 @@ jobs:
+             variant: sanitizers
  =
 
- 	skb =3D port100_alloc_skb(dev, 0);
- 	if (!skb)
--		return -ENOMEM;
-+		return 0;
+           # Ubuntu 32-bit builds
++          - container: "ubuntu:jammy"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: maintainer
++            variant: i386
++
++          - container: "ubuntu:jammy"
++            arch: i386
++            compiler: gcc -m32
++            cross_compile: i686-linux-gnu
++            mode: no-maintainer
++            variant: i386
++
+           - container: "ubuntu:impish"
+             arch: i386
+             compiler: gcc -m32
+@@ -220,6 +235,12 @@ jobs:
+             variant: i386
  =
 
- 	resp =3D port100_send_cmd_sync(dev, PORT100_CMD_GET_COMMAND_TYPE, skb);
- 	if (IS_ERR(resp))
--		return PTR_ERR(resp);
-+		return 0;
- =
-
- 	if (resp->len < 8)
- 		mask =3D 0;
+           # Ubuntu GCC sanitizer builds
++          - container: "ubuntu:jammy"
++            arch: x86-64
++            compiler: gcc
++            mode: maintainer
++            variant: sanitizers
++
+           - container: "ubuntu:impish"
+             arch: x86-64
+             compiler: gcc
 -- =
 
-2.30.2
+2.34.1
 
---===============5913754283850947803==--
+--===============7543143362667110335==--
 
