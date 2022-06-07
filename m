@@ -1,75 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============7543143362667110335=="
+Content-Type: multipart/mixed; boundary="===============7981945238433317263=="
 MIME-Version: 1.0
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: linux-nfc@lists.01.org
-Subject: [neard][PATCH] ci: build on newest Ubuntu Jammy Jellyfish (22.04)
-Date: Wed, 01 Jun 2022 14:16:34 +0200
-Message-ID: <20220601121634.192225-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH net v3 1/3] nfc: st21nfca: fix incorrect validating logic in EVT_TRANSACTION
+Date: Tue, 07 Jun 2022 19:13:37 +0200
+Message-ID: <e24f904b-0eaa-dd48-2647-8aaee510beca@linaro.org>
+In-Reply-To: <20220607025729.1673212-2-mfaltesek@google.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============7543143362667110335==
+--===============7981945238433317263==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add building under CI on Ubuntu Jammy Jellyfish (22.04).
+On 07/06/2022 04:57, Martin Faltesek wrote:
+> The first validation check for EVT_TRANSACTION has two different checks
+> tied together with logical AND. One is a check for minimum packet length,
+> and the other is for a valid aid_tag. If either condition is true (fails),
+> then an error should be triggered.  The fix is to change && to ||.
+> =
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .github/workflows/ci.yml | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> Fixes: 26fc6c7f02cb ("NFC: st21nfca: Add HCI transaction event support")
+> Cc: stable(a)vger.kernel.org
+> Signed-off-by: Martin Faltesek <mfaltesek@google.com>
+> ---
+>  drivers/nfc/st21nfca/se.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
-index 1759d6571e74..2adf6f102d36 100644
---- a/.github/workflows/ci.yml
-+++ b/.github/workflows/ci.yml
-@@ -34,6 +34,7 @@ jobs:
-           - fedora:latest
-           - fedora:35
-           - fedora:34
-+          - ubuntu:jammy
-           - ubuntu:impish
-           - ubuntu:hirsute
-           - ubuntu:focal
-@@ -177,6 +178,20 @@ jobs:
-             variant: sanitizers
- =
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
-           # Ubuntu 32-bit builds
-+          - container: "ubuntu:jammy"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: maintainer
-+            variant: i386
-+
-+          - container: "ubuntu:jammy"
-+            arch: i386
-+            compiler: gcc -m32
-+            cross_compile: i686-linux-gnu
-+            mode: no-maintainer
-+            variant: i386
-+
-           - container: "ubuntu:impish"
-             arch: i386
-             compiler: gcc -m32
-@@ -220,6 +235,12 @@ jobs:
-             variant: i386
- =
+https://elixir.bootlin.com/linux/v5.17/source/Documentation/process/submitt=
+ing-patches.rst#L540
 
-           # Ubuntu GCC sanitizer builds
-+          - container: "ubuntu:jammy"
-+            arch: x86-64
-+            compiler: gcc
-+            mode: maintainer
-+            variant: sanitizers
-+
-           - container: "ubuntu:impish"
-             arch: x86-64
-             compiler: gcc
--- =
+If a tag was not added on purpose, please state why and what changed.
 
-2.34.1
 
---===============7543143362667110335==--
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
+--===============7981945238433317263==--
 
