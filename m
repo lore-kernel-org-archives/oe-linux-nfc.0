@@ -1,42 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============4784724684555916657=="
+Content-Type: multipart/mixed; boundary="===============8363238811109889452=="
 MIME-Version: 1.0
-From: Mark Greer <mgreer@animalcreek.com>
+From: Martin Faltesek <mfaltesek@google.com>
 To: linux-nfc@lists.01.org
-Subject: Re: [PATCH v2] ndef: Only register interface for known records
-Date: Sun, 10 Nov 2019 21:37:33 -0700
-Message-ID: <20191111043733.GB2789@animalcreek.com>
-In-Reply-To: <CAPybu_2+p6vzPnmD05jBksRdAH8sYwPYeojU_FrmCOmY_dN=kg@mail.gmail.com>
+Subject: Re: [PATCH net v3 0/3] Split "nfc: st21nfca: Refactor EVT_TRANSACTION" into 3
+Date: Wed, 20 Jul 2022 08:53:44 -0600
+Message-ID: <CAOiWkA_AcD_J1r1ncvmX8YswbMiS2fx5WySrYwvfdFE4qgk=hQ@mail.gmail.com>
+In-Reply-To: <fc85ff14-70d6-0c3e-247d-eda2284a5f6b@oracle.com>
 List-Id: <oe-linux-nfc.lists.linux.dev>
 
---===============4784724684555916657==
+--===============8363238811109889452==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-> On Sat, Nov 9, 2019 at 9:38 PM Mark Greer <mgreer@animalcreek.com> wrot=
-e:
-> > On Fri, Nov 08, 2019 at 10:05:01AM +0100, Samuel Ortiz wrote:
-> > > What about moving the neard repo to github and have you or Ricardo (or
-> > > both) maintain it from there?
+On Wed, Jul 20, 2022 at 1:25 AM Denis Efremov
+<denis.e.efremov@oracle.com> wrote:
+>
+> Hi,
+>
+> On 6/7/22 06:57, Martin Faltesek wrote:
 > >
-> > I'm okay with that but I am really busy these days.  I'll do what I
-> > can but I know I won't be very prompt.  Ricardo, can you help me with
-> > that?
+> > Martin Faltesek (3):
+> >   nfc: st21nfca: fix incorrect validating logic in EVT_TRANSACTION
+> >   nfc: st21nfca: fix memory leaks in EVT_TRANSACTION handling
+> >   nfc: st21nfca: fix incorrect sizing calculations in EVT_TRANSACTION
+> >
+> >  drivers/nfc/st21nfca/se.c | 53 ++++++++++++++++++++++-----------------
+> >  1 file changed, 30 insertions(+), 23 deletions(-)
+>
+>
+> It looks like driver st-nci contains the same problems and all 3 fixes are
+> also applicable to st_nci_hci_connectivity_event_received() function.
+> At least I can see the memory leak
+> https://elixir.bootlin.com/linux/v5.19-rc7/source/drivers/nfc/st-nci/se.c=
+#L343
+>
+> Can you please double check the st-nci driver and send the same fixes to =
+it?
+> Reported-by: Denis Efremov <denis.e.efremov@oracle.com>
 
-On Sun, Nov 10, 2019 at 05:37:29PM +0100, Ricardo Ribalda Delgado wrote:
-> Unfortunately I cannot contribute much. I am not using neard everyday,
-> it is not my area of expertise and I just got a baby #2, so not much
-> time left for hacking :).
-
-Darn :(   (but congrats on the new baby)
-
-I'm not working with it everyday either but as long as people are patient,
-I'll do what I can.
-
-I'll shake off the neard cobwebs and send an email with more info in the
-next few weeks.
-
-Mark
---
---===============4784724684555916657==--
+Will do.
+--===============8363238811109889452==--
 
