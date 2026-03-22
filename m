@@ -1,89 +1,137 @@
-Received: from repostorp01.tmes.trendmicro.com (repostorp01.tmes.trendmicro.com [18.208.22.165])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D05D7483
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 21 Oct 2025 06:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.208.22.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD132DF3FD;
+	Sun, 22 Mar 2026 14:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761028701; cv=none; b=k94b9Fp/Oy+qB05Qq/yRU7MrcpEEGcv/8aBwjnSJeANXnptdDKnvKEXF3PetUsoL0eAJ96eIhJG9YzwMOoUkNmzOsOjrTg9qxEY0eUWf1JxZ8LNPNk/qP57U//2vozOSKZNM6hkUO/4Ueravk976un8WR1fJSdtveB94mvuK4Nk=
+	t=1774189462; cv=none; b=sXK8hePdwri6tEy3GilagELpqMeZTewBC20vDdW4Dx7dYoA9NDd4PyhmPAFwUDZufY3LZ7B6Z/DGHTEkLejSTspK/DKUgssiVapLDOvDc4BYjjB74Iwm/Hui3xBunxr1GUFlLWAM30ZynU+jbVKGPwHVQKW2jMq6qyCt3+G3d4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761028701; c=relaxed/simple;
-	bh=GCIjAavW/181CN7IEoh14KgB9N8unJyd4ekY2biBNGE=;
-	h=Content-Type:MIME-Version:Subject:To:From:Date:Message-ID; b=sp18SO44R8gje57Y4ZTg0LDS0gLDITPYXTHf8Jz57llstRu8Njtlfk0ZcoNC6T/bd1WzlW84/ND1w/KB8wG0s49g7k8ly/oJhH+GMAnewbifH1FB1rWRcC7eR26AuNfq0jqQfn6ZCJ/TNcBBdXxOux1eu/8Ves/gLg9519uJilY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=intrasp.com; spf=pass smtp.mailfrom=intrasp.com; arc=none smtp.client-ip=18.208.22.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=intrasp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intrasp.com
-Received: from 97.107.175.134_.trendmicro.com (unknown [192.168.160.81])
-	by repostorp01.tmes.trendmicro.com (Postfix) with SMTP id 211DB100055AE
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 21 Oct 2025 06:31:26 +0000 (UTC)
-X-TM-MAIL-RECEIVED-TIME: 1761028284.549000
-X-TM-MAIL-UUID: 21f4d3e4-472c-41ee-8b88-bbd6f883d2ed
-Received: from whip2k16exch2.local.intrasp.com (unknown [97.107.175.134])
-	by repre01.tmes.trendmicro.com (Trend Micro Email Security) with ESMTPS id 8617010000415
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 21 Oct 2025 06:31:24 +0000 (UTC)
-Received: from whip2k16exch6.local.intrasp.com (172.25.10.75) by
- whip2k16exch2.local.intrasp.com (172.25.10.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Mon, 20 Oct 2025 08:39:29 -0400
-Received: from [67.211.218.41] (172.25.10.249) by
- whip2k16exch6.local.intrasp.com (172.25.10.75) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Mon, 20 Oct 2025 08:39:29 -0400
-Content-Type: text/plain; charset="iso-8859-1"
+	s=arc-20240116; t=1774189462; c=relaxed/simple;
+	bh=0y+vz9QItdufZS4Gg1aj8uk09vnC7uOD1Z32a7tIeRg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cQoYQ3XvpejmSw75Mirln3s8VIzxCABX19NzeR/1X9bcsvXtzruq1cy5jrdhCRG8Fhv65jA7ZNqtt6EctGldqlKpAMe9FnsmowG44INZiEgHkJmTNmH9lBpnUltQNm2QBzjIE7F2YDGxGYRaC3c4J7YHrhV3PBBA9Oid/DE3fRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ei1+DEwY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ei1+DEwY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A63D7C19424;
+	Sun, 22 Mar 2026 14:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774189461;
+	bh=0y+vz9QItdufZS4Gg1aj8uk09vnC7uOD1Z32a7tIeRg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Ei1+DEwY7ZM+wqpz2Zgm+3/3DVfJB7cGCQeTzHKzfH/5dEJ6VVfh/rz3dSL/BffuO
+	 fxemgNDV2E6xps7ZAMrOG2f0udBFQ9dRskehTyv5xtlsCfkb/85N1+xE7T1SKjpwl3
+	 78R7OEnisCV16N8e3Gm4cZTBRm/X+BFc5xD3v/E70Of3nhc+ojQViP4SaiTRNr6j/y
+	 ihN52SVHy+awrPcVKweLuaGc7uHoGv6iZM2+bpNuUsIkd5lKVhmlg8i/ae1FB328zz
+	 Ah4ybp5+MhzyWMfIP/5pjJyb5de7/jL1ZPjFA/TnVebx1c70wjbCZ6xh246YJwNXpQ
+	 qs/4ndDr1lrZQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D6CBFC72C6;
+	Sun, 22 Mar 2026 14:24:21 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH QUESTION 0/2] NFC support in Linux (and support for
+ Qualcomm SDM845 devices)
+Date: Sun, 22 Mar 2026 15:24:18 +0100
+Message-Id: <20260322-oneplus-nfc-v1-0-5f22f544f0e2@ixit.cz>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Happy new week
-To: <oe-linux-nfc@lists.linux.dev>
-From: Agnes Jansson <info@intrasp.com>
-Date: Mon, 20 Oct 2025 05:39:29 -0700
-Reply-To: <ssonag@myyahoo.com>
-Message-ID: <432eb1ae-339e-4478-879e-5066e342eb26@whip2k16exch6.local.intrasp.com>
-X-TM-AS-Product-Ver: SMEX-14.0.0.3197-9.1.2019-29524.007
-X-TM-AS-Result: Yes-11-12.243000-5.000000
-X-TMASE-MatchedRID: N2fUZJz3OShoFYz/CdsK21hkmCjWYvWlBnnqsDy1JZvDu68k1pOZyvEe
-	6YhNZBNZdVMMMfKRdJW9RmQZtCSUnlju3159ygOASr+cp4/vPz03RfriMbLZ1lpNoCvWVa6elvC
-	Zzq53vTPcTFAdTFwg8sEKTQfwfHWWuP/ulu8PzwKzU/meEczQBg3Dg+/w0GvdCrmx3Yw6A+hn2V
-	WYIH+KF8EwdR2NHy5RqffmT1Nc0gGZtGPs9XI0jWsCVKm5hjwdqvJX/aNGr9fNRJskm2Jy4rvc+
-	JsSrEmx2HlzhM3zNtkYe694pvgEdL47RhcgLTakVj8ed+k2TED9OVEhhp2CSY+5VzYHzfxGN+zI
-	b4GcL11aOxpgjiWHddvIAMT/07OiVgdeV2vJIbbI+roqDNpYEzceSZzU898mcBAm2m0ryrblWiQ
-	940EMybeCsHkb/pKB
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 11-12.243000-4.000000
-X-TMASE-Version: StarCloud-1.3-9.2.1005-29526.005
-X-C2ProcessedOrg: 5edd910e-9fd1-4923-a364-be7f04c5556e
-X-TM-AS-ERS: 97.107.175.134-0.0.0.0
-X-TMASE-XGENCLOUD: 2d9beb0b-e311-4574-b77f-8ce17f40faef-10-0-200-0
-X-TM-Deliver-Signature: AE14F2537E96752C377D6479F97064C6
-X-TM-Addin-Auth: 2NpABAR+R6mxHeiRH7g4iCBXbl1z+14aiYlsl7r2QdWP3+iDSNfXZ51R7ds
-	MrolJQ5GmkQil7gNeXefZp7lZdiTMZow8jaydATimDefgyj3pThXFS5om1eTNgbw3KdfK0ImSqD
-	rICOG8q7zSGDOVQf+hUtJUgpz6vvMyNSUG3PeJlWGRC4yekjzIZzJFiAiuuEmAHuBrlDPN0T0fx
-	Fdt+oApF4+GAnAQuATk0mmSNPmPkNPxkw0/zAVypH+6krHxDpvZTQYgVCO2e3XEvf/GDFFjdips
-	O3xhViEulJ3i1+fRRaUAJzt5gYl9pg1JIg2zY210u5F/6jHIT89pLDztZQ==.Pp3bxyVWGSHxVn
-	BqmvX/5e78t/Zmj4gMVxCRAhN+ftDpy/7Ff5yu7lTiekgtZKIrWCcbdiHFVVtgKB/nXbEHNmz4s
-	bIGt02gYIgai2OfTYs0xhqn+uCyHdbIl66IBBvEgf5xlnWpxX7qD0SqdNokm748D8D7e3vCzPeA
-	ldnAkamxbbVOhuiIK8mASzP6OE72xyAlx0K0qRc48aNWn13LvA85NNQeSgTcjPjSpIFYsfBKYGQ
-	268Q7hqe4XbwMXh4//pOln6SWMhwsRP00qQgS9HVibnsSSOxu0hp5C5//Q69BclauRqllIMUyei
-	PyREhYr33fiy69bHummGtPLMVYYA==
-X-TM-Addin-ProductCode: EMS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJL7v2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0ML3fy81IKc0mLdvLRk3WQDg9Q0w+SUtETLJCWgjoKi1LTMCrBp0Uq
+ Boa7BIZ7+fkqxtbUAFlwnv2cAAAA=
+X-Change-ID: 20251118-oneplus-nfc-c00ef1cdfa9b
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Petr Hodina <petr.hodina@protonmail.com>, 
+ biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1991; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=0y+vz9QItdufZS4Gg1aj8uk09vnC7uOD1Z32a7tIeRg=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpv/uUtZf7rj034FIS1wsfZrfec7TNLugbDYF7R
+ C+mgBKhrreJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCab/7lAAKCRBgAj/E00kg
+ cuV9EADQlJ4AcLuzCdke6vz8uKtFi3LaQOIqic0KyvwHlDp+iSQqpo+q4muU3H4juTjatvmVK5G
+ XMHc4TL31G5HNqmJhWqmmySxXnHDOiYu5Ql7oJ1WonCv1bmHUaJWMXwIWDxM0cHpPZdx6CvqbWJ
+ aMlqrxyWAHv6L/bFwtzWemA6ksOrWhxf4Ni+kR6PGHlx6VxbeSzK1g2SM5L4S8MrBFFpmcRpwV5
+ TYQobX1Yc4i6i+4R9QBkfQ12stVgfzmDahkAYg+zLOlR1n15tyjiIYqcDrtcVhM00s4i29vlwUT
+ ftQLSQfDTkO79tZxrwEjQEpJSSRfXd2Zm8F/junJvqicQe620B7/kuuC18rRWAMOnkgMfKk/g35
+ HAS9Ix2yNCR33d6LPWnP6/ZUSuoV0FtW9LlynGRngPw6Gj3xg6Jlgew6V+f78niy+ea/V9TOt/Q
+ YFaO3F2u8vliJgkXY2W+xCbC7j58OVHU9v21SN9soCjkVnQrv7QKryuM5Wjmg7mzKwFmKwJ80mK
+ YXD9TA6CGwdYTQgXRqBCdUwTBomwtpEpnj6ytQPxKEviwR/kYO9uk/K8BrUBbXFQQbLqKkd0zK2
+ oFxytPIG7qMZ/Y7WvQYg8CpqQtMlCllYog9Lg9Es7ScX/LRKgoNRQm9EjfppdniQJRlmPUj6QfI
+ aMOYx1GrDk8NzXw==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-I hope this message finds you well. My name is Agnes Jansson and I'm from S=
-weden. I am writing to you today to request a pen pal friendship. I have al=
-ways been fascinated by the idea of having a pen pal, and I believe that it=
- would be a great opportunity to learn about new cultures and exchange idea=
-s with someone from a different part of the world.If you are open to the id=
-ea, I would love to exchange letters and get to know you better. We could t=
-alk about anything and everything, from our daily lives to our interests an=
-d hobbies. I believe that this could be a truly enriching experience for bo=
-th of us, and I look forward to hearing back from you.
+There isn't upstream driver.
 
-Thank you for your time and consideration.
+I'm openining this as a starter. We need a NFC drivers I assume. I tried
+quick check, but both of NFC drivers register
+
+nfc: nfc_init: NFC Core ver 0.1
+NET: Registered PF_NFC protocol family
+
+but efficiently does nothing. In the See section, there are some ways
+how to make NFC work, but rely on patched vendor libs, missing updates
+etc.
+
+1. What hardware is present on Snapdragon 845, is there some
+   documentation? It seems that both sdm845 devices has almost identical
+   setup, thus it's NFC solution integrated? @Qualcomm
+
+2. What's the right approach to continue? Should we upstream these
+   definitions and then start developing user-space stack? @netdev (I
+   see orphaned)
+
+Since looking at NFC mailing list (oe-linux-nfc) and seeing it's pretty
+much dead, would be cool to revive it.
+
+Also there is some effort from Arch people [1], but likely without clean
+path to mainline.
+
+Can we revieve the NFC effort? I'm offering limited maintanance (in case
+people would send patches).
+
+See:
+ - https://gitlab.com/sdm845-mainline/linux/-/merge_requests/62
+ - https://github.com/NXPNFCLinux/linux_libnfc-nci/
+   - https://github.com/biemster/pmos-openbox-conky/blob/main/libnfc-nci.patch
+   - https://github.com/biemster/pmos-openbox-conky/blob/main/nfctest.patch
+   - pull request
+   - full of hacks
+
+ - [1] https://github.com/zmr-233/linux-nxp-nfc-fix
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+David Heidelberg (1):
+      arm64: dts: qcom: sdm845-shift-axolotl: Enable NFC
+
+biemster (1):
+      arm64: dts: qcom: sdm845-oneplus: Enable NFC
+
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 32 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts  | 33 ++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+---
+base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
+change-id: 20251118-oneplus-nfc-c00ef1cdfa9b
 
 Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
 
-Agnes
+
