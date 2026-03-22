@@ -1,33 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801011A6815;
-	Sun, 22 Mar 2026 19:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8326F35A3A0
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Mar 2026 20:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774208905; cv=none; b=Ee+q1JzziceDlP/gpB7e6pJ0fvDfGYuljdv94Fnze4hqSSkzdZrcTKLaVdZpPICEFBAG/e6jY4jYXr2An2YQbf5u7ac32N2tQCSnfUCl9vlhPPrDXlaDlJcTfElBi1m1aK9b2vtp9DBbF9KXdsihpPzT3/tt+ofiOoyLl9MS6So=
+	t=1774212902; cv=none; b=S+ZVVWW0jRteJtpW+hC8sAPnfv1Udz7/O/DS++FPO6xbSz671kV8aQOjMeAfYl87Lfy6Sjfm7ZuI8Nn0L+JnNxGizmTctWTacdcxyPC4VKkyfZa1pP2pqxVGbD23LJyYNqgav2TQ/lcTTfoT0Vd8xcx5YLUh6MoDD4Kfwu1XDm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774208905; c=relaxed/simple;
-	bh=hsLkvAUgRxRQJzXQcQZokLRvOtZGiaYVCTbdJvhfGkM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YLXZHPC/r4ckggNcfL50oLQ+Ea0SiEXbiRWFL8DDhD/7Io3OC3pJ2q2/+Pq5GSoRB6GuL9UHlKx5GzakU0egEGMDhemPFL0ENbE6WHKMpcUNET6U1bK5AmUrkxxL9JpWxRYHHCRPmeoYjU3tXTkxTrw/0/j2uVtUT+ROWCrbCcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJynRHho; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774212902; c=relaxed/simple;
+	bh=j97lGohVpFTj7efGRC5n+jWuCifb7cC1mnpda+gWElc=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=jvkFRK0mcQpzfdRn0/2myBn3+m0DhoiSg+lZ1OT6v4rfdi8r7Ll7nAR9G30EcTQpQICzFQak69gJgiY+L2bs72XdFrS6ERDeu4mQ/p0JSHOifkv/XhyKufZOPgdu8q4i6p63x0zVePVQj69DG9E1O923fjt12mmvA4XbB3nop2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5fzF/hM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJynRHho"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4414DC19424;
-	Sun, 22 Mar 2026 19:48:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5fzF/hM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C108C19424;
+	Sun, 22 Mar 2026 20:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774208905;
-	bh=hsLkvAUgRxRQJzXQcQZokLRvOtZGiaYVCTbdJvhfGkM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IJynRHho/9IV0v/RSzh7fxYdgT/lyOvO3O8QsZQmVmjayvPkC4t+NWUbhTJMHWtVm
-	 IfV613+T/NebAdRZJ09PoBNevgB5muW+4n96gDcNPz9QnFtBJW8i5nGS+bKE6tmGBl
-	 iCBHEdU+88gW5SaIbvekm+ZEASVCxpyJvdr8cyxwbPx2oPmTJgu424vC6vjj/h9hDh
-	 n+su0sSp8AaHG2PU1Jw7kNOACjH8uxm0DVJpoNZG4o6eHL+CFxLoIDIWAdlASD2bMv
-	 XlSsTiPqojypo+A/U+37yGwkDfeY2yuW8pG+5IMLL/p7WLhFAs0UFU/tzig2wFY/XP
-	 U0Kt/yn9WVFFA==
-Message-ID: <eb316800-0be6-4aa7-b9f6-e2b17646d1a0@kernel.org>
-Date: Sun, 22 Mar 2026 20:48:20 +0100
+	s=k20201202; t=1774212902;
+	bh=j97lGohVpFTj7efGRC5n+jWuCifb7cC1mnpda+gWElc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=L5fzF/hMC4danb53wOTZjUn2+/7LPMwivo18dXDGc8ZgZ75gAR7s/MeI0u6tRwxSQ
+	 TYA7zAWkwUSqaUfLMEmOIFZEXOh1wqANg3FDOotUdNIUadDmsXRG6YHL7F6vpaUzra
+	 Kh4qWb7e8PWb0XXQ/PMII1bBdbXCYOPW/KOsUVFm0xLh/dogHF29CLCIQmuEdJGFI1
+	 txHvfwy0TBSg1fRBwZrFdjwsIKqjge0kSJqHWfpEdaiKVZiphPWsu2XnuJB9CUWBq1
+	 T80BMiiJdQLwRoXMgGL5M6nTWVFQYnePFkHrprbHG97rqt7NQw0cLFushVstAaT3jp
+	 DVb4mlaNZTijQ==
+Message-ID: <4f4566c7-1927-4414-b351-4cb90484dd84@kernel.org>
+Date: Sun, 22 Mar 2026 21:54:59 +0100
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -35,19 +34,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH QUESTION 0/2] NFC support in Linux (and support for
- Qualcomm SDM845 devices)
-To: david@ixit.cz, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Petr Hodina <petr.hodina@protonmail.com>,
- biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260322-oneplus-nfc-v1-0-5f22f544f0e2@ixit.cz>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
+To: oe-linux-nfc@lists.linux.dev
+Cc: Mark Greer <mgreer@animalcreek.com>
+Subject: neard v0.20 release
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -91,55 +82,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260322-oneplus-nfc-v1-0-5f22f544f0e2@ixit.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/03/2026 15:24, David Heidelberg via B4 Relay wrote:
-> There isn't upstream driver.
-> 
-> I'm openining this as a starter. We need a NFC drivers I assume. I tried
-> quick check, but both of NFC drivers register
-> 
-> nfc: nfc_init: NFC Core ver 0.1
-> NET: Registered PF_NFC protocol family
-> 
-> but efficiently does nothing. In the See section, there are some ways
-> how to make NFC work, but rely on patched vendor libs, missing updates
-> etc.
-> 
-> 1. What hardware is present on Snapdragon 845, is there some
->    documentation? It seems that both sdm845 devices has almost identical
->    setup, thus it's NFC solution integrated? @Qualcomm
-> 
-> 2. What's the right approach to continue? Should we upstream these
->    definitions and then start developing user-space stack? @netdev (I
->    see orphaned)
+Hi there!
 
-User space stack is there already.
+This is announce of new release of neard, an user-space counterpart of
+Linux kernel NFC stack, v0.20.
 
-> 
-> Since looking at NFC mailing list (oe-linux-nfc) and seeing it's pretty
-> much dead, would be cool to revive it.
-> 
-> Also there is some effort from Arch people [1], but likely without clean
-> path to mainline.
-> 
-> Can we revieve the NFC effort? I'm offering limited maintanance (in case
-> people would send patches).
-> 
-> See:
->  - https://gitlab.com/sdm845-mainline/linux/-/merge_requests/62
->  - https://github.com/NXPNFCLinux/linux_libnfc-nci/
+The release includes a few minor fixes.
 
-I don't know which interface libnfc-nci is using. There are multiple NFC
-stack implementations in general, but the one using kernel interface is
-neard.
 
-You will not get another stack, but taking care of Linux nfc and neard
-would be appreciated.
+Source code release:
+https://web.git.kernel.org/pub/scm/network/nfc/neard.git/tag/?h=v0.20
+https://web.git.kernel.org/pub/scm/network/nfc/neard.git/snapshot/neard-0.20.tar.gz
 
-Let me release a new version for it.
+
+I should have released it much earlier, though. I think this release
+thanks to Mark Greer finally dumps Python 2 dependency - last blocker of
+packaging for Debian. Anyone would like to revive the Debian package?
 
 Best regards,
 Krzysztof
+
