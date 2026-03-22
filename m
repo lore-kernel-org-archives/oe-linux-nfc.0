@@ -1,142 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22510363C49;
-	Sun, 22 Mar 2026 14:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801011A6815;
+	Sun, 22 Mar 2026 19:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774189462; cv=none; b=gxQf+hjGpwEs7Csn79ljM76GgoVvUkJBNLpA3tfweZdOFeARphqfC35f0FEMQ3kQvLbtrGTaEsEZQlr1nh4YuYtQva12wWb8b7IU2fqsIcesnpckxcxBl6gepNvfC/rDu7e41/wS8QfRaP4Shlg9mBiQGJ2ySIou+afjJZjRw6Q=
+	t=1774208905; cv=none; b=Ee+q1JzziceDlP/gpB7e6pJ0fvDfGYuljdv94Fnze4hqSSkzdZrcTKLaVdZpPICEFBAG/e6jY4jYXr2An2YQbf5u7ac32N2tQCSnfUCl9vlhPPrDXlaDlJcTfElBi1m1aK9b2vtp9DBbF9KXdsihpPzT3/tt+ofiOoyLl9MS6So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774189462; c=relaxed/simple;
-	bh=XbUqrT7qss2bjTqlhu4hDVM7HCLgTM5ifxyigq2ux68=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VvNybMn1L31zfbw0xaveFkeDF6Czgz3t21+jFDTGZSzffOYFoLoafBsLlNNuPaODverq8nc2La8Z1cX6WIlcqwtYkBpCXpZXRBY85cKXMgYEuR+p4B+Q0E5Ev6CEBtdNmjcDqVQeAPJojsri9y2RTUMbduj+gbfiXrI3TH3cRvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcXcmrpP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774208905; c=relaxed/simple;
+	bh=hsLkvAUgRxRQJzXQcQZokLRvOtZGiaYVCTbdJvhfGkM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YLXZHPC/r4ckggNcfL50oLQ+Ea0SiEXbiRWFL8DDhD/7Io3OC3pJ2q2/+Pq5GSoRB6GuL9UHlKx5GzakU0egEGMDhemPFL0ENbE6WHKMpcUNET6U1bK5AmUrkxxL9JpWxRYHHCRPmeoYjU3tXTkxTrw/0/j2uVtUT+ROWCrbCcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJynRHho; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcXcmrpP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD126C2BCB5;
-	Sun, 22 Mar 2026 14:24:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJynRHho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4414DC19424;
+	Sun, 22 Mar 2026 19:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774189461;
-	bh=XbUqrT7qss2bjTqlhu4hDVM7HCLgTM5ifxyigq2ux68=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=hcXcmrpP05MSLZE7pWiVF4+knrfygILa5n2u4r+giuWYP9GnhYAtnMdarlYABw6a7
-	 lgOrj8l+01w8Vlsuyn7ZtMqm8lNRVUM1MAX0OoCJt2DNvZvT+bRNMgj2P0YQq/ssQ5
-	 mw76pdDch9ur6uHXCPhndFgxZjxgKeABhsFxH4pv/K2tiZW+Plt9x/jlpp1otU+Q2m
-	 c1xCc+E++H86dDPBHiAVKuZqtUcoONDLb4gd6UtIP6KX191cqURPCTKd/k4uwTLWgd
-	 PwdCb58sgAf+km4Etrtpu162oHBExOTiX5Hef+AZomyyydbN3GUNfMARqDfwnT2Pr8
-	 Dr+bphBKXmYIg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5606FC72C8;
-	Sun, 22 Mar 2026 14:24:21 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sun, 22 Mar 2026 15:24:20 +0100
-Subject: [PATCH QUESTION 2/2] arm64: dts: qcom: sdm845-shift-axolotl:
- Enable NFC
+	s=k20201202; t=1774208905;
+	bh=hsLkvAUgRxRQJzXQcQZokLRvOtZGiaYVCTbdJvhfGkM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IJynRHho/9IV0v/RSzh7fxYdgT/lyOvO3O8QsZQmVmjayvPkC4t+NWUbhTJMHWtVm
+	 IfV613+T/NebAdRZJ09PoBNevgB5muW+4n96gDcNPz9QnFtBJW8i5nGS+bKE6tmGBl
+	 iCBHEdU+88gW5SaIbvekm+ZEASVCxpyJvdr8cyxwbPx2oPmTJgu424vC6vjj/h9hDh
+	 n+su0sSp8AaHG2PU1Jw7kNOACjH8uxm0DVJpoNZG4o6eHL+CFxLoIDIWAdlASD2bMv
+	 XlSsTiPqojypo+A/U+37yGwkDfeY2yuW8pG+5IMLL/p7WLhFAs0UFU/tzig2wFY/XP
+	 U0Kt/yn9WVFFA==
+Message-ID: <eb316800-0be6-4aa7-b9f6-e2b17646d1a0@kernel.org>
+Date: Sun, 22 Mar 2026 20:48:20 +0100
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260322-oneplus-nfc-v1-2-5f22f544f0e2@ixit.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH QUESTION 0/2] NFC support in Linux (and support for
+ Qualcomm SDM845 devices)
+To: david@ixit.cz, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Petr Hodina <petr.hodina@protonmail.com>,
+ biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
 References: <20260322-oneplus-nfc-v1-0-5f22f544f0e2@ixit.cz>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
 In-Reply-To: <20260322-oneplus-nfc-v1-0-5f22f544f0e2@ixit.cz>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Petr Hodina <petr.hodina@protonmail.com>, 
- biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1522; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=bg/8Mn64amhNeliB/CDjN88OEUAaoSKykTAgAGciekI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpv/uUH1GaubGxzAbpeIoZHLVihTMq2aub8E8R/
- HEKSiFPJvCJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCab/7lAAKCRBgAj/E00kg
- ciRmD/4ocnaCQSjo5z+kVKbzx56vvvy5UY4RX218IPBYHq7G+VUq2b5ofKiz3WvOb5kGXEbsJoi
- AJF7U8/PLvcEvOaylm8BOlLjBM5BQ0XsTRzIRKg9emYKmTpXgDjnfGijCzAhL6FdsEVbcwjp0bL
- NUDyy9p7ZN2cjA1HZJ0T0d6TuIrgDb5vTILZQ0lgL/f57A0lfudJkVoFF0dpDbLrjdpZgRfDqF1
- FWzKNN2SkFCDKj2J8tv4lGgu4XUnLPIGVHrhtx4Z/GtazO7owFj1j+fKC5CiNifsQFcbj0eV/Np
- BZ6HLiTrr/tQ2cKt+YN6MRIhMt8YGX7kJT3wzbkeVPf57QEznZK3RRRhB1nAQw4fX1s1l+zISgQ
- CASZl+kmtMO/1k89mVvgQVBr505ApP1ildlMeOJzmUlVI1ikWviKvogH2Nck81X6RTnBFRkUG+P
- PvNwfj00GgXktjexXgH41LTlijfDc7+AZFzeOYuHpJblsicWanHo0cUp2vEq3lK6LgBlj7m9pvT
- NdSryJeqI5B0gSd7Z4ziZAotDvKaGZXcOVx7Ngrhe4sW/UAtvqOAo2+R7/BaHBYTXYzUQHe05sG
- Rsf/6jVVUs8PeQq6NILxAEFVWhouE6xRjZUlib+y4+nyaTkoKbl5Sopp7GmTrgSPpC6WqJLlJDe
- 2g7ekbKaDy4+wtw==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: David Heidelberg <david@ixit.cz>
+On 22/03/2026 15:24, David Heidelberg via B4 Relay wrote:
+> There isn't upstream driver.
+> 
+> I'm openining this as a starter. We need a NFC drivers I assume. I tried
+> quick check, but both of NFC drivers register
+> 
+> nfc: nfc_init: NFC Core ver 0.1
+> NET: Registered PF_NFC protocol family
+> 
+> but efficiently does nothing. In the See section, there are some ways
+> how to make NFC work, but rely on patched vendor libs, missing updates
+> etc.
+> 
+> 1. What hardware is present on Snapdragon 845, is there some
+>    documentation? It seems that both sdm845 devices has almost identical
+>    setup, thus it's NFC solution integrated? @Qualcomm
+> 
+> 2. What's the right approach to continue? Should we upstream these
+>    definitions and then start developing user-space stack? @netdev (I
+>    see orphaned)
 
-Definition of the NFC.
+User space stack is there already.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts | 33 +++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+> 
+> Since looking at NFC mailing list (oe-linux-nfc) and seeing it's pretty
+> much dead, would be cool to revive it.
+> 
+> Also there is some effort from Arch people [1], but likely without clean
+> path to mainline.
+> 
+> Can we revieve the NFC effort? I'm offering limited maintanance (in case
+> people would send patches).
+> 
+> See:
+>  - https://gitlab.com/sdm845-mainline/linux/-/merge_requests/62
+>  - https://github.com/NXPNFCLinux/linux_libnfc-nci/
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-index 51b041f91d3e2..bc336584c9fb9 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-@@ -431,6 +431,25 @@ &gpu_zap_shader {
- 	firmware-name = "qcom/sdm845/SHIFT/axolotl/a630_zap.mbn";
- };
- 
-+&i2c3 {
-+	clock-frequency = <400000>;
-+
-+	status = "okay";
-+
-+	nfc@28 {
-+		compatible = "nxp,nq310", "nxp,nxp-nci-i2c";
-+		reg = <0x28>;
-+
-+		interrupts-extended = <&tlmm 63 IRQ_TYPE_EDGE_RISING>;
-+
-+		enable-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
-+		firmware-gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
-+
-+		pinctrl-0 = <&nfc_int_default &nfc_enable_default>;
-+		pinctrl-names = "default";
-+	};
-+};
-+
- &i2c5 {
- 	status = "okay";
- 
-@@ -609,6 +628,20 @@ &slpi_pas {
- &tlmm {
- 	gpio-reserved-ranges = <0 4>, <81 4>;
- 
-+	nfc_int_default: nfc-int-default-state {
-+		pins = "gpio63";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
-+	nfc_enable_default: nfc-enable-default-state {
-+		pins = "gpio12", "gpio62";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
- 	sde_dsi_active: sde-dsi-active-state {
- 		pins = "gpio6", "gpio11";
- 		function = "gpio";
+I don't know which interface libnfc-nci is using. There are multiple NFC
+stack implementations in general, but the one using kernel interface is
+neard.
 
--- 
-2.53.0
+You will not get another stack, but taking care of Linux nfc and neard
+would be appreciated.
 
+Let me release a new version for it.
 
+Best regards,
+Krzysztof
