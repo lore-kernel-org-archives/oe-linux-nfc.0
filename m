@@ -1,39 +1,87 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054D131F99A
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Mar 2026 20:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA963EBF09
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 26 Mar 2026 11:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774469859; cv=none; b=BvP5GdIF1K0SgrAfPAio7o0vVFlrtY4LYtjfvbBpXVPZ8KmDKgnY1CiufsmfRHCUUpYtEbHdqnXUdSW4lc7PiPdD63Ra1nLiWvOb5gCyB1+mfkUrIj3of3Dg/t3l8h05cQOa6Z3c+W6f6rc3RtGbHMdhqC5dvutcQxJkZoFFx3U=
+	t=1774525206; cv=none; b=pBB6uBGyQ+U5gI3b+9LZnTWvfvRiwCjptKws/wkPQc4QhviPvB6idIQUZ9ELD6Wwd54BvZcTMxZuoGMBSyQACDO0o+E226pUwr9HoshRHZnUTpiorF859d3IgF5/DRqgL3TJav92bldKT8K859HuAauisUZIszS25WiQAJdOrr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774469859; c=relaxed/simple;
-	bh=xxdiRusDCg8XggyxbKv/ax5A4cpWZxxs0MIE2E/4MHQ=;
+	s=arc-20240116; t=1774525206; c=relaxed/simple;
+	bh=65eoDA5aXZKiN86gCHpFmmdUEmkkKaAXVNwubjRij5I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tgGOyRpAfGUztRtUZ0tlvFqyecFBYfBc4KLVG1oX9tEwuuaXMLo1f/PM8xkqzJUAsZGsTW4vMYvXhj7LiV3AJ2s62gWigjRMdLTMKq3aTSESYdfhfMb0vcJbxvjnAEO4v04DfkUTvE/JSjD4FM+J9NIrLQCBtYewX0rN+jv8TL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=vtBU1FTI; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	 In-Reply-To:Content-Type; b=aJGGq2OHCZwpUjWYlikMPp3PLCF8ViG2ix92FoikKbOPXVST0Brjg3b5PuQD/LvKe2T8u8tNRvj1R3IidlXBOov6QAkAQ2JOy2Ia1Q81cqXsatbetZyUJ6Mz6GlbPV7rgUqL/tqezx3TxABBmX7AmUYCPf6mFdV8mFKPujELDJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nY5PlCsU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bMN7eW71; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="vtBU1FTI"
-Received: from [IPV6:2a02:f000:10bd:e301::1d7] (unknown [IPv6:2a02:f000:10bd:e301::1d7])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id A55F553404AA;
-	Wed, 25 Mar 2026 21:17:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1774469852;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+bUy/E5OiYj4aWK3bmB4/FAGi3LnIZH7GVH1QKUs9JQ=;
-	b=vtBU1FTIhWz942b+WIghkHhiYRvbUTvPWpiaUxys1No8HaAdG5mdhzrtwVf+nUjmOwX+3w
-	9jU+YAqPL148s/V5X9PIOTx1neO+ADwqafCTOzPFORl8+RzsMxSbdf/pMHzgZex4Kx0HUz
-	G0c7w2PTB0QkGJQHbNfEnc6qM0B18pY=
-Message-ID: <6638c874-8472-4383-bf83-21c5b632e73e@ixit.cz>
-Date: Wed, 25 Mar 2026 21:17:31 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nY5PlCsU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bMN7eW71"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62Q8NMF03959048
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 26 Mar 2026 11:39:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3sX8nCJoTG/mn6XePX6oysvzTyZ/0eyadLiabjS3doA=; b=nY5PlCsU7Q4oc7Gr
+	o6E4xjYB6CqSMJRRVArxY34+zAlEXSBJFsXMXE7DweGbtEoRMFuLsznxS1Kfj1m3
+	tUlRmhF3jj3tr8xw48rHKRxnnAA6mhtRviSHEy0yM170OR4v5M//S8+Y6LA2L3yA
+	vouAnDsWAc/LZCYJFr5dGDFZiyY8ZOHgu1bscUcszZbFvRqFrfOlygePLKPX3z9Z
+	q4MMNdtlnnEaNS8O609DPVVRokQH3fnnM0P60gYt+ynPXiJbDo1YaynGeO/9HrZ7
+	GUGpvXVyC4TbY9aIRugD6p7RQpBZhcp2u+sIbXfNlU6jd+A3jYu0dHMJbiG2JS8B
+	cqDaZA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d4tjaj01a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 26 Mar 2026 11:39:56 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b2a1f123fso2679791cf.0
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 26 Mar 2026 04:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774525196; x=1775129996; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3sX8nCJoTG/mn6XePX6oysvzTyZ/0eyadLiabjS3doA=;
+        b=bMN7eW71fSgZi4CCbV/7019i0Iqb3PAOfMXPMBGqXzJ++/Lf+YEVBuO5pv5rIJrzl1
+         4nRQVu5PwS/QYt0US+8DsV5amz9w5vq0LiJ998V6YBl8qT5t4IFfQPi6uTQY2o+0yU3o
+         QEyiPX1fuqxG7tmhn1rhu2QnCaEAfkHp0UeUJ6TWCOMm7sMBfhZSvd2MuPhM+BAuysH0
+         jVg3BsecmWIZWAsOmdDmy/WmB+6xhQ+giDT8WqWhyR7QWjyOc/+F1OzL0i1gWT5gRsL3
+         6g7+IJzgsIs3UnfF7TpstZPpDWNQz5gjZfeqddCYFH6jYKlaG+9/BYlCq8FilZGEvSNh
+         zc6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774525196; x=1775129996;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3sX8nCJoTG/mn6XePX6oysvzTyZ/0eyadLiabjS3doA=;
+        b=NJmcjK3piVVnQD5ZG29KXCsn1MfnWymoxIzEa+i8H+zX8D2oGq015qGNAgFEM8PNbm
+         GLzJrhuixW4bILMBxWjgpuZq9Zudl2AlEFDdyCBgiJ4GknVnRD5gLPfe1xlwGJ5jSHwg
+         Bas5PHE9FMsr4OAlbIdu+8bv0VhyFUBdoToRoyT8su87xFjR/hS6JGGCyZSpehTvyolg
+         i4BYKNIW1A28Nzc8kSAO3w/sVPHCZyfuttYEgJc0CxhytO2v/bMgHvxpd9AULU1aHX3R
+         fk1X0XNbKbBvC7+aGKDR6q6hVdIR1OJs9WCtmTyIjsuLyTqe+sHnm3DltiplFGmVC5jq
+         lnCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCrb8r17qjmooyetYZk/UviyOyaNNvta1vEfwzpNInYFJX0nS4wBm7uh9eCAWNmYiXcxFQSxg1THx35cc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxwr9S/vbj2wDvHgnrUVwLEePMXCxmtXT0ucnnHQFFsQWVwWg1+
+	abKrNwXC4bxX+RcWUqenfXE49HINxPoVVDGEcu4/a8ccu+IhoxJbRFnlUoFlceBoAWMRs6rqJrH
+	v4MvtkFXkewgzNUVGwqQrpkwobKnAL1+nUS9D8Vw3quD7p7Bk8M7CVS/T1v+kqWi7OAw=
+X-Gm-Gg: ATEYQzx85Z6992XWXH+y9TAAGOySEx+O9XrScjM/mjVdSHLyXrjurRK7wsVAHyTviN+
+	bGJzmouUL3l/b9MGXhKnrYLIuZ7ZVmth3NZRDiP8H6Le6YfY+tB/oWNiQfpitqjer+bKvqG/SGW
+	fuobnpDqvCy41IIjkyziu8oR28fQJJddjgOB4+kzhM9QfdascTJnaigRUV0GAk2z+XB5Ee0MBGw
+	wemMPaiS+rbFl/yTji1yCFYhi6rZnpeLsYJs+qYIJAHTjTV6otdDGG7acL+HX4MYF32njLQyXEC
+	cRsM6ErP3VyTbVyPs9wns+ULmJwZ/tZJQw5HiO4zk7Qv4NuJSX7rkYfKaVU1nXA2o7Z+tNhvdpX
+	2Zoue71ZsT1MVB8Aew5kXensN3p5Of5V4TVvExki8dLJRyZn2fnNPeApOzGwNzFfgs4W95Zrcp5
+	/g5gg=
+X-Received: by 2002:a05:622a:4486:b0:509:882:9e7b with SMTP id d75a77b69052e-50b80f10b80mr46080021cf.8.1774525195987;
+        Thu, 26 Mar 2026 04:39:55 -0700 (PDT)
+X-Received: by 2002:a05:622a:4486:b0:509:882:9e7b with SMTP id d75a77b69052e-50b80f10b80mr46079731cf.8.1774525195353;
+        Thu, 26 Mar 2026 04:39:55 -0700 (PDT)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b203c2231sm108580566b.38.2026.03.26.04.39.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2026 04:39:54 -0700 (PDT)
+Message-ID: <e79139f5-b737-49e5-91d4-c9269be41a47@oss.qualcomm.com>
+Date: Thu, 26 Mar 2026 12:39:52 +0100
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -42,118 +90,90 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] arm64: dts: qcom: sdm845-shift-axolotl: Enable NFC
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Alexander Martinz <amartinz@shift.eco>
+To: David Heidelberg <david@ixit.cz>, Konrad Dybcio <konradybcio@kernel.org>,
+        Alexander Martinz <amartinz@shift.eco>
 Cc: Petr Hodina <petr.hodina@protonmail.com>,
- biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Rob Herring <robh@kernel.org>,
- oe-linux-nfc@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>
+        biemster <l.j.beemster@gmail.com>, netdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        oe-linux-nfc@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>
 References: <20260324-oneplus-nfc-v2-0-3eef052c9bc6@ixit.cz>
  <20260324-oneplus-nfc-v2-2-3eef052c9bc6@ixit.cz>
  <9d9ec994-c954-445d-97b2-772614d66f35@oss.qualcomm.com>
  <041766dd-422e-40e1-9e5d-c220580871f5@ixit.cz>
  <a0da2236-27b3-4491-862a-457a03cb4c5e@oss.qualcomm.com>
+ <6638c874-8472-4383-bf83-21c5b632e73e@ixit.cz>
 Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <a0da2236-27b3-4491-862a-457a03cb4c5e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <6638c874-8472-4383-bf83-21c5b632e73e@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Uv-E3vJD4s0oZo8RsoiSXd5BxTyUXOF5
+X-Authority-Analysis: v=2.4 cv=Nr3cssdJ c=1 sm=1 tr=0 ts=69c51b0c cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=-PauhVP_RH9yc3VFBwAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: Uv-E3vJD4s0oZo8RsoiSXd5BxTyUXOF5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDA4MCBTYWx0ZWRfX637xF57ttvgK
+ 4Z71SJkb2ELEspC43UWtSs5LVe0RwbhqXittPvXb18sy1vZNTIEly+HLJspFVXFA83NdX9rBIO4
+ t8IDDiTcDPG6wDh+Tr/RHtmhWJb+1ScTRUMuwKCnlmmT36FHJVRqyjcqlwq2/NBbha/1uf5CpK9
+ wL5A57xea/VisPk53fqJ0zMzQcl6tryOQJpTQbuTRc4X6W1786x+cp7pbzV9+/is5NA91pZV21e
+ QvdCz0UfkLmnvs/OVLRM4/gkg85y5WyhswFsYT7ryLOrOZgNTycwBAL/6soauBZPSR7ReT4ADDv
+ pLyxDX7k/leu/HJN5mGnCxwiQidhr9WugNMrfca8ZVNA+dtzcaoKeuw4L3rBsWExqESGI621bww
+ QqpFRPgBI211ie9SPo7AWxg5/qzpxAzss12s91li0sMksI/r5H68mo/A9/CAdwNX2ncuBYWRRmw
+ kyQlgpi6TmSDSNv1EtA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 impostorscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260080
 
-On 25/03/2026 12:20, Konrad Dybcio wrote:
-> On 3/24/26 7:08 PM, David Heidelberg wrote:
->>
->>
->> On 24/03/2026 14:12, Konrad Dybcio wrote:
->>> On 3/24/26 12:20 AM, David Heidelberg via B4 Relay wrote:
->>>> From: David Heidelberg <david@ixit.cz>
+On 3/25/26 9:17 PM, David Heidelberg wrote:
+> On 25/03/2026 12:20, Konrad Dybcio wrote:
+>> On 3/24/26 7:08 PM, David Heidelberg wrote:
+>>>
+>>>
+>>> On 24/03/2026 14:12, Konrad Dybcio wrote:
+>>>> On 3/24/26 12:20 AM, David Heidelberg via B4 Relay wrote:
+>>>>> From: David Heidelberg <david@ixit.cz>
+>>>>>
+>>>>> Definition of the NFC.
 >>>>
->>>> Definition of the NFC.
->>>
->>> "meh" commit message
->>>
->>> [...]
->>>
->>>> +    nfc_enable_default: nfc-enable-default-state {
->>>> +        pins = "gpio12", "gpio62";
->>>> +        function = "gpio";
->>>> +        drive-strength = <2>;
->>>> +        bias-pull-up;
-
-               bias-disable;
->>>
->>> Are you sure about pulling up an active-high pin?
->>
->> I'm not sure, but downstream does it (and "works for me"). Maybe Alexander would know more details here.
+>>>> "meh" commit message
+>>>>
+>>>> [...]
+>>>>
+>>>>> +    nfc_enable_default: nfc-enable-default-state {
+>>>>> +        pins = "gpio12", "gpio62";
+>>>>> +        function = "gpio";
+>>>>> +        drive-strength = <2>;
+>>>>> +        bias-pull-up;
 > 
-> Would changing it to bias-disable also "work for you"?
-
-Yeah, works for me. Should OnePlus 6 do the same?
-
-Looking at OP6 datasheet, there is no pull-up/down on 12,62,nor IRQ 63.
-
-David
-
-> 
->>
->> David
->>
+>               bias-disable;
+>>>>
+>>>> Are you sure about pulling up an active-high pin?
 >>>
->>> FWIW TLMM subnodes are best sorted by pin index (although the file
->>> currently doesn't really do that) as per dts coding style
+>>> I'm not sure, but downstream does it (and "works for me"). Maybe Alexander would know more details here.
 >>
->> I assume when I group the -pins into -state it doesn't apply anymore? As I don't feel having pins relevant to one device / subsystem all over the place is extra clean.
+>> Would changing it to bias-disable also "work for you"?
 > 
-> Krzysztof?
+> Yeah, works for me. Should OnePlus 6 do the same?
 > 
-> Konrad
+> Looking at OP6 datasheet, there is no pull-up/down on 12,62,nor IRQ 63.
 
--- 
-David Heidelberg
+Generally the internal bias would be used to counteract random noise posing
+as signal, to ensure the line is kept in the "inactive" state when not
+actively driven
 
+I can see that the driver initially requests both to LOW and then sets it to
+high based on the desired mode in nxp_nci_i2c_set_mode(), so pulling up is
+perhaps never really desired.
+
+Konrad
