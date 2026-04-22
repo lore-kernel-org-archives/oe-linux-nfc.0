@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26C0359A75
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 17 Apr 2026 13:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4779E3D9DA2
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Apr 2026 13:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776432777; cv=none; b=AYnQWRSpF4hat0E8xd03BTNVN6QOAxjvsQm9NZc61QA6j2EvYalG4Sni8+P+PPtDkWo7VnG+W4yQqlkKcItDC5gl/saoq8DnKkhCnvQfHhYHT4tSZCf5d5SzLIjjkivm8N0uxg3ggLNjlLszM5Azyghr4c3OnW5gn8uI7WYbCc8=
+	t=1776863481; cv=none; b=p+AzEKuvXy7i02SMZ/7YKMsSWbYxW1WIA2k/YMq9vKQvLjldJRmwcGFynPsdi61j/pqOHvniqP9hq1+3rlw8KjshadmkI1kapfdhM5K+zJF5rZsi1bhpfW4YN/ryQvM0lNErI41u14n8g3A7lFChSAv0MR3kkOIoAkE0O9yKCuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776432777; c=relaxed/simple;
-	bh=Q3j0StUsDshMT52GRH33fV1J3GfINAZPP7VmDmu+NCU=;
+	s=arc-20240116; t=1776863481; c=relaxed/simple;
+	bh=I2zUHJZLY9Sr+zs7ftcgpnPGO9myiHKfvcmZcgHRNuI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=scjHtFagRiCXAb0/iBVbUMb4O2yuyYRmRBJsOP+MFnGbWIdRbBZyF7QifzY0XmhSG4wUmIHDmETKM8zNoU7tu0bTMVLk5bCAO1ih+dNkibGJpQ2IpWaILvOyBcdZH8Wsw+jKMvsQszGUyf/bbJS+3WzuiFb97GRzldeUHvwtxA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=dUvwKJeT; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=tKFChHhW+V/XO8iXaq/oRQb6TvM6CqRMFr5ARdrSsE+/GfRcwDOvkx/tYt+Ba8HTHoF4VUzaEhh+IcOxKA/4KLLk6rwqYxLi1LP16xpk9GLS0hdWdy93cPMVcAmKBG4PEQbB2yUStn2Fz3qCDNCtLBkxCBJfjBCW9deC+CS70ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=wpGb2251; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="dUvwKJeT"
-Received: from [10.65.3.135] (unknown [87.58.112.183])
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="wpGb2251"
+Received: from [10.0.0.200] (unknown [10.88.125.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9B403534128F;
-	Fri, 17 Apr 2026 15:32:49 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 9D21F5340114;
+	Wed, 22 Apr 2026 15:11:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1776432770;
+	t=1776863476;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UX3lXlxJv8wPtZp+mZzJl0W3CJQc7YoN0yKX0aGKEmk=;
-	b=dUvwKJeTyux1yQ0Zo/uSpzswmzPvgIK5W2i3iX7w/RVOHCLdcE7kinzARUhHOgKm5GZNbD
-	eV54TmL28lk095E6rRc2BRed1ZyI0gwLXkFDVvSk20mre4eqLHOyt+yRAcg/DRqlunsMhP
-	Ivvx6Sv7juzKTKzdGcGL922abNglDks=
-Message-ID: <316ae06b-ed7f-4fa6-9b91-fa45f088dc43@ixit.cz>
-Date: Fri, 17 Apr 2026 15:32:48 +0200
+	bh=UfqfD7bBrj0jQzM/seMyiVF/r76mP4w+YsZiXZrCe3Q=;
+	b=wpGb2251bGj9iDoRYdNAa4/p3O7tLO55D4yE6dR03kW434HnLsV5S3ApTL967bWygWL7bd
+	hdSFeVqDRwn7lr6jsb7nMPTskWntyA5NaEbQiuYMUSIg1j65vWngr7VMjbqIsDBCcni3/O
+	68fw1WAxRvwLv5YCMQuK0DlgFP3MXZ4=
+Message-ID: <938496c6-84c1-4d53-bb56-73bbd7b2bdd7@ixit.cz>
+Date: Wed, 22 Apr 2026 15:11:16 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -42,14 +42,17 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Path forward for NFC in the kernel
-To: Krzysztof Kozlowski <krzk@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
  Michael Thalmeier <michael.thalmeier@hale.at>,
  Raymond Hackley <raymondhackley@protonmail.com>,
  Michael Walle <michael@walle.cc>, Bongsu Jeon <bongsu.jeon@samsung.com>,
- Mark Greer <mgreer@animalcreek.com>
-Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+ Mark Greer <mgreer@animalcreek.com>, netdev@vger.kernel.org,
+ oe-linux-nfc@lists.linux.dev
 References: <20260416101041.4c533306@kernel.org>
  <9c4a4acf-b4f1-4e84-93bf-cdf080cb9970@kernel.org>
+ <1725ea8d-ac1f-49d2-8d8c-2e09721454c2@ixit.cz>
+ <20260421071044.67a3cee1@kernel.org>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -95,37 +98,74 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <9c4a4acf-b4f1-4e84-93bf-cdf080cb9970@kernel.org>
+In-Reply-To: <20260421071044.67a3cee1@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/04/2026 09:18, Krzysztof Kozlowski wrote:
-> On 16/04/2026 19:10, Jakub Kicinski wrote:
->> Hi folks!
+On 21/04/2026 16:10, Jakub Kicinski wrote:
+> On Fri, 17 Apr 2026 10:12:22 +0200 David Heidelberg wrote:
+>>> +Cc David Heidelberg recently trying to use Linux NFC stack,
+>>>
+>>> Just "collecting" patches is not a big deal, I could do this, but
+>>> actually reviewing the patches with necessary due diligence is the
+>>> effort I could not provide in a reasonable time frame. And picking up
+>>> patches without proper review feels risky...
 >>
->> We are struggling to keep up with the number of security reports and AI
->> generated patches in the kernel. NFC is infamous for being a huge CVE
->> magnet. We need someone to step up as a maintainer, create an NFC tree
->> and handle all the incoming submissions. Send us (or Linus if you
->> prefer) periodic PRs, like WiFi, Bluetooth etc. do. If that does not
->> happen I'm afraid we'll have to move the NFC code out of the tree,
->> put it up on GH or some such, and let it accumulate CVEs there..
+>> Hello Krzystof, Jakub,
 >>
->> I'm planning to send a PR to Linus to shed the unmaintained code early
->> next week. We need to have a maintainer established by then.
+>> thanks for putting me into loop.
+>>
+>> I can do limited reviews and basic maintenance. My knowledge about NFC is for
+>> now somehow limited (but I'm willing to invest my limited time into learning more).
+>>
+>> As "I & LLM" wrote [1] userspace very basic reader for GNOME and planning to do
+>> more tight integration into GNOME, so would make sense to keep the kernel stack
+>> alive.
 > 
-> +Cc David Heidelberg recently trying to use Linux NFC stack,
+> Hi David!
 > 
-+Cc oe-linux-nfc@lists.linux.dev
+> Sorry for the delay, we (core maintainers) discussed the situation
+> off-list and since our choices are either delete all this code or give
+> you a chance, everyone agreed that the latter is strictly better :)
+> It's a little unusual to designate someone who doesn't have a proven
+> track record acting as a de facto maintainer, but such are the times...
+> 
+> Our expectation would be that:
+>   - you'd create your own tree to gather NFC patches and send us
+>     periodic pull requests every 2 or 3 weeks, with what you gathered
+>   - act upon submissions within 48h of posting (excluding weekends)
+> 
+> Of course we'll happy to provide any support and guidance you need,
+> specially for the first few months.
+> 
+> Is this what you had in mind? The phrase "limited reviews and basic
+> maintenance" is slightly worrying, we assumed it's an expression of
+> modesty rather than commitment? :)
 
-For now we had NFC related discussion in our sdm845-next channel, but I brought 
-Matrix channel [1] for the kernel, neard, user-space discussion, so people can 
-share and interact in real-time (the chat content is public without needing to 
-join the room).
+Hi,
 
+thanks for giving me the opportunity - I appreciate the trust, especially given 
+the circumstances.
+
+Yes, this is broadly in line with what I had in mind. To clarify the “limited 
+reviews and basic maintenance” phrasing: that was more an attempt to set 
+expectations conservatively. I’m prepared to take on the responsibilities you 
+outlined — maintaining a tree, collecting and triaging patches, and sending 
+regular pull requests.
+
+Regarding reviews and responsiveness: I can do the 48h turnaround for initial 
+feedback on submissions (excluding weekends, and occasional travel), and I’ll 
+make sure no patch sits unattended. For more complex changes where my current 
+NFC-specific knowledge may be a limiting factor, I’ll seek input rather than let 
+things stall.
+
+I’m also planning to ramp up my familiarity with the NFC stack as I go, so I 
+expect both the quality and depth of my reviews to improve over time.
+
+If that works for you, I’ll proceed with setting up a public tree and start 
+tracking incoming patches.
+
+Thanks again for the support - I’ll likely take you up on that, especially early on.
+
+Best regards,
 David
-
-
-[1] https://matrix.to/#/#linux-nfc:ixit.cz
-
-...
