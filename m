@@ -1,87 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A569223FC5A;
-	Thu, 23 Apr 2026 03:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B09344102D;
+	Tue, 28 Apr 2026 14:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776913416; cv=none; b=E+YSlZV/GaiyksuIMe7m6Hj3SzwqWlVxT6Q63G3z7uq7g/gDkcXBl+WBZ5y5sNgpRnl9iSUTK9BsZX6oDZ1E3oOLc9O6KjqMmtX6dUb0GpsFPaJFDXRD9jdPNQB8wJPMo2iWRGas8XlKiFWsHm8752jBPeqqy4q36bvl8vhm2ls=
+	t=1777386281; cv=none; b=UN6LuBK3ktVYbBUwvF3GZiyxP6BY9s7av7v2E9y8mhw587MhSfTuut28Y+VgZUrGfHg20kL+ywHqpXj7UT2TBwNrL0aECgg5UeGkc4uO6Lz1nX662l0keaoywtDWuRLVWpwOFQKmPVuOxNf50lpQHl01FlahiOex1BQz02uqQ4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776913416; c=relaxed/simple;
-	bh=nxm9Oh6taLuXO9o0gYbpRDn0kH92kZteFVYn0Mwxiyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SJGCfaA8PeAM8SM8yVPcFlwNxo+pFPCZ+h2WBjxqt0Crvnx0sKsbftgwMYF31t9pQmMHMz0PsSPhpWxr5UrQCvJfnCd8Exx5Dr/68zAaGc6L8YnNgPAppU1H7qu7w0n03LF6zzsWqftVT6CT45i7MFd9MJQ/jMk7AnP7qak9b94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtHS0KWw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777386281; c=relaxed/simple;
+	bh=dUj11tovECtb++7ZbLbRkgmhCl35vkiey4e5gOXCPks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AmUy0RRBamY/DCWdoT9RTcVWW5x8AL8taGv7STm+ajVhIO0Afn3Hiuqma1TizIT/pDlhnmntdZm7+PQP71j/FsfEAy4W8lHdgSziQYrWZd9+z3ese1zLQWHFYvzYv5VyVdd5TeWlMzncZAdqeMVfkg559G5ZWfQsVP7FyH6sYtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lL7RGK5B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtHS0KWw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D862AC19425;
-	Thu, 23 Apr 2026 03:03:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lL7RGK5B"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96D49C2BCB5;
+	Tue, 28 Apr 2026 14:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776913416;
-	bh=nxm9Oh6taLuXO9o0gYbpRDn0kH92kZteFVYn0Mwxiyg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZtHS0KWwBDKJm/HK0rmLS6rvWYTj0UQ1OmVNBpbZ+tV5gCjJtR2MBuWTCI8fvmARW
-	 9yJAOy4HN1sZsSW2SLRCCza0MvEv+31uAikymcce9+3JAAIlF54199LjXTlamjbUbi
-	 mePP7wFEfLJXX2mVhEfY+Qtu/eoCfW/3yywlV6Cl3bqbSeBihsTQF00DyIdGryb47G
-	 ZAFwwUBQl1K5rDdjkDpVN0Aaw8rSJqgdIhswPN0A2uFdDd40udUfIxtN0UR7v/lJy5
-	 keiLhya6vBlOlc6UEHYNfLIdaPgdDlUZzuzgC+GwG5nw9ipOf3rKJWvtMPxtb+fqsF
-	 ZSVzJiWLiOFzw==
-Date: Wed, 22 Apr 2026 20:03:35 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Michael Thalmeier
- <michael.thalmeier@hale.at>, Raymond Hackley
- <raymondhackley@protonmail.com>, Michael Walle <michael@walle.cc>, Bongsu
- Jeon <bongsu.jeon@samsung.com>, Mark Greer <mgreer@animalcreek.com>,
- netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-Subject: Re: Path forward for NFC in the kernel
-Message-ID: <20260422200335.1d0428fc@kernel.org>
-In-Reply-To: <938496c6-84c1-4d53-bb56-73bbd7b2bdd7@ixit.cz>
-References: <20260416101041.4c533306@kernel.org>
-	<9c4a4acf-b4f1-4e84-93bf-cdf080cb9970@kernel.org>
-	<1725ea8d-ac1f-49d2-8d8c-2e09721454c2@ixit.cz>
-	<20260421071044.67a3cee1@kernel.org>
-	<938496c6-84c1-4d53-bb56-73bbd7b2bdd7@ixit.cz>
+	s=k20201202; t=1777386280;
+	bh=dUj11tovECtb++7ZbLbRkgmhCl35vkiey4e5gOXCPks=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=lL7RGK5BPzUBePpgeYVf66A0JHxnj24nR1EuNPza/vneaMWV7ogThrAWiCvWtuyoz
+	 b4pIV9BIIXOFLTF7j/UDNT+/3rWd9GZY2ynbLXq7QlCGefVxdK0spqKsWrawxFMJwy
+	 tVNYbep/BsnnnzylcsrzR8mIcp9qp0qdyZimP8LUNDw9e/sKC35Hg30x9/wrQ4AVfk
+	 Bwp5UPgGJDICdSRbEIiWYpxXs8NqYGglDQF/ZN8p4GdDEZEIThyTv5PM/7Kdrcqlnq
+	 7iSM7I4wmqYV751ACoO4RdCMksQx8VLs2FBo0N7HDBqpEUxcrmwhbBjM0YP7Qy5jMf
+	 WbX3gbGjiba8w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF5FFF8868;
+	Tue, 28 Apr 2026 14:24:40 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Tue, 28 Apr 2026 16:24:38 +0200
+Subject: [PATCH net] MAINTAINERS: Add myself as NFC subsystem maintainer
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260428-nfc-maintainer-v1-1-4cb9d9e121f3@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIACXD8GkC/x2MQQqAIBAAvxJ7TjCLtL4SHUzX2kNbqEQQ/T3pM
+ Ic5zDyQMBImGKsHIl6U6OAiTV2B2yyvKMgXByVVLztlBAcndkucCxiFWgxK3Q5SOw8lOiMGuv/
+ hBIwZ5vf9AM4Q/sFlAAAA
+X-Change-ID: 20260428-nfc-maintainer-2b8e073907cd
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ oe-linux-nfc@lists.linux.dev, David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1098; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=l6GCIdQ39L6+WcAMCIoelwcZypwDUixePdWvyKCAZ8Q=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBp8MMnHps7MFKV1kNGTk/fEYaGbLDN8GvIuYFWB
+ j50YZGtST+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCafDDJwAKCRBgAj/E00kg
+ ciVjD/9EOsjFTYPuYzrgDUFKmKvA59BuFz4TJgTbiiIpawkjUtFOxUJOFgT5A4KrWj9q+oAOWoe
+ Omkz3QmXQQfeWaT2j3OvVBNT/dhK5TFgmZxxn3lA9D3/TsCP//NA+4kYFKBLHVlLP3xKDws3ewL
+ fFFauToM2i6xjl6o4zbsC8dcvxohaSRJUhywQKxBT5CNoy/UJjY1yHOF5unb5LqO1phg4gaFTfM
+ V2vvWkcREEUoDeFr/9NnyAtfd/FGIQV0xNR1nGjXajx84pB7sc8MMOaBzV9eV6nPsYxccdbo9XN
+ nGHbH48zeHtG73EzHXHNBzeexq3WneJurwOdMm2ZyI4n4hlHre6S2j0s5UWdZJvnI7nHr/3c5QO
+ 5M8uIaH82aaovaItqnf3JGXmvG842ursIaUZ5nu13AoYnJ7aP0lNc7Wl0X2H1Fff4nTYnEl0p60
+ kZfjysqWaX6i2mH/CfHsFOEYl56EadnpMlfhpsPSb/iHn0YftxYHF67Q5PztMvnWC7s+5i9KCt8
+ s5vJeZbXkpeWCB9UsxFMl7AlnnsDG6wWw5DECNQ4BMFfq0eHNI0+G/6sfyTbHj3U7WWEpWDsi/z
+ +FqJVppBOKOGcFw/cRln0zveKBBcrlFA8DNKZB2u2FUd3Cxk4L9VB0VXLsLVPSvh+LyP+B8lwUd
+ 6xQBsNV7hXw/B2Q==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-On Wed, 22 Apr 2026 15:11:16 +0200 David Heidelberg wrote:
-> Yes, this is broadly in line with what I had in mind. To clarify the =E2=
-=80=9Climited=20
-> reviews and basic maintenance=E2=80=9D phrasing: that was more an attempt=
- to set=20
-> expectations conservatively. I=E2=80=99m prepared to take on the responsi=
-bilities you=20
-> outlined =E2=80=94 maintaining a tree, collecting and triaging patches, a=
-nd sending=20
-> regular pull requests.
->=20
-> Regarding reviews and responsiveness: I can do the 48h turnaround for ini=
-tial=20
-> feedback on submissions (excluding weekends, and occasional travel), and =
-I=E2=80=99ll=20
-> make sure no patch sits unattended. For more complex changes where my cur=
-rent=20
-> NFC-specific knowledge may be a limiting factor, I=E2=80=99ll seek input =
-rather than let=20
-> things stall.
+From: David Heidelberg <david@ixit.cz>
 
-Sounds good. The discussion taking long is perfectly fine. Main concern
-to us is not hearing any response for a long time. Then we have to guess
-whether the maintainer is planning to respond, or AWOL.
+Add myself and update the mailing list.
 
-> I=E2=80=99m also planning to ramp up my familiarity with the NFC stack as=
- I go, so I=20
-> expect both the quality and depth of my reviews to improve over time.
->=20
-> If that works for you, I=E2=80=99ll proceed with setting up a public tree=
- and start=20
-> tracking incoming patches.
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ MAINTAINERS | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Works! :)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 21288a3a7d930..176390ef4275d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18824,18 +18824,20 @@ M:	David Ahern <dsahern@kernel.org>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	include/net/netns/nexthop.h
+ F:	include/net/nexthop.h
+ F:	include/uapi/linux/nexthop.h
+ F:	net/ipv4/nexthop.c
+ 
+ NFC SUBSYSTEM
+-L:	netdev@vger.kernel.org
+-S:	Orphan
++M:	David Heidelberg <david+nfc@ixit.cz>
++L:	oe-linux-nfc@lists.linux.dev
++S:	Maintained
++T:	git https://codeberg.org/linux-nfc/linux.git
+ F:	Documentation/devicetree/bindings/net/nfc/
+ F:	drivers/nfc/
+ F:	include/net/nfc/
+ F:	include/uapi/linux/nfc.h
+ F:	net/nfc/
+ 
+ NFC VIRTUAL NCI DEVICE DRIVER
+ M:	Bongsu Jeon <bongsu.jeon@samsung.com>
+
+---
+base-commit: 46f74a3f7d57d9cc0110b09cbc8163fa0a01afa2
+change-id: 20260428-nfc-maintainer-2b8e073907cd
+
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
+
+
