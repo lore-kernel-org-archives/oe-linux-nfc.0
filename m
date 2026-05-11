@@ -1,39 +1,67 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C38C344D83
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 11 May 2026 10:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5A13D891D
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 11 May 2026 10:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778494298; cv=none; b=dxVDDnEhtuPTLOpAPSGedcvkAeOaGlUgKvQ+l+3sdjSMbMy0DVzj2px72wGSkxguK1/DCN5RuoIsBnfkxwpXRe/uRzPyKlFOFIsEsrSfBLdrtxMF1mzkgQ/8f0Q9E+n/Anp5tee0Z8RDWa6/V+NZ1YKXohC9kGnDXFV2y5RtmkI=
+	t=1778496254; cv=none; b=qArmYlJCqKB5/nAM6QdFo5nA21ID/yElqfoIREhMMlP5aLClpT0gGB/ba17yZeDlw580xgKFVmQmypwFO8iEWz+z3Ux90SJdQzZr0Gn2EtoEUKbnt0A5W1LXMW49T0p1B34QSRir21lT1nXbBoZjdVYW/UqsNco9/7ONjZuYmAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778494298; c=relaxed/simple;
-	bh=l0vdGhOqLyVutzl2nQHDvNJoUQY+JXv11i7MQz25Ncc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=gi9Szg5ZoV2gtg3Qzbgydq1pmEW+vkVMsL62dwAr0//VlTryVgH65A3EDjGmtledZU++D3x4o6aHtuTsNim3NX+Bh/BfKqmNzUsGm10St0U3pSaUsgptOQv5JTkCsXhY+BIBHB5FAvRC+70LpDegNdXI0r+8bK4pEFKmRr7Xmh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=JXICqYXC; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1778496254; c=relaxed/simple;
+	bh=kcJ9aMR022H0xLEoMibETFRjOtPHp4AblypC0I7Y8z4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BdJKu3+X4+TYgc9u+mQ3/a6WpT4Mz1qSsOYFPmfkwpMSpsWnuoyy4zMw3mR+GfK+BzoBWcW6GncIVfB5T1QPBDq8l67U+mwAIoLX/jlsRG3dPT+l0JbnMelbgDazPDlv6ZTTu+Eu076PNUDPWz6POKRCVz0wCuUeLnme2ar6dhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a7W0fRql; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="JXICqYXC"
-Received: from [192.168.230.16] (194-212-160-78.customers.tmcz.cz [194.212.160.78])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 56AB7534055F;
-	Mon, 11 May 2026 12:11:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1778494287;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=FNm7lzgEeE2l+/HbF+uWAtHsdZruB7aUCVyJrgiyDsE=;
-	b=JXICqYXCsgDFp/KM+qcer/8Ch5Q4YzBDidj2ABZRmorYdDxeS/4YiifUM/xWH2kmwVShvM
-	KZxySczEm3ZAnTWSn2u/Hu9xG3NlDYwBzTxCGGNDFhWuSpEF3tWb6MAfMOK7UbHsnCWdzx
-	/35glsB1etgKkWSfCa9ZXy4JTnzGXYE=
-Message-ID: <862b37a1-a25b-49d0-902d-cbb082e2822d@ixit.cz>
-Date: Mon, 11 May 2026 12:11:25 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a7W0fRql"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso34775945e9.2
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 11 May 2026 03:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778496251; x=1779101051; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fcj/ah2Qr0zOfJsIJp0MzzxDrHgIa5JutYsmfmVPFZg=;
+        b=a7W0fRqljyEn1q21Ufokru2VBrgnF3I02cY6/UMjqMR7p66LhEdpeWLWL+4ZLCaB63
+         cZi0yqU9kC6lqNZ9qKyNdX9BobQtvaJOWwf2p7Khn9LHON6Rqy+UOeWH6ALz3sq2yj/G
+         EWLrwqjzaBLwJqsgUlpWyfCR+utD9IuajNT9agv5noSsYl6ujrJwG1bMezS+zVREZXFk
+         unCGVgMXzBJUF/FjNKHQ/mH/JUGB0yu++Blj7+crsEemg1YvX7mlZ3LrYoV0+XiXOWmq
+         tzxRc134r/iBBU9P3AKWdB6eIViVOIQii5CJz0XFvvh+BZ38mAfEwfWJkbpKBtlDU6yc
+         1zqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778496251; x=1779101051;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fcj/ah2Qr0zOfJsIJp0MzzxDrHgIa5JutYsmfmVPFZg=;
+        b=VpNUm9DU7YD83gusbM3/eQBSJqCtTb50NawoetZ1hoK/BcG8+/c3KJRLUBdaHkpWxb
+         RbS656TR5LhqSXueBUA35+qLDPhIHN5s6CIjRbfuJYmTf5U5nFVsZPEX06gIXQnWE1l+
+         GgvFvhCwHtpb6Txh08zqgD3mYFmRQNMro0tNoThEozrKuIA6MRVUGPMPF/VMm9g6sJA8
+         kEWaIwhXh25QjlLiF+OFWOmXfI6J1XVxiPx4zkTYDnoktutW1h2oO42VzJcYi+wmUaD0
+         e1mVAL/j2qzeyFCw7OqeEtNLEf8hcH/nC00h7jSwXdfUu7GV3m1t7zDd1nA6n6MntgxD
+         YBoA==
+X-Forwarded-Encrypted: i=1; AFNElJ/RxxMlKtPgu0wmEODlx8YTkn78cNhCsstoaLv6H+yAM/3vn45jv1mg+2c9kKx2iZyUMZvW9RvxE2R7LQM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyfw2QdKulzOcKTXeu+ZBgXX75T8je7W57Z4G74cXMgKzK+XO3R
+	DXnAZu69Vjeu7uax3uMeDrlnqyx7kckOQQoqUjioufK7/Ugyj/8UaPHT
+X-Gm-Gg: Acq92OGf0TScywj5bjYLs/LNoejW4KDmLvLgdtViESMEl1dqHcWIHbCtv8ZR6Rcve+t
+	MRH8/KjwnnvYU5eIAUoO+g3BsrfVyxSOjjmf0Oy0sXeWta7MigHot4vn+nZkTxqyBmS+4kHkmVv
+	mGoT/SLa66v5yRDRWwdAzmTR5Wz/sogBRWE619Nf2XRpDuk7fhUa8SzivMPNqJQEFsDbjBGK3PS
+	ykHudia8cf2GmIPT7aPXCGyrfCZdgbehXeTLcgC0mmOYj4ps5L5SEM0BwY3rXLSgpitS3skyEBW
+	HSWkdwwHyK0OPIMz/JdmADSq1HxzOSintR8OlWL8xjyiEctV3q/ebF1NXIlEYoyv1DP+ZKZ9MsD
+	s1A0s8cRt8web791n+iIgy5iKbZrxotYgoNRaPZ043olapj41+P/HDCMT1FPbeEWEUWVBL7k8Hz
+	5nuBqbsSUOx6JpNjV5vGhq7Z7w1zsPqi4s6U+dZugCGBhlmLdlKOCYDV814DyVr2K5UFhIEzZdh
+	zuNN1uSCaA=
+X-Received: by 2002:a05:600c:8115:b0:48a:53ea:1408 with SMTP id 5b1f17b1804b1-48e51e1804amr361769305e9.8.1778496251052;
+        Mon, 11 May 2026 03:44:11 -0700 (PDT)
+Received: from [192.168.50.249] (host-82-48-74-166.retail.telecomitalia.it. [82.48.74.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6fff9ab8sm186358945e9.2.2026.05.11.03.44.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 03:44:10 -0700 (PDT)
+Message-ID: <f176bf40-a5c8-4f6f-86db-ebdbff639da9@gmail.com>
+Date: Mon, 11 May 2026 12:44:09 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -42,136 +70,105 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] nfc: nxp-nci: i2c: restore IRQ trigger fallback
-To: Luca Stefani <luca.stefani.ge1@gmail.com>, Carl Lee <carl.lee@amd.com>,
+To: David Heidelberg <david@ixit.cz>, Carl Lee <carl.lee@amd.com>,
  netdev@vger.kernel.org, krzk@kernel.org, peter.shen@amd.com,
  colin.huang2@amd.com
+Cc: linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
 References: <20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-v1-1-9e20714411d7@amd.com>
  <824cb117-1676-4a82-b77c-8908efdffa0e@gmail.com>
+ <862b37a1-a25b-49d0-902d-cbb082e2822d@ixit.cz>
 Content-Language: en-US
-Cc: linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <824cb117-1676-4a82-b77c-8908efdffa0e@gmail.com>
+From: Luca Stefani <luca.stefani.ge1@gmail.com>
+In-Reply-To: <862b37a1-a25b-49d0-902d-cbb082e2822d@ixit.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11/03/2026 12:08, Luca Stefani wrote:
-> 
-> On 11/03/2026 10:26, Carl Lee wrote:
->> The driver previously relied on IRQF_TRIGGER_RISING when requesting
->> the interrupt. This was removed to rely on the trigger type provided
->> by firmware.
->>
->> However, some platforms do not propagate the interrupt trigger type
->> to the IRQ descriptor, resulting in interrupts not being triggered.
->>
->> Use the trigger type provided by firmware when available and fall
->> back to the historically used rising-edge trigger otherwise.
->>
->> Signed-off-by: Carl Lee<carl.lee@amd.com>
->> ---
->>   drivers/nfc/nxp-nci/i2c.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
->> index 6a5ce8ff91f0..6339586a6a1b 100644
->> --- a/drivers/nfc/nxp-nci/i2c.c
->> +++ b/drivers/nfc/nxp-nci/i2c.c
->> @@ -268,6 +268,7 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
->>       struct device *dev = &client->dev;
->>       struct nxp_nci_i2c_phy *phy;
->>       int r;
->> +    unsigned long irqflags;
->>       if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->>           nfc_err(&client->dev, "Need I2C_FUNC_I2C\n");
->> @@ -303,9 +304,17 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
->>       if (r < 0)
->>           return r;
->> +    /* Prefer the trigger type configured by firmware.
->> +     * Some platforms do not provide it, so fall back to the
->> +     * historically used rising-edge trigger.
->> +     */
->> +    irqflags = irq_get_trigger_type(client->irq);
-> Doesn't build, needs #include <linux/irq.h>
->> +    if (!irqflags)
->> +        irqflags = IRQF_TRIGGER_RISING;
->> +
->>       r = request_threaded_irq(client->irq, NULL,
->>                    nxp_nci_i2c_irq_thread_fn,
->> -                 IRQF_ONESHOT,
->> +                 irqflags | IRQF_ONESHOT,
->>                    NXP_NCI_I2C_DRIVER_NAME, phy);
->>       if (r < 0)
->>           nfc_err(&client->dev, "Unable to register IRQ handler\n");
->>
->> ---
->> base-commit: 7109a2155340cc7b21f27e832ece6df03592f2e8
->> change-id: 20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-cda942530c60
->>
->> Best regards,
-> 
-> My ACPI NXP1001 table specifies ActiveHigh that properly gets translated into 
-> IRQF_TRIGGER_HIGH.
 
-Hello Luca,
+On 11/05/2026 12:11, David Heidelberg wrote:
+> On 11/03/2026 12:08, Luca Stefani wrote:
+>>
+>> On 11/03/2026 10:26, Carl Lee wrote:
+>>> The driver previously relied on IRQF_TRIGGER_RISING when requesting
+>>> the interrupt. This was removed to rely on the trigger type provided
+>>> by firmware.
+>>>
+>>> However, some platforms do not propagate the interrupt trigger type
+>>> to the IRQ descriptor, resulting in interrupts not being triggered.
+>>>
+>>> Use the trigger type provided by firmware when available and fall
+>>> back to the historically used rising-edge trigger otherwise.
+>>>
+>>> Signed-off-by: Carl Lee<carl.lee@amd.com>
+>>> ---
+>>>   drivers/nfc/nxp-nci/i2c.c | 11 ++++++++++-
+>>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
+>>> index 6a5ce8ff91f0..6339586a6a1b 100644
+>>> --- a/drivers/nfc/nxp-nci/i2c.c
+>>> +++ b/drivers/nfc/nxp-nci/i2c.c
+>>> @@ -268,6 +268,7 @@ static int nxp_nci_i2c_probe(struct i2c_client 
+>>> *client)
+>>>       struct device *dev = &client->dev;
+>>>       struct nxp_nci_i2c_phy *phy;
+>>>       int r;
+>>> +    unsigned long irqflags;
+>>>       if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>>>           nfc_err(&client->dev, "Need I2C_FUNC_I2C\n");
+>>> @@ -303,9 +304,17 @@ static int nxp_nci_i2c_probe(struct i2c_client 
+>>> *client)
+>>>       if (r < 0)
+>>>           return r;
+>>> +    /* Prefer the trigger type configured by firmware.
+>>> +     * Some platforms do not provide it, so fall back to the
+>>> +     * historically used rising-edge trigger.
+>>> +     */
+>>> +    irqflags = irq_get_trigger_type(client->irq);
+>> Doesn't build, needs #include <linux/irq.h>
+>>> +    if (!irqflags)
+>>> +        irqflags = IRQF_TRIGGER_RISING;
+>>> +
+>>>       r = request_threaded_irq(client->irq, NULL,
+>>>                    nxp_nci_i2c_irq_thread_fn,
+>>> -                 IRQF_ONESHOT,
+>>> +                 irqflags | IRQF_ONESHOT,
+>>>                    NXP_NCI_I2C_DRIVER_NAME, phy);
+>>>       if (r < 0)
+>>>           nfc_err(&client->dev, "Unable to register IRQ handler\n");
+>>>
+>>> ---
+>>> base-commit: 7109a2155340cc7b21f27e832ece6df03592f2e8
+>>> change-id: 
+>>> 20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-cda942530c60
+>>>
+>>> Best regards,
+>>
+>> My ACPI NXP1001 table specifies ActiveHigh that properly gets 
+>> translated into IRQF_TRIGGER_HIGH.
+>
+> Hello Luca,
+>
+> I'm looking into the issue, I wonder
+> would make sense to provide ACPI quirk then?
 
-I'm looking into the issue, I wonder
-would make sense to provide ACPI quirk then?
+The old driver didn't really work for me as far as I remember, so if you 
+just want to fix the storm, that's fine by me, but it's more a bandaid 
+than anything else.
 
-David
-> 
-> Sadly this seems to just show the same storm as before, I played a bit with the 
-> driver and noticed that it is simply broken on my device, all I get are timeouts 
-> if I read the NCI device.
-> 
-> I could get it working (reading tags) by hacking the driver a bit, first of all 
-> I disable the irq as soon as I get it, otherwise I keep getting interrupts when 
-> the device is in MODE_COLD that would end up setting hard_fault to EREMOTEIO. 
-> With that in place I re-implemented the enable/disable routine in 
-> nxp_nci_i2c_set_mode, and that seems to be enough to make it working.
+Ideally we'd make the driver work but I didn't get much further compared 
+to the diff I sent above.
 
--- 
-David Heidelberg
-
+>
+> David
+>>
+>> Sadly this seems to just show the same storm as before, I played a 
+>> bit with the driver and noticed that it is simply broken on my 
+>> device, all I get are timeouts if I read the NCI device.
+>>
+>> I could get it working (reading tags) by hacking the driver a bit, 
+>> first of all I disable the irq as soon as I get it, otherwise I keep 
+>> getting interrupts when the device is in MODE_COLD that would end up 
+>> setting hard_fault to EREMOTEIO. With that in place I re-implemented 
+>> the enable/disable routine in nxp_nci_i2c_set_mode, and that seems to 
+>> be enough to make it working.
+>
