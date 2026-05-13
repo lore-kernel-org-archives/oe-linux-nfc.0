@@ -1,211 +1,103 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AB3441036;
-	Wed, 13 May 2026 12:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C4138E8DA
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 15:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778675724; cv=none; b=SUE+XkxNnJSW7SB10IW6YC/VKhWQavMqr1Kf1zlb4JUrAMD+WELN3lXtzIWqEBg9OoXd+iI0uTnIBLti9vpZ1lcfkRQZDPUxtFja9HmuoXhYIP6uMo+uUp67Ym+oBY8QR832EKcVthwP/uo4S1/pdq0tgqDs4upZSe+4aayBrzM=
+	t=1778686173; cv=none; b=JVtBZXQrD81JNXImb87e9VGTd6gBYTNi1PacY8xeapdwBnU2LKkmreihSwiFoP5OOPjt/ouThz7uTA4axszPlnIjNSw8hZCbiZN7uLbYA/oxkrU+/S3h/322a3dgfbht9c3xkUV+cTTmRLwpYdEqAcwifp4rlYpU8DtndhGhqiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778675724; c=relaxed/simple;
-	bh=Z0ETmeAmKPYR2VU1YRxV60q6d9tmgqfaakc7JmmhaPQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EqVSmH+NsnVPs6I5wHKAB1Z//DREnFHq4r6Lb3q4eKRPoRguP7P57qi+aE1E+BM6ZVgu17gkI050Lx0oZ78AswXj6HGjzW37qizo4ogZ6xMt6VjW73xbhpoIR8rNaAx6iRDTXSVFt38XvomgHMNQiz+ulh0QDkz3iK0+gxqMMkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=T7mBH6Gh; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778686173; c=relaxed/simple;
+	bh=M1hEq7CvxLU6On8D8G12Fmu9StcYyNPtR454jTWVVws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJr1uFTe8nI0EbBUsDsMT8QlBpdKv73VvEZ6xSDJjN+G1v7NaTzAQTq4o0XlxgRxG1+No4YApM7uJqOpKRxFNtfC9tsXw02iOCF+qUWf2vEMdQNmx2EQyyF8WIrKSMVkMP9aDxXIFs7J+9dUlukiThrFfmQx9S3PWbUac+wd1Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aS+jTbVP; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="T7mBH6Gh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=W5I1vZx+Y2S9t7G7jWTlUs8gZMOuYDWt7ZsUgVBeDbg=; b=T7mBH6Gh4BDscnqfAuLtKoAzbB
-	jax6nMGR60umeuA4US3h5Dwg1fT8IWVwiRbkvriHN21Rrhx8ozZ2s+/VJOUrgfmB7mdCprEnX3/9M
-	JTL119BUsM4jZGbaoYODnWlGSKx0rWjjNFHVgb8y8ckcNEhGQZ1KghbknAmwWy4eeO3YH9/NuBFnY
-	AQg2LrRjj+0tRDVw+8j/WWLzlRy2j45Gf2ldxn05ORsPA53843cDiz4386jTE8AYwMbbtXAyq/bWL
-	uig27L9cbfP/8jfOnf+SnwyJYEvi3qwCfDezPsJL0uZUVFaUxh038s/liJOYa/ce24JxEtaFgOfMC
-	Lnj/72uw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wN8nv-003A9V-08;
-	Wed, 13 May 2026 12:35:11 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 13 May 2026 05:34:17 -0700
-Subject: [PATCH net-next 6/6] tipc: convert to getsockopt_iter
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aS+jTbVP"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2b941cd869cso44162505ad.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 08:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778686171; x=1779290971; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pVg3X9kh4YDCRW/k5ke7n61nVYb/5/0InQTRe/5tw20=;
+        b=aS+jTbVPJtQRSDwQ3rQDMZYNDTpvaZsEH4XdQ24mvFjG0+Qp95Or10DmwFkA3JeKXu
+         Mfhj2EXq47SvKcbVhKWpFRkZKrp1egH+2s2+AHlRBw+mJGhAk7jFRkbqMAlg00RydJlg
+         2Ii++4OZrDDbI6RYaK4yuCJm9l+RJ5iPTU94+NYvttafjmfQTIYHvj5Lk+aglCvGV2qB
+         EL4zIJReF3wKymohaze8Vy51Wzmm0/ANginXmR2I8McD0lTzhR6wOmTVbTbUwL8Dx2EN
+         CZy+rCjjG3aiEV2vpwDsrRYW1RwZr8NCsHvQoRTk3iUz9ZktMobphvT2/sbdmPvij9VR
+         596w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778686171; x=1779290971;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pVg3X9kh4YDCRW/k5ke7n61nVYb/5/0InQTRe/5tw20=;
+        b=ouTvHYgy7YEidNQhgRWmmCBXhAF9horyRIK1gkVtBZnOOf1M72K4ZSyEnNr8oKF/9W
+         I4O9X2IFOKdz4lTbVIZaMwW7NxNYJ6j4O26YKKkjsHFoAdTKawxNBebCPXsrMD8BfXjO
+         TKzXzWyi/hJw6pkh6GRJMiF318qywwT2fmWYSHtI3GV7UynERVV5ha75oonacnfG4QXN
+         z0PtiGcC125Czdu1yHGtdDox3z0OxiFOE5N5la/9gHRfqcgLoq31HZ0YUsfmmPh5dxEm
+         du6rue6/wJZSofzOJT08TzLqwqjYH/yIR8q1FByjnNqXm/yexpbhby6rqAsW9bT0cPha
+         3beQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/jSeXS5lfSJABU4pOIm6QhoMqR2hdbuXxzREcG8wPl162dE9xnEleoMErEoR0B3OswC/XWmC7ENPwMmZQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwtaMsaap97fcV8fR0cbILq+R5oQVqiYr+xCy/OsswkyV2E2DWD
+	FmHdASM6Ui0hjD0dzL7SRyLysufHiqXIEzkjzqlYiQviktBtDEqH2Zv/
+X-Gm-Gg: Acq92OHotC5JevTd3pbBKuz6jAoQHrbJ2HAveI7hb9aRXwsFq3ZxNStUhtSK9RL8+Dq
+	ac5ZmuV0jnLoAnkHGsAOzw59gCbtmf1KTvevnoKaE2E4A3qhNGDj8shq3x05Ex+bkOUx87bFJ5W
+	LCk150M++dTep6FBTGMS86WKe3t8RyfK2vF1Euy56aWacjQdMlwa8sQC75uYNxYTXK2i15FASZO
+	WWZxT3LYakxriIxGbBxzcY4VlYjpo5TMZnjETWXB0VvzcHWn+Gt4slBhpmlWyEleH4qCifo/zG/
+	UGccLZFeVTHCHY0NTWaQI7g36RXlBoiUWn01FLotgCZ9/MLp9qv/dvBwaYbdysE8aQLkArSZpMK
+	z1rX7F3ckqIkXf6sNSWgJHdiMwL718KgePJDyAQfXxQ+Xsz0UqgUtZIy+2AHLtlSE83mx/OYgbl
+	aLHYb7M8eplv6B5ZEM
+X-Received: by 2002:a17:903:388d:b0:2ba:1c8e:256a with SMTP id d9443c01a7336-2bd30222968mr34932515ad.33.1778686170670;
+        Wed, 13 May 2026 08:29:30 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:5f::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ebe0e8sm182921245ad.76.2026.05.13.08.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 08:29:30 -0700 (PDT)
+Date: Wed, 13 May 2026 08:29:29 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Chas Williams <3chas3@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
+	Alexandra Winter <wintera@linux.ibm.com>, Thorsten Winkler <twinkler@linux.ibm.com>, 
+	James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, David Heidelberg <david+nfc@ixit.cz>, 
+	Samuel Ortiz <sameo@linux.intel.com>, linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
+	linux-s390@vger.kernel.org, linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
+	kernel-team@meta.com
+Subject: Re: [PATCH net-next 1/6] atm: convert to getsockopt_iter
+Message-ID: <agSYw5V5Z6Jbtjb1@devvm7509.cco0.facebook.com>
+References: <20260513-getsock_four-v1-0-fe7f0e756fac@debian.org>
+ <20260513-getsock_four-v1-1-fe7f0e756fac@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260513-getsock_four-v1-6-fe7f0e756fac@debian.org>
-References: <20260513-getsock_four-v1-0-fe7f0e756fac@debian.org>
-In-Reply-To: <20260513-getsock_four-v1-0-fe7f0e756fac@debian.org>
-To: Chas Williams <3chas3@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
- Alexandra Winter <wintera@linux.ibm.com>, 
- Thorsten Winkler <twinkler@linux.ibm.com>, 
- James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
- Marc Dionne <marc.dionne@auristor.com>, 
- David Heidelberg <david+nfc@ixit.cz>, Samuel Ortiz <sameo@linux.intel.com>
-Cc: linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- tipc-discussion@lists.sourceforge.net, linux-s390@vger.kernel.org, 
- linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3995; i=leitao@debian.org;
- h=from:subject:message-id; bh=Z0ETmeAmKPYR2VU1YRxV60q6d9tmgqfaakc7JmmhaPQ=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqBG/PaowN1KvCyr8CcTiJ0E7AwR2awXsEDIGLM
- nLu04vGNlGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCagRvzwAKCRA1o5Of/Hh3
- bXNnD/0WM/D4XEOrsBMsAMLIfbsjBaNjvSj5/1ayamyCAhAAjDJWsHn3OLW6rXZBtOIEc72WVql
- GyutItuq0vfeobIoCrimQ3IJCHyyrZzUCNug7lUBhmbtUmMLUk5hEAE9SKM9UfrtWRbuJzGapgS
- 0txO61a8vXUL33bcXfn+uT0emCvUDooT7DpOknLT8bttYQWeNyrfUAkZwOJ8vPjA9HGpkiV7rHG
- 19DuOnjyX2/gvEuhhfVrFCfLts3cv/KYL5WYldgX3CovsTcz+rjfcxzDOd4waTvcSyZjxWDTeam
- ep1Iu6adQRosYK7BzRTJwxvUafsqrsflbe+cLalIlIUziTxilyBD2VmPBPSoeNNvKHtZc1gG2LY
- PUOrTZl9tqF21Tqvm4fqFrHfa01/jQ9Jw+v4lEr24f1VCClSw8EOA6SDog+/xG44cMPXiKjdVoU
- iRuuRBt2IQMElbmw9ULN8FlNYWZi5xj/Ib5TA+TCaiOlnvhdh4xorjvn41uofINk0zOYebGUHPx
- 4YmSOjcukete1BJKckqG+QUrWZRuDK/zoP+bgb2Sk6xXcKwnlPmNilVjHqRXN/TYXmjxeJ3b3hg
- otzeihi/dlrbkPnF1Qsfcx2WA8PopJkIcEqZjJhzuWpdldua+d4fJuY7ZW87LSfM32ZlrPjvjyU
- V770VioEJZ26fEg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260513-getsock_four-v1-1-fe7f0e756fac@debian.org>
 
-Convert TIPC sockets (msg, packet, stream proto_ops) to use the new
-getsockopt_iter callback with sockopt_t.
+On 05/13, Breno Leitao wrote:
+> Convert the ATM SVC and PVC sockets, along with the shared
+> vcc_getsockopt() helper, to use the new getsockopt_iter callback with
+> sockopt_t.
+> 
+> Key changes:
+> - Replace (char __user *optval, int __user *optlen) with sockopt_t *opt
+> - Use opt->optlen for buffer length (input)
+> - Use copy_to_iter() instead of put_user()/copy_to_user()
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Key changes:
-- Replace (char __user *optval, int __user *optlen) with sockopt_t *sopt
-- Use sopt->optlen for buffer length (input) and returned size (output)
-- Use copy_to_iter() instead of put_user()/copy_to_user()
-
-The sockopt_t parameter is named sopt to avoid collision with the
-existing optname parameter named opt.
-
-Note: Dropped the unnecessary parentheses to make checkpatch happier.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- net/tipc/socket.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/net/tipc/socket.c b/net/tipc/socket.c
-index 9329919fb07f0..858aa6e9566d7 100644
---- a/net/tipc/socket.c
-+++ b/net/tipc/socket.c
-@@ -37,6 +37,7 @@
- 
- #include <linux/rhashtable.h>
- #include <linux/sched/signal.h>
-+#include <linux/uio.h>
- #include <trace/events/sock.h>
- 
- #include "core.h"
-@@ -3220,8 +3221,7 @@ static int tipc_setsockopt(struct socket *sock, int lvl, int opt,
-  * @sock: socket structure
-  * @lvl: option level
-  * @opt: option identifier
-- * @ov: receptacle for option value
-- * @ol: receptacle for length of option value
-+ * @sopt: socket option container (input buffer length, output value/length)
-  *
-  * For stream sockets only, returns 0 length result for all IPPROTO_TCP options
-  * (to ease compatibility).
-@@ -3229,22 +3229,22 @@ static int tipc_setsockopt(struct socket *sock, int lvl, int opt,
-  * Return: 0 on success, errno otherwise
-  */
- static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
--			   char __user *ov, int __user *ol)
-+			   sockopt_t *sopt)
- {
- 	struct sock *sk = sock->sk;
- 	struct tipc_sock *tsk = tipc_sk(sk);
- 	struct tipc_service_range seq;
- 	int len, scope;
-+	int res = 0;
- 	u32 value;
--	int res;
- 
--	if ((lvl == IPPROTO_TCP) && (sock->type == SOCK_STREAM))
--		return put_user(0, ol);
-+	if (lvl == IPPROTO_TCP && sock->type == SOCK_STREAM) {
-+		sopt->optlen = 0;
-+		return 0;
-+	}
- 	if (lvl != SOL_TIPC)
- 		return -ENOPROTOOPT;
--	res = get_user(len, ol);
--	if (res)
--		return res;
-+	len = sopt->optlen;
- 
- 	lock_sock(sk);
- 
-@@ -3260,7 +3260,6 @@ static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
- 		break;
- 	case TIPC_CONN_TIMEOUT:
- 		value = tsk->conn_timeout;
--		/* no need to set "res", since already 0 at this point */
- 		break;
- 	case TIPC_NODE_RECVQ_DEPTH:
- 		value = 0; /* was tipc_queue_size, now obsolete */
-@@ -3289,10 +3288,12 @@ static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
- 	if (len < sizeof(value))
- 		return -EINVAL;
- 
--	if (copy_to_user(ov, &value, sizeof(value)))
-+	if (copy_to_iter(&value, sizeof(value), &sopt->iter_out) !=
-+	    sizeof(value))
- 		return -EFAULT;
-+	sopt->optlen = sizeof(value);
- 
--	return put_user(sizeof(value), ol);
-+	return 0;
- }
- 
- static int tipc_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
-@@ -3365,7 +3366,7 @@ static const struct proto_ops msg_ops = {
- 	.listen		= sock_no_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_sendmsg,
- 	.recvmsg	= tipc_recvmsg,
- 	.mmap		= sock_no_mmap,
-@@ -3385,7 +3386,7 @@ static const struct proto_ops packet_ops = {
- 	.listen		= tipc_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_send_packet,
- 	.recvmsg	= tipc_recvmsg,
- 	.mmap		= sock_no_mmap,
-@@ -3405,7 +3406,7 @@ static const struct proto_ops stream_ops = {
- 	.listen		= tipc_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_sendstream,
- 	.recvmsg	= tipc_recvstream,
- 	.mmap		= sock_no_mmap,
-
--- 
-2.53.0-Meta
-
+Acked-by: Stanislav Fomichev <sdf@fomichev.me>
