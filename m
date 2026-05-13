@@ -1,63 +1,63 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1A2472797
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 15:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEFE30675A
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 15:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778686401; cv=none; b=Q75CXql4kMlN5BFjaOLuO8rryiht0QHWPqHDd9QxjPUWU8N1+rGwrd6nI9C/ENnBwB6+Lf/XYxToIIavyvptfMzT08+xVYzYOe8dY+kzlg8FRmqM+D2bmhGCJDdokHGAeqcOHgh53RH+FnxwIxAqmV9EdF9AUxy3TdxC6y2kCVg=
+	t=1778686488; cv=none; b=ZAvf2H46cPmQbWGWPDIRcDtVhZEZfmyU42yZ0X3LmGGr0rsFVPh/zZ51VEc11weZgUpwvGHb46ba9xomkWT3rfCz3yPBiGl8aW1rQES/67+KYr1hfRdC0hcJJzWkUWr/FCG2DUczdXFLTt0HpeSTiZ5AgZ59Tca6/aBEMW3SP8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778686401; c=relaxed/simple;
-	bh=ptCC6ECWoq8NwvEdGxDOHxyoOAmU11HMhIDNaeufYn8=;
+	s=arc-20240116; t=1778686488; c=relaxed/simple;
+	bh=juof8ClPWBcdbohM1aei0MyS3Zb/FxQ4cYPoANkh300=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W1yVnKziLM6c03B3guss6QyDdd2xD9SIVCyW64j44XzZE6FMTHVUCNpnICHYbTA17LFmQwkkxm11eGq4HaTBhSemgeWTdj4MoKd+bgEQZAR92i/lcuAA+BtauSopGIsjvkfAKQLwYOAIs01K1hRCsGib1A8Qycr4MUc1bMgwWiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFaX9flo; arc=none smtp.client-ip=209.85.215.196
+	 Content-Type:Content-Disposition:In-Reply-To; b=XLZHhRnztV3Ihg0LYEKJrUAjnscCYkBoF4g5F2eaXleIiGLLMRmSmWJd9yaWlTAJ9K010Sa3ZiugS5XMw/Tl6MBrA/bRXWnNtKkGgvcCtq8iui3vVR5CxYJLUsARkJ6tFX/0EZmkVYgJ0+ys6vMvcoFopnm0zd7IxsoNd0zVjmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AT+Lgcki; arc=none smtp.client-ip=209.85.214.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFaX9flo"
-Received: by mail-pg1-f196.google.com with SMTP id 41be03b00d2f7-c801912c903so3267449a12.0
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 08:33:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AT+Lgcki"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2bc7b311e77so18586865ad.0
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 13 May 2026 08:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778686395; x=1779291195; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778686484; x=1779291284; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=r9pfvZX6NILfeGSOJxHfBjON7lRfDPEPyL1FGEyg6nE=;
-        b=AFaX9flocs8jYPkeKPec+ksaDj9xeiau+wxqF0k49TMqQN5/kOaJAo84NDxjwcBaSM
-         WwdS2DSyNTpnk/ub5F+I/cR3DM6HLQIClpNCEKOW08YR+Lir4SxTYp0JFQEAXBzs5ovK
-         vJ2gZqnq7EHyTteMeI1oWoOToA467LYI2qFfbksVR1UQ5JernTcArvuraiFWbKUSateS
-         LVzv81OVfns+Flaim5uUXUzsxeHgzTdYOx3qjB10cDO8NksjQ419TfUN7BllxKkdVqJE
-         3fmY3H8bBb8jTbbHLw5dMYUiMysrTNCO7e/efRSgtwmc7SpK0z3kKqDBSp7NlM7PY4BY
-         R5fA==
+        bh=sULJalq8qpR0SDmRCBfWcTtKyEat46ygMheSeQ0h0XQ=;
+        b=AT+Lgcki9dzPLbMRdayNibZU7mhd3fzrYGYSA9tdU5rvIo/OjFlK4hhaDrvsuPtW8Z
+         /GEjJ6h66TqImNsRyq3SK5RGzFZvkXCkAEREgaPvfgmnvIKMfTR4MucGQO9dD5roBuCN
+         QkIPFKrcQwSH/I+4zG/l406G3cU6h5kk5zbHxXv8PaY8XGrwfcBzb8UoBYGIUIQEcXUj
+         UZn59XgZMn0CHBKGld9mkPIWPG01yNaYSGxL7OQtbECIlKaJZ9+GadOIh6av80AUCpQC
+         dmvCJQqrYW6V0m5U0618NrfCgq7mT4hFOo/hRqmNLW+imbHQFuvrRA3VNOuLBUu+xibu
+         YapA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778686395; x=1779291195;
+        d=1e100.net; s=20251104; t=1778686484; x=1779291284;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r9pfvZX6NILfeGSOJxHfBjON7lRfDPEPyL1FGEyg6nE=;
-        b=cSCcW+dRUhiEPUrrV1FHN7aM8NnKyGa6Ty8aAmD+IiUONPxuQfvUWl5vxuZrb0Hhqr
-         dLTeKOvO7feueEgAZTSq+T2kWuLPtftHSwbAPooejx8OCsQxwbxl7N6HIV9iAMSOW2AL
-         KQYrjOCe5JJJ02cwAO51M8r10xuLbow1RzI5dkJMQBNfAK2J/YcHDIBM/1LT/EZ/JzwF
-         JdwYa0kFcnnWqh02Y2DEDTjnBMiCu1tqMlEYNXIG7qrYVtGajwrUf2Al7JwrP9i9C2Qp
-         YX24Y1FOs/CvS3OzLhzbCoGNABlYYcizXD4H+bLubo20MhRGd2eW0O6atAqqT53XTvfb
-         GsNQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/9IlzxG1Z/T60q+OxdmOO2I8hcONyVyub9+Nor8Cq2xED1NWSNyqRqJErF/rpYRkal0i0We7t4Y8DeZOU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9v6LAv1585/5gPXlIm0uXAq64Remcy5Qz1Cdj9jj16adK+yFv
-	4FYurzaVohsF6QK2/LDuhlVHoPWbWxdqF3Msm3U74HlWCEAUTZXb+wX0
-X-Gm-Gg: Acq92OE5yHimejKWznAI/wqciRPiGWvXiFq5PIs48ZOSB3QbEd/qcdo6ee5FfKPUdZg
-	HF+KeiaI5/saiTQukSXvuE4llA5VVTcKddLcxUEIMf5Taac20SWOragYrrQNCzEfr8mXxMaOghu
-	LlhJ8IAeC/6iCAaihBrymfAsHGKu5v9KnU3Gz1b55IlmabdQw7t6cg4rrzntNgraghphGqSo5S2
-	GI7yG3Wz/VDXouZluTiJxZRTtK50VxvvLOOhTXKkiRtx4TpKxD/fVQqFXic8V5Ysav/QK0o2uZO
-	w3ii9jGqsJx5XropmzoJ9433awKoQqMjrtQR6Uj77DeQpY+KJ27JC0fFNZkLqcVIQqylv5ZH4xl
-	oJ4GAVH4jMca0k2Q/SCzms+aPxVFAnLd2s/XiulPB+G5ZA/hTgggb1EliuAxIX1qwbsq7QjPXGW
-	C3JCOYOJEXnGGPuYS/
-X-Received: by 2002:a05:6a21:6d8f:b0:398:6bb5:54c4 with SMTP id adf61e73a8af0-3af7ee34f61mr4503273637.5.1778686394884;
-        Wed, 13 May 2026 08:33:14 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:55::])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82675fb236sm15718164a12.0.2026.05.13.08.33.14
+        bh=sULJalq8qpR0SDmRCBfWcTtKyEat46ygMheSeQ0h0XQ=;
+        b=IL0SLAg3bPfSD0Oo8Poto9yeBEzx9tqK3jAoQkOKSxCr1kLXx8sEwhhMdKUMHu7NBf
+         Uc97mRO84ai1qQVMFIO6wv/VLyLzIZQ4iiva4GHiUdFK/ANiiHdNM1Hk82y07oGMtq3M
+         TlsoZchPFyNdIXjdzEXctCq/WleiYcQ8lj9YeLiomASU5CQqJPCbEwrCYwgKCXovzH52
+         AAHQz4i7el6u6Yzvz1VxIdB1HqMMFrYquLv6p2Q1DJZEPhcsiklRGl7MT2GoubwYqd0P
+         0S61/xXBl3mzhbAKTQvokNtAf4fIVHYGP9fdSifpbY+WTi6B+K3fkyNeVAEtIr8rdibj
+         nwAg==
+X-Forwarded-Encrypted: i=1; AFNElJ/j3Y0mH+reEWAyIqphodSVL3DZl0bZ2bgtyJybK1GtDais9aHQKw14NVZr730bjrcoK1FwgyaPTIXJ71c=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAQuIrbq9iZfdluJYYwitlASVizIYMNOkx2Z80zz/uoOGvBGic
+	FffBV4c4xD4jxobI7lVkjDKiS4kR71UnWng0WHQABRu1nGeki2mslADz
+X-Gm-Gg: Acq92OHI4AsM7MVAAGlvR+F2wtjonUXWp4WKdI2Aa/5OiYX0T3QyPu/fIe6Xo2pBiag
+	jUgR8SyV0bsw9qa8avq9Cqs80/6Sfpzf4OMfkpwHZVYpzr51PFfwYfT8aWD7RpZLFvKwVNDetI8
+	SXEsBWQ5Tiy/hY9zzHDSdXCBeaKsybmTeA9fVxrC/VX4sNBBWCwriSonouKpv8lxnZcUAntixro
+	YT3Fh16kPow2p7FWcSSr1PtK6Q7gBKVCP1tr0Ra3pmoWsr2CUaGPeE0vTCdt3UjSGW4CSRuk2+R
+	ro6aYbFwB50qjsGBQVTCsvYP+4ldiya15zkhVUtI3NSTgZirzx/NZ0+TKUPgQhflxYHFG0NU8e3
+	8zpQIL8ihG54TvbeS9gS1P4rOAq93b3PENjxsl+H+O2jSuh81WIskY8TgZXRTcQAvjSeDc2NLwv
+	ju7xZNBuVGy+8hpJyA
+X-Received: by 2002:a17:903:1aef:b0:2b9:cabe:ce37 with SMTP id d9443c01a7336-2bd526ce2dfmr298035ad.1.1778686484215;
+        Wed, 13 May 2026 08:34:44 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:4e::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ebea72sm174932375ad.77.2026.05.13.08.34.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 08:33:14 -0700 (PDT)
-Date: Wed, 13 May 2026 08:33:13 -0700
+        Wed, 13 May 2026 08:34:43 -0700 (PDT)
+Date: Wed, 13 May 2026 08:34:43 -0700
 From: Stanislav Fomichev <sdf.kernel@gmail.com>
 To: Breno Leitao <leitao@debian.org>
 Cc: Chas Williams <3chas3@gmail.com>, 
@@ -74,10 +74,10 @@ Cc: Chas Williams <3chas3@gmail.com>,
 	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
 	linux-s390@vger.kernel.org, linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
 	kernel-team@meta.com
-Subject: Re: [PATCH net-next 5/6] rxrpc: convert to getsockopt_iter
-Message-ID: <agSZsZGe_MpQzY0L@devvm7509.cco0.facebook.com>
+Subject: Re: [PATCH net-next 6/6] tipc: convert to getsockopt_iter
+Message-ID: <agSaDOAx1HBSDoCQ@devvm7509.cco0.facebook.com>
 References: <20260513-getsock_four-v1-0-fe7f0e756fac@debian.org>
- <20260513-getsock_four-v1-5-fe7f0e756fac@debian.org>
+ <20260513-getsock_four-v1-6-fe7f0e756fac@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -86,16 +86,21 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260513-getsock_four-v1-5-fe7f0e756fac@debian.org>
+In-Reply-To: <20260513-getsock_four-v1-6-fe7f0e756fac@debian.org>
 
 On 05/13, Breno Leitao wrote:
-> Convert RxRPC socket's getsockopt implementation to use the new
+> Convert TIPC sockets (msg, packet, stream proto_ops) to use the new
 > getsockopt_iter callback with sockopt_t.
 > 
 > Key changes:
-> - Replace (char __user *optval, int __user *optlen) with sockopt_t *opt
-> - Use opt->optlen for buffer length (input) and returned size (output)
+> - Replace (char __user *optval, int __user *optlen) with sockopt_t *sopt
+> - Use sopt->optlen for buffer length (input) and returned size (output)
 > - Use copy_to_iter() instead of put_user()/copy_to_user()
+> 
+> The sockopt_t parameter is named sopt to avoid collision with the
+> existing optname parameter named opt.
+> 
+> Note: Dropped the unnecessary parentheses to make checkpatch happier.
 > 
 > Signed-off-by: Breno Leitao <leitao@debian.org>
 
