@@ -1,39 +1,41 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55A838E12D;
-	Wed, 13 May 2026 10:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ED441B346;
+	Wed, 13 May 2026 12:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669915; cv=none; b=Nw2KIGvIr0UE7VsRHxTvzMWnc7pw22j8J16UTrtAG45htoXM3cfENGUyS+UV71csO/J+YAQWaV+GwuD8M/BFxEzse1VKvJE2nY7SUddGg+GJiE3snO3Ksr0u05DUhMy7/7koF5AO58KikwQPT0Tb1pm3oZrn/WgvVf7kJuYKd+U=
+	t=1778675696; cv=none; b=a+v6tEa9J2Mnle/IHYLOY0OF6rU76nJPXCSuOr74ZUaOxR0Z0NY6kw1KlsK3DiRqAXO0XcDMDcTjj/TO3iq0mzD/+L+ma+B34GsXJZKVRwvcsiUcaUQ9LtN/oHwtILe0xEUlyjDGWTlpUHV7/sYniKzilX76c6bk++LtaTVDSWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778669915; c=relaxed/simple;
-	bh=QIA/aaUl+Tf7JJyWRrgCs8eHCQk13Eufaox2+xCY8+8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mIg8gKOftNgl2Gs33U8kc4E7zFe8rc9gL6M4OtZI+Jlc/3jnqB9wCepKYSkNk2sUIaG4qelc6GSL5RXayOoDbGdMdy2jt1sJehwsZlV3Jzx9/BLfcLNSR79nxk/alwfmRCPWlZtvsZNEqMYdpmae+AYC6M/ZwHB18b9iqjITRkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=r/JD0yV0; arc=none smtp.client-ip=82.195.75.108
+	s=arc-20240116; t=1778675696; c=relaxed/simple;
+	bh=szV/P7ioFhazhghdRtmLJtfuQPsrZ4wDLnrt2KpitwI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Av+WRUJI9wYCOIQLC5JbsSs46e8G6guzQzr058N6M9PKcV1z4m1flXSsZdXzlsHlX1Ph6euz5d6Jqe0PNSVtHCaikVPpLTWJYRxkpm5fNWQ71ViRbiZ2zxO+RPv93nth3KK8V73eSJPoyveyMCFH3kux4Z0OVpZGpBRa0Iu8/hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Ew2Tm7WE; arc=none smtp.client-ip=82.195.75.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="r/JD0yV0"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Ew2Tm7WE"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=b2vQAn4oTfcls0aM2yCHBuL5+9umU8OJL3yCGEj5204=; b=r/JD0yV07yKn/rGJzW6sVNAKbN
-	huAov3LYBDl2q5atVn5g94IkPk4SDZKg9fPdqFaslx3PUAuV/ZCRvndG4380AVJIR+Puq9Sem9E2c
-	DAZdWLsaFboqsWxDXGDVwHQosWydSb0Y/hPfYUoliIiesZA6TAf3kqMpY08Y++C7VmIXVWaGXKvtJ
-	rdyR/Aibg2JYdDDpN1QtW7CJZvKosopdDy8Dtt3lp4BT5QUPzOLsVoSUs1LAFk0WeDbuOfBGH2/Qv
-	zOPPaJyt3JpqbHHmR4B2tc6PfALmzuXtF63L3qkB6ZC1s8v4MYJmcuT7MfLlorzAO3ji4r7TJkxnI
-	49n/lFqA==;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=IPHWVIXooSFPct2fiNJ/S4JD7wPpJJQmkFC+AWSDO/w=; b=Ew2Tm7WEXqWS9ytYwQveolteMi
+	0sV2ws5DGUB8YZt62GTgjCCpQ3/iDFo7WKO4CGNi4Gl++KNJz2Qfrc27lxLl2wANhemLNMYFM/GTD
+	uep1yITW8ScreuQDhBEU3S99hvKUXkiy3sdIOy1TdZ5s3drDCKyGqsRkhFj/f4vAqxzNS8Mza2W8E
+	WbEBzJLOeF0epDjrKnV5/AawukmuHOIlQhaY/frUGWzTluxIZPKrZRSPCMLWfjmH3afarUAnI8XHj
+	ziCqp03/GPS56dlqSU/JAFCKwTl91uJUyg6z2xWr/M+6wbPo8X6x/uutu8aAJXTq7dhmOOvTwiHUA
+	PGDUCZ6w==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.96)
 	(envelope-from <leitao@debian.org>)
-	id 1wN7I2-00371Y-0r;
-	Wed, 13 May 2026 10:58:10 +0000
+	id 1wN8nH-003A7t-0C;
+	Wed, 13 May 2026 12:34:31 +0000
 From: Breno Leitao <leitao@debian.org>
-Date: Wed, 13 May 2026 03:57:54 -0700
-Subject: [PATCH net] nfc: llcp: avoid userspace overflow on invalid optlen
+Subject: [PATCH net-next 0/6] net: convert
+ atm/xdp/af_iucv/l2tp_ppp/rxrpc/tipc to getsockopt_iter
+Date: Wed, 13 May 2026 05:34:11 -0700
+Message-Id: <20260513-getsock_four-v1-0-fe7f0e756fac@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,96 +43,89 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260513-fix_llc-v1-1-33c76f931ff6@debian.org>
-X-B4-Tracking: v=1; b=H4sIADFZBGoC/yXMQQqDMBAF0KsMf23AJI2VXKWI2Dhpp0haEhVBv
- Htp3b7F21E4Cxd42pF5lSLvBE+6IoTnkB6sZIQnmNo0tdNWRdn6aQrKXOOlta5ptXWoCJ/MUbb
- /dEPiGd2JZbm/OMy/A8fxBVwhGBJwAAAA
-X-Change-ID: 20260513-fix_llc-27f483568135
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, David Heidelberg <david+nfc@ixit.cz>, 
- Samuel Ortiz <sameo@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
- kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMRvBGoC/yXMQQrCMBAF0KsMf91AmpoIuYqI1Dito5BIJpVC6
+ d1FXT94G5SrsCLShspvUSkZkfqOkO5jntnIDZHgrAvW94OZuWlJz8tUlmpsGDiMR3fw3qMjvCp
+ Psv66EzI3k3ltOP9Fl+uDU/tu2PcP6HiW8noAAAA=
+X-Change-ID: 20260513-getsock_four-063e6a724555
+To: Chas Williams <3chas3@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>, 
+ Thorsten Winkler <twinkler@linux.ibm.com>, 
+ James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
+ Marc Dionne <marc.dionne@auristor.com>, 
+ David Heidelberg <david+nfc@ixit.cz>, Samuel Ortiz <sameo@linux.intel.com>
+Cc: linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ tipc-discussion@lists.sourceforge.net, linux-s390@vger.kernel.org, 
+ linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2108; i=leitao@debian.org;
- h=from:subject:message-id; bh=QIA/aaUl+Tf7JJyWRrgCs8eHCQk13Eufaox2+xCY8+8=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqBFk+AoW4oPCP5GFeTXU6bONFB9NA6e78wUQak
- f0UWuFGWvKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCagRZPgAKCRA1o5Of/Hh3
- baIuD/9WV2i+Km1+S+9RNoOXRoOcjrz64ezSvMmj2PgL0WQuf6waZw4SN45WRtGigcorcNp7H+i
- HB2nakWATkqD2AS5WOMLLzTZzZFA3Lh1VIx0iuAiEssLRLRStUW9YNbrKIkAwbTYb3Fs8zT++pW
- adx+kddYkyH+m2kFXzIGVz6lfloNE8gqKfZ5JeqtdCFSNNKFs4BV7ho7XlBurPQ9SU/LYRu1mGS
- MpgBc5c1l45gyVXToVfpKyAR+zasYeombAWk1rLDgppNJq0pkOJ28Z8tceMPv8Au5mFox3pcSSi
- oeq+zBUaraEpZYIUU6ksy2CWFAnSI1LCKMwQ0RFc5vadtHKUzjOAnz0CNWTcgfo78O8stjtR9LY
- saL5gVcEO8zpqpTephhAoZdvLnVwsAjuz7imUvZUTl+V9sREx0NJ2YvGEe6ZHViI04Q6HQnhF6h
- +AMPqQGOuPCPIFOkdTLIflLqjzRn5xGgAtBKcqwJ6o06LevBh9QDcYHnFsoPPyDQygaf5xxb1CH
- QC29DpPKp8mTy4cpAWaIxFMC3tgn0SCVNOxBneqZ0ApyG0zG86LxKbNOlT1kO7ZeYpnVeaxXViP
- 9rEJWb76EhgjpWmq85KkTcM0JGftSqzrL2KQn+D3snErdOtxpcSsWyVEsqPww+FJFSfoOScrroC
- EyUEuel0yP+FE2Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1807; i=leitao@debian.org;
+ h=from:subject:message-id; bh=szV/P7ioFhazhghdRtmLJtfuQPsrZ4wDLnrt2KpitwI=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqBG/PQV7f6ZIwr5oNfSQj02W9UwFMqvMC+dWzo
+ RDolSz0ujKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCagRvzwAKCRA1o5Of/Hh3
+ bfQ4D/9vX4Vu0fdFKRms0CxWMrSMOrayNHC3TuSSbI4htxKDmhIfEiK/qKmRT/od1cg1RL8o8fX
+ U5jP57OYjsU9b8pMxqjpvtTuEPK6xEblpa/S0v95ni35VhhxE7CEX9/VhrNcOfUedFFn78/aLcz
+ U7jnHp+Kk4Ad1+oj8Z2c/cziMC7YBlCvYfA7+zHeP9DqZQ6mEi7s3kCDi/UxSjz9p3TL9krGurv
+ WQxyjb2IGnfq/5OMPmgQUsT/qzXYeS3O+0Y6DUj/oNxL7VLh/U/3+XQQ6A9vbUPElXDNJCVU6nQ
+ Q/ya7x8PBfcupMyVMtqrxwBI6cGfJ/gVQiSP6OWzpmuzhmCbTN9s3Xd0PyRlXPKhj/9QMGNuROR
+ BSGN5peGDpF2oII2UGBWT7Xv1yyqLipNslrvuw0ASe9Y85Bib2dO6lKSOV3m0FwdepNmV8V/YYD
+ txs+bjJjMVXxqteH4nAyKqFwMR+HcBnzvHCcQuMswhQ0XM5eLvAOEN9DrdoJExUtosou+q3mLON
+ ECI6zd2iyK5A99AT/jsWMmXpIKUOCT0EQq3LBpSoLB0MzWB/ARfHDUQa2697Zvg4YQt19ZzmPHC
+ +S51DCxs8Dxi1rrpuMHDkFlHsnGQHW2RR2dWopytQrqkP3hJDSYlzv6CSxy5i66PhkmXLJ2Ts8w
+ 7pcHjyIFL9sOuaA==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
 
-nfc_llcp_getsockopt() returns each of its option values via:
+This series continues the conversion of the remaining proto_ops getsockopt
+callbacks to the new getsockopt_iter callback introduced in commit 67fab22a7adc
+("net: add getsockopt_iter callback to proto_ops").
 
-	put_user(value, (u32 __user *) optval);
+The new callback takes a sockopt_t — a type-safe wrapper around iov_iter
+plus an optlen field — instead of raw __user pointers. This:
 
-The (u32 __user *) cast tells put_user() to store sizeof(u32) = 4
-bytes, regardless of what optlen the caller supplied. The earlier
-clamp
+    - Replaces (char __user *optval, int __user *optlen) with sockopt_t *opt
+    - Reads the input buffer size from opt->optlen instead of get_user()
+    - Writes the option value via copy_to_iter() instead of copy_to_user()
+    - Reports the returned length via opt->optlen instead of put_user(),
+      independently of the bytes copied through the iter
 
-	len = min_t(u32, len, sizeof(u32));
+Each conversion is a behaviour-preserving and code-style-preserving refactor;
+no big changes being introduced, even when the code looks weird.
 
-only affects the optlen value that is later reported back to user
-space; it does not constrain the put_user() store itself.
-
-If a caller invokes getsockopt(NFC_LLCP_RW/MIUX/REMOTE_*) with
-optlen < 4 (for example optlen = 1 against a single-byte buffer),
-the kernel still writes 4 bytes into optval, scribbling up to 3
-bytes of the caller's adjacent memory.
-
-That violates the getsockopt(2) contract that the kernel must not write
-more than *optlen bytes into the user buffer.
-
-All five supported optnames (NFC_LLCP_RW, NFC_LLCP_MIUX,
-NFC_LLCP_REMOTE_MIU, NFC_LLCP_REMOTE_LTO, NFC_LLCP_REMOTE_RW)
-are affected because they share the same put_user() pattern.
-
-Reject any call with optlen < sizeof(u32) up front so the
-put_user() stores always have enough room. This formalises the
-implicit u32 ABI these options have always returned.o
-
-Maybe it is possible to change nfc_llcp_getsockopt() to accept optlen
-< 4, but this might be a riskier operation than just keep the current
-approach and guarantee that users are doing the right thing.
-
-Fixes: 26fd76cab2e6 ("NFC: llcp: Implement socket options")
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- net/nfc/llcp_sock.c | 3 +++
- 1 file changed, 3 insertions(+)
+Breno Leitao (6):
+      atm: convert to getsockopt_iter
+      xdp: convert to getsockopt_iter
+      af_iucv: convert to getsockopt_iter
+      l2tp: ppp: convert to getsockopt_iter
+      rxrpc: convert to getsockopt_iter
+      tipc: convert to getsockopt_iter
 
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index f1be1e84f6653..dc74e725ddd05 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -319,6 +319,9 @@ static int nfc_llcp_getsockopt(struct socket *sock, int level, int optname,
- 	if (get_user(len, optlen))
- 		return -EFAULT;
- 
-+	if (len < sizeof(u32))
-+		return -EINVAL;
-+
- 	local = llcp_sock->local;
- 	if (!local)
- 		return -ENODEV;
-
+ net/atm/common.c     | 18 +++++++++++-------
+ net/atm/common.h     |  2 +-
+ net/atm/pvc.c        |  6 +++---
+ net/atm/svc.c        | 15 +++++++--------
+ net/iucv/af_iucv.c   | 14 ++++++--------
+ net/l2tp/l2tp_ppp.c  | 18 ++++++++----------
+ net/rxrpc/af_rxrpc.c | 16 +++++++++-------
+ net/tipc/socket.c    | 31 ++++++++++++++++---------------
+ net/xdp/xsk.c        | 24 +++++++++++-------------
+ 9 files changed, 72 insertions(+), 72 deletions(-)
 ---
-base-commit: 1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
-change-id: 20260513-fix_llc-27f483568135
+base-commit: afb06186b0a5f3ff659cfd97421660c95bbde3be
+change-id: 20260513-getsock_four-063e6a724555
 
 Best regards,
 --  
