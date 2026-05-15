@@ -1,140 +1,142 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B32413D64
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 15 May 2026 19:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B923E9C10
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 15 May 2026 20:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778873337; cv=none; b=ZOSiC+mLPl6ZbunU+CMEkN21thQ5gRK2NVMBA+pRp39THk1kCaCBPiHIdJOWBU9keDTAv6atUd1Kk4SCofQ5FLmvowPWXapDVMgZEhToJwDuDRI8IRXhiR7aqMdzXWyEZ/Smwj4Nuo5u6sufLsJMNc4NbP0MGh3+77/GnV/zPOg=
+	t=1778877931; cv=none; b=eQriA/YryYn59qko4Jq9bl1x1/PFBkTJ/tdsiqfdRopGtz5FKyXOIti2UPA8UQAqvEckxt1IuRevmVufEZ66MN3ZYXtF7HQQzDXSxD8M5VGlkYxQbHivIGzB5Gd8agETum5oILpT/JIrbP8WxOZVL/HgHgcp8Y3ZdL7SXPbqgp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778873337; c=relaxed/simple;
-	bh=w2f3ChhxMh++6hMqqVCOdUz1fuyi6OQYr/0d4UjTDQo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cE+9++QHWhsJ+lFC4dOplMWTXpkQA1oZWXPFGSeNyNH1oL9puet/G5umngATBnPoHoOQlwN5ESgJn5KU4xVPGB/FFCAuGDMloYCltiF1mpa1ggrJaONWRwmzGGgH0ICxT+ITqtnbRNP4v0rHLs3MCsSDhroLP2qf3V8N+e20N7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=0VoWPyXr; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1778877931; c=relaxed/simple;
+	bh=jYFCW0q2oH14t/Tdq68TImEf4QAJ0L7oEU4dKSkZpjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwQkVpktDjBYaaSlbHgvF45iG+Ld5lmyfy9SSFxmma3rWxRxpv122B+tIyijZUM9fW3+n5LI9B+y8H4Xh5TshvEPdr/TUg2QXAguppv5QiS9fs38Prq/2NgwZZvgOEHNCH/mwK037Xp31Qtn33syTAxBnMivgq+vOzBtNyYRbag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Owqn6iJc; arc=none smtp.client-ip=209.85.216.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="0VoWPyXr"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 2760E5341512;
-	Fri, 15 May 2026 21:28:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1778873324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UGN7OPUNLPy+4nGfmDZ8SvvzbakzohHHAfIWGxDkA8M=;
-	b=0VoWPyXrxsa6MKmmP9LMQOzUBiOdq4uoSDhWNw00dKiZtJPq9fwVl2clR/WuREUaci6yL3
-	tVVmfWkKHhWItsLHlbO8J64r0rBkz890BfMCzakYirmqzgDC6MiBWQfau3mKtITtSkfsV9
-	3BrdFGWan0Law2+t/PlglddbW67zUZs=
-Message-ID: <366cef36-d3cb-485f-a71a-dea347e8531b@ixit.cz>
-Date: Fri, 15 May 2026 21:28:43 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Owqn6iJc"
+Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-368763a1bdfso114809a91.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 15 May 2026 13:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778877929; x=1779482729; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Jp3G/+8nHauE/XI0omIm5SsO4BbcTyQ1cU6IXSGwNU=;
+        b=Owqn6iJc9lEATr4yb8LXDCD8pg126lB8DdUPBx9SW97APiBuzS23w69N/+lwJixaHx
+         AVm+G/THhvGHsxTR3/mUd1DAr6crSsSqC53A6F/dkBuLlSbhVVuElDPtcAOiO3gLXB+f
+         muH+md7pV92NsyUW3j1zxG579o1VMQvcAQ6VYmhw2vIFik+IUASG6OPXS0c9B9RYS3tn
+         768xfxm0a41CCuOuYI/NkSoyJ7S3h39jJb5dlQUkvxxB8bchRkjt1WLHcS3voWjxIwEQ
+         Vi+8LoF+a2JUfkJ63+fNwV+PTq0/Is0AiM496uZbcBoRITYYUKRnUo18Yj643fOPdbNq
+         3nGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778877929; x=1779482729;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Jp3G/+8nHauE/XI0omIm5SsO4BbcTyQ1cU6IXSGwNU=;
+        b=LLBJdxw40xG6crksZ2GzcpKEMcsHPar39F6D3jBlI+DPcGxXf8CibSLZ/v4EzW09w5
+         ymxYWUQS7rcDFa2YxgXi3n3y43UZsxN8GYuE4I9CiwI+FcgYf4hpg1WlY+jMM7fPI4R0
+         txOlcfoYT3ihbjZqbNaGhVtb7t4WoSNv7OK6X0z5NQ9Gw55QrWT95Rc6/veY+9KOToOT
+         i4asaL5OJoXEGM4EjbuXxN3Dq3mj4aCuWFlWDOX3h6KwaFMpAiiYA6GYkZ074FalATvl
+         eUQQL/nLa+f3YCuXX+n8CggXyY+ziwRQkxAoB7mkkRjDCnida5Q60G9Liaq3UJivWf+V
+         KjqA==
+X-Forwarded-Encrypted: i=1; AFNElJ8DB/TbjZzYIiMUNue9+QCH/Vl/3hklcglL81mXFvpmzvQViPorm+TzheMy7rzfepfhHk+5cPcSEb7sBCI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3Jkh7148wcot/C9bfltnGHmi5Obh6jKh4qlFt2lhfohAKdOX2
+	leX6yQmLKSbVtyXb3W3ZkHn7c5LC9hGbOZU8IWjLQXfLakaY764/hjI5
+X-Gm-Gg: Acq92OFYZxmsj9FiaD82M7umYtrXbXe49LW49wmvQqILgGRkTam97NVQcfjYSDTmQed
+	CYzr6Cc5nu2uz8GFDXFvcq6LAhjVFWVo7eJgZDmsDm/WZ7/U8Pmx3DTj/bZxfmwED7uLGfHuNyc
+	9EAoBQZYIgYb9p5Dpoxz83L0wxUfFDkzlGkl4tqVL+HAQ6LpQomd7cc8BruUoywxd/k4K5X1TSi
+	DWjiEp5zPCB75zB4RjgYUNnHeDC4ZkTu2zED5OQgxTpmtr1rwnSCvR+ljkHUqzBVfv8Cc2k3lb8
+	7kTHvf0daWee7ixv3NxoPlzGD2FteuIn5Wj58N4yoAVe8mGdfvXe1cypy6xjy1eTUHxjlPzyEsT
+	Ut3XodrdfYObEDLW/clQTEBR3W3w7xDNTjs2RaqXAIbfW4NUb2bnwIueq9Zr8Z5VXBmGu5gIsp8
+	IJZijNPe/C6OcI068U
+X-Received: by 2002:a17:90b:1810:b0:35c:cba:3453 with SMTP id 98e67ed59e1d1-36951ca602amr5899046a91.22.1778877928785;
+        Fri, 15 May 2026 13:45:28 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:5f::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-369703bcc91sm167683a91.3.2026.05.15.13.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 13:45:28 -0700 (PDT)
+Date: Fri, 15 May 2026 13:45:27 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Chas Williams <3chas3@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
+	Alexandra Winter <wintera@linux.ibm.com>, Thorsten Winkler <twinkler@linux.ibm.com>, 
+	James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, David Heidelberg <david+nfc@ixit.cz>, 
+	Samuel Ortiz <sameo@linux.intel.com>, linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
+	linux-s390@vger.kernel.org, linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
+	kernel-team@meta.com
+Subject: Re: [PATCH net-next v2 1/7] af_iucv: take socket lock around
+ SO_MSGSIZE getsockopt
+Message-ID: <ageFn6UV-c-pOPBW@devvm7509.cco0.facebook.com>
+References: <20260515-getsock_four-v2-0-0d8eed952627@debian.org>
+ <20260515-getsock_four-v2-1-0d8eed952627@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "nfc: nxp-nci: remove interrupt trigger type"
-To: Carl Lee <carl.lee@amd.com>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, brgl@kernel.org, Sasha Levin <sashal@kernel.org>,
- Ian Ray <ian.ray@gehealthcare.com>,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Jakub Kicinski <kuba@kernel.org>
-References: <20260511082611.12721-1-bartosz.golaszewski@oss.qualcomm.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260511082611.12721-1-bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260515-getsock_four-v2-1-0d8eed952627@debian.org>
 
-Hello Carl,
-
-do you see any better solution than just reverting it? In case no, I'll accept 
-the revert.
-
-David
-
-On 11/05/2026 10:26, Bartosz Golaszewski wrote:
-> This commit causes an infinite interrupt storm on Lenovo T14s (at least
-> the AMD Ryzen 7 variant) which requires blacklisting of this driver.
-> Neither firmware updates nor the proposed solution[1] seem to help. This
-> reverts the change due to an unfixed regression. The problem is present
-> since v6.19.6 stable kernel.
+On 05/15, Breno Leitao wrote:
+> Mirror the locking used by the SO_MSGLIMIT case directly above: take
+> lock_sock() before reading iucv->hs_dev and dereferencing hs_dev->mtu,
+> and release it afterwards. This keeps the two adjacent getsockopt arms
+> consistent and matches the lock held by iucv_sock_close() when it
+> clears hs_dev.
 > 
-> [1] https://lore.kernel.org/all/20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-v1-1-9e20714411d7@amd.com/
+> This is not an exploitable bug. iucv_sock_close() is the only writer
+> of iucv->hs_dev and only runs from the protocol release callback,
+> which the socket layer invokes after the last file reference drops.
+> The getsockopt() syscall holds an fd reference for its entire
+> duration via fdget()/fdput(), so iucv_sock_close() cannot run
+> concurrently with the SO_MSGSIZE read on the same socket. There is
+> no other writer of hs_dev, and the aligned pointer load cannot tear
+> on any architecture Linux supports, so the existing code cannot
+> observe a NULL dereference or use-after-free in practice.
 > 
-> Cc: stable@vger.kernel.org # v6.19, v7.0
-> Fixes: 941270962861 ("nfc: nxp-nci: remove interrupt trigger type")
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> The change is purely defensive: making the locking pattern uniform
+> across the function avoids surprising the next reader and removes a
+> foot-gun should the close path ever grow a new caller that does not
+> hold the fd reference.
+> 
+> Note: For the reason above, it doesn't contain a "Fixes" tag, and is
+> aiming at net-next instead of net.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 > ---
->   drivers/nfc/nxp-nci/i2c.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  net/iucv/af_iucv.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-> index b3d34433bd14..e99e1f381028 100644
-> --- a/drivers/nfc/nxp-nci/i2c.c
-> +++ b/drivers/nfc/nxp-nci/i2c.c
-> @@ -305,7 +305,7 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
->   
->   	r = request_threaded_irq(client->irq, NULL,
->   				 nxp_nci_i2c_irq_thread_fn,
-> -				 IRQF_ONESHOT,
-> +				 IRQF_TRIGGER_RISING | IRQF_ONESHOT,
->   				 NXP_NCI_I2C_DRIVER_NAME, phy);
->   	if (r < 0)
->   		nfc_err(&client->dev, "Unable to register IRQ handler\n");
+> diff --git a/net/iucv/af_iucv.c b/net/iucv/af_iucv.c
+> index 72dfccd4e3d58..3dd11d7a967c8 100644
+> --- a/net/iucv/af_iucv.c
+> +++ b/net/iucv/af_iucv.c
+> @@ -1566,9 +1566,11 @@ static int iucv_sock_getsockopt(struct socket *sock, int level, int optname,
+>  	case SO_MSGSIZE:
+>  		if (sk->sk_state == IUCV_OPEN)
+>  			return -EBADFD;
+> +		lock_sock(sk);
+>  		val = (iucv->hs_dev) ? iucv->hs_dev->mtu -
+>  				sizeof(struct af_iucv_trans_hdr) - ETH_HLEN :
+>  				0x7fffffff;
+> +		release_sock(sk);
+>  		break;
+>  	default:
+>  		return -ENOPROTOOPT;
+> 
 
--- 
-David Heidelberg
-
+SO_IPRMDATA_MSG also seems to be only reading the value set via setsockopt,
+so maybe it's ok to just cover the whole switch with lock/unlock? (will
+mirror what setsockopt does)
