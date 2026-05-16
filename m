@@ -1,142 +1,128 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [194.59.206.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B923E9C10
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 15 May 2026 20:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D633559CA;
+	Sat, 16 May 2026 10:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.59.206.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778877931; cv=none; b=eQriA/YryYn59qko4Jq9bl1x1/PFBkTJ/tdsiqfdRopGtz5FKyXOIti2UPA8UQAqvEckxt1IuRevmVufEZ66MN3ZYXtF7HQQzDXSxD8M5VGlkYxQbHivIGzB5Gd8agETum5oILpT/JIrbP8WxOZVL/HgHgcp8Y3ZdL7SXPbqgp8=
+	t=1778926256; cv=none; b=PslZBGyy94GSvrQWLeCymj8tsFH7sPD66dnBeal/zJ96ENk4juXJTq9Y2krwWvyQEfE5Ms75+mXrldIVMuyzhKPknpxq5eCsud9uPyqXbMyNCMij31dA9z663VlBUE07z+NSAUabZADEpSZt/LtXg6ouRSutHBt8UYA09hdkV3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778877931; c=relaxed/simple;
-	bh=jYFCW0q2oH14t/Tdq68TImEf4QAJ0L7oEU4dKSkZpjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UwQkVpktDjBYaaSlbHgvF45iG+Ld5lmyfy9SSFxmma3rWxRxpv122B+tIyijZUM9fW3+n5LI9B+y8H4Xh5TshvEPdr/TUg2QXAguppv5QiS9fs38Prq/2NgwZZvgOEHNCH/mwK037Xp31Qtn33syTAxBnMivgq+vOzBtNyYRbag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Owqn6iJc; arc=none smtp.client-ip=209.85.216.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778926256; c=relaxed/simple;
+	bh=7wnIojVr9TnHw4xpU/gYsVgLqdfgCzoKF9H5UJo6j5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JGsksUPxwPR+Jb2gMEK2rhG3tU1O93TzOxZ+0/YTMkLO+hTedakR6VD8qyjxiyevAqETZyfjbt4k20rt3ZXfgR2xgwqa0E/WLXL7R5fh5gk7I7vjgK84YvwkYXqpGi/dkLIy+2ac/e2KmF7XwKZKo1HGG8obHp5YHFjPk52lBfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=BAX+a1Sf; arc=none smtp.client-ip=194.59.206.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Owqn6iJc"
-Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-368763a1bdfso114809a91.2
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 15 May 2026 13:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778877929; x=1779482729; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Jp3G/+8nHauE/XI0omIm5SsO4BbcTyQ1cU6IXSGwNU=;
-        b=Owqn6iJc9lEATr4yb8LXDCD8pg126lB8DdUPBx9SW97APiBuzS23w69N/+lwJixaHx
-         AVm+G/THhvGHsxTR3/mUd1DAr6crSsSqC53A6F/dkBuLlSbhVVuElDPtcAOiO3gLXB+f
-         muH+md7pV92NsyUW3j1zxG579o1VMQvcAQ6VYmhw2vIFik+IUASG6OPXS0c9B9RYS3tn
-         768xfxm0a41CCuOuYI/NkSoyJ7S3h39jJb5dlQUkvxxB8bchRkjt1WLHcS3voWjxIwEQ
-         Vi+8LoF+a2JUfkJ63+fNwV+PTq0/Is0AiM496uZbcBoRITYYUKRnUo18Yj643fOPdbNq
-         3nGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778877929; x=1779482729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Jp3G/+8nHauE/XI0omIm5SsO4BbcTyQ1cU6IXSGwNU=;
-        b=LLBJdxw40xG6crksZ2GzcpKEMcsHPar39F6D3jBlI+DPcGxXf8CibSLZ/v4EzW09w5
-         ymxYWUQS7rcDFa2YxgXi3n3y43UZsxN8GYuE4I9CiwI+FcgYf4hpg1WlY+jMM7fPI4R0
-         txOlcfoYT3ihbjZqbNaGhVtb7t4WoSNv7OK6X0z5NQ9Gw55QrWT95Rc6/veY+9KOToOT
-         i4asaL5OJoXEGM4EjbuXxN3Dq3mj4aCuWFlWDOX3h6KwaFMpAiiYA6GYkZ074FalATvl
-         eUQQL/nLa+f3YCuXX+n8CggXyY+ziwRQkxAoB7mkkRjDCnida5Q60G9Liaq3UJivWf+V
-         KjqA==
-X-Forwarded-Encrypted: i=1; AFNElJ8DB/TbjZzYIiMUNue9+QCH/Vl/3hklcglL81mXFvpmzvQViPorm+TzheMy7rzfepfhHk+5cPcSEb7sBCI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3Jkh7148wcot/C9bfltnGHmi5Obh6jKh4qlFt2lhfohAKdOX2
-	leX6yQmLKSbVtyXb3W3ZkHn7c5LC9hGbOZU8IWjLQXfLakaY764/hjI5
-X-Gm-Gg: Acq92OFYZxmsj9FiaD82M7umYtrXbXe49LW49wmvQqILgGRkTam97NVQcfjYSDTmQed
-	CYzr6Cc5nu2uz8GFDXFvcq6LAhjVFWVo7eJgZDmsDm/WZ7/U8Pmx3DTj/bZxfmwED7uLGfHuNyc
-	9EAoBQZYIgYb9p5Dpoxz83L0wxUfFDkzlGkl4tqVL+HAQ6LpQomd7cc8BruUoywxd/k4K5X1TSi
-	DWjiEp5zPCB75zB4RjgYUNnHeDC4ZkTu2zED5OQgxTpmtr1rwnSCvR+ljkHUqzBVfv8Cc2k3lb8
-	7kTHvf0daWee7ixv3NxoPlzGD2FteuIn5Wj58N4yoAVe8mGdfvXe1cypy6xjy1eTUHxjlPzyEsT
-	Ut3XodrdfYObEDLW/clQTEBR3W3w7xDNTjs2RaqXAIbfW4NUb2bnwIueq9Zr8Z5VXBmGu5gIsp8
-	IJZijNPe/C6OcI068U
-X-Received: by 2002:a17:90b:1810:b0:35c:cba:3453 with SMTP id 98e67ed59e1d1-36951ca602amr5899046a91.22.1778877928785;
-        Fri, 15 May 2026 13:45:28 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:5f::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-369703bcc91sm167683a91.3.2026.05.15.13.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 13:45:28 -0700 (PDT)
-Date: Fri, 15 May 2026 13:45:27 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Chas Williams <3chas3@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
-	Alexandra Winter <wintera@linux.ibm.com>, Thorsten Winkler <twinkler@linux.ibm.com>, 
-	James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, David Heidelberg <david+nfc@ixit.cz>, 
-	Samuel Ortiz <sameo@linux.intel.com>, linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	linux-s390@vger.kernel.org, linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
-	kernel-team@meta.com
-Subject: Re: [PATCH net-next v2 1/7] af_iucv: take socket lock around
- SO_MSGSIZE getsockopt
-Message-ID: <ageFn6UV-c-pOPBW@devvm7509.cco0.facebook.com>
-References: <20260515-getsock_four-v2-0-0d8eed952627@debian.org>
- <20260515-getsock_four-v2-1-0d8eed952627@debian.org>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="BAX+a1Sf"
+Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4gHfw46fCXz496p;
+	Sat, 16 May 2026 12:10:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1778926244;
+	bh=7wnIojVr9TnHw4xpU/gYsVgLqdfgCzoKF9H5UJo6j5c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BAX+a1SfTKx3a1vzc8L9QrNEJS2H9gS7LwNO+kNkeqFecNpBuJtO/CJVJH9pxNy2r
+	 mTzIGs+LaL6EIpi8w82IrFjXgpYCD9SG7GdgCg1E7+p5MKDcAMK1BwTdDwU8hsQ5Tk
+	 ZbYFukW3z7MVPhnxvW7b2ZnqfbDwnRePFttJCMEfbpRjHPXxxFg5KFPaOFxCw3tZ1u
+	 1ms6sgpPb0HcNtF+0rWFRjrQvFso9JJ9U8UWbZ7ys9iTOMeZWj1atUt/JhLS/t5cmU
+	 EP/ngtCstv8Nm1GA3MFsTDqVFvRbbq/YBbEnuOXz5HV3XwZv5WvvEBAXXTS45ODvjB
+	 7ZOtpJhmRq7Qg==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4gHfw45vFPz7xLx;
+	Sat, 16 May 2026 12:10:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.898
+X-Spam-Level: 
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4gHfw34fwhz8tYs;
+	Sat, 16 May 2026 12:10:43 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 7382261829;
+	Sat, 16 May 2026 12:10:42 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <999d967b-331c-468b-b5ab-1ed7d35c8b05@leemhuis.info>
+Date: Sat, 16 May 2026 12:10:40 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260515-getsock_four-v2-1-0d8eed952627@debian.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "nfc: nxp-nci: remove interrupt trigger type"
+To: David Heidelberg <david@ixit.cz>, Carl Lee <carl.lee@amd.com>
+Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, brgl@kernel.org, Sasha Levin <sashal@kernel.org>,
+ Ian Ray <ian.ray@gehealthcare.com>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Jakub Kicinski <kuba@kernel.org>, Mark Pearson <mpearson@squebb.ca>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20260511082611.12721-1-bartosz.golaszewski@oss.qualcomm.com>
+ <366cef36-d3cb-485f-a71a-dea347e8531b@ixit.cz>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <366cef36-d3cb-485f-a71a-dea347e8531b@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177892624304.87246.771635449133262671@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: 7382261829
+X-NC-CID: 7j6E55DFeOfLwJGzrUYjF8WQnCdzICCgtv9X2CperLqHSIg89bY=
 
-On 05/15, Breno Leitao wrote:
-> Mirror the locking used by the SO_MSGLIMIT case directly above: take
-> lock_sock() before reading iucv->hs_dev and dereferencing hs_dev->mtu,
-> and release it afterwards. This keeps the two adjacent getsockopt arms
-> consistent and matches the lock held by iucv_sock_close() when it
-> clears hs_dev.
-> 
-> This is not an exploitable bug. iucv_sock_close() is the only writer
-> of iucv->hs_dev and only runs from the protocol release callback,
-> which the socket layer invokes after the last file reference drops.
-> The getsockopt() syscall holds an fd reference for its entire
-> duration via fdget()/fdput(), so iucv_sock_close() cannot run
-> concurrently with the SO_MSGSIZE read on the same socket. There is
-> no other writer of hs_dev, and the aligned pointer load cannot tear
-> on any architecture Linux supports, so the existing code cannot
-> observe a NULL dereference or use-after-free in practice.
-> 
-> The change is purely defensive: making the locking pattern uniform
-> across the function avoids surprising the next reader and removes a
-> foot-gun should the close path ever grow a new caller that does not
-> hold the fd reference.
-> 
-> Note: For the reason above, it doesn't contain a "Fixes" tag, and is
-> aiming at net-next instead of net.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  net/iucv/af_iucv.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/net/iucv/af_iucv.c b/net/iucv/af_iucv.c
-> index 72dfccd4e3d58..3dd11d7a967c8 100644
-> --- a/net/iucv/af_iucv.c
-> +++ b/net/iucv/af_iucv.c
-> @@ -1566,9 +1566,11 @@ static int iucv_sock_getsockopt(struct socket *sock, int level, int optname,
->  	case SO_MSGSIZE:
->  		if (sk->sk_state == IUCV_OPEN)
->  			return -EBADFD;
-> +		lock_sock(sk);
->  		val = (iucv->hs_dev) ? iucv->hs_dev->mtu -
->  				sizeof(struct af_iucv_trans_hdr) - ETH_HLEN :
->  				0x7fffffff;
-> +		release_sock(sk);
->  		break;
->  	default:
->  		return -ENOPROTOOPT;
+On 5/15/26 21:28, David Heidelberg wrote:
+>
+> do you see any better solution than just reverting it? In case no, I'll
+> accept the revert.
+
+FWIW, Mark hit the issue as well on a few Lenovo machines and prefers
+reverting, too:
+https://lore.kernel.org/all/c1f80da1-9bf8-41c3-b645-3ae95e116add@app.fastmail.com/
+
+> On 11/05/2026 10:26, Bartosz Golaszewski wrote:
+>> This commit causes an infinite interrupt storm on Lenovo T14s (at least
+>> the AMD Ryzen 7 variant)
+
+Side note: wondering if it would be wise to specific the generation of
+the T14s, but I guess it won't make much of a difference. Adding a
+link/closes tag to above thread would be nice, too.
+
+Ciao, Thorsten
+
+>> which requires blacklisting of this driver.
+>> Neither firmware updates nor the proposed solution[1] seem to help. This
+>> reverts the change due to an unfixed regression. The problem is present
+>> since v6.19.6 stable kernel.
+>>
+>> [1] https://lore.kernel.org/all/20260311-nfc-nxp-nci-i2c-restore-irq-
+>> trigger-fallback-v1-1-9e20714411d7@amd.com/
+>>
+>> Cc: stable@vger.kernel.org # v6.19, v7.0
+>> Fixes: 941270962861 ("nfc: nxp-nci: remove interrupt trigger type")
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>> ---
+>>   drivers/nfc/nxp-nci/i2c.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
+>> index b3d34433bd14..e99e1f381028 100644
+>> --- a/drivers/nfc/nxp-nci/i2c.c
+>> +++ b/drivers/nfc/nxp-nci/i2c.c
+>> @@ -305,7 +305,7 @@ static int nxp_nci_i2c_probe(struct i2c_client
+>> *client)
+>>         r = request_threaded_irq(client->irq, NULL,
+>>                    nxp_nci_i2c_irq_thread_fn,
+>> -                 IRQF_ONESHOT,
+>> +                 IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+>>                    NXP_NCI_I2C_DRIVER_NAME, phy);
+>>       if (r < 0)
+>>           nfc_err(&client->dev, "Unable to register IRQ handler\n");
 > 
 
-SO_IPRMDATA_MSG also seems to be only reading the value set via setsockopt,
-so maybe it's ok to just cover the whole switch with lock/unlock? (will
-mirror what setsockopt does)
