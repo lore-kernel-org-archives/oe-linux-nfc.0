@@ -1,220 +1,77 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE9A3F65E0;
-	Wed, 20 May 2026 16:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0C436F421;
+	Wed, 20 May 2026 17:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779296084; cv=none; b=kHDj5JjC7tTCo1ASzTeffjomZ58FxFVYEjaV+t89vw+q1CYSBHC2qRYcKI1of+V4GouA6yMFkKgb5/gTqtlPWHa5VydD1m3O5KHuedTpj0e/pmmSrGJJ9cJMAc7HeytOsOo0W4GKRK2bx++VVGFER1BecYuZglC1mPXoBW+Q/ug=
+	t=1779298045; cv=none; b=Tf/2fzsyJC0XoASIXfppjUs5yI6sWk3sRxjCOr2AhB7UxWPFmLJUsD0htq0cm/wkp3TL/gDOp8Ufhqq1sl7ccmOlqFGW0p5q+gKL43IcLMOS8x45XezY/wVFdJ0s3gyXgsjn05pIw8SFZydECLFdGlO0gZZq3uE7qMN8tMhGFj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779296084; c=relaxed/simple;
-	bh=EJ91vFLbXslMvIHRojLDFKgOipEyDnI9YsoyRqBaYVE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YlqhUYEmB6NTk1bLtewmt4HviNn/q2Ugi4Bh0m4e20ZkNgSSg6AARyt16YgUgLPQdNiBie3cltTzCZ5zfxfFbSnyXWXvqh45i1xIdjgLmv5f/Lx8E4ietlqsHkz2974VSQct7bwlWDZO8PRR36PFscs6OGfEmozOhN70InQ+PVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=MBmvsGU+; arc=none smtp.client-ip=82.195.75.108
+	s=arc-20240116; t=1779298045; c=relaxed/simple;
+	bh=X0txdFwz2nSY7i3sfY0DqlglxtMhA/Cxtg/abAKCOAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cIgqovrdXYAUMRf/fH6h4+VEmIMp5DBZ16OIc6ugLSmtxvFlI4T06st2uN/7tpWTawIzSxYDOFxwC2K/WluXnFjkM1wxeGmjRuFt8aJ++zcs6YFvOZPxHxnvwROVZbGAgjVbXJbQxhWspgv/Hm0QT/mDGDGwH+/3hzX4dY43X2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=CBIJabsi; arc=none smtp.client-ip=82.195.75.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="MBmvsGU+"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="CBIJabsi"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=R9vdjw1UBOL4Hyoux1kOF6cKvhkh6pXtVIRprxY+a+g=; b=MBmvsGU+I9nZL0psA6vayRNoH3
-	MqxPfwFe3lnlOqTRZWa9ClPh0Mp3jhXaczm0NqpUdquSShZ4e4rngIzVHClnLFIKV9WzYK6F5KqEA
-	lKtLnr1SrRV+iYg8gwxgfNcLy5NEJMNeSF6889+z97ozgQ+91WtKJtczeStHo3Ij/hO+IZd3SJGzd
-	mrgFBbTt1JPW0RROoZvPYLDtTZ6oL397Afckw7f0R3zrbbfzAGKIByd4bgxYc+N5lE3/4hlmwCIds
-	dbq1eRz3ngVILS9ubI2adzTROl5V3zTdQnXxec/fwSnHoZQxdECfMqM2Io2igH7FZrg9RJLi6Ub+G
-	yqwF5NDw==;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ye4EgwQSw5kqIQb5WLTWB7hJ2bBb4HasauCnq34yJXA=; b=CBIJabsiTPY6sA3ESjOy9LxNKo
+	sT9jNkexZOR4ZqVA0uk//TZRXhWWlOLQhX9MvQlP9BPW4Xj5m0oyDvnt3W4ziWiGEMNmUIOGzEb5p
+	EBWN3M+AJkSc0lurihhu9MAxcS4zyv6k8OAzOK/XNAppezu+JTXjCGnOI/iHUy5CvgqCCm2kCDlN4
+	AhUuE3JVdH8nJuAPN6xHyuoFR3qXpgKsTimoZOSPshlRs+rfFdpkPn4xSWTov6SB3Fqc87WfTSMtF
+	3t85Po12709EI1tWHVMD5Muw0ngvRGOIiNb+u6Od1ZCbTKqedkPcyrSWUT5/5IQQdV4GjbtmhHhrN
+	MkX3sIqg==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.96)
 	(envelope-from <leitao@debian.org>)
-	id 1wPkBp-003FVj-14;
-	Wed, 20 May 2026 16:54:37 +0000
+	id 1wPkhL-003GVU-0z;
+	Wed, 20 May 2026 17:27:11 +0000
+Date: Wed, 20 May 2026 10:27:06 -0700
 From: Breno Leitao <leitao@debian.org>
-Date: Wed, 20 May 2026 09:53:51 -0700
-Subject: [PATCH net-next v3 6/6] tipc: convert to getsockopt_iter
+To: Simon Horman <horms@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, shuah@kernel.org, david+nfc@ixit.cz, sameo@linux.intel.com, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH net] nfc: llcp: avoid userspace overflow on invalid optlen
+Message-ID: <ag3uNJZ8uyn5jPry@gmail.com>
+References: <20260513-fix_llc-v1-1-33c76f931ff6@debian.org>
+ <20260518091103.427351-2-horms@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260520-getsock_four-v3-6-b8c0b16b7780@debian.org>
-References: <20260520-getsock_four-v3-0-b8c0b16b7780@debian.org>
-In-Reply-To: <20260520-getsock_four-v3-0-b8c0b16b7780@debian.org>
-To: Chas Williams <3chas3@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, Jon Maloy <jmaloy@redhat.com>, 
- Alexandra Winter <wintera@linux.ibm.com>, 
- Thorsten Winkler <twinkler@linux.ibm.com>, 
- James Chapman <jchapman@katalix.com>, David Howells <dhowells@redhat.com>, 
- Marc Dionne <marc.dionne@auristor.com>, 
- David Heidelberg <david+nfc@ixit.cz>, Samuel Ortiz <sameo@linux.intel.com>
-Cc: linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- tipc-discussion@lists.sourceforge.net, linux-s390@vger.kernel.org, 
- linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4223; i=leitao@debian.org;
- h=from:subject:message-id; bh=EJ91vFLbXslMvIHRojLDFKgOipEyDnI9YsoyRqBaYVE=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqDecgoa2ed7mODMXM5hFG0/d4ScsBrKhwLkdx0
- m4Gsba1ip+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCag3nIAAKCRA1o5Of/Hh3
- bVL/D/0UzBVtCzaf2YRbFbhLxaS3xilITTsnr/snaC5W1anUe/JAvVLYUuM9RMwBW59Z8/IEOAN
- t2nltU1DxtoCS8v3/Nh8cN3fP804Q/VlS9weCQOD3Veq1UYAyAf101749+7/8x6TtvgdvM6rGL8
- X5gUqzjIcHlZvV33S4lsp/ZLuhxP+iBWnCoaUvEUqSG8rGovhST672w/z4akyYM6Sep02kzkl3L
- w4Cb9lk3Aq7iXF+VvyzfPKArVWNrMGIaFmgWAFzlVK5g78G1+jEFDcbHzmQ+U28tBI2xMD86PTb
- Pg3Wjb4lFqVew1oGf60ECbbJrUf4QstnLRo7zFGl2ocN8x0i8aAbiFJMqJBo7RF82lcxIxKRBoD
- 3G/4/QtKHLLgmsD++bzViEdQkyCj6fB7wbH9ZGTD5IPm/E9Y6qwmjaM2FwVyEVJAs6Ro9dIh80W
- JynRPVwC45WqJA3gWcUFDmKHJb/M96/F19/eXkcUueZXC1Dw6EjsO1g7ymMwpNKL2TZf+bqPIVQ
- BDNCQf/BfVotZqIelgPSebNYqzYkQLRyuuuCKpWrNMsp00ldEE2RidHDZo278aZSV37tqH7nXwL
- +SF9Zg8MpZiut+PYUyhOBUuSL0Y6s6CjtPjWqeWr6fcZSnHhhc35JY4p1l+/PnEblVCVPVVtoM9
- jJgeqAw8jWXpDoA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518091103.427351-2-horms@kernel.org>
 X-Debian-User: leitao
 
-Convert TIPC sockets (msg, packet, stream proto_ops) to use the new
-getsockopt_iter callback with sockopt_t.
+On Mon, May 18, 2026 at 10:11:04AM +0100, Simon Horman wrote:
 
-Key changes:
-- Replace (char __user *optval, int __user *optlen) with sockopt_t *sopt
-- Use sopt->optlen for buffer length (input) and returned size (output)
-- Use copy_to_iter() instead of put_user()/copy_to_user()
+> > @@ -319,6 +319,9 @@ static int nfc_llcp_getsockopt(struct socket *sock, int level, int optname,
+> >  	if (get_user(len, optlen))
+> >  		return -EFAULT;
+> >  
+> > +	if (len < sizeof(u32))
+> > +		return -EINVAL;
+> 
+> Since len is a signed int and sizeof(u32) is an unsigned size_t, does C
+> integer promotion cause negative lengths to bypass this check?
 
-The sockopt_t parameter is named sopt to avoid collision with the
-existing optname parameter named opt.
+Good catch, you're right. `len` is `int` and might get promoted to unsigned in the
+comparison, so optlen = -1 becomes a huge value and slips past the check, then
+min_t(u32, ...) clamps it back to 4 and the overflow happens anyway.
 
-Note: Dropped the unnecessary parentheses to make checkpatch happier.
-Also dropped two now-stale comments that referred to the old "res"
-variable handling.
+I'll fix this in v2 by casting:
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- net/tipc/socket.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/net/tipc/socket.c b/net/tipc/socket.c
-index 9329919fb07f0..3a94278a44ac4 100644
---- a/net/tipc/socket.c
-+++ b/net/tipc/socket.c
-@@ -37,6 +37,7 @@
- 
- #include <linux/rhashtable.h>
- #include <linux/sched/signal.h>
-+#include <linux/uio.h>
- #include <trace/events/sock.h>
- 
- #include "core.h"
-@@ -3220,8 +3221,7 @@ static int tipc_setsockopt(struct socket *sock, int lvl, int opt,
-  * @sock: socket structure
-  * @lvl: option level
-  * @opt: option identifier
-- * @ov: receptacle for option value
-- * @ol: receptacle for length of option value
-+ * @sopt: socket option container (input buffer length, output value/length)
-  *
-  * For stream sockets only, returns 0 length result for all IPPROTO_TCP options
-  * (to ease compatibility).
-@@ -3229,22 +3229,22 @@ static int tipc_setsockopt(struct socket *sock, int lvl, int opt,
-  * Return: 0 on success, errno otherwise
-  */
- static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
--			   char __user *ov, int __user *ol)
-+			   sockopt_t *sopt)
- {
- 	struct sock *sk = sock->sk;
- 	struct tipc_sock *tsk = tipc_sk(sk);
- 	struct tipc_service_range seq;
- 	int len, scope;
-+	int res = 0;
- 	u32 value;
--	int res;
- 
--	if ((lvl == IPPROTO_TCP) && (sock->type == SOCK_STREAM))
--		return put_user(0, ol);
-+	if (lvl == IPPROTO_TCP && sock->type == SOCK_STREAM) {
-+		sopt->optlen = 0;
-+		return 0;
-+	}
- 	if (lvl != SOL_TIPC)
- 		return -ENOPROTOOPT;
--	res = get_user(len, ol);
--	if (res)
--		return res;
-+	len = sopt->optlen;
- 
- 	lock_sock(sk);
- 
-@@ -3260,7 +3260,6 @@ static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
- 		break;
- 	case TIPC_CONN_TIMEOUT:
- 		value = tsk->conn_timeout;
--		/* no need to set "res", since already 0 at this point */
- 		break;
- 	case TIPC_NODE_RECVQ_DEPTH:
- 		value = 0; /* was tipc_queue_size, now obsolete */
-@@ -3284,15 +3283,17 @@ static int tipc_getsockopt(struct socket *sock, int lvl, int opt,
- 	release_sock(sk);
- 
- 	if (res)
--		return res;	/* "get" failed */
-+		return res;
- 
- 	if (len < sizeof(value))
- 		return -EINVAL;
- 
--	if (copy_to_user(ov, &value, sizeof(value)))
-+	if (copy_to_iter(&value, sizeof(value), &sopt->iter_out) !=
-+	    sizeof(value))
- 		return -EFAULT;
-+	sopt->optlen = sizeof(value);
- 
--	return put_user(sizeof(value), ol);
-+	return 0;
- }
- 
- static int tipc_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
-@@ -3365,7 +3366,7 @@ static const struct proto_ops msg_ops = {
- 	.listen		= sock_no_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_sendmsg,
- 	.recvmsg	= tipc_recvmsg,
- 	.mmap		= sock_no_mmap,
-@@ -3385,7 +3386,7 @@ static const struct proto_ops packet_ops = {
- 	.listen		= tipc_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_send_packet,
- 	.recvmsg	= tipc_recvmsg,
- 	.mmap		= sock_no_mmap,
-@@ -3405,7 +3406,7 @@ static const struct proto_ops stream_ops = {
- 	.listen		= tipc_listen,
- 	.shutdown	= tipc_shutdown,
- 	.setsockopt	= tipc_setsockopt,
--	.getsockopt	= tipc_getsockopt,
-+	.getsockopt_iter = tipc_getsockopt,
- 	.sendmsg	= tipc_sendstream,
- 	.recvmsg	= tipc_recvstream,
- 	.mmap		= sock_no_mmap,
-
--- 
-2.53.0-Meta
+        if (len < (int)sizeof(u32))
+                return -EINVAL;
 
