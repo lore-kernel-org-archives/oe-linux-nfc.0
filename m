@@ -1,115 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994C23372C;
-	Thu, 21 May 2026 14:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540C825B0B3;
+	Thu, 21 May 2026 15:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779375548; cv=none; b=lTFR9uzsbgy/dCx2IVGOrQi/nLtNkKYhFecbOAUfIVCSZA6UukjgWLKatks06Mg96CskcKHGj3C+UKa3Nr6fEn22eEeGmnv9R6NE65TEjnvG4FG7gCn0Hi8LrRj8N2lx2frHFg9CFMCZCk72+XkwmQMbLWmlXvuTR3Qo1Onw8ck=
+	t=1779377763; cv=none; b=Zu9Ohit2DqnMJg3CNfjn14qaZOFQxum4TwrAsPpd4xbYJ9ctjTrJEH0vud7bz4cQsb5GsUXLNGMeExtBvITuTCCIjI5qfHm2ZwXCQo6ST4ZnGmTCGSJQ4DRiwrJ9mpTzDVKywVk0HrA7hTqMfYBgElv6v5rOj7g5ap6bgcQHMUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779375548; c=relaxed/simple;
-	bh=7vV3U47dqceEoYlPJPQkAdHGPir0Dj/4Tzkmt+VmItI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mjy26Jx7LXHAfhxgZvLI3HilHPnxelsPkhMfSDd8lAVbHjYKc+5yfLYaCwfR8RDlbW5ZGgzza8yVmTPoP58mTfmj1tK+zF7Eijs8jD0jDZ6vl//C5Lup9/Azc/ZcUul26OVeKDtsWt0hbgdQaf4JxtzoHXHnUU+1g9Z/ycLU45o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz4cbATQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779377763; c=relaxed/simple;
+	bh=5dDy/aBj4E9U494Qv23Ul+WC06rY5CyC63djaVJpECk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFXYOoHNIcWqJbNEfu+tj7x8sEEKeOuL4mpa28C+5SQWifNHnGuatMWuXstasDA9PtT1dH5+X1AuCeoQ9MqKZs0Rmp/MT1ygd4MEEuEQGjBPqfogTj4XfyCYFJzJCVp9bWIware/aY2MkzjCxwJI+vGusTwL5Lw6VSpqu3etOVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PG2XktR2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz4cbATQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5E41F00A3D;
-	Thu, 21 May 2026 14:59:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PG2XktR2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0847C1F000E9;
+	Thu, 21 May 2026 15:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779375546;
-	bh=u8Y8KDCejJZHIqnWx5pY4uc1dK4z52Fxk1r7C+1ecbk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cz4cbATQW3NxW6y1zb36mbRj11yX2PUdrz6T9oLdRg2L4IX3u9WMRUGFL+T+IWpOV
-	 S7aat94BXSeYmu5ZN1aoBQQldNyy0rwkTBjSLI9cMRKmgrGylJrI2aXFsSo/curE2G
-	 JyREF4Y0MeQS5NQwGcEovRFPAmzcWKLA7SXXwwW7EGFW5iU2d2x5MGXBymbCuBxW6H
-	 iJiLSZpuVg3yafWmo4AxJZPPeGIuvDIeEvWTxWd4TwQs63b1LO7bdV2mxVtCKK/EtU
-	 Q2FubrIDm4R8EX7Vn5fwqD2kEw0lUS4qB39YdyBV9KU9CLe6QwP7Jr70kNBcIPUvHH
-	 pTk6SqlhgpS7w==
+	s=k20260515; t=1779377762;
+	bh=XsAMDB0q4nKocT90tbJUfWc/eUcL09U3cACOei5OtWw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PG2XktR2z9H5ojAna5dJquvxmb9MMvzHNlj61U4EM993BVkH44o9J9S3pCBhulWgR
+	 9TAsQjM94xzMd34dhMPglgf1jlfCVF5/l3wa6VpKNdaHnuhdeXMaBKfzP1Uf29HCjT
+	 NACsF43hHl9CE0AGKDN+JfiYmH/HfeL7VG8bh5JY6gIEOxTdgjiYUCxinpfqELTktd
+	 n6+y2wNBM8xZzOuObAUdCInziYzdkdFMNKfiSZqWkls5gpfYEfQi9BIuLKqcA/nDdC
+	 YppkciFylJUBMKW7fEjEVkshfDJSGVJXZhmfY4cCNigivI1PmIuzfI11IXitvmwY/4
+	 84qJbgnsxS5ZA==
+Date: Thu, 21 May 2026 16:35:57 +0100
 From: Simon Horman <horms@kernel.org>
-To: yun.zhou@windriver.com
-Cc: 'Simon Horman' <horms@kernel.org>,
-	david+nfc@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	bongsu.jeon@samsung.com,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-Date: Thu, 21 May 2026 15:58:17 +0100
-Message-ID: <20260521145817.1990235-1-horms@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260519013042.3459906-1-yun.zhou@windriver.com>
-References: <20260519013042.3459906-1-yun.zhou@windriver.com>
+To: Muhammad Bilal <meatuni001@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev, david+nfc@ixit.cz,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, stable@vger.kernel.org
+Subject: Re: [PATCH net 0/2] nfc: llcp: fix OOB reads and integer bugs in TLV
+ parsers
+Message-ID: <20260521153557.GE1506108@horms.kernel.org>
+References: <20260519011937.12903-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519011937.12903-1-meatuni001@gmail.com>
 
-From: 'Simon Horman' <horms@kernel.org>
+On Mon, May 18, 2026 at 09:19:35PM -0400, Muhammad Bilal wrote:
+> This series fixes memory safety bugs in the NFC LLCP TLV parsing code,
+> reachable from a remote NFC peer via crafted LLCP frames.
+> 
+> Patch 1 fixes nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv():
+>   - u8 offset wraps to zero after 255 (widened to u16)
+>   - OOB read of TLV header on truncated buffer
+>   - OOB read of value field via attacker-controlled length byte
+> 
+> Patch 2 fixes nfc_llcp_recv_snl():
+>   - OOB read of TLV header when tlv_len - offset == 1
+>   - OOB read of SDREQ value via attacker-controlled length
+>   - SIZE_MAX underflow when length == 0 in service_name_len,
+>     bypassing the sn_len == 0 guard in nfc_llcp_sock_from_sn()
+> 
+> Previously reported to security@kernel.org on 2026-05-15. Willy Tarreau
+> advised posting to public lists as NFC is currently orphaned.
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://sashiko.dev
----
-nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-This commit adds skb length checks to nci_core_init_rsp_packet_v1() and
-nci_core_init_rsp_packet_v2() before parsing the CORE_INIT_RSP packet to
-prevent reads of uninitialized memory.
+The AI generated review at sashiko.dev has flagged a number
+or pre-existing problems.
 
-> diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-> index 9eeb862825c5f..36e49fb7d8941 100644
-> --- a/net/nfc/nci/rsp.c
-> +++ b/net/nfc/nci/rsp.c
-> @@ -50,6 +50,9 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
->  	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
->  	const struct nci_core_init_rsp_2 *rsp_2;
->  
-> +	if (skb->len < sizeof(*rsp_1))
-> +		return NCI_STATUS_SYNTAX_ERROR;
-> +
+While several of them do seem to impact the effectiveness of these
+patches I would suggest treating them as items for possible follow-up.
 
-Does this length check break the handling of valid NCI error responses?
+I say that in order to expanding the scope of this patch-set.
+Which I believe risks growing significantly if related issues
+are solved; because I fully expect that to lead to more related issues.
 
-If the device returns an error status, the response payload might only
-contain the 1-byte status field. By requiring the full sizeof(*rsp_1)
-before checking the status, will this return NCI_STATUS_SYNTAX_ERROR
-instead of propagating the actual error code from the device?
-
->  	pr_debug("status 0x%x\n", rsp_1->status);
->  
->  	if (rsp_1->status != NCI_STATUS_OK)
-
-[ ... ]
-
-> @@ -87,15 +94,21 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
->  				      const struct sk_buff *skb)
->  {
->  	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
-> -	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
-> +	const u8 *supported_rf_interface;
-> +	const u8 *skb_end = skb->data + skb->len;
->  	u8 rf_interface_idx = 0;
->  	u8 rf_extension_cnt = 0;
->  
-> +	if (skb->len < sizeof(*rsp))
-> +		return NCI_STATUS_SYNTAX_ERROR;
-> +
-
-Could the same issue occur here for v2 responses?
-
-If a command fails and the response payload only includes the status
-field, checking for the full sizeof(*rsp) will drop the error response
-and obscure the true failure reason.
-
->  	pr_debug("status %x\n", rsp->status);
->  
->  	if (rsp->status != NCI_STATUS_OK)
->  		return rsp->status;
+So I advocate an incremental approach, starting with this
+patchset in it's current form.
