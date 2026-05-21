@@ -1,129 +1,115 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8EA3DA5D9;
-	Thu, 21 May 2026 14:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994C23372C;
+	Thu, 21 May 2026 14:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779374029; cv=none; b=vBXVTEcQRk9T8egzQdP1gKzYS3MHQMNIpP64y4F/HfFV6btpi2EZsDBM01PMwWmvI1hhcXn9WntYd1B6DQGZXOL5DtwUhmrZDAkGgAD2XUx2BZsvRF6uIBieS309yE4gHQwW9JARqJaIdC2UnOjIYsr0/5UTbqqSVKV+KjmbRKM=
+	t=1779375548; cv=none; b=lTFR9uzsbgy/dCx2IVGOrQi/nLtNkKYhFecbOAUfIVCSZA6UukjgWLKatks06Mg96CskcKHGj3C+UKa3Nr6fEn22eEeGmnv9R6NE65TEjnvG4FG7gCn0Hi8LrRj8N2lx2frHFg9CFMCZCk72+XkwmQMbLWmlXvuTR3Qo1Onw8ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779374029; c=relaxed/simple;
-	bh=0f0JcxPSMeZgDLB8kRDPnqGxviBR5km7oxybzD3GN9g=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gWIKdycTfBHlyDN7v9mL7ow+QM3oExHjSbjl2K5Dkns5gvwYnWZ+LadVu8rO81yNGl/h0BDKbyEIbO5NEWt9t9PAr6cwTfauUA6+3O0ANsyy8BVquLGkYmhfHApF2F+en8A7XzDduuxvL1/C/Gg9xJr9FZg6ICIAT+WJDIqk27Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=qiN4WNsM; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1779375548; c=relaxed/simple;
+	bh=7vV3U47dqceEoYlPJPQkAdHGPir0Dj/4Tzkmt+VmItI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mjy26Jx7LXHAfhxgZvLI3HilHPnxelsPkhMfSDd8lAVbHjYKc+5yfLYaCwfR8RDlbW5ZGgzza8yVmTPoP58mTfmj1tK+zF7Eijs8jD0jDZ6vl//C5Lup9/Azc/ZcUul26OVeKDtsWt0hbgdQaf4JxtzoHXHnUU+1g9Z/ycLU45o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz4cbATQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="qiN4WNsM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=XtLHiW1Hy34yQSEJx/APJIZCCKJAzzXN1hrjcEjhY2I=; b=qiN4WNsMBjHyc0h9nLuTe/WusE
-	xFB2dcNQeGuYBD/4Tu+g3ao2VQSZjyt2wcpeKus6HrjcEjy0zhUVDWQyhJ6c7CXwuoLCYnK1l0q38
-	epWhfczn7J/VT0BYM27jf3JmIHXVaXnbriiBH4NF/vReuX2mkArTve8Bl1CbiueiGCMm6zNO0PVh2
-	+EpynK8sjfvAgIEQ+7/hCaiaf4HBXRUyKYd8o5PTdJhuOeCTT727wpTECKzquOc1DwXU9hQadZLkl
-	zFXBv3epLtpAbtQzqOd16lmsx+Wyi06FGxR0lBYvKEou8tPwQBRL+JEZkwKH2N7zmvGe4ni0IqUQI
-	DlcImYqA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wQ4Sj-003wwy-2e;
-	Thu, 21 May 2026 14:33:26 +0000
-From: Breno Leitao <leitao@debian.org>
-Subject: [PATCH net v2 0/2] nfc: llcp: two fixes for nfc_llcp_getsockopt()
-Date: Thu, 21 May 2026 07:32:08 -0700
-Message-Id: <20260521-fix_llc-v2-0-ab44cc09179c@debian.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz4cbATQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5E41F00A3D;
+	Thu, 21 May 2026 14:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779375546;
+	bh=u8Y8KDCejJZHIqnWx5pY4uc1dK4z52Fxk1r7C+1ecbk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Cz4cbATQW3NxW6y1zb36mbRj11yX2PUdrz6T9oLdRg2L4IX3u9WMRUGFL+T+IWpOV
+	 S7aat94BXSeYmu5ZN1aoBQQldNyy0rwkTBjSLI9cMRKmgrGylJrI2aXFsSo/curE2G
+	 JyREF4Y0MeQS5NQwGcEovRFPAmzcWKLA7SXXwwW7EGFW5iU2d2x5MGXBymbCuBxW6H
+	 iJiLSZpuVg3yafWmo4AxJZPPeGIuvDIeEvWTxWd4TwQs63b1LO7bdV2mxVtCKK/EtU
+	 Q2FubrIDm4R8EX7Vn5fwqD2kEw0lUS4qB39YdyBV9KU9CLe6QwP7Jr70kNBcIPUvHH
+	 pTk6SqlhgpS7w==
+From: Simon Horman <horms@kernel.org>
+To: yun.zhou@windriver.com
+Cc: 'Simon Horman' <horms@kernel.org>,
+	david+nfc@ixit.cz,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	bongsu.jeon@samsung.com,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+Date: Thu, 21 May 2026 15:58:17 +0100
+Message-ID: <20260521145817.1990235-1-horms@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260519013042.3459906-1-yun.zhou@windriver.com>
+References: <20260519013042.3459906-1-yun.zhou@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGgXD2oC/2XNQQqDMBCF4auEWZtikiZaV71HkaJxolMkSmLFI
- t69mC67ffx8b4eIgTBCxXYIuFKkyUPFZMbADo3vkVMHFQOZS5Nrobij7TmOlsvCXUulTSmUhoz
- BHNDRlqQHeFyg/o3x3b7QLqdxZgPFZQqf9LeKFP/Rq+CCK2UL425KOGfuHbbU+MsUeqiP4/gCJ
- rkU37YAAAA=
-X-Change-ID: 20260513-fix_llc-27f483568135
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, David Heidelberg <david+nfc@ixit.cz>, 
- Samuel Ortiz <sameo@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2065; i=leitao@debian.org;
- h=from:subject:message-id; bh=0f0JcxPSMeZgDLB8kRDPnqGxviBR5km7oxybzD3GN9g=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqDxex3+o5dACgpZfaTA1duJ7LARDnjXI3wTfza
- x/DgZ+u01CJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCag8XsQAKCRA1o5Of/Hh3
- bbC9D/90dmmzwrhVUlBQUjsTiCfv78Tn6nJ3evWXaQaYB7Y7mGQoSy/NKmmakXachDOaGd3rkwK
- H6hpyVJ2wHF2HWkk5M+ZFqvjbDGGGWn28ETJgThjqpFdHnHAMHAvM+SYQgVYMNPmzPMHDNqj7GP
- ET3IcbPa7fUksNxaD1MXBq0bwtQjsJ7XtUTTgPFXUmCOxCd9qQuJLzWLJy7ilYEmWcATe1rrDL2
- p4+NISh68mF6Ze4bRLDhpT2guix/jJrw0rmDGRqM/9TDVEVkwoA430MiNANoy1w7L/JxQAaCoEZ
- ovrgyz7IsytTCOUtNVZdtTCWGMO1Zb/ByJCjhhpgQqelJUCo+PO3okxdbEyTc6Ct/BHZ8rPJg6T
- w4hyE1wwHHvZc+dUj/NkmbsexENqG6kt3WvX6aMC8KkIdUIRkggFFUPwsvKTNQLbhGEGflzFynr
- U/jZzxNhFqepT9LC3eVE4E0Z50GVPU+aC33zGXn3ARcUWlP1S3LU183Wl1NDKPAnv0cu+x2BwLb
- l/U/rejB/JuBaIiLah71rSVYeoIS2nUliMH+SbBTayj6FrJ78f0NfADX2l/VeVZ/HGdlrQLqqaf
- E4lP3/tepZKGFTX02cCvCerZKJpGczX7Ryj61cMOttficTwMipuqfTGgK346IguqUbU2Xw4/qK9
- F0CUiEjK2gGDrpw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-While converting the NFC LLCP socket layer to the new getsockopt_iter()
-API, I noticed that nfc_llcp_getsockopt() unconditionally stores four
-bytes through a (u32 __user *) cast regardless of the caller-supplied
-optlen, overflowing the user buffer when optlen < 4. Patch 1 adds an
-explicit length check (with a signed-int guard so a negative optlen
-cannot slip past it) and is what I originally sent as v1.
+From: 'Simon Horman' <horms@kernel.org>
 
-While reviewing v1, Simon/sashiko[1] pointed out that llcp_sock->local
-is read outside lock_sock(sk) and can be freed by a concurrent
-llcp_sock_bind() error path before getsockopt() dereferences it. Patch
-2 moves the load and the NULL check inside the lock. Both fixes target
-the same original commit, so they are now sent together as a two-patch
-series.
-
-Note: These fixes were compile-tested.
-
-[1] https://lore.kernel.org/all/20260513-fix_llc-v1-1-33c76f931ff6@debian.org/
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev
 ---
-Changes in v2:
-- Guard the length check against negative optlen (Simon Horman / sashiko).
-- Add patch 2: move llcp_sock->local read inside lock_sock(sk) to close
-  a UAF race with llcp_sock_bind() (Simon Horman / sashiko).
-- Link to v1: https://patch.msgid.link/20260513-fix_llc-v1-1-33c76f931ff6@debian.org
+nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
 
-To: David Heidelberg <david+nfc@ixit.cz>
-To: "David S. Miller" <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-To: Simon Horman <horms@kernel.org>
-To: Samuel Ortiz <sameo@linux.intel.com>
-Cc: oe-linux-nfc@lists.linux.dev
-Cc: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+This commit adds skb length checks to nci_core_init_rsp_packet_v1() and
+nci_core_init_rsp_packet_v2() before parsing the CORE_INIT_RSP packet to
+prevent reads of uninitialized memory.
 
----
-Breno Leitao (2):
-      nfc: llcp: avoid userspace overflow on invalid optlen
-      nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
+> diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+> index 9eeb862825c5f..36e49fb7d8941 100644
+> --- a/net/nfc/nci/rsp.c
+> +++ b/net/nfc/nci/rsp.c
+> @@ -50,6 +50,9 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
+>  	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
+>  	const struct nci_core_init_rsp_2 *rsp_2;
+>  
+> +	if (skb->len < sizeof(*rsp_1))
+> +		return NCI_STATUS_SYNTAX_ERROR;
+> +
 
- net/nfc/llcp_sock.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
----
-base-commit: 1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
-change-id: 20260513-fix_llc-27f483568135
+Does this length check break the handling of valid NCI error responses?
 
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
+If the device returns an error status, the response payload might only
+contain the 1-byte status field. By requiring the full sizeof(*rsp_1)
+before checking the status, will this return NCI_STATUS_SYNTAX_ERROR
+instead of propagating the actual error code from the device?
 
+>  	pr_debug("status 0x%x\n", rsp_1->status);
+>  
+>  	if (rsp_1->status != NCI_STATUS_OK)
+
+[ ... ]
+
+> @@ -87,15 +94,21 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
+>  				      const struct sk_buff *skb)
+>  {
+>  	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
+> -	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
+> +	const u8 *supported_rf_interface;
+> +	const u8 *skb_end = skb->data + skb->len;
+>  	u8 rf_interface_idx = 0;
+>  	u8 rf_extension_cnt = 0;
+>  
+> +	if (skb->len < sizeof(*rsp))
+> +		return NCI_STATUS_SYNTAX_ERROR;
+> +
+
+Could the same issue occur here for v2 responses?
+
+If a command fails and the response payload only includes the status
+field, checking for the full sizeof(*rsp) will drop the error response
+and obscure the true failure reason.
+
+>  	pr_debug("status %x\n", rsp->status);
+>  
+>  	if (rsp->status != NCI_STATUS_OK)
+>  		return rsp->status;
