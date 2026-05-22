@@ -1,53 +1,35 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4F1195811
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 22 May 2026 02:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2059336C9EB;
+	Fri, 22 May 2026 18:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779416058; cv=none; b=HayLzvTfJSuM2XJxWmJwH+pWt85SAyZ+xek6V8UKOZw/4W7S2j0emKcI138d+t39X+f4rpWOFYSOsplzRAGiwp3eThWCo18YwAF7FZQS0rdXkd4tODGCb3P8vfVHaj7sQGGNReZASssmDm94JGfEN32qFpuFYZ83aqOTyA7WwkQ=
+	t=1779474008; cv=none; b=OXamOwqHuh/foF+AGirtggIoo9ckDuI/bbgv+Tqa/keitl5/GniwZIte5XfWVTptXL5aW2AeJRBzqyDFBgP0kdPrjkHP+A/6hTvfCnzGEY24LThO8BulExNa4QbKpGxNQX6samacVcY4GanuF/BOfuepXgf0SY7+9GhPo3LhwkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779416058; c=relaxed/simple;
-	bh=uVT0UYfjmARRspVlfhCK2KjIXfXcpqoS85lYRZ4A1lw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HKyZpUGvYNZFSiVkfWDvS/E3yquvAPW/Nt/QJjhEjxFgjOLmWWYQRcu0JwyKYZuwFxB5UQt5C0h3/cYM/tLPG8E0IaZxOJqsmb67yoeCDXxnQzZcBAVIR4osjctAw+uK1sdRidphTJbz7FN6VUVY5A+kFeMu0mfb9oEviesAO2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=ru/mf5y0; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1779474008; c=relaxed/simple;
+	bh=Wia0luWf8lpPKpWKgApQdNbbSECHI5yA4kF9fmcUoXM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=EqF3nPBY+A171NDEBO4yUFsn6yIluVwH3krC7l1OCvOJUJbEJYFhg8ZYrAoPGYHteEv/pBSTnJdhQXiFrjyrJDvqa2tdLO45Gtgi39PkrkQpdg3LPUOuV9wEyi99YqK2prwMsRuMPEg3OBtHeRTsr9zuSltlVovxBNtGR1j9HBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLT96LS3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="ru/mf5y0"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M1ktvY2227173;
-	Thu, 21 May 2026 19:13:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=QWjgR4nHf
-	yMzPDpZe/LEvyeetyk93z6y2gam877WXco=; b=ru/mf5y09+YJZEYSBsBCta21h
-	0PdhxN3ty4T8z1W0Kiu+UX+WpRaZrltn4ZiafPo1+itjHE5Z5d7brgY4W9dlG/sC
-	L/PJ0D8zhXJSQcTsCrNcKUIQHP0AzYpVZ0155cYxm5nFwmdMCINvYnNyjvG54ATN
-	WZsEOd7st2TText7OofK8ijoM8iIt2w3FLfQuW5HkRJCccyfD8bGvTVpEYdiGUlq
-	C2UEyjLvbbwAABXp+w3mxsMmQB5/VURoX8Aiwp2HHe0VrWrvvPazO6xDs5VpHFhr
-	3s3wZZjxqxSqDBNeKJEV3pi5UcRbg9uyriBktz/Fel8xzXbgTFjOAqDO3m5dw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e9rdtt12p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 21 May 2026 19:13:30 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 21 May 2026 19:13:29 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 21 May 2026 19:13:27 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <david+nfc@ixit.cz>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
-        <bongsu.jeon@samsung.com>
-CC: <oe-linux-nfc@lists.linux.dev>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-Date: Fri, 22 May 2026 10:13:26 +0800
-Message-ID: <20260522021326.1164807-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLT96LS3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E481F000E9;
+	Fri, 22 May 2026 18:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779474006;
+	bh=wWS5Y14cKK5L43TTlHFJl3WzEhu5crUMKgKU7tsI+nQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=LLT96LS3E7RJTEOgLZAX2V7SXejPhARrnEaHk+21hBfZPR78G3O4GRqTzAnIpA/us
+	 o5HnW1WLwDl4nHXmsmUYGoY90FENPCt5bDkVs6LnuR1DOYsNjKlyRWxRdaEfOZxqn6
+	 lYFm2VpzM+SGG/8TScjxMjDdVgORNvIQvB5yHjPagDnxBfGvtTvosgFdh8aKUA7xig
+	 Q5sPrB4RxYTPx2EjLxv8TMZ6gXzzW51kPjM9MqJJ99tThzXdJWa9OkJJHVMpdthiPx
+	 sHan5OtplOJ2XneWobBifsfP5Y01eU23Set3NwjwxM3eEV/AaRs9fYTFdHN+soE3pp
+	 lxXLmWaY4vL+Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 1984A3930FB9;
+	Fri, 22 May 2026 18:20:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -55,149 +37,60 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=Kq59H2WN c=1 sm=1 tr=0 ts=6a0fbbca cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
- a=IDFcQ0WGl1NcD2azA7sA:9 a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: gMtoshG9AkdvHPvg-GOD0ejgUWKL5ggt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDAxOSBTYWx0ZWRfX1BJ7ApCYmxDg
- bnX98p51mi4Gl2RI2DHGzzpKjjxAbermkrZF3gOmw2a/Hb6YTiGxmpF1htBwwwCnttOTk6LodLC
- vV15AUx3F7JV+hV9PnnWTt26+1tUNHyxK2teK0MJFYyx1CPsyPmmWDoO0tffB+Y6Top3ftqfC15
- N3qIevnaBjV6awOr17SBwHLOoGTaGGkkMlaUfgV2n0GSURCOt69MvZLQ65bWcddomtcJMqaQd5M
- g+xWaLEPQ2EejnwBXBiGqMMNJUl7g5iXSSUVOvx9QuHYB1Xhii3N0lUPrI23NHZbQMO38iLSQ5g
- ld6QPX+Cy+sor5CF32WOCls+eHovR9mQQBqfklx8+Puv28/6Ndgt617Ben0xEZ3jco00SuaGM2x
- VSATyLf65RGFcEN+adi6mWuPL9Djexhz2VY6Mbm+KGS2Wn3UIsnqSghnUYg+e7UpK0CU/Uef5TE
- gBE6JJuzm1hdxPeRgMg==
-X-Proofpoint-ORIG-GUID: gMtoshG9AkdvHPvg-GOD0ejgUWKL5ggt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_05,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605220019
+Subject: Re: [PATCH net-next v3 0/6] net: convert
+ atm/xdp/af_iucv/l2tp_ppp/rxrpc/tipc to getsockopt_iter
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177947401569.1320830.4340885034348634311.git-patchwork-notify@kernel.org>
+Date: Fri, 22 May 2026 18:20:15 +0000
+References: <20260520-getsock_four-v3-0-b8c0b16b7780@debian.org>
+In-Reply-To: <20260520-getsock_four-v3-0-b8c0b16b7780@debian.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: 3chas3@gmail.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, sdf@fomichev.me,
+ ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
+ john.fastabend@gmail.com, jmaloy@redhat.com, wintera@linux.ibm.com,
+ twinkler@linux.ibm.com, jchapman@katalix.com, dhowells@redhat.com,
+ marc.dionne@auristor.com, david+nfc@ixit.cz, sameo@linux.intel.com,
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-s390@vger.kernel.org,
+ linux-afs@lists.infradead.org, oe-linux-nfc@lists.linux.dev,
+ kernel-team@meta.com
 
-nci_core_init_rsp_packet_v1() and nci_core_init_rsp_packet_v2() parse
-the CORE_INIT_RSP packet without validating that the skb contains
-enough data. A malformed response (e.g. injected via virtual_ncidev)
-can declare a large num_supported_rf_interfaces while providing
-insufficient data, causing reads of uninitialized slab memory. This
-is later used in nci_init_complete_req(), triggering a KMSAN
-uninit-value warning.
+Hello:
 
-Add skb length checks before accessing packet fields:
-- Validate the skb has at least 1 byte for the status field.
-- Validate the skb can hold the fixed-size header before parsing.
-- In v2, bounds-check each variable-length rf_interface entry and its
-  extension parameters within the parsing loop.
-- In v1, verify the skb is large enough for both the variable-length
-  rf_interfaces array and the trailing rsp_2 structure.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Reported-by: syzbot+46ca2592193f2fb3debc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=46ca2592193f2fb3debc
-Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
----
-v2:
- - Validate the skb has at least 1 byte for the status field.
- - Move the fixed-size header check after the status access.
- - Add Closes: link after Reported-by
+On Wed, 20 May 2026 09:53:45 -0700 you wrote:
+> This series continues the conversion of the remaining proto_ops getsockopt
+> callbacks to the new getsockopt_iter callback introduced in commit 67fab22a7adc
+> ("net: add getsockopt_iter callback to proto_ops").
+> 
+> The new callback takes a sockopt_t — a type-safe wrapper around iov_iter
+> plus an optlen field — instead of raw __user pointers. This:
+> 
+> [...]
 
- net/nfc/nci/rsp.c | 37 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+Here is the summary with links:
+  - [net-next,v3,1/6] af_iucv: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/347fdd4df85f
+  - [net-next,v3,2/6] atm: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/4177767daf83
+  - [net-next,v3,3/6] xdp: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/3c6776b5b912
+  - [net-next,v3,4/6] l2tp: ppp: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/f83e9cd64593
+  - [net-next,v3,5/6] rxrpc: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/4b94edae0b6c
+  - [net-next,v3,6/6] tipc: convert to getsockopt_iter
+    https://git.kernel.org/netdev/net-next/c/c56dbb469fe2
 
-diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index 9eeb862825c5..61fbe31b427e 100644
---- a/net/nfc/nci/rsp.c
-+++ b/net/nfc/nci/rsp.c
-@@ -50,11 +50,19 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
- 	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
- 	const struct nci_core_init_rsp_2 *rsp_2;
- 
-+	/* Ensure that the status field can be accessed. */
-+	if (skb->len < 1)
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	pr_debug("status 0x%x\n", rsp_1->status);
- 
- 	if (rsp_1->status != NCI_STATUS_OK)
- 		return rsp_1->status;
- 
-+	/* Success response must contain the full fixed-size header */
-+	if (skb->len < sizeof(*rsp_1))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	ndev->nfcc_features = __le32_to_cpu(rsp_1->nfcc_features);
- 	ndev->num_supported_rf_interfaces = rsp_1->num_supported_rf_interfaces;
- 
-@@ -62,6 +70,10 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
- 		min((int)ndev->num_supported_rf_interfaces,
- 		    NCI_MAX_SUPPORTED_RF_INTERFACES);
- 
-+	if (skb->len < sizeof(*rsp_1) + rsp_1->num_supported_rf_interfaces +
-+		       sizeof(*rsp_2))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	memcpy(ndev->supported_rf_interfaces,
- 	       rsp_1->supported_rf_interfaces,
- 	       ndev->num_supported_rf_interfaces);
-@@ -87,15 +99,26 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
- 				      const struct sk_buff *skb)
- {
- 	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
--	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
-+	const u8 *supported_rf_interface;
-+	const u8 *skb_end = skb->data + skb->len;
- 	u8 rf_interface_idx = 0;
- 	u8 rf_extension_cnt = 0;
- 
-+	/* Ensure that the status field can be accessed. */
-+	if (skb->len < 1)
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	pr_debug("status %x\n", rsp->status);
- 
- 	if (rsp->status != NCI_STATUS_OK)
- 		return rsp->status;
- 
-+	/* Success response must contain the full fixed-size header */
-+	if (skb->len < sizeof(*rsp))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
-+	supported_rf_interface = rsp->supported_rf_interfaces;
-+
- 	ndev->nfcc_features = __le32_to_cpu(rsp->nfcc_features);
- 	ndev->num_supported_rf_interfaces = rsp->num_supported_rf_interfaces;
- 
-@@ -104,13 +127,23 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
- 		    NCI_MAX_SUPPORTED_RF_INTERFACES);
- 
- 	while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
--		ndev->supported_rf_interfaces[rf_interface_idx++] = *supported_rf_interface++;
-+		/* Each entry: [rf_interface_type (1B)] [ext_count (1B)] [ext...] */
-+		if (supported_rf_interface + 2 > skb_end)
-+			break;
-+		ndev->supported_rf_interfaces[rf_interface_idx] = *supported_rf_interface++;
- 
- 		/* skip rf extension parameters */
- 		rf_extension_cnt = *supported_rf_interface++;
-+		if (supported_rf_interface + rf_extension_cnt > skb_end)
-+			break;
-+
-+		/* Only count the entry after full validation */
-+		rf_interface_idx++;
- 		supported_rf_interface += rf_extension_cnt;
- 	}
- 
-+	ndev->num_supported_rf_interfaces = rf_interface_idx;
-+
- 	ndev->max_logical_connections = rsp->max_logical_connections;
- 	ndev->max_routing_table_size =
- 			__le16_to_cpu(rsp->max_routing_table_size);
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
