@@ -1,120 +1,135 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA142C326F
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 10:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78983F9F56
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 12:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779791489; cv=none; b=DqAtVSTRIkhM5ypeInOm3ZUR4deMJdsoBg5DOtmeeyCFU+LGIC3Mb9pOZm7c640FJ+fSvYgRqroUVklj+LUCfk+hm2ajKiBsjgWmFhT3Sneu+7/eUYTgXljzJqhS3BpNvtnuhkU38q8POLsohQO/ly6MewyzszB9+KyFdKQqZNA=
+	t=1779798657; cv=none; b=NKIsrIrhO6eHiThtnbvg03TAo7rEbAr4uUwnhNci5J2FzS8j8qgR/Xez41m1sh3ApDJb95zVa5Q5soF2swmTv1LKp6zBY8zemf5UmyLamSdHtrBX7zaYKNVN9Yb8FVkgpOfcCLnyHS7fmaHspe2j1xiS6/uziiv1uYPDFNGGGsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779791489; c=relaxed/simple;
-	bh=eCUSq0yXcaXdss2t/OeDizEGW7NgwIY3Wb6Ip4WJApU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdMLU1MG9B5DA98adJSRV/+6vLZDmLDBR2+KFyhUZ5sb0vpdZfisNBU+HQNaauKSMrxCoha4GHYlloZ0ccgQKAhJYKQbVQbTu9HsfWmaOhzt8MTro6ykHsDxzzqQE5fkirEBGaZcNP+9HS1ysaSY9gq5KBzimgTIoyu24ZNrQn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0dntxOb; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779798657; c=relaxed/simple;
+	bh=onMDHqjxmredXit5I+7SgHPhprLkEWJMJrLH8fvUTy8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=do/k3IZBbS3B9K958TnVhTqEnNAD43Sw03Yew9/43ZCgvzvlc3/cVzHY0cu1MgIQMYRA+zw/a7D/ztN5dzyBkCumuHW9AhPC/pNtxJ9+l5Z0q1xnEIYhQm/JDX9jJvxIdGbXlCOb0Zo4aANAgC8GkSQPOV5BiyVgUCBeqBQVnsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=nPtG2P/j; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0dntxOb"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-8413ac3d82fso4776230b3a.0
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 03:31:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779791488; x=1780396288; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cfqSqHtgE1ylnsRBAV2SrbX9MosYsTB5633n9D4BIkU=;
-        b=X0dntxOb6ywtQoWRgJi1M/onNMbSBhbSs91L+Yy8yP9AsZ/SMAHX1WPuipXnYcRw0P
-         po9G6pZZdFnIEgU5c+t6CyupcqtYdDLej5CXNg4vBN80amZIMkOqTWVNiiQHD2XBTLOQ
-         nbFhd8lcP9v/85YZHuW20BSc2GRRzVEMpHoWBIPRPjFPkIBh6SZmTCP+DTdB479EN9ag
-         KRh+FsJYBGd7HZyWVZgycwCch0GcPiHWTid3rglO4BB4pVow4vvx9Na4MCRU67+sHmVp
-         UCgT0PGg0QaHHpscN2q4ay59wItTKONmubRK1LzoYyV+lfg5AzM/DDcD/J4Bj4FW04mm
-         VQ+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779791488; x=1780396288;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cfqSqHtgE1ylnsRBAV2SrbX9MosYsTB5633n9D4BIkU=;
-        b=lZYLj6/e/fQK0DstQK4i2ixUkqH/fnA8ExWChpE43nlonmA8wYIpUh3yztUwN5y7tL
-         JND6uXut8keU+jpLv1ksHOLVb9sV8OzPp8C+5TnIpA/2B6VQvL+hiAMOTb94ouC1+RLK
-         sJdav52emh/68p2y5cXfDsSH+wMytsdjr0Y+DGlmpyyM6EP5LGLFGNwCippZjM1OtpaO
-         ND7SfFYCbl4SKeJRM72njXyr30ROXJeRCMAKMc8HxJztmoiJti4wsS/SoPgxwUsXFs3h
-         kJU6C7vqDWHVb81PekhUaW4NwY5RfQrMX8s4mo7xCP0aqMWyfkRy2R575rCkc1+unfjc
-         Ddtw==
-X-Gm-Message-State: AOJu0YwSb+xrRCSse9ysRraEsTtaaLyuLUEpcuJtZBp3iHT/6jq79Lek
-	njYGQC/XDebmKtqO+DbI30s9zTnKxCOPQnYdja0CQ/oCh1oSv1GAeRaA
-X-Gm-Gg: Acq92OHUCEsYzriGXcD6tiz+r36uSCQCPgURTOa0jDQL31ToVq/Q5UbqPYiEccTRrHu
-	HSQVRND8qzBSNtxZs+6FEL22CjYcJnNWZmBUq3X0HoNZciAh3/iCSKAUU2DRaks0f625ttf4dfw
-	M2GTn7Vxs60myR8GGE/JMPt4YvFwTABBMs2bYK/4Utnu9FXBQNL1AgQi7Y6hD+uqsDF7u7JF8ix
-	gjnniDaxioNTT2kKFMI4bSSGQ/z63TFBlprsdx54ry+VuxtJJBtNcvXUrzea4Ec4tS1xeNcFhdY
-	mUmh9IU+US4l6FIvNOct8mXZoKfQ4XkQEx352eKeRUfHIV/rFk/d8LvLkT447eB7CmZbqOpaA7I
-	wtKMwiXgbDDGXBHy0mNOfZ1/3C4Hbc5+C9yAH/X1PhyY8XzeiTbpN2DqOEF1njNxpb0bC24DdRO
-	i/yu2/Gk1mucKuueQT0AvW82vPGZh/8Y/OaxrH8WdNteGqRRdBgkl0PDA4Jz05jxdsKmQx+oCtW
-	niVTLE84g==
-X-Received: by 2002:a05:6a00:1822:b0:835:4776:7d69 with SMTP id d2e1a72fcca58-8415f38fd64mr17301068b3a.41.1779791487608;
-        Tue, 26 May 2026 03:31:27 -0700 (PDT)
-Received: from KIPREYXIAO-MC2.tencent.com ([43.132.141.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fd80cdsm14276188b3a.49.2026.05.26.03.31.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 26 May 2026 03:31:26 -0700 (PDT)
-From: Zhenghang Xiao <kipreyyy@gmail.com>
-To: David Heidelberg <david+nfc@ixit.cz>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	Zhenghang Xiao <kipreyyy@gmail.com>
-Subject: [PATCH nfc] nfc: nci: fix double completion race in nci_data_exchange_complete
-Date: Tue, 26 May 2026 18:31:21 +0800
-Message-ID: <20260526103121.47957-1-kipreyyy@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="nPtG2P/j"
+Received: from [10.68.117.55] (unknown [146.0.28.165])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 730DF53415DD;
+	Tue, 26 May 2026 14:30:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1779798644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+	bh=iw5rSyufje+oKljZA24mBzriuoyMAwoXm+R8AprqMY8=;
+	b=nPtG2P/j1NKKFQKZ0L6Rfw5sh8YGC+IV3S8HRvU8phATrEQ3THUa/VVnm9Y9/AdzGOjwWt
+	Rvf2kAnARlaTNd51hANhi0Seyk2E0YOpOQhows1ZgLOz1sUML9JZVK1lPqO9jl1PkvHLfZ
+	ePIAhZoL+/o/sdW+rWhY8oWoV179eqM=
+Message-ID: <217c0646-8a30-4037-b613-580c2b189729@ixit.cz>
+Date: Tue, 26 May 2026 14:30:43 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: David Heidelberg <david@ixit.cz>
+Subject: [GIT PULL] NFC for v7.1-rc5
+To: davem@davemloft.net, kuba@kernel.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ oe-linux-nfc@lists.linux.dev
+Content-Language: en-US
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-nci_close_device() and nci_rx_work can both call
-nci_data_exchange_complete() concurrently.  After commit 4527025d440ce8
-("nfc: nci: fix circular locking dependency in nci_close_device") moved
-flush_workqueue(ndev->rx_wq) after mutex_unlock(&ndev->req_lock),
-rx_work is no longer serialized with the explicit completion call in the
-close path.  Both callers read the non-NULL callback pointer and invoke
-rawsock_data_exchange_complete(), which calls sock_put() -- but only one
-sock_hold() was taken, so the second sock_put() underflows the refcount
-and frees the socket while it is still in use.
+The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
 
-Replace the bare clear_bit(NCI_DATA_EXCHANGE) with
-test_and_clear_bit() so that only the first caller proceeds to invoke
-the callback.
+   Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
 
-Fixes: 4527025d440c ("nfc: nci: fix circular locking dependency in nci_close_device")
-Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
----
- net/nfc/nci/data.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-index 5f98c73db5af..4253edea5c8d 100644
---- a/net/nfc/nci/data.c
-+++ b/net/nfc/nci/data.c
-@@ -46,11 +46,11 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
- 	timer_delete_sync(&ndev->data_timer);
- 	clear_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags);
- 
--	/* Mark the exchange as done before calling the callback.
--	 * The callback (e.g. rawsock_data_exchange_complete) may
--	 * want to immediately queue another data exchange.
--	 */
--	clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
-+	/* Claim completion atomically -- both close and rx_work may race here */
-+	if (!test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
-+		kfree_skb(skb);
-+		return;
-+	}
- 
- 	if (cb) {
- 		/* forward skb to nfc core */
--- 
-2.50.1 (Apple Git-155)
+   https://codeberg.org/linux-nfc/linux.git tags/nfc-7.1-rc6
 
+for you to fetch changes up to f23bf992d65a42007c517b060ca35cebdea3525a:
+
+   nfc: nxp-nci: i2c: use rising-edge IRQ on ACPI systems (2026-05-18 18:30:36 
++0200)
+
+----------------------------------------------------------------
+nfc pull request for net:
+
+Code improvements
+  - llcp: Fix use-after-free in llcp_sock_release()
+  - llcp: Fix use-after-free race in nfc_llcp_recv_cc()
+  - hci: fix out-of-bounds read in HCP header parsing
+Regression fixes:
+  - nxp-nci: i2c: use rising-edge IRQ on ACPI systems
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+
+----------------------------------------------------------------
+Ashutosh Desai (1):
+       nfc: hci: fix out-of-bounds read in HCP header parsing
+
+Carl Lee (1):
+       nfc: nxp-nci: i2c: use rising-edge IRQ on ACPI systems
+
+Lee Jones (2):
+       nfc: llcp: Fix use-after-free in llcp_sock_release()
+       nfc: llcp: Fix use-after-free race in nfc_llcp_recv_cc()
+
+  drivers/nfc/nxp-nci/i2c.c | 21 ++++++++++++++++++++-
+  net/nfc/hci/core.c        | 10 ++++++++++
+  net/nfc/llcp_core.c       | 11 +++++++++++
+  net/nfc/llcp_sock.c       |  2 ++
+  net/nfc/nci/hci.c         | 10 ++++++++++
+  5 files changed, 53 insertions(+), 1 deletion(-)
