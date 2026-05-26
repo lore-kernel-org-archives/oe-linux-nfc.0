@@ -1,135 +1,220 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78983F9F56
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 12:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798657; cv=none; b=NKIsrIrhO6eHiThtnbvg03TAo7rEbAr4uUwnhNci5J2FzS8j8qgR/Xez41m1sh3ApDJb95zVa5Q5soF2swmTv1LKp6zBY8zemf5UmyLamSdHtrBX7zaYKNVN9Yb8FVkgpOfcCLnyHS7fmaHspe2j1xiS6/uziiv1uYPDFNGGGsU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798657; c=relaxed/simple;
-	bh=onMDHqjxmredXit5I+7SgHPhprLkEWJMJrLH8fvUTy8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=do/k3IZBbS3B9K958TnVhTqEnNAD43Sw03Yew9/43ZCgvzvlc3/cVzHY0cu1MgIQMYRA+zw/a7D/ztN5dzyBkCumuHW9AhPC/pNtxJ9+l5Z0q1xnEIYhQm/JDX9jJvxIdGbXlCOb0Zo4aANAgC8GkSQPOV5BiyVgUCBeqBQVnsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=nPtG2P/j; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C903536F411
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 15:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779810549; cv=fail; b=OWCO09ZoYH9MGnTgq1L6aSfcjtnSINtadZxPZjlWF3RI/UGijZyZqRCsmSWXLgm3yaccvDtnZKF8RkGbgv/dmGUPeJQ4Fs43GzBLUN3rqDnrK8uHP8c3Slz/x3r2+XXqc8KTvyfmSW3C8FthaW1zvz8ren18HY0rXeI/JGVFAno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779810549; c=relaxed/simple;
+	bh=kJVTAgGGU6BqI8HHBoM2haHgWXJo5IN5hXJ9ilbihw8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TnrQYIXrkD7eMuMF6lobveArKPrX0ZmKjSc3lhL3WLLdLoby9kbFjUozjBsAomNjvMQtAOmcG2NDEaIWOXhnMJ4Hxreb2QFCk6iazfRbiKrEO8wRBGqAM4QiswMWonm9hgoRZrZGBJKgoAcne32nAHrDnkhBMq9F3Bn/zM4NcoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8wlWRPD; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="nPtG2P/j"
-Received: from [10.68.117.55] (unknown [146.0.28.165])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 730DF53415DD;
-	Tue, 26 May 2026 14:30:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1779798644;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=iw5rSyufje+oKljZA24mBzriuoyMAwoXm+R8AprqMY8=;
-	b=nPtG2P/j1NKKFQKZ0L6Rfw5sh8YGC+IV3S8HRvU8phATrEQ3THUa/VVnm9Y9/AdzGOjwWt
-	Rvf2kAnARlaTNd51hANhi0Seyk2E0YOpOQhows1ZgLOz1sUML9JZVK1lPqO9jl1PkvHLfZ
-	ePIAhZoL+/o/sdW+rWhY8oWoV179eqM=
-Message-ID: <217c0646-8a30-4037-b613-580c2b189729@ixit.cz>
-Date: Tue, 26 May 2026 14:30:43 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8wlWRPD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779810547; x=1811346547;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=kJVTAgGGU6BqI8HHBoM2haHgWXJo5IN5hXJ9ilbihw8=;
+  b=T8wlWRPD00yW5r8N55NrZQFE1zFYJk6YErq2YFsrypaJIgwryBAO3Owc
+   Z+BGuKnU+pqLh8oLlGTKjWRJMXIlJRxvcINCPD8hH9mZ5UyiFWEPFjfit
+   m6LMn/dh9f1RFMObXaRovtsGlleJ54ISGC25SDdi2jSXFNqN7Jmi9hglx
+   BVGAmkfvSmELNwZzwDqFG1OLyMA+DsymTcuKEwaa21oEAQZ0TMPcuDOgd
+   fnS6CI6G8BYKLqBcavnPgZ0Fhp3ds/9wepdVYNs/3zaWyFdIko+Mbd/+q
+   othHfoJRxMwThj0pBsBbp6g4zZwBoAD6WXDFGF7OHOF5sN20Db92ZfFue
+   w==;
+X-CSE-ConnectionGUID: q5rTqleGSD+5vADgN1a58w==
+X-CSE-MsgGUID: GsxfujqxQU+8Qi+SvrMXag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="106085089"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="106085089"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:49:07 -0700
+X-CSE-ConnectionGUID: TwEOhWyaTraU1c5mxbDLug==
+X-CSE-MsgGUID: tKY5BciMTr6IvKBsLcPvmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="240904566"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:49:07 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 26 May 2026 08:49:06 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 26 May 2026 08:49:06 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.69) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 26 May 2026 08:49:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NQNvP4IeQz8w4Id0B5K/Er0169JKwXjhXaXnLwNs/yk360sHh6fdq8t3gkt7TPJp2QdRDFJiTz7m7uTuLNIq3oCi4ovjRNtbOlrOsyoucDEVnh1uZDcnoD5hv3yKX4jjiLyjoeQ8mFEQF5r4X1zmtgSD7Bl6xC4f+yTzS/HJeKG2J92b78a2MJ1cRnbxnRSBD2i+K5BvFAR48a5o40yqpxWLEoP1T30iKw4z3hSw9IrsWFrW/GXIAVxsD1lEB8Y+O8hm90ldNMZRnIHkJcgNiU2VwW4l39bcVpJH1fR+7XI/byhqLdFzfu+FoExaGDOoXZkya4S3RnlmjLBCSw/PFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CDh0bh174lw5wXCniRtYXcsNsrHtO7gFtPN4kN/eAtA=;
+ b=gpxQfovzdj6ZDqeuMENgPuv7+dXod0yuKwrd0lVB5F8djIDv8WL+AUoUOwGAzXgwnt6Cqscld/xKzkQ34FMgJIGI0KARp1/Pci1Wolq9yfXlyZ5eW9WDJ7wc630GVrQ6iEMZ3+Ikj9wE1XEFvPvP1IwccYr0PTCRW+h0m1w0mAxvLYnkItzI2qyc68w3kfYY++IyKfgpn+wOKcpC7rSaBiWOXVECiBBX6DGVEU6EJCqOMHqwULpym6H7UL+URRZtlAN/u31/lrDjFzSngQbNn8eaGAAG7A5ze2WaVpq/EhX4fP4Kc3P65rL8YK/3zMODuOtexjTV5BCntIcbaCg1/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
+ by SA1PR11MB8318.namprd11.prod.outlook.com (2603:10b6:806:373::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
+ 2026 15:49:04 +0000
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c%5]) with mapi id 15.21.0071.011; Tue, 26 May 2026
+ 15:49:04 +0000
+Message-ID: <2b2704e6-389d-43ac-be90-bbb4785582d7@intel.com>
+Date: Tue, 26 May 2026 17:48:58 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nfc: digital: clamp sensf_res memcpy to
+ NFC_SENSF_RES_MAXSIZE
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+CC: <oe-linux-nfc@lists.linux.dev>, <security@kernel.org>,
+	<netdev@vger.kernel.org>
+References: <20260526093112.22614-1-doruk@0sec.ai>
+Content-Language: en-US
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <20260526093112.22614-1-doruk@0sec.ai>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR08CA0261.eurprd08.prod.outlook.com
+ (2603:10a6:803:dc::34) To DS0PR11MB8718.namprd11.prod.outlook.com
+ (2603:10b6:8:1b9::20)
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: David Heidelberg <david@ixit.cz>
-Subject: [GIT PULL] NFC for v7.1-rc5
-To: davem@davemloft.net, kuba@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- oe-linux-nfc@lists.linux.dev
-Content-Language: en-US
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|SA1PR11MB8318:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74435ee8-4e25-4ccf-ce58-08debb3e4ffd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|11063799006|83080400003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 4sir6espb30AEWsPzXpewsZCr/jKYHvDzOq1VTpN50ij5XUQMhDP7kDzWc0hdrGRN6dvxtuP5nkEcTwNl+I62wxCPqN7VC5URe504NgpHhlznG+TbZK6+awoGZ/w/xxZTysp6BqYasBCG+7+fm+x7ZrrNUyD5bT59cXACHT93eZzS1ZcpQYPyKKacUX9rSgZFwc9ESIo7o4jePF55sPeCnWvjHZxvWHr9buiVcUwT0dVgHhAHxuNDfpN490Mhe8r/KI9X+OSLnZYrUS122atpp73WTnDpPF8ZQSYpAcpgaNKRDQRTDLsEl/QnYoOKApzXgCpXGgYQ1ejVnLpZmUUq9qJf0U6DQyUrKHDoueGkW+fahjnh0wNOdhDiOS6fJPyjK4t08SHcF5hiMLyDcAAQA/gqOpIOZlUTrS3rFu7YwdVZDAa+FQoSvjC2AzIMzuBHiN8lC0WCnPYnERydO14ey0iCgRC8I3qpDFP/DGkVgY8G1aadSmzczxtk1Q5Z13NK1pO+xDcgfsW+ty1pOLmnOm79/M9Ev0hAMw9jPMKlVX7bMH+lCNWofgW54aNKRyZtTyfStdIz8YTf7KTu8jJEYrCRL8yMeWMHF9OoRg7lmvNKyEQpnOO51MiuIZmO4XR/kb26bjcxJr7ICAuqtZ8hvf0A/KFmq2KmLeLX1F5TetldUo++jcjP3rgVaWiisq0
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(11063799006)(83080400003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzlvcnpqQW8rbmttcE9xZjVad0xzbC9kMTRwQndxRytUeEhtMDBnN1AyVE9o?=
+ =?utf-8?B?eS8zMTBNNmlaZlFNMHFXdlVrNmlCdFRsYVYxS3RpVWJ4d3hMVk9SUElYR0tW?=
+ =?utf-8?B?MlhHSkJsdHY1T3VlMnpCeHIrOFdTSElqRHlEV0xHYjNVdVkyRTNPTEg0YUt0?=
+ =?utf-8?B?WWxwSzZQZ3VWVlJhV1I1SnNzT0xmR251aUVxY0MyWENkN2JGaFJHTy91TVhp?=
+ =?utf-8?B?Q05MaHZ0cTJBUFB4RmFRWDE1U1RDbHpsTlNwMXQ5Z095cTBLOW10TWtUL0Zv?=
+ =?utf-8?B?N0VRKzhpeEtzQ2h0bFV0ZCs3aUtXQVdnc3ZnNllGT1BlbS8xemxRKytiYkxk?=
+ =?utf-8?B?ZTFocmpuY1VmOWRPQWhiNkhYeW1uSGQ0MU5vVDdJd2dCN1lKWmhmQ3VDQVI3?=
+ =?utf-8?B?RmZLRlNmRVZvYjhFaXdjYVY5dk1OQVpxQXhwRUwrNnluTU1obC8zdjFxbito?=
+ =?utf-8?B?Ym9FUjJMWm1nTDM2ZUFGeFUwWVRhLzZPRThYdmNleUduV3JldW9zYVJJaXZq?=
+ =?utf-8?B?UURuMnJNSlhpTzZFVUplVFFIUG56TmtCYzJ3Wkh1TE9GQ3hFMkIyb2NjN0VM?=
+ =?utf-8?B?cGlyTDRhaXRPVXdRYVNvZFlCRzRpcHpFL21tZjZONTdlMGliSVEzUDBYaTZm?=
+ =?utf-8?B?V2Y1dXNqeEduazdxZmc1WElXTThYYVdnTHJ3cUE1U2NUOGhCMGhoNTlvNlds?=
+ =?utf-8?B?eUdQYTB6RXpIZGNxVXRPRUEvSGg5ZWhXN3VBdDdvSWVqMUYvQWZKdFdQUmR4?=
+ =?utf-8?B?QXQyMldHekpjM2FmUzdEWTI2Q2JrdGVKcTl1dW9udk8waG9QN3RWMFRjanQx?=
+ =?utf-8?B?ZE41QU1aQXVxOUZBa3NUend0dExEbHhPSVR1Z0F1SkdQSnRMRllhWXA0MzNk?=
+ =?utf-8?B?dGV2UllxY1NoNjZ4SEtTVTBvTTM3cXU3bURaeFJKcmQ1QytJb1pmWW1rbkdK?=
+ =?utf-8?B?eHlvYlQ2U0xJUE85eGtOeE83b1V5eGVMUytBdEpOV3NYaGRVSEhKdW5yUGpS?=
+ =?utf-8?B?N1Zqd0UyTWV2MksvY3FXYXJvZ21BejhJWldTTiswZi92WnJHV0tBemhjYWty?=
+ =?utf-8?B?NzdmVTA0bllmQWNHR2U3QkV5azVWOVJESHBrN1VLRzAxOW9HRVJvUmo3cUtW?=
+ =?utf-8?B?RE9MZ28ra0paRmZYWHRjbyttVVFrYzg5eGMyeFd2LzF3RUc5SThqaUczT3Yz?=
+ =?utf-8?B?ZmxlOGsrK1pzVDlNR1VEOTBGcWZlelc3ZEJCWDJzT2lkWWxBaFVLQzFNNFFS?=
+ =?utf-8?B?RnpDK0M5cVhYMjRVM29TMDA4ZjFPaGpDMi9wZGw2dmtVNnNkd2xaMU5mQis1?=
+ =?utf-8?B?ajBteU82dDRhbzh3SEJWWkE5a1Q2YzhZcVNWLzlDdlM4K0UrdDZFYXNscnIz?=
+ =?utf-8?B?QkgvNXlKdkFZb2RnZS9hRkNNVVlSbXNUSUFvN1ZtNE9yTlV0alVscEo2ejJG?=
+ =?utf-8?B?NHVzY3dtbE9sc05FSDFiakh0dzZQbE1TTGFMYmQ4emVpU0VjKy9MYk82ME80?=
+ =?utf-8?B?aSt4UDVoa21Hbm5HMERvU0VzOFR1c1RXa01BRVpkN1JoYlREN2pianJDUjJs?=
+ =?utf-8?B?MFJDWEFCaFdOa0p6UzlEVTdBb013T0FNdlQ0T3ZaZHV3eTNzblZ4V0JXeHpB?=
+ =?utf-8?B?VVVwRnc4YUswbG90aW82SnJTbmlUNWdoNVBHNFU1SVh3NklYSkNWSVZaTHl1?=
+ =?utf-8?B?T05jbHR1SWdrS0JGS096WVdiNmh1eWVVdVVKMENqc1Frc3R4YnpXNWNPa2dF?=
+ =?utf-8?B?OGJCL2dSQkhOdXVLMUNWbWkwVG1FajRuSjkvN3NPVlhvT2I2UjZrb3g2eGhu?=
+ =?utf-8?B?NHVnaVhmeWhjRm5UWjRtZnJrNkJVczhxNE9RNVpTck9hTVJwV0dXR2krcnM0?=
+ =?utf-8?B?bXhGMy9BZlAxSVZIQktvK2hqZDB6bk5RaytaMlpOeVlrSU5ZVlZmOEhWalFl?=
+ =?utf-8?B?eFA0ZlVHSUx6cTlNWXlnbDRUcXR2RGFsekVyUVg2OTF1N3ZKQkpBWno5bGor?=
+ =?utf-8?B?N2VEQ2FUNVB3ZUJXRlVweWNXN0gyVFhxcEVzckVHZ3VzU3g2VkY4OWFDbVcz?=
+ =?utf-8?B?TkQraVdtZzROS3FGd0NJcjFhTzVCS2FFZjBha2dRSG9LTHY0MFVEM1JrWDhi?=
+ =?utf-8?B?YWNsMEZNNnlLZksvK3lZa2EraU5Sd2tCTjBBTDlYa3VwNXRvSnRQeGRsNFFu?=
+ =?utf-8?B?bEJvNHVRM2VvSy9XT0NxRnZMOHlZd1VyY000WDU4YzhaVWlMUXRmeUJlWTJT?=
+ =?utf-8?B?VFVuZE9vcnprVitsL2JMblBNejlEeWdPQlc5VGx5WisxcGNhN2FueFVOUCtP?=
+ =?utf-8?B?SWpVcDJmSm4rS1M4dmErN3l5M1lRcU1idFNIcEMzelk5dUpzcGJsUkhFUkxI?=
+ =?utf-8?Q?SUNj12qyxh+naW4E=3D?=
+X-Exchange-RoutingPolicyChecked: ATmVI5GtEZW11ii3pRSoQ7JEP9yiptrJ7iydIR7brfr3MXMXP/6yezpOYiiHz6G1WKuMd9ddytGaW5JyMt+Zu3fCAIhJY3RRCGGUT20i6O76aveHCDL63gr2F46W6VFb6Re9g9xuypo5AV7ebZ4sP38H4JbZGbWEHWDWhFjxx140cFgVWBb9wexGFSav75zic6e250ti+HGDhJaywe2z4tarGEI5zIibXQYgcVr1YKLSlMt2wF9fba2kUne9L7dTC/rERVm/WE9oZcxWg/f7xtcTi4KLk3MnrfE4jXxsbE16t5X6u9ytznmjibzOilJJsxh0P7yStmmVBXb+JwUl1Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74435ee8-4e25-4ccf-ce58-08debb3e4ffd
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 15:49:04.0234
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RKwQlJxfrufKbeJVKamDWIdipJE5lSnLQgSyP9U6TvzRDcQJoN9kipCceT+vc77BSApchCyG6VuxTfz+eiITnKMSL1uBZMSmASxbnT5Xk2Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8318
+X-OriginatorOrg: intel.com
 
-The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+Date: Tue, 26 May 2026 11:31:12 +0200
 
-   Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
+> [PATCH] nfc: digital: clamp sensf_res memcpy to NFC_SENSF_RES_MAXSIZE
 
-are available in the Git repository at:
+This should be marked as "PATCH net-next" or "PATCH net". This is a fix
+I believe, so most likely the latter.
 
-   https://codeberg.org/linux-nfc/linux.git tags/nfc-7.1-rc6
+> digital_in_recv_sensf_res() copies resp->len bytes from a remote
+> NFC-F device response into target.sensf_res without checking that
+> the length fits in the 18-byte destination buffer
+> (NFC_SENSF_RES_MAXSIZE).
+> 
+> A nearby malicious NFC-F device can send an oversized SENSF_RES
+> response to overflow the stack-local struct nfc_target, potentially
+> overwriting saved registers and the return address.
+> 
+> Fix by clamping the copy length to NFC_SENSF_RES_MAXSIZE.
+> 
+> Found by pwnkit (https://github.com/0sec-labs/pwnkit), an automated
+> kernel source review tool by 0sec (https://0sec.ai).
 
-for you to fetch changes up to f23bf992d65a42007c517b060ca35cebdea3525a:
+If this is a fix, it should contain a "Fixes:" tag pointing to the
+commit which introduced this vulnerability.
 
-   nfc: nxp-nci: i2c: use rising-edge IRQ on ACPI systems (2026-05-18 18:30:36 
-+0200)
+If the original commit landed a long ago, you might want to add
+"Cc: stable@vger.kernel.org" to mark it as a candidate for backporting
+to the LTSes.
 
-----------------------------------------------------------------
-nfc pull request for net:
+> 
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+> ---
+>  net/nfc/digital_technology.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
+> --- a/net/nfc/digital_technology.c
+> +++ b/net/nfc/digital_technology.c
+> @@ -778,6 +778,8 @@ static void digital_in_recv_sensf_res(struct nfc_digital_dev *ddev,
+>  
+>  	sensf_res = resp->data;
+> +	if (resp->len > NFC_SENSF_RES_MAXSIZE)
+> +		resp->len = NFC_SENSF_RES_MAXSIZE;
 
-Code improvements
-  - llcp: Fix use-after-free in llcp_sock_release()
-  - llcp: Fix use-after-free race in nfc_llcp_recv_cc()
-  - hci: fix out-of-bounds read in HCP header parsing
-Regression fixes:
-  - nxp-nci: i2c: use rising-edge IRQ on ACPI systems
+Alternatively:
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
+	resp->len = min(resp->len, NFC_SENSF_RES_MAXSIZE);
 
-----------------------------------------------------------------
-Ashutosh Desai (1):
-       nfc: hci: fix out-of-bounds read in HCP header parsing
+A matter of taste anyway.
 
-Carl Lee (1):
-       nfc: nxp-nci: i2c: use rising-edge IRQ on ACPI systems
+You can also leave a comment above this line saying that it's necessary
+to validate the value and make sure it doesn't overflow.
 
-Lee Jones (2):
-       nfc: llcp: Fix use-after-free in llcp_sock_release()
-       nfc: llcp: Fix use-after-free race in nfc_llcp_recv_cc()
+>  	memcpy(target.sensf_res, sensf_res, resp->len);
 
-  drivers/nfc/nxp-nci/i2c.c | 21 ++++++++++++++++++++-
-  net/nfc/hci/core.c        | 10 ++++++++++
-  net/nfc/llcp_core.c       | 11 +++++++++++
-  net/nfc/llcp_sock.c       |  2 ++
-  net/nfc/nci/hci.c         | 10 ++++++++++
-  5 files changed, 53 insertions(+), 1 deletion(-)
+Thanks,
+Olek
