@@ -1,71 +1,71 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BE73B4E9F
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 09:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA142C326F
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 10:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779787878; cv=none; b=Zw2RnjN0OxhSGbuZ6RN7/UHfYLIA6GKvktLOPMJebh4BtgA6q183E6oLRzWXqMKBkdpFRGQjhSRA2T64GXBvMyrgo53OXawF1StHY74lBWcrMRhcLP0mN+XlJfwAUiJSC+EYuE5qGe+48nMtArYHn5O4zVFMbfbXfWWxO27hlRc=
+	t=1779791489; cv=none; b=DqAtVSTRIkhM5ypeInOm3ZUR4deMJdsoBg5DOtmeeyCFU+LGIC3Mb9pOZm7c640FJ+fSvYgRqroUVklj+LUCfk+hm2ajKiBsjgWmFhT3Sneu+7/eUYTgXljzJqhS3BpNvtnuhkU38q8POLsohQO/ly6MewyzszB9+KyFdKQqZNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779787878; c=relaxed/simple;
-	bh=GaWyZI8GTHXd4nEu+St0loCud0SYnF3o0zqqQFGK9wM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YUHWQTbtvEvnM7eLSGw7dpm6IJKBp/s3GzOxyfILFq7ioE038/PO6LOftOIRiotzgCg+meB/2Lmhz5eXh8tbzCmgAq3CZ8mn59isxildAnIM4VieN8+4ub2tYYJKVR5iaA39j198CfNu0LKvkr8ZhQf+RuIzoDu61r8ndErWjXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=zgSznEQa; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	s=arc-20240116; t=1779791489; c=relaxed/simple;
+	bh=eCUSq0yXcaXdss2t/OeDizEGW7NgwIY3Wb6Ip4WJApU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdMLU1MG9B5DA98adJSRV/+6vLZDmLDBR2+KFyhUZ5sb0vpdZfisNBU+HQNaauKSMrxCoha4GHYlloZ0ccgQKAhJYKQbVQbTu9HsfWmaOhzt8MTro6ykHsDxzzqQE5fkirEBGaZcNP+9HS1ysaSY9gq5KBzimgTIoyu24ZNrQn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0dntxOb; arc=none smtp.client-ip=209.85.210.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="zgSznEQa"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-44dd5cb0f81so7430157f8f.0
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 02:31:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0dntxOb"
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-8413ac3d82fso4776230b3a.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 03:31:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1779787875; x=1780392675; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779791488; x=1780396288; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1TDvqAyFlVxKGtNUc9btTtlzkS1xwUoFgbr4epPWWGU=;
-        b=zgSznEQalWalyxK/1w+Pod1Mnq0NUeu8wxDlNugNYrE9b9vvJQgWKXAoQRo5tFlWRl
-         w9R0mOSVGnTTSdzEcPuAcDg94jKhSEKP8cpwQCHOV5RHVsaNL4QmE1f4MmqHrDXvoW/4
-         fwhB8EhOXgzZ80RkzfcGignE8Ke2EBUNmIBPaw03XqWvDgjgtA1+ykwpsu0c7HI5yls0
-         C+wpPCnqvX1sd8oWTKkr64X2/ktz1ViGTDnCYGppk8e5MaIWd+MNwQL7dCBVi/188pwe
-         7mSg6W9gsie557f3qsZY43xfT6dejzIU6rO3l9ZweBw30OW0gaw4ZmGkKpi1jEWihk5p
-         K7pQ==
+        bh=cfqSqHtgE1ylnsRBAV2SrbX9MosYsTB5633n9D4BIkU=;
+        b=X0dntxOb6ywtQoWRgJi1M/onNMbSBhbSs91L+Yy8yP9AsZ/SMAHX1WPuipXnYcRw0P
+         po9G6pZZdFnIEgU5c+t6CyupcqtYdDLej5CXNg4vBN80amZIMkOqTWVNiiQHD2XBTLOQ
+         nbFhd8lcP9v/85YZHuW20BSc2GRRzVEMpHoWBIPRPjFPkIBh6SZmTCP+DTdB479EN9ag
+         KRh+FsJYBGd7HZyWVZgycwCch0GcPiHWTid3rglO4BB4pVow4vvx9Na4MCRU67+sHmVp
+         UCgT0PGg0QaHHpscN2q4ay59wItTKONmubRK1LzoYyV+lfg5AzM/DDcD/J4Bj4FW04mm
+         VQ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779787875; x=1780392675;
+        d=1e100.net; s=20251104; t=1779791488; x=1780396288;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1TDvqAyFlVxKGtNUc9btTtlzkS1xwUoFgbr4epPWWGU=;
-        b=atoplUR2mQPDj5ai0j2zBBovIhMbNau6N7V2G9fdr4s07kAkyhQQpInFntCT7QbQjh
-         Bd4/1FWfiQQcP9AkzpG9XGR9K1AwccpqVc+bgmbl3yabu4ZYbyT49rTsTfXqmtE8vN2K
-         3DTdc+KrBjWhmMfRus4OXLE1QSDJa1WvmVY3zL8aeKnGjDdV6pcE0A0asKTNqKKTzpG/
-         jupKJk8wa3QdhxfUZVTaAa0fLfCpamm4MOXVVAwW9flv5D5GLsusXZFAzna8BD7zFpvX
-         flrd5xTupssC9d8wG53UWtnn30k/LoaAp9j0kjV90AYReR9oqem9JhhQAl41Poj9Dqaq
-         536g==
-X-Gm-Message-State: AOJu0Yy+56BKio4mrIVt7qekPAY4r7TJCd2keUwUTEdDXbwBsHrVfxDW
-	HwgRTieoW+Pkk6McTJixElvL4pS/NQmm6+a5gWpugGaeuW1e6obKt5cdLPT2wLwMgi/aCwzS8Sy
-	rYHEhIIaZWbs=
-X-Gm-Gg: Acq92OHmu8LIyilvubHRp1O1UX0V1IQxgtdzIu+iTrU4J7429pjNbcKzJzO19UxJrQb
-	s+/bk2Ph64TJb2uqj+yGNAT0zjibbLvPp+6wvIKs5bxVerrzaih69+v4g6opUpiCHcn4eRvP1sn
-	lotupbnA/3SDWY7McQxu6bR67IYXESsgfmGH3H8d22I+kLcMsZOVw3lKTsH34X+kRlMXYjEchsH
-	uc9lN9/4ht5NwvX+ykvkQjsZjN3jxWqi5AJndgQuz/4DWZcJwTRHgvdbwPFNTyBJ1dyFtd2glWC
-	ldBWG8CW2+n5wrks96EEPoaSCUgZYQLElQLBPWg5g1rxeC7pT6xwfrM3FN9HcWOAoynw1GikJVP
-	aab4RBctKKhtmtLH0HxK1Bqa2obBwjuWeRrdtc5XGnuqvpmgXbRz99qjSOai0O0p//6prcYWlAR
-	tGJsR4XF6gSqCieSinXrcdhgVxuonFj76hJmQ17qI4o+IHp63o8U5QOG0jEMu5f7zSO3/3jKxIx
-	yVsekj/TygzRNyKvwRWNwQ2Bf0ngQr47Ntk5I7k9fpzX3H9Yme1U5c=
-X-Received: by 2002:a5d:5c89:0:b0:45e:8ad3:86a9 with SMTP id ffacd0b85a97d-45ea3138d38mr36473526f8f.8.1779787874838;
-        Tue, 26 May 2026 02:31:14 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.223.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d70c51sm36450132f8f.36.2026.05.26.02.31.13
+        bh=cfqSqHtgE1ylnsRBAV2SrbX9MosYsTB5633n9D4BIkU=;
+        b=lZYLj6/e/fQK0DstQK4i2ixUkqH/fnA8ExWChpE43nlonmA8wYIpUh3yztUwN5y7tL
+         JND6uXut8keU+jpLv1ksHOLVb9sV8OzPp8C+5TnIpA/2B6VQvL+hiAMOTb94ouC1+RLK
+         sJdav52emh/68p2y5cXfDsSH+wMytsdjr0Y+DGlmpyyM6EP5LGLFGNwCippZjM1OtpaO
+         ND7SfFYCbl4SKeJRM72njXyr30ROXJeRCMAKMc8HxJztmoiJti4wsS/SoPgxwUsXFs3h
+         kJU6C7vqDWHVb81PekhUaW4NwY5RfQrMX8s4mo7xCP0aqMWyfkRy2R575rCkc1+unfjc
+         Ddtw==
+X-Gm-Message-State: AOJu0YwSb+xrRCSse9ysRraEsTtaaLyuLUEpcuJtZBp3iHT/6jq79Lek
+	njYGQC/XDebmKtqO+DbI30s9zTnKxCOPQnYdja0CQ/oCh1oSv1GAeRaA
+X-Gm-Gg: Acq92OHUCEsYzriGXcD6tiz+r36uSCQCPgURTOa0jDQL31ToVq/Q5UbqPYiEccTRrHu
+	HSQVRND8qzBSNtxZs+6FEL22CjYcJnNWZmBUq3X0HoNZciAh3/iCSKAUU2DRaks0f625ttf4dfw
+	M2GTn7Vxs60myR8GGE/JMPt4YvFwTABBMs2bYK/4Utnu9FXBQNL1AgQi7Y6hD+uqsDF7u7JF8ix
+	gjnniDaxioNTT2kKFMI4bSSGQ/z63TFBlprsdx54ry+VuxtJJBtNcvXUrzea4Ec4tS1xeNcFhdY
+	mUmh9IU+US4l6FIvNOct8mXZoKfQ4XkQEx352eKeRUfHIV/rFk/d8LvLkT447eB7CmZbqOpaA7I
+	wtKMwiXgbDDGXBHy0mNOfZ1/3C4Hbc5+C9yAH/X1PhyY8XzeiTbpN2DqOEF1njNxpb0bC24DdRO
+	i/yu2/Gk1mucKuueQT0AvW82vPGZh/8Y/OaxrH8WdNteGqRRdBgkl0PDA4Jz05jxdsKmQx+oCtW
+	niVTLE84g==
+X-Received: by 2002:a05:6a00:1822:b0:835:4776:7d69 with SMTP id d2e1a72fcca58-8415f38fd64mr17301068b3a.41.1779791487608;
+        Tue, 26 May 2026 03:31:27 -0700 (PDT)
+Received: from KIPREYXIAO-MC2.tencent.com ([43.132.141.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fd80cdsm14276188b3a.49.2026.05.26.03.31.24
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 26 May 2026 02:31:14 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: oe-linux-nfc@lists.linux.dev
-Cc: security@kernel.org,
+        Tue, 26 May 2026 03:31:26 -0700 (PDT)
+From: Zhenghang Xiao <kipreyyy@gmail.com>
+To: David Heidelberg <david+nfc@ixit.cz>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH] nfc: digital: clamp sensf_res memcpy to NFC_SENSF_RES_MAXSIZE
-Date: Tue, 26 May 2026 11:31:12 +0200
-Message-ID: <20260526093112.22614-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+	Zhenghang Xiao <kipreyyy@gmail.com>
+Subject: [PATCH nfc] nfc: nci: fix double completion race in nci_data_exchange_complete
+Date: Tue, 26 May 2026 18:31:21 +0800
+Message-ID: <20260526103121.47957-1-kipreyyy@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -74,31 +74,47 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-digital_in_recv_sensf_res() copies resp->len bytes from a remote
-NFC-F device response into target.sensf_res without checking that
-the length fits in the 18-byte destination buffer
-(NFC_SENSF_RES_MAXSIZE).
+nci_close_device() and nci_rx_work can both call
+nci_data_exchange_complete() concurrently.  After commit 4527025d440ce8
+("nfc: nci: fix circular locking dependency in nci_close_device") moved
+flush_workqueue(ndev->rx_wq) after mutex_unlock(&ndev->req_lock),
+rx_work is no longer serialized with the explicit completion call in the
+close path.  Both callers read the non-NULL callback pointer and invoke
+rawsock_data_exchange_complete(), which calls sock_put() -- but only one
+sock_hold() was taken, so the second sock_put() underflows the refcount
+and frees the socket while it is still in use.
 
-A nearby malicious NFC-F device can send an oversized SENSF_RES
-response to overflow the stack-local struct nfc_target, potentially
-overwriting saved registers and the return address.
+Replace the bare clear_bit(NCI_DATA_EXCHANGE) with
+test_and_clear_bit() so that only the first caller proceeds to invoke
+the callback.
 
-Fix by clamping the copy length to NFC_SENSF_RES_MAXSIZE.
-
-Found by pwnkit (https://github.com/0sec-labs/pwnkit), an automated
-kernel source review tool by 0sec (https://0sec.ai).
-
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+Fixes: 4527025d440c ("nfc: nci: fix circular locking dependency in nci_close_device")
+Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
 ---
- net/nfc/digital_technology.c | 2 ++
- 1 file changed, 2 insertions(+)
+ net/nfc/nci/data.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
---- a/net/nfc/digital_technology.c
-+++ b/net/nfc/digital_technology.c
-@@ -778,6 +778,8 @@ static void digital_in_recv_sensf_res(struct nfc_digital_dev *ddev,
+diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+index 5f98c73db5af..4253edea5c8d 100644
+--- a/net/nfc/nci/data.c
++++ b/net/nfc/nci/data.c
+@@ -46,11 +46,11 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
+ 	timer_delete_sync(&ndev->data_timer);
+ 	clear_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags);
  
- 	sensf_res = resp->data;
-+	if (resp->len > NFC_SENSF_RES_MAXSIZE)
-+		resp->len = NFC_SENSF_RES_MAXSIZE;
- 	memcpy(target.sensf_res, sensf_res, resp->len);
+-	/* Mark the exchange as done before calling the callback.
+-	 * The callback (e.g. rawsock_data_exchange_complete) may
+-	 * want to immediately queue another data exchange.
+-	 */
+-	clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
++	/* Claim completion atomically -- both close and rx_work may race here */
++	if (!test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
++		kfree_skb(skb);
++		return;
++	}
+ 
+ 	if (cb) {
+ 		/* forward skb to nfc core */
+-- 
+2.50.1 (Apple Git-155)
+
