@@ -1,220 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C903536F411
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 26 May 2026 15:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779810549; cv=fail; b=OWCO09ZoYH9MGnTgq1L6aSfcjtnSINtadZxPZjlWF3RI/UGijZyZqRCsmSWXLgm3yaccvDtnZKF8RkGbgv/dmGUPeJQ4Fs43GzBLUN3rqDnrK8uHP8c3Slz/x3r2+XXqc8KTvyfmSW3C8FthaW1zvz8ren18HY0rXeI/JGVFAno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779810549; c=relaxed/simple;
-	bh=kJVTAgGGU6BqI8HHBoM2haHgWXJo5IN5hXJ9ilbihw8=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TnrQYIXrkD7eMuMF6lobveArKPrX0ZmKjSc3lhL3WLLdLoby9kbFjUozjBsAomNjvMQtAOmcG2NDEaIWOXhnMJ4Hxreb2QFCk6iazfRbiKrEO8wRBGqAM4QiswMWonm9hgoRZrZGBJKgoAcne32nAHrDnkhBMq9F3Bn/zM4NcoA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8wlWRPD; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C489141B35C;
+	Tue, 26 May 2026 17:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779816837; cv=none; b=bSoMuvgUBwanjxVLjKJURo11D3wHGSi2VZ7nTGD4BeXBocJU7CyW/PdDVOBEwSksbVyAdwV/Sm1BnzvKFAmBlAT21yYnuKvkXR4aqHqepTZaNW6v+XpSuu4Hvfi5g4iRjcwnNnu2abZ7Rs6480tTpUKNaE8TlIC6wB1MD3hjq3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779816837; c=relaxed/simple;
+	bh=GsILhnnbVdoVwhECB8dRPg9InXwIw88e24tD7opTjpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K37kcuO/SINETxmAUlq8FV4+rofHyB/7bPpQ/zHc9crooqoomp8PaYDVQ+pqjjk7ycJbdMb86ZZvrxKZRVHOgnrDOrGvus95FkYw4ZpmbhLGYePtmxyidgTmxpsxje9z6m9E8LhtobeTe6Sk4mKuKvT/EFu0ta1lnRtuTqWZTiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0me14/J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8wlWRPD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779810547; x=1811346547;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=kJVTAgGGU6BqI8HHBoM2haHgWXJo5IN5hXJ9ilbihw8=;
-  b=T8wlWRPD00yW5r8N55NrZQFE1zFYJk6YErq2YFsrypaJIgwryBAO3Owc
-   Z+BGuKnU+pqLh8oLlGTKjWRJMXIlJRxvcINCPD8hH9mZ5UyiFWEPFjfit
-   m6LMn/dh9f1RFMObXaRovtsGlleJ54ISGC25SDdi2jSXFNqN7Jmi9hglx
-   BVGAmkfvSmELNwZzwDqFG1OLyMA+DsymTcuKEwaa21oEAQZ0TMPcuDOgd
-   fnS6CI6G8BYKLqBcavnPgZ0Fhp3ds/9wepdVYNs/3zaWyFdIko+Mbd/+q
-   othHfoJRxMwThj0pBsBbp6g4zZwBoAD6WXDFGF7OHOF5sN20Db92ZfFue
-   w==;
-X-CSE-ConnectionGUID: q5rTqleGSD+5vADgN1a58w==
-X-CSE-MsgGUID: GsxfujqxQU+8Qi+SvrMXag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="106085089"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="106085089"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:49:07 -0700
-X-CSE-ConnectionGUID: TwEOhWyaTraU1c5mxbDLug==
-X-CSE-MsgGUID: tKY5BciMTr6IvKBsLcPvmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="240904566"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:49:07 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 08:49:06 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 26 May 2026 08:49:06 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.69) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 08:49:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NQNvP4IeQz8w4Id0B5K/Er0169JKwXjhXaXnLwNs/yk360sHh6fdq8t3gkt7TPJp2QdRDFJiTz7m7uTuLNIq3oCi4ovjRNtbOlrOsyoucDEVnh1uZDcnoD5hv3yKX4jjiLyjoeQ8mFEQF5r4X1zmtgSD7Bl6xC4f+yTzS/HJeKG2J92b78a2MJ1cRnbxnRSBD2i+K5BvFAR48a5o40yqpxWLEoP1T30iKw4z3hSw9IrsWFrW/GXIAVxsD1lEB8Y+O8hm90ldNMZRnIHkJcgNiU2VwW4l39bcVpJH1fR+7XI/byhqLdFzfu+FoExaGDOoXZkya4S3RnlmjLBCSw/PFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CDh0bh174lw5wXCniRtYXcsNsrHtO7gFtPN4kN/eAtA=;
- b=gpxQfovzdj6ZDqeuMENgPuv7+dXod0yuKwrd0lVB5F8djIDv8WL+AUoUOwGAzXgwnt6Cqscld/xKzkQ34FMgJIGI0KARp1/Pci1Wolq9yfXlyZ5eW9WDJ7wc630GVrQ6iEMZ3+Ikj9wE1XEFvPvP1IwccYr0PTCRW+h0m1w0mAxvLYnkItzI2qyc68w3kfYY++IyKfgpn+wOKcpC7rSaBiWOXVECiBBX6DGVEU6EJCqOMHqwULpym6H7UL+URRZtlAN/u31/lrDjFzSngQbNn8eaGAAG7A5ze2WaVpq/EhX4fP4Kc3P65rL8YK/3zMODuOtexjTV5BCntIcbaCg1/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
- by SA1PR11MB8318.namprd11.prod.outlook.com (2603:10b6:806:373::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 15:49:04 +0000
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c%5]) with mapi id 15.21.0071.011; Tue, 26 May 2026
- 15:49:04 +0000
-Message-ID: <2b2704e6-389d-43ac-be90-bbb4785582d7@intel.com>
-Date: Tue, 26 May 2026 17:48:58 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: digital: clamp sensf_res memcpy to
- NFC_SENSF_RES_MAXSIZE
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-CC: <oe-linux-nfc@lists.linux.dev>, <security@kernel.org>,
-	<netdev@vger.kernel.org>
-References: <20260526093112.22614-1-doruk@0sec.ai>
-Content-Language: en-US
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-In-Reply-To: <20260526093112.22614-1-doruk@0sec.ai>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR08CA0261.eurprd08.prod.outlook.com
- (2603:10a6:803:dc::34) To DS0PR11MB8718.namprd11.prod.outlook.com
- (2603:10b6:8:1b9::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0me14/J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F080C1F000E9;
+	Tue, 26 May 2026 17:33:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779816836;
+	bh=gjpURTv2c2v2N9HFm7TiQlpaPA7lIpsocmrTHwzlbC8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D0me14/JXHDqcpJ5hAQo4YDQ9P52gJBHzw8bO+6KZ4YoJ6FP2H1vzhnvT4bXKpxba
+	 hMEITNQlUiJAQ/KWnaay0rduiIE7hrsHNjcgtHtyHmaIwbxryQq/++sD37bsrqGvy+
+	 qWQTFAnGM+nx864ARTLkHXpfTskJ5QQhkVeHK6xFRD1NLkpFRBlDscHXqmGn0RBXal
+	 AN144hIuXT3zFjXVcWQ4Y1pE/HkUE4v5XAkadJoAOyoEIL4RAhOoIw2xowA2P2H4KY
+	 AY23x0qszNBQvPEFjc4tEwg8Milo/z1ajdMbfUgOS6fC0fJ0G04q03KMUjSQPrGuBP
+	 pu3z3BeOvjh6g==
+Date: Tue, 26 May 2026 18:33:51 +0100
+From: Simon Horman <horms@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, David Heidelberg <david+nfc@ixit.cz>,
+	Samuel Ortiz <sameo@linux.intel.com>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH net v2 0/2] nfc: llcp: two fixes for nfc_llcp_getsockopt()
+Message-ID: <20260526173351.GB2256768@horms.kernel.org>
+References: <20260521-fix_llc-v2-0-ab44cc09179c@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|SA1PR11MB8318:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74435ee8-4e25-4ccf-ce58-08debb3e4ffd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|11063799006|83080400003|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 4sir6espb30AEWsPzXpewsZCr/jKYHvDzOq1VTpN50ij5XUQMhDP7kDzWc0hdrGRN6dvxtuP5nkEcTwNl+I62wxCPqN7VC5URe504NgpHhlznG+TbZK6+awoGZ/w/xxZTysp6BqYasBCG+7+fm+x7ZrrNUyD5bT59cXACHT93eZzS1ZcpQYPyKKacUX9rSgZFwc9ESIo7o4jePF55sPeCnWvjHZxvWHr9buiVcUwT0dVgHhAHxuNDfpN490Mhe8r/KI9X+OSLnZYrUS122atpp73WTnDpPF8ZQSYpAcpgaNKRDQRTDLsEl/QnYoOKApzXgCpXGgYQ1ejVnLpZmUUq9qJf0U6DQyUrKHDoueGkW+fahjnh0wNOdhDiOS6fJPyjK4t08SHcF5hiMLyDcAAQA/gqOpIOZlUTrS3rFu7YwdVZDAa+FQoSvjC2AzIMzuBHiN8lC0WCnPYnERydO14ey0iCgRC8I3qpDFP/DGkVgY8G1aadSmzczxtk1Q5Z13NK1pO+xDcgfsW+ty1pOLmnOm79/M9Ev0hAMw9jPMKlVX7bMH+lCNWofgW54aNKRyZtTyfStdIz8YTf7KTu8jJEYrCRL8yMeWMHF9OoRg7lmvNKyEQpnOO51MiuIZmO4XR/kb26bjcxJr7ICAuqtZ8hvf0A/KFmq2KmLeLX1F5TetldUo++jcjP3rgVaWiisq0
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(11063799006)(83080400003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzlvcnpqQW8rbmttcE9xZjVad0xzbC9kMTRwQndxRytUeEhtMDBnN1AyVE9o?=
- =?utf-8?B?eS8zMTBNNmlaZlFNMHFXdlVrNmlCdFRsYVYxS3RpVWJ4d3hMVk9SUElYR0tW?=
- =?utf-8?B?MlhHSkJsdHY1T3VlMnpCeHIrOFdTSElqRHlEV0xHYjNVdVkyRTNPTEg0YUt0?=
- =?utf-8?B?WWxwSzZQZ3VWVlJhV1I1SnNzT0xmR251aUVxY0MyWENkN2JGaFJHTy91TVhp?=
- =?utf-8?B?Q05MaHZ0cTJBUFB4RmFRWDE1U1RDbHpsTlNwMXQ5Z095cTBLOW10TWtUL0Zv?=
- =?utf-8?B?N0VRKzhpeEtzQ2h0bFV0ZCs3aUtXQVdnc3ZnNllGT1BlbS8xemxRKytiYkxk?=
- =?utf-8?B?ZTFocmpuY1VmOWRPQWhiNkhYeW1uSGQ0MU5vVDdJd2dCN1lKWmhmQ3VDQVI3?=
- =?utf-8?B?RmZLRlNmRVZvYjhFaXdjYVY5dk1OQVpxQXhwRUwrNnluTU1obC8zdjFxbito?=
- =?utf-8?B?Ym9FUjJMWm1nTDM2ZUFGeFUwWVRhLzZPRThYdmNleUduV3JldW9zYVJJaXZq?=
- =?utf-8?B?UURuMnJNSlhpTzZFVUplVFFIUG56TmtCYzJ3Wkh1TE9GQ3hFMkIyb2NjN0VM?=
- =?utf-8?B?cGlyTDRhaXRPVXdRYVNvZFlCRzRpcHpFL21tZjZONTdlMGliSVEzUDBYaTZm?=
- =?utf-8?B?V2Y1dXNqeEduazdxZmc1WElXTThYYVdnTHJ3cUE1U2NUOGhCMGhoNTlvNlds?=
- =?utf-8?B?eUdQYTB6RXpIZGNxVXRPRUEvSGg5ZWhXN3VBdDdvSWVqMUYvQWZKdFdQUmR4?=
- =?utf-8?B?QXQyMldHekpjM2FmUzdEWTI2Q2JrdGVKcTl1dW9udk8waG9QN3RWMFRjanQx?=
- =?utf-8?B?ZE41QU1aQXVxOUZBa3NUend0dExEbHhPSVR1Z0F1SkdQSnRMRllhWXA0MzNk?=
- =?utf-8?B?dGV2UllxY1NoNjZ4SEtTVTBvTTM3cXU3bURaeFJKcmQ1QytJb1pmWW1rbkdK?=
- =?utf-8?B?eHlvYlQ2U0xJUE85eGtOeE83b1V5eGVMUytBdEpOV3NYaGRVSEhKdW5yUGpS?=
- =?utf-8?B?N1Zqd0UyTWV2MksvY3FXYXJvZ21BejhJWldTTiswZi92WnJHV0tBemhjYWty?=
- =?utf-8?B?NzdmVTA0bllmQWNHR2U3QkV5azVWOVJESHBrN1VLRzAxOW9HRVJvUmo3cUtW?=
- =?utf-8?B?RE9MZ28ra0paRmZYWHRjbyttVVFrYzg5eGMyeFd2LzF3RUc5SThqaUczT3Yz?=
- =?utf-8?B?ZmxlOGsrK1pzVDlNR1VEOTBGcWZlelc3ZEJCWDJzT2lkWWxBaFVLQzFNNFFS?=
- =?utf-8?B?RnpDK0M5cVhYMjRVM29TMDA4ZjFPaGpDMi9wZGw2dmtVNnNkd2xaMU5mQis1?=
- =?utf-8?B?ajBteU82dDRhbzh3SEJWWkE5a1Q2YzhZcVNWLzlDdlM4K0UrdDZFYXNscnIz?=
- =?utf-8?B?QkgvNXlKdkFZb2RnZS9hRkNNVVlSbXNUSUFvN1ZtNE9yTlV0alVscEo2ejJG?=
- =?utf-8?B?NHVzY3dtbE9sc05FSDFiakh0dzZQbE1TTGFMYmQ4emVpU0VjKy9MYk82ME80?=
- =?utf-8?B?aSt4UDVoa21Hbm5HMERvU0VzOFR1c1RXa01BRVpkN1JoYlREN2pianJDUjJs?=
- =?utf-8?B?MFJDWEFCaFdOa0p6UzlEVTdBb013T0FNdlQ0T3ZaZHV3eTNzblZ4V0JXeHpB?=
- =?utf-8?B?VVVwRnc4YUswbG90aW82SnJTbmlUNWdoNVBHNFU1SVh3NklYSkNWSVZaTHl1?=
- =?utf-8?B?T05jbHR1SWdrS0JGS096WVdiNmh1eWVVdVVKMENqc1Frc3R4YnpXNWNPa2dF?=
- =?utf-8?B?OGJCL2dSQkhOdXVLMUNWbWkwVG1FajRuSjkvN3NPVlhvT2I2UjZrb3g2eGhu?=
- =?utf-8?B?NHVnaVhmeWhjRm5UWjRtZnJrNkJVczhxNE9RNVpTck9hTVJwV0dXR2krcnM0?=
- =?utf-8?B?bXhGMy9BZlAxSVZIQktvK2hqZDB6bk5RaytaMlpOeVlrSU5ZVlZmOEhWalFl?=
- =?utf-8?B?eFA0ZlVHSUx6cTlNWXlnbDRUcXR2RGFsekVyUVg2OTF1N3ZKQkpBWno5bGor?=
- =?utf-8?B?N2VEQ2FUNVB3ZUJXRlVweWNXN0gyVFhxcEVzckVHZ3VzU3g2VkY4OWFDbVcz?=
- =?utf-8?B?TkQraVdtZzROS3FGd0NJcjFhTzVCS2FFZjBha2dRSG9LTHY0MFVEM1JrWDhi?=
- =?utf-8?B?YWNsMEZNNnlLZksvK3lZa2EraU5Sd2tCTjBBTDlYa3VwNXRvSnRQeGRsNFFu?=
- =?utf-8?B?bEJvNHVRM2VvSy9XT0NxRnZMOHlZd1VyY000WDU4YzhaVWlMUXRmeUJlWTJT?=
- =?utf-8?B?VFVuZE9vcnprVitsL2JMblBNejlEeWdPQlc5VGx5WisxcGNhN2FueFVOUCtP?=
- =?utf-8?B?SWpVcDJmSm4rS1M4dmErN3l5M1lRcU1idFNIcEMzelk5dUpzcGJsUkhFUkxI?=
- =?utf-8?Q?SUNj12qyxh+naW4E=3D?=
-X-Exchange-RoutingPolicyChecked: ATmVI5GtEZW11ii3pRSoQ7JEP9yiptrJ7iydIR7brfr3MXMXP/6yezpOYiiHz6G1WKuMd9ddytGaW5JyMt+Zu3fCAIhJY3RRCGGUT20i6O76aveHCDL63gr2F46W6VFb6Re9g9xuypo5AV7ebZ4sP38H4JbZGbWEHWDWhFjxx140cFgVWBb9wexGFSav75zic6e250ti+HGDhJaywe2z4tarGEI5zIibXQYgcVr1YKLSlMt2wF9fba2kUne9L7dTC/rERVm/WE9oZcxWg/f7xtcTi4KLk3MnrfE4jXxsbE16t5X6u9ytznmjibzOilJJsxh0P7yStmmVBXb+JwUl1Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74435ee8-4e25-4ccf-ce58-08debb3e4ffd
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 15:49:04.0234
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RKwQlJxfrufKbeJVKamDWIdipJE5lSnLQgSyP9U6TvzRDcQJoN9kipCceT+vc77BSApchCyG6VuxTfz+eiITnKMSL1uBZMSmASxbnT5Xk2Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8318
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260521-fix_llc-v2-0-ab44cc09179c@debian.org>
 
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-Date: Tue, 26 May 2026 11:31:12 +0200
-
-> [PATCH] nfc: digital: clamp sensf_res memcpy to NFC_SENSF_RES_MAXSIZE
-
-This should be marked as "PATCH net-next" or "PATCH net". This is a fix
-I believe, so most likely the latter.
-
-> digital_in_recv_sensf_res() copies resp->len bytes from a remote
-> NFC-F device response into target.sensf_res without checking that
-> the length fits in the 18-byte destination buffer
-> (NFC_SENSF_RES_MAXSIZE).
+On Thu, May 21, 2026 at 07:32:08AM -0700, Breno Leitao wrote:
+> While converting the NFC LLCP socket layer to the new getsockopt_iter()
+> API, I noticed that nfc_llcp_getsockopt() unconditionally stores four
+> bytes through a (u32 __user *) cast regardless of the caller-supplied
+> optlen, overflowing the user buffer when optlen < 4. Patch 1 adds an
+> explicit length check (with a signed-int guard so a negative optlen
+> cannot slip past it) and is what I originally sent as v1.
 > 
-> A nearby malicious NFC-F device can send an oversized SENSF_RES
-> response to overflow the stack-local struct nfc_target, potentially
-> overwriting saved registers and the return address.
+> While reviewing v1, Simon/sashiko[1] pointed out that llcp_sock->local
+> is read outside lock_sock(sk) and can be freed by a concurrent
+> llcp_sock_bind() error path before getsockopt() dereferences it. Patch
+> 2 moves the load and the NULL check inside the lock. Both fixes target
+> the same original commit, so they are now sent together as a two-patch
+> series.
 > 
-> Fix by clamping the copy length to NFC_SENSF_RES_MAXSIZE.
+> Note: These fixes were compile-tested.
 > 
-> Found by pwnkit (https://github.com/0sec-labs/pwnkit), an automated
-> kernel source review tool by 0sec (https://0sec.ai).
-
-If this is a fix, it should contain a "Fixes:" tag pointing to the
-commit which introduced this vulnerability.
-
-If the original commit landed a long ago, you might want to add
-"Cc: stable@vger.kernel.org" to mark it as a candidate for backporting
-to the LTSes.
-
+> [1] https://lore.kernel.org/all/20260513-fix_llc-v1-1-33c76f931ff6@debian.org/
 > 
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 > ---
->  net/nfc/digital_technology.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-> --- a/net/nfc/digital_technology.c
-> +++ b/net/nfc/digital_technology.c
-> @@ -778,6 +778,8 @@ static void digital_in_recv_sensf_res(struct nfc_digital_dev *ddev,
->  
->  	sensf_res = resp->data;
-> +	if (resp->len > NFC_SENSF_RES_MAXSIZE)
-> +		resp->len = NFC_SENSF_RES_MAXSIZE;
+> Changes in v2:
+> - Guard the length check against negative optlen (Simon Horman / sashiko).
+> - Add patch 2: move llcp_sock->local read inside lock_sock(sk) to close
+>   a UAF race with llcp_sock_bind() (Simon Horman / sashiko).
+> - Link to v1: https://patch.msgid.link/20260513-fix_llc-v1-1-33c76f931ff6@debian.org
 
-Alternatively:
+Thanks for the update.
 
-	resp->len = min(resp->len, NFC_SENSF_RES_MAXSIZE);
+There is an AI-generated review of this patch on sashiko.dev.
+It looks like it flags pre-existing issue that doesn't directly
+impact the intent of this patch-set. So I don't believe it should delay
+progress of this patch-set.
 
-A matter of taste anyway.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-You can also leave a comment above this line saying that it's necessary
-to validate the value and make sure it doesn't overflow.
-
->  	memcpy(target.sensf_res, sensf_res, resp->len);
-
-Thanks,
-Olek
