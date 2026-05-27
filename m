@@ -1,35 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0CC3264CE;
-	Wed, 27 May 2026 01:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A0D2BE621
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 27 May 2026 05:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779846007; cv=none; b=t/L0o0ID32rol6zIKoVtWJkJnlI4zAF/8miyuGt2f2NbS1bFzxKZ12cAmDDF8q+AkGhMYcihbNYsnyjmlTSUsSa8A5TUhQMBE3qqYzSyjnnKZ6rGXzWHNMQRyIL+XqIgaV57F6dLIjoEY7uUx7pdpNB/OiN9K0OGRW2eTcWWJ94=
+	t=1779859614; cv=none; b=kVQ6y3XX8KKZooJFynyONjKRtTqdUEGuDiyIYxVAdqz+pIVw1iePmhNMUi1HSzjWL/qSmBS3DuJydEWHZpI6bFqYJ69FOL2G4OehPRdghLr/0df9Y66Y67Q/H6NmHDdbJ9MBooMqirc0duGsfSgehdCKx3652ukUdEQh4zNum+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779846007; c=relaxed/simple;
-	bh=wdEqVU25TkoImJ3uHsaTMj+ujkhhHhTwYJ14pLFeKfg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=gZVXUTM97ERoAsm/c10J1w4BcQK7rbX1zLwu0t+IiFHifKivzeOx5z5HE+PuW8diRHaPEtEGiI5HBulCHl7CGhkJwE6uUE0WJBtrCp5VOBnQeiAvmCP0z+Kacu5TznRGnGyIPyLtQC825eLLYFHo0YOQ+h0Bq5gmt85ZkoNYDTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjA4yeD1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779859614; c=relaxed/simple;
+	bh=K3HIturTWW4nvncpD8a50KSIe/3ajJxJCIDMqFq8vvA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=So49v3LZY2O5pqCFJZxb0TTGIZOP9sW8JoKGv6vEDde/MWWqwnZ5Dr1kWJBJV5ADeywL5aPg45/iCoE+j/tjhvNEUdbuOuKi8tP3DXE6DR7REBqnv4HH1Dza7KOvZTBZ/c+eTnEWhUYI+VeM1X1fUW0w9SmzydsHA55aiaiixyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=ZSnWy3WZ; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjA4yeD1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EED21F000E9;
-	Wed, 27 May 2026 01:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779846004;
-	bh=5K4X2aR+rSPryk8cmE6pR6yWpD5CBXWJBfQZio97I1E=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=MjA4yeD1IBFHCXzT0XkJkK76mwMCvX/I66F2RM8n5NNHmlyPZIIzPpdgvYm7vsFFg
-	 C+KWANnGNeMcvHQmajYIQ9CrPm3dS+hxPUXZNO6+wRwweXuKhJrEYH+YDa0Da+rOCR
-	 QKYTsD/WX+MemKOQTImR6L0vkoXUmscvFk/kBbFkW15llltjbbI/WEph1K1f+d7rbm
-	 ex/vLCs0OhUXIuc9+j0m4Kmq1Hxqj9uTL9vLwwtyhvdHKsGTx6XUQqbhhH8QnigT/R
-	 OpO5jvuaT1NdZeDWtXr8E1X9jk3bY3rQKQfvAagUrNoPVg4w/YLZ+WvhIh/EtHQIS1
-	 pvSP6kJZO2SwA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56B9C380CEED;
-	Wed, 27 May 2026 01:40:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="ZSnWy3WZ"
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R4tvgN2228738;
+	Wed, 27 May 2026 05:26:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=L/Oi87Mh/
+	PXWoPXQ4jtjhntE0HXE3WnQw4TTpobWTCw=; b=ZSnWy3WZynGBcVp4sdTa7lkeF
+	gxTx/PybkWwg5qd2KWJCGipepk0SqOYCq23VPDoyaYpSNocOWgjohofenpskeIXC
+	ZYYIS4AVzD/ROnfgjZJaUnbCXUSUR045hkFeKQS6YCvbtpvAYOcwXutMhYK1YWOr
+	4pbUU5p7xr2WB2FfKxe9Z8/QvqVlADGrbXQyhhy2jf6xsqmOGK7jTYR67XFIJYiv
+	7QhSSxPUIYO0TGAn8mR0J9kRAEx/Ytk2RymHbkYGEQ9AiiaCHk+pdqJcaVPYMbB2
+	eoyw7CcWQwO3IFQAoH1YYxvWVXcVqhyZAYirHNBtrgVkflN0GUbr31EMIwEMg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eb376d8d0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 27 May 2026 05:26:30 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 26 May 2026 22:26:29 -0700
+Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 26 May 2026 22:26:26 -0700
+From: Yun Zhou <yun.zhou@windriver.com>
+To: <horms@kernel.org>, <david+nfc@ixit.cz>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <yun.zhou@windriver.com>, <bongsu.jeon@samsung.com>,
+        <oe-linux-nfc@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+Date: Wed, 27 May 2026 13:26:25 +0800
+Message-ID: <20260527052625.3309581-1-yun.zhou@windriver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -37,40 +55,152 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [GIT PULL] NFC for v7.1-rc5
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177984600990.4043619.4352308425874213846.git-patchwork-notify@kernel.org>
-Date: Wed, 27 May 2026 01:40:09 +0000
-References: <217c0646-8a30-4037-b613-580c2b189729@ixit.cz>
-In-Reply-To: <217c0646-8a30-4037-b613-580c2b189729@ixit.cz>
-To: David Heidelberg <david@ixit.cz>
-Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDA1MCBTYWx0ZWRfXwWUTEWJ/fThv
+ N3Rnib7XV8hE62iGAC35iOdC1xoZe3hzdlIz+OGn7iQ2SfbXOJ4MEs7jcrjeS3Z97m5l37+vec3
+ BV6rgbn5DQEe03mehjgn5Y6Kp3P6Eom+p6pf8LRspmSas6lfVdWE4g99Ucxv906u3oe44sdocE+
+ Q6xcLXBr+XGMusyfZWNd2Amm0EtGqrFzOWh3FYo6O6lwdF4nKIxXyASM5QLoezP1NX2lqCuMazP
+ G53gSwZFlRCylqLKWO4CwQ7E/4BGy1xQ4/4v5/veV0QffdauZY39kz7XZJ5TOQFEeYshemVGEGP
+ dG+yUb3saDMjmQQOMCfgJPC0z+0RALbV/nOvItGLTwmCW+DI7aWGgkx77sau8UzHRskDrlvpH+7
+ EWWjvh1HLPeFZoRMXwFFrgv8ugkA3BvYLrHx09SWsKLvGhln/1q/Uh2tYMPGC8boonc/XP40+Hv
+ XfBQHHD0uiNArFBzNIA==
+X-Authority-Analysis: v=2.4 cv=M5B97Sws c=1 sm=1 tr=0 ts=6a168086 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
+ a=IDFcQ0WGl1NcD2azA7sA:9 a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: yIjUwoTfFDoIJPzrpZYp7cstBzS6DjZq
+X-Proofpoint-ORIG-GUID: yIjUwoTfFDoIJPzrpZYp7cstBzS6DjZq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-26_05,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 clxscore=1015
+ spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605270050
 
-Hello:
+nci_core_init_rsp_packet_v1() and nci_core_init_rsp_packet_v2() parse
+the CORE_INIT_RSP packet without validating that the skb contains
+enough data. A malformed response (e.g. injected via virtual_ncidev)
+can declare a large num_supported_rf_interfaces while providing
+insufficient data, causing reads of uninitialized slab memory. This
+is later used in nci_init_complete_req(), triggering a KMSAN
+uninit-value warning.
 
-This pull request was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Add skb length checks before accessing packet fields:
+- Validate the skb has at least 1 byte for the status field.
+- Validate the skb can hold the fixed-size header before parsing.
+- In v2, bounds-check each variable-length rf_interface entry and its
+  extension parameters within the parsing loop.
+- In v1, verify the skb is large enough for both the variable-length
+  rf_interfaces array and the trailing rsp_2 structure.
 
-On Tue, 26 May 2026 14:30:43 +0200 you wrote:
-> The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
-> 
->    Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://codeberg.org/linux-nfc/linux.git tags/nfc-7.1-rc6
-> 
-> [...]
+Reported-by: syzbot+46ca2592193f2fb3debc@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=46ca2592193f2fb3debc
+Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
+Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+---
+v3:
+ - Use skb_headlen()/skb_tail_pointer() instead of skb->len to bound
+   checks against the linear data region, ensuring correctness even
+   with non-linear skbs.
+ - Defer all ndev state updates until after validation passes, so that
+   early error returns do not leave ndev in a partially updated state.
 
-Here is the summary with links:
-  - [GIT,PULL] NFC for v7.1-rc5
-    https://git.kernel.org/netdev/net/c/e66c456f7ce4
+v2:
+ - Validate the skb has at least 1 byte for the status field.
+ - Move the fixed-size header check after the status access.
+ - Add Closes: link after Reported-by
 
-You are awesome, thank you!
+ net/nfc/nci/rsp.c | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
+
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index 9eeb862825c5..85c3ff2b78cd 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -50,11 +50,27 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
+ 	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
+ 	const struct nci_core_init_rsp_2 *rsp_2;
+ 
++	/* Ensure that the status field can be accessed. */
++	if (skb_headlen(skb) < 1)
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	pr_debug("status 0x%x\n", rsp_1->status);
+ 
+ 	if (rsp_1->status != NCI_STATUS_OK)
+ 		return rsp_1->status;
+ 
++	/* Success response must contain the full fixed-size header */
++	if (skb_headlen(skb) < sizeof(*rsp_1))
++		return NCI_STATUS_SYNTAX_ERROR;
++
++	/* Ensure the variable-length rf_interfaces array and trailing
++	 * rsp_2 structure are fully contained within the skb.
++	 */
++	if (skb_headlen(skb) < sizeof(*rsp_1) +
++			       rsp_1->num_supported_rf_interfaces +
++			       sizeof(*rsp_2))
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	ndev->nfcc_features = __le32_to_cpu(rsp_1->nfcc_features);
+ 	ndev->num_supported_rf_interfaces = rsp_1->num_supported_rf_interfaces;
+ 
+@@ -87,15 +103,25 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
+ 				      const struct sk_buff *skb)
+ {
+ 	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
+-	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
++	const u8 *supported_rf_interface;
+ 	u8 rf_interface_idx = 0;
+ 	u8 rf_extension_cnt = 0;
+ 
++	/* Ensure that the status field can be accessed. */
++	if (skb_headlen(skb) < 1)
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	pr_debug("status %x\n", rsp->status);
+ 
+ 	if (rsp->status != NCI_STATUS_OK)
+ 		return rsp->status;
+ 
++	/* Success response must contain the full fixed-size header */
++	if (skb_headlen(skb) < sizeof(*rsp))
++		return NCI_STATUS_SYNTAX_ERROR;
++
++	supported_rf_interface = rsp->supported_rf_interfaces;
++
+ 	ndev->nfcc_features = __le32_to_cpu(rsp->nfcc_features);
+ 	ndev->num_supported_rf_interfaces = rsp->num_supported_rf_interfaces;
+ 
+@@ -104,13 +130,22 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
+ 		    NCI_MAX_SUPPORTED_RF_INTERFACES);
+ 
+ 	while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
+-		ndev->supported_rf_interfaces[rf_interface_idx++] = *supported_rf_interface++;
++		/* Each entry: [rf_interface_type (1B)] [ext_count (1B)] [ext...] */
++		if (supported_rf_interface + 2 > skb_tail_pointer(skb))
++			break;
++		ndev->supported_rf_interfaces[rf_interface_idx] = *supported_rf_interface++;
+ 
+-		/* skip rf extension parameters */
+ 		rf_extension_cnt = *supported_rf_interface++;
++		if (supported_rf_interface + rf_extension_cnt > skb_tail_pointer(skb))
++			break;
++
++		/* Only count the entry after full validation */
++		rf_interface_idx++;
+ 		supported_rf_interface += rf_extension_cnt;
+ 	}
+ 
++	ndev->num_supported_rf_interfaces = rf_interface_idx;
++
+ 	ndev->max_logical_connections = rsp->max_logical_connections;
+ 	ndev->max_routing_table_size =
+ 			__le16_to_cpu(rsp->max_routing_table_size);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
