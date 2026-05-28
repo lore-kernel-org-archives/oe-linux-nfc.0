@@ -1,53 +1,44 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A0D2BE621
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 27 May 2026 05:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884C32D9787;
+	Thu, 28 May 2026 20:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779859614; cv=none; b=kVQ6y3XX8KKZooJFynyONjKRtTqdUEGuDiyIYxVAdqz+pIVw1iePmhNMUi1HSzjWL/qSmBS3DuJydEWHZpI6bFqYJ69FOL2G4OehPRdghLr/0df9Y66Y67Q/H6NmHDdbJ9MBooMqirc0duGsfSgehdCKx3652ukUdEQh4zNum+w=
+	t=1779999668; cv=none; b=Pg864k4JHzPnI2ajgxQh3oKudo7FBWY8nO9X1EHATm2oLOycn4QGy/+Q47ISoausYLFMM+Cpw5UxKdflTcbGwJcPPBvt7e7HKA3infrekzxZuAiAlEEsU4wqPGzmGjF3I2V8U3Kt4WG+zKvOwEy3lBYG/vnoyHlIHII9uDNCa6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779859614; c=relaxed/simple;
-	bh=K3HIturTWW4nvncpD8a50KSIe/3ajJxJCIDMqFq8vvA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=So49v3LZY2O5pqCFJZxb0TTGIZOP9sW8JoKGv6vEDde/MWWqwnZ5Dr1kWJBJV5ADeywL5aPg45/iCoE+j/tjhvNEUdbuOuKi8tP3DXE6DR7REBqnv4HH1Dza7KOvZTBZ/c+eTnEWhUYI+VeM1X1fUW0w9SmzydsHA55aiaiixyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=ZSnWy3WZ; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1779999668; c=relaxed/simple;
+	bh=Jwgu1uWohqE8+JEjjhyrCKMGbHKCzl40Xp0G/F4utNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QSa5c5kMZdM2UxHrXxC8aL11cJrtc30mszCCUzCYLAbbs3kJdaj16jNEFxvTn3tn6+f++TMdhg25ZwzkAURhJ87oxqa+R3l0FIoRgM4c7boOGHy92pMOl+5/Ifw/ijjnjRCe5RvSbz03GndQURPa8h3griALvAph7burV7YIgJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovR6ITyw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="ZSnWy3WZ"
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R4tvgN2228738;
-	Wed, 27 May 2026 05:26:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=L/Oi87Mh/
-	PXWoPXQ4jtjhntE0HXE3WnQw4TTpobWTCw=; b=ZSnWy3WZynGBcVp4sdTa7lkeF
-	gxTx/PybkWwg5qd2KWJCGipepk0SqOYCq23VPDoyaYpSNocOWgjohofenpskeIXC
-	ZYYIS4AVzD/ROnfgjZJaUnbCXUSUR045hkFeKQS6YCvbtpvAYOcwXutMhYK1YWOr
-	4pbUU5p7xr2WB2FfKxe9Z8/QvqVlADGrbXQyhhy2jf6xsqmOGK7jTYR67XFIJYiv
-	7QhSSxPUIYO0TGAn8mR0J9kRAEx/Ytk2RymHbkYGEQ9AiiaCHk+pdqJcaVPYMbB2
-	eoyw7CcWQwO3IFQAoH1YYxvWVXcVqhyZAYirHNBtrgVkflN0GUbr31EMIwEMg==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eb376d8d0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 27 May 2026 05:26:30 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 26 May 2026 22:26:29 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 26 May 2026 22:26:26 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <horms@kernel.org>, <david+nfc@ixit.cz>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <yun.zhou@windriver.com>, <bongsu.jeon@samsung.com>,
-        <oe-linux-nfc@lists.linux.dev>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-Date: Wed, 27 May 2026 13:26:25 +0800
-Message-ID: <20260527052625.3309581-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovR6ITyw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198441F000E9;
+	Thu, 28 May 2026 20:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779999667;
+	bh=5eONnNKTCQ7J+VL/0T2D8f46O9JGX3erMF4ccylrlRA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ovR6ITyw4vDUWE3RAN7s5rmwZZT9QGWXAxvYxNiYGVjOQH72Ng1iLDTcMIioCcKh/
+	 7FJhVtQAwPkKYjj/nYaNEQU+Uhzy+GE/GQxqNYp8y9cEGrteoGGf89XT5t1vlK5HgE
+	 AwgZSAhrWKQRAs95eiVfxtgwA5PgbWndNO3wra/2RMpj87u1Us3OMP/ZT0DRBDvN2k
+	 s3dkZmsi2bvL17OAsz5ErZMhM6+IeAAqjvKDfqnTHH7Tyx5wXUSvYO+sFn8cenhIWo
+	 yYj/ZaDR/XKX1lL6+9RM4SwfsANDNeXi8el+udy47j3jS2kJYQefQ+r6xxz+5XkoMe
+	 pY77GVYPSqTNg==
+From: Simon Horman <horms@kernel.org>
+To: kipreyyy@gmail.com
+Cc: 'Simon Horman' <horms@kernel.org>,
+	david+nfc@ixit.cz,
+	kuba@kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH nfc] nfc: nci: fix double completion race in nci_data_exchange_complete
+Date: Thu, 28 May 2026 21:16:26 +0100
+Message-ID: <20260528201624.2730799-3-horms@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260526103121.47957-1-kipreyyy@gmail.com>
+References: <20260526103121.47957-1-kipreyyy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -55,152 +46,137 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDA1MCBTYWx0ZWRfXwWUTEWJ/fThv
- N3Rnib7XV8hE62iGAC35iOdC1xoZe3hzdlIz+OGn7iQ2SfbXOJ4MEs7jcrjeS3Z97m5l37+vec3
- BV6rgbn5DQEe03mehjgn5Y6Kp3P6Eom+p6pf8LRspmSas6lfVdWE4g99Ucxv906u3oe44sdocE+
- Q6xcLXBr+XGMusyfZWNd2Amm0EtGqrFzOWh3FYo6O6lwdF4nKIxXyASM5QLoezP1NX2lqCuMazP
- G53gSwZFlRCylqLKWO4CwQ7E/4BGy1xQ4/4v5/veV0QffdauZY39kz7XZJ5TOQFEeYshemVGEGP
- dG+yUb3saDMjmQQOMCfgJPC0z+0RALbV/nOvItGLTwmCW+DI7aWGgkx77sau8UzHRskDrlvpH+7
- EWWjvh1HLPeFZoRMXwFFrgv8ugkA3BvYLrHx09SWsKLvGhln/1q/Uh2tYMPGC8boonc/XP40+Hv
- XfBQHHD0uiNArFBzNIA==
-X-Authority-Analysis: v=2.4 cv=M5B97Sws c=1 sm=1 tr=0 ts=6a168086 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=fTW__CHxibyLmBMfj2wP:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
- a=IDFcQ0WGl1NcD2azA7sA:9 a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: yIjUwoTfFDoIJPzrpZYp7cstBzS6DjZq
-X-Proofpoint-ORIG-GUID: yIjUwoTfFDoIJPzrpZYp7cstBzS6DjZq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-26_05,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 clxscore=1015
- spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605270050
 
-nci_core_init_rsp_packet_v1() and nci_core_init_rsp_packet_v2() parse
-the CORE_INIT_RSP packet without validating that the skb contains
-enough data. A malformed response (e.g. injected via virtual_ncidev)
-can declare a large num_supported_rf_interfaces while providing
-insufficient data, causing reads of uninitialized slab memory. This
-is later used in nci_init_complete_req(), triggering a KMSAN
-uninit-value warning.
+From: 'Simon Horman' <horms@kernel.org>
 
-Add skb length checks before accessing packet fields:
-- Validate the skb has at least 1 byte for the status field.
-- Validate the skb can hold the fixed-size header before parsing.
-- In v2, bounds-check each variable-length rf_interface entry and its
-  extension parameters within the parsing loop.
-- In v1, verify the skb is large enough for both the variable-length
-  rf_interfaces array and the trailing rsp_2 structure.
-
-Reported-by: syzbot+46ca2592193f2fb3debc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=46ca2592193f2fb3debc
-Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev
 ---
-v3:
- - Use skb_headlen()/skb_tail_pointer() instead of skb->len to bound
-   checks against the linear data region, ensuring correctness even
-   with non-linear skbs.
- - Defer all ndev state updates until after validation passes, so that
-   early error returns do not leave ndev in a partially updated state.
+Subject: nfc: nci: fix double completion race in nci_data_exchange_complete
 
-v2:
- - Validate the skb has at least 1 byte for the status field.
- - Move the fixed-size header check after the status access.
- - Add Closes: link after Reported-by
+This patch attempts to resolve a double completion race condition by
+replacing clear_bit() with test_and_clear_bit() on the NCI_DATA_EXCHANGE
+flag. This is intended to prevent a socket refcount underflow when
+nci_close_device() and nci_rx_work() execute concurrently.
 
- net/nfc/nci/rsp.c | 41 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 38 insertions(+), 3 deletions(-)
+> diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+> index 5f98c73db5afd..4253edea5c8db 100644
+> --- a/net/nfc/nci/data.c
+> +++ b/net/nfc/nci/data.c
+> @@ -46,11 +46,11 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
 
-diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index 9eeb862825c5..85c3ff2b78cd 100644
---- a/net/nfc/nci/rsp.c
-+++ b/net/nfc/nci/rsp.c
-@@ -50,11 +50,27 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
- 	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
- 	const struct nci_core_init_rsp_2 *rsp_2;
- 
-+	/* Ensure that the status field can be accessed. */
-+	if (skb_headlen(skb) < 1)
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	pr_debug("status 0x%x\n", rsp_1->status);
- 
- 	if (rsp_1->status != NCI_STATUS_OK)
- 		return rsp_1->status;
- 
-+	/* Success response must contain the full fixed-size header */
-+	if (skb_headlen(skb) < sizeof(*rsp_1))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
-+	/* Ensure the variable-length rf_interfaces array and trailing
-+	 * rsp_2 structure are fully contained within the skb.
-+	 */
-+	if (skb_headlen(skb) < sizeof(*rsp_1) +
-+			       rsp_1->num_supported_rf_interfaces +
-+			       sizeof(*rsp_2))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	ndev->nfcc_features = __le32_to_cpu(rsp_1->nfcc_features);
- 	ndev->num_supported_rf_interfaces = rsp_1->num_supported_rf_interfaces;
- 
-@@ -87,15 +103,25 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
- 				      const struct sk_buff *skb)
- {
- 	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
--	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
-+	const u8 *supported_rf_interface;
- 	u8 rf_interface_idx = 0;
- 	u8 rf_extension_cnt = 0;
- 
-+	/* Ensure that the status field can be accessed. */
-+	if (skb_headlen(skb) < 1)
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
- 	pr_debug("status %x\n", rsp->status);
- 
- 	if (rsp->status != NCI_STATUS_OK)
- 		return rsp->status;
- 
-+	/* Success response must contain the full fixed-size header */
-+	if (skb_headlen(skb) < sizeof(*rsp))
-+		return NCI_STATUS_SYNTAX_ERROR;
-+
-+	supported_rf_interface = rsp->supported_rf_interfaces;
-+
- 	ndev->nfcc_features = __le32_to_cpu(rsp->nfcc_features);
- 	ndev->num_supported_rf_interfaces = rsp->num_supported_rf_interfaces;
- 
-@@ -104,13 +130,22 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
- 		    NCI_MAX_SUPPORTED_RF_INTERFACES);
- 
- 	while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
--		ndev->supported_rf_interfaces[rf_interface_idx++] = *supported_rf_interface++;
-+		/* Each entry: [rf_interface_type (1B)] [ext_count (1B)] [ext...] */
-+		if (supported_rf_interface + 2 > skb_tail_pointer(skb))
-+			break;
-+		ndev->supported_rf_interfaces[rf_interface_idx] = *supported_rf_interface++;
- 
--		/* skip rf extension parameters */
- 		rf_extension_cnt = *supported_rf_interface++;
-+		if (supported_rf_interface + rf_extension_cnt > skb_tail_pointer(skb))
-+			break;
-+
-+		/* Only count the entry after full validation */
-+		rf_interface_idx++;
- 		supported_rf_interface += rf_extension_cnt;
- 	}
- 
-+	ndev->num_supported_rf_interfaces = rf_interface_idx;
-+
- 	ndev->max_logical_connections = rsp->max_logical_connections;
- 	ndev->max_routing_table_size =
- 			__le16_to_cpu(rsp->max_routing_table_size);
--- 
-2.43.0
+1.
+Simon says: Although the issue flagged below is pre-existing, it appears
+            to be exacerbated by this patch and thus I believe it
+	    needs to be considered in that context.
 
+[Severity: High]
+This is a pre-existing issue, but does an NTF packet with an invalid
+connection ID improperly clear the transceive state?
+
+Looking earlier in nci_data_exchange_complete():
+
+    conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
+    if (!conn_info) {
+        kfree_skb(skb);
+        clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
+        return;
+    }
+
+If a misbehaving or malicious NFC hardware sends an error NTF packet with an
+invalid connection ID while a valid RF transceive operation is active, it
+would execute clear_bit(NCI_DATA_EXCHANGE, &ndev->flags). Would this abort
+the ongoing transceive state machine and drop the actual response when it
+arrives?
+
+2.
+Simon says: Conversely, the issue flagged below seems to be orthogonal
+            to this patch. And I think it can be treated in the context
+	    of possible follow-up.
+
+[Severity: Critical]
+This isn't a bug introduced by this patch, but is there a use-after-free
+race condition in nci_transceive()?
+
+In nci_transceive(), the NCI_DATA_EXCHANGE flag is set using
+test_and_set_bit() before the data_exchange_cb and data_exchange_cb_context
+pointers are updated on the conn_info structure.
+
+Since incoming packets and notifications are processed concurrently by
+nci_rx_work, could an exceptionally fast response or a concurrent interface
+error notification trigger nci_data_exchange_complete() immediately after
+the bit is set but before the callback pointers are updated?
+
+This could cause the lockless reader to fetch the stale callback and context
+pointers from a previous transceive socket and execute them.
+
+>  	timer_delete_sync(&ndev->data_timer);
+>  	clear_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags);
+>  
+> -	/* Mark the exchange as done before calling the callback.
+> -	 * The callback (e.g. rawsock_data_exchange_complete) may
+> -	 * want to immediately queue another data exchange.
+> -	 */
+> -	clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
+> +	/* Claim completion atomically -- both close and rx_work may race here */
+> +	if (!test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
+> +		kfree_skb(skb);
+> +		return;
+> +	}
+
+3.
+Simon says: Like issue 1. I believe the issue below should be considered
+            in the context of this patch.
+
+[Severity: High]
+Will this change cause valid HCI and loopback packets to be dropped?
+
+The NCI_DATA_EXCHANGE bit is only set during RF transceive operations in
+nci_transceive(). Subsystems like HCI (via nci_hci_send_cmd()) and loopback
+send data without setting this global flag.
+
+If valid HCI or loopback data packets arrive, won't they fail this bit
+check, causing the SKB to be dropped and skipping callbacks like
+nci_hci_data_received_cb?
+
+Additionally, if an asynchronous packet arrives concurrently while a valid
+RF transceive is active, could it falsely consume the NCI_DATA_EXCHANGE bit?
+When the actual RF response arrives, it would then fail the check, drop the
+packet, and permanently leak the socket's reference count.
+
+>  
+>  	if (cb) {
+>  		/* forward skb to nfc core */
+>  		cb(cb_context, skb, err);
+
+4.
+Simon says: And like issue 3. I believe this is orthogonal to this patch
+            and can be considered in the context of possible follow-up.
+
+[Severity: High]
+This is a pre-existing issue, but does this code leak the SKB when an
+error status is returned?
+
+When nci_add_rx_data_frag() processes an incoming fragment with a non-zero
+status byte, it passes both the valid skb and the err code to
+nci_data_exchange_complete(), which forwards them to the cb here.
+
+Looking at core callbacks like rawsock_data_exchange_complete():
+
+net/nfc/rawsock.c:rawsock_data_exchange_complete() {
+    ...
+    if (err)
+        goto error;
+    ...
+error:
+    sock_put(sk);
+}
+
+The error label bypasses the error_skb label where kfree_skb(skb) is called.
+Does this result in an unconditional memory leak of the SKB whenever the
+hardware or external target responds with an error status?
+
+>  	} else if (skb) {
+>  		pr_err("no rx callback, dropping rx data...\n");
+[ ... ]
