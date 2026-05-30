@@ -1,61 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1DB29D26E;
-	Sat, 30 May 2026 16:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E7D2773DE
+	for <oe-linux-nfc@lists.linux.dev>; Sat, 30 May 2026 18:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780156903; cv=none; b=Be3j5XX18mN8BR1yAE+RltFvPauuyTVuAFh0nk/evhfIS9dI9lESVLSPipQllluDL9GsMxCSnCRYMc/WTeCnSZfT4F0qqJ9nSxua+a4/25ZdtPNyPmGP2un4MgcP2kv80eoj83+hI/2J1IiZxYV+ctxdC2VJNEM6DQwzatDcmik=
+	t=1780165581; cv=none; b=DKUfua0xEe3dKl7uB7B7AAqZuldFIR0IUtRq2x5ujeYo0lhJqUD/A/qOnOOP2x9haYS8mcRyXzfKL7AsMLRMf/ZePwBCPa6Tupw7k7v9EPZynjRWIZrWxV2CTmrLJ3h1rnC6I/FVzp/900pyrFRBkpBMXWc0nBfzps2JLIffeTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780156903; c=relaxed/simple;
-	bh=RmotepugSboKCrjRbQ7UdOdNYQFVdXVjLt/lyuYOKI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZy1+UhxlPlMmgwU5OQV8olYjsGWKc6fv9kIXjLbMOHvyliwrdYd1bM4PAEVH3yl0W56IfAH6Kun1Nqpg+qQhofJqf/9OF4lXqU6P82fbe/VaDJSPktB4KMMD6Tiw8s3LEORjqotwFtnYvQ4T9XRfQbRsQ/ZnNHVvJDlyS4HrVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ls4NEO6t; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780165581; c=relaxed/simple;
+	bh=aUtFp0L0Qs77rAxqrlsG/L0Ka5rgfU2HsbpxrJxfUNc=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BZbduAJat0Ckr1RTtOm4WCUPlDzLmb3NBFyvrjcC3QGKhv+KA7J0wIot3r+WqWdlsePGSlgw/pmsdfyhlZHqHSttMsQnWkV8bvOOXdVRZSAcz6r0eYhcekx7iG20KqGV4pSjPoG7/pyyhBD36eVnhf4q+84QRZbXMIq/O7gNGig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=FrstgC/p; arc=none smtp.client-ip=185.70.43.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ls4NEO6t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7741F00893;
-	Sat, 30 May 2026 16:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1780156902;
-	bh=RmotepugSboKCrjRbQ7UdOdNYQFVdXVjLt/lyuYOKI4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ls4NEO6to6vA7kKJVpphRT3t/crc0JjOceHLwJxqsH+2kYqtAyBClmr+WwSSgABGw
-	 v3qPivb9oRm8LsxgDk28udNaKhcPsDROT71z2zyoZu6MndZkNFTh12FXHS4x5YJlpP
-	 P5EPnzl/5o9stVpyyfvjQps6YMagi959o+mtXByQ=
-Date: Sat, 30 May 2026 18:00:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Cyber_black <Cyberblackk@proton.me>
-Cc: "security@kernel.org" <security@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"david+nfc@ixit.cz" <david+nfc@ixit.cz>,
-	"oe-linux-nfc@lists.linux.dev" <oe-linux-nfc@lists.linux.dev>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "w@1wt.eu" <w@1wt.eu>
-Subject: Re: NFC/LLCP: unsafe userspace sockaddr handling in bind/connect
- paths
-Message-ID: <2026053008-level-debrief-7f65@gregkh>
-References: <0AJFeQ-7iEFm2WdHkRhf_kX_3FFbc3ONYxT3fxz75i4eAP8glmc1jmY7JOHngN73P9L6yPrflvcZs63EHu_XazAsLhPIe0zUrtdK7cKnC6Q=@proton.me>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="FrstgC/p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1780165570; x=1780424770;
+	bh=aUtFp0L0Qs77rAxqrlsG/L0Ka5rgfU2HsbpxrJxfUNc=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=FrstgC/p4rqYvT345FyO30sNVKqAdbzMjkuciJgcadr4DZJ14uVTQBpGIXKfUSvbU
+	 xvgIDdiQ3lTXb8xyyDKl30cRy6KyetaHvQI4Fka3wP9+5/jKZgNPCHTqkq44rm4fBv
+	 inqfIEfsgbm2B24bSrQhgqIbJpOvJk4HDrCK5xOUqFIlwRiSeiZq4J/RWjEj6ABJOA
+	 7gKdrofj8cQMSCl9srPU29U5KDXeCuqnyh+m2zgg7fT/NM+i186nLT+qCmPMo+bmKb
+	 BXdc7RJuonu6aCq6ckUW9lCSEpnBbOfKiJ0rnh1JBo1LJ43yF3h+tM5upDdqAKAzQH
+	 O3dal/hVjE0eQ==
+Date: Sat, 30 May 2026 18:26:07 +0000
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+From: Cyber_black <Cyberblackk@proton.me>
+Cc: "security@kernel.org" <security@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "david+nfc@ixit.cz" <david+nfc@ixit.cz>, "oe-linux-nfc@lists.linux.dev" <oe-linux-nfc@lists.linux.dev>, "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>, "w@1wt.eu" <w@1wt.eu>
+Subject: [SECURITY] net/nfc/llcp_sock.c: unsafe userspace sockaddr handling
+Message-ID: <PYXMRVOSKGaZwZAeXC2PScmTBrZhHXwgdSapPlE030ObXXtRedDcbPD2lx6-3lzLWqr3aB2Kf9eAbDig3HuXn2gw3cSaZhqUA5U9HrSVhC8=@proton.me>
+Feedback-ID: 117998405:user:proton
+X-Pm-Message-ID: fc392576e843686a1536da83690ac91251953ec2
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0AJFeQ-7iEFm2WdHkRhf_kX_3FFbc3ONYxT3fxz75i4eAP8glmc1jmY7JOHngN73P9L6yPrflvcZs63EHu_XazAsLhPIe0zUrtdK7cKnC6Q=@proton.me>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 30, 2026 at 12:15:37PM +0000, Cyber_black wrote:
-> SUGGESTED FIX
 
-<snip>
 
-As documented, please just send a real patch for this so that it can be
-applied properly.
+Greg, please disregard my previous report.
 
-thanks,
+After testing with a POC (which returned -EFAULT, no crash) and reviewing t=
+he
+call chain (__sys_bind =E2=86=92 move_addr_to_kernel), I confirm that the s=
+ockaddr
+pointer passed to llcp_sock_bind() already points to kernel memory.
 
-greg k-h
+Thus there is no security issue. My apologies for the noise.
+
+Signed-off-by: Eneshan Erdogan Karaca <cyberblackk@proton.me>
