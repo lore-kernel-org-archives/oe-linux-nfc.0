@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF8B3D75D2
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 11:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55723C8C48
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 11:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780398781; cv=none; b=rc6JuM1FgGQnnNnfUhxW/gJYco4CsiIC0DXO3Tm+m6nm/qk6F20ibyQZG07NyI8gYO06kXM/eriqphhBkUoMt/THoaZsoaiWhGho60au3BhQZrT4EznpAdOWBLYiv9mNiCg+4w0WznEwbRgjJ9CIEUjSKMcOV91tF4g4KnxpQdc=
+	t=1780399606; cv=none; b=iiWVImeOHmEeBqB1W90Pr0JDLqo3Ep/QfAgca/ehy9htZ6DZV5Aryj/FWSfbmHuc/oi0o9jwW3eu70Tgt6I0ouXCY/K4H/BKv1e3fO8PZUUbBa9olD6CFkzy7Vpmp8/wdPfWMyBkvPKurUA411KaazwGS726uALMxZAyKMeU2Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780398781; c=relaxed/simple;
-	bh=344P/NeH2JRcvHlP3cG+yrdHh5bteiH4ITDXj+AdYUs=;
+	s=arc-20240116; t=1780399606; c=relaxed/simple;
+	bh=CWLyGOJMv05yxka6FOMpzQgot/WZgsNXw6WJcxwNDzQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X3MUeTxUgmqXFgOZnCrGmh3Cqwvpz2U/J1BhSr3+0JD6R+XCqodLY1jgWEBcvXIj2DHJ0YplU0HJoJkMxfv/xp0Wl/TsW/6ea21FCgm/XD5xZ8X9VS7jSrMOvzDktF6rAUqMgw/MI9iJtXIPZZbzN66W9b9MKWdDOKZxXK3OAr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=RX8TF6+d; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=qIMJGaUkGZlGbe350XmyDS3MnKbbhXgyYbfo+o10ah4SC7iMGzJX+m7LLMf+j/3F1wnbITdiOgQmi5OGNuoo9pUqdQ69IiinpJT4FKgW4964o8AciCrLl6wmPWD06e5gPtNFr0eyOaPZ4goNXvDOGNZOW4Msd/6BZicjBMrco70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=JsR0i84E; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="RX8TF6+d"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="JsR0i84E"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 87C4A53403E8;
-	Tue, 02 Jun 2026 13:12:52 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 7BADB5340960;
+	Tue, 02 Jun 2026 13:26:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780398772;
+	t=1780399601;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jTVK6Nj3WBsBdIxu5xNbizDcaJQIeoyYTAapEgiCsS8=;
-	b=RX8TF6+dCSmmvQ9zeyIxvQsx9v+BkYw/RQPGc1BOzx3xq57ZhMN148NR2Gep8c3BGcIsBa
-	5UeQd0Z9uHz3i7xGo6LFBkPjsaQCcLFUKQSAxJllb+qSGqxSgU30iQoIpmm5SGGr1ARRZQ
-	AnLxMtrGYspRbYMnuq9+DRh07bt2eAU=
-Message-ID: <d3956f77-75c4-4095-903b-d1b1ef29d709@ixit.cz>
-Date: Tue, 2 Jun 2026 13:12:52 +0200
+	bh=9Xy89NBnvQttLT+QyEBz9vh79k/FHVe3GV3LDNmVEDc=;
+	b=JsR0i84EH4/PD0QR6OyyILSlu5Y3ilUNp5C6xeyHtoKxwTSkxTwVNNfkZW6Ewfs7+P486S
+	6sEcZkfLrtNoWL/GEUTbkS5myK8ykYYwEYs+4B4WrH+Qk/zPaMd2DgxpCJ9sISzStBCXKa
+	v6pmfoN+A+xLEP7UZ8w99jqh5lCD7lY=
+Message-ID: <caee8491-33e1-4312-8a79-3c1e768f30d1@ixit.cz>
+Date: Tue, 2 Jun 2026 13:26:41 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: llcp: fix integer underflow and missing bounds
- checks in TLV parsing
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: security@kernel.org, netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-References: <20260525202427.67768-1-doruk@0sec.ai>
+Subject: Re: [PATCH nfc] nfc: nci: fix double completion race in
+ nci_data_exchange_complete
+To: Zhenghang Xiao <kipreyyy@gmail.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org
+References: <20260526103121.47957-1-kipreyyy@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,79 +91,18 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260525202427.67768-1-doruk@0sec.ai>
+In-Reply-To: <20260526103121.47957-1-kipreyyy@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 25/05/2026 22:24, Doruk Tan Ozturk wrote:
-> Multiple out-of-bounds read vulnerabilities exist in the NFC LLCP TLV
-> parsers:
-> 
-> 1. In nfc_llcp_recv_snl(), when an SDREQ TLV has length == 0,
->     service_name_len = length - 1 underflows to SIZE_MAX (size_t is
->     unsigned). The subsequent strncmp() and nfc_llcp_sock_from_sn()
->     calls then read unbounded kernel heap memory.
-> 
-> 2. All LLCP TLV parsing loops (nfc_llcp_recv_snl, nfc_llcp_connect_sn,
->     nfc_llcp_parse_gb_tlv, nfc_llcp_parse_connection_tlv) read tlv[0]
->     and tlv[1] without first verifying that at least 2 bytes remain in
->     the buffer.
-> 
-> A nearby malicious NFC device can trigger these without authentication --
-> LLCP link activation happens automatically after NFC-DEP.
-> 
-> Fix by adding a minimum length check before the subtraction in the
-> SDREQ case, and adding bounds validation at the top of each TLV loop
-> iteration.
-> 
-> Found by pwnkit (https://github.com/0sec-labs/pwnkit), an automated
-> kernel source review tool by 0sec (https://0sec.ai).
-> 
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
-> ---
->   net/nfc/llcp_core.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index XXXXXXX..YYYYYYY 100644
+On Tue, 26 May 2026 18:31:21 +0800, Zhenghang Xiao wrote:
+ > nfc: nci: fix double completion race in nci_data_exchange_complete
 
-Hello Doruk,
+Applied, thanks!
 
-thank you for your patch.
+[1/1] nfc: nci: fix double completion race in nci_data_exchange_complete
+       commit: 100e6d5dc3d6a3dc100c21a9df3dca341d82de87
 
-The patch won't apply cleanly, could you please resent patch based against 
-recent https://codeberg.org/linux-nfc/linux/commits/branch/for-next ?
-
-
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -1300,6 +1300,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
->   
->   	while (offset < tlv_len) {
-> +		if (offset + 2 > tlv_len)
-
-I think it would be more descriptive use define, thus
-
-(offset + LLCP_HEADER_SIZE > tlv_len)
-
-David
-
-
-> +			break;
-> +
->   		type = tlv[0];
->   		length = tlv[1];
->   
-> @@ -1307,6 +1310,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
->   		switch (type) {
->   		case LLCP_TLV_SDREQ:
-> +			if (length < 1)
-> +				break;
-> +
->   			tid = tlv[2];
->   			service_name = (char *) &tlv[3];
->   			service_name_len = length - 1;
-
+Best regards,
 -- 
-David Heidelberg
-
+David Heidelberg <david@ixit.cz>
