@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619DE3D6CD4
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BC53557F3
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395430; cv=none; b=nvSE5YGRjntjTDX6GuAiENhhPLGHI43JQJPYu77s4ZGPF7d/2k0m1k+sazg+5RGURgzRXkhdZata0lZ03yDLgaXqV1/u01vBgsDDHxSqScSLeitHbsCErKtxt6ymQ4Xg8R0/rloRBAz+xXhCkySurRGCs+2d//NZbl8YApnRyz4=
+	t=1780396856; cv=none; b=DHzN+X5BlxDQxu0gFVDtg6FlA/2yuXl4ltPl+hGqe6yPpBb1+vXT2B/FQuhMnO1QmqWXuL/Jw3HZ+hyS6SA4va5pAacMwMsLImyezeHUMei/DQUs7lOM9f9ggAm3Gowy5cGGPvGg67wuacitmQsvlwrJ+uIfySDneQVYNcEIpm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395430; c=relaxed/simple;
-	bh=ObHfQ9z4MRcab02BXyJ2AURDOkRfeosSloLgM1gdul4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=irKfEwXpYb3+oATODts4bqyvhVkraA9+I3I2EeDv/i3P8YEyftu9aNlYIVrdteFKFl8edo7utjvjvVHK4CvmAqV8S7cZTDGAM3CUklJ/8sn9aJooqMEZgxPq+GOSlo6wQ66QkuhlFUbepKk5AYrO3mu9dIKUkUsBWLHjwDdenaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=tzQ/OOEm; arc=none smtp.client-ip=185.100.197.86
+	s=arc-20240116; t=1780396856; c=relaxed/simple;
+	bh=D2ndvFQ6KXBwpms7kUeXnjQIjVMLfL4gH6jrmX9QHYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZhXPyqRgPZ9x4vk2Qo03tnim3J+aGxuvX2lMK5Ni9rq/6wRSg8JnQJNcTvPIbRE8QiiRc80lR0sJIJABZ28Y4fGgeF6bS2kJ/RRM7tXcAjEiwIbfslNL/eZM48GxE+BNs6ORgWEUBHz1hr6k3yWqdXtQtQY5wM7s03ww2aFbo4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=wIKQ42DD; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="tzQ/OOEm"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="wIKQ42DD"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id B3BF653406C8;
-	Tue, 02 Jun 2026 12:17:06 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 912695340394;
+	Tue, 02 Jun 2026 12:40:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780395426;
+	t=1780396852;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=//bYpf6JbWMfUbQRZWCAZ5SfUogw89p1j3F71bHzLkI=;
-	b=tzQ/OOEmpgale/0NvH/zCgRnffAIM0dgzWq49eWaoslalrxRJTZZ/BGgek0sGXAhX6vmXv
-	S2AzVJEH3N5NdbovM+bX7+UKVq7HESjwLYg1PaWO9IoMskKgZ1pD6cOTTkT/pwswdCQqyF
-	tM28VnSnawd025o13cmlD6ioO2BzT20=
-Message-ID: <595f6981-3d90-45b6-8194-f07b577e7628@ixit.cz>
-Date: Tue, 2 Jun 2026 12:17:06 +0200
+	bh=mKe7x4lDvgZbTNI1fBcFxl0hUurmEKNIUM9R5ka0w4E=;
+	b=wIKQ42DDyl92T1QB+GVQoyNg+XtLN1OJjJQAlEpg0ACfNa7iBsIAGVtZCfEwSsVJqyRuEa
+	0ZLbFPIDT5bl6oQ2EPqjwvjecAIhvm70x6mWzkNo2KE8crevhU5uSMvnGTGMu/Rre5O6u8
+	p6EYRQvSH3QcnKGRq7796NMqpGDL4oE=
+Message-ID: <39dfdad5-7cc8-47c7-b2bc-386bec4145dc@ixit.cz>
+Date: Tue, 2 Jun 2026 12:40:51 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,12 +41,17 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: nxp-nci: Add ISO15693 support
-To: carl.lee@amd.com, krzk@kernel.org
-References: <20260512-nfc-nxp-nci-add-iso15693-support-v1-1-3394e5b9dba9@amd.com>
+Subject: Re: [PATCH net v2 0/2] nfc: llcp: two fixes for nfc_llcp_getsockopt()
+To: Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ Samuel Ortiz <sameo@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
+ kernel-team@meta.com
+References: <20260521-fix_llc-v2-0-ab44cc09179c@debian.org>
 Content-Language: en-US
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
  xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
@@ -91,30 +96,29 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260512-nfc-nxp-nci-add-iso15693-support-v1-1-3394e5b9dba9@amd.com>
+In-Reply-To: <20260521-fix_llc-v2-0-ab44cc09179c@debian.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/05/2026 11:55, Carl Lee via B4 Relay wrote:
-> From: Carl Lee <carl.lee@amd.com>
-> 
-> NXP NCI controllers such as PN7150 support ISO15693 Type 5
-> tags, but the driver does not currently advertise this protocol.
-> 
-> Add NFC_PROTO_ISO15693_MASK so that ISO15693 tags can be
-> detected through the Linux NFC stack.
-> 
-> Signed-off-by: Carl Lee <carl.lee@amd.com>
-> ---
-> This patch advertises ISO15693 Type 5 protocol support for
-> the nxp-nci driver so that Type 5 tags can be detected.
-> 
-> Tested with PN7150 controller.
-> ---
->   drivers/nfc/nxp-nci/core.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
+On Thu, 21 May 2026 07:32:08 -0700, Breno Leitao wrote:
+ > nfc: llcp: two fixes for nfc_llcp_getsockopt()
+ >
+ > While converting the NFC LLCP socket layer to the new getsockopt_iter()
+ > API, I noticed that nfc_llcp_getsockopt() unconditionally stores four
+ > bytes through a (u32 __user *) cast regardless of the caller-supplied
+ > optlen, overflowing the user buffer when optlen < 4. Patch 1 adds an
+ > explicit length check (with a signed-int guard so a negative optlen
+ > cannot slip past it) and is what I originally sent as v1.
+ >
+ > [...]
 
-Applied, thank you!
+Applied, thanks!
 
-David Heidelberg
+[1/2] nfc: llcp: avoid userspace overflow on invalid optlen
+       commit: 4daea11b40619f91a084db0271cfe095a82cf4be
+[2/2] nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
+       commit: 6a7c71fc20c71d1e41787a25a8b7485abb592e6c
+
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
