@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78E3B6374
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606891CD2C
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397400; cv=none; b=CtU61sN4FhyOSBr6XFFCPRj29XGbOoqN4ILcGUgjt2IcP/sdQpzRVGz8UdnOqAr9FVYNWg64teXXi9yusPUy/n7gutZzai7UXUuWYrd4hjgPiLB7Wt81r3OEKqNcKF0JgWf4I4I7f+7V8Yg5SUGM7NY3ckZLBc5+8kx96tlFfE8=
+	t=1780397583; cv=none; b=BScio73z7xKtaGqCqv1wWFAfNQylczvNVQCT8Z6inrAzKODWvKkNzOPM6M/PYGI5tgQcSibVlOw/GNZmTXclMZ/d/TNHj1AeaO936i2h4vvCwMetziBQZhya/XvhtU87ZepihXVP4gWQDKex0JWDya+8o7DB296q1+BJiHQXtDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397400; c=relaxed/simple;
-	bh=dIPo/PPTWgP/xcMdvKfP724UjXU7tvNT6NrVp3JLMRo=;
+	s=arc-20240116; t=1780397583; c=relaxed/simple;
+	bh=rk8t8kfxcLRxkWLQ3e3VXEt3G8/1Ji9Q7kTTtzkeCbk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B6i+PX2XzfPQFPs3c2dC0zUOva6C/wacwyPpc5v5o28oHu1RRH4XnaHKZYJsd3Jss/Tw6EmEO7TiQkHRVVtnyF6dC6zqOblebvoC8eY2W1wMbtB5qm13bowjbGn/yGBBcnjLk5eHFzfzKUo0MgwAfeDmh1dhptD6Ey74ZRW4U44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=GUr7Lo48; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=CRD5n8EESQwh8zcyF0zQHmxzB1JH0xytCRfr7r+Wy7ZtcwV2W0+vmF8vVSTTjGcMoofL6ajRjzNdsmBSfgoiq1SmEzrXBjGEUuTUvQJwR4lq3NrPS+iMGoYdiJ1Uo3MyOuTfF+rFk8UxPXsp8IypSfo5cWguBUEAMcYk8M8hLSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pEt3M6GU; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="GUr7Lo48"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pEt3M6GU"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9DF5D5340427;
-	Tue, 02 Jun 2026 12:49:55 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 95C5453410E6;
+	Tue, 02 Jun 2026 12:52:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780397396;
+	t=1780397577;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=E5axnphkJxMCIRsYfz9ckUswSI4tDS6oZrmntnedc08=;
-	b=GUr7Lo48p3uG9IYn/FubBzK2sIRTt6kfgabNAJlxNIRe32BBQww3kPmL1LJE1WsO+4vosK
-	Ii35ubiJRu3b6lgMMblwVQONp9xqzHP6HzrcX0L8k7rloNZyPSwLLVVaP8R+hHKfIDDug4
-	0DkC24sFec1ApuDm3fBsO5N1mSOhh/M=
-Message-ID: <48d99218-2487-4502-acc5-95a5c6621fa7@ixit.cz>
-Date: Tue, 2 Jun 2026 12:49:55 +0200
+	bh=8scatrvChUoH9M6DI24fvjgnwixc9kPQPnAkgNiuUV0=;
+	b=pEt3M6GUxd1OpLRc439N5yVoXRYwqTUoj8xVkuaxRzi/iAqVAOSagSen62pM2qwZkWfF3P
+	Sm6sglpggmQUcgtGT1sk6vz3gN9Rd4gkFVwnvtqDgvLJFJGOJmxYuuQYqIUNWmMbLtzSNQ
+	2lsDw+JhHHQa4DaD0DW3d3eYV2v4OC4=
+Message-ID: <375a468a-7bea-48e5-9533-3634fdf49a8e@ixit.cz>
+Date: Tue, 2 Jun 2026 12:52:57 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,13 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] nfc: nci: fix use of uninitialized memory in
- CORE_INIT_RSP parsing
-To: Yun Zhou <yun.zhou@windriver.com>, horms@kernel.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: bongsu.jeon@samsung.com, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260527052625.3309581-1-yun.zhou@windriver.com>
+Subject: Re: [PATCH] nfc: nxp-nci: treat -ENXIO in IRQ thread as no data
+ available
+To: carl.lee@amd.com
+Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260526-nfc-nxp-nci-treat-enxio-as-no-data-available-yet-v1-1-305bb11b9147@amd.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -93,17 +91,17 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260527052625.3309581-1-yun.zhou@windriver.com>
+In-Reply-To: <20260526-nfc-nxp-nci-treat-enxio-as-no-data-available-yet-v1-1-305bb11b9147@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 27 May 2026 13:26:25 +0800, Yun Zhou wrote:
- > nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+On Tue, 26 May 2026 09:50:29 +0800, Carl Lee wrote:
+ > nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
 
 Applied, thanks!
 
-[1/1] nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-       commit: 89c17cf203013dbe3952382aba77bac5962ce754
+[1/1] nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
+       commit: f93bcae77eb032e82740f81c175be1497af5b4bf
 
 Best regards,
 -- 
