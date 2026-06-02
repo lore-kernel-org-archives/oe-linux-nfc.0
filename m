@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6503D45F4
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619DE3D6CD4
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395264; cv=none; b=kHYVJF4M5x6ZMnhQSQwHY45rbJd2vynwruOgytqTZelnBPGgxfK39F+GNUzN7WyqCiOsF7njxB69QyPdubqAkvunJSAnwuS+8MhBmDvwjtqiJuuJUC9ZVV/C3M2ZyovTEJ2ai1kTKoGkR2NU4FHLH6Ts+xrw8SQjXs2HJ8iSirU=
+	t=1780395430; cv=none; b=nvSE5YGRjntjTDX6GuAiENhhPLGHI43JQJPYu77s4ZGPF7d/2k0m1k+sazg+5RGURgzRXkhdZata0lZ03yDLgaXqV1/u01vBgsDDHxSqScSLeitHbsCErKtxt6ymQ4Xg8R0/rloRBAz+xXhCkySurRGCs+2d//NZbl8YApnRyz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395264; c=relaxed/simple;
-	bh=XUsV4wTjmHHQlCFziOysLUQeyW6p24IgePUFwJagNxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OY/Ct0wstotcevk3+MWQWkHDVQ6+Vt/fyFPKjru+j3LWVgKGXZNR4BlMWG6FiVSa0H4RqWCOfoNSjG8vuuwc7QB3bxZdrmcEueP9rCjLkRGKAsMCnR5kHedMa4T5tVNC0xGS5/3gRsbbEjQYhbn49pBx8K4BX1U8Gr6XZ8PKZpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=rUfljfoE; arc=none smtp.client-ip=185.100.197.86
+	s=arc-20240116; t=1780395430; c=relaxed/simple;
+	bh=ObHfQ9z4MRcab02BXyJ2AURDOkRfeosSloLgM1gdul4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=irKfEwXpYb3+oATODts4bqyvhVkraA9+I3I2EeDv/i3P8YEyftu9aNlYIVrdteFKFl8edo7utjvjvVHK4CvmAqV8S7cZTDGAM3CUklJ/8sn9aJooqMEZgxPq+GOSlo6wQ66QkuhlFUbepKk5AYrO3mu9dIKUkUsBWLHjwDdenaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=tzQ/OOEm; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="rUfljfoE"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="tzQ/OOEm"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id DAEC853405AF;
-	Tue, 02 Jun 2026 12:14:19 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id B3BF653406C8;
+	Tue, 02 Jun 2026 12:17:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780395260;
+	t=1780395426;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=V3upLsNYpSan04oBgXdUOwkBPRH2Vv4c25/K5hvInV8=;
-	b=rUfljfoE+XNFcehqyr+ErALwRfW2jbw6RQ6wduzDmM/whLCHc3lTfUi+cCUHif703zXE2P
-	XiOyJMoHZfNYA47bISP8AW9lvp3G76oHjAdzjpKJzYQfS8IOv+9mblfwLJKI8oXnATerJb
-	yEXxjIe28vHUK2cxOeaiVrimfe1IvEw=
-Message-ID: <903e864b-072b-4d8f-ae25-41c0d70153a0@ixit.cz>
-Date: Tue, 2 Jun 2026 12:14:19 +0200
+	bh=//bYpf6JbWMfUbQRZWCAZ5SfUogw89p1j3F71bHzLkI=;
+	b=tzQ/OOEmpgale/0NvH/zCgRnffAIM0dgzWq49eWaoslalrxRJTZZ/BGgek0sGXAhX6vmXv
+	S2AzVJEH3N5NdbovM+bX7+UKVq7HESjwLYg1PaWO9IoMskKgZ1pD6cOTTkT/pwswdCQqyF
+	tM28VnSnawd025o13cmlD6ioO2BzT20=
+Message-ID: <595f6981-3d90-45b6-8194-f07b577e7628@ixit.cz>
+Date: Tue, 2 Jun 2026 12:17:06 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,15 +41,12 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] NFC: nci: uart: Constify struct tty_ldisc_ops
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org
-References: <c756755a72cdfde2877a18ddee01eaa4f633c220.1778443960.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] nfc: nxp-nci: Add ISO15693 support
+To: carl.lee@amd.com, krzk@kernel.org
+References: <20260512-nfc-nxp-nci-add-iso15693-support-v1-1-3394e5b9dba9@amd.com>
 Content-Language: en-US
+Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
  xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
@@ -94,34 +91,28 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <c756755a72cdfde2877a18ddee01eaa4f633c220.1778443960.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20260512-nfc-nxp-nci-add-iso15693-support-v1-1-3394e5b9dba9@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/05/2026 22:12, Christophe JAILLET wrote:
-> 'struct tty_ldisc_ops' is not modified in this driver.
+On 12/05/2026 11:55, Carl Lee via B4 Relay wrote:
+> From: Carl Lee <carl.lee@amd.com>
 > 
-> Constifying this structure moves some data to a read-only section, so
-> increases overall security, especially when the structure holds some
-> function pointers.
+> NXP NCI controllers such as PN7150 support ISO15693 Type 5
+> tags, but the driver does not currently advertise this protocol.
 > 
-> On a x86_64, with allmodconfig:
-> Before:
-> ======
->     text	   data	    bss	    dec	    hex	filename
->    11454	   3352	    256	  15062	   3ad6	net/nfc/nci/uart.o
+> Add NFC_PROTO_ISO15693_MASK so that ISO15693 tags can be
+> detected through the Linux NFC stack.
 > 
-> After:
-> =====
->     text	   data	    bss	    dec	    hex	filename
->    11646	   3160	    256	  15062	   3ad6	net/nfc/nci/uart.o
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Carl Lee <carl.lee@amd.com>
 > ---
-> Compile tested only.
+> This patch advertises ISO15693 Type 5 protocol support for
+> the nxp-nci driver so that Type 5 tags can be detected.
+> 
+> Tested with PN7150 controller.
 > ---
->   net/nfc/nci/uart.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/nfc/nxp-nci/core.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
 
 Applied, thank you!
