@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B33F3DBD60
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6503D45F4
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395226; cv=none; b=OML+w9fYCPwurVLgDYq6a9QG9xfXXZulf53nDgfVinSDoQmDn7HVuAWMqLPVQVBgsb6XgyLmclRB/ou9WM3npC1g792M1v8sEwFxoUSTPmzepK3D3Y+uGZKov5Cvl1Zy7k+KyHJKAWO7gccDgRCdp6qKjfZqq6m1wR8sKmVeeBM=
+	t=1780395264; cv=none; b=kHYVJF4M5x6ZMnhQSQwHY45rbJd2vynwruOgytqTZelnBPGgxfK39F+GNUzN7WyqCiOsF7njxB69QyPdubqAkvunJSAnwuS+8MhBmDvwjtqiJuuJUC9ZVV/C3M2ZyovTEJ2ai1kTKoGkR2NU4FHLH6Ts+xrw8SQjXs2HJ8iSirU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395226; c=relaxed/simple;
-	bh=MyYvfrVN+Hg6jyRB8GfTnaJmco5Edmp2sGy2552TrRo=;
+	s=arc-20240116; t=1780395264; c=relaxed/simple;
+	bh=XUsV4wTjmHHQlCFziOysLUQeyW6p24IgePUFwJagNxQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ggEb3kytTk3CE43Rh0T5BBmrHKisO1KV1lZxh7+FLkYxMlrWgucQx+iIZ1Gx6P72xU4yfDlAoMT+7JtoxMk06ZGfW1390z5DvYOt9wBouZQcs4+2T0bDRYggBo6NvMhB/rv9p21QRvxKXgyKnsrwC6XE5RF9kIg9RadDvJZ9lCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=vg72mZ4n; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=OY/Ct0wstotcevk3+MWQWkHDVQ6+Vt/fyFPKjru+j3LWVgKGXZNR4BlMWG6FiVSa0H4RqWCOfoNSjG8vuuwc7QB3bxZdrmcEueP9rCjLkRGKAsMCnR5kHedMa4T5tVNC0xGS5/3gRsbbEjQYhbn49pBx8K4BX1U8Gr6XZ8PKZpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=rUfljfoE; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="vg72mZ4n"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="rUfljfoE"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id DF790534046D;
-	Tue, 02 Jun 2026 12:13:41 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id DAEC853405AF;
+	Tue, 02 Jun 2026 12:14:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780395222;
+	t=1780395260;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/5m522Shu9rW8rZ2chpunVLbArjlgBKrmPFRdx6eybk=;
-	b=vg72mZ4n7YXKoLQX7+1/DBGs5qjvydxmYePZuYnOawaw2C8i1M5qR2TNohzR9CvElUIsWR
-	x9nVrCHBXwU5ndGuMx2PjqMd141qgJpstGQRFq0M0ez4fvcA4A1qmLs8psf/UG3SXMzrdN
-	ciUZgPWpZwQEEQZ/2OsU5elv9xWMRsU=
-Message-ID: <f9d7d931-2876-4cbf-a16c-21c1c7c6c9f7@ixit.cz>
-Date: Tue, 2 Jun 2026 12:13:41 +0200
+	bh=V3upLsNYpSan04oBgXdUOwkBPRH2Vv4c25/K5hvInV8=;
+	b=rUfljfoE+XNFcehqyr+ErALwRfW2jbw6RQ6wduzDmM/whLCHc3lTfUi+cCUHif703zXE2P
+	XiOyJMoHZfNYA47bISP8AW9lvp3G76oHjAdzjpKJzYQfS8IOv+9mblfwLJKI8oXnATerJb
+	yEXxjIe28vHUK2cxOeaiVrimfe1IvEw=
+Message-ID: <903e864b-072b-4d8f-ae25-41c0d70153a0@ixit.cz>
+Date: Tue, 2 Jun 2026 12:14:19 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,12 +41,14 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: trf7970a: fix comment typos
-To: Miles Krause <mileskrause5200@gmail.com>,
- Mark Greer <mgreer@animalcreek.com>
-Cc: linux-wireless@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260501003548.6838-1-mileskrause5200@gmail.com>
+Subject: Re: [PATCH] NFC: nci: uart: Constify struct tty_ldisc_ops
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org
+References: <c756755a72cdfde2877a18ddee01eaa4f633c220.1778443960.git.christophe.jaillet@wanadoo.fr>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -92,17 +94,36 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260501003548.6838-1-mileskrause5200@gmail.com>
+In-Reply-To: <c756755a72cdfde2877a18ddee01eaa4f633c220.1778443960.git.christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/05/2026 02:35, Miles Krause wrote:
-> Fix a few spelling mistakes in comments.
+On 10/05/2026 22:12, Christophe JAILLET wrote:
+> 'struct tty_ldisc_ops' is not modified in this driver.
 > 
-> Signed-off-by: Miles Krause <mileskrause5200@gmail.com>
+> Constifying this structure moves some data to a read-only section, so
+> increases overall security, especially when the structure holds some
+> function pointers.
+> 
+> On a x86_64, with allmodconfig:
+> Before:
+> ======
+>     text	   data	    bss	    dec	    hex	filename
+>    11454	   3352	    256	  15062	   3ad6	net/nfc/nci/uart.o
+> 
+> After:
+> =====
+>     text	   data	    bss	    dec	    hex	filename
+>    11646	   3160	    256	  15062	   3ad6	net/nfc/nci/uart.o
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->   drivers/nfc/trf7970a.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> Compile tested only.
+> ---
+>   net/nfc/nci/uart.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
 Applied, thank you!
+
+David Heidelberg
