@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606891CD2C
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 10:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A436657C
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 11:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397583; cv=none; b=BScio73z7xKtaGqCqv1wWFAfNQylczvNVQCT8Z6inrAzKODWvKkNzOPM6M/PYGI5tgQcSibVlOw/GNZmTXclMZ/d/TNHj1AeaO936i2h4vvCwMetziBQZhya/XvhtU87ZepihXVP4gWQDKex0JWDya+8o7DB296q1+BJiHQXtDI=
+	t=1780398314; cv=none; b=qmyvU6GGQoR216Fcchmjh0dD27MTeDCfC/jNvD2vIfcr9PqiHJOl6KLHGgQNstvOAMVpu4pKcQpaFLxNtHij1WobliXwTxwtC7ThAJpJ7Q5EeTP501OlWgGrWhx2Qp8ltZUR/aNGame2YXquRU9tSkDNqrZ4KRY+6FQmpFaSwJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397583; c=relaxed/simple;
-	bh=rk8t8kfxcLRxkWLQ3e3VXEt3G8/1Ji9Q7kTTtzkeCbk=;
+	s=arc-20240116; t=1780398314; c=relaxed/simple;
+	bh=cBCCGXzl1oeSGzM84d8bHX9Plrqobn7m5dGrmoCMXIA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CRD5n8EESQwh8zcyF0zQHmxzB1JH0xytCRfr7r+Wy7ZtcwV2W0+vmF8vVSTTjGcMoofL6ajRjzNdsmBSfgoiq1SmEzrXBjGEUuTUvQJwR4lq3NrPS+iMGoYdiJ1Uo3MyOuTfF+rFk8UxPXsp8IypSfo5cWguBUEAMcYk8M8hLSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pEt3M6GU; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=SP9AJuwPh/0Iri/xm2ia5v2qigCclOG0yBYL8QYOAMHzsbEC+xUj5W7MrOt7qTjW2CAURf/GeAENpc+k/DvzNtJX7IzHcCgp6+o0/DcmkXB4ckgjDvKtzCquaM0fGxCvy5t//pzWQ8YiSG/WDkO5jN7hYtYP4HZdLH8UvputDN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=1PrTlRjH; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pEt3M6GU"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="1PrTlRjH"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 95C5453410E6;
-	Tue, 02 Jun 2026 12:52:57 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id C8EAB534132B;
+	Tue, 02 Jun 2026 13:05:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780397577;
+	t=1780398308;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8scatrvChUoH9M6DI24fvjgnwixc9kPQPnAkgNiuUV0=;
-	b=pEt3M6GUxd1OpLRc439N5yVoXRYwqTUoj8xVkuaxRzi/iAqVAOSagSen62pM2qwZkWfF3P
-	Sm6sglpggmQUcgtGT1sk6vz3gN9Rd4gkFVwnvtqDgvLJFJGOJmxYuuQYqIUNWmMbLtzSNQ
-	2lsDw+JhHHQa4DaD0DW3d3eYV2v4OC4=
-Message-ID: <375a468a-7bea-48e5-9533-3634fdf49a8e@ixit.cz>
-Date: Tue, 2 Jun 2026 12:52:57 +0200
+	bh=/wyjW5cpGAhkUzL+YnbyU4AH3Z/BEQZ+OJr9XsiJkEA=;
+	b=1PrTlRjHM8whc9OwWT0SaTvxC+qzBs7yZgdwSfXUqWwt7i8cziqKKlHmhCcSduO4tmSjtF
+	6OTjXcEDJpBcdRKVRT5Bliz2kxrDlkZ7gL8bxpPop1l1KpAiTXwyBPnKBwwYQAUjs/ldPQ
+	Y8O6MpjdFCxfBTGzJkTsh+0r8Zi/igQ=
+Message-ID: <d2930e33-15b0-4f25-8224-89e0def2157b@ixit.cz>
+Date: Tue, 2 Jun 2026 13:05:07 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: nxp-nci: treat -ENXIO in IRQ thread as no data
- available
-To: carl.lee@amd.com
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260526-nfc-nxp-nci-treat-enxio-as-no-data-available-yet-v1-1-305bb11b9147@amd.com>
+Subject: Re: [PATCH nfc] nfc: nci: fix double completion race in
+ nci_data_exchange_complete
+To: Zhenghang Xiao <kipreyyy@gmail.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org
+References: <20260526103121.47957-1-kipreyyy@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,18 +91,55 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260526-nfc-nxp-nci-treat-enxio-as-no-data-available-yet-v1-1-305bb11b9147@amd.com>
+In-Reply-To: <20260526103121.47957-1-kipreyyy@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 26 May 2026 09:50:29 +0800, Carl Lee wrote:
- > nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
+On 26/05/2026 12:31, Zhenghang Xiao wrote:
+> nci_close_device() and nci_rx_work can both call
+> nci_data_exchange_complete() concurrently.  After commit 4527025d440ce8
+> ("nfc: nci: fix circular locking dependency in nci_close_device") moved
+> flush_workqueue(ndev->rx_wq) after mutex_unlock(&ndev->req_lock),
+> rx_work is no longer serialized with the explicit completion call in the
+> close path.  Both callers read the non-NULL callback pointer and invoke
+> rawsock_data_exchange_complete(), which calls sock_put() -- but only one
+> sock_hold() was taken, so the second sock_put() underflows the refcount
+> and frees the socket while it is still in use.
+> 
+> Replace the bare clear_bit(NCI_DATA_EXCHANGE) with
+> test_and_clear_bit() so that only the first caller proceeds to invoke
+> the callback.
+> 
+> Fixes: 4527025d440c ("nfc: nci: fix circular locking dependency in nci_close_device")
+> Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
+> ---
+>   net/nfc/nci/data.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+> index 5f98c73db5af..4253edea5c8d 100644
+> --- a/net/nfc/nci/data.c
+> +++ b/net/nfc/nci/data.c
+> @@ -46,11 +46,11 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
+>   	timer_delete_sync(&ndev->data_timer);
+>   	clear_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags);
+>   
+> -	/* Mark the exchange as done before calling the callback.
+> -	 * The callback (e.g. rawsock_data_exchange_complete) may
+> -	 * want to immediately queue another data exchange.
+> -	 */
+> -	clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
+> +	/* Claim completion atomically -- both close and rx_work may race here */
+> +	if (!test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
+> +		kfree_skb(skb);
+> +		return;
+> +	}
+>   
+>   	if (cb) {
+>   		/* forward skb to nfc core */
 
-Applied, thanks!
+Reviewed-by: David Heidelberg <david@ixit.cz>
 
-[1/1] nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
-       commit: f93bcae77eb032e82740f81c175be1497af5b4bf
-
-Best regards,
 -- 
-David Heidelberg <david@ixit.cz>
+David Heidelberg
+
