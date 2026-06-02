@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A436657C
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 11:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF8B3D75D2
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  2 Jun 2026 11:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780398314; cv=none; b=qmyvU6GGQoR216Fcchmjh0dD27MTeDCfC/jNvD2vIfcr9PqiHJOl6KLHGgQNstvOAMVpu4pKcQpaFLxNtHij1WobliXwTxwtC7ThAJpJ7Q5EeTP501OlWgGrWhx2Qp8ltZUR/aNGame2YXquRU9tSkDNqrZ4KRY+6FQmpFaSwJQ=
+	t=1780398781; cv=none; b=rc6JuM1FgGQnnNnfUhxW/gJYco4CsiIC0DXO3Tm+m6nm/qk6F20ibyQZG07NyI8gYO06kXM/eriqphhBkUoMt/THoaZsoaiWhGho60au3BhQZrT4EznpAdOWBLYiv9mNiCg+4w0WznEwbRgjJ9CIEUjSKMcOV91tF4g4KnxpQdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780398314; c=relaxed/simple;
-	bh=cBCCGXzl1oeSGzM84d8bHX9Plrqobn7m5dGrmoCMXIA=;
+	s=arc-20240116; t=1780398781; c=relaxed/simple;
+	bh=344P/NeH2JRcvHlP3cG+yrdHh5bteiH4ITDXj+AdYUs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SP9AJuwPh/0Iri/xm2ia5v2qigCclOG0yBYL8QYOAMHzsbEC+xUj5W7MrOt7qTjW2CAURf/GeAENpc+k/DvzNtJX7IzHcCgp6+o0/DcmkXB4ckgjDvKtzCquaM0fGxCvy5t//pzWQ8YiSG/WDkO5jN7hYtYP4HZdLH8UvputDN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=1PrTlRjH; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=X3MUeTxUgmqXFgOZnCrGmh3Cqwvpz2U/J1BhSr3+0JD6R+XCqodLY1jgWEBcvXIj2DHJ0YplU0HJoJkMxfv/xp0Wl/TsW/6ea21FCgm/XD5xZ8X9VS7jSrMOvzDktF6rAUqMgw/MI9iJtXIPZZbzN66W9b9MKWdDOKZxXK3OAr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=RX8TF6+d; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="1PrTlRjH"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="RX8TF6+d"
 Received: from [172.20.10.2] (37-48-17-230.nat.epc.tmcz.cz [37.48.17.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id C8EAB534132B;
-	Tue, 02 Jun 2026 13:05:07 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 87C4A53403E8;
+	Tue, 02 Jun 2026 13:12:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780398308;
+	t=1780398772;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/wyjW5cpGAhkUzL+YnbyU4AH3Z/BEQZ+OJr9XsiJkEA=;
-	b=1PrTlRjHM8whc9OwWT0SaTvxC+qzBs7yZgdwSfXUqWwt7i8cziqKKlHmhCcSduO4tmSjtF
-	6OTjXcEDJpBcdRKVRT5Bliz2kxrDlkZ7gL8bxpPop1l1KpAiTXwyBPnKBwwYQAUjs/ldPQ
-	Y8O6MpjdFCxfBTGzJkTsh+0r8Zi/igQ=
-Message-ID: <d2930e33-15b0-4f25-8224-89e0def2157b@ixit.cz>
-Date: Tue, 2 Jun 2026 13:05:07 +0200
+	bh=jTVK6Nj3WBsBdIxu5xNbizDcaJQIeoyYTAapEgiCsS8=;
+	b=RX8TF6+dCSmmvQ9zeyIxvQsx9v+BkYw/RQPGc1BOzx3xq57ZhMN148NR2Gep8c3BGcIsBa
+	5UeQd0Z9uHz3i7xGo6LFBkPjsaQCcLFUKQSAxJllb+qSGqxSgU30iQoIpmm5SGGr1ARRZQ
+	AnLxMtrGYspRbYMnuq9+DRh07bt2eAU=
+Message-ID: <d3956f77-75c4-4095-903b-d1b1ef29d709@ixit.cz>
+Date: Tue, 2 Jun 2026 13:12:52 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH nfc] nfc: nci: fix double completion race in
- nci_data_exchange_complete
-To: Zhenghang Xiao <kipreyyy@gmail.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org
-References: <20260526103121.47957-1-kipreyyy@gmail.com>
+Subject: Re: [PATCH] nfc: llcp: fix integer underflow and missing bounds
+ checks in TLV parsing
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: security@kernel.org, netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260525202427.67768-1-doruk@0sec.ai>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,54 +91,78 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260526103121.47957-1-kipreyyy@gmail.com>
+In-Reply-To: <20260525202427.67768-1-doruk@0sec.ai>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 26/05/2026 12:31, Zhenghang Xiao wrote:
-> nci_close_device() and nci_rx_work can both call
-> nci_data_exchange_complete() concurrently.  After commit 4527025d440ce8
-> ("nfc: nci: fix circular locking dependency in nci_close_device") moved
-> flush_workqueue(ndev->rx_wq) after mutex_unlock(&ndev->req_lock),
-> rx_work is no longer serialized with the explicit completion call in the
-> close path.  Both callers read the non-NULL callback pointer and invoke
-> rawsock_data_exchange_complete(), which calls sock_put() -- but only one
-> sock_hold() was taken, so the second sock_put() underflows the refcount
-> and frees the socket while it is still in use.
+On 25/05/2026 22:24, Doruk Tan Ozturk wrote:
+> Multiple out-of-bounds read vulnerabilities exist in the NFC LLCP TLV
+> parsers:
 > 
-> Replace the bare clear_bit(NCI_DATA_EXCHANGE) with
-> test_and_clear_bit() so that only the first caller proceeds to invoke
-> the callback.
+> 1. In nfc_llcp_recv_snl(), when an SDREQ TLV has length == 0,
+>     service_name_len = length - 1 underflows to SIZE_MAX (size_t is
+>     unsigned). The subsequent strncmp() and nfc_llcp_sock_from_sn()
+>     calls then read unbounded kernel heap memory.
 > 
-> Fixes: 4527025d440c ("nfc: nci: fix circular locking dependency in nci_close_device")
-> Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
+> 2. All LLCP TLV parsing loops (nfc_llcp_recv_snl, nfc_llcp_connect_sn,
+>     nfc_llcp_parse_gb_tlv, nfc_llcp_parse_connection_tlv) read tlv[0]
+>     and tlv[1] without first verifying that at least 2 bytes remain in
+>     the buffer.
+> 
+> A nearby malicious NFC device can trigger these without authentication --
+> LLCP link activation happens automatically after NFC-DEP.
+> 
+> Fix by adding a minimum length check before the subtraction in the
+> SDREQ case, and adding bounds validation at the top of each TLV loop
+> iteration.
+> 
+> Found by pwnkit (https://github.com/0sec-labs/pwnkit), an automated
+> kernel source review tool by 0sec (https://0sec.ai).
+> 
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 > ---
->   net/nfc/nci/data.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>   net/nfc/llcp_core.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-> index 5f98c73db5af..4253edea5c8d 100644
-> --- a/net/nfc/nci/data.c
-> +++ b/net/nfc/nci/data.c
-> @@ -46,11 +46,11 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
->   	timer_delete_sync(&ndev->data_timer);
->   	clear_bit(NCI_DATA_EXCHANGE_TO, &ndev->flags);
->   
-> -	/* Mark the exchange as done before calling the callback.
-> -	 * The callback (e.g. rawsock_data_exchange_complete) may
-> -	 * want to immediately queue another data exchange.
-> -	 */
-> -	clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
-> +	/* Claim completion atomically -- both close and rx_work may race here */
-> +	if (!test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
-> +		kfree_skb(skb);
-> +		return;
-> +	}
->   
->   	if (cb) {
->   		/* forward skb to nfc core */
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index XXXXXXX..YYYYYYY 100644
 
-Reviewed-by: David Heidelberg <david@ixit.cz>
+Hello Doruk,
+
+thank you for your patch.
+
+The patch won't apply cleanly, could you please resent patch based against 
+recent https://codeberg.org/linux-nfc/linux/commits/branch/for-next ?
+
+
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -1300,6 +1300,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+>   
+>   	while (offset < tlv_len) {
+> +		if (offset + 2 > tlv_len)
+
+I think it would be more descriptive use define, thus
+
+(offset + LLCP_HEADER_SIZE > tlv_len)
+
+David
+
+
+> +			break;
+> +
+>   		type = tlv[0];
+>   		length = tlv[1];
+>   
+> @@ -1307,6 +1310,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+>   		switch (type) {
+>   		case LLCP_TLV_SDREQ:
+> +			if (length < 1)
+> +				break;
+> +
+>   			tid = tlv[2];
+>   			service_name = (char *) &tlv[3];
+>   			service_name_len = length - 1;
 
 -- 
 David Heidelberg
