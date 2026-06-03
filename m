@@ -1,102 +1,94 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F334266BF
-	for <oe-linux-nfc@lists.linux.dev>; Wed,  3 Jun 2026 16:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780505180; cv=pass; b=C8jH03ifu+o186lj3z9y3jXUz3yaXgMEAe+hpY8riIkxNZlpIXbR6RKHGLlTDblJXk+nEmmuFl4LOGnZ7MoCcBvgDzm5ELxf4uxYvx0pMdN+nQfDideDPLgG/ThgL3PFPitII9Xhy6UaOT27RCsfwTqVFUPx/mBBuABZYiJkZqA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780505180; c=relaxed/simple;
-	bh=Sp0RGi5NmaP49iEYxVtxwSOEg/eXQsdxe/qX51EHsAw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iCkNR1vyyWRbmzjJriZVUNueXVYLIO/H9ity033e2fQrNWUZT4781mdN9NA60Xj+KlekLX96oTFDrccWbM2mDP8hQgcN1JrhJTpM4cqzAOEgJfQ3wkd00a8trzaWHvKwfEsX6l8QUNsAdxcdWANuM52Mz4MCITSVgBSTvdL5Ytc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=f0aC1Zkc; arc=pass smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE4E3D6CAE
+	for <oe-linux-nfc@lists.linux.dev>; Wed,  3 Jun 2026 17:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780506201; cv=none; b=NXX3PxaSM+nT/DUbTk24Wusz0n5hJz/TDVL8e5Z9JbmK6hPDwF9d/2FJlToXcMFCl0CSz2p8NfJTOrrJb6A5XIGuI5auUICvIZ3EaEG199fWRYtfEd1KhdB0E2D7INRFwXGvY1yDSsbZ1EnhFY7tVr3d9jpsIRxrz9PhfxB1pGE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780506201; c=relaxed/simple;
+	bh=QZ8/KA1hAX7PyJ1g+oLKtus6CunG8F0BvLPZu5S97io=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L4+Fq/xS3xIBDudBMBqbfdUPbU/8lWBlsIInueXNo+MnYxnwyyAEu+EeZVfFufoiwzU+BjFu8qyT1XtzIv1zvfD2qcMaGn/Nu1SGnh41BYNSuezb/w7CN63brBJDGLDYDlh/T9UHxhZw9ZPWW5p83e9e92El0Wzd79bBF0gtYLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=vspKi0oq; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="f0aC1Zkc"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84229481d44so1842060b3a.0
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 03 Jun 2026 09:46:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780505178; cv=none;
-        d=google.com; s=arc-20240605;
-        b=foXJZtVqUS/7SHBPWDDbqUWUL02xbgYktHmY5NzFedIdufWPm/Nh1E++HhcRhLvVNO
-         cGxCihUkwxXXXo++KBfa7fHW+4mm9qnhtk6AUVd10+wjB9x5FQTexASUam944yMx9Rl5
-         HvNtaQoQtZ4DTVFSam2rhYuDkQ7dvo33vlR5KGzwTHBMcngxMaxrLjzm4Aig8/VuiNcZ
-         BAubV8Y7gHz2m6nG+k3eWgyudxtfSe6wuTJHC63FqeDvjA+AXOo873bY8Yq7tLuSKe0w
-         GzTPnGrGH2NAfth8hFkt4KUpzujDJNz3lUfVDlwx9ynE1iGqzwWw2apHCnkmDpYwKH+v
-         enaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Sp0RGi5NmaP49iEYxVtxwSOEg/eXQsdxe/qX51EHsAw=;
-        fh=QhbW4HU1C7NAI9DwGHu1MT+VAmUPwmAUcV5MKacbKnM=;
-        b=YAqZywQ6s60iRXqPW2VGS2sM78wAoAr/utnYqkr+iia2vZ4JWHhBQnm2ugGXITxYzX
-         n6OG7opnmgXsIqriFC1qXUfXw89OnsswV0jWp5TfyULrcdUsrwZJR9TbfelAjtwU5E3z
-         pHC7PmLmDAwgdiAwOvQs6fTQ+vtrcW4tMwPxrz2EoxygnDt4KyupiC7ujGaSTSOVGAxK
-         vCHJK1MJLmTQEVrRWgXRcZQ4vxnGeUuwvxGRSDCvE++zVDsuSPIoM6Bxv7JiAPmoumda
-         SuFmJvI97VCz4sn+9qBnyhC+LxjEhUJWgSMhbjOrNeBf252PdKS9xPREjlFH9SHMnV76
-         LxnA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1780505178; x=1781109978; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sp0RGi5NmaP49iEYxVtxwSOEg/eXQsdxe/qX51EHsAw=;
-        b=f0aC1Zkck6EjFUmi/1a2qkDwxc0qjmQuCs8Shzkw/LGhy3/hDD5qKDPpl6l6jA8bOJ
-         WJiNpQXqPr4nrvX46TfbcaNiX9+niuTMyB1E3jxnB6n0hbYyTLMvR2OgwecNTS94QY/K
-         kg2Qq0yTiNFI/+A6ItTW5YkvapqBC8ek2nlBJuBTJiTBminVL2Vgy4nCrNh6Ff6dIEt0
-         KMEAq5/aTr9zY/JwgUQUNgUJ85rwSAqY4edpiCAmOd4JGO5xiArsI09ciI4yE99ya8HB
-         I6jRDgGO+Eub3aygnvIV84/rWiZC9w197ez9MtDB075PnOsK5yWwRVR7avBVIwbvYvDm
-         XZMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780505178; x=1781109978;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sp0RGi5NmaP49iEYxVtxwSOEg/eXQsdxe/qX51EHsAw=;
-        b=PbqZSGNYBIT5cngf1IFZGKdpWfKYsugtY3DrdrMmwGhVF6l7ehlRh59/+R639qVw3U
-         Kmz6F3AGVCdBvLnbMwvWxiYOjmtP6tHtFejOy/WrUErzdDFaMslDxoHVdRmIbkzDUCRZ
-         Rckzcio+Rdu3TQzKyYRsldSEkn66oe7r8EprTCQFpNIz4e2KuEGQGmI+UZreOJUnsCjz
-         pPwOkmZDH19PYtnmbQwTPaX9dEXQe+NHA78hobSzz7hrMEy0nXCMv1VHGHUtunGpMGhz
-         I0+nfqNpU9Yab13v73TUi6Zn1cxHOWZu6DVZiWBQ5vn+Kd3wD2jaAIyGN7Z+SCa1TBD5
-         kK6Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8dGA8DBw0WQDmAacUKF5awplmVqh5bI7hBOOhZcsvRjrdVv1L6JZLH++QinaTAIDJghFr+AtJ5iMS2m0c=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFl6aB0sQvjF+bpFL+UvbjanM21Lu9nfFnoJVbkjJoMrMaorQ3
-	HRkBp48KfXE155qbP2jJcaBhEe+DuK6ARntRvqHiMSPeILkSOo8Yq/Nl17G1Q2IXXnnalf+fxPh
-	PAPCDdlBU8yzJncBPEIDoxftMiBowLpEMlZXJ+0SDpG8=
-X-Gm-Gg: Acq92OF52I+tFzYoO/xSWk6EyuUWYusec78nS9tCz4cmSrtCmGXhns1Ft0TuL2wFsWW
-	gE3dbSVVq27zbc64x7KAdMTBveATqEnsl1BlrV0YRzWv2tHYrODaUVP5x/wMQBsWIhwJXhIGCrB
-	aPII6nRAZquzD7Af3DFaBh5so1PiltZvuNFq0YFytBjEdrZxwkj7biJjZsUgqCS6hOW3qTVzvrs
-	PSRj2FsVELnIY05DpwWn9U5VaEDZ9bcjMt2HLyCWtDFvP2R64iqo4HzlwuiRoFnVd5pwRuTK+K0
-	dRv0Ndm7grHSOY6VQhbwOKawFS6jcM4kskZOQPN4TzrJogSK1fbWAY5YZjiExy4r2ovQGU6OQd8
-	s/Kf6OQ==
-X-Received: by 2002:a05:6a00:2e88:b0:842:1ffc:55b4 with SMTP id
- d2e1a72fcca58-84284fbcdc1mr4542715b3a.36.1780505178146; Wed, 03 Jun 2026
- 09:46:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="vspKi0oq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1780505726; bh=4rfqiqOyEFqhvnLoLgHUWx8RVt4JanLC9I7DxCRu254=;
+	h=From:Message-ID:From;
+	b=vspKi0oq1T+SKD7OkXFlvk69yzZ9Vm/lLGEst/6DOIkOAlF6brqhhQZkQW7Gg0l/U
+	 OV2Fq5fQG/+Mxw6h/q/LcJW3UF90ClonfB0ZMETM2v+yBDPiZ0Ft1ZSGWSBMhDnW6N
+	 pTZq7z8zrsSu6Hd9/EkvQ36JmyttpTm9I0UN0eR4=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id AD740C0AE5;
+	Wed, 03 Jun 2026 18:55:26 +0200 (CEST)
+Date: Wed, 3 Jun 2026 18:55:26 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Doruk Tan Ozturk <doruk@0sec.ai>, oe-linux-nfc@lists.linux.dev,
+        david+nfc@ixit.cz, netdev@vger.kernel.org
+Subject: Re: [PATCH] nfc: llcp: fix integer underflow and missing bounds
+ checks in TLV parsing
+Message-ID: <aiBcfsXn0BhBi5ae@1wt.eu>
+References: <20260525202427.67768-1-doruk@0sec.ai>
+ <20260602135610.5f79ed10@pumpkin>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260603141355.68156-1-doruk@0sec.ai> <2f3ea9d6-a483-427d-bf81-ff26627f4f1c@intel.com>
-In-Reply-To: <2f3ea9d6-a483-427d-bf81-ff26627f4f1c@intel.com>
-From: "Doruk (0sec)" <doruk@0sec.ai>
-Date: Wed, 3 Jun 2026 18:46:06 +0200
-X-Gm-Features: AVHnY4J6gY9pqDSXMaShzszHsJrbvb7KD7f_CAT036a599QygxqxvS8l2JPk_5A
-Message-ID: <CAPdMp1r_fPeqHC9LeEek2+u9JMma_h+qtg=CoGs5Gpp+QL8ivw@mail.gmail.com>
-Subject: Re: [PATCH net v2] nfc: digital: clamp SENSF_RES length to the
- destination buffer
-To: aleksander.lobakin@intel.com
-Cc: david@ixit.cz, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602135610.5f79ed10@pumpkin>
 
-On Wed, Jun 03, 2026 04:28 PM, Alexander Lobakin
-<aleksander.lobakin@intel.com> wrote:
-> But I guess it's not needed at all, we can just silently clamp such packets?
+On Tue, Jun 02, 2026 at 01:58:55PM +0100, David Laight wrote:
+> On Mon, 25 May 2026 22:24:27 +0200
+> Doruk Tan Ozturk <doruk@0sec.ai> wrote:
+> 
+> > Multiple out-of-bounds read vulnerabilities exist in the NFC LLCP TLV
+> > parsers:
+> > 
+> > 1. In nfc_llcp_recv_snl(), when an SDREQ TLV has length == 0,
+> >    service_name_len = length - 1 underflows to SIZE_MAX (size_t is
+> >    unsigned). The subsequent strncmp() and nfc_llcp_sock_from_sn()
+> >    calls then read unbounded kernel heap memory.
+> > 
+> > 2. All LLCP TLV parsing loops (nfc_llcp_recv_snl, nfc_llcp_connect_sn,
+> >    nfc_llcp_parse_gb_tlv, nfc_llcp_parse_connection_tlv) read tlv[0]
+> >    and tlv[1] without first verifying that at least 2 bytes remain in
+> >    the buffer.
+> > 
+> > A nearby malicious NFC device can trigger these without authentication --
+> > LLCP link activation happens automatically after NFC-DEP.
+> > 
+> > Fix by adding a minimum length check before the subtraction in the
+> > SDREQ case, and adding bounds validation at the top of each TLV loop
+> > iteration.
+> 
+> Why not fix it properly so that it doesn't read beyond the end of the skb.
+> 1) Change offset and tlv_len to be 32bit - no point trying to do 16bit mathx.
+> 2) Worry about non-linear skb - perhaps just process skb_header_len() bytes.
+> 3) Allow for very short frames.
+> 4) Don't read beyond the end of the skb data.
+> 
+> Something like:
+> 	tlv = skb->data + LLCP_HEADER_SIZE;
+> 	tlv_end = skb_tail_pointer(skb);
+> 	for (; tlv + 2 < tlv_end; tlv += 2 + length) {
+> 		type = tlv[0];
+> 		length = tlv[1];
+> 		if (tlv + 2 + length > tlv_end)
+> 			break;
+> 
+> Then as well as the check for length >= 1 in SDREQ (even 1 doesn't make sense),
+> the SDRES path is missing a check for length >= 2.
 
-I agree, thanks for the review!
-Doruk
+[ just moved sec@k.o to Bcc since this is public discussion, please
+  don't re-add it ]
+
+Thanks,
+Willy
