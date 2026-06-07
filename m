@@ -1,111 +1,189 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from mail-244121.protonmail.ch (mail-244121.protonmail.ch [109.224.244.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE7D37F000
-	for <oe-linux-nfc@lists.linux.dev>; Sat,  6 Jun 2026 12:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7F32F9D85
+	for <oe-linux-nfc@lists.linux.dev>; Sun,  7 Jun 2026 09:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780747811; cv=none; b=ImMfsNUNFUuiFiLrLzoFhI364q5hufSXju0KWJUlAB/frPL8nb63gzKRoTedOV7AGQ8EoQXKdEfZMth6x+ibtisr5u2sbbRFdOBWV80bixuXvwktznO1UQMNx3y0zwHLNSxr/GpL9bB+mkOS1RLx6KPePJhK4AebPQSvW6igMUc=
+	t=1780825726; cv=none; b=eRS0RiBv6YlWqcs0/OWJy34f5AB51dteV/pftZy18D/2LYpf+UHzRAxYSy6jsXftq3Qmwww9qK6RMkx02aAfl/TPAE/I/Fc2q3CtJx4K5ju9DMgSD6CJFB2VP0yJaQm/7BUZcA9fJF0pBL2+mTQ9INCAzpyGkymjOAp7XYXUkhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780747811; c=relaxed/simple;
-	bh=K/HQDjN7jtmMyG3tik4HC59YYpFSf6dUxoyp9gkbD4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bF6YpyrEPA9jmPyONtQmq6/4bxxHSnloSgEOXaRtsGRPsLQGfFcu2M07tFSf1v4DQF++JFYJc3iWVs3IvwSxDDMmNORB9NdigLQPuvVgOOAADZHZM3E+5nh1jc/GIUNMXu6rCWexEu5PXM5Tlh+rz5/KkTl/qIUtYD/zGAR2lwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Aau0aGLD; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1780825726; c=relaxed/simple;
+	bh=1rNxc1UaHTRXu5r2v0ow8mgrPehoHCYlRVkX/lQ2tCY=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=IsErDI4lAN1CeJ5XQCdTudo7XeyjJYiLvNPWRpQ5oZy1D1JdqBIBTVhHshyMftGp+P+52GAwTJ5gF+KJifPXv0nHJ3rkNTQuBfsA9NOuQxfshwo/S6BqaoccZ7ziLIAEtBP3iSsLGLqtRyruFnhjV1fTuJG47q2r+jv+RQPIvmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=GZDkZ9L5; arc=none smtp.client-ip=109.224.244.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Aau0aGLD"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 63F66534012B;
-	Sat, 06 Jun 2026 14:10:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780747807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xf6vX+6euRNg0lvf3/cPs9PsFcSA+4eRnB6Nntr74SQ=;
-	b=Aau0aGLDaTXWW9I19pr+ZJOv8zusg4QcGU8EX1rhuBCFHCGBD29QYeDspeOTaD/08A3BSD
-	6O2Dv1jfBognRuHNo6i3umOwSqzJJWYNwQ2nL+oK3z0uwCap03kUQdC4y5h0ZVqRdGa1Mk
-	Qc32s5ghkmwTzGAMVmRyf2X/8WlllME=
-Message-ID: <fe5f1de7-48ad-4f20-bd64-96a6f3f789b6@ixit.cz>
-Date: Sat, 6 Jun 2026 14:10:07 +0200
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="GZDkZ9L5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1780825713; x=1781084913;
+	bh=vQSZRMpoGuLhm10iyqcc9wChC3iOe39cE9LVFeXeHg4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=GZDkZ9L5PYFKW97IaLe1KAMMkntmVvjsYUoRDA8qAwH51QrHlFM2lHZt0IBOe2EA+
+	 M3pshDse/KEn4MXrFrbmluOYx60RYJxvO8/cP4Y7o+fvaKUph92tUMsOkndIUM3RQo
+	 UWaGW4yAUEXReYVlPqfzzk2QlQItxCBzWRtk2KzCXiDU17EVnv1mx/kj1B1rzJkX3W
+	 Z0OpLrJr+5jp4ofTjt6KuMXHhot6L+EFdZ2KtVnKsZ/21HGVpPZbFgXop87c9w/qaW
+	 VvCMkl+SSqVwcnydLYeO3KY5gl4BinX8SIZDykNQxCePOYOxpQt/EdGIf94YL4YuDX
+	 hZ72/2Fl06K1A==
+Date: Sun, 07 Jun 2026 09:48:26 +0000
+To: David Heidelberg <david+nfc@ixit.cz>
+From: Bryam Vargas <hexlabsecurity@proton.me>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nfc: nci: add data_len bound checks to activation parameter extractors
+Message-ID: <20260607094822.322125-1-hexlabsecurity@proton.me>
+Feedback-ID: 199661219:user:proton
+X-Pm-Message-ID: ee73fa13d558072a404361bd75a1ace81025cebc
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] nfc: digital: clamp SENSF_RES length to the
- destination buffer
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: Aleksander Lobakin <aleksander.lobakin@intel.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-References: <20260603141355.68156-1-doruk@0sec.ai>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260603141355.68156-1-doruk@0sec.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+nci_extract_activation_params_iso_dep() and
+nci_extract_activation_params_nfc_dep() read an inner length byte from
+the NCI RF_INTF_ACTIVATED_NTF payload and use it to memcpy() into fixed
+kernel buffers, but neither function receives the caller-validated
+activation_params_len.  A crafted NCI notification with
+activation_params_len=3D1 and an inner length byte of up to 20 (NFC-A) or
+50 (NFC-B) causes memcpy() to read that many bytes past the one valid
+byte in the activation params region -- a slab out-of-bounds read of
+kernel memory adjacent to the NCI skb.
+
+The sibling nci_extract_rf_params_*() family was given equivalent
+protection by commit 571dcbeb8e63 ("net: nfc: nci: Fix parameter
+validation for packet data"), but the two activation parameter
+extractors were not updated at that time.
+
+Add a data_len parameter to both functions, guard against an empty
+region before consuming the inner length byte, decrement the remaining
+count after consuming it, and clamp the copy length to what is actually
+available.  Update both call sites to pass ntf.activation_params_len,
+which is already validated against the skb at ntf.c:801.
+
+Fixes: e8c0dacd9836 ("NFC: Update names and structs to NCI spec 1.0 d18")
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+---
+Verification (NFC-A ISO-DEP, NFC_ATS_MAXSIZE =3D 20):
+
+  data_len  inner_len  without patch              with patch
+  --------  ---------  -------------------------  --------------------
+  1         0          rats_res_len=3D0, clean       same
+  1         1          memcpy +1B OOB              clamped to 0, clean
+  1         20         memcpy +20B OOB  <-- PoC   clamped to 0, clean
+  2         2          memcpy +1B OOB              clamped to 1, clean
+  21        20         memcpy 20B clean            same
+
+NFC-B (attrib_res, max 50) and NFC-DEP poll/listen (atr_res/atr_req,
+max 62) have the same shape and receive the same fix.
+
+ net/nfc/nci/ntf.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index c96512bb8653..753f4cf08748 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -525,15 +525,19 @@ static int nci_rf_discover_ntf_packet(struct nci_dev =
+*ndev,
+=20
+ static int nci_extract_activation_params_iso_dep(struct nci_dev *ndev,
+ =09=09=09=09=09=09 struct nci_rf_intf_activated_ntf *ntf,
+-=09=09=09=09=09=09 const __u8 *data)
++=09=09=09=09=09=09 const __u8 *data, __u8 data_len)
+ {
+ =09struct activation_params_nfca_poll_iso_dep *nfca_poll;
+ =09struct activation_params_nfcb_poll_iso_dep *nfcb_poll;
+=20
+ =09switch (ntf->activation_rf_tech_and_mode) {
+ =09case NCI_NFC_A_PASSIVE_POLL_MODE:
++=09=09if (data_len < 1)
++=09=09=09return -EINVAL;
+ =09=09nfca_poll =3D &ntf->activation_params.nfca_poll_iso_dep;
+ =09=09nfca_poll->rats_res_len =3D min_t(__u8, *data++, NFC_ATS_MAXSIZE);
++=09=09data_len--;
++=09=09nfca_poll->rats_res_len =3D min_t(__u8, nfca_poll->rats_res_len, dat=
+a_len);
+ =09=09pr_debug("rats_res_len %d\n", nfca_poll->rats_res_len);
+ =09=09if (nfca_poll->rats_res_len > 0) {
+ =09=09=09memcpy(nfca_poll->rats_res,
+@@ -542,8 +546,12 @@ static int nci_extract_activation_params_iso_dep(struc=
+t nci_dev *ndev,
+ =09=09break;
+=20
+ =09case NCI_NFC_B_PASSIVE_POLL_MODE:
++=09=09if (data_len < 1)
++=09=09=09return -EINVAL;
+ =09=09nfcb_poll =3D &ntf->activation_params.nfcb_poll_iso_dep;
+ =09=09nfcb_poll->attrib_res_len =3D min_t(__u8, *data++, 50);
++=09=09data_len--;
++=09=09nfcb_poll->attrib_res_len =3D min_t(__u8, nfcb_poll->attrib_res_len,=
+ data_len);
+ =09=09pr_debug("attrib_res_len %d\n", nfcb_poll->attrib_res_len);
+ =09=09if (nfcb_poll->attrib_res_len > 0) {
+ =09=09=09memcpy(nfcb_poll->attrib_res,
+@@ -562,7 +570,7 @@ static int nci_extract_activation_params_iso_dep(struct=
+ nci_dev *ndev,
+=20
+ static int nci_extract_activation_params_nfc_dep(struct nci_dev *ndev,
+ =09=09=09=09=09=09 struct nci_rf_intf_activated_ntf *ntf,
+-=09=09=09=09=09=09 const __u8 *data)
++=09=09=09=09=09=09 const __u8 *data, __u8 data_len)
+ {
+ =09struct activation_params_poll_nfc_dep *poll;
+ =09struct activation_params_listen_nfc_dep *listen;
+@@ -570,9 +578,13 @@ static int nci_extract_activation_params_nfc_dep(struc=
+t nci_dev *ndev,
+ =09switch (ntf->activation_rf_tech_and_mode) {
+ =09case NCI_NFC_A_PASSIVE_POLL_MODE:
+ =09case NCI_NFC_F_PASSIVE_POLL_MODE:
++=09=09if (data_len < 1)
++=09=09=09return -EINVAL;
+ =09=09poll =3D &ntf->activation_params.poll_nfc_dep;
+ =09=09poll->atr_res_len =3D min_t(__u8, *data++,
+ =09=09=09=09=09  NFC_ATR_RES_MAXSIZE - 2);
++=09=09data_len--;
++=09=09poll->atr_res_len =3D min_t(__u8, poll->atr_res_len, data_len);
+ =09=09pr_debug("atr_res_len %d\n", poll->atr_res_len);
+ =09=09if (poll->atr_res_len > 0)
+ =09=09=09memcpy(poll->atr_res, data, poll->atr_res_len);
+@@ -580,9 +592,13 @@ static int nci_extract_activation_params_nfc_dep(struc=
+t nci_dev *ndev,
+=20
+ =09case NCI_NFC_A_PASSIVE_LISTEN_MODE:
+ =09case NCI_NFC_F_PASSIVE_LISTEN_MODE:
++=09=09if (data_len < 1)
++=09=09=09return -EINVAL;
+ =09=09listen =3D &ntf->activation_params.listen_nfc_dep;
+ =09=09listen->atr_req_len =3D min_t(__u8, *data++,
+ =09=09=09=09=09    NFC_ATR_REQ_MAXSIZE - 2);
++=09=09data_len--;
++=09=09listen->atr_req_len =3D min_t(__u8, listen->atr_req_len, data_len);
+ =09=09pr_debug("atr_req_len %d\n", listen->atr_req_len);
+ =09=09if (listen->atr_req_len > 0)
+ =09=09=09memcpy(listen->atr_req, data, listen->atr_req_len);
+@@ -806,12 +822,14 @@ static int nci_rf_intf_activated_ntf_packet(struct nc=
+i_dev *ndev,
+ =09=09switch (ntf.rf_interface) {
+ =09=09case NCI_RF_INTERFACE_ISO_DEP:
+ =09=09=09err =3D nci_extract_activation_params_iso_dep(ndev,
+-=09=09=09=09=09=09=09=09    &ntf, data);
++=09=09=09=09=09=09=09=09    &ntf, data,
++=09=09=09=09=09=09=09=09    ntf.activation_params_len);
+ =09=09=09break;
+=20
+ =09=09case NCI_RF_INTERFACE_NFC_DEP:
+ =09=09=09err =3D nci_extract_activation_params_nfc_dep(ndev,
+-=09=09=09=09=09=09=09=09    &ntf, data);
++=09=09=09=09=09=09=09=09    &ntf, data,
++=09=09=09=09=09=09=09=09    ntf.activation_params_len);
+ =09=09=09break;
+=20
+ =09=09case NCI_RF_INTERFACE_FRAME:
+--=20
+2.43.0
 
 
-On Wed, 03 Jun 2026 16:13:55 +0200, Doruk Tan Ozturk wrote:
- > nfc: digital: clamp SENSF_RES length to the destination buffer
-
-Applied, thanks!
-
-[1/1] nfc: digital: clamp SENSF_RES length to the destination buffer
-       commit: b3d780a22685ea355e18bfeac79d15252236d70e
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
