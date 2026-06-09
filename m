@@ -1,157 +1,200 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A042B343882
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  9 Jun 2026 08:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A4433C18B
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  9 Jun 2026 20:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780994728; cv=none; b=F16sk4M2wiVcGpliSxWiXQa8MUeIViSDP+vYPEm4Wh1zw+jKWfF8mkDZ1Es6eNO89SsuHvW1PNyC+CMHmMDbrs1DbM6Rzf7WDzcCo+QRKZGKT7gY63ZbWCb3Istc8gO6duN/X0br3QIGKXGJmElgZThYKx0Z/o87YjTNczYEpZg=
+	t=1781036749; cv=none; b=TTPO///7ehaaaT8FDdPY5kOcEu+WaHi2bjvr1F3+JGTb9yCL7JrNzG4+UcSeatTuqWQ4N90ULaacPEN8+9EpdpmJN904LaT+kJuY/wXzHgkBQFfncySvtJnGJ11469CUtGX87mPQ1Tz2IlYjwVhQl0F33i8IK01NAAKArElQ0Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780994728; c=relaxed/simple;
-	bh=qY0Gf/s2G711Kq1AGOT5hjpV5HDiaXm4APW6yi3X498=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Nkv/wQsDeet5ONURnkVkaqbDxGnm2oBUopB/vB1NpYks8Jmk/jUpudVS1dIDgom4BciiUWKcRgvUqve9qzuNB7AQDilMnIj3AhJZm7YdAoBHFy4FOr8gg3594DctlOvpIncv60i5yEKbGt/Qz4vEl/h3WJcYfzoMiV5cDzpHMYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=tO9p4qP4; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1781036749; c=relaxed/simple;
+	bh=oKkSVxT/Y4XKV2ObqYnE31wJmdQaPrWWo7tQBqtLFbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P1f8nR2qHrKEaViUxsB/fyhMpmCimYBNzeubsG8xUTboQ1Gpf/ImAFLNeme2FNr9WuYxrFb4aVt2m667JLav8Hxy3uKmrXlba6u7mwZf0DvTmyelKHQRasns+15T20UrV/oemK5D7vrWdKTVFfXgWiEi4PnYvFyVtArBBxUnSBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=oYHHiXXR; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="tO9p4qP4"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 7D7E65340858;
-	Tue, 09 Jun 2026 10:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780994721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=b2aT3aIG9gwRgEWpv77WKO5mO83tTKSk79K8/RmBFLE=;
-	b=tO9p4qP4TW8bNk6WgToPKVt1tHqeQBv00ah65OWnk73mxR3PUiWeTWkJsZnLHBZVnhFaTw
-	ACcgLWxyVJ4KAr+Qq8ZvFJEq4T3c9lmXAO9XVLQXcb7A6UA66uFpxOBQOlYkye6gTFvlpR
-	D1sqtRKuzqLAY7vRgFLGsrV4Fv4UfsE=
-Message-ID: <b3084b2a-f8fa-4bba-8a92-1a14fbacb622@ixit.cz>
-Date: Tue, 9 Jun 2026 10:45:21 +0200
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="oYHHiXXR"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso2841497f8f.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 09 Jun 2026 13:25:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0sec.ai; s=google; t=1781036746; x=1781641546; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mQGRPMu1kxL0yXF36zCXENzLxRFFn1aJOYE1MvTj2ac=;
+        b=oYHHiXXR6gBfCsNfizk2Y+UGzoT1MHSZixLGhghxQ5sXe1mhqz85xtxnJy+iwOoFbB
+         nc1SG1j89uTLRbJncW2tsuSgVezELnfgnaxTQvoZPa6KCzL8oxdOUX5vgf8JRu48lIVO
+         RemvQSE5528vHUcnsjVR+Lz0dSjpry9RuTLhzL2crfl5n3s69G8G7/DSV+JrWfykmcck
+         n6VLru7r/wJD9PloTmfkE8hx+W4FbQDjWdCmIxftAg6wmhNNQh1mfMM2zdr7LoF0Xnom
+         Cr+GL9/l+YLQp6CX8EefOg7VMTdxr5QyLIYI7FDgH+f170eg8Rua0dHSSGBmLbvRTlSr
+         HpzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781036746; x=1781641546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mQGRPMu1kxL0yXF36zCXENzLxRFFn1aJOYE1MvTj2ac=;
+        b=Al0ylSJ2bClhdlYp4hF/4r4cgRiWpl8C45b6Hshqt3sE/mb1ocTWtfz694vbanfWvc
+         D8qJx+G9OamzQIPiUexl0TakA+itDcY523mnbhGZZYpHQYSP1QTfYLLZ5IQo6g8qpb9h
+         5y9/YM5sUgb1RvTVp7Wjy4KfGQXpkjQ5KXCp2S7u2uNLoZ/yTSknWaFvRslD6fnUvEdD
+         yrFXYEkABCsCvzSewLFOthj7gN1pbZQEc7UGoFmIHFNsVdjsEsdAeW21V15LkwPUfBkZ
+         Cix2jyDmjOQQnVQQYT9aOS/Xw8G4G2X2bI+XUgNTTu0MTeGWW2ilU7L+PLX/RKePNRgq
+         JrRA==
+X-Forwarded-Encrypted: i=1; AFNElJ/G/TqomHG+10QVNK3LGDMAGwKX/nahv7AnxjgNr+lPu06CZVP+KlZLo+2NTHq2RTFvUscV+4FdOr3/q40=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYZ949MT49IbLnW1H3Ccjc92CfyDeAW0iXjZDz4ATlViaKa9Op
+	A0dwSvD8s1LACU5VV9ndR1nyX15N3LeDhQPqLHTyIAmGQOHkRTCeqRAcwG9cip3W6KIX
+X-Gm-Gg: Acq92OHnsEvyrKR6V4K1nV+Lit3ZolAKHYBnHJ1hOc7R3b3TXtPdhR4F2Q5I/WmtaTW
+	DnHZmeLCBis40stJ68odUnq5JMAVBPaeicCgo/ZfIDJSDwfKgqdspuVE6QN5QXnvz1c1eXpD9ax
+	yRJ8TeFCcgRTdeHrgEUuG8rjGUhxge7orxJrQAmlitQxzZy5h0CrNZmFjdHoxXrPZWBS4KDZYhf
+	VldcFRXp3WWu7UmhF0ZyUv+skHFlLbuiiX6FUksdWwGFqmMqcgYXRhvt0PV5fMnXmvH5M9cvKBr
+	x27S1sjBi/Eb6Chp817bwA9oEwdU4LnZoDCDdvvVDEV3dzZpdsUPvhsnH7axVtlAO9VI7Zu0cvt
+	BA90ZWlJVnGi3txttNUILmKXayTFZqN9Zvk672pLYVcwxoJ7s661OtQLtl/1dC0inSB8gaqnr/U
+	4ETrPyNraqqC9bKUUwlDAf8ZX9GmHQK5ddV3D2uxNS/X4EmggHjSbSdqB79xPxHfpFeLu85JUTF
+	i8ZPO6rhlyRsHI///VcpaRSShkRLzVUJg51M6gNEiDv1d4s1e5PvbY=
+X-Received: by 2002:a05:6000:4022:b0:44a:b931:f32a with SMTP id ffacd0b85a97d-460566beef3mr6351288f8f.27.1781036746040;
+        Tue, 09 Jun 2026 13:25:46 -0700 (PDT)
+Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.223.24])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46028a6dcbdsm53432272f8f.7.2026.06.09.13.25.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 09 Jun 2026 13:25:45 -0700 (PDT)
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+To: david@ixit.cz,
+	oe-linux-nfc@lists.linux.dev
+Cc: david.laight.linux@gmail.com,
+	horms@kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net v4] nfc: llcp: bound SNL TLV parsing to the skb and add length checks
+Date: Tue,  9 Jun 2026 22:25:43 +0200
+Message-ID: <20260609202543.42282-1-doruk@0sec.ai>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Subject: NFC for next-20260609
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-To: davem@davemloft.net, kuba@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- oe-linux-nfc@lists.linux.dev
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 4549871118cf616eecdd2d939f78e3b9e1dddc48:
+nfc_llcp_recv_snl() walked the SNL TLV list using a u16 offset/length
+pair derived from skb->len, without bounding reads to the actual skb
+data. Three problems followed:
 
-   Linux 7.1-rc7 (2026-06-07 15:37:58 -0700)
+  - For a short frame (skb->len < LLCP_HEADER_SIZE), tlv_len underflowed.
+  - The per-TLV header (type, length) was read without checking that two
+    bytes remained.
+  - A declared TLV length could run past the end of the buffer, and an
+    SDREQ with length == 0 made "service_name_len = length - 1" underflow
+    (size_t), driving an out-of-bounds read in the following strncmp() /
+    nfc_llcp_sock_from_sn(). The SDRES case likewise read tlv[2]/tlv[3]
+    without a length check.
 
-are available in the Git repository at:
+A nearby NFC device can reach this without authentication; LLCP link
+activation happens automatically after NFC-DEP.
 
-   https://codeberg.org/linux-nfc/linux.git tags/nfc-for-next-20260609
+Walk the TLV list by pointer, bounded by skb_tail_pointer() over the
+linear skb data, and validate each TLV declared length before use. Add
+explicit length checks for SDREQ (>= 1) and SDRES (exactly 2).
 
-for you to fetch changes up to f6696b7206c3bd276bf81d5953a1489bf43dd783:
+Found by 0sec automated security-research tooling (https://0sec.ai).
 
-   nfc: digital: clamp SENSF_RES length to the destination buffer (2026-06-09 
-10:12:52 +0200)
+Fixes: 19cfe5843e86 ("NFC: Initial SNL support")
+Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+---
+v4:
+ - Add Fixes: tag pointing at the commit that introduced the unbounded
+   SNL TLV walk and the SDREQ service_name_len underflow (David Heidelberg).
 
-----------------------------------------------------------------
-nfc pull request for net:
+v3 (review cleanups, no functional change to the fix):
+ - Comment that only the linear part of the skb is parsed (David Laight).
+ - Use int for service_name_len and print the bounded service name
+   directly with %.*s; drop the min_t()/cast (David Laight).
+ - Require SDRES length to be exactly 2, not just >= 2 (David Laight).
 
-  - llcp: avoid userspace overflow on invalid optlen
-  - llcp: read llcp_sock->local under the socket lock in getsockopt
-  - nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-  - nci: fix double completion race in nci_data_exchange_complete
-  - nci: uart: Constify struct tty_ldisc_ops
-  - nxp-nci: Add ISO15693 support
-  - nxp-nci: treat -ENXIO in IRQ thread as no data available
-  - digital: clamp SENSF_RES length to the destination buffer
-  - trf7970a: fix comment typos
-  - MAINTAINERS: Update address for David Heidelberg
+v2: https://lore.kernel.org/netdev/20260603135935.62647-1-doruk@0sec.ai/
+ - Walk by pointer bounded on skb_tail_pointer(); drop the 16-bit
+   offset/tlv_len math and fix the short-frame underflow (David Laight).
+ - Add an SDRES length check alongside SDREQ length >= 1 (David Laight).
+ - Bound the SDREQ service-name pr_debug to the field length.
+ - Rebased onto linux-nfc for-next (David Heidelberg).
 
-----------------------------------------------------------------
-Breno Leitao (2):
-       nfc: llcp: avoid userspace overflow on invalid optlen
-       nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
+ net/nfc/llcp_core.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
-Carl Lee (2):
-       nfc: nxp-nci: Add ISO15693 support
-       nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
+diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+index dc65c719f..aed5fe1af 100644
+--- a/net/nfc/llcp_core.c
++++ b/net/nfc/llcp_core.c
+@@ -1286,10 +1286,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+ {
+ 	struct nfc_llcp_sock *llcp_sock;
+ 	u8 dsap, ssap, type, length, tid, sap;
+-	const u8 *tlv;
+-	u16 tlv_len, offset;
++	const u8 *tlv, *tlv_end;
+ 	const char *service_name;
+-	size_t service_name_len;
++	int service_name_len;
+ 	struct nfc_llcp_sdp_tlv *sdp;
+ 	HLIST_HEAD(llc_sdres_list);
+ 	size_t sdres_tlvs_len;
+@@ -1305,22 +1304,34 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+ 		return;
+ 	}
+ 
++	/*
++	 * Walk the SNL TLV list in the linear part of the skb only,
++	 * bounded by skb_tail_pointer(). Each TLV needs a two-byte
++	 * header (type, length) and its declared length must fit before
++	 * the end; this also keeps the walk safe for very short frames.
++	 */
+ 	tlv = &skb->data[LLCP_HEADER_SIZE];
+-	tlv_len = skb->len - LLCP_HEADER_SIZE;
+-	offset = 0;
++	tlv_end = skb_tail_pointer(skb);
+ 	sdres_tlvs_len = 0;
+ 
+-	while (offset < tlv_len) {
++	while (tlv + 2 < tlv_end) {
+ 		type = tlv[0];
+ 		length = tlv[1];
+ 
++		if (tlv + 2 + length > tlv_end)
++			break;
++
+ 		switch (type) {
+ 		case LLCP_TLV_SDREQ:
++			if (length < 1)
++				break;
++
+ 			tid = tlv[2];
+ 			service_name = (char *) &tlv[3];
+ 			service_name_len = length - 1;
+ 
+-			pr_debug("Looking for %.16s\n", service_name);
++			pr_debug("Looking for %.*s\n", service_name_len,
++				 service_name);
+ 
+ 			if (service_name_len == strlen("urn:nfc:sn:sdp") &&
+ 			    !strncmp(service_name, "urn:nfc:sn:sdp",
+@@ -1380,6 +1391,9 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+ 			break;
+ 
+ 		case LLCP_TLV_SDRES:
++			if (length != 2)
++				break;
++
+ 			mutex_lock(&local->sdreq_lock);
+ 
+ 			pr_debug("LLCP_TLV_SDRES: searching tid %d\n", tlv[2]);
+@@ -1408,7 +1422,6 @@ static void nfc_llcp_recv_snl(struct nfc_llcp_local *local,
+ 			break;
+ 		}
+ 
+-		offset += length + 2;
+ 		tlv += length + 2;
+ 	}
+ 
+-- 
+2.53.0
 
-Christophe JAILLET (1):
-       nfc: nci: uart: Constify struct tty_ldisc_ops
-
-David Heidelberg (1):
-       MAINTAINERS: Update address for David Heidelberg
-
-Doruk Tan Ozturk (1):
-       nfc: digital: clamp SENSF_RES length to the destination buffer
-
-Miles Krause (1):
-       nfc: trf7970a: fix comment typos
-
-Yun Zhou (1):
-       nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-
-Zhenghang Xiao (1):
-       nfc: nci: fix double completion race in nci_data_exchange_complete
-
-  MAINTAINERS                  |  2 +-
-  drivers/nfc/nxp-nci/core.c   |  1 +
-  drivers/nfc/nxp-nci/i2c.c    |  8 ++++++++
-  drivers/nfc/trf7970a.c       |  6 +++---
-  net/nfc/digital_technology.c |  2 ++
-  net/nfc/llcp_sock.c          | 14 +++++++++++---
-  net/nfc/nci/data.c           | 10 +++++-----
-  net/nfc/nci/rsp.c            | 41 ++++++++++++++++++++++++++++++++++++++---
-  net/nfc/nci/uart.c           |  2 +-
-  9 files changed, 70 insertions(+), 16 deletions(-)
