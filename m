@@ -1,119 +1,157 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C1B274B23
-	for <oe-linux-nfc@lists.linux.dev>; Mon,  8 Jun 2026 05:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A042B343882
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  9 Jun 2026 08:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780894853; cv=none; b=tFb+JxXWnwgA3tdmJrCWhbuNEbuq0DIW/rcJLtonFp0pc/ypVx9mGS30geZO9Nc7ZwP5J0kXFHdlYIA0bz9yQHaz+C5aDUqKhJ7sV1gR4gMGs33uOK3FS5NjMrGVf8wHUvYdtGlBogEwEslvtzTUz8TKdY7CVIZrdXSsmwXJoZg=
+	t=1780994728; cv=none; b=F16sk4M2wiVcGpliSxWiXQa8MUeIViSDP+vYPEm4Wh1zw+jKWfF8mkDZ1Es6eNO89SsuHvW1PNyC+CMHmMDbrs1DbM6Rzf7WDzcCo+QRKZGKT7gY63ZbWCb3Istc8gO6duN/X0br3QIGKXGJmElgZThYKx0Z/o87YjTNczYEpZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780894853; c=relaxed/simple;
-	bh=LEO51zVZQ4PwIYRBvGUMxl65oubDJDhjO2lHjYxIrwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NbG1T7mFc/dW1vVALTTbpi6nzgMp2v9z2RVFK+deuW907XWXV3PhE7zJXFoiiWfQ1pJqTkKD7S6AYOlu5qMII2IqYxWCmqfApd5dmv8u4rCaQdmHkU89Kv/rKfkmRYWOz3Oyb8kjp1ASsCF6seKHP69/jUe9MNS2tkd4DgV++q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huKXOGAn; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780994728; c=relaxed/simple;
+	bh=qY0Gf/s2G711Kq1AGOT5hjpV5HDiaXm4APW6yi3X498=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Nkv/wQsDeet5ONURnkVkaqbDxGnm2oBUopB/vB1NpYks8Jmk/jUpudVS1dIDgom4BciiUWKcRgvUqve9qzuNB7AQDilMnIj3AhJZm7YdAoBHFy4FOr8gg3594DctlOvpIncv60i5yEKbGt/Qz4vEl/h3WJcYfzoMiV5cDzpHMYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=tO9p4qP4; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huKXOGAn"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c0c35980fdso39244375ad.2
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 07 Jun 2026 22:00:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780894852; x=1781499652; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RmNq/ntgnQWCSXKyuTVv4BpCK0SRdqBKAJRNsXGpW+o=;
-        b=huKXOGAnkurIOUPVy6eFN2TyOOS//gYgOOSjTsuGLULg31L4O4YqTJ3oYpRgiDWDEW
-         4v053sXJhqehhnWhv4KosU6emkIPgZXaYZLZNnQE5Ew3QAD2x+zs9UTL5WOy9bM3fIVc
-         8Mh015k0aPkHrVP6CrSlLlPhBIODgwYe8rHjSRp3GgP7i2h5AMs7ERzhWEEQaiHUC6zR
-         qCQBFOS8XtwIansxA+TpnlsvNmOejDhM11GGEf3DkvkmeTBtr//KOfenpvvblOyoFmzN
-         SS0bDyedY+NjyTst63DKXkcL+xC+kJ54RTcE2jmOxYzB0qz9vF2H/434MCzjwPosFS9K
-         XQ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780894852; x=1781499652;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RmNq/ntgnQWCSXKyuTVv4BpCK0SRdqBKAJRNsXGpW+o=;
-        b=UwdXoeUs8SV816KLrRR+akY+j4vwuun50nwSU0ZbG3uIqI8BX4wz1eaW/1aVoTgN15
-         B8CnCJ+MHkge/ukEdsZNtVKRX9zWSGDkJSSj/nLjr0p3nCf99ZmccS73aKj+CZsZD/6j
-         DmfhHsR5gQNtN/zDSyG/2xx/D/7S+QCrGXCBc8BhQkhITPxaHR4U5CIH4dueFk4QZVQO
-         LU++WEUBJx3O8LaUSB4TL65C6IF42wK4YYrZ7rqKva0q2l79hzmgqkX2IhurG7KTxyRk
-         Vhjl99qaAZ0K8tjuHAvvr6ngUhjY3E12JBOeIuZjsxHZ1On5SMurssq64lUCKgoF0fnO
-         FgCQ==
-X-Gm-Message-State: AOJu0YzMBEn//4CTeaQZHVT7DE1I/FvPhwSbNs2/2bxwwIweBmHkLmqg
-	lNMhnQy14piOb3DPNTj8DMYwm1shLsh27vtBZqTP15gsNUlOMzNFgaup+0LSSQ==
-X-Gm-Gg: Acq92OEXFzot1UQPcJeafUOYNEUZLBsoNlNINlc1aWuLI6FlxFCzkzxXo189v5+jH/e
-	uPaOcsCEZJEO+74ppTYaoZx0p7RsXRMuVFRyb6nWFsrwBrRhICrh6E+yqdJo7Jq0ZJUkyKWkB75
-	yWdYmA04QId0muy/X91QdKJs9aX4pCT6OLSPeQriUunQiRZHDKS8lMHsFIgAcNgxokbbm2h/oNL
-	nLScjwDb5nH1jGPMp+q2hCgNX//oz2E67Ii4s381BF86oV2ZglWTsOro6nHEQSOVFgg7uknOzDd
-	cfM5csRfVKR07Sc3oaWFB7YPOrkFKj3g1p/5HfJb1jftefSCX9dkZwDvA2O0yctFXXvyjQA7va5
-	llP3pnut91zdIXmNe9tcRqa6Xj82Lhd4ZapUlDNeqwR6MVoEmRJv0S65m7fT6yglc7C1VRZFOo9
-	DmV5gA0oqzuRNg5oi8J0nQxXMZINUCwdfMeg06xI4k9mx0SKKepSh9K/7qEZs2mJYfWiBp/Cw+C
-	zgiVjY3f2sePdnrGL1S/Sn4FGPE12r/+PgLEc0F45I9zA==
-X-Received: by 2002:a17:903:3885:b0:2c2:245a:3368 with SMTP id d9443c01a7336-2c2245a3649mr110430735ad.14.1780894851632;
-        Sun, 07 Jun 2026 22:00:51 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f94a7fsm167581765ad.28.2026.06.07.22.00.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 22:00:51 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: oe-linux-nfc@lists.linux.dev
-Cc: David Heidelberg <david@ixit.cz>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] nfc: pn533: fix memcpy overflow warning
-Date: Sun,  7 Jun 2026 22:00:34 -0700
-Message-ID: <20260608050034.5679-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="tO9p4qP4"
+Received: from [10.0.0.200] (unknown [10.88.125.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 7D7E65340858;
+	Tue, 09 Jun 2026 10:45:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1780994721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+	bh=b2aT3aIG9gwRgEWpv77WKO5mO83tTKSk79K8/RmBFLE=;
+	b=tO9p4qP4TW8bNk6WgToPKVt1tHqeQBv00ah65OWnk73mxR3PUiWeTWkJsZnLHBZVnhFaTw
+	ACcgLWxyVJ4KAr+Qq8ZvFJEq4T3c9lmXAO9XVLQXcb7A6UA66uFpxOBQOlYkye6gTFvlpR
+	D1sqtRKuzqLAY7vRgFLGsrV4Fv4UfsE=
+Message-ID: <b3084b2a-f8fa-4bba-8a92-1a14fbacb622@ixit.cz>
+Date: Tue, 9 Jun 2026 10:45:21 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Subject: NFC for next-20260609
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+To: davem@davemloft.net, kuba@kernel.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ oe-linux-nfc@lists.linux.dev
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-error: call to ‘__read_overflow2_field’ declared with attribute warning:
-detected read beyond size of field (2nd parameter); maybe use
-struct_group()? [-Werror=attribute-warning]
+The following changes since commit 4549871118cf616eecdd2d939f78e3b9e1dddc48:
 
-As suggested, add a struct_group and memcpy that.
+   Linux 7.1-rc7 (2026-06-07 15:37:58 -0700)
 
-Also replace 9 with sizeof for clarify.
+are available in the Git repository at:
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/nfc/pn533/pn533.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+   https://codeberg.org/linux-nfc/linux.git tags/nfc-for-next-20260609
 
-diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index d7bdbc82e2ba..4e721a8dfd8b 100644
---- a/drivers/nfc/pn533/pn533.c
-+++ b/drivers/nfc/pn533/pn533.c
-@@ -740,8 +740,10 @@ static int pn533_target_found_type_a(struct nfc_target *nfc_tgt, u8 *tgt_data,
- 
- struct pn533_target_felica {
- 	u8 pol_res;
--	u8 opcode;
--	u8 nfcid2[NFC_NFCID2_MAXSIZE];
-+	struct_group(sensf_res,
-+		u8 opcode;
-+		u8 nfcid2[NFC_NFCID2_MAXSIZE];
-+	);
- 	u8 pad[8];
- 	/* optional */
- 	u8 syst_code[];
-@@ -778,8 +780,8 @@ static int pn533_target_found_felica(struct nfc_target *nfc_tgt, u8 *tgt_data,
- 	else
- 		nfc_tgt->supported_protocols = NFC_PROTO_FELICA_MASK;
- 
--	memcpy(nfc_tgt->sensf_res, &tgt_felica->opcode, 9);
--	nfc_tgt->sensf_res_len = 9;
-+	memcpy(nfc_tgt->sensf_res, &tgt_felica->sensf_res, sizeof(tgt_felica->sensf_res));
-+	nfc_tgt->sensf_res_len = sizeof(tgt_felica->sensf_res);
- 
- 	memcpy(nfc_tgt->nfcid2, tgt_felica->nfcid2, NFC_NFCID2_MAXSIZE);
- 	nfc_tgt->nfcid2_len = NFC_NFCID2_MAXSIZE;
--- 
-2.54.0
+for you to fetch changes up to f6696b7206c3bd276bf81d5953a1489bf43dd783:
 
+   nfc: digital: clamp SENSF_RES length to the destination buffer (2026-06-09 
+10:12:52 +0200)
+
+----------------------------------------------------------------
+nfc pull request for net:
+
+  - llcp: avoid userspace overflow on invalid optlen
+  - llcp: read llcp_sock->local under the socket lock in getsockopt
+  - nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+  - nci: fix double completion race in nci_data_exchange_complete
+  - nci: uart: Constify struct tty_ldisc_ops
+  - nxp-nci: Add ISO15693 support
+  - nxp-nci: treat -ENXIO in IRQ thread as no data available
+  - digital: clamp SENSF_RES length to the destination buffer
+  - trf7970a: fix comment typos
+  - MAINTAINERS: Update address for David Heidelberg
+
+----------------------------------------------------------------
+Breno Leitao (2):
+       nfc: llcp: avoid userspace overflow on invalid optlen
+       nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
+
+Carl Lee (2):
+       nfc: nxp-nci: Add ISO15693 support
+       nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
+
+Christophe JAILLET (1):
+       nfc: nci: uart: Constify struct tty_ldisc_ops
+
+David Heidelberg (1):
+       MAINTAINERS: Update address for David Heidelberg
+
+Doruk Tan Ozturk (1):
+       nfc: digital: clamp SENSF_RES length to the destination buffer
+
+Miles Krause (1):
+       nfc: trf7970a: fix comment typos
+
+Yun Zhou (1):
+       nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+
+Zhenghang Xiao (1):
+       nfc: nci: fix double completion race in nci_data_exchange_complete
+
+  MAINTAINERS                  |  2 +-
+  drivers/nfc/nxp-nci/core.c   |  1 +
+  drivers/nfc/nxp-nci/i2c.c    |  8 ++++++++
+  drivers/nfc/trf7970a.c       |  6 +++---
+  net/nfc/digital_technology.c |  2 ++
+  net/nfc/llcp_sock.c          | 14 +++++++++++---
+  net/nfc/nci/data.c           | 10 +++++-----
+  net/nfc/nci/rsp.c            | 41 ++++++++++++++++++++++++++++++++++++++---
+  net/nfc/nci/uart.c           |  2 +-
+  9 files changed, 70 insertions(+), 16 deletions(-)
