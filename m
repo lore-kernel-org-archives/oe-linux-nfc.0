@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B6F3C4175
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 11 Jun 2026 09:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD38B3EC2E1
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 11 Jun 2026 12:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781171462; cv=none; b=CAd+HPmj2sJ52c966ue2McYGjnN2h3Lxn3sEiDsO6wOVo8QkfQ8eoBmAvraUC0smDLfBZ5aznTLoCiKw3E1d05BRqPoqSATjpzjJ5cx9cV+Js66D4HmLiDHfKxB/EUW7m5Y8Wwl6LlLHNyUH5lmV577Zo02PjRc28+pkbOEEH64=
+	t=1781180047; cv=none; b=m2QEBsOsTK79Df6GT5AoEa/ZsPIsh7KSHuCskBlQoWevrtwKbuXtV/id1S51pE82M7Eui1WHO10+qc3+/Jno+6bkFhsDCUeyNnqiUbuaAix1TKxi9Q+vahTbW4cegPRTX3UXFT7BObGAQXYn95tY1tbpivldqe4Oq5PndAt1COo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781171462; c=relaxed/simple;
-	bh=jz+ql1SJEmBc8qkNxDcmdrPkwHPSpKi/W84DfWdEZyQ=;
+	s=arc-20240116; t=1781180047; c=relaxed/simple;
+	bh=eBCgityZ8PU9jKtK5orPzitTBEp8N/Zc+lQkKpvovm0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hBSNxLvJuXkCpw689YSXqKS97XXHm+AWyaZrhOlS98qqdo9X1zBCCTDDPGYJIkZz9xBqF4/9cPxg/+2pfIRayuZYw4fKvbh+2TuFGtTe6qlTAvLLlNhTYp5BNdYRFAMEbrhaiTamWzb+enziuuijPgXT2x+GyD2Yp/ZTFxijRfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=MTUw7it0; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=kMe80BAxAWHl3xh8ppaGTwWGhS6L8Z1M+PlVujNwR3DOC9uchtR/d1IJU76K0Cbo0o0mZuh9CtvU81/xpLq/ZJbEk28Q3zZSy0LWzLzB/1hZI12NJR+cIMhRsrafVzBAgxNO3KPH33/xX70hBBpTd7FtmPe++0MQWbvwmQOPFn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=YsUQBQnY; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="MTUw7it0"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="YsUQBQnY"
 Received: from [10.0.0.200] (unknown [10.88.125.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 96A4E5340FED;
-	Thu, 11 Jun 2026 11:50:57 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 144995340AE1;
+	Thu, 11 Jun 2026 14:14:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1781171457;
+	t=1781180042;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OzXbrKUQvXoVw8kMmRIUS54uUK86byf1rjc5ryD/5XE=;
-	b=MTUw7it0Vh/TyoS6KwlLnPp7pwpE154IyG4UKWhdUeyI+SiLatD8ooWsnBYHSh810J28t2
-	g2kgP+3SnqJsgILwxROp+wIJZDYyGGcY9YUPofIfqLeeRINH4bIAny08XJXaK6471Um8ZP
-	ATrAGvZdEJsSAzaeDLnEbudJUM1zg6Q=
-Message-ID: <52b20267-10c3-4420-8416-895733855de5@ixit.cz>
-Date: Thu, 11 Jun 2026 11:50:57 +0200
+	bh=hAO2yRs1x8os8S2lWDWo0hjOMVY+nlkC9VsBNjdMOTM=;
+	b=YsUQBQnYt0y8PbZaagfRpINJPZ204zvGNKZ3fD0dJseMl+FSTf/V1soPvAs7KUq2XYaoBC
+	VdLY1S0UkHX9XjjvgOKBZ4R15qImYN/jxlRU/uywj9JvU3ouReURtuQzOL6iF8jxMkzkb0
+	+9Smqjby3Ho36VaxT2+MLZO9bYHlxBU=
+Message-ID: <cdc4f56d-0f46-4644-873e-24f3dfc98bc4@ixit.cz>
+Date: Thu, 11 Jun 2026 14:14:01 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,17 +41,12 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] nfc: Use named initializers for struct
- i2c_device_id
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, netdev@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Simon Horman <horms@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Ian Ray <ian.ray@gehealthcare.com>, Carl Lee <carl.lee@amd.com>,
- Tomasz Unger <tomasz.unger@yahoo.pl>, linux-kernel@vger.kernel.org,
- oe-linux-nfc@lists.linux.dev
-References: <20260518133311.644160-2-u.kleine-koenig@baylibre.com>
+Subject: Re: NFC for next-20260609
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <b3084b2a-f8fa-4bba-8a92-1a14fbacb622@ixit.cz>
+ <20260610084825.64763972@kernel.org>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -97,19 +92,36 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260518133311.644160-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20260610084825.64763972@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 10/06/2026 17:48, Jakub Kicinski wrote:
+> On Tue, 9 Jun 2026 10:45:21 +0200 David Heidelberg wrote:
+>> The following changes since commit 4549871118cf616eecdd2d939f78e3b9e1dddc48:
+>>
+>>     Linux 7.1-rc7 (2026-06-07 15:37:58 -0700)
+> 
+> This should be based on net-next if you're sending a PR to net-next.
+> 
+> Normal flow of history is something like:
+> 
+>   net-next - x - x - ... - x - merge - x - ...
+>            \                  /     \
+>             `- x - x - x - x [PR]    ` x - ...
+> 
+> Note that net and net-next do the same dance of periodic merges,
+> and net does a periodic dance with Linus's tree, which is how
+> we get changes propagate from the tree with fixes to -next trees.
+> 
+> Problem 2 - the subject says next but the tag says "nfc pull request
+> for net:", which one is it? :)
+>      ^^^
+> 
+> Could you rebase the patches on top of net-next if that's your intended
+> target or net if you meant net?
 
-On Mon, 18 May 2026 15:33:11 +0200, Uwe Kleine-König (The Capable Hub) wrote:
- > nfc: Use named initializers for struct i2c_device_id
+So the batch was intended to go into 7.2, should I target net-next or directly 
+net in this case?
 
-Applied, thanks!
-
-[1/1] nfc: Use named initializers for struct i2c_device_id
-       commit: 898fe2032bff85deff50fb9fb3e09e8b5fa7d100
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
+David
