@@ -1,85 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2EE33F59F;
-	Thu, 11 Jun 2026 17:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CAF4D2EF7
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 11 Jun 2026 18:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781200610; cv=none; b=gTR4DZVfoGPkaXFX7CT55omfOnGLFy54NAN6OYL5RAUrgxK8fPIUR6Gwb+eFrL97B+SHNvmzy7EM3sRVDlsiDZ9CFt4Sk6VDyabrxQdt4yqHBrLU+VZb7EkCx92uBY2UHuBm4B2GErHzKrRzmJ9gdhIBoGN2YGOAQuEyGLYdYwk=
+	t=1781203486; cv=none; b=U5K2571lAjtpRmYIpr4IqVUrZXnDWQCR4q+NiAQ6AqWOXRzQgKvdSnoWmEApybdft3uH24I2LtSYGU6MYbOI80tX2bXJ8QVaAXsLZzIHErZbLMnQSDYpnnLjTIqSAiYbfg8zOBS59oF1WRHhNZRwm9pz0IKYZrT+DnXQIWw4c88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781200610; c=relaxed/simple;
-	bh=U73+XwN1pPKzG7UNHdSIfIWRQgZf7M2u5bAxU53wyfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=olx6wCxaCcZztdSboAhTlElV6i4ZJqHHkV21omKL3vFBO+xz5KNmiEZO/PK+JNwsMDxHFvgkXjVzU1D7gwi62oqrBSe+qz3RoviPuh97YrGEKIzI8lE4DYE/OYl8WR1DlVPm1uZ+oWC1CUXwEFHpTZItex5W/ssPaU1Udfe0BRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktW1M+Qv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781203486; c=relaxed/simple;
+	bh=vpYeocyGmRFiHaNqwSQP/+Q2Os/MyYEsFV8J3j1LZcY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=HcUVQuB4VUjr5Cbx85iAwPFXs6Ow3NpNEjAFKk7pLv66SjxZHL/LlHJPq8G2b4Ks2E92GGACd00EKGzU94/P79W8vT0KGg/m2wsiXYoydNuFEUjXv27rRsrNIY9TZuHKCUaqWOk/ICdaeWQKYkGl/AzSyNNM7b/EVfgcVme5lPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=j/IJ8Y6d; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktW1M+Qv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418EA1F00893;
-	Thu, 11 Jun 2026 17:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781200605;
-	bh=wTfmXsyH8Q4DXcjuPnl3bbdfG34xX8vBGuyENtZeg/k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ktW1M+QvCHltZv3FzFO3EuIqtvwoQdfocqm+mT1vT7Rnmnwgbe63AOZGOpizVCe64
-	 GsyhSEgs82VUXPoNJNl4yd3iywR/OLZSJ7ULuaF1odyvHvSosnQckS8bh8kuGZxcBl
-	 0g9imC5399J4k2hE2yW0jYHmBEzg30YFiRa5n4BUmPW5gF6AhxrS2KkttUpVmVdfQC
-	 dnOTUF4rvrw/kbip5g9IBYsCO0bVXKrT99bd/mKDLAIz9QqUnxvfGM4csaP+YLd9W5
-	 rzCDAx0qlaB3g6B+X6+waowSSIb8UcsIxynb8Bf/09XSKrzDc0bu0HrdU3E1MEpshQ
-	 M8kbhKnspebfQ==
-Date: Thu, 11 Jun 2026 10:56:44 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: davem@davemloft.net, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-Subject: Re: NFC for next-20260609
-Message-ID: <20260611105644.470e5989@kernel.org>
-In-Reply-To: <cdc4f56d-0f46-4644-873e-24f3dfc98bc4@ixit.cz>
-References: <b3084b2a-f8fa-4bba-8a92-1a14fbacb622@ixit.cz>
-	<20260610084825.64763972@kernel.org>
-	<cdc4f56d-0f46-4644-873e-24f3dfc98bc4@ixit.cz>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="j/IJ8Y6d"
+Received: from [10.0.0.200] (unknown [10.88.125.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 0C6DE5340A5A;
+	Thu, 11 Jun 2026 20:44:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1781203475;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+	bh=y1XobBV70r67Ig1mkengsSuY3Jawxb6BXAEw0Sl2cGo=;
+	b=j/IJ8Y6dQH/GRMEdOxOteP9Xjx4nD89a2OksKEVbcsnTR8cUw6WCe8bxdR9RIJCuDSpkKt
+	owl9x00SNWidXmKBHmBwdZ+MKef5LGUD3EwcPnxKK+wO6ua2qVcmZ9LYvHujbVpHWZDrty
+	Yu7obr97BR791zvrvU05ickhz/mc8BI=
+Message-ID: <1aed7555-3d24-413c-b284-bc85fdd33055@ixit.cz>
+Date: Thu, 11 Jun 2026 20:44:34 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
+Cc: netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ oe-linux-nfc@lists.linux.dev
+From: David Heidelberg <david@ixit.cz>
+Subject: [pull-request] NFC updates for net-next 2026-06-11
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 11 Jun 2026 14:14:01 +0200 David Heidelberg wrote:
-> On 10/06/2026 17:48, Jakub Kicinski wrote:
-> > On Tue, 9 Jun 2026 10:45:21 +0200 David Heidelberg wrote:  
-> >> The following changes since commit 4549871118cf616eecdd2d939f78e3b9e1dddc48:
-> >>
-> >>     Linux 7.1-rc7 (2026-06-07 15:37:58 -0700)  
-> > 
-> > This should be based on net-next if you're sending a PR to net-next.
-> > 
-> > Normal flow of history is something like:
-> > 
-> >   net-next - x - x - ... - x - merge - x - ...
-> >            \                  /     \
-> >             `- x - x - x - x [PR]    ` x - ...
-> > 
-> > Note that net and net-next do the same dance of periodic merges,
-> > and net does a periodic dance with Linus's tree, which is how
-> > we get changes propagate from the tree with fixes to -next trees.
-> > 
-> > Problem 2 - the subject says next but the tag says "nfc pull request
-> > for net:", which one is it? :)
-> >      ^^^
-> > 
-> > Could you rebase the patches on top of net-next if that's your intended
-> > target or net if you meant net?  
-> 
-> So the batch was intended to go into 7.2, should I target net-next or directly 
-> net in this case?
+The following changes since commit 518d8d0199538a4d6d5e51064044ece71e0c42e7:
 
-Doesn't matter right now since the merge window is really close.
-But looks like a mix of fixes and improvements. Having patches
-that CC stable and basic code changes in one PR is a bit of 
-a red flag. The fixes should should go to net, and the improvements
-to net-next.
+   net: sched: avoid printing uninitialized link speed (2026-06-11 15:44:55 +0200)
 
-Right now probably best to respin for net-next, we don't want to
-have to take the non-urgent stuff via net at this stag.e
+are available in the Git repository at:
+
+   https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260611
+
+for you to fetch changes up to 1b92c1f6d6d87f9ec3c2bef3c68b99b097712f9a:
+
+   MAINTAINERS: Update address for David Heidelberg (2026-06-11 20:24:47 +0200)
+
+----------------------------------------------------------------
+NFC updates for net-next 20260611
+
+  - nxp-nci: Add ISO15693 support
+  - nxp-nci: treat -ENXIO in IRQ thread as no data available
+  - nci: uart: Constify struct tty_ldisc_ops
+  - trf7970a: fix comment typos
+  - Use named initializers for struct i2c_device_id
+  - MAINTAINERS: Update address for David Heidelberg
+
+----------------------------------------------------------------
+Carl Lee (2):
+       nfc: nxp-nci: Add ISO15693 support
+       nfc: nxp-nci: treat -ENXIO in IRQ thread as no data available
+
+Christophe JAILLET (1):
+       nfc: nci: uart: Constify struct tty_ldisc_ops
+
+David Heidelberg (1):
+       MAINTAINERS: Update address for David Heidelberg
+
+Miles Krause (1):
+       nfc: trf7970a: fix comment typos
+
+Uwe Kleine-König (The Capable Hub) (1):
+       nfc: Use named initializers for struct i2c_device_id
+
+  MAINTAINERS                 |  2 +-
+  drivers/nfc/microread/i2c.c |  2 +-
+  drivers/nfc/nfcmrvl/i2c.c   |  4 ++--
+  drivers/nfc/nxp-nci/core.c  |  1 +
+  drivers/nfc/nxp-nci/i2c.c   | 12 ++++++++++--
+  drivers/nfc/pn533/i2c.c     |  4 ++--
+  drivers/nfc/pn544/i2c.c     |  4 ++--
+  drivers/nfc/s3fwrn5/i2c.c   |  4 ++--
+  drivers/nfc/st-nci/i2c.c    |  4 ++--
+  drivers/nfc/st21nfca/i2c.c  |  4 ++--
+  drivers/nfc/trf7970a.c      |  6 +++---
+  net/nfc/nci/uart.c          |  2 +-
+  12 files changed, 29 insertions(+), 20 deletions(-)
