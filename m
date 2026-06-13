@@ -1,109 +1,88 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5143B36AB4B
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 12 Jun 2026 17:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9B11E9B37;
+	Sat, 13 Jun 2026 07:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781287079; cv=none; b=F/Z/6rr8rjxnuqvf7jXpUTOq3mBaJlgnALkmiMWaJ1Klsvbf+g3sYa4CocfLy3N4/dDJjfkWJbFxhPCNsH/q8kfcICa9degxjguecBb/9Gc/VkjLBy7+HhBF43wnFwo5I8oCE59Y46B8UluwyThEEul0L3nSix8W0pfefwktSpA=
+	t=1781336642; cv=none; b=dTpYKP5FkzXNGsYmvUYSpYlXTUKarxP39PQh0Jo2AXpOd+VJZO0pPrEx0EOWVqmtK8XYJNFi2fXXgFwj8UmIsrT72ZCoVnGTaK2hFY7M8cDZhFLtvkLXeYHvCIQJRVh3GM8v3XniBb7bKsnc3661cwq1fG3e0YyXU2tx1GOTndE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781287079; c=relaxed/simple;
-	bh=zRWoQXCtMOBWBsutRSnFWCREpC3BqoSSxc5qXc+RcdU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bh0JaBNWXF1lCI4HGVAByniOUB5ntzp9rzXMh913CaVS1XVyVP8k/bMeiAaDwFckXlQzY0Tjm9J83zYalxbP7FvIGFkORlbDDofquz0sgxeAdI0E+GPoIvmmlWUtCxXAXzq+M9QH5z7TKyklCtnregZwNNisoi8Hyhj8jsKe1+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=az5AtMOC; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1781336642; c=relaxed/simple;
+	bh=/Wv/Qw38Spvb+Jys/ia/Dz/8lFD5VO+SWkDcgwG4nbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h7Pgz8HOP4YzIknXKpz0qIj3pNyOgzqKCYaQfw5wZ0l84zZL2msF5XtYks1ed7On3kC14Rp4phY4OyzGOgIV2FpbCshgcLlze3/9wFuZLYAsj6BegZIi2eTnQdBjRqRj4eoVBd/IDMqj4/qQEi7hCechevMd5P5g9d0GZQbyCaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IcZPyTHj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="az5AtMOC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=5rmaei73r5ff7fednab3j47elq.protonmail; t=1781287066; x=1781546266;
-	bh=uqoNIEdJd9o31lWk+Soo4RDv+i0iKH20B2Ql9d/JqAE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=az5AtMOCGmIx2/Yuy/rpSL6WYDfkTPnpW3n1LTMnrbodtazamwXPM4F/hpkPES+wS
-	 q+n2IS8QjexDgOrl/Byyr7h+DUCaAT86oo26nFBIZ0wAKor2KZIuUK0LUfALccukoe
-	 Z98B9yjH8cIiWxiknkP0Qs6W19TmDdXsg3JPtPdTNmgFvpLCdbq48zn1LBhspgecuD
-	 R77Lx4OfdcM1dOmi8+mkhVi9WDeAZg39M7RiuUcRnG3vkaD4m1tNqtoceV/K+Fmxet
-	 09Cuv0ItWUUWS3dSswJ+ASvsuVKhE2vkUIasx1O0j/37I7E4jmVLXZWJwiFHJVREEb
-	 EzPaQXrAlweDw==
-Date: Fri, 12 Jun 2026 17:57:42 +0000
-To: Simon Horman <horms@kernel.org>, David Heidelberg <david@ixit.cz>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nfc: nci: add data_len bound checks to activation parameter extractors
-Message-ID: <20260612175739.11466-1-hexlabsecurity@proton.me>
-In-Reply-To: <20260612131813.674622-3-horms@kernel.org>
-References: <20260610064104.143042-1-hexlabsecurity@proton.me> <20260612131813.674622-3-horms@kernel.org>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 56fae6bbf76c1489fe07d621a3edf42cceb13acd
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IcZPyTHj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3851F000E9;
+	Sat, 13 Jun 2026 07:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781336641;
+	bh=3NsskWgW6psgqXL08E8Akl+nuU0t9vihaNowzoV2S7o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IcZPyTHjLMr4UkN9WcAWL/Zu6fX3szK/9T6UKdEn9yp7caLv9iBQNB6p4BSRveyo/
+	 +WKUP/6N7J2KhAOJPI+EjecpH8vhJHmfQkW840xg90A01vGHzNXmdxOAu4e8yiZjMM
+	 a3+LrYEgekceA70rtdTj8SNZYEqMkfpEiBMmx6OhkLyrTWSRRsONEKxyM6Kl9QWmMX
+	 mVyCHB95oRkCYXvl094TDRcBhMJ2OcwPROIDVYVangEa9yN8uQbVVpDdlz8s7eg9TO
+	 Ne7mP6njO0bkMLSBQQvyuTA5UaJghuoERtFNzuNCjBWwGXSck8i3N571lwfJO5oUDS
+	 yEiJZBTiPcOAw==
+Date: Sat, 13 Jun 2026 08:43:56 +0100
+From: Simon Horman <horms@kernel.org>
+To: Zijing Yin <yzjaurora@gmail.com>
+Cc: David Heidelberg <david+nfc@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net] nfc: nci: validate packet length when parsing NCI
+ 2.x RF interfaces
+Message-ID: <20260613074356.GB712698@horms.kernel.org>
+References: <20260611162718.2301552-1-yzjaurora@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611162718.2301552-1-yzjaurora@gmail.com>
 
-Thanks for the review. v3 is posted as a new top-level thread:
-https://lore.kernel.org/all/20260612-b4-disp-6d52d8b0-v3-1-ae1f21cdd8ab@pro=
-ton.me/
-Point-by-point below.
+On Thu, Jun 11, 2026 at 09:27:16AM -0700, Zijing Yin wrote:
+> nci_core_init_rsp_packet_v2() parses the variable-length list of
+> supported RF interfaces carried in an NCI 2.x CORE_INIT_RSP without ever
+> validating the controller-supplied lengths against the size of the
+> received packet.
+> 
+> Each list entry is a (RF interface, RF extension count, RF extensions[])
+> tuple. The loop walks the list using the per-entry extension count
+> (rf_extension_cnt, up to 255) taken straight from the packet, so a
+> malformed CORE_INIT_RSP can advance the read pointer far past the end of
+> the skb data buffer. The stored interface count is clamped to
+> NCI_MAX_SUPPORTED_RF_INTERFACES so the write side is bounded, but the
+> read side runs off the end of the buffer.
+> 
+> A malformed CORE_INIT_RSP from the controller, also reachable from user
+> space through the virtual NCI device (CONFIG_NFC_VIRTUAL_NCI) once the
+> device has entered NCI 2.x mode, therefore makes the parser read past the
+> end of the response buffer while walking the interface list, copying the
+> out-of-bounds bytes into ndev->supported_rf_interfaces[].
+> 
+> Reject responses shorter than the fixed part of the structure, and make
+> sure each interface entry and its extension bytes lie within the received
+> packet before dereferencing them. A truncated or malformed list is
+> treated as a syntax error, which fails the CORE_INIT request instead of
+> reading out of bounds.
+> 
+> Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zijing Yin <yzjaurora@gmail.com>
 
-> [Severity: Medium] Is the correct error type being returned here?
-> [...] -EINVAL [...] nci_to_errno() will truncate it [...] -ENOSYS [...]
-> Should a valid NCI status code [...] be used instead?
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Correct. These extractors return into the int 'err' in
-nci_rf_intf_activated_ntf_packet(), which is handed to nci_req_complete()
-and later run through nci_to_errno(). nci_to_errno() takes a __u8, so the
--EINVAL is truncated (to 234) at that argument and falls through to the
-default case as -ENOSYS. The contract here is an NCI_STATUS_* code: 'err'
-is initialized to NCI_STATUS_OK and the functions' own default cases
-already return NCI_STATUS_RF_PROTOCOL_ERROR.
-
-v3 returns NCI_STATUS_RF_PROTOCOL_ERROR from the new short-region guards,
-which matches the sibling default cases and maps to -EPROTO via
-nci_to_errno(). NCI_STATUS_INVALID_PARAM is equally valid (also -EPROTO) --
-I went with RF_PROTOCOL_ERROR for consistency with the surrounding code;
-glad to switch if you prefer INVALID_PARAM. v3 is otherwise identical to v2
-and is posted as a new top-level thread.
-
-> [Severity: Critical] [...] atr_res_len [...] integer underflow [...]
-> up to 47 uninitialized stack bytes into ndev->remote_gb [...] broadcast
-> to userspace?
-
-The uninitialized-stack read is real: in nci_store_general_bytes_nfc_dep()
-an atr_res_len below NFC_ATR_RES_GT_OFFSET makes min_t() clamp to
-NFC_ATR_RES_GB_MAXSIZE and memcpy() copies stale bytes of the on-stack
-atr_res[] into ndev->remote_gb. I could not, however, confirm the
-"broadcast to userspace" part: remote_gb has no netlink attribute (there is
-no NFC_ATTR_TARGET_GENERAL_BYTES), and its only path out is LLCP, which is
-gated by the 3-byte llcp_magic memcmp on those same uninitialized bytes --
-so a deterministic leak of the 47 bytes isn't reachable that way. It's
-still a genuine uninitialized read worth closing; see below.
-
-> [Severity: High] [...] sel_res [...] uninitialized [...] nci_add_new_prot=
-ocol()
-> [...] nfc_genl_send_target() [...] sent out unconditionally [...]
-
-Confirmed, and this one does reach userspace: with sel_res_len =3D=3D 0,
-nci_extract_rf_params_nfca_passive_poll() leaves sel_res unwritten in the
-on-stack ntf, nci_add_new_protocol() copies it unconditionally, and
-nfc_genl_send_target() puts it into NFC_ATTR_TARGET_SEL_RES on
-NFC_CMD_GET_TARGET -- a one-byte stack disclosure (the discover-NTF path
-reaches it without the err=3D=3DNCI_STATUS_OK gate).
-
-Both pre-existing issues are closed by zero-initializing the on-stack
-notification structs:
-
-    struct nci_rf_discover_ntf ntf =3D {};        /* nci_rf_discover_ntf_pa=
-cket */
-    struct nci_rf_intf_activated_ntf ntf =3D {};  /* nci_rf_intf_activated_=
-ntf_packet */
-
-I'll send that as a separate patch rather than fold it into this one, since
-it's an independent change in different functions.
+FTR, there is an AI-generated review of this patch available on sashiko.dev
+However, I believe that the issue flagged there can be considered in the
+context of possible follow-up rather than effecting the progress of this
+patch.
 
