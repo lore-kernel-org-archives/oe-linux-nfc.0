@@ -1,152 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3E7846A;
-	Mon, 15 Jun 2026 08:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C9037880B
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 16 Jun 2026 07:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781510642; cv=none; b=kxI/KneHkVg1H8gVSRTLp1KkjDR15Fqjem247gwT6i+zDX9hNVP01tu5fj6k9ZzqeykD7Vz6nZvpEuZvACfeL1/gpAJa8gV2cMGiCg9TycfKQVBGi2yZUFCvt7J1JIk6ieQ4rgbWFzynP8EbU21YN2HRXT90QwKQI4aMh9GyIRU=
+	t=1781594216; cv=none; b=n+kmiDiXioGkqY8R9fzzokt5QNt99qFQ72W6a6MTBS47XudltdKArw01cckRVfnT+Zki4zch1C++3bmR7zCuwZH8QtzJWH0+nd4/q4wM2KqAhxdYMMkNA8qosb5cbvoeTcAZuRdmHqFgV3OwGiwmNl7HZv714o6iBcZeZq0uTYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781510642; c=relaxed/simple;
-	bh=nM8M62c0tUBOuJFn2CCUvgOrKNqVVgQyAo0K563ANFE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GOV/XMIT7uAfQpijBk+nBUZnEsT5nkw7pH+LcVpDDNkNS3RYzZqDedZoYp/3pytTBqECGL6llzTva08bZXzyh29KqYxrfDMZbLZHgdVGQ3KqR2K/x6hR4QEoRoq3CauAj/mR2ctwfS24Epe61pX7peuuf5wtUMqBG6mX0tpY5og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ut2EIy60; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781594216; c=relaxed/simple;
+	bh=vaZ/0Ewnu98FAmvpL2lOvY7+wIaJKmUfWYSM+IWun98=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=kZoOehTGI/erirG0GCcJbXKCaPQH5GeDliy0mqkwPbHTCLev4YEIQbS931YKnb9Gf77DeaqO6c4QMqwxY4+zlHaq8e0aUA86avpmrPhBNkjzuRQhX5egiQwlm8oXGRCnrsh66g/v1mLTLkLvSAVwwUX2xmaOi693++kRU3OQ8Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCeX7ybV; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ut2EIy60"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D341C2BCB4;
-	Mon, 15 Jun 2026 08:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781510642;
-	bh=nM8M62c0tUBOuJFn2CCUvgOrKNqVVgQyAo0K563ANFE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=ut2EIy60sF2YcTUiEAmhL2pZN6SrEpUCat/4wrwE09w7n/pojQzRpX1iyuYJftH8B
-	 /pumH3JK5kAKum/XbuZQbPLWTGTj1LBbW4ssqZOisx0N5jFwQ4I8BfmqunixS7x1WJ
-	 8W6bRtgNKasN9FtB36wv1LyENAn3PyqegFDxVmsH8RkldEAlbJCvbI3zT+Flvysc3k
-	 pW7mFYDL9ImcHBqNM3qpsiYcwUiRU7mmcT1+NJMeR5aHgCwIleZsxpfPgqV39npchp
-	 ++U38JWnQMJX9B3TDuFqA4IYGRmEL4yT6wlQeYbuN5FrpagJFGCth6GxvsNwJiKoVW
-	 vVg7sMOP0UlbQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F60CCD98DE;
-	Mon, 15 Jun 2026 08:04:02 +0000 (UTC)
-From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
-Date: Mon, 15 Jun 2026 03:04:02 -0500
-Subject: [PATCH] nfc: fdp: reject an oversized device-reported packet
- length
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCeX7ybV"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36bdda53d99so1566460a91.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 16 Jun 2026 00:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781594214; x=1782199014; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BYX4P/K/DjUBCFGIDzHrUic46/bz81v6Ai5JIWtpoEg=;
+        b=kCeX7ybVWosPvA7/t4gTA8d16KDC+hCQXU1cUGuwJpV8bEDQMgqqaj3E4CXdQzDtQz
+         JOfFhdNnnTb7Q4UrOkt6XjfCgT5XIK07rRjmpVACg/n4qOKPWOLLtGLQvsky20k41Shv
+         uV6f7740r2E5QYQE/wCJZF41KOPMTZavLm4QvrLBLQthQwr2aY5plWSyo7taH7p+Tx/y
+         agj/szSgBn73XJW5acBPVVU6LC2WzbX7dBwB4ccilL/1rMzWT9+Pgzx2nVOqZQaki4Gz
+         n0+E7wPYm5W3U8r1aEUGYlKGkxJ4OW2HIRqo1pg5ogFnbnhwvjgll/xAAa97pQ9kee4A
+         9PBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781594214; x=1782199014;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BYX4P/K/DjUBCFGIDzHrUic46/bz81v6Ai5JIWtpoEg=;
+        b=mxsNHxcUwS8rJZh3/+sCU/Quyd7E48MPFoWMEvdU2y8ToYEQkAC3ruST3n8Ft2m0Fr
+         L6mhbA+zfgFUXvpXOhrverxwW3QuFNw2gdoBHqKUslAAzp29HD8DuIK0vsDlDS+HzFta
+         +Sw/AWdccofX+4SL6Apc5wDdCbitCa+amp9EOxA2CWtV28rgZRKeM0GhB2UW6UFn5b7b
+         kuq+5dT9uyuD84wSiWeOb/nMkbNMNUWjTaiMmWGky2TMJYaIGQxG2F1VWFF0NSma/+oi
+         ZJa3W8cHMOmhXntpi9npluvVQHTnY6INHlIujHXK5E6v2hxt1fDI8iv3l0VzyErUnaY1
+         syXA==
+X-Forwarded-Encrypted: i=1; AFNElJ8K96UA6yPfs4Rne9yfyEvkR+mHWGmd/VlybimFoZsDkSlt2ujBDz+rL4/fJKbXb1PZ0TXYU2u5l/lRuls=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAo2l0eGkecbnYhljAoimpGV1j77jw6RYZgZsv9DdU70B1kLLJ
+	VvCs+/+b4w1Cab57Xl2j4LFAnCfn1gsZt7VrvcwquPThEDF4HfzCRjYZ
+X-Gm-Gg: Acq92OEwiQnXNnaOlQ+ntHGdhGmYzUBwaGa0fqZmDSEqxMD9TyUhzXm07WsSSpxG812
+	YiWRkIEJeCSb8KniLDEmPZ5ZzAa7fsyAAPLtOAEQbu5FoDAcgXFvb/U/UutTl34ovX1+G0aHwwS
+	FGZ5RFanDIMWNn0HF8DKQtJLwAnL44BXHf6PB2z7rhnKm7cSuCvoNDssSwPT2Opw5pSwc36Q6eH
+	j8JpZiwuAir3qF+ozCCpjDnZX2P3uWrw+yxC98sAecIG6WcTsVfL/JpzhkQyex6vRn6AuKZu02c
+	KyT04XqRFFTUm+PN7JPV3b30DJltdsrZIFI+JUyZOeaWjKH/fZyOUtA67qNk4RTwon+CdQAgDbK
+	Nu+81/JpcKYsr9rSg+wdyB2f2OlbfsMfANnK5yeiaMPrkT5I5frNVI1v0bSDYsih7iadwU53Ehv
+	t3KSsBsd+0WpylIQEub/tfSrUqql+WFYEUdpCGqsU3U8pO/53b
+X-Received: by 2002:a17:90b:1a85:b0:369:c5f4:9681 with SMTP id 98e67ed59e1d1-37c5241e920mr2843981a91.22.1781594214226;
+        Tue, 16 Jun 2026 00:16:54 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c522136cesm1840343a91.14.2026.06.16.00.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 00:16:53 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: David Heidelberg <david+nfc@ixit.cz>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, oe-linux-nfc@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ port100: use after free of dev->cmd if disconnect races cmd_complete_work
+Date: Tue, 16 Jun 2026 15:16:50 +0800
+Message-ID: <178159421085.2162671.16527372544343524090@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260615-b4-disp-f42dce2d-v1-1-186ff3dcbf37@proton.me>
-X-B4-Tracking: v=1; b=H4sIAPGxL2oC/x3MMQqAMAxA0atIZgMxthW8ijhUm2qWKi2IIN7d4
- viG/x8oklUKjM0DWS4teqSKrm1g3X3aBDVUAxM7cp3FxWDQcmI0HFbhgGQt9VZ8PyweanZmiXr
- /y2l+3w8CUnDGYgAAAA==
-To: David Heidelberg <david@ixit.cz>
-Cc: linux-kernel@vger.kernel.org, Robert Dolca <robert.dolca@intel.com>, 
- netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
- Samuel Ortiz <sameo@linux.intel.com>, Kang Chen <void0red@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781510641; l=3491;
- i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
- bh=YWNzYrdEVobq/LRKI1zxupMwajgzI8infZUte46uWMI=;
- b=lMWqMpt5U5MP/GG7ddKRwOwBSd9MWJ6TtlybHae3my9qt/5BoiELZa8mYaGivOliaUImlcVXw
- XeqDRfTa97nCfUbJ6+R0/geT6IxOaSw4EwpnMcWuaNBfy6+opjMso78
-X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
- pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
-X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
- auth_id=814
-X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
-Reply-To: hexlabsecurity@proton.me
 
-From: Bryam Vargas <hexlabsecurity@proton.me>
+Hi all,
 
-fdp_nci_i2c_read() reads the length of the next packet from the device
-into phy->next_read_size and uses it as the i2c_master_recv() byte count
-into a fixed on-stack buffer:
+I was looking at the port100 driver after the earlier port100_send_complete()
+use after free fix, and I think port100_disconnect() can still leave a use af=
+ter
+free because it never cancels dev->cmd_complete_work. I am not completely sur=
+e,
+so I would appreciate it if you could let me know whether you see this as a r=
+eal
+problem.
 
-	u8 tmp[FDP_NCI_I2C_MAX_PAYLOAD];		/* 261 bytes */
+The command completion work is scheduled from the two URB completion handlers,
+port100_recv_response() and port100_recv_ack(), and both of them call
+schedule_work(&dev->cmd_complete_work). The worker, port100_send_async_comple=
+te(),
+then dereferences dev->cmd.
+
+  static void port100_send_async_complete(struct port100 *dev)
+  {
+	struct port100_cmd *cmd =3D dev->cmd;
+	int status =3D cmd->status;
 	...
-	len = phy->next_read_size;
-	r = i2c_master_recv(client, tmp, len);
+	cmd->complete_cb(dev, cmd->complete_cb_context, resp);
+	kfree(cmd);
+  }
 
-When a "length packet" arrives (tmp[0] == 0 && tmp[1] == 0), the next
-length is taken verbatim from two device-supplied bytes:
+Here is what port100_disconnect() does.
 
-	phy->next_read_size = (tmp[2] << 8) + tmp[3] + 3;
+  usb_kill_urb(dev->in_urb);
+  usb_kill_urb(dev->out_urb);
+  usb_free_urb(dev->in_urb);
+  usb_free_urb(dev->out_urb);
+  kfree(dev->cmd);
 
-next_read_size is a u16, so this can be driven as high as 65535 - far
-larger than the 261-byte tmp[] buffer - and it is never bounded before
-the next iteration's i2c_master_recv(). A malfunctioning, malicious or
-counterfeit FDP NFC controller (or an attacker tampering with the I2C
-bus) that sends such a length packet makes i2c_master_recv() write up to
-about 64 KB into the 261-byte on-stack buffer: a stack out-of-bounds
-write that clobbers the stack canary, saved registers and the return
-address.
+usb_kill_urb() waits for a completion handler that is already running to retu=
+rn,
+but a cmd_complete_work that the handler already scheduled stays queued, and
+nothing cancels it. dev is allocated with devm, so once disconnect() returns =
+dev
+is freed as well. The worker then runs port100_send_async_complete() and reads
+dev->cmd and cmd->status out of freed memory.
 
-Reject a next_read_size larger than the receive buffer the same way a
-corrupted packet is already handled - drop it and force resynchronization
-- so a device can never drive an over-length read.
+I do not have a port100 adapter, so I reproduced just the ordering between the
+work and the free on 7.1-rc7 under KASAN. A small harness sets up a struct
+port100 with a dev->cmd, calls schedule_work(&dev->cmd_complete_work), then f=
+rees
+dev->cmd the way disconnect() does and lets the worker run. KASAN reports thi=
+s.
 
-Fixes: a06347c04c13 ("NFC: Add Intel Fields Peak NFC solution driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
----
-I reproduced the out-of-bounds write with an in-kernel test that drives
-the fdp_nci_i2c_read() buffer geometry verbatim under KASAN
-(CONFIG_KASAN_STACK=y), modelling i2c_master_recv() delivering
-next_read_size device bytes into the 261-byte tmp[] buffer:
+  BUG: KASAN: slab-use-after-free in port100_poc_work+0x7c/0x90
+  Read of size 4 at addr ffff888106322004 by task kworker/1:2/77
+  Workqueue: events port100_poc_work
+  ...
+  Freed by task 286:
+   kfree+0x137/0x3c0
+   ...                                  <- the kfree(dev->cmd) from disconnect
+  The buggy address is located 4 bytes inside of freed 64-byte region
 
-  next_read_size = 281, no bound:
-    BUG: KASAN: stack-out-of-bounds in i2c_master_recv...
-    Write of size 281 ... [48, 309) 'tmp'   (the 261-byte buffer)
-  with the device length bounded to <= FDP_NCI_I2C_MAX_PAYLOAD (what this
-    patch enforces): no KASAN report.
-  a well-formed packet (length <= 261) is unaffected, no KASAN report.
+The read is cmd->status (offset 4 in struct port100_cmd), done by the worker
+after dev->cmd was freed.
 
-The full device range - next_read_size = 65535 (tmp[2] = 0xff,
-tmp[3] = 0xfc; the u16 field truncates the + 3), a 65535-byte write =
-65274 bytes past the buffer, smashing the stack canary and the return
-address - reproduces the same way under userspace AddressSanitizer on
-both -m32 and -m64.
----
- drivers/nfc/fdp/i2c.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+The fix I tried is to cancel the work after killing the URBs, so no completion
+can schedule it again, and before freeing dev->cmd.
 
-diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
-index c1896a1d978c..0392bb49bb4b 100644
---- a/drivers/nfc/fdp/i2c.c
-+++ b/drivers/nfc/fdp/i2c.c
-@@ -166,6 +166,20 @@ static int fdp_nci_i2c_read(struct fdp_i2c_phy *phy, struct sk_buff **skb)
- 		/* Packet that contains a length */
- 		if (tmp[0] == 0 && tmp[1] == 0) {
- 			phy->next_read_size = (tmp[2] << 8) + tmp[3] + 3;
-+
-+			/*
-+			 * next_read_size is taken from the device and is used
-+			 * as the i2c_master_recv() count on the next iteration.
-+			 * A value larger than the receive buffer would overflow
-+			 * tmp[]; treat it like a corrupted packet and force
-+			 * resynchronization.
-+			 */
-+			if (phy->next_read_size > FDP_NCI_I2C_MAX_PAYLOAD) {
-+				dev_dbg(&client->dev, "%s: corrupted packet\n",
-+					__func__);
-+				phy->next_read_size = FDP_NCI_I2C_MIN_PAYLOAD;
-+				goto flush;
-+			}
- 		} else {
- 			phy->next_read_size = FDP_NCI_I2C_MIN_PAYLOAD;
- 
+  	usb_kill_urb(dev->in_urb);
+  	usb_kill_urb(dev->out_urb);
 
----
-base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
-change-id: 20260615-b4-disp-f42dce2d-055035ea37ba
+  +	cancel_work_sync(&dev->cmd_complete_work);
+  +
+  	usb_free_urb(dev->in_urb);
+  	usb_free_urb(dev->out_urb);
 
-Best regards,
--- 
-Bryam Vargas <hexlabsecurity@proton.me>
+  	kfree(dev->cmd);
 
+With that change the same harness either runs the work on a command that is s=
+till
+valid or cancels it, and the KASAN report is gone. The earlier fix (f80cfe2f2=
+658)
+only added usb_kill_urb() to the probe error path, so this disconnect path lo=
+oks
+unaddressed. It has been there since the async command mechanism went in
+(0347a6ab300a), so it would be a stable candidate.
 
+Would you agree this is a real use after free, and is cancel_work_sync() in
+port100_disconnect() the right fix? I am happy to send a proper patch with the
+reproducer once you confirm.
+
+Thanks,
+Maoyi
+https://maoyixie.com/
