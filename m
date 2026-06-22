@@ -1,78 +1,76 @@
 Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FFF3AFAEC
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 22 Jun 2026 13:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82623B52E6
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 22 Jun 2026 13:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782134292; cv=none; b=sQ2BMcV/rGV2D+vEzMnwF1+ci6TmOudeCeSl+4qEBEq0SsHJaYrdOIRS4xDDmh8POkHwrWPALeWpjszp8nyhMHdM3LE9geuRdwvGkWo8ZZZTKETElPgyhRreAVsfsB8erwPlIbMRgF/Y28EWC73PhvwaW4I49s0qKoXe1I/qr6Q=
+	t=1782136727; cv=none; b=c362v4ALg7MaoOvr9iOE9WjjXIm64kbTU3UlBxTiUkxdVP4uxd/67dYJjwESkd5Ns1dqICCCUKnY5CXlCxQzu567A89g8LiTrHyr5BpiKzsktsK76qpNt4H2c1R/9JptZzdZz0cQZs1HCymJeGmUwYpe+DdARKc6OL3ILmIsgs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782134292; c=relaxed/simple;
-	bh=yyw0nMtUQFYySF+Vo3tr4O3uzZRBP38LtrsViqoS/Xk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=becMBH6Sozlb5MnBTo2fsiXyKaB9q2b/RKu0EsssRSKIVsEhprDHDMH0v3EDhxVClKzCwGClyIq0L/W5R26BknK2NX/Ym8KIroZx5YxMQpKewDFryeV0HLTsU/ZMFtzKahkD86oo74/+e2zRXfpQLKFCaSXjLteCOZSIRybx13Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wg3v4hX4; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1782136727; c=relaxed/simple;
+	bh=F2YVYUXSYaBRv5EuPpzQlID5z4oH0xM0C3Ad7xeAKGU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kHWZuWVGFAFtI7+OzoJy85BaYuYrqttdbGiJA48Lmw2DhrGhln6kqWpxEpkSg4a5blod1PiMhE4/HuYBdkcT4Ik2VcNDOkF9VTNDtmaR9Xc92cr5BNgxqHI0Urd4jV6VZcaA+jZbiu/CmbwSlbp6cav+oqDxy351ZJ1UT8auEGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3Qes65/; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wg3v4hX4"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6977c0814d1so3318638a12.2
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 22 Jun 2026 06:18:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3Qes65/"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6870ad8072eso7041002a12.0
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 22 Jun 2026 06:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782134290; x=1782739090; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=64GS0cV1F3q6Azsz5ClQ2jQ7hHXoaFyqY/ADvWBZ5O8=;
-        b=Wg3v4hX4XePxwaZ7+4C13jASNpLcJBZFheDWeR0xo+atL//oTm06TjhB2BkXyHc9Rd
-         RL95qekM1/QZuwDBi8LtjEt3G7hPNf8mGMXoX/4OmfPm8+IMmlYfbS7LDriNT/KK7aie
-         StWYZmjdDrFKrE6dzBIj6XARaqlkNowKtCFrE8wAZOIa1xdBCapqPiju7ooXjWmS4Tg6
-         K+LV2DO85bQHP7kRDU07qDRGfWn9KA0hr6cciQFy6Q6jPdZezmlAKm1xVwDZYCPskzbv
-         zNKY9xA5dkKc03wbCHiptBWRvP89GWBFfqm5LKOafKO0xoOIOKR0OnVYAblFUYtZMYxl
-         Fq/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782134290; x=1782739090;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782136724; x=1782741524; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=64GS0cV1F3q6Azsz5ClQ2jQ7hHXoaFyqY/ADvWBZ5O8=;
-        b=WZFRDRbgqUJIWRzWwprRKnuXHouqJP2ThjV4oU299Xj0SJmZWuXaE9ncyQH4YWsCJe
-         xJNC21R83K/TGk6wdaex4nFi56lAvZ2fpVWwHD1TSmp2Y9VqNx8WyERolF9PfXPdrKa6
-         ir1/MYQwoW18yFr45i7gbexBpen55rKpaJKFXIpbArYEiPWZHoxs3EymunvR+5Zg5oYD
-         dWnxN74zxpSbq74rZli91vYetwqaQdwJNd15zDowjavG06gZK2NYo89X7ApiFN4WWwGc
-         f9Wf73MHO1V3DSMdl8e239kIa5B/MWKStBEjPdYWbp5eyTTmeeGgPYihc6sXc26oasXv
-         dyvA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Gl+/34GyEmNwgzez8XCcWm5WPBQFwvg9uCLEIa+I2Auy3FJM7GemjHinzB9x/ZbqRKvrzhXgh5EbIjVI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/YsZsvePj5Y4vKZ4TSm/Qv19jvQ5u90GaU6oCUs3p49AbE0dg
-	LH815W9w10WTSkfdsK13mOk2NvXSIFl+pG5sefYryuZQ+nLKQuth9aRX
-X-Gm-Gg: AfdE7cn8rxTS5ifylsGs7Te3EgwPE97QzjSAQd79blVqK5RH8oMYw4rSWlUY54Is3qU
-	vuBl6HMv5eatzPmsWlSuhBb02G6iLyze+gFOIfcgvGXFB6ddSP04PNzTX+ZLJmcMkXHMzz9K+QV
-	6MgfPvfqmqFs0TyBOAH+qPqoWtEXiPZ0f3EgmM4Ko546VF3GoLVgjayAzk1jKh0r49elqMvfKPn
-	Xj/byLB5A9Fg5vAXOYM8/ZkoVnooSPPcc+I/HSa+ghk5Ep0tmRu3MXYEJ2R5kWg6KIXHeUreQEH
-	hQnLqxoBVzC7E0+AzDD+a32BYERV6P/Tq4hIRQNqJaoloUkp+AukJgWx20YEtJJM2c5h/VPADIP
-	9iKIHKJ5fTjMNu+0gXSXro3pJc+qjNU59muii/fQhZvUbIXAk2hKcgijB9RG9+V9a1AvCfK3eeD
-	FnrjOjEjMkxbTT++ta20UVxtbUF5NiGqCPpiv7AJ4NkIAuFvDqKmGEaTkOk7o=
-X-Received: by 2002:a17:907:3e9a:b0:c0f:cbe8:7830 with SMTP id a640c23a62f3a-c0fcbe8976dmr71683266b.38.1782134288453;
-        Mon, 22 Jun 2026 06:18:08 -0700 (PDT)
+        bh=F2YVYUXSYaBRv5EuPpzQlID5z4oH0xM0C3Ad7xeAKGU=;
+        b=h3Qes65/ANUEG2w6hplQbiZ06Za6NYzTuWPU7kQKXPBbnWxXAr4SSE5Mm+bUZH9/hP
+         JzJNfR+qC7Vh6r76q5TUBnIWub7bPsbuG9jLKuHT6zNJlZ//lN0pwS1sOzBvmkE5M/K5
+         DWR5KufiLG5IS9FbDwyul1vPbAxMc4G05Iy9inAcaJTx/f35EIzdIrh8tldGRlwfQanU
+         bBsJn5qhjK8GwLPcAdeaBfAI1RHSoTbL6vHd4Jhz7QlYkgORfaMRdB1td0j6QecREItN
+         X8h1dK13p/CA6Y9jKBjtKIPihTvMBnrR9QcImlCNnuVLolP8ERAgtK2F73KqmLe0LYR5
+         hNVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782136724; x=1782741524;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=F2YVYUXSYaBRv5EuPpzQlID5z4oH0xM0C3Ad7xeAKGU=;
+        b=gb+/PWVcNPVkDY04ccm3lHn9bDkDYv0fantlIfvyoFSrEy5oh2t8WLth8p0FYDWVSX
+         rqNY5TxBhka7AraV+aiw6QDC5xS/5stwn9g3jldKGoydRNC7Zhr8COzgM64WxlzQmleJ
+         pSXH6vys9vheVd3ZIW99dE2GlrgQIM9QXU0JqD4lWMRKWeXOmwTSYJtbB8l0ckIzqXs6
+         4pcluxKeqmManUWvShPMw86Vb9IdZvnoWnQi0FgXGNUaZfC6Q4PJC6S5fUGVJhLKXyfl
+         NKNq0rfSj0UqSk68Tt/xWPrsGjFFCwRfcnbD8nCrOOly5OS4JBKzkZ1JNvV8ERnq9UI/
+         4JTg==
+X-Forwarded-Encrypted: i=1; AFNElJ/vdFmNGcUauZ8TaGvLQl9FbJ/1zFR882V+ThHENWxOEpvT+rDecDfa/t6Sj8k1+kg952he1yyGFxq6TDs=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6YGI7TvgGik64drqmD04/G1pd19YXoPYqAVBlkTxuAanQJCyT
+	+SLTOotO7ooVFI/MQjpozT4wrYSCH3yu0YkTk360OalyymBXcQjtoUT1
+X-Gm-Gg: AfdE7cmFxSRW3VrK9zKxXGqiWSY8ySs0S+rl+qNg5Ic0zKLjuNWDGOR32/LXQgQQt/R
+	K6XUBZGvZu064fpI5UAGCNu3mC0/whwZyRf8b6Qu/35CrNZzps5lxku/7/HKAENq+ZUInW5T7PT
+	C+EHpPmNit5uC73tINpWNL/QOCfSGasg3tUr7FyXzYw6V+DT49rgOX3cyQuIe9GrQ4WXSbNhCBK
+	SEmF7USfvVRdawuahEthScKw3ZEFztXilDZ6NXsZ6pyunvrkVdWEnXrbFkrtYQgCa1H2XwDuPvT
+	+EGI9MClUvjbU+w6eCOlRJbAz6+ilr7Dk4QUZbl+6Thecvpuo/LvB5S758Q2wVLJFnDjqcZhxyZ
+	jq/o7Wun+Yz6W06gxWQ+DItAUWkftWVuxyXD08EKMFpKmH9nnOnms6bItkD5wDyyYMOnKWq8bJY
+	0s7nEHGvJnx072X28/yUsSQ26tqDSFDazUjnNS1sndnwkU68vFZ08UGrzQPAqghzg=
+X-Received: by 2002:a05:6402:5288:b0:68b:ca3c:6bbb with SMTP id 4fb4d7f45d1cf-6973bcaa247mr6412241a12.11.1782136724049;
+        Mon, 22 Jun 2026 06:58:44 -0700 (PDT)
 Received: from node ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e99b968sm356605966b.24.2026.06.22.06.18.04
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be64ddasm3156308a12.28.2026.06.22.06.58.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 06:18:07 -0700 (PDT)
+        Mon, 22 Jun 2026 06:58:43 -0700 (PDT)
 From: Muhammad Bilal <meatuni001@gmail.com>
-To: David Heidelberg <david@ixit.cz>,
-	netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	krzk@kernel.org,
-	oe-linux-nfc@lists.linux.dev,
+To: david@ixit.cz
+Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Muhammad Bilal <meatuni001@gmail.com>,
+	oe-linux-nfc@lists.linux.dev,
+	horms@kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH net v2] nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
-Date: Mon, 22 Jun 2026 18:18:02 +0500
-Message-ID: <20260622131802.239035-1-meatuni001@gmail.com>
+Subject: Re: [PATCH net 0/2] nfc: llcp: fix OOB reads and integer bugs in TLV parsers
+Date: Mon, 22 Jun 2026 18:58:28 +0500
+Message-ID: <20260622135828.241486-1-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <78e283f0-1493-4d72-92fe-e6444458fb91@ixit.cz>
+References: <78e283f0-1493-4d72-92fe-e6444458fb91@ixit.cz>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -81,111 +79,18 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv() contain
-three related bugs in their TLV parsing loops:
+On Sun, Jun 21, 2026 at 09:52 PM David Heidelberg wrote:
+> could I ask for the patches rebase against for-next?
 
-1. 'offset' is declared u8 but tlv_array_len is u16. When TLV data
-   advances offset past 255 it silently wraps to zero, causing
-   infinite loops or double-processing of buffer data.
+Hi David,
 
-2. Before reading tlv[0] (type) and tlv[1] (length) there is no
-   check that offset+2 <= tlv_array_len. A truncated TLV causes
-   an OOB read of one byte past the buffer end.
+Rebased onto nfc/for-next.
 
-3. After reading the length field, the value bytes are accessed
-   without checking offset+2+length <= tlv_array_len. A crafted
-   length=0xFF on a short buffer causes up to 255 bytes of OOB
-   read past the buffer end.
+v2 is now sent and available here:
+https://lore.kernel.org/netdev/20260622131802.239035-1-meatuni001@gmail.com/
 
-Both functions are reachable without authentication via
-nfc_llcp_set_remote_gb() which feeds remote LLCP general bytes
-directly into nfc_llcp_parse_gb_tlv() with no additional
-validation.
+Patch 2/2 was dropped because the equivalent fixes for nfc_llcp_recv_snl()
+were already merged (ed85d4cbbfaa), so only llcp_commands.c remains.
 
-Fix all three issues by widening offset from u8 to u16 and adding
-bounds checks for both the TLV header and value field before each
-access.
-
-Fixes: 3df40eb3a2ea ("nfc: constify several pointers to u8, char and sk_buff")
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
----
-
-Notes:
-    v2:
-     - Rebased onto current nfc/for-next.
-     - Dropped the previous nfc_llcp_recv_snl() fix since equivalent checks
-       were merged by commit ed85d4cbbfaa ("nfc: llcp: bound SNL TLV parsing
-       to the skb and add length checks").
-     - Retain only the fixes for u8 offset wraparound and missing TLV bounds
-       checks in nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv().
-     - Reject invalid TLVs silently with -EINVAL; dropped the v1 pr_err()
-       logging, which was reachable from a remote peer.
-    
-    Link: https://lore.kernel.org/netdev/20260519011937.12903-1-meatuni001@gmail.com/
-
- net/nfc/llcp_commands.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
-index 291f26facbf3a..ca89fe967d6a2 100644
---- a/net/nfc/llcp_commands.c
-+++ b/net/nfc/llcp_commands.c
-@@ -193,7 +193,8 @@ int nfc_llcp_parse_gb_tlv(struct nfc_llcp_local *local,
- 			  const u8 *tlv_array, u16 tlv_array_len)
- {
- 	const u8 *tlv = tlv_array;
--	u8 type, length, offset = 0;
-+	u8 type, length;
-+	u16 offset = 0;
- 
- 	pr_debug("TLV array length %d\n", tlv_array_len);
- 
-@@ -201,9 +202,15 @@ int nfc_llcp_parse_gb_tlv(struct nfc_llcp_local *local,
- 		return -ENODEV;
- 
- 	while (offset < tlv_array_len) {
-+		if (offset + 2 > tlv_array_len)
-+			return -EINVAL;
-+
- 		type = tlv[0];
- 		length = tlv[1];
- 
-+		if (offset + 2 + length > tlv_array_len)
-+			return -EINVAL;
-+
- 		pr_debug("type 0x%x length %d\n", type, length);
- 
- 		switch (type) {
-@@ -243,7 +250,8 @@ int nfc_llcp_parse_connection_tlv(struct nfc_llcp_sock *sock,
- 				  const u8 *tlv_array, u16 tlv_array_len)
- {
- 	const u8 *tlv = tlv_array;
--	u8 type, length, offset = 0;
-+	u8 type, length;
-+	u16 offset = 0;
- 
- 	pr_debug("TLV array length %d\n", tlv_array_len);
- 
-@@ -251,9 +259,15 @@ int nfc_llcp_parse_connection_tlv(struct nfc_llcp_sock *sock,
- 		return -ENOTCONN;
- 
- 	while (offset < tlv_array_len) {
-+		if (offset + 2 > tlv_array_len)
-+			return -EINVAL;
-+
- 		type = tlv[0];
- 		length = tlv[1];
- 
-+		if (offset + 2 + length > tlv_array_len)
-+			return -EINVAL;
-+
- 		pr_debug("type 0x%x length %d\n", type, length);
- 
- 		switch (type) {
-
-base-commit: ed85d4cbbfaa4e630c5aa0d607348b42620d976b
--- 
-2.54.0
-
+Thanks,
+Muhammad Bilal
