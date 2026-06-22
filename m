@@ -1,134 +1,137 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3930266581
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 21 Jun 2026 16:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4593438AD
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 22 Jun 2026 06:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782060761; cv=none; b=F+l9n3h3EK9vouDl5fO/DXusCRaer/m6trEBncF3802U8uL3yv17LI1lOozUIdKNJq2aWYNxudkZMJWzpQGeWk8Zihd8zlFMUe86sKpDe7HCbfT+varEg7OQX+CQ56/A0COdiQW5b3siOf0dxx+0Jjc4Pp10YMPFyRrFGVSCg3c=
+	t=1782109933; cv=none; b=Q0W8+x3U2I8bHRthC320Pc0wxiKHQYD5CuKhoimpT3LbgTiF9EtjRYsV4OK0qErA0x4N6vF/VAGD4m9oQMIEN5rz/wpvvjc9qa/OmyhxFvLS5TDHNdlGzFD+G5GRDLMrMJoprIAl2iqnBrOYsjnn5M2OkUDZQoX4+hUZX1iuBh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782060761; c=relaxed/simple;
-	bh=n4DcqULpgEwZKzd8ONh1Wqzj8GN39eT8cmfx5gOs3LM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ey2m32z5G3tvTJNfcAtEQcupN4AULEFTQvZTbgKJPfttfC1jzi2Y7KX2SYWDPjGaB20oDTjResf9MXfrQr6pYlCaIrlO88hkMwH0u3fJLFJbAbqMeKvvx8p7tB+qhHOu1ia3I4iKoWyoZAQUAqLSRuySF05rii+8ba1gI6KXaBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=l9cQJcv3; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1782109933; c=relaxed/simple;
+	bh=sO2VCjgYLWsbatZblwFdOv5SQCJmlXlUk9frEctl7uY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=qtFaysZtR4bIrKJkzuyrhqSn6/lTJs3ftiK53g+nYtI7C3S/gcqUolWY9UOlUiEWYbwXWDTBRuppvX1tF/Lfpz0r3VAECB2t7NTbjJtSR/jINI/ZKE9uJe9EJWajMaH37wHRiDsK6HawsrhtPHq9A3on/K1NBLSebm2G8KhUmQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uj3HaCDm; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="l9cQJcv3"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 084E8534104B;
-	Sun, 21 Jun 2026 18:52:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1782060757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DtDjWThKqvc8sJv6EzLWSNbPDb1sKWisRU5mxG2pIjQ=;
-	b=l9cQJcv3pC0Qgw5M2FQbd6JnlYU6RwsK8+M9gep2Xru3BqB6ntBtfmt+eHcJowUk/XflyI
-	4+N17tdfJoKrh0iAt+B1IflEe3FlZHlJZdsS0dTQLnu/uCZM/MetO0NaHs/BTT6SiK8Z6V
-	5lcF32vGPFu3Vdl6aonJPCctdQJ6v+k=
-Message-ID: <78e283f0-1493-4d72-92fe-e6444458fb91@ixit.cz>
-Date: Sun, 21 Jun 2026 18:52:36 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uj3HaCDm"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c8894387780so1672847a12.2
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 21 Jun 2026 23:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782109931; x=1782714731; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HGVBPdCK3AGzwKRru1pGLY4f4womJDI/YrwxL+ueu4M=;
+        b=Uj3HaCDmibbV3cd1wy08a+usVSgJdiFBZ/263kcrsthDzPfxfN21pB7hI0+TpznNzO
+         LHTmccd4Cwkb3L8MRzXAb58QYS71W+cxCRPblwnUiDsIfVTxiCekIgDykoR4DAa+hWfJ
+         l8HOkLv+FEnA7a9AqVpEsfC3p4keq2HL8JG2sE+sur5vH4kaLNhkgtycgs5lbm1bXP5j
+         v4elrXhKgSWC+5u+C9hu6U09pAKwdi1VslZXBSYRiBvbFQt9+vrvjO4w97nNLMiFYTlx
+         HL4A3gBtHFebWSHWMwlEoj+/Rt77kZ+9KbjWML4gOsj6/buFCsbB+dgGr7Mls1KQaQlD
+         pAdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782109931; x=1782714731;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HGVBPdCK3AGzwKRru1pGLY4f4womJDI/YrwxL+ueu4M=;
+        b=cwhq6DmRzXY9dThovanQc9GZCJtKXfsdT1IAnt30oMZBwxAO1M6AvpzE+jgf0XLQfx
+         0V9XiSLyO0M2NFY2wGRPsK9/7qRVMhm+UL20aWSfhj7oMhMj6tNUUa95ZJhAu6f2BEm5
+         0tnGzRoYY4Kd6Eb0JFnbl8jRqr6BMFHJzU9vAoJ0gO00t8SFUxWnPNuTOFlY65QG54fC
+         /cKpIMTZ62nsNnI7Pvelf4JF/4NImR0mWhRqnxZ1kv+7dcLSnlVByZ25DWeq2EFX79qk
+         hzHpzAEhYFJJpO2t0PFr6ynEgJCdzncjTgVJ4RfsPMShuwCXMZdLPaualEt02Qs3k305
+         Catg==
+X-Forwarded-Encrypted: i=1; AFNElJ/MfDEYeqjQ6Km5Q8kj2psBAl3y504juLbm8MHtpvMw1pr87G7A2mC4jjg+vDz+RyWw21qNqdeLhhUqyiY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzE5M6cKVOnJR8MjqmyMITiezyzXgdkMt27sfKy3fXFesa3fof/
+	yv6zS6/PiibxCqr8DMnU9vP3dRU4skZbZtg1eLTHehOtY9rLkWtfUkMs
+X-Gm-Gg: AfdE7cld5wVpwchKSnsbSrlo6u3d3uO3Rc6QPRPGnH+5f+MUqgHp6nVTgSTYDeNCg3A
+	PKwfD7gfyJ6sE7z8/4U3XXG7rb98fEnqVO5FjJ27CtgaIhCzt85V1Eq7RUFVeM2KzJ0yBf00SNe
+	KdfWdvPePru82HPsQfQNuVWjOw4RHDxFX0mJy0A5CPMJyo0w/6EkRIJKlWZtU6b9eM57dCEQvZF
+	QqS+SaKq9twpuyC0dHiAVwR8va7L23pmEo5D1Dpa32eP4RynMdYfqGFEL3rBY0gE1rOi4INIq/v
+	n75Ax9/zRPGVx+mw4qb0NMcqmYCfy3oTPs5HoDZSkCMDRL/tV49go9m/XVKc+apQMIzEN+Rc3Yd
+	jFbfNC877JXZxhMD2nIIMwwa3naFw1NeNly7qSA5QLq769FatDu2K+FRj9yAoXpT6guXndb7UJb
+	CM816N0s/bLk2X3tWm0dCBMqh4M/ae7/ZIAB+ETQ==
+X-Received: by 2002:a05:6a20:1443:b0:3a8:7fb:ca0e with SMTP id adf61e73a8af0-3bb33953900mr15603997637.23.1782109930425;
+        Sun, 21 Jun 2026 23:32:10 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bbffc2329sm6230436a12.0.2026.06.21.23.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2026 23:32:09 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Sven Van Asbroeck <thesven73@gmail.com>, oe-linux-nfc@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject:
+ [PATCH] nfc: port100: cancel cmd_complete_work before freeing on disconnect
+Date: Mon, 22 Jun 2026 14:32:05 +0800
+Message-ID: <178210992563.2193984.1212513889352740911@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net 0/2] nfc: llcp: fix OOB reads and integer bugs in TLV
- parsers
-To: Muhammad Bilal <meatuni001@gmail.com>, netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
- david+nfc@ixit.cz, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, stable@vger.kernel.org
-References: <20260519011937.12903-1-meatuni001@gmail.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260519011937.12903-1-meatuni001@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 19/05/2026 03:19, Muhammad Bilal wrote:
-> This series fixes memory safety bugs in the NFC LLCP TLV parsing code,
-> reachable from a remote NFC peer via crafted LLCP frames.
-> 
-> Patch 1 fixes nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv():
->    - u8 offset wraps to zero after 255 (widened to u16)
->    - OOB read of TLV header on truncated buffer
->    - OOB read of value field via attacker-controlled length byte
-> 
-> Patch 2 fixes nfc_llcp_recv_snl():
->    - OOB read of TLV header when tlv_len - offset == 1
->    - OOB read of SDREQ value via attacker-controlled length
->    - SIZE_MAX underflow when length == 0 in service_name_len,
->      bypassing the sn_len == 0 guard in nfc_llcp_sock_from_sn()
-> 
-> Previously reported to security@kernel.org on 2026-05-15. Willy Tarreau
-> advised posting to public lists as NFC is currently orphaned.
-> 
-> Muhammad Bilal (2):
->    nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
->    nfc: llcp: add missing bounds checks in nfc_llcp_recv_snl()
-> 
->   net/nfc/llcp_commands.c | 28 ++++++++++++++++++++++++++--
->   net/nfc/llcp_core.c     | 23 +++++++++++++++++++++--
->   2 files changed, 47 insertions(+), 4 deletions(-)
-> 
+port100_disconnect() kills the URBs and frees dev->cmd. dev itself is devm
+allocated and released once disconnect() returns. It never cancels
+dev->cmd_complete_work.
 
-Hello Muhammad,
+A response or ack URB completion schedules cmd_complete_work from
+port100_recv_response() or port100_recv_ack(). usb_kill_urb() waits for a
+completion handler that is still running. A work item it already queued is
+not cancelled. After disconnect() frees dev->cmd and returns, the worker
+runs port100_send_async_complete(). Its first accesses are
 
-could I ask for the patches rebase against for-next [1]?
+	struct port100_cmd *cmd = dev->cmd;
+	int status = cmd->status;
 
-Thank you much for your work!
-David
+so it reads the freed command. That is a use after free.
 
-[1] https://codeberg.org/linux-nfc/linux
+Cancel the work synchronously after killing the URBs. Nothing can
+re-schedule it then. Do this before freeing dev->cmd.
+
+This was reproduced under KASAN on 7.1-rc7. With the current code the work
+runs after dev->cmd is freed. KASAN reports a slab use after free read of
+cmd->status from the workqueue. With cancel_work_sync() the work is
+cancelled and the report is gone.
+
+  BUG: KASAN: slab-use-after-free in the cmd_complete_work worker
+  Read of size 4 (cmd->status) by task kworker
+  Freed by the kfree(dev->cmd) in port100_disconnect()
+
+thunderbolt XDomain fixed the same race recently. A delayed work ran
+after disconnect had freed its state. port100 has the same shape and is
+still unfixed.
+
+Sven Van Asbroeck proposed this fix in a 2019 RFC [1]. It was never merged
+and the disconnect path is still unaddressed. The earlier fix, commit
+f80cfe2f2658 ("NFC: port100: fix use-after-free in port100_send_complete"),
+only added usb_kill_urb() to the probe error path.
+
+Link: https://lore.kernel.org/all/20190205160118.27491-1-TheSven73@googlemail.com/ [1]
+Fixes: 0347a6ab300a ("NFC: port100: Commands mechanism implementation")
+Suggested-by: Sven Van Asbroeck <thesven73@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+---
+ drivers/nfc/port100.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
+index 5ae61d7ebcfe..2483864806de 100644
+--- a/drivers/nfc/port100.c
++++ b/drivers/nfc/port100.c
+@@ -1618,6 +1618,8 @@ static void port100_disconnect(struct usb_interface *interface)
+ 	usb_kill_urb(dev->in_urb);
+ 	usb_kill_urb(dev->out_urb);
+ 
++	cancel_work_sync(&dev->cmd_complete_work);
++
+ 	usb_free_urb(dev->in_urb);
+ 	usb_free_urb(dev->out_urb);
+ 
+-- 
+2.34.1
+
