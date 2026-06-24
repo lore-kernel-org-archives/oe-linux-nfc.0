@@ -1,150 +1,142 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA053BBFA4
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 23 Jun 2026 23:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B610F38A711
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 07:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782258114; cv=none; b=n6BfrwNhPUiyPVKCAKdGXQ5BWAPEDQPCA6mgIQ+qpwNihWE1gCr+y8ReKsuWCOo9N+0nIr72/S2te1a9AI6GowD+zTYurB7kcq/A4U9KNADzLRlcEZReUlTovJ/1gNx1E8jVyi4Zp3pqSoA97nbpiRTW6T4Oefb/89sQxB7wDCk=
+	t=1782285198; cv=none; b=PA4EUSIaCzl1JV2SDz/Om2LVzVyXmoqVX7DEfm9jurLGw4L/YIi9YuYoK7TDDLAzVxyFoTzlQlqqzhqEGs7ubaD5bCFXmWlFCXidGTrQX1jfPKRJ0Fb6CtxgtXd+vvZN+v0Wi2vy5u+qDtaeBUJK22ZKBmIPf6juPS+/kfFk09E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782258114; c=relaxed/simple;
-	bh=Q0OR99yi2KTeQqBV6zSKr/IxWlEosp13yzQoJ9jbwdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VSyokKnupnixF4kUyFca7x/HX0dNOLnqyiOF8wR9xtP5g2SMLhzOGhrEHqcaWpwX2beq8oTfVdJgH3P7eeevSTWYbBUxdP2muRWy2haCSefjshPCRBt3BZ6184lgSQ3Ol8SjT8gOLFJkLBjGYgaNxtzMgnbkKTSAp5Ab36hoYhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=XCtGK5xL; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="XCtGK5xL"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c07680fdd12so49355866b.3
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 23 Jun 2026 16:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bynar.io; s=google; t=1782258111; x=1782862911; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nOj4ZzoO0fd8cVdfzVSBt6Auoi0sws5oiKgIpomRCU4=;
-        b=XCtGK5xLbylMWsLyL3QNA0P1JWfG4ckqDgdJX7Rqq4I7p+D6gvhTopQR6LLV9pHZXz
-         oLQfVxIksSJEkhwuJEiIUItiUfYhte/FXps/KjE5aaIcOrdLhfIoiEf69y/oCw5qXwly
-         XP7lBuHxmC6LtDyIJ2UFKL6DdfWG7ogRBP2Y1yqimW3uIOS+tVgzbb4p/jI/57iUP6hN
-         NeCs7PnZ9OeRfynf4UphpU/fJpufZxRNn1ERcZdJnlwapHEu7FmMcgTEf0i9cbvRlS74
-         /xC6zbBYdJNSHpvlGCBCUpmsOdag9ezJ8kR+6296qbXmy+nq7QE3wpHt1jD5e/3YDp0s
-         T8fg==
+	s=arc-20240116; t=1782285198; c=relaxed/simple;
+	bh=D5x3bMnC7ssQUxkomi6+PpKQQaU7Xoq+nvNPzzgbtlE=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=B93OdfCqKg/XujLmlo0g4KkWUr2o6qOjeMV+DpXY/4ej9jgZVqM+4bda3o0lVaxUgXfI8ckXz9AIlVGB8rDsq2njiN/AUfxhERxoWN/eSK/8exxGPAGuSor9bI17HyXJt9kvdQc/DW7eTbLB3XTJvUeSz2zzd3QUEeDGw1aM9Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4862fcd9a3cso734735b6e.2
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 00:13:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782258111; x=1782862911;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nOj4ZzoO0fd8cVdfzVSBt6Auoi0sws5oiKgIpomRCU4=;
-        b=tF5JHQiNiy50sesUSvkYo9f8uaXgijpxgAeRIhHTvFeO6BIpvvNWx3/Mr1GXsLUmzp
-         oDnpmFWeC/LxpCdWuRo0BQWB3Ouv+LSjCm/LJWGFqODY9pDGvGOl4o9QEtlATyzHgXIA
-         z+Kxluivu9IVonaleC4YbvZza0g63+ZaRTIWNV+L4n0oKSbnYLEKahThds3WSwXoSA1k
-         Octyb+de+cYGzDxI4+p8pqSOabhamvxXn3yCmcb39b6XUsZVmpD+v7KNjV4ivSmFuYxB
-         rPMRMjymV2fdpPOjvUamd4TBEdP4LJN4nUSYxc+osvW3yjF1d35hIlxLyYXBmYn/vZc/
-         +3gQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9o+8uCO8D9n1aCrZxOvIruiJVVoaKMa9MgwjYoHJIYBoFsVEsZzXrVG4Kc7PDF37YsrUyTZi5440JQ8DI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwS6YFGGsezTE/34eBlkGun4zYjHIc2aqMYuG0S/KgHpmCMYhlt
-	NSoHnV+m+fotZzJ+0o777himQCyNTn+pCeoDntRFPmqKXArN8CzeisxbRNloxrk3Pb2r
-X-Gm-Gg: AfdE7cmEPQjg/j2mexsmapucUnJFNh0qTRP7Yyz1HYddF6pu7/6XXju8+9qFS2EBDDT
-	iKuEeYGj5o8cTgNYpGEFDvV62t1yWoaJJopfwV36s+bVO/BegD4KaCkFriB5/q1H5lgKRr/ASS0
-	b4I1pK/tGr0CLk+O3iWfGq/w9r4Gj6rgfDgR0G93P+3MNP/7X27tKJdEaK1uX7P5xol8YTaieVg
-	Y+wxFb5tDw971oOo+73ES8RsEXWkDefYg/CP8x6SzmDeelHI4XTRgWOC4h8uaBM9+tELpettuSM
-	0bZD8QsIQvih3vWbTfRRlJMWnC3QSZjYuHniHOESdVpUvAXujlxxHVfdWRjcQRhxK6g2tw0iVaK
-	eS1MgXHy8jT08SVy+rUfkGOXhZOsJP0gCQZ6L77HoWutrHPQsKY8CH+DfTKUru4SyYBi8VCEsn1
-	GF2RyjFnjlaOI=
-X-Received: by 2002:a17:907:3ea6:b0:c08:59dd:3fea with SMTP id a640c23a62f3a-c107efc1f64mr260781666b.27.1782258110366;
-        Tue, 23 Jun 2026 16:41:50 -0700 (PDT)
-Received: from localhost ([2a06:61c2:d427:0:b321:1c7a:b072:326e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c61610bacsm591936366b.58.2026.06.23.16.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 16:41:50 -0700 (PDT)
-From: Samuel Page <sam@bynar.io>
-To: David Heidelberg <david@ixit.cz>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net] nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
-Date: Wed, 24 Jun 2026 00:41:26 +0100
-Message-ID: <20260623234126.214667-1-sam@bynar.io>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1782285196; x=1782889996;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bBoFAIV4uqiLRHVMXBdmCTKrSw3E3vg+XbDQ1EwUBeo=;
+        b=hb3BMI7DepKTCQpxz660cZ02xd2MCnw1XHlZZaGzpC2ZufLGU2MqpaPNOMehBoLZD3
+         q1YvLVIVASmyManRhKXP7dfxd+921LPZdGyQM9d6HxGIlZhMBVIx2wjOr0VVpetBRQmm
+         lCb3MxLKjDpMTQxR4iO7QNr84wYwr3L/YaPn5cQGK/bb5jOYGZdqq8LxiB6syZwM0Vqd
+         /flZsjxXUoEDAQwNjQ2m8zroeXCLNz/wcFxicM83KsjsRWP9zJKLHV9NLFXuC9IC7bYf
+         hHM1THcgyfW7uU/iGJnRB1rIZ86BSyoot8kD82X3ymbrvWTYgmFnoUEigfpFoirDqGYH
+         Jgag==
+X-Forwarded-Encrypted: i=1; AFNElJ9+nErpspbkuFd6Krs6AJPCaxu9mn445HN2GXzrFuTF198nVIDrfRtlow8dhSYAoFRaGOIRVVM+S6iejT0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyP75LoP67Wdu8foAoP4g4RJbnSlAmjcu4/DgC5LoM3OTBbeVuS
+	D0u8eh9+oKExKJtc7hk+yyzCNZ9omnuInQWIcrfX320rxzd6W8Et/8rJolQQmpGBXOtVGLvj58/
+	WV5IMJJnVLba6VGGv41UeOafZpxvKL1rrWXhlHeBFVbOcYG3u4i5I24TSlBU=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:1496:b0:48c:3b4:2b95 with SMTP id
+ 5614622812f47-48c03b4480emr14653928b6e.29.1782285195953; Wed, 24 Jun 2026
+ 00:13:15 -0700 (PDT)
+Date: Wed, 24 Jun 2026 00:13:15 -0700
+In-Reply-To: <20260623222402.175798-1-sam@bynar.io>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a3b838b.c358b6d0.89040.0007.GAE@google.com>
+Subject: [syzbot ci] Re: nfc: nci: fix uninit-value in nci_core_init_rsp_packet()
+From: syzbot ci <syzbot+cie92d4e0088e1c4d0@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, sam@bynar.io, 
+	stable@vger.kernel.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-nci_rf_discover_ntf_packet() and nci_rf_intf_activated_ntf_packet() each
-parse a notification into an on-stack struct (nci_rf_discover_ntf /
-nci_rf_intf_activated_ntf) that is not initialised. The technology- and
-activation-specific parameters are only extracted when the corresponding
-length field is non-zero, so a notification that reports a zero length
-leaves the relevant union uninitialised - and the handlers then read it:
+syzbot ci has tested the following series
 
- - discover: with rf_tech_specific_params_len == 0, nci_add_new_protocol()
-   reads the uninitialised rf_tech_specific_params union (nfca_poll->
-   nfcid1_len is used as a branch condition and a memcpy length) into
-   ndev->targets;
- - activated: with rf_tech_specific_params_len == 0 the same union is read
-   via nci_target_auto_activated(); with activation_params_len == 0 the
-   activation_params union is read by nci_store_ats_nfc_iso_dep() into
-   ndev->target_ats.
+[v1] nfc: nci: fix uninit-value in nci_core_init_rsp_packet()
+https://lore.kernel.org/all/20260623222402.175798-1-sam@bynar.io
+* [PATCH net] nfc: nci: fix uninit-value in nci_core_init_rsp_packet()
 
-In each case the uninitialised bytes are subsequently exposed to user
-space (NFC_CMD_GET_TARGET / NFC_ATTR_TARGET_ATS).
+and found the following issue:
+UBSAN: array-index-out-of-bounds in nci_init_complete_req
 
-  BUG: KMSAN: uninit-value in nci_add_new_protocol+0x624/0x6c0
-   nci_add_new_protocol+0x624/0x6c0
-   nci_ntf_packet+0x25b2/0x3c30
-   nci_rx_work+0x318/0x5d0
-   process_scheduled_works+0x84b/0x17a0
-   worker_thread+0xc10/0x11b0
-   kthread+0x376/0x500
-  Local variable ntf.i created at:
-   nci_ntf_packet+0xbc2/0x3c30
+Full report is available here:
+https://ci.syzbot.org/series/2a9a8657-37a3-4dce-8cb5-2035027791dd
 
-Zero-initialise both on-stack notifications so the unions read back as
-zero when the corresponding parameters are absent.
+***
 
-Fixes: 019c4fbaa790 ("NFC: Add NCI multiple targets support")
-Fixes: e8c0dacd9836 ("NFC: Update names and structs to NCI spec 1.0 d18")
-Link: https://lore.kernel.org/netdev/20260623172109.1105965-2-horms@kernel.org/
-Cc: stable@vger.kernel.org
-Assisted-by: Bynario AI
-Signed-off-by: Samuel Page <sam@bynar.io>
+UBSAN: array-index-out-of-bounds in nci_init_complete_req
+
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      a986fde914d88af47eb78fd29c5d1af7952c3500
+arch:      amd64
+compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+config:    https://ci.syzbot.org/builds/80f835c3-e998-47ff-aaa5-24c578af3b4e/config
+syz repro: https://ci.syzbot.org/findings/65008893-2498-4786-b913-f2c474a7b34a/syz_repro
+
+------------[ cut here ]------------
+UBSAN: array-index-out-of-bounds in net/nfc/nci/core.c:192:7
+index 4 is out of range for type '__u8[4]' (aka 'unsigned char[4]')
+CPU: 0 UID: 0 PID: 5905 Comm: syz.1.33 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
+ __ubsan_handle_out_of_bounds+0xe8/0xf0 lib/ubsan.c:455
+ nci_init_complete_req+0x255/0x460 net/nfc/nci/core.c:192
+ __nci_request+0x7d/0x300 net/nfc/nci/core.c:108
+ nci_open_device net/nfc/nci/core.c:529 [inline]
+ nci_dev_up+0x8c3/0xdc0 net/nfc/nci/core.c:643
+ nfc_dev_up+0x165/0x350 net/nfc/core.c:118
+ nfc_genl_dev_up+0x89/0xe0 net/nfc/netlink.c:775
+ genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+ genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+ genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+ netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+ genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+ netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+ netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+ netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+ sock_sendmsg_nosec net/socket.c:775 [inline]
+ __sock_sendmsg net/socket.c:790 [inline]
+ ____sys_sendmsg+0x9b9/0xa20 net/socket.c:2684
+ ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+ __sys_sendmsg net/socket.c:2770 [inline]
+ __do_sys_sendmsg net/socket.c:2775 [inline]
+ __se_sys_sendmsg net/socket.c:2773 [inline]
+ __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f55ead9ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f55ebcb9028 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007f55eb015fa0 RCX: 00007f55ead9ce59
+RDX: 0000000004008054 RSI: 0000200000000200 RDI: 0000000000000005
+RBP: 00007f55eae32e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f55eb016038 R14: 00007f55eb015fa0 R15: 00007ffcba11c798
+ </TASK>
+---[ end trace ]---
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
- net/nfc/nci/ntf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index c96512bb8653..274d9a4202c9 100644
---- a/net/nfc/nci/ntf.c
-+++ b/net/nfc/nci/ntf.c
-@@ -440,7 +440,7 @@ void nci_clear_target_list(struct nci_dev *ndev)
- static int nci_rf_discover_ntf_packet(struct nci_dev *ndev,
- 				      const struct sk_buff *skb)
- {
--	struct nci_rf_discover_ntf ntf;
-+	struct nci_rf_discover_ntf ntf = {};
- 	const __u8 *data;
- 	bool add_target = true;
- 
-@@ -688,7 +688,7 @@ static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
- 					    const struct sk_buff *skb)
- {
- 	struct nci_conn_info *conn_info;
--	struct nci_rf_intf_activated_ntf ntf;
-+	struct nci_rf_intf_activated_ntf ntf = {};
- 	const __u8 *data;
- 	int err = NCI_STATUS_OK;
- 
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
 
-base-commit: a986fde914d88af47eb78fd29c5d1af7952c3500
--- 
-2.54.0
-
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
