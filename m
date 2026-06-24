@@ -1,110 +1,204 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD1330662
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 16:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34632D12F3
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 22:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782320017; cv=none; b=u8Y17OVG7lLQHmE2lJLh9vasWzVwW5w717LXrXmE8+EqbolcQOEIhbcxZV7mP9cwysFdQBOell6nRm6ZtlmB8lRVchlQnAWsDGlrsEyYFgjVdHqyQhAcMY+uZeFPh1YAeXmD6COuNH8TRMYfztRFmcjczHpiH2MUOq/ShQyfUR8=
+	t=1782341122; cv=none; b=Gc/d1kvLYLpdt704rywTAPplCrY5gkwW3ECKrerEqZMlqRf/d/FxAS9sylzriCM6hqJJ/I+tjk2TmiyYeXNlJliqb9FYQMjyg5ucza1t6vnZrbNG410IcOuj3LILrwiYkl67FzVSNXCE7H8qKf+CIk6kcm+LVw5Kcnw+bbcCb4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782320017; c=relaxed/simple;
-	bh=nGnnhE4/0rq7NBBcaQlzOLttdF308ScoZVt/aEBw1fg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lNpfMGX8CxMpwd/kW2UDM+pZOTwfqtdfC5w0S3zQR3EcaRg5EfEto09FTU6HBcDmOknuKNEG5obaDpgPZ/3BueKfKWivWwES/scYli1SMdjNOWbs+nj3myIrO0HNUNgSOAq5nMQYBhoMqYHxOVIMlD7v0zy4GSWBegLMmuU+Xb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pWCK1kNM; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1782341122; c=relaxed/simple;
+	bh=F9Kyj9psFA3CcUgAE4ZqMqWA0H5hu/8LTdI7oKfL23g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zd5f3OZFb6HVp8TK6FRTws/noFXcIEhXRwlLCkSI8vthJvgjQZ8EWow4OLdDLoNR91GPYamCzAqQ9KPu48McVey6KodfcP8p7A313njhXYZQrjS87JRbF3zAUOJJBx2vKBj9Xeavs+VPKko5zBL36eL6fDCRvEIB2qcP+DBK7GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=WUao3Nuc; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pWCK1kNM"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9300C5340C85;
-	Wed, 24 Jun 2026 18:53:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1782320013;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=j7wnXdTWTIQT+Iw/fo04Vyy82anBkN9n54SPd4/dYGU=;
-	b=pWCK1kNM7EMhEQk2p2bp0L/vtptr01ust87OAgvPEkz1DhnZ6+YGZn+d+IHKJtmjjo7d6H
-	sTYezSDYc+3DjY42fxfCKvDBl1LrMag6eTVNEDsAHgbcfG3gYfW15ld3BEGkHJHraFI6QK
-	VPBhMBYhogvKjWhvsI7PLQnSxW2aEVA=
-Message-ID: <113cdc56-3f2b-4998-a0f6-6f7e29aed7da@ixit.cz>
-Date: Wed, 24 Jun 2026 18:53:33 +0200
+	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="WUao3Nuc"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c11ff0c5e43so35792566b.0
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 15:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bynar.io; s=google; t=1782341119; x=1782945919; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OIv0SNIrWvan8AixNggFQO+S0jupCa7X1WRFdoPzAug=;
+        b=WUao3NucB9NT7brdouap35YOMW8j/V5qXTNp2CXufFhLjH/ARwE02lxlUgZnG7L1kG
+         Ou9Ym7tTiTHSXQNYqTqjR9TWcRzihSsKsXGe9FD7coKu8XkPB1Qlc1jZyKknC+2vL7NJ
+         +RLik9PE46zwmM1iBD1ZPFRY1Als5XRRig2mq/txC3ni08+IsWs2BCPf3WObp6fxyDqV
+         0JC05v1hzQFk7dbQGqUxhvzdATDBLsUe0gvjJmB0ytBPIM5AHYlIBvlV7ne2Eqib6Y1f
+         LxbvJfJm4p1PXWfo/j/D/oA/yOdn5LSsP2aYmqGcyor60hD62jruCuiYH42H+9Faa6Sd
+         hnYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782341119; x=1782945919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OIv0SNIrWvan8AixNggFQO+S0jupCa7X1WRFdoPzAug=;
+        b=Iv7kvcjqRMF6lXeQL14FFnl+30J4VfVJta87XpTjdgQeHn0oeJCfTICKr+Y1IXchAL
+         QG3fWYXhqdrh75J1+J9UjlbykvqhwBC5N7fztZBoHtYxi1RgtS39MjZKATVYse1Wu47x
+         +6zQI35GQcC5hsnyG6Dht0x6LpBEW6+0dTZhI0tz+89cxALcDPaLBXvsH0ssJwRC2Rs5
+         SPn6PRxgrZ6WjIDnga32kV1jVB6YnC9UDWiToHThpOSTkaLo0RO22AG4Q+kNDXq3v7Cf
+         r4z8UnupvftRXRxqLCa8frCltsIsQyJbcOSZB1T2fwBY4XOXaeLR6Gak07m3VEWlILif
+         qydg==
+X-Forwarded-Encrypted: i=1; AFNElJ/jMDaouJtvbtkyTxk68hNouFUcZEBP+1VvVWXHOB02v72DEenlkPTaaUMqIUfJKD+6Z/yY+tMmocxt5V8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsgdthU1r7zVn8Ty5bqzPqFgb2Ilzb/DlHw/KG/nI9AMcwxCqu
+	VeT9lwpUNhAiEGanmwpRNfndlR9eyqZEMcKhIqlD53rY53xNOkG7E9l6qYfItwPU7yKI
+X-Gm-Gg: AfdE7ckSCT5w41kNFTVcRrOhm5AnYMXnaTVznKgtZ7DMED0ytTPdTalYV/xqxbSKg7i
+	dYbugJZRX+6zj4mSZaDZzd3XkW7m0jd4tdsyhKDnC2F0gQF8bQ41acVkMIu+TFajm735QGF1t8o
+	mQI/bmbEnGAPmWDN9CPDAfFd26k9zgZKcNqGOHD/FnaAajx7K4mgcslVNh+3E0AX2MNZy4TYPd0
+	Kj6GGEG7yuC659qXXSsxDcSDnW1W+zTFu7u8/DdVnw567sng1IVGC3Cu2N7VXlDGIHoy1UlZHwt
+	p2hLZ2vNVhaSoBiRf+ASOiY65JG50ZpgBjAXtPYJu4Pmj/dmkegkG8qz2fcyFNYH981ZFPzev18
+	bPbv0h5aX9UFI7kZCHfQ4JAWbKlPBPGJJ2Vim6CLGh63nbtiHgzb3sLHwVfOGkxTknt1NQKQ3TE
+	Mb9r3TQ/mO700=
+X-Received: by 2002:a17:907:6d07:b0:c02:6fbc:203b with SMTP id a640c23a62f3a-c10801b77fbmr541038366b.46.1782341119093;
+        Wed, 24 Jun 2026 15:45:19 -0700 (PDT)
+Received: from localhost ([2a06:61c2:d427:0:b321:1c7a:b072:326e])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbe6220esm51310366b.45.2026.06.24.15.45.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 15:45:18 -0700 (PDT)
+From: Samuel Page <sam@bynar.io>
+To: David Heidelberg <david@ixit.cz>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH net v2] nfc: nci: fix uninit-value in nci_core_init_rsp_packet()
+Date: Wed, 24 Jun 2026 23:44:55 +0100
+Message-ID: <20260624224455.999374-1-sam@bynar.io>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] nfc: nci: add data_len bound checks to activation
- parameter extractors
-To: hexlabsecurity@proton.me
-Cc: linux-kernel@vger.kernel.org, Simon Horman <horms@kernel.org>,
- netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-References: <20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The CORE_INIT_RSP handlers walk the response using length fields taken
+from the packet itself, without checking they stay within skb->len:
 
-On Fri, 12 Jun 2026 12:50:25 -0500, Bryam Vargas wrote:
- > nfc: nci: add data_len bound checks to activation parameter extractors
+ - v1 computes
+	rsp_2 = skb->data + 6 + rsp_1->num_supported_rf_interfaces;
+   from the on-wire (unclamped) interface count and then dereferences
+   rsp_2, and memcpy()s the advertised interfaces - both can run past the
+   received data;
+ - v2 walks supported_rf_interfaces[], advancing the cursor by an
+   in-packet rf_extension_cnt with no bound.
 
-Applied, thanks!
+A short CORE_INIT_RSP therefore makes the parser read past the packet
+(into the uninitialised tail of the RX skb); the values are stored into
+struct nci_dev and consumed while bringing the device up:
 
-[1/1] nfc: nci: add data_len bound checks to activation parameter extractors
-       commit: 6f9301aba1ec2f926725c3929a41dd9814231a50
+  BUG: KMSAN: uninit-value in nci_dev_up+0x10f3/0x1720
+   nci_dev_up+0x10f3/0x1720
+   nfc_dev_up+0x187/0x380
+   nfc_genl_dev_up+0xdc/0x1a0
+   genl_rcv_msg+0x5d4/0x9e0
+   netlink_rcv_skb+0x28f/0x530
+  Uninit was stored to memory at:
+   nci_rsp_packet+0x68f/0x2310
+   nci_rx_work+0x25f/0x5d0
+  Uninit was created at:
+   __alloc_skb+0x540/0xd40
+   virtual_ncidev_write+0x65/0x210
 
-Best regards,
+Validate the response length before parsing or storing the
+variable-length parts, rejecting truncated responses with
+NCI_STATUS_SYNTAX_ERROR.  In v1 the check is done before
+num_supported_rf_interfaces is stored into ndev, so a truncated response
+cannot leave ndev->num_supported_rf_interfaces holding the unclamped
+on-wire count, which nci_init_complete_req() would otherwise use as a
+bound for the fixed-size supported_rf_interfaces[] array.
+
+Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
+Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
+Cc: stable@vger.kernel.org
+Tested-by: syzbot@syzkaller.appspotmail.com
+Assisted-by: Bynario AI
+Signed-off-by: Samuel Page <sam@bynar.io>
+---
+v2: validate the response length before storing num_supported_rf_interfaces
+    into @ndev.  In v1 the unclamped on-wire count was stored first and the
+    length check returned early on a truncated response, leaving
+    ndev->num_supported_rf_interfaces > NCI_MAX_SUPPORTED_RF_INTERFACES; a
+    subsequent CORE_INIT completion then walked it in nci_init_complete_req(),
+    which the syzbot CI run on v1 flagged as a UBSAN array-index-out-of-bounds.
+    https://ci.syzbot.org/series/2a9a8657-37a3-4dce-8cb5-2035027791dd
+    v1: https://lore.kernel.org/all/20260623222402.175798-1-sam@bynar.io
+
+ net/nfc/nci/rsp.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index 9eeb862825c5..6b2fa6bdbd14 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -50,11 +50,25 @@ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
+ 	const struct nci_core_init_rsp_1 *rsp_1 = (void *)skb->data;
+ 	const struct nci_core_init_rsp_2 *rsp_2;
+ 
++	if (skb->len < sizeof(*rsp_1))
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	pr_debug("status 0x%x\n", rsp_1->status);
+ 
+ 	if (rsp_1->status != NCI_STATUS_OK)
+ 		return rsp_1->status;
+ 
++	/*
++	 * supported_rf_interfaces[] and the trailing nci_core_init_rsp_2 are
++	 * addressed using the on-wire (unclamped) interface count, so the
++	 * response must be long enough for both before any of it is parsed or
++	 * stored into @ndev - otherwise a truncated response would leave
++	 * ndev->num_supported_rf_interfaces holding the unclamped count.
++	 */
++	if (skb->len < sizeof(*rsp_1) +
++	    rsp_1->num_supported_rf_interfaces + sizeof(*rsp_2))
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	ndev->nfcc_features = __le32_to_cpu(rsp_1->nfcc_features);
+ 	ndev->num_supported_rf_interfaces = rsp_1->num_supported_rf_interfaces;
+ 
+@@ -88,9 +102,13 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
+ {
+ 	const struct nci_core_init_rsp_nci_ver2 *rsp = (void *)skb->data;
+ 	const u8 *supported_rf_interface = rsp->supported_rf_interfaces;
++	const u8 *end = skb->data + skb->len;
+ 	u8 rf_interface_idx = 0;
+ 	u8 rf_extension_cnt = 0;
+ 
++	if (skb->len < sizeof(*rsp))
++		return NCI_STATUS_SYNTAX_ERROR;
++
+ 	pr_debug("status %x\n", rsp->status);
+ 
+ 	if (rsp->status != NCI_STATUS_OK)
+@@ -104,10 +122,16 @@ static u8 nci_core_init_rsp_packet_v2(struct nci_dev *ndev,
+ 		    NCI_MAX_SUPPORTED_RF_INTERFACES);
+ 
+ 	while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
+-		ndev->supported_rf_interfaces[rf_interface_idx++] = *supported_rf_interface++;
++		/* one interface byte + one extension-count byte must be present */
++		if (end - supported_rf_interface < 2)
++			return NCI_STATUS_SYNTAX_ERROR;
++		ndev->supported_rf_interfaces[rf_interface_idx++] =
++			*supported_rf_interface++;
+ 
+-		/* skip rf extension parameters */
++		/* skip rf extension parameters, bounded by the packet */
+ 		rf_extension_cnt = *supported_rf_interface++;
++		if (rf_extension_cnt > end - supported_rf_interface)
++			return NCI_STATUS_SYNTAX_ERROR;
+ 		supported_rf_interface += rf_extension_cnt;
+ 	}
+ 
+
+base-commit: a986fde914d88af47eb78fd29c5d1af7952c3500
 -- 
-David Heidelberg <david@ixit.cz>
+2.54.0
+
