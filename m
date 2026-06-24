@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AAD38BF8D
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 16:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D0440D56B
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 16:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782317494; cv=none; b=frYtAJTRr3FECMzWWZkVQ/Qgb2nZRjsvSSKw0UVjF0xfYfQ0uZrAt7f2rlDWCI5XKr77rBR8CBU7WmVGuJfwkqfH5oLFVZB1Zy1niWoP+3IxqvJ9EZkNbbg5wjFgJFOxRk3oKPruO/Ls6+MBoOrdswGLjFnsmxZ3Jll5mAMbNdE=
+	t=1782317818; cv=none; b=kbVnffsulQmaFukq3U8F6mHCxflXbXieb3QFHpyrKjc8qpM103lrEsI/pS+8qdckhxaIUqHIo6RpEt5jBDGdWGHtfhVZ3JCEKQf00Frc+RLsvRXUyLYRC9cjxJaahXew+EO8W4fGQCCYZPalw4Pliy+JQrZdotvzBBzRirCJfw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782317494; c=relaxed/simple;
-	bh=KhwVh5uK0ZxMAJ7EjaEsfa1GAMmDM4iSWBhvL90KYBQ=;
+	s=arc-20240116; t=1782317818; c=relaxed/simple;
+	bh=IOhWgwBBMWg6Ldbg26XTYhcGvygbIBOcQjU8gr0xbjc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RipWVoDJcjEGF93I6VVqSfNKb8IwVMwIOPKW51GYSKCnTAwwFMoCGKgnarTT2nqpb2qZXtVH2Or8OEpHYcoxcZavQ4KrdGH08z6/8W4w8Qy38Fvd68IZm4jfqDB7024TQ0080LRMj7nY9RHnYx/mNKEV1WERMsVUNuDeYc+KHIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Kr8vNYb/; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=Jtx7n3vKnRh4tEb5eoTY8GgHtQwCvgCsWO26c89xQiVgleD1qaBtv+bU5wvHH7hFFsUki9jTcTji4/maP394E+vilcSNCP8aW0uLUfSMfHIJSZa9jF65vZFYEWjJMZ97s/nwI8NFKBXccGU3/ghaQUbQ1bWbLGh38/AHUfqQ8aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=MnpUL2zc; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Kr8vNYb/"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="MnpUL2zc"
 Received: from [10.0.0.200] (unknown [10.88.125.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 55CF25340390;
-	Wed, 24 Jun 2026 18:11:24 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 6C8175340427;
+	Wed, 24 Jun 2026 18:16:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1782317485;
+	t=1782317814;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gsPGKIJz9jJBiZcm04BvfOUaXOWMRfXw19nfz6XB5ro=;
-	b=Kr8vNYb/oAYlX4ir4mJIXkPS6C1C/svE5A9euvOhbw6U0jDc7Dz9Gv7Rz+H21e5IY99gri
-	fPWQ/s6Yt6Qz8R7hWEHSlne4bUp2RUM2EepLJzfA9T9WGPNh45iJUMRxnPHxyYAP10wDYq
-	dIOV1jMpeSCV40OON0Zvb3WRtH41yUU=
-Message-ID: <672cda18-3cbd-40a0-b830-7f267964bdb6@ixit.cz>
-Date: Wed, 24 Jun 2026 18:11:22 +0200
+	bh=YKIkxch6KLPeashywy0J/xWIuotTcRwzMsXsdGIZyMw=;
+	b=MnpUL2zcl2CdP0319oQMHMagw4BLto6CBFgevV6EaXXgzvQlZlF/w/d9r9RhA6F8EZi/3s
+	DyGiGNwBoBaNVs8wmODmhXG4GZzkL2UxPgxkj1YMUAMaizla1iSzMsna1vwed8RZ2bpWli
+	jSs+Qwyzen24Cv5+OOeoUNy5N6OSTvM=
+Message-ID: <87079ae8-bee8-4ae5-a016-de9b81962c04@ixit.cz>
+Date: Wed, 24 Jun 2026 18:16:54 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,14 +41,13 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v4 0/5] nfc: fix multiple OOB reads in NCI and LLCP
- parsing paths
-To: =?UTF-8?B?TGVrw6sgSGFww6dpdQ==?= <snowwlake@icloud.com>,
- oe-linux-nfc@lists.linux.dev
+Subject: Re: [PATCH net v2] nfc: llcp: fix OOB read and u8 offset wrap in TLV
+ parsers
+To: Muhammad Bilal <meatuni001@gmail.com>, oe-linux-nfc@lists.linux.dev
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, krzk@kernel.org, horms@kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-References: <20260424180151.3808557-1-snowwlake@icloud.com>
+ pabeni@redhat.com, horms@kernel.org, krzk@kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, netdev@vger.kernel.org
+References: <20260622131802.239035-1-meatuni001@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -94,54 +93,19 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260424180151.3808557-1-snowwlake@icloud.com>
+In-Reply-To: <20260622131802.239035-1-meatuni001@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 24/04/2026 20:01, Lekë Hapçiu wrote:
-> This series fixes five out-of-bounds / underflow bugs in the kernel NFC
-> stack.  All are reachable from a remote NFC peer that the local stack
-> has already associated with; in the LLCP cases the peer only needs to
-> send a malformed frame.
-> 
->    1/5  nci: u8 underflow in nci_store_general_bytes_nfc_dep() lets the
->         attacker-controlled atr_res_len skip the GT-offset subtraction
->         and cause an OOB read/write against general_bytes[].
->    2/5  llcp: parse_gb_tlv() / parse_connection_tlv() trust the TLV
->         length byte without checking remaining buffer, and the tlv16
->         accessors read past the end when length < 2.
->    3/5  llcp: nfc_llcp_recv_snl() has the same TLV-length trust bug, and
->         its SDRES handler uses an unbounded "%.16s" pr_debug() that
->         walks past service_name_len.
->    4/5  llcp: nfc_llcp_recv_dm() reads skb->data[3] without checking
->         skb->len, giving a 1-byte heap OOB read.
->    5/5  llcp: nfc_llcp_connect_sn() walks the TLV array with no length
->         validation; a crafted CONNECT frame drops it into OOB reads /
->         an unbounded service-name pointer.
-> 
-> The series applies on top of net/main.
-> 
-> Lekë Hapçiu (5):
->    nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep
->    nfc: llcp: fix TLV parsing in parse_gb_tlv and parse_connection_tlv
->    nfc: llcp: fix TLV parsing OOB in nfc_llcp_recv_snl
->    nfc: llcp: fix OOB read of DM reason byte in nfc_llcp_recv_dm
->    nfc: llcp: fix TLV parsing OOB in nfc_llcp_connect_sn
-> 
->   net/nfc/llcp_commands.c | 24 ++++++++++++++++++++++--
->   net/nfc/llcp_core.c     | 35 ++++++++++++++++++++++++++++++++---
->   net/nfc/nci/ntf.c       |  6 ++++++
->   3 files changed, 60 insertions(+), 5 deletions(-)
-> 
 
-Hello Lekë,
+On Mon, 22 Jun 2026 18:18:02 +0500, Muhammad Bilal wrote:
+ > nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
 
-could you please rebase this series against NFC for-linus branch [1]?
+Applied, thanks!
 
-Likely some checks has been added meanwhile, but I would love to get the 
-remaining ones in!
+[1/1] nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
+       commit: cb682b66aba4bc3f4dd4d7ae5612f49ad75b2087
 
-Don't forget also add NFC mailing list oe-linux-nfc@lists.linux.dev .
-
-Thank you
-David
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
