@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D0440D56B
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 16:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD1330662
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 24 Jun 2026 16:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782317818; cv=none; b=kbVnffsulQmaFukq3U8F6mHCxflXbXieb3QFHpyrKjc8qpM103lrEsI/pS+8qdckhxaIUqHIo6RpEt5jBDGdWGHtfhVZ3JCEKQf00Frc+RLsvRXUyLYRC9cjxJaahXew+EO8W4fGQCCYZPalw4Pliy+JQrZdotvzBBzRirCJfw8=
+	t=1782320017; cv=none; b=u8Y17OVG7lLQHmE2lJLh9vasWzVwW5w717LXrXmE8+EqbolcQOEIhbcxZV7mP9cwysFdQBOell6nRm6ZtlmB8lRVchlQnAWsDGlrsEyYFgjVdHqyQhAcMY+uZeFPh1YAeXmD6COuNH8TRMYfztRFmcjczHpiH2MUOq/ShQyfUR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782317818; c=relaxed/simple;
-	bh=IOhWgwBBMWg6Ldbg26XTYhcGvygbIBOcQjU8gr0xbjc=;
+	s=arc-20240116; t=1782320017; c=relaxed/simple;
+	bh=nGnnhE4/0rq7NBBcaQlzOLttdF308ScoZVt/aEBw1fg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jtx7n3vKnRh4tEb5eoTY8GgHtQwCvgCsWO26c89xQiVgleD1qaBtv+bU5wvHH7hFFsUki9jTcTji4/maP394E+vilcSNCP8aW0uLUfSMfHIJSZa9jF65vZFYEWjJMZ97s/nwI8NFKBXccGU3/ghaQUbQ1bWbLGh38/AHUfqQ8aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=MnpUL2zc; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=lNpfMGX8CxMpwd/kW2UDM+pZOTwfqtdfC5w0S3zQR3EcaRg5EfEto09FTU6HBcDmOknuKNEG5obaDpgPZ/3BueKfKWivWwES/scYli1SMdjNOWbs+nj3myIrO0HNUNgSOAq5nMQYBhoMqYHxOVIMlD7v0zy4GSWBegLMmuU+Xb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pWCK1kNM; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="MnpUL2zc"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pWCK1kNM"
 Received: from [10.0.0.200] (unknown [10.88.125.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 6C8175340427;
-	Wed, 24 Jun 2026 18:16:54 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 9300C5340C85;
+	Wed, 24 Jun 2026 18:53:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1782317814;
+	t=1782320013;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YKIkxch6KLPeashywy0J/xWIuotTcRwzMsXsdGIZyMw=;
-	b=MnpUL2zcl2CdP0319oQMHMagw4BLto6CBFgevV6EaXXgzvQlZlF/w/d9r9RhA6F8EZi/3s
-	DyGiGNwBoBaNVs8wmODmhXG4GZzkL2UxPgxkj1YMUAMaizla1iSzMsna1vwed8RZ2bpWli
-	jSs+Qwyzen24Cv5+OOeoUNy5N6OSTvM=
-Message-ID: <87079ae8-bee8-4ae5-a016-de9b81962c04@ixit.cz>
-Date: Wed, 24 Jun 2026 18:16:54 +0200
+	bh=j7wnXdTWTIQT+Iw/fo04Vyy82anBkN9n54SPd4/dYGU=;
+	b=pWCK1kNM7EMhEQk2p2bp0L/vtptr01ust87OAgvPEkz1DhnZ6+YGZn+d+IHKJtmjjo7d6H
+	sTYezSDYc+3DjY42fxfCKvDBl1LrMag6eTVNEDsAHgbcfG3gYfW15ld3BEGkHJHraFI6QK
+	VPBhMBYhogvKjWhvsI7PLQnSxW2aEVA=
+Message-ID: <113cdc56-3f2b-4998-a0f6-6f7e29aed7da@ixit.cz>
+Date: Wed, 24 Jun 2026 18:53:33 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,13 +41,12 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] nfc: llcp: fix OOB read and u8 offset wrap in TLV
- parsers
-To: Muhammad Bilal <meatuni001@gmail.com>, oe-linux-nfc@lists.linux.dev
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, krzk@kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, netdev@vger.kernel.org
-References: <20260622131802.239035-1-meatuni001@gmail.com>
+Subject: Re: [PATCH v3] nfc: nci: add data_len bound checks to activation
+ parameter extractors
+To: hexlabsecurity@proton.me
+Cc: linux-kernel@vger.kernel.org, Simon Horman <horms@kernel.org>,
+ netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -93,18 +92,18 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260622131802.239035-1-meatuni001@gmail.com>
+In-Reply-To: <20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On Mon, 22 Jun 2026 18:18:02 +0500, Muhammad Bilal wrote:
- > nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
+On Fri, 12 Jun 2026 12:50:25 -0500, Bryam Vargas wrote:
+ > nfc: nci: add data_len bound checks to activation parameter extractors
 
 Applied, thanks!
 
-[1/1] nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
-       commit: cb682b66aba4bc3f4dd4d7ae5612f49ad75b2087
+[1/1] nfc: nci: add data_len bound checks to activation parameter extractors
+       commit: 6f9301aba1ec2f926725c3929a41dd9814231a50
 
 Best regards,
 -- 
