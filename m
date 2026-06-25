@@ -1,141 +1,275 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9D93CC7F1
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 25 Jun 2026 10:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BBC3E4C61;
+	Thu, 25 Jun 2026 12:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782381883; cv=none; b=OZBUGlu3fnrZSnqF2zg4N53gfNhASrnEl4A3Qg89KgB3SBqWUQmI9LdXTgv/1Kqav5uQWyBipWcrZBMDCAJkko9T4sCRi0QI3cyGxfJfmHUVbUVRJ9tIhdrlhfofsR6PsluND50+ubgBUTb4GGm0mrgAorvgXPrCQ0P+8Zb/WoM=
+	t=1782392250; cv=none; b=AvTPZpHXOS2E1tmgPmxrc9+Ad9wkX/q/z2f82UctAasLnfC18NEgFGqpE5niYtL59HOXUZQLxNuXtkupMYhJTBtWIIssqiqmyCn4PqMKz5ujY3Y2fhQG5uEVLTENn3jCTYszaghWVOx/IxQSQrB8dPy20H/qmb9AIUeZLfIUTQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782381883; c=relaxed/simple;
-	bh=QDzsnUqwF537r9M0E1hQPClNIzZvDM04Y5WP6j505Wg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GA451PGu20HHVEVzv9kmOdN/yqKjfS29LFyyRI8DWFSjCvWgAHMXzMa4hrjDk8B21G0DUfBNLhBKitYaCRmBzxNgeYf+CADglzprY1fJ3er3tduQbKIhzV/NG8fd3E6Rp3TKs/HqZw+EstcNBb8Qzw50+qpgNUve4Fet1pHGx3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=gXdrEWyc; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
+	s=arc-20240116; t=1782392250; c=relaxed/simple;
+	bh=6amijwCuDW1hDzQ5UWJN/W7f4d8ORSH6s4r5B6T/dLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Du3yNUA0B3n7/VzZQgY09590UAS5Z32f6UF5Mef8+fvEhkwzWhqYR/qQQkZVLwP2HkVb2+eO3fVgubsn3hLU8o6lo8zqwcPua8wPOiOFydRQdXdJXYMsUb6DxX4DlrEf3mtCSZynpLVlJNMHFd0dFkBiymZ5GEDvTp7MW7NTBQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rd+B/VPQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="gXdrEWyc"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bdb3fd39045so366955466b.3
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 25 Jun 2026 03:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bynar.io; s=google; t=1782381880; x=1782986680; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJYAU8T0dbhlhhmhVee2XR5nvnk6dSr8CYdyAa40XFg=;
-        b=gXdrEWycV/x3E7XKnkecE4TAH9TigOgI849nL3vA6/J1wLALmmCC1RQg57c174UxzR
-         c+bVxPXUxPlijzbIEF9J/JJk9tJbar/wssqYwjuriN7vhfNeXuYpw7bPH9erzyvut7vo
-         ZaOuc/CQapkoHR8vyZWunSbXEwr/Mo0CsLhd6nFLandvfkAHcFngreoFcChp4zMnEWtz
-         q+NP1CSRDv9LJAIZPX1XgdfvSwqoyq8iwKVseSfiKru2NFbXi+CzNU0IRlgke87Pg3pC
-         +NrZ45RuZMN6uBRVr2hJKXLH+j52VKlAIgKyIpj6PsedfW7AL4F/mYBFmCIaZ88DV9ef
-         wTnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782381880; x=1782986680;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZJYAU8T0dbhlhhmhVee2XR5nvnk6dSr8CYdyAa40XFg=;
-        b=tHWWNP+vXXQ0eku1irgZ1N1wkjHma2joBv64XK5ICf4AP4Y0mt+1dekyccRqAyL8AK
-         hIirFMLYvbAaRI578SXC623enhASEEYg8EZmbbiPwXupbK5eErIC9Vnu618utXX4FeVY
-         gkut4ThlDWuLcwOVq2EDsxNzSBTv1/UCg38JcRcKW8HEQaXiP0L6hJDGWKkDBaUREVLu
-         2XGZBePqZAttVdjtntbqZknyrYh0le0lEqApOwK2IehM92p8fIgHhCiUph0myEeRjYP+
-         chXaCFjyHD3IUoQ6TqsG3aqKpHJxKP6yh7wXaqvOSJ0mZF7DfMHKwyzAKVEsr9foFr6W
-         cThQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq7GQcZTQEgPYE3kKEvgO/AUpKAahsw8ooqHydpbYGVkzPHsNiVoGg8xIgG/hz35BYq3e8oP/nHJj4f9Uk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGqaFXZS7WBmdzSUP8BidSTogbVnnOrZbm4jUPRxIpfTCnxbxx
-	wIxrnvEb2yS7o/Msa4ytpI5Fd9hT7fWnqY+PGJn6bRSWI5ze6cBcCOqOm4N0s7Zs6crs
-X-Gm-Gg: AfdE7ckxyCYUFBcYF+4bPGqASXC1xJ+0sG+t9lwnqdMsDAcTSmBluAoovB93wEvOTbP
-	R4nv6SWpM3FTnwUYn/Hhz9CWbuc0iwy0CRr4YGL4xTVpuiM3fFpB80ibU/txQK8OgOsD3vC687A
-	3W6sRr3q6E3a+ifcybx+iHMWsASusH5T2upi3mI2tuUonP+qcHbKTu1G873Z1nZK11MLXDWhJ/w
-	E/LR7kQzz5GWDK4E26Iba5ASSmC0aF0QMmaI0WDZRw1n1c0/bmADoC+OPqQeTM98qLgZ4MYWlWY
-	Qf8XvjFlvkF+DrcxDoedqpUD86ffUCSj5p8TfzoJRSUvQk76Vf4asc2J2evrWMhUxZIRktV5lz7
-	IKsoK3GmdrOqVTCdcfV1auzUCCv3ttzCXj0sLl6FPWzl4Tkr3D9ATHYA5T0jga0aDHevSgj44ol
-	CVftd5ifh7dKyKGFJFddNlpw5TOJZdLSGWZWgbmi+AkriwMQ==
-X-Received: by 2002:a17:906:f5a2:b0:c0e:840a:79a3 with SMTP id a640c23a62f3a-c12061eb76dmr128400266b.52.1782381879743;
-        Thu, 25 Jun 2026 03:04:39 -0700 (PDT)
-Received: from ?IPV6:2a06:61c2:d427:0:b321:1c7a:b072:326e? ([2a06:61c2:d427:0:b321:1c7a:b072:326e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbe05cb3sm150309966b.35.2026.06.25.03.04.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 03:04:39 -0700 (PDT)
-Message-ID: <ea447873-9222-4b75-8090-68d08e53097a@bynar.io>
-Date: Thu, 25 Jun 2026 11:04:38 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rd+B/VPQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3660D1F000E9;
+	Thu, 25 Jun 2026 12:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782392248;
+	bh=2AUXtweujPMCo16oaEA/mFfW29cS251qdPvyJQVWc7U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Rd+B/VPQ06Cun5eevbQkRPwhK1ALrFleOBZw8CAmDKBzUitIwIjhUYtffBXZcMVrn
+	 xM1+l8fvR1JlYNQGL/6Kq9C6R5B9yJE5xPuiPyLIoDZsBPM2sT/3FaeQ7xJgKUE7OH
+	 6G9qlc5OrIEc6rG7lbXDa2Uixccsyrc16N0qLjOX+fsn93mv8FwiYCr6TCledm++zk
+	 7M+16vwnYY8vGQEkeSZOUTCNd1psKJngX6tXCM4b5e4TrDXNf8oD4zddbtaAvl6H0d
+	 d+mtGsClZHQJ/C75yXu3BCZN1ZTOodYl1NAfsDQIBxSLRdnk6GEDzr3TnkOqyGpNfX
+	 ImPq/llhe8jpQ==
+Date: Thu, 25 Jun 2026 13:57:23 +0100
+From: Simon Horman <horms@kernel.org>
+To: Sam P <sam@bynar.io>
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds write in
+ nci_target_auto_activated()
+Message-ID: <20260625125723.GF1131256@horms.kernel.org>
+References: <20260622145243.3167276-1-sam@bynar.io>
+ <20260623172109.1105965-2-horms@kernel.org>
+ <443e2ee1-e9c1-45ca-be57-0c67966ec7d9@bynar.io>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] nfc: nci: fix uninit-value in the RF
- discover/activated NTF handlers
-To: Simon Horman <horms@kernel.org>
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260623234126.214667-1-sam@bynar.io>
- <20260625091828.1170615-2-horms@kernel.org>
-Content-Language: en-GB
-From: Sam P <sam@bynar.io>
-In-Reply-To: <20260625091828.1170615-2-horms@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <443e2ee1-e9c1-45ca-be57-0c67966ec7d9@bynar.io>
 
-On 25/06/2026 10:18, Simon Horman wrote:
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
-> Full review at: https://netdev-ai.bots.linux.dev/sashiko/
-> ---
-> nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
+On Wed, Jun 24, 2026 at 12:33:21AM +0200, Sam P wrote:
+> On 23/06/2026 19:21, Simon Horman wrote:
+> > > diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+> > > index c96512bb86531..566ca839fa488 100644
+> > > --- a/net/nfc/nci/ntf.c
+> > > +++ b/net/nfc/nci/ntf.c
+> > > @@ -603,6 +603,12 @@ static void nci_target_auto_activated(struct nci_dev *ndev,
+> > >       struct nfc_target *target;
+> > >       int rc;
+> > > 
+> > > +    /* This is a new target, check if we've enough room */
+> > > +    if (ndev->n_targets == NCI_MAX_DISCOVERED_TARGETS) {
+> > > +        pr_debug("not enough room, ignoring new target...\n");
+> > > +        return;
+> > 
+> > [Severity: High]
+> > Does this early return cause the state machine to stall?
+> > 
+> > Looking at nci_rf_intf_activated_ntf_packet(), the state is transitioned
+> > to NCI_POLL_ACTIVE right before this function is called:
+> > 
+> > net/nfc/nci/ntf.c:nci_rf_intf_activated_ntf_packet() {
+> >      ...
+> >      atomic_set(&ndev->state, NCI_POLL_ACTIVE);
+> >      if (err == NCI_STATUS_OK)
+> >          nci_target_auto_activated(ndev, &ntf);
+> >      ...
+> > }
+> > 
+> > Because of the early return here, nfc_targets_found() is skipped. Does this
+> > leave the state wedged in NCI_POLL_ACTIVE, permanently blocking future
+> > attempts to stop polling since nci_stop_poll() requires the state to be
+> > NCI_DISCOVERY?
+> > 
+> > > +    }
+> > > +
+> > >       target = &ndev->targets[ndev->n_targets];
+> > 
+> > [ ... ]
 > 
-> This zero-initialises the on-stack nci_rf_discover_ntf and
-> nci_rf_intf_activated_ntf structs in the RF discover and interface
-> activated NTF handlers so that the technology- and activation-specific
-> unions read back as zero when the corresponding length fields are zero.
+> Thanks for sharing the review.
 > 
-> Link: https://lore.kernel.org/netdev/20260623172109.1105965-2-horms@kernel.org/
+> I don't believe the early return can stall the state machine, as
+> nci_target_auto_activated() does not touch ndev->state.
 > 
->>   - activated: with rf_tech_specific_params_len == 0 the same union is read
->>     via nci_target_auto_activated(); with activation_params_len == 0 the
->>     activation_params union is read by nci_store_ats_nfc_iso_dep() into
->>     ndev->target_ats.
+> nci_rf_intf_activated_ntf_packet() sets ndev->state = NCI_POLL_ACTIVE
+> before it calls nci_target_auto_activated(), so the transition has
+> already happened by the time the new check runs. Neither
+> nci_target_auto_activated() nor nfc_targets_found() modifies ndev->state;
+> nfc_targets_found() only clears the nfc_dev dev->polling flag under
+> device_lock, which is independent of the NCI state machine that
+> nci_stop_poll() tests. So ndev->state is NCI_POLL_ACTIVE after an
+> auto-activation whether the target is appended or the guard returns
+> early; the state behaviour is the same with or without this patch.
 > 
-> [Low]
-> Does the third scenario in this paragraph match the code?
-> 
-> Looking at nci_store_ats_nfc_iso_dep():
-> 
->      static int nci_store_ats_nfc_iso_dep(struct nci_dev *ndev,
->                           const struct nci_rf_intf_activated_ntf *ntf)
->      {
->          ndev->target_ats_len = 0;
-> 
->          if (ntf->activation_params_len <= 0)
->              return NCI_STATUS_OK;
-> 
->          if (ntf->activation_params.nfca_poll_iso_dep.rats_res_len > NFC_ATS_MAXSIZE) {
->          ...
-> 
-> The function returns NCI_STATUS_OK before any access to the
-> activation_params union when activation_params_len is 0, so the union
-> is not read in that case.
-> 
-> The sibling nci_store_general_bytes_nfc_dep() has the same early return
-> on activation_params_len <= 0.
-> 
-> The two rf_tech_specific_params_len == 0 cases listed earlier in the
-> commit message do match the code (nci_add_new_protocol() and
-> nci_target_auto_activated() unconditionally pass
-> &ntf.rf_tech_specific_params even when rf_tech_specific_params_len is
-> 0), and the KMSAN trace quoted in the commit message only mentions the
-> nci_add_new_protocol() path.
-> 
-> The ntf = {} change still looks correct and necessary for the
-> rf_tech_specific_params union. Could the third bullet be dropped or
-> adjusted so the commit message reflects only the paths that actually
-> read uninitialised bytes?
+> The check is the same n_targets == NCI_MAX_DISCOVERED_TARGETS guard the
+> sibling nci_add_new_target() (the RF_DISCOVER_NTF path) has used since
+> the Fixes: commit; it only drops the out-of-spec 11th+ target, which a
+> conformant controller shouldn't produce. The device still returns to
+> NCI_DISCOVERY/NCI_IDLE through the normal RF_DEACTIVATE path.
 
-Thanks for sharing the review.
+Thanks, I agree with your analysis.
 
-This is valid feedback, I'll fix up the commit message in a v2.
+> > [Severity: Critical]
+> > This isn't a bug introduced by this patch, but can the ntf union copy
+> > uninitialized stack memory into persistent device structures?
+> > 
+> > In net/nfc/nci/ntf.c:nci_rf_discover_ntf_packet(), the local ntf struct
+> > is declared on the stack:
+> > 
+> >      struct nci_rf_discover_ntf ntf;
+> > 
+> > If the incoming packet has ntf.rf_tech_specific_params_len == 0, the
+> > extraction routines are bypassed, leaving the rf_tech_specific_params union
+> > uninitialized. The struct is then passed to nci_add_new_target():
+> > 
+> >      if (add_target == true)
+> >          nci_add_new_target(ndev, &ntf);
+> > 
+> > This eventually calls nci_add_new_protocol(), which blindly reads from this
+> > union:
+> > 
+> >      nfca_poll = (struct rf_tech_specific_params_nfca_poll *)params;
+> >      target->sens_res = nfca_poll->sens_res;
+> >      target->sel_res = nfca_poll->sel_res;
+> >      target->nfcid1_len = nfca_poll->nfcid1_len;
+> > 
+> > Could this uninitialized stack garbage be copied into ndev->targets, and
+> > later broadcasted to userspace via Netlink in nfc_targets_found()?
+> 
+> I managed to repro this issue locally via KMSAN, I can queue up a patch
+> for this that I can submit separately, ntf just needs to be zero-initd.
+
+Thanks, I agree this can be handled separately.
+
+> > [Severity: Critical]
+> > This isn't a bug introduced by this patch, but does the general bytes length
+> > calculation underflow?
+> > 
+> > In net/nfc/nci/ntf.c:nci_store_general_bytes_nfc_dep():
+> > 
+> >      ndev->remote_gb_len = min_t(__u8,
+> >          (ntf->activation_params.listen_nfc_dep.atr_req_len -
+> >           NFC_ATR_REQ_GT_OFFSET), NFC_ATR_REQ_GB_MAXSIZE);
+> > 
+> >      memcpy(ndev->remote_gb,
+> >          (ntf->activation_params.listen_nfc_dep.atr_req +
+> >           NFC_ATR_REQ_GT_OFFSET), ndev->remote_gb_len);
+> > 
+> > The length is computed by subtracting NFC_ATR_REQ_GT_OFFSET (14) from
+> > atr_req_len. If atr_req_len is less than 14, this subtraction will
+> > underflow.
+> > 
+> > Because of the min_t cast, this large underflowed value is bounded to
+> > NFC_ATR_REQ_GB_MAXSIZE (48). The memcpy() then copies 48 bytes starting
+> > from atr_req + 14 into ndev->remote_gb.
+> > 
+> > Since the source buffer is part of the ntf union allocated on the stack
+> > in nci_rf_intf_activated_ntf_packet(), could this leak up to 48 bytes of
+> > uninitialized kernel stack memory to userspace?
+> 
+> This one is already being fixed on the list:
+> 
+> [PATCH net v4 1/5] nfc: nci: fix u8 underflow in
+> nci_store_general_bytes_nfc_dep  (Lekë Hapçiu)
+> https://lore.kernel.org/all/20260424180151.3808557-2-snowwlake@icloud.com/
+
+Ack.
+
+> > [Severity: High]
+> > This isn't a bug introduced by this patch, but does the lack of skb->len
+> > validation in NCI response handlers allow out-of-bounds reads?
+> > 
+> > In nci_core_init_rsp_packet_v1() in net/nfc/nci/rsp.c, fields are read
+> > and arrays are copied from the payload:
+> > 
+> >      ndev->num_supported_rf_interfaces =
+> >          rsp_1->num_supported_rf_interfaces;
+> > 
+> >      memcpy(ndev->supported_rf_interfaces, rsp_1->supported_rf_interfaces,
+> >             ndev->num_supported_rf_interfaces);
+> > 
+> > Similarly in nci_core_init_rsp_packet_v2():
+> > 
+> >      while (rf_interface_idx < ndev->num_supported_rf_interfaces) {
+> >          ndev->supported_rf_interfaces[rf_interface_idx++] =
+> >              *supported_rf_interface++;
+> >      }
+> > 
+> > Since the NCI control header is stripped via skb_pull(), leaving the
+> > payload length in skb->len, what happens if an NFCC sends a short response
+> > packet (e.g. plen = 1)? Could this cause the handlers to read adjacent
+> > kernel slab memory?
+> 
+> I've since submitted a fix for this issue:
+> 
+> [PATCH net] nfc: nci: fix uninit-value in
+> nci_core_init_rsp_packet()
+> https://lore.kernel.org/netdev/20260623222402.175798-1-sam@bynar.io/
+
+Ack.
+
+> > [Severity: High]
+> > This isn't a bug introduced by this patch, but is there a missing boundary
+> > validation when extracting activation parameters?
+> > 
+> > In net/nfc/nci/ntf.c:nci_extract_activation_params_iso_dep():
+> > 
+> >      nfca_poll->rats_res_len = min_t(__u8, *data++, NFC_ATS_MAXSIZE);
+> >      if (nfca_poll->rats_res_len > 0) {
+> >          memcpy(nfca_poll->rats_res, data, nfca_poll->rats_res_len);
+> >      }
+> > 
+> > And in nci_extract_activation_params_nfc_dep():
+> > 
+> >      poll->atr_res_len = min_t(__u8, *data++, NFC_ATR_RES_MAXSIZE - 2);
+> >      if (poll->atr_res_len > 0)
+> >          memcpy(poll->atr_res, data, poll->atr_res_len);
+> > 
+> > These inner lengths are bounded by a maximum size like NFC_ATS_MAXSIZE, but
+> > they are not validated against the remaining bytes in the SKB (skb->len).
+> > 
+> > If a malformed packet provides a large inner length but a short payload,
+> > could this memcpy() read out of bounds into the device structure,
+> > potentially leaking adjacent slab memory to userspace later?
+> 
+> This one is already being fixed on the list too:
+> 
+> [PATCH v3] nfc: nci: add data_len bound checks to activation
+> parameter extractors  (Bryam Vargas)
+> https://lore.kernel.org/all/20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me/
+
+Ack.
+
+> > [Severity: High]
+> > This isn't a bug introduced by this patch, but is there a potential
+> > priority inversion or timeout deadlock involving the device lock?
+> > 
+> > Functions like nfc_stop_poll() in net/nfc/core.c acquire the device lock:
+> > 
+> >      device_lock(&dev->dev);
+> >      ...
+> >      if (dev->ops->stop_poll)
+> >          dev->ops->stop_poll(dev);
+> > 
+> > This eventually calls nci_request(), which synchronously waits for a
+> > completion signaled by the nci_rx_work thread. However, if an NTF packet
+> > is received first, nci_rx_work processes it and invokes
+> > nfc_targets_found(), which also attempts to acquire the device lock:
+> > 
+> >      device_lock(&dev->dev);
+> > 
+> > Since the calling thread already holds the device lock, nci_rx_work blocks
+> > indefinitely. Because the RX worker is blocked, it cannot process the
+> > pending RSP, causing nci_request() to time out and fail. Could this
+> > deadlock the RX thread?
+> 
+> No patch for this one, although I'm not sure how accurate it is.
+
+With the above in mind, this now looks good to me.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
