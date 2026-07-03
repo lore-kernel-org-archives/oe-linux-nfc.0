@@ -1,74 +1,73 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF4E28469B
-	for <oe-linux-nfc@lists.linux.dev>; Fri,  3 Jul 2026 15:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2784A233939
+	for <oe-linux-nfc@lists.linux.dev>; Fri,  3 Jul 2026 15:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783093661; cv=none; b=QH493+OfYKjN3ewBD7/v7HedFxj0B7LKg+VJTY55NO4Y6mdJ6c1y5hxQeKXjYHyYfozAeLAuSLYOgxoAFwQ5BHuOuEfeEIZgXLPuEUXcn/RxnloXSqQgtVs74ju/fnLkgN1bTJ6p4QKZDJ1Imql/Z8J3gF/yYvIkBXv2CEtu0O8=
+	t=1783093666; cv=none; b=p89txnY2R0paXELYk/6pL6h6U8X0XkoGpPN3jK/xiPU8bNHt87TpEN3VD8pbxBAZLyGzVT/1p7sznhrT+5/yO4YUxrtWrsP7slhiMeyePu5IkiVb04EOMZ3W49+uctDYe6ohvVhVOdAB2cH8Ny3JRijR8v4uCAbnLWQ1mCOZsgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783093661; c=relaxed/simple;
-	bh=vA6tDoj6QyK9mUVQvMCcpMGmBDhfZmtLxM3fAEHl9cs=;
+	s=arc-20240116; t=1783093666; c=relaxed/simple;
+	bh=Ztbou7ZVeJMK3+Nma9DkAkAWuD0Wd8CJYWBeeZ0s+AU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oE7Lw/bkpVd3OEZ/8klxLVr7r7z4M3Gso6HT0DEls2Kz1C3BdUZoi6oobu2lm48WVlSspc0tlf9gq1P0Fd8wWEBh91dKobgr0/1S4nul2p643mBHsdIDYLwJdQivR/HFA5YyoF67q9LxjvYmFTNvQ9eKKinyvL+N3mvpcGkjsRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=kp8BEb9M; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version:Content-Type; b=Ll0OnzNFktMxVYj4r7xskP7+D8bVW0Gk4RU8AdJRIj9y2j/QaZMn3Btp+Ps49n5ELDRoACSXZ0d/dKaPuYlyVWumfe/dEAiJc07bEGxnX/qdVEzvnTSklybIbVk0Ppk1ezgtKwPegcRCtzVXzwat7fTCBgpSCiyImXuie9iu0kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=WQYzTbyc; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="kp8BEb9M"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493ce08a75bso2648455e9.1
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 03 Jul 2026 08:47:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="WQYzTbyc"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47362928f65so693134f8f.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 03 Jul 2026 08:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783093658; x=1783698458; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1783093661; x=1783698461; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aUQqW+8IAZE2KleiROO7+tnLxWQDKkl7U0Kj9sqi+Vg=;
-        b=kp8BEb9Mgoq2B1R/mYFIYKhJYzlF0RHrzJTRlUXHVA8q8IteZQgeXg8Aegv2bglY8T
-         wJl8IbKgeJVIQLo7gPW+JmiT5wCebjQS2ob0XcAPjGo9ELgw0Xtu0AtEVlWhYhwnlVis
-         u4cgU5Qk0l+o1Mpes2BjzECB84Vp51KpMxRHC/kdUyKQVTpjAmAFwrWvyAFCKKAm0XSC
-         22JIYguUk+z56QfJNrb7sxsiHB+zxwioheoQwa7uMvAA/94mEor8BVhStl+z5YYFWEzL
-         6gnI+cxr2YYd82loy/H4i4HMvMHIozBYbTLdUyQZN7Yu+vySW/QgqtrjbPhHx0iIx2Uj
-         T74A==
+        bh=Xv+KnHLSqDDKh5+EJRw+TXozIRP3/ki1fOHuVz+QRj0=;
+        b=WQYzTbycGHgBPkgjWcrOr8fwFrU0mGILpfYYMx065+CvnDWvT7IKT6XSEw6E4eZvM9
+         ZAPc6tRudvOwG/LMaem8c/nkank06hsfcYj9GHtOqfODx1zllTHtZWrhFnV5MurvQqIg
+         hqycmuBZ3VpZqvKCm3NncQTcfN/7KnQ1WZEwEiscZh9u7F/w2HoG9QB9Dc/G50+ISi3b
+         3gZ7+bX5R/GM0wzOFg1a0s3jwU2zxDm4aX/1vuXCLC0radr4PHkdP2YugUH9b4GXJINJ
+         srpuQpwELI6ARaXsDfb0QCfYjMvnKY9rqx+zcq2ru+vv5VTtSJFAdfOtZ28jymo9jjdV
+         PQMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783093658; x=1783698458;
+        d=1e100.net; s=20251104; t=1783093661; x=1783698461;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aUQqW+8IAZE2KleiROO7+tnLxWQDKkl7U0Kj9sqi+Vg=;
-        b=s0bMqckmw2a2Uv7YhV0IvxIcs5+DsHkRE8BEvsVlAWHrCzTPIFXy2HWZ+Qa9plWrt6
-         mCTupmEgpC+ierGfXwQt4spx7BCtStSGU1ZTIi9zmMVaQsajhjG7mOnKMJajD7Ckg46B
-         HYPXIPZ9eQ1BjOBGEkkofQH0D02U34OmYEIqMKHMgV0dqwPEJ5QdA9MVAVZvEIz4Me+1
-         EMRBU1Iz67xCwV2LY4K+ZA3K0oiTkILfzDLUdwmN6c6xHoC9+uzTgvt45qDozPGbgPHU
-         xRIQfmng4oDNrURekvYiiryZ6Jij86fAyZPRNBjd106K6KqM77/uCQPe1+3lioyTVAv2
-         ODYQ==
-X-Gm-Message-State: AOJu0YwpQBlL8tWHboOjTpixbTucAX5YpUBhQX6MxvASrEnnnuU/moYO
-	gnQ7DYqOfXlnuc06ieW2uQYj8LJkryO6BDgXK57zp2Zt9gQZNbFC8NS2wQuwvvKotk4=
-X-Gm-Gg: AfdE7clAI5hOnETViZ6Qob7rm1Z37a68OdT6uuzpc42kq17Wg2eAMkelq/gkAj0zQfo
-	hhHaR8JRnII+gv/LIWK3S7AID0d8CaPNl26YXNaFn+BFdXKq/1RUIZdl2/iXqGGtuSxwrWYLcAX
-	fO2ezWWHERoM7RxG2NPLeHI/Isvzh0a74OAQIUshjU5CcnwcZ8hqICW18V3ZNsVLeoXiX7aLkk5
-	Nn1SGtfFQX70HlNyTtTw0+aVR8oFYezt5KY49vYb3D02oh+AIyFN9c/HRdp2Nf4rA9KN84GLfD9
-	0wO6WG0GZXfDUqSOEdWygOb0A0JICbm2sQGRCp6mX+b9FDZkkARFDw50XUz3sC1YpjBAGDlHQkg
-	mdUc8dj28vvpAqvZp2BKLhQGTnC4SSmqCR7YA9/4a/VxLEBBpwFYboYx6ihcFqpcxInDr9J9X7M
-	yRfeHPew07Kvlc7M7eEOKVRrBbR2Lbr4eDdJaGBDNVwEk4Nrv3goXyGjflAXi1vSXJuodxtwken
-	tza
-X-Received: by 2002:a05:600c:4e4f:b0:492:3e44:214b with SMTP id 5b1f17b1804b1-493d0f17e23mr4574385e9.13.1783093658490;
-        Fri, 03 Jul 2026 08:47:38 -0700 (PDT)
+        bh=Xv+KnHLSqDDKh5+EJRw+TXozIRP3/ki1fOHuVz+QRj0=;
+        b=hjZeBLyH9VDIwx1OnbbrxuAgSweHFhQoKsxqK8MmUfZA9nb84noa3n3NHEl4OjqI9R
+         vofpR5r0pp5CpFYD1kW8xggbQtKUT4POVcTBzUNxkBBthe7Gz3jWKZorrFvM4OhUejqm
+         sYpiVZmF5qDFHKDaHHVL1UajWjAiD05GzSn2kb85DKBXa8/3gv/fNQBBdhWKKWEDWtjT
+         IqczzoHbmRT1xwkpmVoSNhg6K3BmuMLV98B/ADOOP1IsEcgczt159rX/WwD6BrBgYBND
+         4TmMX0fvWBaJUqFlTfJ9viPbZ+vJJ//DUagylewGwphLSrq5avSXk4OpuwudT4d+FYOF
+         0FSA==
+X-Gm-Message-State: AOJu0YxhmmXWcagpoeCN6FqkxniRqdToPde74nIvkuke5GoWM6oDZVJl
+	L468rIMlhliqPvmJmPcr/UF1rOROkK1SKHLksy33gYLwnK1Q8xzCBuV+7m78Qw/dc0E=
+X-Gm-Gg: AfdE7cnZd37SSkDPrZlDDhDXrWVlXp8vmLILWyOW5bOzC/cDNBep10cgg1mFS29LOUg
+	S8MWo3ePc9P8r/HXLfEgik+QNaVq7YbFYQyXzI8IMTAafjQM++2ChXJzbVggWES9eO6/w++7Z6p
+	p9aDvlhFTDYHxlfa7RWSKCmaPgX6zyVCWU+thZzPO/aqCcLZqHXmIn1uivwJVoacLBuDajF0Ald
+	UriMvLwG45VhlquZtAVJ1QIYMw1c0231SA2/ZdnsDosF/6BzjPYGfIH/oSs7D5trysJaG3CbzCQ
+	EQlnwq/4M4MFg0hQv5jDUDjp+EIOXT/WoFds03MwcAtoWr2kqXdRhos/lIfW669p1Fa8Nj54++j
+	86vpRR0vdjLcR24olGU/KC/+snISQ47i1ty/W/gt2jeDnJ6x1MI3JAnXyD3XeOfNOlm6A1i35+f
+	wjaALgjQQZM8kSnQ+eBfMijyXyXYDvL7D2aujsUHQgFV+xnf04nK50oNcipkQTO5yK2N+8f9jdY
+	Tbb
+X-Received: by 2002:a05:6000:2689:b0:472:d857:5d39 with SMTP id ffacd0b85a97d-477570d4061mr15666507f8f.0.1783093661579;
+        Fri, 03 Jul 2026 08:47:41 -0700 (PDT)
 Received: from localhost (p200300f65f47db0472e4f1e98703de96.dip0.t-ipconnect.de. [2003:f6:5f47:db04:72e4:f1e9:8703:de96])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c637bc21sm227300115e9.7.2026.07.03.08.47.37
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47aa0960af0sm195037f8f.30.2026.07.03.08.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 08:47:38 -0700 (PDT)
+        Fri, 03 Jul 2026 08:47:40 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: David Heidelberg <david@ixit.cz>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
+	Tomasz Unger <tomasz.unger@yahoo.pl>,
+	Simon Horman <horms@kernel.org>
 Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 02/12] nfc: Drop unused assignment of acpi_device_id driver data
-Date: Fri,  3 Jul 2026 17:46:16 +0200
-Message-ID:  <c77f6376214001297f28d3ec48f0a853985f1847.1783091699.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v1 04/12] nfc: Unify style of acpi_device_id arrays
+Date: Fri,  3 Jul 2026 17:46:18 +0200
+Message-ID:  <30cd94a6821917f16daffdce5fabf145432c13eb.1783091699.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 In-Reply-To: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
 References: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
@@ -79,80 +78,88 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2479; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=vA6tDoj6QyK9mUVQvMCcpMGmBDhfZmtLxM3fAEHl9cs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqR9lWhpAJsEzKR3yULO6auEkdVIY01o0AxnfTG 99YjqISIQeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakfZVgAKCRCPgPtYfRL+ TpDEB/wI/IHZyXSnQUF55e84yH4M2BJdhY/CsKbB20MgaTlBahDCq2JGHTCOWr4fYEgTAiMppTK mtcWajt4u3+T+sOKKV/hW9IwZ2aNLyxF5Y/9WrdlK2EJBM4n43XvPGp0/4KZo7ohpAJ5EAfuCP2 0vW9Q7+k+bqjLjHkB+3EEdKOrR8gnVm7j4KD6hschsEdah8NjY3yRBOcWIwPy/d0TRvB6v4JCSE 4AD1Y++GnhByRGKe0prsMMVvW1KrgonUsofGWIHo+lRBccaLjZ6onJGGsUoERn1r0hQzdWH77Kj //P5jeufBEywuOIxHBLxINyF+NieY34PHVrAO1yr2Hz9Ab9u
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2603; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=Ztbou7ZVeJMK3+Nma9DkAkAWuD0Wd8CJYWBeeZ0s+AU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqR9lbHnirMC22bR92RZqgPVyd86F68kxfaGB6C 1wEOkxTv3uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakfZWwAKCRCPgPtYfRL+ Tns2B/4u60UUnK5rK+R2ZzkO1tDg/QMbQw+3R2T3GpL3jsOeqoac6QKlYAYjdckltubjAummIc+ yF6Wfa3xEB2tUrxn4XNJgVqEaakLhsezLZq9ik+LMW6aNItdhSNeaqI5sbDHhIQF1IFS77SCsAc HSrhbgmUV7WJ1V0FLKDA9V35udQJqS8M0EkKQopPKP3Ep7PzNOOu0tmDYjEZm4BhFJ/2KQdvkCm exwQZxv8eDwdEGTlCiGzW3y8fPUQQraIbIA9iLGTcsbYLEXZ5bn0wJow9g4cIYSSYrb3lFoVMq1 jIzRZxWMgbUmgggO4eab+9SURTynSpG5ySluXUsldjvKdr22
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The drivers explicitly set the .driver_data member of struct
-acpi_device_id to zero without relying on that value. Drop these
-unused assignments.
-
-This patch doesn't modify the compiled arrays, only their representation
-in source form benefits.
+Unify the style of the list terminator in acpi_device_id arrays, that is
+use a single space between { and }. This is the most common and
+generally recommended style for these.
 
 Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
  drivers/nfc/fdp/i2c.c      | 2 +-
- drivers/nfc/pn544/i2c.c    | 3 +--
+ drivers/nfc/pn544/i2c.c    | 2 +-
+ drivers/nfc/st-nci/i2c.c   | 2 +-
  drivers/nfc/st-nci/spi.c   | 2 +-
  drivers/nfc/st21nfca/i2c.c | 2 +-
- 4 files changed, 4 insertions(+), 5 deletions(-)
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
-index c1896a1d978c..9d589b388432 100644
+index 47f3838ac9d4..13d4387e79a0 100644
 --- a/drivers/nfc/fdp/i2c.c
 +++ b/drivers/nfc/fdp/i2c.c
-@@ -349,7 +349,7 @@ static void fdp_nci_i2c_remove(struct i2c_client *client)
- }
+@@ -350,7 +350,7 @@ static void fdp_nci_i2c_remove(struct i2c_client *client)
  
  static const struct acpi_device_id fdp_nci_i2c_acpi_match[] = {
--	{"INT339A", 0},
-+	{ "INT339A" },
- 	{}
+ 	{ .id = "INT339A" },
+-	{}
++	{ }
  };
  MODULE_DEVICE_TABLE(acpi, fdp_nci_i2c_acpi_match);
+ 
 diff --git a/drivers/nfc/pn544/i2c.c b/drivers/nfc/pn544/i2c.c
-index 419b014d232e..66d070b18b4d 100644
+index ccca07eb828c..9ed1cde1de2e 100644
 --- a/drivers/nfc/pn544/i2c.c
 +++ b/drivers/nfc/pn544/i2c.c
-@@ -51,10 +51,9 @@ static const struct i2c_device_id pn544_hci_i2c_id_table[] = {
- MODULE_DEVICE_TABLE(i2c, pn544_hci_i2c_id_table);
+@@ -52,7 +52,7 @@ MODULE_DEVICE_TABLE(i2c, pn544_hci_i2c_id_table);
  
  static const struct acpi_device_id pn544_hci_i2c_acpi_match[] = {
--	{"NXP5440", 0},
-+	{ "NXP5440" },
- 	{}
+ 	{ .id = "NXP5440" },
+-	{}
++	{ }
  };
--
  MODULE_DEVICE_TABLE(acpi, pn544_hci_i2c_acpi_match);
  
- #define PN544_HCI_I2C_DRIVER_NAME "pn544_hci_i2c"
+diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
+index 3906a806ec8b..f43ae8e92070 100644
+--- a/drivers/nfc/st-nci/i2c.c
++++ b/drivers/nfc/st-nci/i2c.c
+@@ -265,7 +265,7 @@ MODULE_DEVICE_TABLE(i2c, st_nci_i2c_id_table);
+ static const struct acpi_device_id st_nci_i2c_acpi_match[] = {
+ 	{ .id = "SMO2101" },
+ 	{ .id = "SMO2102" },
+-	{}
++	{ }
+ };
+ MODULE_DEVICE_TABLE(acpi, st_nci_i2c_acpi_match);
+ 
 diff --git a/drivers/nfc/st-nci/spi.c b/drivers/nfc/st-nci/spi.c
-index 42f5f477e807..c94d67f33184 100644
+index 8fc60a972d98..9303217acd7b 100644
 --- a/drivers/nfc/st-nci/spi.c
 +++ b/drivers/nfc/st-nci/spi.c
-@@ -278,7 +278,7 @@ static struct spi_device_id st_nci_spi_id_table[] = {
- MODULE_DEVICE_TABLE(spi, st_nci_spi_id_table);
+@@ -279,7 +279,7 @@ MODULE_DEVICE_TABLE(spi, st_nci_spi_id_table);
  
  static const struct acpi_device_id st_nci_spi_acpi_match[] = {
--	{"SMO2101", 0},
-+	{ "SMO2101" },
- 	{}
+ 	{ .id = "SMO2101" },
+-	{}
++	{ }
  };
  MODULE_DEVICE_TABLE(acpi, st_nci_spi_acpi_match);
+ 
 diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
-index 577434df5ff3..d6cb74a89f93 100644
+index e5109f701795..13fb6f5533e0 100644
 --- a/drivers/nfc/st21nfca/i2c.c
 +++ b/drivers/nfc/st21nfca/i2c.c
-@@ -578,7 +578,7 @@ static const struct i2c_device_id st21nfca_hci_i2c_id_table[] = {
- MODULE_DEVICE_TABLE(i2c, st21nfca_hci_i2c_id_table);
+@@ -579,7 +579,7 @@ MODULE_DEVICE_TABLE(i2c, st21nfca_hci_i2c_id_table);
  
  static const struct acpi_device_id st21nfca_hci_i2c_acpi_match[] = {
--	{"SMO2100", 0},
-+	{ "SMO2100" },
- 	{}
+ 	{ .id = "SMO2100" },
+-	{}
++	{ }
  };
  MODULE_DEVICE_TABLE(acpi, st21nfca_hci_i2c_acpi_match);
+ 
 -- 
 2.55.0.11.g153666a7d9bb
 
