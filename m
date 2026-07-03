@@ -1,73 +1,73 @@
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197742DEA64
-	for <oe-linux-nfc@lists.linux.dev>; Fri,  3 Jul 2026 15:47:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47252E7391
+	for <oe-linux-nfc@lists.linux.dev>; Fri,  3 Jul 2026 15:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783093673; cv=none; b=eHDmFJ3FI76W/zDHlv+wXXSAEjgJpu8Bw1aC2DGx+jJy+E2gHOdOcMiHcXgQ47DnXmw0W1qtca+O2OrxclboqqcAR1EYOXmND0Cjb5HuuqFeg/olpiPdgIBopcoEFl9Asn1lFN5CI+qjVIFi40AxpHa2FLNmVairBU94cN7Tv5I=
+	t=1783093676; cv=none; b=R5PNRfENp6bt4GtaqfdAAtJ/Zs/BtsNjzqKCxjd7btY+ZDevK4pEbG3DmfeGFDo78ZsbVk/Av2WHUe7hBPIP8mbVMz3hd0ZaGWOc9mygFBEeohShlvQalKEk2AL9lgkiNTfKTUeE6kz84UiD3J80VdB+wwwmxadIkBYiAFIo5cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783093673; c=relaxed/simple;
-	bh=2wV3hKj9vhnAodfbopd+iezREj9IBgRhvOKI8jHXilM=;
+	s=arc-20240116; t=1783093676; c=relaxed/simple;
+	bh=vzMw10ajnfrWa3yILor+RP4uxiqayvDj5E1E91RKODI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UMT3pGsGnA/NCVWthFqUPzA5I2UIvwPjND1/L+giltFHA5bAUClBBYb1NffvpxGMjrpRzXBWThHJUHOrdoygYD84H0P1g1k7n39arYHLk9LKAPeAoYMhr8EpqeK+zHd2U5GhNENR0Ksi0Q2Rdp1B2DkrH/wazidXzOAtUDc0SmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=D885hyvr; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version:Content-Type; b=b4+rqH1glqI0+iaSbFEHpjgzOIeIpgciC4NNtlbgO7CN0sMNSMJtZxj/Z7JrG1Jvho8GRrZxmshWHeV5Ykns/d3pEIGdKZvRZMqixXifCZHca0f9SqH0xyoL3+ZZQ1y/EWR030zw7QNCJ6lMqQyEzvw0OQ3/itapsMNWhhL0S8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=RgLDO/Zi; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="D885hyvr"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493c5220cb7so4720495e9.3
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 03 Jul 2026 08:47:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="RgLDO/Zi"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so5689215e9.1
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 03 Jul 2026 08:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783093670; x=1783698470; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1783093673; x=1783698473; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=nFRygkXlrzW2EnOOrdUvnj0OJKNC6C0PLgzWojPc/qs=;
-        b=D885hyvrEGn7bn6Qgeid1mgnsI8EU/BAHaxgrq1L28g0r2pN3uAJ0tE267zSk5Wk+T
-         45u0GgFhy5VIpDTMlaxrS+lasFSrmoY71ggUAZAuNaglZtwhb8s6H1zpZInZBiOTiPET
-         n6H0DhCVdTYb8ZTOShKgBFs7l0Z3uu1KBh7Fadz9xJd9tPGCz2O7h05o/qFqPsmco5GV
-         Z1TOaTS0j0CnCQu6VUp0OMX/c7QfCWBkWbZyHFNZfRby7CZbkRWov+gyXjxU3yGa5z9k
-         0ABHukGQgC0mdaUeOSL2EmENmmLtQg+upoefJF+3O+jsX56qSP/Qw0gnbfKGZ4sEMHra
-         RUIw==
+        bh=lV0f0Z9AD842TrMr64lEmEi+EmkXZpBoMUEV3t08QAo=;
+        b=RgLDO/ZiR967FocK+UJaAcD9Nyzkh5s6riVk7p+iQ4dJIe0LD8teDrVXCBh1SepIBG
+         YDxkTaWjYkZmuy62dhCIGiQQPbdj7uSwtj23N3V/2sClYKEzB/Jq23/ALWPPyroS0aKQ
+         tibDrW0X1/5IIiqtl2Vu0I5oEqYmJO2vxeG1Bad6nOvgcWx4Y46zC9Q2EAiIDkrRfOLN
+         4tk1Gky4vZWcJAxFzjyCY76U5HcgDT2lr1/auQ4Sjt9WJydI0R1WMv2dEapZ12rJCWlF
+         IcwvADx9kxPcMuGFB8EP4dkT80rydf3yo/BGVIBxNhjgjFsVmFAzeX9UvDWU9nq614LI
+         UOdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783093670; x=1783698470;
+        d=1e100.net; s=20251104; t=1783093673; x=1783698473;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nFRygkXlrzW2EnOOrdUvnj0OJKNC6C0PLgzWojPc/qs=;
-        b=gL+yXSh4TV/H05XKOty48bNu3cMhdHnL2bBHQYVjsB7sP0JSY6lcK9sgwK4ah/DCK7
-         XVuS5y60tDrmC0rycxSO55kL1K4LYyXrEDavts3iZIHMl1X5B9kmsKJT5ybh37FS2Jkv
-         NGfDGL5yvuHwEM5p1Sm9M2hAXm/ZmI4DmP7Brsoiqb+ByYR2sKwc7W438byGHcXw86Pb
-         9ZaTzN0cyZuWSJi5rTQvPXLtHhAzce5YR16H4rKGXPGRqAVeWGUFx89+pjw/NrPB6O2T
-         QAfCHWHA8IGXPnpNzL4zVThczHt75MrSJZO5fy6epyWeqN3+bvTL/x0DlA7AdmuQA9WP
-         rjcg==
-X-Gm-Message-State: AOJu0YxUXZx6cn79ay54+D5LFmktgt4E5HxP5CHTgWV3jaT6VEfX0v7+
-	1Z6ocR4I7b1PCqCUhibHKxjClZjP4XUe2Pe2DApU4WhCSAU2tOkcl+fSttbNR+lTa2M=
-X-Gm-Gg: AfdE7clpeFkmu+13Cd2C7MC/kwEtwowVf9mHtVnSDG42saBVAFOEAKccjmMvuCqc0U1
-	COaXx9woQbxtatL0UqTlDmTjLGP58WdecbCFnAQj5SY59OQsOn9dg0xNwcW/YKM5duDWJFAQThf
-	k2teZQL0bJF2HzvSGVzh4PzCySd2kOpvqS7tN2nDr8AiIjQlE+crF6AStLyBHa8c7EZp976TjnJ
-	GErS+7dbndQfRcYNkgPrnYWR3UxLy58mSJ6CZjije8pcjfg8/FQmuKRuAlvtHlaqDGiFgScpTvW
-	NggA7oYYhPoxEDNXA9IJ/S0M9ppNM5DcO6AnoNmDIOkvbqaoFoL+cUdRJG4TNNE9MMNnY4Qlsaw
-	Aef62Ta1NOd8QlEC3B4z3YdpXfJouEr/9fc24h5Wq+3lJu69R530DwBACh6XfMWYZY3C05naU2S
-	eVOXI4aFQFKK+ZvfbYCu7MS4bOsUyvjwtDSHsnAbJsmxa0k3pApXc9d+VeKeOC+kyKV1eckiC5Y
-	6QF
-X-Received: by 2002:a05:600c:350a:b0:492:7142:f46e with SMTP id 5b1f17b1804b1-493d0f08ac8mr4537355e9.2.1783093670501;
-        Fri, 03 Jul 2026 08:47:50 -0700 (PDT)
+        bh=lV0f0Z9AD842TrMr64lEmEi+EmkXZpBoMUEV3t08QAo=;
+        b=KF+gAXA101X9aVYtaLzD5ZUsrHylTrmwITaBvE9lxx2bUv7wSxZyZVT3j32MZVXQk0
+         Gvf/xzcTWjfuCQ/C9Xz54aRKlBBFHMJdpznFCpjQFK9uUtbgoEogZA0i7+YmfdyxFb+j
+         qq3Tb74V478Trg+UcTbNzxUzF9ZE3L+B3KLUYNWfPAnOt8vzDnP2941j5PEyP0VNWuNc
+         7VN/o9VqTMM0IWO7G26jjqiobRvUTHoXFpqy9qtxUOXLp13kj/ikD6dYnVFKgB9ZHRtH
+         rLyak5jHkR/ubuy+42UqSEqY6sFg8HMNHXcCEOVPzMBZE68U6YLp+k103ExXBpzXDrjX
+         e53Q==
+X-Gm-Message-State: AOJu0YwzbyhGGSlZH4LgAR3fbILU8pJ3oknB00fSUZke2PIGNGa6KZFU
+	3mZfm9cpdcPW2RYacE2NFsrQ82F1C2u174fE8SMXLxqYes/49npSRdOHQoqsBJ2PSHc=
+X-Gm-Gg: AfdE7cmO/c+jqSw1fzVDjHMdDiSJ7SgqmRZI0I2ziVOIFOnv4zUkAlycdYhv0y05fKE
+	Co3RkN6uGSIBauYcCnjHB488EWNJU4+Ml3a2Uv7OiBkZ8Ks7qXpo+//xOo4X4DZmm+nFCOvjAl5
+	otOc+XRPREc8WIofEIIEsqrq9R8Tbt94BgIakNO8RuDSuYMyuoXhYsmAiTAZ+isB3aRpuyWgDR8
+	mSKPEOPVh8VLay3UP85BToLYR+dAdijV6oGuW8vsxl8GRD7bcybySdjd0bTY5H+5U3Z0UmgacLN
+	iU1kcrIhZ0zEjaTxPaVK9Vz9J9jTPn0siYa1NtvtO05nNtm+gsnOkY0PjOgggVcHnvTho6h1W+i
+	U1f2GdqvSwpXcnh6YYoEaWZEgZOivrFcGBakQbG1paU1HZecawls0JV4ibkDTh/kN+lqLquYdHQ
+	5U4KZDXQpLEAoiHPKMgg6OuwKFzsVrpc4myCyIlOQ304coiv4ymYSnN4SD0s1OhGTxUbAi8r3VO
+	P68
+X-Received: by 2002:a05:600c:8b2f:b0:493:a8eb:5145 with SMTP id 5b1f17b1804b1-493d0f06076mr4697425e9.4.1783093673175;
+        Fri, 03 Jul 2026 08:47:53 -0700 (PDT)
 Received: from localhost (p200300f65f47db0472e4f1e98703de96.dip0.t-ipconnect.de. [2003:f6:5f47:db04:72e4:f1e9:8703:de96])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c63b6f28sm145328795e9.9.2026.07.03.08.47.49
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493bf11eba5sm144585665e9.0.2026.07.03.08.47.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 08:47:50 -0700 (PDT)
+        Fri, 03 Jul 2026 08:47:52 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: David Heidelberg <david@ixit.cz>,
 	Mark Greer <mgreer@animalcreek.com>
 Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-wireless@vger.kernel.org
-Subject: [PATCH v1 10/12] nfc: Initialize spi_device_idarrays using member names
-Date: Fri,  3 Jul 2026 17:46:24 +0200
-Message-ID:  <308a0d43ef042566ca595f1afa803cac592a4643.1783091699.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v1 11/12] nfc: Unify style of spi_device_id arrays
+Date: Fri,  3 Jul 2026 17:46:25 +0200
+Message-ID:  <78d632098fd42dbf2846cb89d66ec83bb9e1de99.1783091699.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 In-Reply-To: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
 References: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
@@ -78,83 +78,62 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2615; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=2wV3hKj9vhnAodfbopd+iezREj9IBgRhvOKI8jHXilM=; b=owGbwMvMwMXY3/A7olbonx/jabUkhiz3m1mmP5brfFv45vO6fdOCpyyueZU7o86B+82U5Zb8u Tubv1/K6mQ0ZmFg5GKQFVNksW9ck2lVJRfZufbfZZhBrEwgUxi4OAXgIizs//PNvRUbTjFfKlwU eFV3seCzqHsnP4RLzeT7VLhzg8jdq1KqrW+SJVoqpKOZlLpzxPxFE9YwyzxRL+lm92osWm77/2T g4gmPVlg84OhJvN/EIVzgcn7i/1sv7MXnzP2T/6VriUrn1iOpqwt6zdRuXLRZvX7j/PbI874BUd VpBoVzBUKZMlWOi8fZ/rn4sEDRdW7t1piria6+C89aCe9sPmJbkt8Q/qpmzSuBP3MPvXpmw8bgJ LbAOjVwhVCjuKTwruk+8merH1e+WZc1vdR+gsbGhStuPnicVeI4halOsiXi0oZZ76b89rY9Pd/V jSMp5/Sh010M5ft7e97s565JzbGzlrnQFsbcuovfz9kNAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1742; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=vzMw10ajnfrWa3yILor+RP4uxiqayvDj5E1E91RKODI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqR9ltYtAZ1LPor7tRrqg0dN5psWngzXCqjJQGb bGNHU62LYGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakfZbQAKCRCPgPtYfRL+ ToyrB/98yLJKafF7L+qfxoxYURByf9wEdcIgtl4+ulyuFdvbrL9KW8g/yjWMVTm7sbkuRsX+7Fy q9qn3eUaOM887mRk0wt8tt9iw7pJLTXxuAWjf7NhMDJRm8R4P40QiE0U8xuxC3GVimOiIBr4Uu/ af6iU0kzobU7GBvKwax0gb7BNHDooiSPej000/7vGLBDz4OoyCZQfZ/YtZrO/FtGqHBmGk2NQtO 8lpaADEmlxZ7tpCcEg23UTFNW5OmVDHLiag/kp3u4V+xRAx2DiM0sV9VJ44hrF9ClfTW2W+H+am s99kg/FvdqWaThfqfvl65we8GJr/ps40i69ud84C0odK5JwW
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-While being less compact, using named initializers allows to more easily
-see which members of the structs are assigned which value without having
-to lookup the declaration of the struct. And it's also more robust
-against changes to the struct definition.
-
-The mentioned robustness is relevant for a planned change to struct
-spi_device_id that replaces .driver_data by an anonymous union.
-
-This patch doesn't modify the compiled arrays, only their representation
-in source form benefits.
+Unify the style of the list terminator in spi_device_id arrays, that
+is use a single space between { and }. This is the most common and
+generally recommended style for these.
 
 Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
- drivers/nfc/nfcmrvl/spi.c | 2 +-
- drivers/nfc/st-nci/spi.c  | 4 ++--
+ drivers/nfc/st-nci/spi.c  | 2 +-
  drivers/nfc/st95hf/core.c | 2 +-
- drivers/nfc/trf7970a.c    | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/nfc/trf7970a.c    | 3 +--
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nfc/nfcmrvl/spi.c b/drivers/nfc/nfcmrvl/spi.c
-index f873f5380017..bc5140c194b6 100644
---- a/drivers/nfc/nfcmrvl/spi.c
-+++ b/drivers/nfc/nfcmrvl/spi.c
-@@ -188,7 +188,7 @@ static const struct of_device_id of_nfcmrvl_spi_match[] = {
- MODULE_DEVICE_TABLE(of, of_nfcmrvl_spi_match);
- 
- static const struct spi_device_id nfcmrvl_spi_id_table[] = {
--	{ "nfcmrvl_spi" },
-+	{ .name = "nfcmrvl_spi" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, nfcmrvl_spi_id_table);
 diff --git a/drivers/nfc/st-nci/spi.c b/drivers/nfc/st-nci/spi.c
-index 1bbda3d0a7dc..1b97b2f3f441 100644
+index 1b97b2f3f441..7948c7e0c88c 100644
 --- a/drivers/nfc/st-nci/spi.c
 +++ b/drivers/nfc/st-nci/spi.c
-@@ -271,8 +271,8 @@ static void st_nci_spi_remove(struct spi_device *dev)
- }
- 
+@@ -273,7 +273,7 @@ static void st_nci_spi_remove(struct spi_device *dev)
  static struct spi_device_id st_nci_spi_id_table[] = {
--	{ ST_NCI_SPI_DRIVER_NAME },
--	{ "st21nfcb-spi" },
-+	{ .name = ST_NCI_SPI_DRIVER_NAME },
-+	{ .name = "st21nfcb-spi" },
- 	{}
+ 	{ .name = ST_NCI_SPI_DRIVER_NAME },
+ 	{ .name = "st21nfcb-spi" },
+-	{}
++	{ }
  };
  MODULE_DEVICE_TABLE(spi, st_nci_spi_id_table);
+ 
 diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
-index 52fe81a557a0..d4e3049d138a 100644
+index d4e3049d138a..321fbe8aeca8 100644
 --- a/drivers/nfc/st95hf/core.c
 +++ b/drivers/nfc/st95hf/core.c
-@@ -1049,7 +1049,7 @@ static const struct nfc_digital_ops st95hf_nfc_digital_ops = {
- };
+@@ -1050,7 +1050,7 @@ static const struct nfc_digital_ops st95hf_nfc_digital_ops = {
  
  static const struct spi_device_id st95hf_id[] = {
--	{ "st95hf" },
-+	{ .name = "st95hf" },
- 	{}
+ 	{ .name = "st95hf" },
+-	{}
++	{ }
  };
  MODULE_DEVICE_TABLE(spi, st95hf_id);
+ 
 diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-index 8f36ff82be8b..673989d5c927 100644
+index 673989d5c927..c12653ce7462 100644
 --- a/drivers/nfc/trf7970a.c
 +++ b/drivers/nfc/trf7970a.c
-@@ -2310,7 +2310,7 @@ static const struct of_device_id trf7970a_of_match[] = {
- MODULE_DEVICE_TABLE(of, trf7970a_of_match);
+@@ -2311,9 +2311,8 @@ MODULE_DEVICE_TABLE(of, trf7970a_of_match);
  
  static const struct spi_device_id trf7970a_id_table[] = {
--	{ "trf7970a" },
-+	{ .name = "trf7970a" },
- 	{}
+ 	{ .name = "trf7970a" },
+-	{}
++	{ }
  };
+-
+ MODULE_DEVICE_TABLE(spi, trf7970a_id_table);
  
+ static struct spi_driver trf7970a_spi_driver = {
 -- 
 2.55.0.11.g153666a7d9bb
 
