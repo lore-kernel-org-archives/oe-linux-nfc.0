@@ -1,49 +1,72 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3EE3F164D
-	for <oe-linux-nfc@lists.linux.dev>; Mon,  6 Jul 2026 08:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634633F99ED
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  7 Jul 2026 11:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327249; cv=none; b=gaGBOi9343DKg1w5HpmObR9jcgYT2H1o2I/3dUAMYwfMj3G20URXNjPy24LYTLIaVJ2twSh+83+8TpvP9vivIFEJGYG1/p0m6Ys62uBOf0SR3BeISlwPNKZ+kOgL8SrD2CI0Row7P/ArXfgB5htKS7s+D/U4LyIWP1CZ7uDByCg=
+	t=1783424680; cv=none; b=hwcdxzJGKIBKBCQwv6E+0MIFxQ+B89ZP3rtQqZct2o2cmNE3TBmMHOrlHwNAIxnIcTgJXRwYRcAafhqRP6nreQi7R7pnwD3PAxuLMn4KimH84sDxOTewZQwSmsm6All6zmRcaF27jArWtlBMaWc5aRTeudwdnQgUS2JIPtsb4Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327249; c=relaxed/simple;
-	bh=K1GNmpOIIOhYDgdp+CA+Pf4VVt/nyQJt49hSw3ao5j8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DsWuiXgGqLYCWDDIJIj5YwYs+McNI60W0UKAp7rTkoltKy0obwAWo5xHuQBplPlRA8g+x/qvYK0vxsD1QoluTtSkN5N9HBI4tpoaZgHB10PhymCLShsWZYsy9+WUtpktMPOLaQ+NuIE/4pWWOgxyjQig1tIFwdvNM93oPiOw9Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=LP/ezNbh; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1783424680; c=relaxed/simple;
+	bh=KyobzfFT857/xJYn7ncP07FGsnX/hqiiLm+rms3UCTQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tpjYZssZfE1QcB4adFmwflJV0diHmpKOL0sigi0+r30lFZvXM7oJIjGvSxLiVJRNorHfG/MY82mA2c2FYjj3mGw+GWR9iijC0BlU7Ob/HuCPcftzr9ntbv99wkQ02fEIc+njAXn8adREnJhCfx5PDswXi8PKiY336+qRDphFEXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20251104.gappssmtp.com header.i=@cse-iitm-ac-in.20251104.gappssmtp.com header.b=iSbr1Unj; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.iitm.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="LP/ezNbh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1783327186;
-	bh=h92CBGLQv856ItrkwFzet7jaDjUm3Lt+HlVjHrmeTyw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=LP/ezNbh5SO5le4YG1Tm5vCTCcN4XqP8I/MM6D0tGpUCOunstO199wr7CtwrQ4hSr
-	 T0BFdx6u7SUQ8U9aa/c08YqM+a+yyddx8dToNFDkH9NR11MqrS+4uAtQJav6/6zscg
-	 J0QdzdG6RfAlxMCSLF8TacqgvA4hldYRpaQLPZkE=
-X-QQ-mid: zesmtpgz6t1783327169taa16b1a4
-X-QQ-Originating-IP: UDVmnmVibFP5g3XG0vCXMjPNVZAX9j55V8MvBZ1mhzM=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 06 Jul 2026 16:39:27 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 15330445638552442504
-EX-QQ-RecipientCnt: 8
-From: raoxu <raoxu@uniontech.com>
+	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20251104.gappssmtp.com header.i=@cse-iitm-ac-in.20251104.gappssmtp.com header.b="iSbr1Unj"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so30900725ad.1
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 07 Jul 2026 04:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cse-iitm-ac-in.20251104.gappssmtp.com; s=20251104; t=1783424677; x=1784029477; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pKhBjhdvedO5kI4cf31ZT3jc8IVL8OLcFwvvWlnVO1I=;
+        b=iSbr1UnjQ85XnZ1JA8JP/U14KR3sEHcIhMgBVa73cI0B+0TpEFhnbNG5lqCli0dMD0
+         qucMxxqDaqQM+ub0xWoRSiqyXu8juf/2JWIP2r/yjlxLqubkiqze/BytQeUAi7LVxN+a
+         4Z6Z1sD7YFUahji/WMGVwJxLZ+9vSonnXMa4zKOPf253FJZuatFqq2rWRtH8xiPFtvcb
+         KQn6gKgQ5jcJA9NlWbFfMvRsv8Bat5xrACG1FRcV62NEhwhUCdj25bt3RbpwJ2HjduEj
+         rzZZUxUIU5sJqJIqi42nU3sZxQjtS71zFCrseEGpFd8V2nJONyektbx1iOQ+o/2pgWpY
+         Yg+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783424677; x=1784029477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pKhBjhdvedO5kI4cf31ZT3jc8IVL8OLcFwvvWlnVO1I=;
+        b=gOmujPh0sDUrICg/aJwujInOfMOSGLd0GWUW4VZY1F4L8j0SRh2dXGFmcd1Ux7Ztlv
+         Mr9rOP5vNcoqQSQOKC3AOr6ynWIkKK/bIex1dnT1z1QTyPwyUMkd/12mBeP6Sk4Q+vZz
+         UK4vxbkIxd9Fw5jvd4Omm6J4vu1a0kIRDC9XxOemQQ9Px/xmEDw+t8gHZ5zO9ujPJNxi
+         y3koY0x1832QykEhI/lMi2EGM3XnkuxUq1g8fYW129Uh7w8XJS97wv5NXMp/E/DHRySr
+         HbCx63aUklGGlg68YELdAzwRURHFzLm/jm2zyT9TAydaFgLPWrrrA6TQiT8EsF8TkTAS
+         y3vg==
+X-Forwarded-Encrypted: i=1; AHgh+RpNgBaSc9C/qPAfp4zN8qLnXWilavny14cXh7bAvSeTm+TD7y6w+e0FCml5NDPYqxYAXyUzjA0SVZ5PKCQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6lnMQtrIFRNGv6mUMfdWDD63KDv4SgOR2o3lZ5Otb7GAivGw7
+	Fcjc/fApBrfB3X4CZc5geGkKmomari3AQnkgTjIy4UWOkkS4turc+M0FOrVKFktG3yU=
+X-Gm-Gg: AfdE7clyVhbXkOjsD6mWbXyzjF/9WRCQQyQzN3Y3CFw6ZCBdqh80SuBljhjqqvUb8Dt
+	6O4XNxdi1zaICJ22JCPF6ibNDduVrlHfm/Z550CzZLrUy2Zi31a+CqYD2eWJg88iMaqXcIE1KQ1
+	0BZXukFBcLXEKA9CiVJbWEZRehNEDG8tpcR/rMbUoRDmihjsQhcwBJ1h7y/h2qYrujmrM1j9yUq
+	ljQggmND6iX4uYCJmhbZHY4M+MtTJSYOqVa5M8oZONKl8CfkoAuYhPfZabDNXE/nWjEcH+g52n/
+	3QogKZgIvun80vKn9eM052L+1n05teQzdz1L1EypS8H0B67Rovq51iMih1lRsyQzKcZvvkdmy/m
+	anJ1oRB/TmS2Qo+64b7OovjAckg70cH6ckBiSepe51KHZN1tzxj5FzGkvKsvhsy5TMv37DuJFAi
+	SZOr1q+/BkFyAYz639F032bFYTrHRhLl15ci6PfbzKGljxPfivbb+uyKPuuY3xOA9SI1FPdVRan
+	nBHpCBisKfOWt7Y1zF40KzEhCq9Yc/sCG2Se2y+9bE=
+X-Received: by 2002:a17:903:38c5:b0:2ca:11fd:659d with SMTP id d9443c01a7336-2ccbf07b550mr53814135ad.34.1783424677549;
+        Tue, 07 Jul 2026 04:44:37 -0700 (PDT)
+Received: from Metius.iitm.ac.in ([103.158.43.43])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2ccc9d59e51sm10206015ad.76.2026.07.07.04.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 04:44:36 -0700 (PDT)
+From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
 To: david@ixit.cz
-Cc: kuba@kernel.org,
-	krzk@kernel.org,
-	raoxu@uniontech.com,
-	error27@gmail.com,
-	kees@kernel.org,
+Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
 	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nfc: pn533: free queued command skbs during cleanup
-Date: Mon,  6 Jul 2026 16:39:26 +0800
-Message-ID: <3B4941C5D2E3FEE0+20260706083926.798888-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] nfc: st-nci: Fix potential memory leak llt_ndlc_send_queue()
+Date: Tue,  7 Jul 2026 17:14:08 +0530
+Message-ID: <20260707114427.998485-1-nihaal@cse.iitm.ac.in>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -51,63 +74,34 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MzVGNhsCLlFKQfL6/+bwQQI9zhegcTTVjp4iWCK+ub5V4i4ammff+jth
-	YamFLyGDGsI2Cje+1smGR5I0Rp7nHL+fuaS+xuRb/ZPOQxg/cTWMPf3fRIuWsyrc7vvhd1b
-	ArdEgJi+axCoDnReprLjriuhQBl+3wD09HJrrKDIu2UZG8huMXTJ8JoPe7iakU4+lsNiBgM
-	PlurGku1QHU1scyZiEqKdVWjZjxHKyjsoKcqtNtBqyWtPvnSWFfLD7bUwWRibqfWSzQBBNB
-	VGZhAaJtzz9O4p+JbeupDCQ1yvrUocKoBdgyXLobcUIJPyCF3PUqPBj3NsTQ5NwEv0wkU2P
-	L4YViwXDu0eer6Pasp7TTZIy5PuKP4NO1h3Jh44HNxpuOMj9cAASzeS4jcin7UevN9guMTo
-	5GXY5xk5Ib/lkGhvF5BDEIOR3V50KO62sBtzse1qI9zp0JSq713ji4H5d/3fgOiWFosN9ci
-	fV6mR5JjSlKdvvpItRuYwCzOlwuFwTYJ8ENbEC1CpeEBEVxdv8+71DLsN27MFElBtU2CfS2
-	v9klxoWUo8tUTqsMTgqJW9nm0t7GPfhM37xLYFdMNf4/azaVWktV6Zh+PGbdtIg4jwPg0R6
-	IGuCGEZnK1Fz8+g5TILRDScdtIrODTno2U6mRSv9z0xT5VoS8gr4wz7DKrmzj3Yzew0VrYY
-	nHk5gcpIqb8HfvebFtOCpx1AnDDRgCsMiERKPRoQJTmEtofM+Sa+AXZZcadINRusJ68EMCQ
-	qJX7k3Ab0LfM8nsY20fay9+sUuYVnNwsLlOphehcrjaDOVZNWMsTsjiu8tBoCjsdP4YO0D+
-	9nfw7W9YkmfUFwxfmkVc7C2kEe/sVplKUM9yJplZpnG7Qa28J+kGwdewjtBHe2WPEYLotjb
-	FTH0LcP/j+phIiUkZXevjtuG4zXY+IeTVYZilSYvTSjx4ZjOFBpgQ1Nex2COPXpfR67dYC+
-	Wo996vSu7d916Wm4ynoSdXQJtzipEegoOIYCFHvXq6AMPqJyf6v88ieEZwKtls+DI5enUSu
-	xhrcvBVa4dakn+ZZNxSV47HxZTlkZmfFPN21kw5AQYhgczbqQpmaJkA6HNWIpyfDM0pIj2E
-	8vJwFm+N08T5LBJ5O4WpsH/XZwuaeQdaKE6ijELQTyCMPUit54Nr64=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+The skb dequeued from the ndlc->send_q is dropped without freeing or
+queueing it back to the send_q. The two function targets of
+ndlc->ops->write : st_nci_i2c_write() and st_nci_spi_write() don't alter
+or free the skb on error. Fix this by queueing back the skb into the
+head of send_q to be processed again later.
 
-pn53x_common_clean() destroys the workqueue and releases the common
-PN533 state. It purges resp_q, but leaves fragment_skb untouched and
-drops queued pn533_cmd objects without freeing their request skbs.
-
-Queued commands are created by __pn533_send_async() when another command
-is pending. At that point the queued command owns cmd->req until it is
-sent or discarded. Fragmented transfers can also leave skbs queued in
-fragment_skb.
-
-Purge fragment_skb and free queued command request skbs before freeing
-the command objects.
-
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Fixes: 35630df68d60 ("NFC: st21nfcb: Add driver for STMicroelectronics ST21NFCB NFC chip")
+Cc: stable@vger.kernel.org
+Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
 ---
- drivers/nfc/pn533/pn533.c | 2 ++
- 1 file changed, 2 insertions(+)
+Compile tested only. Issue found using static analysis.
 
-diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index d7bdbc82e2ba..de2b7f4d708c 100644
---- a/drivers/nfc/pn533/pn533.c
-+++ b/drivers/nfc/pn533/pn533.c
-@@ -2799,9 +2799,11 @@ void pn53x_common_clean(struct pn533 *priv)
- 	destroy_workqueue(priv->wq);
+ drivers/nfc/st-nci/ndlc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- 	skb_queue_purge(&priv->resp_q);
-+	skb_queue_purge(&priv->fragment_skb);
-
- 	list_for_each_entry_safe(cmd, n, &priv->cmd_queue, queue) {
- 		list_del(&cmd->queue);
-+		dev_kfree_skb(cmd->req);
- 		kfree(cmd);
- 	}
-
---
-2.50.1
+diff --git a/drivers/nfc/st-nci/ndlc.c b/drivers/nfc/st-nci/ndlc.c
+index be4808859cfa..480a30acd996 100644
+--- a/drivers/nfc/st-nci/ndlc.c
++++ b/drivers/nfc/st-nci/ndlc.c
+@@ -101,6 +101,7 @@ static void llt_ndlc_send_queue(struct llt_ndlc *ndlc)
+ 		r = ndlc->ops->write(ndlc->phy_id, skb);
+ 		if (r < 0) {
+ 			ndlc->hard_fault = r;
++			skb_queue_head(&ndlc->send_q, skb);
+ 			break;
+ 		}
+ 		time_sent = jiffies;
+-- 
+2.43.0
 
