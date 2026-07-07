@@ -1,28 +1,28 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011027.outbound.protection.outlook.com [40.107.208.27])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010008.outbound.protection.outlook.com [52.101.56.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DAA43784E
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  7 Jul 2026 17:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5E8186284
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  7 Jul 2026 17:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783444264; cv=fail; b=rPeVue95e7f0gBM9c8W3EoymbTUzULztG1i7Z8zsRp+UbsJ6OMasQEkJ7cYu6P+lGM0x3/s5QIqb22/l7nvoVMxeqsXo/kf12eo6bxSeKso/CngNaxygRIrxIXaE18aCoPPJys7OWxz2PweqhYh0s31imky9XiMgepkg16Y5zM8=
+	t=1783444358; cv=fail; b=kZL78+PtAK/HfVJ2nOmO4w0Ubaph/pVGHuIu0X8jCgXLKxYoW0v8UAgXX3SxWXPFAfEQHeo8pLE/DIASpp0/o37p3BIWT9f9FanX3RWIHDsVf+tri9eDYwevg48k94kq4DsRfh1bkzA5rj7Q6R+4MurROFzTdmDT4O4FKuyX6nQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783444264; c=relaxed/simple;
-	bh=AqdTCdZjDJPr74OkumNSGn5hmLipIMdFZd4f5qtiPDs=;
+	s=arc-20240116; t=1783444358; c=relaxed/simple;
+	bh=QYPv2SRrFDlOjkVNzVY8LwspziAihyU4qE6aK5Zenzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DBiDzGf1pNo8nvwQ0BmK44WCE6kf2JBB0H3QxFlvT0PIos6EV2GnW2BoinbWE+uEij8kWLyre4xw1lVCgFc40Fo3okvBX49ZC4BzwgU7Yyv53+APF77cLX2nYIGrACT1nQIs+U7hNxG6u1vCDCm2uo14deQHBOp9s7uAWky+wY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=NdOE730W; arc=fail smtp.client-ip=40.107.208.27
+	 Content-Type:Content-Disposition:In-Reply-To; b=au4L0FNQbtcZHRGgK9AXdADUKFHy7TPGlS64Zunat2gm0NYaRlRCLCifIuk3PGTBmG4eIBmlPhFH+Z7gi2U87k65EEepjMuWGv3knOIIsKhztnUuBQ53HhugCje7WKtL86xWnMkIm6l4E6mnt06C4T/lDegcuLFd7lb+Nms/KAg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=ynSjF5qM; arc=fail smtp.client-ip=52.101.56.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="NdOE730W"
+	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="ynSjF5qM"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JVL6lcp5UXRCBSWZgx/dtJqpQn4xqwlLRUZUQ/BmT/NSQ6XoDsu/kyOMYr4EJtFhqXQKlyN8ln66tK+QzYdHyWzVVEvMaI0twLtvkIn3bis/eISg9BVh/0DrQnRgKj6DKF8ALp6nSYWRsVkaS/TsupVFmAms6SKnqhsO6iXPoiOzAC3EEKX7SuoaP2gHOCPp4RKWrR/4y0g64BQBptY7t8f2ytsPS1QPQOgAYpOKo/RK/4PBZTKrqTGPOKsaDMUD69yMe7Gngn07rCXWZ6zKYoapxb2KbYxEHg3oELgzTkoDoJB0XWrylxbvCzzSJnfx48/TD4bX6phXvKpTylUNhg==
+ b=CmIGS3nnoZfcjP/w/PgzOBmTkaeBp62qiYyEoiab1rfG/hNA+Ksnr29jBeYPgMOj6tQEueLCU8TsoYBasYsC8nMyxmD50aDfjgnNsgOkXnMM7yZDeiVMZ6Se50DUnNM6A3u6wvv2Devg7zQYs3joz9TFzUCMExKtn9U0E/NzYhDqO9IU6jExQb4Uc3cqvSMeOYKwZJPSCxomlFiU1WC0MRlAu5IviCLFEtyWSb7kcV5GryXWFB56aGvzxc9vHF/d9s135VFjN7AcABKegyVDTwCzq/yawdMBkz2lFKD8VJ4pGInporDRxKG49S1h0AULQOfvILckdSWHW9dkjb+7mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zuFjPVWZ0S7I/NhN5L7l+kiIF5nNZ0lY3SyapqM/CP8=;
- b=m3cSOzaP/EAh97wgTbEBRrF80ropcH1r16d/3ET0Y/hGL2cTgzBXHLR7AYFxxvfD0l6FzHehzuFKisfBXya6g+I7yH3T6Y3Oy0BMmCzjIWo1ayJjVLWhdDgDCpQmwZh5NrJJcAJOt3EMeuscMbqXien/q+aA3KfnxA+uNGoUskka/QtE3FhamPcHh4+NZI/CnR4ZY8Yh16rqgTFTENSv4cjalwGCUX43/oezrzlagntZOJbRtRtsp0DS0ciPrdW2cOTBupmbeiZKb9aWbn+njTjlwfwU0zzLoN6dC/YMwy7y3ObDy41J7QPJFAR+owHmHOBZKnZH1hEFczAf/s0lTQ==
+ bh=lo7PmIFxBNtvtBxythlsA10aKndfTss3YtrS2J1ZD1Y=;
+ b=qZ4tZ5LmJTceaJX+ybsLyYV14qGJ9YzzXlKg9AGUEbAp6rTzpSm0X8IejIUaw2MBczMZ6rtfcw0/7XF+7VFdFhUVvWMcjkwluqMsj+w6f4ICHt1uhvVgOyBcXBaii0jo+OfV5WIAsX0UskGLIY6zpxInaQ20cPMM/cGFuBZc3tm+X0D56BwbUmeFq+Kug5vzPXkbNN9q0rdE/4tRfMeTRGynX/liaq9flhQNUCxGjQlhOUWaUiBvDMo9FJPDk97qdOMglnV+XdZEtBUUignBw4YC4LF8U4VYcpE2HapGJcZDs2A14/QcbrDmhx1Q4g75IBJB+CrvHR+2C99HSZzQ1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  165.85.157.49) smtp.rcpttodomain=lists.linux.dev
  smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
@@ -31,18 +31,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuFjPVWZ0S7I/NhN5L7l+kiIF5nNZ0lY3SyapqM/CP8=;
- b=NdOE730WWNw230mNaeX2acYO91Izd4CzYbGgt0+vyw6z7ZpQtdJuazfaeBT5kd8XWpI54nByvX1HiDaHszqzE/fuIapxhd9E2VXOii0MWbfWe5r6dC/037IczrwaAgI20gZHVaQVxi9Qay5m4UjnB4ZqPivl/UE6ZzzpmpWYATgju2es5gRtR40ROOE5YczBlU+XChLPMv002SegQwpFWMxemijMOI5lJ/YcxKdBuAk59E1HtcvCwYaoE/Schut3rKuxhLuxiIMh2DtEll5SXR19xt0ZM0rqy4vkaSoRcKK9hVApHC1sdoWput0gAW1v4ILPOzsprl6RuMfoXbMqrw==
-Received: from CH0PR07CA0004.namprd07.prod.outlook.com (2603:10b6:610:32::9)
- by SN4PR22MB2904.namprd22.prod.outlook.com (2603:10b6:806:20f::6) with
+ bh=lo7PmIFxBNtvtBxythlsA10aKndfTss3YtrS2J1ZD1Y=;
+ b=ynSjF5qMsklBt4tqil0b2Xegn4fKP7w2zbb4F2d29uf7Cv2brxxof1Or1xRt17DdoglZ6XJtBswmOKiv6gRYH/EWdj9efpdPrSg0TLWsfBwYTORTB5N2H7v87ZI32EaGyQaBgGIU7DCbot67Ge/1NuFR47SbU0ZPXnyye5+b2RqvQ8yGqLkyN3/ildT7RLoT/qbF5w5fh+/CfNpF57DRcqYoalu263CkKuV/gRe13Z7LSVE2vsw4R5TZgcfhG96mF0mBragIzj1jxVzSdnVL5cS3ZBpK3zl5sjRShlF3ANzA3cz0kRyoHxC9S+szQhOngLls0PE+xc+J3ARsqtaRpQ==
+Received: from BN9PR03CA0710.namprd03.prod.outlook.com (2603:10b6:408:ef::25)
+ by BL1PPFE069F944F.namprd22.prod.outlook.com (2603:10b6:20f:fc04::f53) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Tue, 7 Jul
- 2026 17:10:59 +0000
-Received: from DS2PEPF000061C8.namprd02.prod.outlook.com
- (2603:10b6:610:32:cafe::98) by CH0PR07CA0004.outlook.office365.com
- (2603:10b6:610:32::9) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 17:12:32 +0000
+Received: from BN1PEPF00005FFC.namprd05.prod.outlook.com
+ (2603:10b6:408:ef:cafe::7e) by BN9PR03CA0710.outlook.office365.com
+ (2603:10b6:408:ef::25) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
- Jul 2026 17:10:59 +0000
+ Jul 2026 17:12:32 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
  smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
@@ -51,24 +51,25 @@ Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
  receiver=protection.outlook.com; client-ip=165.85.157.49;
  helo=atlrelay1.compute.ge-healthcare.net;
 Received: from atlrelay1.compute.ge-healthcare.net (165.85.157.49) by
- DS2PEPF000061C8.mail.protection.outlook.com (10.167.23.75) with Microsoft
+ BN1PEPF00005FFC.mail.protection.outlook.com (10.167.243.228) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 17:10:58 +0000
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 17:12:31 +0000
 Received: from zeus (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 1D72D1290D;
-	Tue,  7 Jul 2026 20:10:56 +0300 (EEST)
-Date: Tue, 7 Jul 2026 20:10:55 +0300
+	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 6E50E1290D;
+	Tue,  7 Jul 2026 20:12:29 +0300 (EEST)
+Date: Tue, 7 Jul 2026 20:12:29 +0300
 From: Ian Ray <ian.ray@gehealthcare.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Griffin Kroah-Hartman <griffin@kroah.com>,
-	David Heidelberg <david@ixit.cz>, Carl Lee <carl.lee@amd.com>,
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: David Heidelberg <david@ixit.cz>, Carl Lee <carl.lee@amd.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH] nfc: nxp-nci: Add remove on IRQ error
-Message-ID: <ak0zHxoAC8w3H9Nn@zeus>
-References: <2026070726-observer-fang-9716@gregkh>
+	Tomasz Unger <tomasz.unger@yahoo.pl>, oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 03/12] nfc: Initialize acpi_device_id arrays using
+ member names
+Message-ID: <ak0zfaTxM5Kn7X5j@zeus>
+References: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
+ <5f60cd3e9831aac3995ed1a1b074ca1ae32e5286.1783091699.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -78,74 +79,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2026070726-observer-fang-9716@gregkh>
+In-Reply-To: <5f60cd3e9831aac3995ed1a1b074ca1ae32e5286.1783091699.git.u.kleine-koenig@baylibre.com>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF000061C8:EE_|SN4PR22MB2904:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6a2b350-ce6c-49f7-6b68-08dedc4ab6f2
+X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFC:EE_|BL1PPFE069F944F:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c5d449f-c46d-4a7c-25d3-08dedc4aee88
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|82310400026|36860700016|1800799024|56012099006|5023799004|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|1800799024|36860700016|23010399003|82310400026|5023799004|11063799006|4143699003|22082099003|18002099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	OYlLSP8qiw3RD4RAbdF7IBR0b/nkCgroDy5X0WAxLcpu6+6Ywp3XVIADro0KjMzdaNtkPhI6N8MmuQORceBBzMxPNEdQP+vSGHoRu4gBrzYkp7bv5BazTYybZBZmXBzUR/eacjvFjp/UzQpxfyO15D0ZMx5nOhpe7vL2jOjgQyHo+DpSsy6mZfXm3TCJEkn0x3V0FMVyIBy1LTjkQCU3o4hnVOXFyyJYoOaLBV3WdZZ+SX4v+SirQHa++lI1UWE8WuVbSolSOMk8OEHV0dLsbGRlmQx3YKDrkA5Ywg3mIXJiNrCEBRXjiB28ZECFU/V2HdtYIHR8sAzEOf09yPFWvzldlIGZ6FlpuiNvuTFAZi6Rjjl1PUaJOBXWhSo3Sb0HhrQA/deTqLcPMjFS8G1han2R9OrdYqh25KC2g5SvHm79SIiX4IMBS9Sy311Pk7e3ecnU94UInW17bwRnix20ZL5lrbDK+2AuoMPv8QrJXDA/+lwbA0/YDexjnz3zs3WIftgU3vHNAiWHiTiZDQ+83oSpab7aAHpv9eYYiGmDV76g5wTeTDIR7GiSCSbvkQRN3t0KD75vFyaKK/AMvo3icOLv1af/9UGTIPKcCf+UJPsdd4OMnFf+vEBSeXnka9j+iDz/TAT7/0VXcd6yrIiaL/4HxoOhpbpcNmEM9bPiNzPENn0Iy39W9TUGXFJKbxAYHtUq8tGLc8npCmiTqeONdw==
+	C/5resRTrBKHktQAcKjxIENMnKZQ3v1FOFwrBFxpkARHcmRKiWqjbTEsfVZulI2U3kpBe6h2fJS3hHmhtmqdGpKtDEKGz2f3Y029t2jCNzFrHbpMfh7B8mLxcTLfkiVjT5chCdYK4otmIXpzKSxdRyFVo6Mb2RRRckY6MPXnNAczi2yeIldqCKwuqns34A/8cE8ZRiBHdQOSNyMsiEP+fZU6YnczqRyt0bwv09XB8gD4ySxLuMRQADAOR+WhXJ8u17MXDIltsqX3Otx3nCi43UE4pDK7fINhp+Mh4QkyX7LUD3UJPkMOVjlCjpbN1V8GwOeVX/RA+Yj3LGj2UxfkM65GF7+VO+7yY/xfOG1W8vTVuG4jl/bp03mIdjIoJflQ8+KXAUyMJC6Z9UHYyB3KYpFqpaYSiU3u5D1XNncePPczspgkFcZ09/1kQu0nFwUFMMkX+9UeoCPFf1rwFc1OnJKxZH5oal6X9stxb94ZPMMgLmqAmie/28es/SqN3q7yhs+QVd3jO45+T4YxCQ1YGreNgYem400VU7/mRiVy4nBQJ1Law7mmCpvkOynueVnJ2i3Fr/dHPGoNa5GEb18Zjr6YDt4M0ScI6LACr8m+WIDCk6ekx73CzSLVYbKBwTmZXcyOjnHeFA9VCEbxgd7OtMl5/n6rxPaapmyLnRN8M/QZBPrpnzNj80x6ocabFjeujOvhk+IpV1RoQDbFn9sCCA==
 X-Forefront-Antispam-Report:
-	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(82310400026)(36860700016)(1800799024)(56012099006)(5023799004)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(23010399003)(82310400026)(5023799004)(11063799006)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	sEo5kGkd4hh/aO/DxzjOcq8Urd5qDZhwOpJoUVk8WgZOocTgrbUJDrDgkwhY/kQjVG9zi/QzTk/RrOhVJul5yRoFgHQxayOU6pP3nqqxH572eV0FkA2vZnvMAT8a5YUrw8rMn46+VipWg+Zs1ju+hmnZvg/0ngJHIAEnn2PKQbTCv4cmb8Pn0am7ibuWO+K58KIg1hb17A/ooMHqRBIo54y1NnivicZU40XpHW+f1VDzR8N4pbRByamrbrE13n4o44bhpoN7x9BxLz7Ep3IvC7d7PQnkgszehmVj8jyM+oyFn1mDsqUBo3pqzGctfVkUJH/+jucjAYpFuZHK4XEFtVuSRN4PK7//D4iP0rb1bGe6HdGKS1+zE8UT7rOjdudxqUWcwmkv+Zu6KuzK8HOjOc6ZbQMn2ftT3jbf15JG+foShpuj4/drRl7TkBrpNm8/
+	cHgVhJ4mBTvrryMx2U9ieCqjcTSSG1Q74kengv1LrjTZN2QNlOIDJFTJFokw+kqvRZloOF5lLC6HH0a66gKEVC+QgQ0lXX1Li8uTIXoa/M5hgavGpMn+HpOyLPXbjoWuV4KwhJdzaNQDhVlgQAFTt8DSDmgnn7+eKbZ5UL54DeLOHGo00IzX3+eJWc0kRnPk//mYqtnJVRuT0ObvTs8Q5wdUW7wqNunap8utxkD4QcGBLyy9Q+CqRTn0ScoMkAOxdNxCqb33t3mXUTBjqKmX4hz61mHV8Ck5Sk5qVqEXmnlYZBrwFvMFmQQ5EwNNcw7TLNWF9jMdHdm8t2DylQZ1MVFLSqyuXHmjpkC1J6P+HgLyi+lKLX8Xvz5AwhmK3PWjEvRfHJj2d0OEzaRUnXDRkTIDc9H1/AuIgQ1ZfdCWDTSGBxHL+dB/EiUL2LFzNOfW
 X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 17:10:58.6153
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 17:12:31.7861
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6a2b350-ce6c-49f7-6b68-08dedc4ab6f2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c5d449f-c46d-4a7c-25d3-08dedc4aee88
 X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[atlrelay1.compute.ge-healthcare.net]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF000061C8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF00005FFC.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR22MB2904
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PPFE069F944F
 
-On Tue, Jul 07, 2026 at 04:23:27PM +0200, Greg Kroah-Hartman wrote:
-> From: Griffin Kroah-Hartman <griffin@kroah.com>
+On Fri, Jul 03, 2026 at 05:46:17PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> While being less compact, using named initializers allows to more easily
+> see which members of the structs are assigned which value without having
+> to lookup the declaration of the struct. And it's also more robust
+> against changes to the struct definition.
 > 
-> Add a call to nxp_nci_remove() in nxp_nci_i2c_probe() when the
-> request_threaded_irq() fails.
-> Previously, IRQ resources were not being freed upon error.
+> The mentioned robustness is relevant for a planned change to struct
+> acpi_device_id that replaces .driver_data by an anonymous union.
 > 
-> Assisted-by: gkh_clanker_2000
-> Cc: David Heidelberg <david@ixit.cz>
-> Cc: Carl Lee <carl.lee@amd.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Cc: Ian Ray <ian.ray@gehealthcare.com>
-> Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
-> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> This patch doesn't modify the compiled arrays, only their representation
+> in source form benefits. The former was confirmed with x86 and arm64
+> builds.
+> 
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 
-Nice improvement!
+Nice clarity improvement.
 
 Reviewed-by: Ian Ray <ian.ray@gehealthcare.com>
 
 > ---
->  drivers/nfc/nxp-nci/i2c.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/nfc/fdp/i2c.c      | 2 +-
+>  drivers/nfc/nxp-nci/i2c.c  | 6 +++---
+>  drivers/nfc/pn544/i2c.c    | 2 +-
+>  drivers/nfc/st-nci/i2c.c   | 4 ++--
+>  drivers/nfc/st-nci/spi.c   | 2 +-
+>  drivers/nfc/st21nfca/i2c.c | 2 +-
+>  6 files changed, 9 insertions(+), 9 deletions(-)
 > 
+> diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
+> index 9d589b388432..47f3838ac9d4 100644
+> --- a/drivers/nfc/fdp/i2c.c
+> +++ b/drivers/nfc/fdp/i2c.c
+> @@ -349,7 +349,7 @@ static void fdp_nci_i2c_remove(struct i2c_client *client)
+>  }
+> 
+>  static const struct acpi_device_id fdp_nci_i2c_acpi_match[] = {
+> -       { "INT339A" },
+> +       { .id = "INT339A" },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, fdp_nci_i2c_acpi_match);
 > diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-> index faebc89a7ef5..564f38735510 100644
+> index faebc89a7ef5..39b43f8f3bf0 100644
 > --- a/drivers/nfc/nxp-nci/i2c.c
 > +++ b/drivers/nfc/nxp-nci/i2c.c
-> @@ -334,8 +334,10 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
->                                  nxp_nci_i2c_irq_thread_fn,
->                                  irqflags | IRQF_ONESHOT,
->                                  NXP_NCI_I2C_DRIVER_NAME, phy);
-> -       if (r < 0)
-> +       if (r < 0) {
->                 nfc_err(&client->dev, "Unable to register IRQ handler\n");
-> +               nxp_nci_remove(phy->ndev);
-> +       }
+> @@ -362,9 +362,9 @@ MODULE_DEVICE_TABLE(of, of_nxp_nci_i2c_match);
 > 
->         return r;
->  }
+>  #ifdef CONFIG_ACPI
+>  static const struct acpi_device_id acpi_id[] = {
+> -       { "NXP1001" },
+> -       { "NXP1002" },
+> -       { "NXP7471" },
+> +       { .id = "NXP1001" },
+> +       { .id = "NXP1002" },
+> +       { .id = "NXP7471" },
+>         { }
+>  };
+>  MODULE_DEVICE_TABLE(acpi, acpi_id);
+> diff --git a/drivers/nfc/pn544/i2c.c b/drivers/nfc/pn544/i2c.c
+> index 66d070b18b4d..ccca07eb828c 100644
+> --- a/drivers/nfc/pn544/i2c.c
+> +++ b/drivers/nfc/pn544/i2c.c
+> @@ -51,7 +51,7 @@ static const struct i2c_device_id pn544_hci_i2c_id_table[] = {
+>  MODULE_DEVICE_TABLE(i2c, pn544_hci_i2c_id_table);
+> 
+>  static const struct acpi_device_id pn544_hci_i2c_acpi_match[] = {
+> -       { "NXP5440" },
+> +       { .id = "NXP5440" },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, pn544_hci_i2c_acpi_match);
+> diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
+> index 4ddf0cc2a259..3906a806ec8b 100644
+> --- a/drivers/nfc/st-nci/i2c.c
+> +++ b/drivers/nfc/st-nci/i2c.c
+> @@ -263,8 +263,8 @@ static const struct i2c_device_id st_nci_i2c_id_table[] = {
+>  MODULE_DEVICE_TABLE(i2c, st_nci_i2c_id_table);
+> 
+>  static const struct acpi_device_id st_nci_i2c_acpi_match[] = {
+> -       {"SMO2101"},
+> -       {"SMO2102"},
+> +       { .id = "SMO2101" },
+> +       { .id = "SMO2102" },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, st_nci_i2c_acpi_match);
+> diff --git a/drivers/nfc/st-nci/spi.c b/drivers/nfc/st-nci/spi.c
+> index c94d67f33184..8fc60a972d98 100644
+> --- a/drivers/nfc/st-nci/spi.c
+> +++ b/drivers/nfc/st-nci/spi.c
+> @@ -278,7 +278,7 @@ static struct spi_device_id st_nci_spi_id_table[] = {
+>  MODULE_DEVICE_TABLE(spi, st_nci_spi_id_table);
+> 
+>  static const struct acpi_device_id st_nci_spi_acpi_match[] = {
+> -       { "SMO2101" },
+> +       { .id = "SMO2101" },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, st_nci_spi_acpi_match);
+> diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
+> index d6cb74a89f93..e5109f701795 100644
+> --- a/drivers/nfc/st21nfca/i2c.c
+> +++ b/drivers/nfc/st21nfca/i2c.c
+> @@ -578,7 +578,7 @@ static const struct i2c_device_id st21nfca_hci_i2c_id_table[] = {
+>  MODULE_DEVICE_TABLE(i2c, st21nfca_hci_i2c_id_table);
+> 
+>  static const struct acpi_device_id st21nfca_hci_i2c_acpi_match[] = {
+> -       { "SMO2100" },
+> +       { .id = "SMO2100" },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, st21nfca_hci_i2c_acpi_match);
 > --
-> 2.55.0
+> 2.55.0.11.g153666a7d9bb
 > 
