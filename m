@@ -1,107 +1,99 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634633F99ED
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  7 Jul 2026 11:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5571541F7CE;
+	Tue,  7 Jul 2026 14:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424680; cv=none; b=hwcdxzJGKIBKBCQwv6E+0MIFxQ+B89ZP3rtQqZct2o2cmNE3TBmMHOrlHwNAIxnIcTgJXRwYRcAafhqRP6nreQi7R7pnwD3PAxuLMn4KimH84sDxOTewZQwSmsm6All6zmRcaF27jArWtlBMaWc5aRTeudwdnQgUS2JIPtsb4Rw=
+	t=1783434094; cv=none; b=NZBUQrZMgWDiLTUrccEpOnJV4KjYFeboLNyozEmttYbCZgtZQYh8ZmwOq3j4iiasFWIGMiNAglgZDtED/wmp19K4nTbLmtODqCoIek7Qg8SVMr0oNYfDN3VJH7Evbc+IIzIlMTkggDq0YAD4w7iKYD5SsFqTOVM8i30L69NYYwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424680; c=relaxed/simple;
-	bh=KyobzfFT857/xJYn7ncP07FGsnX/hqiiLm+rms3UCTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tpjYZssZfE1QcB4adFmwflJV0diHmpKOL0sigi0+r30lFZvXM7oJIjGvSxLiVJRNorHfG/MY82mA2c2FYjj3mGw+GWR9iijC0BlU7Ob/HuCPcftzr9ntbv99wkQ02fEIc+njAXn8adREnJhCfx5PDswXi8PKiY336+qRDphFEXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20251104.gappssmtp.com header.i=@cse-iitm-ac-in.20251104.gappssmtp.com header.b=iSbr1Unj; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.iitm.ac.in
+	s=arc-20240116; t=1783434094; c=relaxed/simple;
+	bh=xiw5StsJ7PQZPmgtbb+s1M8Wix3imuDhNiaJp0LTig4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BDeMUb2/+4ADqppDv2ivC8QyZib0DmTJ+46RJSB7Ex/YYK2etCUbTxjGu8ngAc42Z8EGcqvD1qLKxI1wfM0HZOIOpqPdvHcLxKb1inuUak/L9cawdR4+8V2+VusdSZIKUV5bmcpm3N7xn68sy3MgWcYicJ8GQ6dkq5+paQfNonk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=t5wvR904; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20251104.gappssmtp.com header.i=@cse-iitm-ac-in.20251104.gappssmtp.com header.b="iSbr1Unj"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so30900725ad.1
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 07 Jul 2026 04:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cse-iitm-ac-in.20251104.gappssmtp.com; s=20251104; t=1783424677; x=1784029477; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pKhBjhdvedO5kI4cf31ZT3jc8IVL8OLcFwvvWlnVO1I=;
-        b=iSbr1UnjQ85XnZ1JA8JP/U14KR3sEHcIhMgBVa73cI0B+0TpEFhnbNG5lqCli0dMD0
-         qucMxxqDaqQM+ub0xWoRSiqyXu8juf/2JWIP2r/yjlxLqubkiqze/BytQeUAi7LVxN+a
-         4Z6Z1sD7YFUahji/WMGVwJxLZ+9vSonnXMa4zKOPf253FJZuatFqq2rWRtH8xiPFtvcb
-         KQn6gKgQ5jcJA9NlWbFfMvRsv8Bat5xrACG1FRcV62NEhwhUCdj25bt3RbpwJ2HjduEj
-         rzZZUxUIU5sJqJIqi42nU3sZxQjtS71zFCrseEGpFd8V2nJONyektbx1iOQ+o/2pgWpY
-         Yg+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783424677; x=1784029477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pKhBjhdvedO5kI4cf31ZT3jc8IVL8OLcFwvvWlnVO1I=;
-        b=gOmujPh0sDUrICg/aJwujInOfMOSGLd0GWUW4VZY1F4L8j0SRh2dXGFmcd1Ux7Ztlv
-         Mr9rOP5vNcoqQSQOKC3AOr6ynWIkKK/bIex1dnT1z1QTyPwyUMkd/12mBeP6Sk4Q+vZz
-         UK4vxbkIxd9Fw5jvd4Omm6J4vu1a0kIRDC9XxOemQQ9Px/xmEDw+t8gHZ5zO9ujPJNxi
-         y3koY0x1832QykEhI/lMi2EGM3XnkuxUq1g8fYW129Uh7w8XJS97wv5NXMp/E/DHRySr
-         HbCx63aUklGGlg68YELdAzwRURHFzLm/jm2zyT9TAydaFgLPWrrrA6TQiT8EsF8TkTAS
-         y3vg==
-X-Forwarded-Encrypted: i=1; AHgh+RpNgBaSc9C/qPAfp4zN8qLnXWilavny14cXh7bAvSeTm+TD7y6w+e0FCml5NDPYqxYAXyUzjA0SVZ5PKCQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6lnMQtrIFRNGv6mUMfdWDD63KDv4SgOR2o3lZ5Otb7GAivGw7
-	Fcjc/fApBrfB3X4CZc5geGkKmomari3AQnkgTjIy4UWOkkS4turc+M0FOrVKFktG3yU=
-X-Gm-Gg: AfdE7clyVhbXkOjsD6mWbXyzjF/9WRCQQyQzN3Y3CFw6ZCBdqh80SuBljhjqqvUb8Dt
-	6O4XNxdi1zaICJ22JCPF6ibNDduVrlHfm/Z550CzZLrUy2Zi31a+CqYD2eWJg88iMaqXcIE1KQ1
-	0BZXukFBcLXEKA9CiVJbWEZRehNEDG8tpcR/rMbUoRDmihjsQhcwBJ1h7y/h2qYrujmrM1j9yUq
-	ljQggmND6iX4uYCJmhbZHY4M+MtTJSYOqVa5M8oZONKl8CfkoAuYhPfZabDNXE/nWjEcH+g52n/
-	3QogKZgIvun80vKn9eM052L+1n05teQzdz1L1EypS8H0B67Rovq51iMih1lRsyQzKcZvvkdmy/m
-	anJ1oRB/TmS2Qo+64b7OovjAckg70cH6ckBiSepe51KHZN1tzxj5FzGkvKsvhsy5TMv37DuJFAi
-	SZOr1q+/BkFyAYz639F032bFYTrHRhLl15ci6PfbzKGljxPfivbb+uyKPuuY3xOA9SI1FPdVRan
-	nBHpCBisKfOWt7Y1zF40KzEhCq9Yc/sCG2Se2y+9bE=
-X-Received: by 2002:a17:903:38c5:b0:2ca:11fd:659d with SMTP id d9443c01a7336-2ccbf07b550mr53814135ad.34.1783424677549;
-        Tue, 07 Jul 2026 04:44:37 -0700 (PDT)
-Received: from Metius.iitm.ac.in ([103.158.43.43])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2ccc9d59e51sm10206015ad.76.2026.07.07.04.44.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 04:44:36 -0700 (PDT)
-From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
-To: david@ixit.cz
-Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] nfc: st-nci: Fix potential memory leak llt_ndlc_send_queue()
-Date: Tue,  7 Jul 2026 17:14:08 +0530
-Message-ID: <20260707114427.998485-1-nihaal@cse.iitm.ac.in>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="t5wvR904"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 790DF1F000E9;
+	Tue,  7 Jul 2026 14:21:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783434093;
+	bh=mHgKH8qgfosl57rt8Jb8K06QboN4E0Wdi8LGck5VH78=;
+	h=From:To:Cc:Subject:Date;
+	b=t5wvR904BW6XeJAho8VHzkyRWg9Wv8u9Xhqom6qR+Alr55nIEKKGlK6cO6RqZh6Bm
+	 +7G1WaeRH7rwKvVxEdKF4io2oE8mDbchrnWd0qzgIcdbViEXOoI+vkp6ZhF66jrk5d
+	 kT5XOu0rQPLtSmhrkVkbEWBQ9WRaCAyY5UmSaa1E=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: oe-linux-nfc@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Griffin Kroah-Hartman <griffin@kroah.com>,
+	David Heidelberg <david@ixit.cz>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] nfc: st-nci: Add error handling to IRQ handlers
+Date: Tue,  7 Jul 2026 16:21:27 +0200
+Message-ID: <2026070726-wiring-yield-ceca@gregkh>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1610; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=v4MXMw1I8MkCSS/lMd++8WIj9BAh1xFB0l7yfZacMVQ=; b=owGbwMvMwCRo6H6F97bub03G02pJDFm+3GldBycFvP5tyXfui2LmrZrTQrpFTZ1vZt2bt7w2b Z7qSvFPHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjAR60MMC6bvcD5utHrByZwT C2o3Zy1ae6f7KzPDgqYTf69qbrhpfimk4FRa5ERRzp2sjAA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-The skb dequeued from the ndlc->send_q is dropped without freeing or
-queueing it back to the send_q. The two function targets of
-ndlc->ops->write : st_nci_i2c_write() and st_nci_spi_write() don't alter
-or free the skb on error. Fix this by queueing back the skb into the
-head of send_q to be processed again later.
+From: Griffin Kroah-Hartman <griffin@kroah.com>
 
-Fixes: 35630df68d60 ("NFC: st21nfcb: Add driver for STMicroelectronics ST21NFCB NFC chip")
-Cc: stable@vger.kernel.org
-Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+Add ndlc_remove() to st_nci_i2c_probe() and st_nci_spi_probe() if the
+devm_request_threaded_irq() function fails.  This is to properly unwind
+after ndlc_probe() was called prior to this.
+
+Assisted-by: gkh_clanker_2000
+Cc: David Heidelberg <david@ixit.cz>
+Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-Compile tested only. Issue found using static analysis.
+ drivers/nfc/st-nci/i2c.c | 4 +++-
+ drivers/nfc/st-nci/spi.c | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
- drivers/nfc/st-nci/ndlc.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nfc/st-nci/ndlc.c b/drivers/nfc/st-nci/ndlc.c
-index be4808859cfa..480a30acd996 100644
---- a/drivers/nfc/st-nci/ndlc.c
-+++ b/drivers/nfc/st-nci/ndlc.c
-@@ -101,6 +101,7 @@ static void llt_ndlc_send_queue(struct llt_ndlc *ndlc)
- 		r = ndlc->ops->write(ndlc->phy_id, skb);
- 		if (r < 0) {
- 			ndlc->hard_fault = r;
-+			skb_queue_head(&ndlc->send_q, skb);
- 			break;
- 		}
- 		time_sent = jiffies;
+diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
+index 9ae839a6f5cc..7f727d9b97ba 100644
+--- a/drivers/nfc/st-nci/i2c.c
++++ b/drivers/nfc/st-nci/i2c.c
+@@ -243,8 +243,10 @@ static int st_nci_i2c_probe(struct i2c_client *client)
+ 				st_nci_irq_thread_fn,
+ 				IRQF_ONESHOT,
+ 				ST_NCI_DRIVER_NAME, phy);
+-	if (r < 0)
++	if (r < 0) {
+ 		nfc_err(&client->dev, "Unable to register IRQ handler\n");
++		ndlc_remove(phy->ndlc);
++	}
+ 
+ 	return r;
+ }
+diff --git a/drivers/nfc/st-nci/spi.c b/drivers/nfc/st-nci/spi.c
+index 169eacc0a32a..6f1ffd8244fa 100644
+--- a/drivers/nfc/st-nci/spi.c
++++ b/drivers/nfc/st-nci/spi.c
+@@ -257,8 +257,10 @@ static int st_nci_spi_probe(struct spi_device *dev)
+ 				st_nci_irq_thread_fn,
+ 				IRQF_ONESHOT,
+ 				ST_NCI_SPI_DRIVER_NAME, phy);
+-	if (r < 0)
++	if (r < 0) {
+ 		nfc_err(&dev->dev, "Unable to register IRQ handler\n");
++		ndlc_remove(phy->ndlc);
++	}
+ 
+ 	return r;
+ }
 -- 
-2.43.0
+2.55.0
 
