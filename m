@@ -1,88 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9D942254F;
-	Tue,  7 Jul 2026 14:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A983DC4A0;
+	Tue,  7 Jul 2026 16:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783434219; cv=none; b=so1Y6KEdA/XYNeMbjoeHwGXp76/q3d2X32zGjkHAeoQwHwCJUgcpmoV/JXvqPSwMypfyMoOZFfpIe2uWTkEGww0IQUrx+ntdeoyMWlo6QxYYlgCK9W5MtARln0jnwFjDtIV3BNutUmC4jPS3zD3az8HtJrk0eDDzh2QQlwW/J7E=
+	t=1783440534; cv=none; b=s62LW5rNo1hZDyNRrVIfLUwVvsSYMQ9bUkVt/JoF9CwvxpiUS3NB680EkByCUOU744R0hh9uDwsH4TTZrR3HzRdMsDH+tQ6KCyDXGVGzUUJkCx3GtlNhskiCns7XYWFf46b4dtbGKU/J34QFPU9lGn3aYVLn0uOxmY+inYprw6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783434219; c=relaxed/simple;
-	bh=nCFQ347hZ0XA5rpNCe4+0nnueQ4jojMtbAtT5IAzx4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dgPVY6HOZrx4CcINR4g/s4Wj4HR8FuMFcWyjtHtOBNlJUo2kt/rrN4dQlJeyO4cimoP27q44xhpMnku1gY6Q5Dq7D/cvvPMJ6vw3z740acGDTRDrNdl2qRv3PlkPf+CvCNjFVcDKwfecIOEgLI8NxeEVhFh2a/DgVNoQeXUeno0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qcdreG5i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783440534; c=relaxed/simple;
+	bh=xtHMEG1TCejI8D4pEoh7MRQLg5UbMQHhYQUdiHQHI3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rIGnKRVHI2kjIc/PjrUXlqUCCgC5RPaEDMJf6GwYxm7tfV6z2sfqE3GCwhWZmvYeWletH7ooCAoXEE1WuRsrqFDYkm1P5RWBy4xBfKVQUFoZKOJ6YKOrC3s8x8VAMFH9RsZ2oDS7TC6yw0VYZsViWSfxYfKWhIObkLDihhPejhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jk9WV1lS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qcdreG5i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A99EA1F000E9;
-	Tue,  7 Jul 2026 14:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783434210;
-	bh=d49iQ/zPG6AW20k0FZXd9H09gOXdc2kwJ1ZV4M5OjOE=;
-	h=From:To:Cc:Subject:Date;
-	b=qcdreG5ig5LLS8qZErVsWPw3MmLI+FT8kzGlybMtEy1JzotCaxEjeeF3XVAROxVXm
-	 29tD/8Kq6Tmgkzhe1f/52VaJ30cadRqMe1m66GkN4orYyzrvVB0p3Jhh/GOOBfD4tx
-	 YmsQjQpl4YLTNMVs637KVu5Xr+/yZHfWiEDUZ13Y=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: oe-linux-nfc@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Griffin Kroah-Hartman <griffin@kroah.com>,
-	David Heidelberg <david@ixit.cz>,
-	Carl Lee <carl.lee@amd.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] nfc: nxp-nci: Add remove on IRQ error
-Date: Tue,  7 Jul 2026 16:23:27 +0200
-Message-ID: <2026070726-observer-fang-9716@gregkh>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jk9WV1lS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640491F000E9;
+	Tue,  7 Jul 2026 16:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783440533;
+	bh=xtHMEG1TCejI8D4pEoh7MRQLg5UbMQHhYQUdiHQHI3I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jk9WV1lS6vKOQaZZbkVIjbi/Ew2VREc4kAnJoUPb7NkCB85HnllzL5Ra0XyuRKQ1/
+	 CVg/6rPW0AAjyNUq17snGujS0X8Ot+xQWqhdM7f8e0AHWx/BberVp1t4ydXlXJYTCh
+	 CsBmaWELwJ18mqbcY6Wsvz7tfzhBRx3VCixAPWOANcUDJkh3n+6Kcm2Blvppq5njXR
+	 FzNoWstQnv44+lDVAUQx48fS4949T2qsc8605vQfMXTqsZscWL18Av++X1G7azR8Tv
+	 8Rc+CBVgv8I5Ra1HY5MD9fK+YtU3mKi//17qZkSXXoYzQXhPkVhtposnj8atD6lXjd
+	 eGP0NQvu7/MWA==
+Date: Tue, 7 Jul 2026 17:08:48 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/2] dt-bindings: net: nfc: samsung,s3fwrn5:
+ add S3NRN4V and clk-req-gpios
+Message-ID: <20260707-purr-pucker-b9e8dd8dc9c0@spud>
+References: <20260705190621.128257-1-jorijnvdgraaf@catcrafts.net>
+ <20260705190621.128257-2-jorijnvdgraaf@catcrafts.net>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1209; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=E2w6poSszQztN0/SICl7E/xLd3dRTWNYv0u3xHSY1ws=; b=owGbwMvMwCRo6H6F97bub03G02pJDFm+3Pdu70o6/Nf4PZ9KTv6ttzd7Am3td/D/irnIv61Jq fLuy6tfOmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAilbsY5opkbiifuNvpaXZw Xu41tz+qWyrPiDLMs97bs/xswPKvX1IWHxG+5si1p2RTEwA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="22Mwl49F0l+F6eKI"
+Content-Disposition: inline
+In-Reply-To: <20260705190621.128257-2-jorijnvdgraaf@catcrafts.net>
 
-From: Griffin Kroah-Hartman <griffin@kroah.com>
+--22Mwl49F0l+F6eKI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add a call to nxp_nci_remove() in nxp_nci_i2c_probe() when the
-request_threaded_irq() fails.
-Previously, IRQ resources were not being freed upon error.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Assisted-by: gkh_clanker_2000
-Cc: David Heidelberg <david@ixit.cz>
-Cc: Carl Lee <carl.lee@amd.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Ian Ray <ian.ray@gehealthcare.com>
-Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
-Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/nfc/nxp-nci/i2c.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--22Mwl49F0l+F6eKI
+Content-Type: application/pgp-signature; name=signature.asc
 
-diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-index faebc89a7ef5..564f38735510 100644
---- a/drivers/nfc/nxp-nci/i2c.c
-+++ b/drivers/nfc/nxp-nci/i2c.c
-@@ -334,8 +334,10 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
- 				 nxp_nci_i2c_irq_thread_fn,
- 				 irqflags | IRQF_ONESHOT,
- 				 NXP_NCI_I2C_DRIVER_NAME, phy);
--	if (r < 0)
-+	if (r < 0) {
- 		nfc_err(&client->dev, "Unable to register IRQ handler\n");
-+		nxp_nci_remove(phy->ndev);
-+	}
- 
- 	return r;
- }
--- 
-2.55.0
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCak0kkAAKCRB4tDGHoIJi
+0hLiAQCalXgHa4e8d6O5afFL59JI421HoDHDPn7f0Z/b2dxWGgD/XW0WuSId5uve
+i4mcqO4b3vUScmWctGMq9EeyXOODxwo=
+=gEEu
+-----END PGP SIGNATURE-----
+
+--22Mwl49F0l+F6eKI--
