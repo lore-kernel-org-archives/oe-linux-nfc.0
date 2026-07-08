@@ -1,159 +1,130 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75583B774D
-	for <oe-linux-nfc@lists.linux.dev>; Wed,  8 Jul 2026 05:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B748036C59E;
+	Wed,  8 Jul 2026 11:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783487129; cv=none; b=jxourj5/9gIQNe7H/W1HfbInziluwcjT0SAacqVVviza5wwb0g/MfN93D1LP4VPifivFCB9FllizugJn+Er9ET8XLEDg/I4huU9ayhwvEAVAd0Eyy+j8rxGgbzAPbyB8ZjXF2WXu+PabCqsb3odl6+I6ZBToljDsZelDVK6eKEY=
+	t=1783511549; cv=none; b=ER1pbcbAXj9+ujdofyndkwrxjlsLOH7Dhr5zro2MxVJRZFBJlIZUu5wRrn4rnk6oEpKXfvluNKDXFZJ81VjmLrwxrasZLI1r6Jla+9QX+CTYO8FbSV2qabi71n7vl47hnrTsKq3IeVo3RIsL+kYDEQ6xroNbjERUBuBnSULYXug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783487129; c=relaxed/simple;
-	bh=A5EH4vrpCYxkHq9d3wTWMZ1A/AycKXK0ePR/KubP8MI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ub28io3Y4UJ1DJ+ZF9XltUuSMO3tW7y9wrNSGfCU/zU/jDaXYQBxAEEpYQp2eZ1zcHLOnj/Wq9BWyn6aCfgro2IhAj1nynhlfxqnyqCTF5DPlfyIMuCVg114np1ITLRVkUPvrIdkE8K4IYhvoSQ3uMSMtqYs9ayXUSw3Ed9Hd3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=UPi3gZEz; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783511549; c=relaxed/simple;
+	bh=oZmGZS3pzi/VQFsLhOrS9pyabhJ1VP/0yQFCPqWKZZ0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KVf03sKiLRE6XOcjfq9YfUkt19rHH5/ScHRM2Dy9eKG7VU9KC3RDxUiGho4DlBBroyYTOE5oLOTZjTdXjRpjNP4h0+ktE92alCz2INOw1OtgoGNoDWl1xax5G8amZMCLNJmGNcllfQXr+0ftDvQwUH9HRr23BhDhQSQZToP5k9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=BNj//PAA; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="UPi3gZEz"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so991255e9.1
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 07 Jul 2026 22:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783487126; x=1784091926; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2bRMxPUxBcXrhb0PApy6D/IVMbVi3E/LkCHcDJDbkO0=;
-        b=UPi3gZEzru0hWvZ0tFuWA9mb6ptHf1hFz6Po5oC5CJOTDf8gMwjoKjvG0y+KXxmNsP
-         IOonQxmLwV+RLpF1jk/FIk1JcXgBFH+D4dBE+5PpPPnM4H1267/Gp7mVDFvGKmBnMlPM
-         H7QoEMVadc6MmSBwWiIiCGW57KH5YcMnwFZOUGS9hklq96gy2XXatc8C2Hv2HCrwSY7v
-         afMk5DrcAAhT3l86EZj4X0nqzqAlzPVrUupa2KZJg2iyG9gV5+vHdcZPce6sGk5610W2
-         vPoyYrlqFAP/Oa3xHq1w65wGr3AkRiEnx/FIIo7zUEDcu9L/CAGFkyl0jCGTPiNhP6Wt
-         jhHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783487126; x=1784091926;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2bRMxPUxBcXrhb0PApy6D/IVMbVi3E/LkCHcDJDbkO0=;
-        b=olblOR8u/cdDYB1LsgeH+19NK6+6SFNgvcg9hgzxmswyFK5ZJY63Pd4BUZWAPuuQ+H
-         n5t7fNEMQtTtry/piyQBGe985sjIl9uGO6rsJPYch1WizPNsSAqfnP/dF0ORbsjlMEkH
-         XWthcumvaNrFKspngWZzo/1vTPJJwoKZokzXHm4X0A/DliART2iaTLPTWxlzyGtTofzP
-         e+fWi3r3LONtterh1CJFtODM+XZCSQMxZGJlbcPmToFl3cVZIqXV8a2q1bO5cNBB8Bon
-         4m5g0ue4gLGjaLxHuVjYIbdDIihr2FoSZK3gbxfKvH3QHjw9P8F3mRLkK1t68JQnQ6Ml
-         03gw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrf3Mtl5+U/fiOLVNACU12fuxtAyKTgJJ1lZBAoWsMIMg3ADrh1dRxwCMuEJHr6/IHjAlt8wHPAfYg3BTw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUN9zGdqSiYGN0mjcLU+fls6FBfFqyffK1QHgp6vWs1c98C2nR
-	GPZK+3ufg/kkvqteDm4sfdA8n26zMrvULBpwlusIuNEG2Tau7jRC3KacMofXMb1W7SU=
-X-Gm-Gg: AfdE7cnzeXsjvwsJ6KgLQr04+AouaJ49FvdXTW8xlIgmrF6ivrZMcd6lcdkD0OPSrqE
-	3EAbst8fVnfCkFbisK5wyAjvcLgs+9oxBUrgyyvwNJmvsotlIkFUj0MtwucoJmFyqZ78DOaQ4Bv
-	R/C0WtCsYfO0I+2MDFi/An4QnyvlQ+oNYVx7mAH+IUQ6AAFlAI72e+4zFOoFCfYo2luH69KV2gS
-	ly7SNfNSfgtQJrSO56jDM4dfTbqUvd7p3rYOudgYtujWsIovFif0CE+YfA7XpbYne0XSfMmq7h3
-	CRVALyimNDBhqOszco7rsq7ykoXfT/9xy41t6A76Mhv+yDWy77yVUxH2alNLGZOOCHTUZ68iDtI
-	JwKWECXtyHsZSvkl+zkDXSHmafPfCcIWljwW5MJysl2BjWKbRR86Xyoq+m0MkiPo+XXb8SSPBfJ
-	DR3QEwNn4RoMlcRGk5Xw==
-X-Received: by 2002:a05:600c:4fd4:b0:493:e3ea:b23f with SMTP id 5b1f17b1804b1-493e6861ac2mr6417425e9.10.1783487126073;
-        Tue, 07 Jul 2026 22:05:26 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493e0f5bc78sm131093755e9.14.2026.07.07.22.05.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 22:05:25 -0700 (PDT)
-Date: Wed, 8 Jul 2026 07:05:23 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: David Heidelberg <david@ixit.cz>, Mark Greer <mgreer@animalcreek.com>, 
-	Simon Horman <horms@kernel.org>, Tomasz Unger <tomasz.unger@yahoo.pl>, 
-	oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org
-Subject: Re: [PATCH v1 07/12] nfc: Drop __maybe_unused from of_device_id
- tables
-Message-ID: <ak3YSbzhmHi75INN@monoceros>
-References: <cover.1783091699.git.u.kleine-koenig@baylibre.com>
- <031ea0ae38838df3261f844eb13e9841769b49a7.1783091699.git.u.kleine-koenig@baylibre.com>
- <c5b1dec1-de39-4359-9cee-86cfac87b358@kernel.org>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="BNj//PAA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=LZ9Pn8dtV4Hh/0XuHWnaRHJNDJz+nFdXBLV514+izjs=; b=BNj//PAALBTxlGm/ZghjT3DAc5
+	NB8IY+mEw3vkXUpsDVZXBRMS2o8lyHjTnKSYtPE4goheVdLKaVu9YehqL6H2dcLbYJazTR8mCtCx7
+	xd8nETHo4BkkGnJeh60ymg+PINNkNlE5UIBQ6ZfUkd1i5p8+pcw8LrJTAQBOfYOsJfvA92AkOr+8r
+	fMu71OyRhjGJG3xozNFOK7LOPrKioDSvPwy7GM8ztTl7EW4WwqHMK9PCDhuyijx2jkDUdZK12OT69
+	tO1dM2IWuskSt9j8Nc3eZlEP1xy2hpJdTSJlbzYm+T6aqyuG81meQijMuyqgVZYJCv4+ewx6srrOm
+	d1JDO8Ag==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1whQp7-002ve7-00;
+	Wed, 08 Jul 2026 11:52:17 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH net-next 0/2] nfc: llcp: Move to .getsockopt_iter
+Date: Wed, 08 Jul 2026 04:51:57 -0700
+Message-Id: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="khemwuvx25deahm2"
-Content-Disposition: inline
-In-Reply-To: <c5b1dec1-de39-4359-9cee-86cfac87b358@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN05TmoC/x3MUQqDMBAFwKuE920gNa1CrlJKMfapSyEJ2SCCe
+ PdC5wBzQlmFimBOVO6ikhOCuXUG8zallVY+CAa96wc3usGubJrnby7tXbZJ6a2/L2N8MHq6iM6
+ gVC5y/M8nEptNPBpe1/UDlC6aBG0AAAA=
+X-Change-ID: 20260706-getsockopt_phase3-34f7b5eb3e0b
+To: David Heidelberg <david@ixit.cz>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3361; i=leitao@debian.org;
+ h=from:subject:message-id; bh=oZmGZS3pzi/VQFsLhOrS9pyabhJ1VP/0yQFCPqWKZZ0=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqTjnt0iqMpFju1LH927R+GsUds9Q76Lc2beDsS
+ HURDTiIXOmJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCak457QAKCRA1o5Of/Hh3
+ bT2ED/9XcJR/fndkocmXmxo9HoMcXvhV46vRonam/VpP9slEWUfstL16XrYXdCX+v52HMN/AjpF
+ EdltvZZSBKK6nrW5E1udFo0f7zwdwJH3icPRtHLf7g2CHWyI5gZ6XUavBQ2uZc1Gdyr9VuLp6FW
+ bkClnUuer2v6L7WDAp0oCby9n2f/lEEyFJICL9UHonQ213E9yI0eln5ZJ81RuESYBZqThbIt/Qz
+ CB/ACJritclalt0jdBQYd7Yq5o/4rwOW3KM+lb+g5qRD7VdPoe1y8t9gvc/TefIAD0OdPYQ5Mha
+ E10IQLp+a+5RE9heupf5w5XKJSFRiJ5L/I/TlGyFzeEvSKvyZqt2UzSnz+Rzd6UIIXeYjVXke/+
+ p6UvJ/WFPF0EPgAHSkmHz9nl1aOjUfdTAeCf3HF25GuoIzp2BYxINToHEcp0481eIQW31RqaeVQ
+ QZ70Wf4B4amd5wYwFs86BSxFUx3zzqiOrotUCAGtnakDP5SVFR0/UP2OWuE5gPotpvFjS2PJbqF
+ gynykAq5bEYR574ODEwUO8yjtuMmirEDDneqBcT318o7DmZn/mQ8p2MFsujuxy3boXjBqnxrZTA
+ KA//MJ1pC6M0K5/EUXJx2xvP5AuUDh5ICgUM3p3IExfzOYLnyXKAD7ZnaPc4lyoCUWqPINpq1lR
+ R6CW03jD0Huu/rQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
+Continue to convert the protocols to getsockopt_iter callback.
 
---khemwuvx25deahm2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 07/12] nfc: Drop __maybe_unused from of_device_id
- tables
-MIME-Version: 1.0
+Proto llcp is one of the last to be converted, and it was waiting for
+the following fixes to land first, avoiding merge conflicts.
 
-On Tue, Jul 07, 2026 at 07:28:57PM +0200, Krzysztof Kozlowski wrote:
-> On 03/07/2026 17:46, Uwe Kleine-K=F6nig (The Capable Hub) wrote:
-> > Referencing these arrays in MODULE_DEVICE_TABLE() is enough to convince
-> > the compiler that they are used even if the drivers are built-in (since
-> > 5ab23c7923a1 ("modpost: Create modalias for builtin modules"). So the
-> > __maybe_unused marking can be removed without introducing a compiler
-> > warning.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@ba=
-ylibre.com>
-> > ---
-> >  drivers/nfc/nfcmrvl/i2c.c  | 2 +-
-> >  drivers/nfc/nfcmrvl/spi.c  | 2 +-
-> >  drivers/nfc/pn533/i2c.c    | 2 +-
-> >  drivers/nfc/pn544/i2c.c    | 2 +-
-> >  drivers/nfc/s3fwrn5/i2c.c  | 2 +-
-> >  drivers/nfc/st-nci/i2c.c   | 2 +-
-> >  drivers/nfc/st-nci/spi.c   | 2 +-
-> >  drivers/nfc/st21nfca/i2c.c | 2 +-
-> >  drivers/nfc/st95hf/core.c  | 2 +-
-> >  drivers/nfc/trf7970a.c     | 2 +-
-> >  10 files changed, 10 insertions(+), 10 deletions(-)
-> >=20
-> > diff --git a/drivers/nfc/nfcmrvl/i2c.c b/drivers/nfc/nfcmrvl/i2c.c
-> > index 66877a7d03f2..687d2979b881 100644
-> > --- a/drivers/nfc/nfcmrvl/i2c.c
-> > +++ b/drivers/nfc/nfcmrvl/i2c.c
-> > @@ -245,7 +245,7 @@ static void nfcmrvl_i2c_remove(struct i2c_client *c=
-lient)
-> >  }
-> > =20
-> > =20
-> > -static const struct of_device_id of_nfcmrvl_i2c_match[] __maybe_unused=
- =3D {
-> > +static const struct of_device_id of_nfcmrvl_i2c_match[] =3D {
-> >  	{ .compatible =3D "marvell,nfc-i2c", },
-> >  	{},
->=20
-> This (and probably others) should re-introduce warnings on !MODULE and
-> !OF builds (and other cases).
+ * commit 000fb5bc757a ("nfc: llcp: read llcp_sock->local under the
+   socket lock in getsockopt")
+ * commit 81e676dec04f4 ("nfc: llcp: avoid userspace overflow on invalid
+   optlen")
 
-With an x86_64 allnoconfig and just the things enabled to make this
-driver build (i.e. I2C and a few NFC related switches, but neither OF
-nor MODULES) the driver builds fine even with W=3D1. If I drop
-MODULE_DEVICE_TABLE() the warning appears. So unless proven otherwise I
-claim the commit log and the patch are correct.
+Now that they have landed, let's move llcp to .getsockopt_iter callback
 
-Best regards
-Uwe
+Regarding the whole project migration, this is where we are:
 
---khemwuvx25deahm2
-Content-Type: application/pgp-signature; name="signature.asc"
+Missing proto_ops migration (as of net-next)
 
------BEGIN PGP SIGNATURE-----
+net/can/isotp.c:1707                          isotp_ops                  (.getsockopt = isotp_getsockopt)  [1]
+net/can/j1939/socket.c:1375                   j1939_ops                  (.getsockopt = j1939_sk_getsockopt) [1]
+net/ieee802154/socket.c:410                   ieee802154_raw_ops         (.getsockopt = sock_common_getsockopt)
+net/ieee802154/socket.c:972                   ieee802154_dgram_ops       (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1060                       inet_stream_ops            (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1096                       inet_dgram_ops             (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1128                       inet_sockraw_ops           (.getsockopt = sock_common_getsockopt)
+net/ipv6/af_inet6.c:660                       inet6_stream_ops           (.getsockopt = sock_common_getsockopt)
+net/ipv6/af_inet6.c:696                       inet6_dgram_ops            (.getsockopt = sock_common_getsockopt)
+net/ipv6/raw.c:1276                           inet6_sockraw_ops          (.getsockopt = sock_common_getsockopt)
+net/l2tp/l2tp_ip.c:628                        l2tp_ip_ops                (.getsockopt = sock_common_getsockopt)
+net/l2tp/l2tp_ip6.c:757                       l2tp_ip6_ops               (.getsockopt = sock_common_getsockopt)
+net/mptcp/protocol.c:4567                     mptcp_stream_ops           (.getsockopt = sock_common_getsockopt)
+net/mptcp/protocol.c:4676                     mptcp_v6_stream_ops        (.getsockopt = sock_common_getsockopt)
+net/phonet/socket.c:451                       phonet_stream_ops          (.getsockopt = sock_common_getsockopt)
+net/sctp/ipv6.c:1043                          inet6_seqpacket_ops        (.getsockopt = sock_common_getsockopt)
+net/sctp/protocol.c:1106                      inet_seqpacket_ops         (.getsockopt = sock_common_getsockopt)
+net/smc/af_smc.c:3330                         smc_sock_ops               (.getsockopt = smc_getsockopt)
+net/smc/smc_inet.c:33                         smc_inet_stream_ops        (.getsockopt = smc_getsockopt)
+net/smc/smc_inet.c:80                         smc_inet6_stream_ops       (.getsockopt = smc_getsockopt)
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpN2pEACgkQj4D7WH0S
-/k6Lzwf8DSkcD2KNkgrjPQ9dJBBjqHuxUaPDXFNacjjVAgwT6Pwfd+C7HF0KG1bs
-BqtoTI9+PXKyjz2yPy6tJFV8pq6GqGUAaDrtvBxhkUd9h4nK3BFWFlO7Z1HyiTgs
-syyZLelwtqqHOw74m5y5p2LDyRQj4VwwaFs1HxReBCEuCuVanb28I1/wONclUzMB
-+3lIl+0yVrDpvO3PknOzLV5gQo39ZyjaJr61mUr/ef2o5QxGvNE1MI1H/qaseYKI
-P0F0uWcnw/aUZxb2XL9+g8DFcSWUsBfx/zqKCivAMmnkgiyGS0GkzEE99yJ5sged
-CfYwRmwSUEwwsfH+5kQUm0TAa7CkaQ==
-=Jkjp
------END PGP SIGNATURE-----
+Link: https://lore.kernel.org/all/20260507-getsock_two_can-v1-0-3c2ae9edfadc@debian.org/ [1]
 
---khemwuvx25deahm2--
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (2):
+      nfc: llcp: widen getsockopt value locals to u32
+      nfc: llcp: convert to getsockopt_iter
+
+ net/nfc/llcp_sock.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+---
+base-commit: 5c73cd9f0819c1c44e373e3dabb68318b1de1a12
+change-id: 20260706-getsockopt_phase3-34f7b5eb3e0b
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
