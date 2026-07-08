@@ -1,188 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B7E279DB1;
-	Wed,  8 Jul 2026 13:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783517315; cv=none; b=oHtcHa4fixPSKCM3A61MkrGAghoVX+3NBYy/9EUA7JiOk/jksuT9V3utla/bpLb9lvKPceIdhnybgoOGi1F+YqfDi6LGOuFaxfd+NdaneDs8YoT7032hq8kjlVzpRs4gAPuermEb3EiiDf/T3HzUck5SMuf9kg0r5H/I+Oj4Eb0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783517315; c=relaxed/simple;
-	bh=VlodVEQ6+GftqGSGNgImGJIJgM9xsfht7v9YA5Qk5k4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jXf+SBd8ChxqdQnS+dcMyE1MUGt2/EiubOUT+8VDvesSKcsWfkNohTg9+fCKajlja2Nq1cDvzFw53f1gOAZCa/seRo7klYTeoc5cJtwyjXy0mqBxGczmKaI4e1TOwyaZXzg/MSmeKZAitjVp2JhjKsMr4HZezblNArhqlZQCeP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaubQALa; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69212439336
+	for <oe-linux-nfc@lists.linux.dev>; Wed,  8 Jul 2026 15:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783523446; cv=pass; b=okTNpSQlb9PSMkoHaM7jsnRBPsadTrApqTh0Usq3seRLQb/bYqvg2PsEABS9XmdyGPcisZMrohxsDcAGS0r24XglAvJB/XhM8UCbPli3p7a8e8W06mhJtCw+KRuOQ9qYyp//DM/idkEGKNAHpIA48URl3fys1YXAKBdB0L9ceQo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783523446; c=relaxed/simple;
+	bh=DKA/jc8TJnNKFhGaT1WcKh6dc6W1wcKepNEU0ujgJbY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YcM3Cr7Rl8WL8sza3diMt+uEZ9Vm+Lvsr+CtSEEOUPuPXDXuV68VNgB8pMi/Z36b4KdnKb5x5Mvk10eMOPoYylZORZ8vXlRAPcAlste/GG8h8r78lzRwC8Tm7MV+uTFDBrN5fs5zXmyeMv/voh2zi9ltaV1HYl8TMbQCXekzWh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LUYSDzQ2; arc=pass smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaubQALa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDECC1F00A3A;
-	Wed,  8 Jul 2026 13:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783517312;
-	bh=3Bx4681CKO0D9gdlCFKTpw12ogc4wsugK3EjcSTcZF4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TaubQALaKUDIjGIkVYRAFJZXvP9LEoIT2ZGuPNqQeaoI8Kyb1JAgV56D0v39wWzCb
-	 LbifiX/ONMNNpezsb5fmhjf3pc8yMzzfqa8/RrK/NNfKpVP86nodHT/uOile/jT39u
-	 2GqeCK1JwYGTFwxK/+lCc0p7A1cRZvwJw30WNqcsAzkB+CPmdhk7WciRWdlzX90jbQ
-	 I4AIOUC/abiBELWNu9awiNsVZdZmtRqFdaFeOhVCYAZVZBo4Pqz51BoueyItCoSSnl
-	 ekbjckR0pExODLSltqfj3sSh7Y5inr3jj6e2JtUOXQKbe+hRXS7kJBMwnUHyhwG9Qe
-	 /Rh8vW22LMkPA==
-From: Simon Horman <horms@kernel.org>
-To: sanghyun.park.cnu@gmail.com
-Cc: Simon Horman <horms@kernel.org>,
-	david+nfc@ixit.cz,
-	krzk@kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	ian.ray@gehealthcare.com,
-	joe@dama.to,
-	kuniyu@google.com,
-	kees@kernel.org,
-	ashutoshdesai993@gmail.com,
-	vadim.fedorenko@linux.dev,
-	deepak.sharma.472935@gmail.com,
-	michael.thalmeier@hale.at,
-	christophe.ricard@gmail.com,
-	sameo@linux.intel.com,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3] nfc: nci: Fix conn_info use-after-free
-Date: Wed,  8 Jul 2026 14:28:07 +0100
-Message-ID: <20260708132806.1485690-2-horms@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260630071717.3618185-2-sanghyun.park.cnu@gmail.com>
-References: <20260630071717.3618185-2-sanghyun.park.cnu@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LUYSDzQ2"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so453321e87.0
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 08 Jul 2026 08:10:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783523440; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Y4P3QQHTWHjlbfQrz9ogKTRaX9H1dRU4x/KB7GIhDhabLsFLqtevoZKUPn786hsXJL
+         +XZxV2ZtNEOSDZ/C6hnjUqsUSDh2LFV8Ya7BPK7rVMK1E3nPsKO5mj7X7I4P8Km3gZRb
+         F6C8tP6zXNaO4GDUHyvcca5f4JaRpn5IWOErhPlN91MrRtw2s/G2F9AqUmnKldUeaNSy
+         sZuYEl76OqAYwXdXDeqSkFLbuOBLxEarwnqVLXUkCYaWa4FkQAoB15UusbnS8MUa0arc
+         qM+aQObyZ3WUFhQn9K5tDaj3LlrtjcIHAZSVaWpERkrVJOo+4XOwgP94EMEfc+TAbnKB
+         Oa1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A2hykAy9k8TdWvhrQ5IqAWizxEj+ACK7cu0kIr7bqOo=;
+        fh=P1EAX8kWRvsqUCLQzjdR3MQYmQFVru5L4zJOoUJtlII=;
+        b=d3OUvWx9Cp4Yci9xuI6ds7JncJ8GWmJH8/a4sLrysrMqB4Q2IrlWxfTIFGSi4SnbKz
+         n56VaEs0zdcrB59G1wSz6tUOw5POwT2onrcFu5lRV4kQe7St+ZPD/iWJLjMNwfL1g3v5
+         EIHnvKJSBr93JYpOXACXe2ohOVtQICSr02RRxZ4+RMlQ6dqfYFi+iBRsVUe8ZGsQEX1z
+         1P7PFqbl6ZEUEAeJkpiRKARBWQ56nJUOVCyyspM7sfWZyAwLizzd4mZpcnLQfEa5CSXQ
+         d5IKfX9j88h1XUankaPJsGW8u9H4WoP08KTAEywgFo3evjJOq4NBGL4JcK7sHeFC6xvO
+         uv/A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783523440; x=1784128240; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=A2hykAy9k8TdWvhrQ5IqAWizxEj+ACK7cu0kIr7bqOo=;
+        b=LUYSDzQ2RvHitHhtgKS2rO/BLmaEVcDhJ37Zkggmi+IsPxc+kvWs8WQfDHflmjmpXn
+         LMLzGyZ9SrmHP4gqTj0tjSD/VrD/PE2rugvYvQ0pXrk9SeXVE3+mOL/1gflBActekTi1
+         9wT0E0IMRsaVv+axEdOKz3YeVuhItw/oX4gCpStIsCFaiYjBAuF99wljI008dFHx6Ya2
+         NPdoBxQdNveuCGg2VRj3ma02Ck1hU+W37rZdF0rNVLepQOkujKST95kQFZVo/2a2qFX4
+         p9DXc14RhRldzpSXwI0XthON1S3ACrsNmUFbBEo9Jdx5Byz087VPrEIS8AYRzProeU5p
+         Djpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783523440; x=1784128240;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=A2hykAy9k8TdWvhrQ5IqAWizxEj+ACK7cu0kIr7bqOo=;
+        b=P/54vLJHCH8aRq6UMqbVWYv2c+YTmi79Q8Q/hpU+EiVC0sr5REIWRXwDt06ZuYr1Vh
+         yrJ6XgXaLBM9rcyYWVX5Lz6rK7GNQLvaD5Sst0oNcnoWmJXKQMhxlm6+q9uiNu5sL7WF
+         J+I7gICHdWt/bMTpwuoEq97vGwuOefIvCcZ8FXmuq8F9AUUccbJq/ivLE25KcB7BLfJW
+         KBmUU7vOe4GT/JG6wrj0BlJUFvg+lrcjNgqL3pGN3R7e5pCa9fiZRqhSpC9sJOaHm69s
+         cVnSKCGHFvPk2naxMhBHrIepa/TfHUHOviLjycCRQeFVxBOI718bmwNI/fj+aSicF9lV
+         wUhg==
+X-Forwarded-Encrypted: i=1; AHgh+Rprki3o7VGi33r3jgghcAk3VzGBffLo46RqfQ1spnyMo4DYZv8HVKsCl59T550Sb0/5G8EtSuOuUmjX1CU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnHtXR1YiHEEPrN3zcI0It819kNd34LbO9WY22s+xjIFhVGd0e
+	sun0S0V76hz9FQKCib8+NnLFHlsK4RmElXi7rELFvCsQ8U5NWUP2ezIkcFBqDTBt5wLDk+NeMxB
+	QNpBLnXJiavrq8BVi0mNK0HIaf616hFc=
+X-Gm-Gg: AfdE7clz6vO/6KFwEswjuTtYBWDLwsrSw5fyDsE84XG6dGsVV2Sljeqy0JYHPwvyfna
+	tm4AemFQ1iRcAFvq3A86kJ6iWMEo/hAvFvkJhghFKOud50pjR4yhaPdNjZ03NtzJ7HcIqss2Dt5
+	KjSDe2HTmP0JgqebOmzwh9Dfn4BjH8WnOsesvF6Za3mzx/N74JBKp+Q4Dc238jEhhkiLivV9xLQ
+	9RvnX/XX9eCYbiNPDn9ASHjOtOYf5Bk0sWwxHVmlB0sPhduKMm6Wwc0RA60m5gP3wEPomohWt9J
+	uUeeRfXvB7u/ct8w5GVsD/Qu4w8uZxubpP2p9qav1p+AbEjDW17UuZDP
+X-Received: by 2002:a05:6512:a81:b0:5ae:b5d7:4b99 with SMTP id
+ 2adb3069b0e04-5b00ac2fd7cmr1762971e87.0.1783523439797; Wed, 08 Jul 2026
+ 08:10:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260628210026.129941-1-meatuni001@gmail.com> <20260708130534.GA1481798@horms.kernel.org>
+In-Reply-To: <20260708130534.GA1481798@horms.kernel.org>
+From: Muhammad Bilal <meatuni001@gmail.com>
+Date: Wed, 8 Jul 2026 20:10:28 +0500
+X-Gm-Features: AVVi8CeK_I9fS8d5VbnhtSRSfLVJmMl2Kt_hq3MN2NnmVxurt42eg_sUf8N-xeY
+Message-ID: <CADqcGBkXtDGMsQ6XWYeUyuS6qL8DCHeTNxzbH3s=22vuvBfZaw@mail.gmail.com>
+Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds read in activation
+ parameter parsing
+To: Simon Horman <horms@kernel.org>
+Cc: David Heidelberg <david@ixit.cz>, netdev@vger.kernel.org, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, oe-linux-nfc@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://sashiko.dev
----
-nfc: nci: Fix conn_info use-after-free
+Hi Simon,
 
-This commit fixes a use-after-free in nci_tx_work() by introducing a dedicated
-spinlock (conn_info_lock) to protect the conn_info_list and conn_info aliases
-during lookup, insertion, and removal.
+Thanks for the review and the Reviewed-by.
 
-> diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
-> --- a/net/nfc/nci/core.c
-> +++ b/net/nfc/nci/core.c
-> @@ -1333,11 +1367,16 @@ void nci_unregister_device(struct nci_dev *ndev)
->  	destroy_workqueue(ndev->rx_wq);
->  	destroy_workqueue(ndev->tx_wq);
->  
-> +	spin_lock_bh(&ndev->conn_info_lock);
->  	list_for_each_entry_safe(conn_info, n, &ndev->conn_info_list, list) {
->  		list_del(&conn_info->list);
-> +		if (conn_info == ndev->rf_conn_info)
-> +			ndev->rf_conn_info = NULL;
-> +		if (conn_info == ndev->hci_dev->conn_info)
-> +			ndev->hci_dev->conn_info = NULL;
+One of the issues raised by the AI review (the NFC-DEP general bytes
+handling in nci_store_general_bytes_nfc_dep()) is already addressed by
+a separate follow-up patch:
 
-[Severity: Critical]
-Can this cause a NULL pointer dereference for devices without HCI support?
+Link: https://lore.kernel.org/all/20260628214929.135152-1-meatuni001@gmail.=
+com/
 
-For NCI devices without HCI support (like nfcmrvl or s3fwrn5), ndev->hci_dev
-is NULL. Because all NCI devices add at least the static RF connection to
-conn_info_list during discovery, this loop will always execute.
+The remaining AI-raised points are independent of this fix and can be
+investigated separately if they prove to be valid.
 
-Evaluating conn_info == ndev->hci_dev->conn_info will crash when
-ndev->hci_dev is NULL.
-
-Should this check ndev->hci_dev before accessing its conn_info field? The
-same issue appears in nci_core_conn_close_rsp_packet() in net/nfc/nci/rsp.c.
-
-> diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-> --- a/net/nfc/nci/data.c
-> +++ b/net/nfc/nci/data.c
-> @@ -171,40 +174,47 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
-[ ... ]
-> +	spin_lock_bh(&ndev->conn_info_lock);
->  	ndev->cur_conn_id = conn_id;
-> -	queue_work(ndev->tx_wq, &ndev->tx_work);
-
-[Severity: High]
-This is a pre-existing issue, but does ndev->cur_conn_id suffer from
-concurrent overwrites?
-
-If a logical connection is being closed, nci_core_conn_close() sets
-ndev->cur_conn_id and waits for the response.
-
-If nci_send_data() is called concurrently, it overwrites ndev->cur_conn_id
-without holding req_lock.
-
-When the close response arrives, nci_core_conn_close_rsp_packet() will free
-the conn_info for the actively transmitting connection instead of the closed
-one. Does cur_conn_id need better protection or a different tracking
-mechanism?
-
-> @@ -282,11 +292,15 @@ void nci_rx_data_packet(struct nci_dev *ndev, struct sk_buff *skb)
-[ ... ]
->  	/* strip the nci data header */
->  	skb_pull(skb, NCI_DATA_HDR_SIZE);
-
-[Severity: High]
-This is a pre-existing issue, but can this lead to an out-of-bounds read
-if the packet is empty?
-
-If a target sends an empty packet (skb->len == 0), the skb_pull() just above
-fails gracefully leaving skb->len at 0.
-
-Then in nci_rx_data_packet(), the code accesses skb->data[skb->len - 1] to
-read the status byte, reading out-of-bounds memory.
-
-Does this need an skb->len > 0 check before accessing the status byte?
-
-> diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
-> --- a/net/nfc/nci/hci.c
-> +++ b/net/nfc/nci/hci.c
-> @@ -599,10 +632,20 @@ int nci_hci_set_param(struct nci_dev *ndev, u8 gate, u8 idx,
-[ ... ]
-> +		message = (struct nci_hcp_message *)rx_skb->data;
->  		r = nci_hci_result_to_errno(
->  			NCI_HCP_MSG_GET_CMD(message->header));
-> -		skb_pull(conn_info->rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
-> +		skb_pull(rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
-> +		spin_unlock_bh(&ndev->conn_info_lock);
->  	}
-
-[Severity: High]
-This is a pre-existing issue, but does this leak the response skb?
-
-After pulling the header to check the result, nci_hci_set_param() returns
-without consuming the skb or calling kfree_skb().
-
-The buffer remains in conn_info->rx_skb, and the next time an HCI response
-is received, nci_hci_resp_received() unconditionally overwrites the pointer,
-permanently leaking the memory.
-
-Should the skb be freed if it's not being passed back to the caller?
-
-> diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-> --- a/net/nfc/nci/rsp.c
-> +++ b/net/nfc/nci/rsp.c
-> @@ -298,20 +313,20 @@ static void nci_core_conn_create_rsp_packet(struct nci_dev *ndev,
->  		conn_info->dest_params->id = ndev->cur_params.id;
->  		conn_info->dest_params->protocol = ndev->cur_params.protocol;
->  		conn_info->conn_id = rsp->conn_id;
-> +		conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
-> +		atomic_set(&conn_info->credits_cnt, rsp->credits_cnt);
-
-[Severity: High]
-This is a pre-existing issue, but does this properly validate the length
-of the response packet?
-
-The skb->data is cast to struct nci_core_conn_create_rsp, but if the
-hardware sends a truncated response (e.g., just the status byte), the code
-blindly accesses the connection parameters and credit count from
-uninitialized adjacent memory.
-
-Does this need an skb->len check before parsing the structure?
+On Wed, Jul 8, 2026 at 6:07=E2=80=AFPM Simon Horman <horms@kernel.org> wrot=
+e:
+>
+> On Mon, Jun 29, 2026 at 02:00:26AM +0500, Muhammad Bilal wrote:
+> > nci_extract_activation_params_iso_dep() and
+> > nci_extract_activation_params_nfc_dep() receive a pointer into the
+> > RF_INTF_ACTIVATED_NTF notification but are not told how many bytes
+> > remain.  Each reads a one-byte length field (rats_res_len,
+> > attrib_res_len, atr_res_len or atr_req_len) and then memcpy()s that man=
+y
+> > bytes from the packet.  The length is clamped to the destination size,
+> > but it is never checked against the remaining activation-parameter data=
+,
+> > so a notification whose length field is larger than the data present
+> > reads past the end of the buffer.
+> >
+> > The sibling nci_extract_rf_params_*() helpers were recently given a
+> > data_len argument and matching remaining-length checks, but the
+> > activation-parameter helpers were not updated.
+> >
+> > Pass the remaining length down and validate each field against it befor=
+e
+> > copying, as the rf_params helpers do.
+> >
+> > Fixes: ac2068384034 ("NFC: Parse NCI NFC-DEP activation params")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+>
+> Reviewed-by: Simon Horman <horms@kernel.org>
+>
+> FTR, there is an AI-=3Dgenerated review of this patch on sashiko.dev.
+> However, I think that the issues raised there can be treated
+> as possible follow-up rather than impeding the progress of this patch.
