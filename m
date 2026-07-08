@@ -1,114 +1,77 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C30436344;
-	Wed,  8 Jul 2026 11:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB739213254;
+	Wed,  8 Jul 2026 13:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783511551; cv=none; b=hi3rQNsR9VX2FIJ3M0SI2RqIpMmTmOZBT+AhTOiLw2Dp4zOVWCnUAMmuurDPR2AFqjIcG+HKgS7bcQNbXtKoUYdTe8vBP+tMwkcNb14GdczzhqfK2qT4EYCd+hSWanVL8peOoI1CkPp8vW7NIje6dmrABKUgh3eGodN5eDXw8C4=
+	t=1783516077; cv=none; b=SEK42fLxPpF4bnLVL98JQKdIplX6Gz3bMe/kzNLuRrHDScJDIyTcCc1oudOONziWauSeZT5ohBQ40egysteOkBWrQddSNT7TBPNBGGg8jqO9GrazJUi3XuGpOpd7cAkYgSvrgzXe1xnoXB2v+OlHxsQFB5CjiPeag53WeZL98ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783511551; c=relaxed/simple;
-	bh=1lyS9Nx33n+ZSOi2YYjJExVJzisWva/KLKQ3f/M0gIo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ggT9OZvN0VztJKgssRcGYtET4gf9xgcBVY3jxFKQRyEwFLG8U09wkCJuh/R5lDATHRxwtZ4YqNDv4JeMs+RYxSV1DjHWeVlf3cITaV7dBImDa8VpGtcWsbwE3FEuIbDe60ytRMW+vKNz2JDst80yNrpldN9FMqTOzdV68Bp1VAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=SHXb7tjA; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1783516077; c=relaxed/simple;
+	bh=68S989PONmhv7+eqxY9lQaNx5Y4o6WwzG4wnhKkqZlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LnTu7aFd2j54Z0BLF+Q1iyanJlD17gy74tyl/QMHPxuUEIAxJmT6nk8kHHeK2vCQ6+8ZcAzhLAxfajmb0KLgCKXaEorA5IVzqMFQw1md3bDEo6zU/6ABKHG30hCQFqdcT2Zuz8Dby+2SDW5uKGxiejdNcmca2VYBpuTDZVqbgvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2jit3P9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="SHXb7tjA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=Mr2f81EJjHFA6kBs7MfF1UgCCOQVfR0N9htuSbb4qmM=; b=SHXb7tjAHbNrTPFDiZaHw40WF6
-	U3N0CaiRhHSPluXxjUAtYRkCM1ZceYfAI9bpZIs9Rt6KT1+jYuQWX0DlzzUa+bhGNea5+59QcuIsS
-	SQPY/mwfmW86BAjhAdWo+2uqBwLsFaOQMt4VWbINarEPN73Oj9lj8TQv7cqkNL4+Q5TjG/pFxLwLf
-	tJbCD6ysbgUi0uYp+DvoLuTWG4ejH0yR2IAcmYkedzcMl5ax8uP8gfojO2uXUnPL6T+XUGEAg7NCN
-	xmixMDmNBL4oIpbpufZvZtpL4f7j255wQ5YJfK+92qwbnR98JqNSELWEaPpodaZaePjzBPYlnTkOY
-	ldGESgcA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1whQpB-002veA-1b;
-	Wed, 08 Jul 2026 11:52:21 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 08 Jul 2026 04:51:58 -0700
-Subject: [PATCH net-next 1/2] nfc: llcp: widen getsockopt value locals to
- u32
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2jit3P9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56C11F000E9;
+	Wed,  8 Jul 2026 13:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783516076;
+	bh=Hd9z8VELC8Q9jRxuWHqe0GJM5+T9P0twkrs5m0ntfM4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b2jit3P9I90j0FZjTmExlp1xbmH1GSvS4sU8IR3MyVc5sSpljbnNNdxGqkxsK2C3L
+	 mmYeQcbz4811i4MpBns2qIcDzmt9GY+4F/qGKEsnth8bJVmZmIv5WEKSMvsQUm/pQM
+	 NO2tCBRiZn0uM881e2uvqCJHEWrnO5D/LI6E1LdqS/AooESId9VYxZ8wbpk9zUpMWU
+	 lm0hR7ekV4iUpI/DpMsN629BQUCuTyQfrFxrOzIlGoL4QPaVjaoUXam5hAkIom7RVK
+	 QhaS3ubPY4NCh+harlsLa6KhQELB2Bb3QucvWb+CkBPivRb0Z/fnrNq2Y3kwH5rt0E
+	 RsIdGMCRFtPAQ==
+Date: Wed, 8 Jul 2026 14:07:20 +0100
+From: Simon Horman <horms@kernel.org>
+To: Muhammad Bilal <meatuni001@gmail.com>
+Cc: David Heidelberg <david@ixit.cz>, netdev@vger.kernel.org,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds read in activation
+ parameter parsing
+Message-ID: <20260708130534.GA1481798@horms.kernel.org>
+References: <20260628210026.129941-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-getsockopt_phase3-v1-1-d8394f2fc554@debian.org>
-References: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
-In-Reply-To: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
-To: David Heidelberg <david@ixit.cz>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1214; i=leitao@debian.org;
- h=from:subject:message-id; bh=1lyS9Nx33n+ZSOi2YYjJExVJzisWva/KLKQ3f/M0gIo=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqTjnt89fGuUmtkpkr7URXrs6PzlHgBDr57qwJf
- YUTthISjRaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCak457QAKCRA1o5Of/Hh3
- bXAiD/9i7IsUtBlitclR8zay5jtrdzzq7Y95/+VmDY/zENaLls9ZRgSUGqMRECoqQx6HrhJ2SpT
- 22OEShg6oJ777sAypCx0pENNm/L8RsVoZf3zI5olIOhuho8MtAn0vt0pdP7fNPGp6DjsesffSy5
- Gq6gcW/84lhOkDPryfNv2Z47DTIya8W3ecK2UG2YbuX1YiEW7CtXAp9g6Q42/9wQmwavzEa+/UL
- vcFNAoHKy5e3c8LLsLMet4BYAH/cw04vWiCfr/dU7qeM/3FJac15qN2K9+6gGRn60acnJqg2u85
- Hjxp/7H9LgmwT/xNPnNTMZ7JIeS3efajowBVsCF7mdEDhT8hUgAXuh8zdkkNpWC5eA9gf97OoDx
- hW06F76OTuyYSuDOl0MAAundvDnLxgc39Mf7f0prqKFzMg4Q2BqrmaXCNq+Aa7AiAfha2rKBp2f
- tfLP5OI8HOxkYkLKraghQk+ii9r0Ipln90Nv9oOtceF/l76RCfVfl6J1l2akVL0fX9v5396g5xF
- IIokDOb41noa/961BKD330FvRO1u5PU5/8cOjM/W1S71A9T/hG/UBkktesbAuk8Dc8ZvBcU5zWB
- 7nRWC2txBp3aVglS1YhN/+IFfaZOojniQqV4wUk6h2IeEuu0vz/MxjYUZZBAgfAiF09VJ+OHrhp
- WHFZqBTwZ7bLekg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260628210026.129941-1-meatuni001@gmail.com>
 
-nfc_llcp_getsockopt() returns each option as a u32 (written through a
-(u32 __user *) cast), but the temporary variables are smaller than that,
-and they are promoted at write side, example:
+On Mon, Jun 29, 2026 at 02:00:26AM +0500, Muhammad Bilal wrote:
+> nci_extract_activation_params_iso_dep() and
+> nci_extract_activation_params_nfc_dep() receive a pointer into the
+> RF_INTF_ACTIVATED_NTF notification but are not told how many bytes
+> remain.  Each reads a one-byte length field (rats_res_len,
+> attrib_res_len, atr_res_len or atr_req_len) and then memcpy()s that many
+> bytes from the packet.  The length is clamped to the destination size,
+> but it is never checked against the remaining activation-parameter data,
+> so a notification whose length field is larger than the data present
+> reads past the end of the buffer.
+> 
+> The sibling nci_extract_rf_params_*() helpers were recently given a
+> data_len argument and matching remaining-length checks, but the
+> activation-parameter helpers were not updated.
+> 
+> Pass the remaining length down and validate each field against it before
+> copying, as the rf_params helpers do.
+> 
+> Fixes: ac2068384034 ("NFC: Parse NCI NFC-DEP activation params")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 
-  u8 rw;
-  put_user(rw, (u32 __user *) optval)
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-That is fine, but I want to widen the rw/miux/remote_miu locals from
-u8/u16 to u32 so the following getsockopt_iter conversion can pass their
-address to copy_to_iter(), which expects an object of the exact width.
-
-No functional change.
-
-PS: I am sending this as a separated patch to make sure this conversion
-explictly reviewable.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- net/nfc/llcp_sock.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 5558d8a4d48b3..94850fbe3620d 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -308,8 +308,7 @@ static int nfc_llcp_getsockopt(struct socket *sock, int level, int optname,
- 	struct sock *sk = sock->sk;
- 	struct nfc_llcp_sock *llcp_sock = nfc_llcp_sock(sk);
- 	int len, err = 0;
--	u16 miux, remote_miu;
--	u8 rw;
-+	u32 miux, remote_miu, rw;
- 
- 	pr_debug("%p optname %d\n", sk, optname);
- 
-
--- 
-2.53.0-Meta
-
+FTR, there is an AI-=generated review of this patch on sashiko.dev.
+However, I think that the issues raised there can be treated
+as possible follow-up rather than impeding the progress of this patch.
