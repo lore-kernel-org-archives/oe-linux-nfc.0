@@ -1,75 +1,53 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440242472AF
-	for <oe-linux-nfc@lists.linux.dev>; Thu,  9 Jul 2026 13:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206EF3AFCEF
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 10 Jul 2026 06:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783602755; cv=none; b=KUqg5RZsG93FSu1laMszpFk+B5tZ8MJOpu6axUDieA3Dv6pKZaU2J4P2KWsZFEsCn16u2WucG8TF2HviS8WHLV6PstI8xkx0eChyL+rpmOiowJLI07MPA5csyYka904cbQUtqQeUYaGfwkCDPnPJS+LUWjf7oMTs9pobV6budsk=
+	t=1783663991; cv=none; b=HsNgD6Fb4CPx9UxLy278KyMiPu6F/qzxXopf68NCBMjXV0E6UOh/OPbEWqaB2rXOCgzV+knfs4Csy6YFeYrlg0HlUIFMNoKUNkh8vrWcYMWqaTaLjwp58wzN1UCuFgucXLRqRHNpNqHyY+Q3dtsJRLYVK0b4CuNwJuV5shNzQpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783602755; c=relaxed/simple;
-	bh=iAyyFv/AQxA40DSCOj6cGXn3go3IfDOrY7GY4Sy9UyA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XPUpT8+2qgOq3dQ/LzGuc0daD9kijNOnXy4uXiTwZWZQ8YFsQp8bnIPcsYqpYOEXKBKYxYZJpT5ZHqOxtG6CB6piYLIRup57oFHkIhD2+HiOxdzSRQifQqNNJ5R9DAp5iHkVZUX6Qtn6dcdphIUbEVvyTCldKw/Ba+1QaYjOLbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=sMPfI1dH; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="sMPfI1dH"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47dedd17e12so170097f8f.2
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 09 Jul 2026 06:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1783602752; x=1784207552; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H9Bxn/o6bHrATO0mn2uaPiWaqZWNuvOxb6ptBdz4eyg=;
-        b=sMPfI1dHZ9lMK6ZZgi+VLQXft+jDol0/bUikEUFXe6X5ITEsnDZ4oUCdn++3XBJxGg
-         E4dq8YxJ4a8xNEEjEA0N5NcfhAtUTH0TiePMpeO7z0ypUek1FZrTyvty3NLuzu6W+hou
-         E7DMXX5EL/+VAjCc/psVV4lcCC0yhc5BZK7F46ZQfTd7GsGmJbScwPzRyn0NjSgOgQxo
-         BsRhZNnI2Wx7uxQSDcjgcEffmYBPI6JlSYhWlVRDVqinmn/EUNnYTjGpligx+lgLBg9X
-         bGybEZTP/5ntQyl+43tsEDA2yikYRNkxV+h4I3cdLLjUjqmMW8wJXbxhibHRqcH9yWkb
-         TlKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783602752; x=1784207552;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=H9Bxn/o6bHrATO0mn2uaPiWaqZWNuvOxb6ptBdz4eyg=;
-        b=DiZ+NSAuEZLD9PcsllHZGuoHko56KaWQKxTLsF9sMY5rUdBy3Z5JQpZkmeaQACgs4D
-         yehmHCAkLCCPsbwSKtrSqIAtvCMgqNjfHGKq6O5SwA90zIOyT4RDjhlFttDeP7lsLS3r
-         8+PGe2/V3sSZzKe42smstI4EF5cWD2lL2qU+97g7lNfGmwJ1hblikR6QJZd3fsvppBIU
-         tfW/e6Q484+Oe5GR1XV71ccyh8eobU8u/EgwGX4MKC2O/A1oMXz/gZ9SFnGf5/kLz/vz
-         jaD2f7KoG5TXcRkRqQEB4scMBsEv9xdncnM0KOmg1Zk3SXmiRva897K1aUo/DAMtOEU2
-         DGZQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+uedPUEsLsxI0N4c/yL2islL1WGRbkoqYUoRFAfA2dXGpVt/cM74Y4YjqQxy0W7ttCV8m+Rkjkhb0oQw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YydaJVZ3go5ewbuEIH9bftJi1EEX6upWw2DI1ArOASBmY1xDEeR
-	uu/7oIi89BkBrJIX+EOaiX4S2yi+BkYVFBYoR6NLcv7LuIE3iKaW8lU6MF6jLQ9IPhh6
-X-Gm-Gg: AfdE7cmyJ8STR1fg9eehRu17eDusimhIKG6odrpCOe6i3wUwoVPbZ67CrODpOzBEupa
-	y622uVRjCQthC1NW65zH3w0ZW/aPGVZ3gu4mnZYCEC0RybGuHYmmkZfvkPG/iBf4iuf/mvDZc4Y
-	rQGDBycNIr7Kl/LVqLk0ugOcVQf7zQ95gY3UwlLxxoCdXc82gIIzRAzDCd/Y5QlVyd/PnfVw+ej
-	7w0ufF0Zlyz/9V9m4jr6UhBJqmUZ+O3RIVzVC9HsReE4zFcikHZs0PjwT1VygBbyAZQ9bbVLrwD
-	fvXs1HFU8mSZTSrrg6ztggnDSBrJrwwlminrYHGox91uy5RjdkyFQibkto8BhqlDYP6wh1Y4fqX
-	z/VtRzC2Z3A4eP1VITz6GcGAjdT/6VtzWvgkJRhzNemtJ5kCX95cfm3LxwmFXQfxEYRqdww7WzB
-	oRyca92IT7ScBc/uhasCBkGEhowMiD1zb97m2z/DU6BlRWW69+zOsJeETmREETjBxHu6i8yWrOP
-	amgUmMEcv3HGLIOwu8SUq6m27L/HHGDzfs=
-X-Received: by 2002:a05:6000:290b:b0:476:e67a:dfa7 with SMTP id ffacd0b85a97d-47df073b100mr7611503f8f.7.1783602751497;
-        Thu, 09 Jul 2026 06:12:31 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d6da9sm50439168f8f.12.2026.07.09.06.12.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 09 Jul 2026 06:12:31 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: david@ixit.cz,
-	oe-linux-nfc@lists.linux.dev
-Cc: horms@kernel.org,
-	david.laight.linux@gmail.com,
+	s=arc-20240116; t=1783663991; c=relaxed/simple;
+	bh=s4noOQ8Cks+3eRUB2ylzGQ8oWydfQD5cPB3Yhp8RbMs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M2wjFK4EMLYJZsjiBXgbxRl4szYVYTxq4bT6CUA6pubf8aTncdd8Uxw4nV9KPUITIJvv0lRZ6UORacIRrZIL/SrWmUuv2NsDJ9/RH+E5u0x5Qpn0um8FlArrv3hOJ19/Z85yP+C/fSIiDXraNjIA1TUrD9XZrpjzQH9Fh98jkko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 662a2f3c7c2611f1aa26b74ffac11d73-20260710
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:c25ac138-073c-4421-bd7d-630fb60023c1,IP:0,U
+	RL:25,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:50
+X-CID-META: VersionHash:e7bac3a,CLOUDID:fdb9896a82871974584b439cf41aae64,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:5,IP:nil,URL:99|82|11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 662a2f3c7c2611f1aa26b74ffac11d73-20260710
+X-User: lilinmao@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lilinmao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 779862429; Fri, 10 Jul 2026 14:12:58 +0800
+From: Linmao Li <lilinmao@kylinos.cn>
+To: David Heidelberg <david@ixit.cz>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Mark Greer <mgreer@animalcreek.com>,
 	netdev@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH net v2] nfc: llcp: bound the connect_sn TLV walk to the skb
-Date: Thu,  9 Jul 2026 15:12:29 +0200
-Message-ID: <20260709131229.44477-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+	Linmao Li <lilinmao@kylinos.cn>
+Subject: [PATCH net-next] nfc: digital: Do not dump a NULL response in command completion
+Date: Fri, 10 Jul 2026 14:12:54 +0800
+Message-Id: <20260710061254.80975-1-lilinmao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -78,80 +56,53 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 27256cdb290e ("nfc: llcp: bound SNL TLV parsing to the skb and
-add length checks") fixed the unbounded TLV walk in nfc_llcp_recv_snl(),
-and commit d8bd2dedbde5 ("nfc: llcp: fix OOB read and u8 offset wrap in
-TLV parsers") subsequently bounded nfc_llcp_parse_gb_tlv() and
-nfc_llcp_parse_connection_tlv(). One sibling parser sharing the same
-pattern remains unbounded: nfc_llcp_connect_sn().
+digital_wq_cmd_complete() dumps the response data whenever cmd->resp is
+not an error pointer.  However, a driver can legitimately complete a
+command with no response skb at all.
 
-nfc_llcp_connect_sn() walks a TLV list, reading a two-byte header
-(type, length) followed by length bytes of value, without checking that
-the two header bytes or the declared length stay within the buffer. It
-returns a pointer to a service name of up to 255 bytes that may point
-past the end of the skb; it is subsequently consumed by memcmp() in
-nfc_llcp_sock_from_sn(). In addition tlv_array_len was computed as
-"skb->len - LLCP_HEADER_SIZE" in size_t, so a CONNECT/CC frame shorter
-than the LLCP header underflows to a huge length and the walk runs far
-past the buffer.
+digital_tg_send_psl_res() is the only caller that passes timeout=0,
+meaning no response is expected once the command has been transmitted.
+On that path trf7970a completes the command with
 
-nfc_llcp_connect_sn() is reachable from nfc_llcp_recv_connect() and
-nfc_llcp_recv_cc(), i.e. from received CONNECT and CC PDUs. A nearby
-NFC device can reach this without authentication; LLCP link activation
-happens automatically after NFC-DEP, and the nfc_llcp_rx_skb()
-dispatcher applies no minimum-length guard.
+	trf->rx_skb = ERR_PTR(0);
 
-Walk the TLV list by pointer, bounded by skb_tail_pointer(skb), and
-validate each declared length before use, matching the approach already
-used for nfc_llcp_recv_snl(). Starting the walk at
-&skb->data[LLCP_HEADER_SIZE] against the tail pointer also removes the
-size_t underflow for short frames.
+which evaluates to NULL.  IS_ERR(NULL) is false, so the NULL response
+passes the !IS_ERR() check and cmd->resp->data and cmd->resp->len are
+dereferenced whenever the debug print site is enabled.  The driver
+guards its own dump with "trf->rx_skb && !IS_ERR(trf->rx_skb)"; the
+digital layer is missing the NULL half of that test.
 
-Found by 0sec automated security-research tooling (https://0sec.ai).
+Use IS_ERR_OR_NULL() so that NULL responses are skipped as well.  The
+callback on that path, digital_tg_send_psl_res_complete(), never
+dereferences resp and dev_kfree_skb() accepts NULL, so only the debug
+dump needs fixing.
 
-Fixes: d646960f7986 ("NFC: Initial LLCP support")
-Cc: stable@vger.kernel.org
-Assisted-by: 0sec:claude-opus-4-8
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+Fixes: 59ee2361c924 ("NFC Digital: Implement driver commands mechanism")
+Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
 ---
-v2: drop the nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv()
-    hunks - fixed independently by d8bd2dedbde5. This resend covers only
-    the still-unbounded nfc_llcp_connect_sn().
-v1: https://lore.kernel.org/netdev/20260705113505 net/nfc/llcp_core.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+A separate cleanup patch, "nfc: trf7970a: Use NULL when no response is
+expected", replaces that ERR_PTR(0) with a plain NULL.  It does not
+change behaviour (ERR_PTR(0) is NULL), so this fix is needed either way;
+if that patch lands first, read "trf->rx_skb = NULL;" above.
 
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index aed5fe1afef0..0de20279e046 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -849,13 +849,16 @@ static struct nfc_llcp_sock *nfc_llcp_sock_get_sn(struct nfc_llcp_local *local,
- static const u8 *nfc_llcp_connect_sn(const struct sk_buff *skb, size_t *sn_len)
- {
- 	u8 type, length;
--	const u8 *tlv = &skb->data[2];
--	size_t tlv_array_len = skb->len - LLCP_HEADER_SIZE, offset = 0;
-+	const u8 *tlv = &skb->data[LLCP_HEADER_SIZE];
-+	const u8 *tlv_end = skb_tail_pointer(skb);
+Link: https://patch.msgid.link/20260706075743.564658-1-lilinmao@kylinos.cn
+
+ net/nfc/digital_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/nfc/digital_core.c b/net/nfc/digital_core.c
+index 7cb1e6aaae90..18236221d898 100644
+--- a/net/nfc/digital_core.c
++++ b/net/nfc/digital_core.c
+@@ -127,7 +127,7 @@ static void digital_wq_cmd_complete(struct work_struct *work)
  
--	while (offset < tlv_array_len) {
-+	while (tlv + 2 < tlv_end) {
- 		type = tlv[0];
- 		length = tlv[1];
+ 	mutex_unlock(&ddev->cmd_lock);
  
-+		if (tlv + 2 + length > tlv_end)
-+			break;
-+
- 		pr_debug("type 0x%x length %d\n", type, length);
- 
- 		if (type == LLCP_TLV_SN) {
-@@ -863,7 +866,6 @@ static const u8 *nfc_llcp_connect_sn(const struct sk_buff *skb, size_t *sn_len)
- 			return &tlv[2];
- 		}
- 
--		offset += length + 2;
- 		tlv += length + 2;
- 	}
+-	if (!IS_ERR(cmd->resp))
++	if (!IS_ERR_OR_NULL(cmd->resp))
+ 		print_hex_dump_debug("DIGITAL RX: ", DUMP_PREFIX_NONE, 16, 1,
+ 				     cmd->resp->data, cmd->resp->len, false);
  
 -- 
-2.43.0
+2.25.1
 
