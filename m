@@ -1,46 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5564825DB1A;
-	Fri, 10 Jul 2026 13:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB752376BE8
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 10 Jul 2026 17:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783691357; cv=none; b=txBN/EFYEc6JZx8IFrg3Nc6P5BkqGswCYqh9Q/GdzvWQXtL+yQ7xZAqd/iZLeObWxLV1QM7somP3HfJRPM1kiBdEOFtLMed5N/cLu1h66NC+/LUlKIaEYVR9j7GoDFMb/LUBGuRCgKJ/ERF/OOKwJOI66JAXE8NM7o97f+SVQxo=
+	t=1783706115; cv=none; b=FWrYfeiCFZ/tc3DUUxX63h05Z3op1lNbTH3gLBOVTPFs6iSV8a5bDEC1cqwZBj8dng57NJ83b0XhndoPj7Z39I8wv8EHWT+gA6oC5g8DmpO1/a4ZGb1MpS39/PjEiSQMA509ViMEnkxiIuNoJxP0/AR0LzB7d4eXY8852aa1QkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783691357; c=relaxed/simple;
-	bh=Z05OLJEB22TK9VRWOreArFil14x3dUWnZjYtYZzIuAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Mopz95ZpoxY8tC1U9r4SLQKGGZo7UyFBhMY0Ungf0fTkKKKK5qKEEdlIucVkJO1oLcjWir1qLMUDB6aXCFaW8S/6RFjDgzQKHOCWyTY4CPaJ/SdKm5TiWumbr2wW9K7nPmj3ZYsc1ycKvfi7RMk/iP6+72i6PN6UdYn7O0L0Ejc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpdJeF+Q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783706115; c=relaxed/simple;
+	bh=q2Pq9v5SXGlcc93M8LKL/aV+CQ++fQMQq3HsJTaHEFo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WMEz0cjctcQ45v7eHvPhX/QVbShMT7MaMbg6mSHAJNVyGfXnt4xjlrBvpLMJq+8NmhaYThGUIyHJiHYCMir5Rm0tm5iaou0RVvlXwZKjXndRrjxOExLIMLLFZoYmuuRImpOY2N96+BDLF+JwZZSDh0mebTZ6j3g37t+yL8SWC9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZbAHkw6/; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpdJeF+Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34FE11F000E9;
-	Fri, 10 Jul 2026 13:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783691356;
-	bh=JAtX8AhNJx6QPGTAuQ0ZGdruw/eZPEaNb1FV9Ob5Src=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lpdJeF+QbdQeoWjcOvuIzetth87eF9V6cQEOjv+sFxU6BXR5G3nWYVBcRZ19xxFnq
-	 m3MGtURS7GoGylsQs0RGydM1Ur9KhlBRSt2zZBo1Mpudr41I1YQaPZFnX7UCulqmyF
-	 SGmgGn3kHhiyg8T6ekTrkgsnch23wodENV5Ytjj2qIpJJ8oSkQlne968lqkrg2toCI
-	 5WlPOGjVqNlZdFtR1zfGTCjbNtGhotUIR4S3wNy0z/syGAm5goGRVUbhvFYHg4yNLd
-	 mvmob9aL6YjhmzAiwgKi4xxfg6dqfqCLyVgt2h7Ehro5Na5fMbMfjFaLZYeOtSRiJS
-	 RgZ4U9s0WpY+Q==
-From: Simon Horman <horms@kernel.org>
-To: doruk@0sec.ai
-Cc: Simon Horman <horms@kernel.org>,
-	david@ixit.cz,
-	oe-linux-nfc@lists.linux.dev,
-	david.laight.linux@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbAHkw6/"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38426d04bb4so974364a91.1
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 10 Jul 2026 10:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783706113; x=1784310913; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g/g6IlAQtSI8doB/Bb8hhgXDYZeL8IDA7KJYnBAyAHU=;
+        b=ZbAHkw6/GBsebwbWRmEkVBzwEolykOify5jNMX1F5Cs7rOQoTOTJAuuxa6jJ+/7wxZ
+         sCsYiGsT9OT6Z1sklO/lxItsmWxzcmEnWgFNyrNBwJ41s6f5fxMiQtcgoQviijD+gtw/
+         0qhsymUi7ykb/OeD0Jw0tq9pCpf/d9utH+Y1fsM8UGjw43sbyo4TrkzsqGb1uV9WAd32
+         AGtETw/6BSkWCwgiOOwf48HKDTFe89zOpKNdLKhOTUn0CVhsmjyhbXl80pCP2Hl3vaEv
+         2uQICQkpQ4/bI3rz5jMRYl7RnyZBNX1yHHbCZ2cyyWEFR5pmg4O1NczB5ES2QZ2pTgdS
+         8JXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783706113; x=1784310913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g/g6IlAQtSI8doB/Bb8hhgXDYZeL8IDA7KJYnBAyAHU=;
+        b=YMbpXkXtkBHT+n1a04RDw1ESNtOsU6Unx7eSXTJK92bwNlmm+aC9yI1FT+qHiwDGX9
+         Gjx3AXI9rYnc2LEu+/fti9pJ464U5Zq9z2gyliBr6GugOEL1lY65CLeZgXVlmWfdrlcr
+         yb+163rEl08vQiMpUQs1Tg3G+3PbyU9LRlU7BQnne/yi3/288t9hi3P+ZH64iV2yH1wx
+         +dNhu9rTxFVHMKFbmgO9oCpNxsaJwE3ys7asNORKwN/2B5/7vcGGd2hS0p0drCSexvnX
+         El6NWFcl4y5cO6wE8pUmNlBxfxzmE0DHSPRIr98eJjyC3y+X6J+Bx3hY/ZrmTdYmd9to
+         PjMA==
+X-Gm-Message-State: AOJu0YxpjzV91ryAhhswCOSuvIiX1ybw8eIgIclOL9YhuLIYZjhfIbtL
+	jPMtHvleF9PBLkUC5A5AjzCMhNI90MKuFMrqMyOh8jdnDmtiQ4dcFwt+
+X-Gm-Gg: AfdE7cmxr5QvLQcG/Kf5k4O02eeomaOQamkIsAoESSw4Re5aC68xDPtHJxMlSV0uoSz
+	1Gpixd1QE8cTYYXVeSDgSRZ41ioC4BmqHmDCufJf3IkCTjUL1TCIKnA197iXhFldCz4z55j3SIw
+	5Fun2IuiBO3vs7h+f/XzUrNnSoit8rahZYqUY/mT4Hacw7LPd5YJm4/NMUfyzjIArYBkDRRHAaZ
+	Wsam9LjuNxzes+r2AfTxYaYBs3gi+/reoCiNet82bQSFe6f2ZOwR/9XmUObkm0iDUiEGSFcEu7F
+	fDinLdgilhduOn9NHs1KTlaQHLT0W9CgeMeCM6BRS9m/CkUM/iDekWi5kc0cyMCXtSNJtr2f6Kj
+	D39SKh5Lfy1dCcRe8ZgiiNuBHz75aCk+GbFETCL2teFNNYM8wFqZyV7bguu1mS1h37bu5PxIiV1
+	xdV/D1gKsjN3oEgzXmnynPpLLZe8C/Pz78zVTk1XEe1fOhdn6GnOlQH3WzPI4FWV3EmCMr
+X-Received: by 2002:a17:90b:2401:b0:38d:9eda:fa04 with SMTP id 98e67ed59e1d1-38d9edafc8emr2029326a91.2.1783706113230;
+        Fri, 10 Jul 2026 10:55:13 -0700 (PDT)
+Received: from fx.tailc0aff1.ts.net ([206.206.192.132])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f596asm43051871eec.2.2026.07.10.10.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 10:55:12 -0700 (PDT)
+From: Weiming Shi <bestswngs@gmail.com>
+To: David Heidelberg <david@ixit.cz>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net] nfc: llcp: bound the remaining LLCP TLV parsers to their buffers
-Date: Fri, 10 Jul 2026 14:48:50 +0100
-Message-ID: <20260710134850.1615092-1-horms@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260705115607.60844-1-doruk@0sec.ai>
-References: <20260705115607.60844-1-doruk@0sec.ai>
+	xmei5@asu.edu,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: [PATCH net] nfc: llcp: validate TLV length before parsing to fix OOB read
+Date: Fri, 10 Jul 2026 10:55:01 -0700
+Message-ID: <20260710175500.2068564-2-bestswngs@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -49,108 +79,99 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/
+nfc_llcp_parse_gb_tlv() and nfc_llcp_parse_connection_tlv() iterate over
+a TLV array supplied by the remote peer. Each iteration reads the type
+and length from tlv[0]/tlv[1] and then advances by length + 2, but the
+loop only tests offset < tlv_array_len and never checks that the 2-byte
+header fits in the remaining space. A truncated trailing entry is enough
+to read past the buffer on the tlv[1] access.
+
+The length byte then makes it worse. offset is a u8, so length + 2 wraps
+at 256: length == 0xff advances by 0x101 and leaves offset unchanged, so
+the loop stays live while tlv keeps moving forward. The parse walks well
+past the buffer, and the next iteration's tlv[0]/tlv[1] read lands out of
+bounds rather than the walk stopping one entry over.
+
+nfc_llcp_parse_gb_tlv() runs on the general bytes of an activated
+NFC-DEP link. An RF_INTF_ACTIVATED_NTF in listen mode reaches it via
+nci_ntf_packet() -> nfc_tm_activated() -> nfc_llcp_set_remote_gb(), which
+copies the peer's general bytes into the 48-byte remote_gb[] field of the
+heap-allocated struct nfc_llcp_local; the wrapped walk runs off the end
+of that allocation. nfc_llcp_parse_connection_tlv() is reached the same
+way from CONNECT/CC PDUs, over tlv data taken from the received skb.
+
+Bound each iteration to tlv_array_len before touching the header, and
+widen offset to u16 so the advance can no longer wrap. Well-formed TLVs
+are parsed as before; a malformed trailing entry ends the loop.
+
+ BUG: KASAN: slab-out-of-bounds in nfc_llcp_parse_gb_tlv (net/nfc/llcp_commands.c:204)
+ Read of size 1 by task kworker/u8:3
+  nfc_llcp_parse_gb_tlv (net/nfc/llcp_commands.c:204)
+  nfc_llcp_set_remote_gb (net/nfc/llcp_core.c:681)
+  nfc_tm_activated (net/nfc/core.c:643 net/nfc/core.c:677)
+  nci_ntf_packet (net/nfc/nci/ntf.c:883 net/nfc/nci/ntf.c:1015)
+  nci_rx_work (net/nfc/nci/core.c:1564)
+
+Fixes: d646960f7986 ("NFC: Initial LLCP support")
+Reported-by: Xiang Mei <xmei5@asu.edu>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Weiming Shi <bestswngs@gmail.com>
 ---
-nfc: llcp: bound the remaining LLCP TLV parsers to their buffers
+ net/nfc/llcp_commands.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-The commit adds pointer-based bounds to nfc_llcp_parse_gb_tlv(),
-nfc_llcp_parse_connection_tlv() and nfc_llcp_connect_sn(), replacing
-the previous u8 offset walk which could wrap and produce an unbounded
-TLV loop. It cites the size_t underflow of "skb->len - LLCP_HEADER_SIZE"
-as one of the failure modes it wants to close.
+diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+index 291f26facbf3..3f0f8eef9890 100644
+--- a/net/nfc/llcp_commands.c
++++ b/net/nfc/llcp_commands.c
+@@ -193,17 +193,21 @@ int nfc_llcp_parse_gb_tlv(struct nfc_llcp_local *local,
+ 			  const u8 *tlv_array, u16 tlv_array_len)
+ {
+ 	const u8 *tlv = tlv_array;
+-	u8 type, length, offset = 0;
++	u8 type, length;
++	u16 offset = 0;
+ 
+ 	pr_debug("TLV array length %d\n", tlv_array_len);
+ 
+ 	if (local == NULL)
+ 		return -ENODEV;
+ 
+-	while (offset < tlv_array_len) {
++	while (offset + 2 <= tlv_array_len) {
+ 		type = tlv[0];
+ 		length = tlv[1];
+ 
++		if (offset + 2 + length > tlv_array_len)
++			break;
++
+ 		pr_debug("type 0x%x length %d\n", type, length);
+ 
+ 		switch (type) {
+@@ -243,17 +247,21 @@ int nfc_llcp_parse_connection_tlv(struct nfc_llcp_sock *sock,
+ 				  const u8 *tlv_array, u16 tlv_array_len)
+ {
+ 	const u8 *tlv = tlv_array;
+-	u8 type, length, offset = 0;
++	u8 type, length;
++	u16 offset = 0;
+ 
+ 	pr_debug("TLV array length %d\n", tlv_array_len);
+ 
+ 	if (sock == NULL)
+ 		return -ENOTCONN;
+ 
+-	while (offset < tlv_array_len) {
++	while (offset + 2 <= tlv_array_len) {
+ 		type = tlv[0];
+ 		length = tlv[1];
+ 
++		if (offset + 2 + length > tlv_array_len)
++			break;
++
+ 		pr_debug("type 0x%x length %d\n", type, length);
+ 
+ 		switch (type) {
+-- 
+2.43.0
 
-> diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
-> index 291f26facbf3..1a0a2f4aca70 100644
-> --- a/net/nfc/llcp_commands.c
-> +++ b/net/nfc/llcp_commands.c
-
-[ ... ]
-
-> @@ -243,17 +246,21 @@ int nfc_llcp_parse_connection_tlv(struct nfc_llcp_sock *sock,
->  				  const u8 *tlv_array, u16 tlv_array_len)
->  {
->  	const u8 *tlv = tlv_array;
-> -	u8 type, length, offset = 0;
-> +	const u8 *tlv_end = tlv_array + tlv_array_len;
-> +	u8 type, length;
->  
->  	pr_debug("TLV array length %d\n", tlv_array_len);
->  
->  	if (sock == NULL)
->  		return -ENOTCONN;
->  
-> -	while (offset < tlv_array_len) {
-> +	while (tlv + 2 < tlv_end) {
->  		type = tlv[0];
->  		length = tlv[1];
->  
-> +		if (tlv + 2 + length > tlv_end)
-> +			break;
-> +
-
-[High]
-Is the size_t underflow the commit message mentions actually addressed
-for nfc_llcp_parse_connection_tlv()?
-
-The two callers, nfc_llcp_recv_connect() and nfc_llcp_recv_cc() in
-net/nfc/llcp_core.c, still compute the length at the call site as
-skb->len - LLCP_HEADER_SIZE and hand it to the parser:
-
-    nfc_llcp_parse_connection_tlv(new_sock, &skb->data[LLCP_HEADER_SIZE],
-                                  skb->len - LLCP_HEADER_SIZE);
-
-and
-
-    nfc_llcp_parse_connection_tlv(llcp_sock, &skb->data[LLCP_HEADER_SIZE],
-                                  skb->len - LLCP_HEADER_SIZE);
-
-If skb->len is 0 or 1, that subtraction (size_t at the call site,
-truncated to the u16 tlv_array_len parameter) becomes 0xFFFE or 0xFFFF.
-
-Inside the parser, that value now feeds:
-
-    const u8 *tlv_end = tlv_array + tlv_array_len;
-
-    while (tlv + 2 < tlv_end) {
-            ...
-            if (tlv + 2 + length > tlv_end)
-                    break;
-
-so tlv_end points roughly 64 KiB past &skb->data[LLCP_HEADER_SIZE] and
-neither the loop condition nor the per-TLV check catches the walk
-leaving the skb.
-
-The commit message calls this out as one of the motivations:
-
-    "Dropping the u8 offset also removes the wrap, and for very short
-    connect frames this avoids the size_t underflow of
-    'skb->len - LLCP_HEADER_SIZE'."
-
-That mitigation is applied inside nfc_llcp_connect_sn() by using
-skb_tail_pointer(skb) directly, but the equivalent change is not made
-for the connection TLV path. nfc_llcp_rx_skb() has no minimum-length
-guard, so a received CONNECT or CC PDU with skb->len < LLCP_HEADER_SIZE
-still reaches these callers.
-
-Would it make sense to either guard skb->len >= LLCP_HEADER_SIZE
-before the two call sites, or take the same skb_tail_pointer() based
-approach used in nfc_llcp_connect_sn() so the parser derives its bound
-from the skb rather than from an untrusted subtraction?
-
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index dc65c719f35f..5e1881199238 100644
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -849,13 +849,16 @@ static struct nfc_llcp_sock *nfc_llcp_sock_get_sn(struct nfc_llcp_local *local,
->  static const u8 *nfc_llcp_connect_sn(const struct sk_buff *skb, size_t *sn_len)
->  {
->  	u8 type, length;
-> -	const u8 *tlv = &skb->data[2];
-> -	size_t tlv_array_len = skb->len - LLCP_HEADER_SIZE, offset = 0;
-> +	const u8 *tlv = &skb->data[LLCP_HEADER_SIZE];
-> +	const u8 *tlv_end = skb_tail_pointer(skb);
->  
-> -	while (offset < tlv_array_len) {
-> +	while (tlv + 2 < tlv_end) {
