@@ -1,120 +1,222 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C023C2796
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 11 Jul 2026 12:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783773416; cv=none; b=m3s7rYz5YPbyIyAbx29GOAnrw3CV2XEHXIVbAhYY8i99bmOivUeX7RynWth9prL5ETsTjOKYcvTDJI+qQyiW5OXoHqnX0JgeMxzGAWyv+58hwA08CQCdX5/dNJBx6om/R4Atc0/LLPJhtCtPhO5RAFmI+afLhCSFedUStrsp8vU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783773416; c=relaxed/simple;
-	bh=yuIVmBPzTzrv2Dm30aECT2hNK8SzBGa9AOom3Qlk6Is=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YI138VR/9N47t0iroFQhfQtyPp1Kt8TjMj6iTkVYQmG2ksYQzog3YPv43hND3b1Rp37gFi4Y7ptMFQMuZQqee+XNEZraFIC5U8mkRZGCkO8mdTGMR/IOMbWIA4cR1JaSJGeVZ4mw1Dg5/l1zPuvHr9Viw6Dp4FTzjcLExnRvMSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=oEGskfP2; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB80337B012
+	for <oe-linux-nfc@lists.linux.dev>; Sat, 11 Jul 2026 13:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783777343; cv=pass; b=Kwy2mC+XLxkkiPT6MJjE04GDWbqRD+7AXRwAa7VgJXr02HFgvc+kpjbzstlyV4mq9dVTh4nlKdTeiAJmlmcwbaHKyA+PsfVCuJshwJlR8xnP1RR+B3L+P9NyuQHzIbtSutu956+0ckn82VH+80Yihg63IsTuQzGeCuR5PJsEjBQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783777343; c=relaxed/simple;
+	bh=D8wtMsoIg+Dp3XnmklabhldJVDQN33qVcW05TkIASqU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ajLiFbel4+yXxpZVGnCYP6G7v2ZHd/vrtqCt2lJ8Y7rILZkMpzLIGKMnEOZdLc4y+eKQSMgjVLkfr6xN/uOQrSYNB+3xFUiTcCGw8p70I+Kd0qWm849DyHOLdAUZTDk0u2KRwi1GO0Kx6NGLuzJHR8XZs68eeywmvaXNEiPpKDw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=fOqEYdU0; arc=pass smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="oEGskfP2"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-476a130c138so2151481f8f.0
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 11 Jul 2026 05:36:54 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="fOqEYdU0"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-842338c18e0so1414175b3a.1
+        for <oe-linux-nfc@lists.linux.dev>; Sat, 11 Jul 2026 06:42:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783777341; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AUqWjOXFoS3sq4fex3o6TffWTclyduc7B7RLyksgOrEm/M00rT5IQAghUA5SdEu5Ce
+         Zs0fmGjv/Aiw0Zp7v+RFbmfW6ztrAN7Sbh0CJwE2CWEbAgqfdqFxcLTRbE/BhnA+PUWs
+         OTgl6Re41ziGGsQx8OSg62apebErndVTmTLvRgBRUcI+8FvvPczfS8caLjfi6ppVUo1M
+         pFgZK0tlcT2ycJBWZUOVAT34jAUGXWYof1cnLE0pKqxnuT0DpU419zAu5jR2qdq6VdfD
+         uDkiX68mPqqpGyAH1AHyTXC8o0iFL3fthTtq6M0NAKsvW6Xw9zZOY9uyNTPtoR2iHEjU
+         W3jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LWfZi4peGV1QTAPmyJSmgBVDR8o+afiQrclwaHx7TKI=;
+        fh=lEXZ+fRQZQWWVWp3ZgUOjVt/T3WL9+RZIe2oYWXRjFQ=;
+        b=IadfIPSxpsByXwBSc9bmoNdHPQhHw6xBq81BbXW0MZ0ZglIW5d1Sk7kzyMPhagcvpO
+         mi1q/iO4lKZE7zMBi2DhWQVsp+yrjr9wLyAdCvcFv6BUyO86UxyJ0SUWs3jAM5XrzJbZ
+         kurz0EzgontDeOf2DIftf94LUJ+dKQ4dMbqDeS4gd2bBCVwD4EQWr2vPoIgC5K8poF/v
+         HvLqM2Y7nUA4LxiAnvjJM4ARja+ynFEcNR7kyQSWgbpGmznA8fQ834KuYeOx11qQ0v2N
+         3L/SW0BG+TcWko3Z6jt7eJdUw/W6eWp2gFrIof85bdqlxMJjaXCueIIh6NwCHoEAUHVO
+         SsBg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1783773413; x=1784378213; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TKxklP1jarkRVxjcZK6OwpDBv6NsE5WBXhYoYNX2yBM=;
-        b=oEGskfP2kAp4jzyyIwXHK36sE4twZfZKhe+BgA+sHLsISt1xfKPx0/F36LppLG38bL
-         filmTs9cTpNv17Aais5THftK3hn1DN5gY4lBQKXYdP6Bc4NQSJhyB4D/sMRX+b7Xgba3
-         OOlNH2i/EYawaAaE0mYulHza5rtkNWR1odBweKH4KVoFJ8QgwvtbVzFNg3sB8qkC0LON
-         vYPPBB7z6OM0RpXU2E6Es3P3z+126ElBIV5ra03J6WelxGVBr1QpcsYMq3oPnRsdare3
-         Xh3+07U85bTkGRJ/OrJX60FsfUHfXXw54FxQdk2HHiofjB5/mpysXmyeL+lxY7g68wyd
-         Ntbw==
+        d=0sec.ai; s=google; t=1783777341; x=1784382141; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LWfZi4peGV1QTAPmyJSmgBVDR8o+afiQrclwaHx7TKI=;
+        b=fOqEYdU0pUDfdKENh0xPsQixDsg5p/AzQe2tNw4xTGmP3VjKJgv/AnBoqpGCUxPOFO
+         WwVluuB6S7PEQpJx8a/2XwclaJQ0OaTv4KAVoxKcZA3pxWXe5+fWVHXJN3RGzZpL8sAZ
+         RRuoWwmnFlMJTDKc+CKRS/Nn46v8pvi22j4210Lxs5zW3gBsKoObfchY9KSe6TyRIKqd
+         +GJ6q8zZEt1az47ISzSySZoNk6Mbf96sFQXzz7nv1La0h8O14Q70hvncL/z29+GGJPSn
+         SjkSHw2ODRGN8pqiAOrUCcQomYHg4c5mNdf/KJsmxTmz6FRzqcRb8sRnyXcaPJIZqMxy
+         J2EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783773413; x=1784378213;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TKxklP1jarkRVxjcZK6OwpDBv6NsE5WBXhYoYNX2yBM=;
-        b=jFWEkj3L0D7tOWZfhfO83ED+vAYlgbXOrrwYv52K3FwML3/O0ffSi332mULXo83hJN
-         qdKxhSgPU6pQrapOKzI4e+C12IfmBmaGaoiYr4RMR0lNzc5C6I4mUqF3+oNhR2Er3ER9
-         X9ZXCYcVhSgYmlhBxO1xXk/EqvRiBCtQthLoM4OL8UJccQHvQK/WfFAzEgI11c/04199
-         hGqsxrUzJhirvsx6tyAYJMJE04ebtlArS6HzNSmWsmNTvK3LGL2qptEB+61HJhnHrHw8
-         V7wU8t2zAU1I9RE7ZTOZpdqKioaeAnId4xCgP5xZTwCEjsgJouHl4765OBt256S+xrnz
-         bk8w==
-X-Gm-Message-State: AOJu0YwxpCsq4u3HMNo1FWoh8C35gOeBaxRuy7TQhVLvJ2yjW2MwLOba
-	PY1btrUYeqNm8XxewDMqDlfArZ7Z+z8md89/Anq9AtCDlMMVc71s2SEFSETX+odH0y3PVopJlJQ
-	a3e3lXDvv
-X-Gm-Gg: AfdE7cl4BQMcLpWFNaLpF1yoGRiKHmBbWtm6hrjwx11je3oD3d13KpBJmNmh+62ObV3
-	oCFVPnWpc+Hu6OxyxbqD9c5uY01Ofb8INuS5f0lFF++lZhGGxKjl51XOxa/aeWXqCdC/1wrWMr8
-	fFldtrZ5zfGpNN8nFSweOMEoWoIujQioHyr6TCRLW7XPTREu/85bsC/0JHsQMHCZOhfqYPjnuSW
-	agdfP0rn2Nbuw6TMhJTgDvgGSs6wKgrAoo8vEYedeDSi37vNEQiO2eEOqXN9g5b9tHry953hCl0
-	0P0ECAp3frEP485xd1I9XkNl5fb9j8rRhUxpSBq4j46WsNnvn2p77zgB9VLB6OQUrkcDLEShCTk
-	FzoUJcvcWVGXmIpq6/BXQ+4iTnWqqDn8mJlGjqh9l/I9BUI+jxVsH4PoLLE4s4nO3WvHo8rOlug
-	cYeV94jvf/eW1DGOVK9rJujzV9IZs67j6u48nuED5fXGvO46fsJ9FqhrkiKui9Czz6VO2ANvI41
-	XqT6iZzvs8oPTe63djRaRxsjGpg+KQIAL8=
-X-Received: by 2002:a05:6000:2387:b0:476:7036:f854 with SMTP id ffacd0b85a97d-47f2dce9662mr2553907f8f.21.1783773413232;
-        Sat, 11 Jul 2026 05:36:53 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d83bdsm67690276f8f.13.2026.07.11.05.36.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 11 Jul 2026 05:36:52 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: david@ixit.cz
-Cc: oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net] nfc: port100: reject frames whose declared length exceeds the received data
-Date: Sat, 11 Jul 2026 14:36:51 +0200
-Message-ID: <20260711123651.32595-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1783777341; x=1784382141;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LWfZi4peGV1QTAPmyJSmgBVDR8o+afiQrclwaHx7TKI=;
+        b=NN7gZogVpnXGcmEyWfWC7SXfk/ogH1UU5v8XCySp1FigAn9eUw+jkkC6doCcoDFY7b
+         rtLal9AGsJZRBJGHcc7QPTkF9n2yX2HjNBKvCa1s7dKsIN05CizDp1s8jXo3o/gYUkql
+         WPFSh7i6Dfsr3r/k77toy3uWpqpWMvvcNdpM4A9IU5lRkznoIY7Nnv8+9KWn9s9+CP0b
+         Ds0kv/dKjq/XqYXT7+3k0i9ADg2dKd/z8V4rHzyLMWE3FNqbLP03fyICwWFvaJKkDYxy
+         DCAmIh/sDXlHtjj2wPgqYQsfTdH/kCUh4TO0qFSNXUczZ7SNGUz9i2xXDClp3qouRAP2
+         JPtg==
+X-Forwarded-Encrypted: i=1; AHgh+RrYgN32PFURcxI9wQkYpL/jhOHHJNrlN3FL1d72CVAg5qAHFwbKJFCeodNF4Uja8b1qHMPH07MkTvEqVn4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzv3fgDVlptLNjU/zsgw+JvHzrXyiKp0APZloLQLSU/mf7gXEAy
+	bWaNM6EUYkrQToX3Dcx+Slp2lmMTYKx1m00VeC4MiOeW5lVCKD7wlmxzh2prLuJkU3U1xtuxu5X
+	aUboHJmQy2j3ePo5RSjmxbdMXY2OsFSKDnleqqW/3JxU=
+X-Gm-Gg: AfdE7cnuEK0mVmDxlre+LFpu2M49M83/sEdUFHG/5dojXaccIEfKNpterqRDPlZGkLT
+	7zrTGWO95jBZud6+qmLHRnHe96ejMlsqTzCmZ5yr8ICJPfwB+XyxYXvMNdlOfycy6rtf1Axdbi3
+	0Z73gZZARu9/ZvN130SCDf15x74k5UQAmMn3ZGv1tXFPg03LN0nuxlZKysHfYgDtbm2hMSHPDvd
+	V3bcnBlB8fpJurfXfStE3HuPHMnDvpl07216YnqeSY/oXpwys06kArnd1qlui0iGZgJT9fosItm
+	skIlbdATNwJOWwDSJqD1zClB5phrXnh0hpcaUJY1dOvtiKGZhdQFjQpwgGot
+X-Received: by 2002:a05:6a00:1a8c:b0:848:75a1:a0fe with SMTP id
+ d2e1a72fcca58-8488964a85fmr2402916b3a.18.1783777340938; Sat, 11 Jul 2026
+ 06:42:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260705115607.60844-1-doruk@0sec.ai> <20260710134850.1615092-1-horms@kernel.org>
+In-Reply-To: <20260710134850.1615092-1-horms@kernel.org>
+From: "Doruk (0sec)" <doruk@0sec.ai>
+Date: Sat, 11 Jul 2026 15:42:10 +0200
+X-Gm-Features: AVVi8CdLqlNEskOPt8zOhB7HA2eUmFLDg9kfoZTO41kedGPfeu27wPJbVjh2bA0
+Message-ID: <CAPdMp1omRz=vFN=CQsiXDbf+5W3SF-F8BGm3HuNeLpp1uS4UUw@mail.gmail.com>
+Subject: Re: [PATCH net] nfc: llcp: bound the remaining LLCP TLV parsers to
+ their buffers
+To: horms@kernel.org
+Cc: david@ixit.cz, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-port100_recv_response() passes the URB transfer buffer to
-port100_rx_frame_is_valid(), which checksums le16_to_cpu(frame->datalen)
-bytes of frame->data. datalen is a 16-bit field supplied by the device
-and is never checked against the number of bytes actually received
-(urb->actual_length), so a device reporting a datalen larger than the
-received frame makes port100_data_checksum() read out of bounds past the
-transfer buffer.
+> Would it make sense to either guard skb->len >= LLCP_HEADER_SIZE
+> before the two call sites, or take the same skb_tail_pointer() based
+> approach used in nfc_llcp_connect_sn()?
 
-Reject a response whose declared frame size does not fit the received
-length before validating it.
+Thanks for the review Simon! I went with the first option in a separate patch,
+since I believe the missing minimum-length check affects every PDU type the
+dispatcher hands off, not just CONNECT/CC:
 
-Found by 0sec (https://0sec.ai) using automated source analysis; the
-missing bound is evident from source. Compile-tested.
+[PATCH net] nfc: llcp: guard against short PDUs in nfc_llcp_rx_skb()
 
-Fixes: 562d4d59b8a1 ("NFC: Sony Port-100 Series driver")
-Cc: stable@vger.kernel.org
-Assisted-by: 0sec:claude-opus-4-8
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- drivers/nfc/port100.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+It adds "if (skb->len < LLCP_HEADER_SIZE) return;" at the top of
+nfc_llcp_rx_skb(), so no handler can see a sub-header PDU and the
+"skb->len - LLCP_HEADER_SIZE" subtraction can no longer wrap. With that
+in place the connection-TLV parser's bound is safe. Happy to respin
+either patch if you'd prefer both changes squashed into one.
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index 5ae61d7ebcfe..30a4e09875d3 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -636,6 +636,13 @@ static void port100_recv_response(struct urb *urb)
- 
- 	in_frame = dev->in_urb->transfer_buffer;
- 
-+	if (urb->actual_length < PORT100_FRAME_HEADER_LEN ||
-+	    urb->actual_length < port100_rx_frame_size(in_frame)) {
-+		nfc_err(&dev->interface->dev, "Received a truncated frame\n");
-+		cmd->status = -EIO;
-+		goto sched_wq;
-+	}
-+
- 	if (!port100_rx_frame_is_valid(in_frame)) {
- 		nfc_err(&dev->interface->dev, "Received an invalid frame\n");
- 		cmd->status = -EIO;
--- 
-2.43.0
+Best,
+Doruk
 
+On Fri, Jul 10, 2026 03:49 PM, Simon Horman <horms@kernel.org> wrote:
+>
+> This is an AI-generated review of your patch. The human sending this
+> email has considered the AI review valid, or at least plausible.
+> Full review at: https://netdev-ai.bots.linux.dev/sashiko/
+> ---
+> nfc: llcp: bound the remaining LLCP TLV parsers to their buffers
+>
+> The commit adds pointer-based bounds to nfc_llcp_parse_gb_tlv(),
+> nfc_llcp_parse_connection_tlv() and nfc_llcp_connect_sn(), replacing
+> the previous u8 offset walk which could wrap and produce an unbounded
+> TLV loop. It cites the size_t underflow of "skb->len - LLCP_HEADER_SIZE"
+> as one of the failure modes it wants to close.
+>
+> > diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+> > index 291f26facbf3..1a0a2f4aca70 100644
+> > --- a/net/nfc/llcp_commands.c
+> > +++ b/net/nfc/llcp_commands.c
+>
+> [ ... ]
+>
+> > @@ -243,17 +246,21 @@ int nfc_llcp_parse_connection_tlv(struct nfc_llcp_sock *sock,
+> >                                 const u8 *tlv_array, u16 tlv_array_len)
+> >  {
+> >       const u8 *tlv = tlv_array;
+> > -     u8 type, length, offset = 0;
+> > +     const u8 *tlv_end = tlv_array + tlv_array_len;
+> > +     u8 type, length;
+> >
+> >       pr_debug("TLV array length %d\n", tlv_array_len);
+> >
+> >       if (sock == NULL)
+> >               return -ENOTCONN;
+> >
+> > -     while (offset < tlv_array_len) {
+> > +     while (tlv + 2 < tlv_end) {
+> >               type = tlv[0];
+> >               length = tlv[1];
+> >
+> > +             if (tlv + 2 + length > tlv_end)
+> > +                     break;
+> > +
+>
+> [High]
+> Is the size_t underflow the commit message mentions actually addressed
+> for nfc_llcp_parse_connection_tlv()?
+>
+> The two callers, nfc_llcp_recv_connect() and nfc_llcp_recv_cc() in
+> net/nfc/llcp_core.c, still compute the length at the call site as
+> skb->len - LLCP_HEADER_SIZE and hand it to the parser:
+>
+>     nfc_llcp_parse_connection_tlv(new_sock, &skb->data[LLCP_HEADER_SIZE],
+>                                   skb->len - LLCP_HEADER_SIZE);
+>
+> and
+>
+>     nfc_llcp_parse_connection_tlv(llcp_sock, &skb->data[LLCP_HEADER_SIZE],
+>                                   skb->len - LLCP_HEADER_SIZE);
+>
+> If skb->len is 0 or 1, that subtraction (size_t at the call site,
+> truncated to the u16 tlv_array_len parameter) becomes 0xFFFE or 0xFFFF.
+>
+> Inside the parser, that value now feeds:
+>
+>     const u8 *tlv_end = tlv_array + tlv_array_len;
+>
+>     while (tlv + 2 < tlv_end) {
+>             ...
+>             if (tlv + 2 + length > tlv_end)
+>                     break;
+>
+> so tlv_end points roughly 64 KiB past &skb->data[LLCP_HEADER_SIZE] and
+> neither the loop condition nor the per-TLV check catches the walk
+> leaving the skb.
+>
+> The commit message calls this out as one of the motivations:
+>
+>     "Dropping the u8 offset also removes the wrap, and for very short
+>     connect frames this avoids the size_t underflow of
+>     'skb->len - LLCP_HEADER_SIZE'."
+>
+> That mitigation is applied inside nfc_llcp_connect_sn() by using
+> skb_tail_pointer(skb) directly, but the equivalent change is not made
+> for the connection TLV path. nfc_llcp_rx_skb() has no minimum-length
+> guard, so a received CONNECT or CC PDU with skb->len < LLCP_HEADER_SIZE
+> still reaches these callers.
+>
+> Would it make sense to either guard skb->len >= LLCP_HEADER_SIZE
+> before the two call sites, or take the same skb_tail_pointer() based
+> approach used in nfc_llcp_connect_sn() so the parser derives its bound
+> from the skb rather than from an untrusted subtraction?
+>
+> > diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> > index dc65c719f35f..5e1881199238 100644
+> > --- a/net/nfc/llcp_core.c
+> > +++ b/net/nfc/llcp_core.c
+> > @@ -849,13 +849,16 @@ static struct nfc_llcp_sock *nfc_llcp_sock_get_sn(struct nfc_llcp_local *local,
+> >  static const u8 *nfc_llcp_connect_sn(const struct sk_buff *skb, size_t *sn_len)
+> >  {
+> >       u8 type, length;
+> > -     const u8 *tlv = &skb->data[2];
+> > -     size_t tlv_array_len = skb->len - LLCP_HEADER_SIZE, offset = 0;
+> > +     const u8 *tlv = &skb->data[LLCP_HEADER_SIZE];
+> > +     const u8 *tlv_end = skb_tail_pointer(skb);
+> >
+> > -     while (offset < tlv_array_len) {
+> > +     while (tlv + 2 < tlv_end) {
