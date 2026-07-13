@@ -1,131 +1,69 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B562561A7
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 13 Jul 2026 01:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7632E31F993;
+	Mon, 13 Jul 2026 15:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783905769; cv=none; b=ugia8d1oqJSzy+M2wNYh1Wecbi3kIKzotCyiqLOA+E6o5vMzfvVCeGqUA/YUFt/oEzslDeVEPXgSSakj0fHdR1qH9J9McaZTaLtqgFRcKlGJS0DdK0tXAQFHAXbg2u9HWOefqubojPBm7xBr5aSdViAeewPZTb1q7S1/HP5kmWI=
+	t=1783956879; cv=none; b=ODBZPg6Y01mVVweGujBdxdA20MllFmwiyujnrgLJOIQIOF1ukkq6CQY+OyhSJSCH4furlzQj+i8KUDz9reNxK+hXd6eze63Jb6aqa0lqqx2yfKgG1ce36Ig9zNQmmAhRnQOddDZQzf9lzX5OT1H/KEVotB6CqVUxUvbMOIxoEw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783905769; c=relaxed/simple;
-	bh=r68fvNfyB5iq5zgmcYtQh4f4Sqo7v+mUf0FuLyud6fI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y9vhDT9/OR0QoyBmlkIHoWGY9RLftd3nnZyNyIn0ibxIpvd/HqERPqQUROsd7VIcAsoO7vMCgMBI19Of2CYKT3suJKXZgZpeIzj1EOamk6ZuOgAYYSOVywnlVToj88wf1LFfMt7tDdWGMlE5TV/JQBUqlsTQQeq7QHK6AMHXQuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=haZpXBwr; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783956879; c=relaxed/simple;
+	bh=mBvY7xkBpVsxQFIhY5AR75bbu5Wc6sPF5HRMVTXEDVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=awGDt+STSIC4GV4pC0GO+LhEWAWKEYhuNb0OBuzvO45VtFsLj8FIIxpQZAeeQSwBRmlB+ERfxDZ6s0j1QkjKHArc2+S02TJgzNxKqzT9HjP0aHcFhlbbWSTpfIoKhunWHU6QKG/Tbhglw92y9dfQy9xjIC71TWpeBMpR9NkKhNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEFAMY70; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="haZpXBwr"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-90327237340so14620886d6.1
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 12 Jul 2026 18:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783905767; x=1784510567; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NTLeZyR0HQahPotCRM69u6fZXEm2pgRfmSKzmsE+130=;
-        b=haZpXBwrljmV7e+QzKpUT+82x327HOtBHXa3hP0mz2FELuK6mGUqkPqIvl28B3k86f
-         c5LPV1eOxI4NVcHBt+un8S/FEUZDfBc2TqZf13kyAJVKXhkYh2O9xE82EMa0CDqf3wCT
-         S85dDhjKDq+9HEGX3nTPD7MdIvYxTgsc8Eki734H40tdkG55oYgjdZ7Fff8aOuu7sIq0
-         4Tpuv7UMxDj5ct9UV4Zg4ksUokBGzdLEqilAF14JObjUcDjh89n0FV54Igb0Mpding+Z
-         WjMvlxZxp3X9DKi2l29P/l4SrBKEmQZ5TibDsJ2pLinSIpXbkGcwiMwYGqSxNKqkdFZ9
-         CFbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783905767; x=1784510567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NTLeZyR0HQahPotCRM69u6fZXEm2pgRfmSKzmsE+130=;
-        b=ZjRrtDg6qGxI3a8q0hb7jQq8YmLqd6Z2IQwo4mo4X/FAtjnso32+fwOiiuBCxhN9P7
-         sEeYocvXCT9gn8+S8DL7HJvTF6/R6CRFdw+dMWQqkQ2zex+wcQ+JkpJ/FsObEH8PGsaP
-         ZcPapLwKnFekBbd6yhCQKX86N9xgtJ67j6BVpD5zFYpqKDfTverNOyKDSLuvmkoVYd6G
-         uwNytFf8sglv4lA6svVa6gsLLeY21ZidYxWAtp9m5w93pgYKrIAfBt3LCQd4OQXD33YY
-         brhbftTRinEGApzyTptH6OVka3nzZmHFTPhUo327mnZ3ryJBrw1gwI1r8KJUhQKVpJ2b
-         0rvw==
-X-Forwarded-Encrypted: i=1; AHgh+RocmV/X+vrqqHlrZ15L6kPzKvdy2v709sfeQjMHBhQR7IQJ6SXCZai04It6svFlbEgxZBBFJTZiqymehFo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywex25K2jIAqmjQxO3yfPIR/JB76eFtwlKq0aohVwKgb97hgwYQ
-	g7Yfg4WBRwcxKIt0pUJv+mAmNE+eY65O9wnWJVLVn9Avblq2pqgKpCdP
-X-Gm-Gg: AfdE7clbTiUnsYuHmxNqmll8ULYiRlHOko+6v06z+9vfi0eplGodLt9ikWKyy1GC3JO
-	YJbHQ8RYejtYI+PjmnwTDnqeYV0TH1IrUTXEMuoBoUcqU/AbE3YgKZaMimaBa3dcoX6SYtHwR4f
-	bB0WGpyyCKfwBcaaugH/PcznxMpD9QeUf3l0bRV7/stFpN4Pwxh5pU38e7kCEiflU3GKGXqyRkS
-	28Z53o9VBq3amReE9mkTggjChBAJN/Iap+9ExRTa6T3Gy6sHifF4YNQDIyHnEYEmTsjO2D4B3PW
-	VLA1+8oCei2uoYeExN8SMZGECsStWhpEyR+O5D1kU/dvxf4oFFDkXwms4FwuqXx82wT3752eYa5
-	t4Taqy/kHUEdRytwbRPrilqGpl6Dt4Au9H6oEnvm6ZVDPnGfp9bam8zkwXzQsHOjsosPlUZfAZa
-	cxwivrskjFFWr3O9uyARS+ip7g2M8Ub2nYpsZ5EOVCSA==
-X-Received: by 2002:a0c:f119:0:b0:8e5:8d7b:5188 with SMTP id 6a1803df08f44-902351409fbmr120041846d6.9.1783905766785;
-        Sun, 12 Jul 2026 18:22:46 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd87cad3csm117151996d6.48.2026.07.12.18.22.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 18:22:46 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Subject: [PATCH net] nfc: llcp: Fix raw socket local ref leak on rebind
-Date: Sun, 12 Jul 2026 21:21:11 -0400
-Message-ID: <20260713012111.4066423-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEFAMY70"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E701A1F000E9;
+	Mon, 13 Jul 2026 15:34:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783956878;
+	bh=oxXkrB1X31IPJcB2bni8t3YWzboFD9USXWVcXMXuFUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oEFAMY70bsC5n+fZWMGAvgZ+T8hseF2QyWbM6CdKZizEM74TNZ94SsLqpy+iIT/CA
+	 okJVNfwb2FfrEuSkm8kjOUaWUgmrDnUtfbPOp5m+l6qRbg0Cx6nD+J96iZNZF18ltR
+	 EL2GHdVh+Vc3dcwrvxvn8sljgyboiCpYQ2IH/7dRRz8CrugH5+Q+60NaVinivd8ze7
+	 FD1L+MSQAv0W1tUamA6+4mwXe1vrGd5Bi1w4KLj+tPHvfwXwQJrzeReOw2GdHVbPTA
+	 mnLT8nGrLWf98nWECaHFUhEPz1ML9HroP0KIvh/FJNmfKMkXSNJ32w2ajqeznfK2hb
+	 chxGcyGlECorw==
+Date: Mon, 13 Jul 2026 16:34:34 +0100
+From: Simon Horman <horms@kernel.org>
+To: "Doruk (0sec)" <doruk@0sec.ai>
+Cc: david@ixit.cz, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
+Subject: Re: [PATCH net] nfc: llcp: bound the remaining LLCP TLV parsers to
+ their buffers
+Message-ID: <20260713153434.GI1364329@horms.kernel.org>
+References: <20260705115607.60844-1-doruk@0sec.ai>
+ <20260710134850.1615092-1-horms@kernel.org>
+ <CAPdMp1omRz=vFN=CQsiXDbf+5W3SF-F8BGm3HuNeLpp1uS4UUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPdMp1omRz=vFN=CQsiXDbf+5W3SF-F8BGm3HuNeLpp1uS4UUw@mail.gmail.com>
 
-Raw LLCP sockets own the reference returned by nfc_llcp_find_local().
-When the bound NFC device is unregistered, nfc_llcp_socket_release()
-sets raw sockets back to LLCP_CLOSED. It also unlinks them from
-local->raw_sockets, but leaves llcp_sock->local pointing at that local.
+On Sat, Jul 11, 2026 at 03:42:10PM +0200, Doruk (0sec) wrote:
+> > Would it make sense to either guard skb->len >= LLCP_HEADER_SIZE
+> > before the two call sites, or take the same skb_tail_pointer() based
+> > approach used in nfc_llcp_connect_sn()?
+> 
+> Thanks for the review Simon! I went with the first option in a separate patch,
+> since I believe the missing minimum-length check affects every PDU type the
+> dispatcher hands off, not just CONNECT/CC:
+> 
+> [PATCH net] nfc: llcp: guard against short PDUs in nfc_llcp_rx_skb()
+> 
+> It adds "if (skb->len < LLCP_HEADER_SIZE) return;" at the top of
+> nfc_llcp_rx_skb(), so no handler can see a sub-header PDU and the
+> "skb->len - LLCP_HEADER_SIZE" subtraction can no longer wrap. With that
+> in place the connection-TLV parser's bound is safe. Happy to respin
+> either patch if you'd prefer both changes squashed into one.
 
-A subsequent successful bind on the same socket gets a new local reference
-and overwrites llcp_sock->local. The old local reference is then lost, and
-the final socket release only drops the new local.
+Thanks, a separate patch sounds like a reasonable approach to me.
 
-Drop any stale local reference after the new target local has been found,
-but before overwriting llcp_sock->local. This keeps failed bind attempts
-from changing the old reference while preventing a successful rebind from
-leaking it.
-
-Fixes: e6a3a4bb856a ("NFC: llcp: Clean raw sockets from nfc_llcp_socket_release")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
----
- net/nfc/llcp_sock.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index feab29fc6..0c00cdaab 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -152,6 +152,7 @@ static int llcp_raw_sock_bind(struct socket *sock, struct sockaddr_unsized *addr
- 	struct sock *sk = sock->sk;
- 	struct nfc_llcp_sock *llcp_sock = nfc_llcp_sock(sk);
- 	struct nfc_llcp_local *local;
-+	struct nfc_llcp_local *old_local;
- 	struct nfc_dev *dev;
- 	struct sockaddr_nfc_llcp llcp_addr;
- 	int len, ret = 0;
-@@ -185,6 +186,11 @@ static int llcp_raw_sock_bind(struct socket *sock, struct sockaddr_unsized *addr
- 		goto put_dev;
- 	}
- 
-+	old_local = llcp_sock->local;
-+	llcp_sock->local = NULL;
-+	llcp_sock->dev = NULL;
-+	nfc_llcp_local_put(old_local);
-+
- 	llcp_sock->dev = dev;
- 	llcp_sock->local = local;
- 	llcp_sock->nfc_protocol = llcp_addr.nfc_protocol;
--- 
-2.43.0
-
+...
