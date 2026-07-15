@@ -1,30 +1,30 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8889C3CC7EC
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 15 Jul 2026 08:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71043CFF56
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 15 Jul 2026 08:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784105011; cv=none; b=VEb5mLervlv8AXFwo4dzyG4jhFcNhC1BQklLkJ76x4dAHLYEKxBAi8AFJlbOhNLYl23kIs5zQyo1mWPyIQfIYjqrmllF7fI2dXmfDDxna5i9+b22JlA4x7Nf0TAVPV/6fz8xt0xACi3wNuCB9q3aW+pdvxmWLyHZBnpqFwukRPU=
+	t=1784105051; cv=none; b=GC3UNB0LmxrJG7y5gfhCv/P4h9ONuJIa6zKUC2FdBZGu5rnzk5peTCkikWUlwkv5OxQ/OllewzwI0MX4wU9ZLBJMtwXUiPNMvmwyRRmN6KQnFDB5nK9T8+lv+1rLhmqoAbQ1yJRxO2G8/N9Ae7/XztHXdA9Bmhb1VB/BCP9ya64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784105011; c=relaxed/simple;
-	bh=C8d9I54H9+L5b8i9j0acUZMcczdyjd1TNz/r6/o55o4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B1MwVXUTwHI6Phxsbcp0sXY08sYb7R6ej1jaxK5cTTVV2M7FpJPfaZ9T7khRmCIi2k5lBbpv9SUosKnwJNO0x55WZNqnuoEExHbdQHPsU2RGWcI6VZ3Mn4Jd9Mdre5RmdyMJUU6RCw97Rdy39JGVo53L5rm4YnX8rPxZ1d5o66g=
+	s=arc-20240116; t=1784105051; c=relaxed/simple;
+	bh=TgDMKplnUgmUXYVbImhujmuatJ8zj82zrvtRs2w/+JI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h0TCyWYiTb7aUtS/+LhNGdyB7wAQBLXBateNhz7Q+Ys6Yws1wX4IMAhniaIpcGSI8z3J50CP3UKnM3w04Lmeg0LTVWjxDPoEaSFO2D8PLePg/QXnVMrNiXWpHFdBo9WVUecSoOvIueJ/mm/35KKVTEy4oaJqK3mnjIQXBVX1luU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAAnf9ItSFdqgG9HGA--.33033S2;
-	Wed, 15 Jul 2026 16:43:25 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowABXrdBVSFdqxHJHGA--.59645S2;
+	Wed, 15 Jul 2026 16:44:05 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: David Heidelberg <david@ixit.cz>
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Vincent Cuissard <cuissard@marvell.com>
-Subject: [PATCH] nfc: nfcmrvl: validate helper command length before pull
-Date: Wed, 15 Jul 2026 16:43:25 +0800
-Message-ID: <20260715084325.40276-1-pengpeng@iscas.ac.cn>
+	Christophe Ricard <christophe.ricard@gmail.com>
+Subject: [PATCH] nfc: st21nfca: validate received frame size
+Date: Wed, 15 Jul 2026 16:44:05 +0800
+Message-ID: <20260715084405.41546-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -33,10 +33,10 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAnf9ItSFdqgG9HGA--.33033S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cw47KFWkXr1UCr47WFyUWrg_yoW8JF47p3
-	y5KFyjy3yDKr4SqF1Sya1DAFW5Canaka43WFy2g34kZ3WYvF1rCayktF1jvF1jqrsxtF45
-	Gw4DAa45uFsYqrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:zQCowABXrdBVSFdqxHJHGA--.59645S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WF4fCr43AFW7AFyxtrWUArb_yoW5JF4UpF
+	WrKry5Xr4Dtr43trZxuF4rAry5G3s5Kry3KFWIg3Wfuw4rGFy5WFWFka1I9ry2vrWrCFyj
+	yr48XF43W3Wqya7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
@@ -52,42 +52,78 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7Cw47KFWkXr1UCr47WFyUWrg_yoW8JF47p3
 	JUUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-The firmware download receive path removes the NCI data header and
-reads the helper command before validating the remaining packet length.
-A short frame can therefore reach the data access before the malformed
-packet is rejected.
+st21nfca_hci_i2c_repack() trims a received frame at its EOF marker
+before removing byte stuffing.  It then assumes the truncated frame
+contains the LLC header and two CRC bytes, and it unconditionally reads
+the byte after an escape marker.
 
-Validate the complete helper command length before stripping the NCI
-data header.
+A malformed frame can place EOF immediately after the start marker or can
+end its data portion with an escape marker.  The former leaves too few
+bytes for check_crc(), while the latter makes the unstuffing loop read past
+the current skb length.
 
-Fixes: 3194c6870158 ("NFC: nfcmrvl: add firmware download support")
+Require the minimum framing bytes both before and after unstuffing.  Use
+separate input and output cursors while removing byte stuffing, and reject
+an escape marker without its encoded byte.  This keeps malformed frames
+within the received frame boundary before CRC processing.
+
+Fixes: 3096e25a3e40 ("NFC: st21nfca: Fix incorrect byte stuffing revocation")
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- drivers/nfc/nfcmrvl/fw_dnld.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/nfc/st21nfca/i2c.c | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-index 2b8f401d8fd7..8b9d5257320d 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.c
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-@@ -263,9 +263,14 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
- 		 * B8..N: payload
- 		 */
+diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
+index aa5f4922b6b0..11ba4fb49828 100644
+--- a/drivers/nfc/st21nfca/i2c.c
++++ b/drivers/nfc/st21nfca/i2c.c
+@@ -289,27 +289,36 @@ static int check_crc(u8 *buf, int buflen)
+  */
+ static int st21nfca_hci_i2c_repack(struct sk_buff *skb)
+ {
+-	int i, j, r, size;
++	int read, write, r, size;
  
--		/* Remove NCI HDR */
--		skb_pull(skb, 3);
--		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT || skb->len != 5) {
-+		if (skb->len != NCI_DATA_HDR_SIZE + 5) {
-+			nfc_err(priv->dev, "bad command");
-+			return -EINVAL;
-+		}
+-	if (skb->len < 1 || (skb->len > 1 && skb->data[1] != 0))
++	if (skb->len < ST21NFCA_FRAME_HEADROOM ||
++	    !IS_START_OF_FRAME(skb->data))
+ 		return -EBADMSG;
+ 
+ 	size = get_frame_size(skb->data, skb->len);
+ 	if (size > 0) {
++		if (size < ST21NFCA_FRAME_HEADROOM + 2)
++			return -EBADMSG;
 +
-+		/* Remove NCI header */
-+		skb_pull(skb, NCI_DATA_HDR_SIZE);
-+		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT) {
- 			nfc_err(priv->dev, "bad command");
- 			return -EINVAL;
+ 		skb_trim(skb, size);
+ 		/* remove ST21NFCA byte stuffing for upper layer */
+-		for (i = 1, j = 0; i < skb->len; i++) {
+-			if (skb->data[i + j] ==
++		for (read = 1, write = 1; read < skb->len;) {
++			if (skb->data[read] ==
+ 					(u8) ST21NFCA_ESCAPE_BYTE_STUFFING) {
+-				skb->data[i] = skb->data[i + j + 1]
+-						| ST21NFCA_BYTE_STUFFING_MASK;
+-				i++;
+-				j++;
++				if (read + 1 == skb->len)
++					return -EBADMSG;
++
++				skb->data[write++] = skb->data[read + 1]
++						     | ST21NFCA_BYTE_STUFFING_MASK;
++				read += 2;
++			} else {
++				skb->data[write++] = skb->data[read++];
+ 			}
+-			skb->data[i] = skb->data[i + j];
  		}
+ 		/* remove byte stuffing useless byte */
+-		skb_trim(skb, i - j);
++		skb_trim(skb, write);
++		if (skb->len < ST21NFCA_FRAME_HEADROOM + 2)
++			return -EBADMSG;
+ 		/* remove ST21NFCA_SOF_EOF from head */
+ 		skb_pull(skb, 1);
+ 
 -- 
 2.43.0
 
