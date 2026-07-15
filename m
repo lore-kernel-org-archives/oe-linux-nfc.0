@@ -1,109 +1,93 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA862429CD8
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 14 Jul 2026 20:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8889C3CC7EC
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 15 Jul 2026 08:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784062695; cv=none; b=CEtObaY0bJ1pPA4+cz5FZ+/K7p6XW64/qxdZtgBELmzrknGCYLQFdoEyYPuGxKhpC5y7FYVcTxkntg65Xn6xIVo2/0BYWAR6zbab/SxDXV+MUi6xrg5p56HmbtYDsm/xfnFBcUICk72updysCvHYw20ut6ZvC6pKn0sBuemrUe0=
+	t=1784105011; cv=none; b=VEb5mLervlv8AXFwo4dzyG4jhFcNhC1BQklLkJ76x4dAHLYEKxBAi8AFJlbOhNLYl23kIs5zQyo1mWPyIQfIYjqrmllF7fI2dXmfDDxna5i9+b22JlA4x7Nf0TAVPV/6fz8xt0xACi3wNuCB9q3aW+pdvxmWLyHZBnpqFwukRPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784062695; c=relaxed/simple;
-	bh=ugFocKQNvJq5suQ2bGHSV0nqJNZHbZnZeHUn8h4L41k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RiHMmoYFQ3ib8Z/j4ygUFi+tphHciUwska/IIzBYtxHP+VtZ6fUoZ7zzhPW7u8j8pE4kHEuQ79Jl10iFff9XONnAgN6yn8K9J9SB9swHhdf7hHcOGHxhSk9cZrsWicffd1cE3cZH3U2SoQelcQAGmdtOcjLpVsgKoph6q73a1h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kWKn33aL; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kWKn33aL"
-Message-ID: <1fc10768-18c7-40f4-9287-250415c3e7a7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784062680;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TdayDcoevcw1swGHvcsiPGuw7O5eij5Cwke7HcSMW9g=;
-	b=kWKn33aLNzr3sotFHz5u2DOaBFLv4KJNytljEJAtWGkpmO//huga3KVLdteyIubYWCnn5I
-	NYfCA+jPzEtAmwz6YaOvvRGJE81y6p7aEyYv2wTcfOeoPdixo88cWva/qxyesFtDzfua7i
-	YEVaob3fpt7gp8wI97m5QXnyosKVcXQ=
-Date: Tue, 14 Jul 2026 21:57:47 +0100
+	s=arc-20240116; t=1784105011; c=relaxed/simple;
+	bh=C8d9I54H9+L5b8i9j0acUZMcczdyjd1TNz/r6/o55o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B1MwVXUTwHI6Phxsbcp0sXY08sYb7R6ej1jaxK5cTTVV2M7FpJPfaZ9T7khRmCIi2k5lBbpv9SUosKnwJNO0x55WZNqnuoEExHbdQHPsU2RGWcI6VZ3Mn4Jd9Mdre5RmdyMJUU6RCw97Rdy39JGVo53L5rm4YnX8rPxZ1d5o66g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowAAnf9ItSFdqgG9HGA--.33033S2;
+	Wed, 15 Jul 2026 16:43:25 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: David Heidelberg <david@ixit.cz>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vincent Cuissard <cuissard@marvell.com>
+Subject: [PATCH] nfc: nfcmrvl: validate helper command length before pull
+Date: Wed, 15 Jul 2026 16:43:25 +0800
+Message-ID: <20260715084325.40276-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH net v3] nfc: llcp: reject PDUs shorter than the LLCP
- header
-To: Doruk Tan Ozturk <doruk@0sec.ai>, david@ixit.cz
-Cc: horms@kernel.org, david.laight.linux@gmail.com,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260714164631.75068-1-doruk@0sec.ai>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20260714164631.75068-1-doruk@0sec.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAnf9ItSFdqgG9HGA--.33033S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw47KFWkXr1UCr47WFyUWrg_yoW8JF47p3
+	y5KFyjy3yDKr4SqF1Sya1DAFW5Canaka43WFy2g34kZ3WYvF1rCayktF1jvF1jqrsxtF45
+	Gw4DAa45uFsYqrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2Q6
+	JUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On 14.07.2026 17:46, Doruk Tan Ozturk wrote:
-> Every LLCP PDU begins with a two-byte header (DSAP/SSAP + PTYPE), but the
-> receive path never checked that a frame is at least LLCP_HEADER_SIZE bytes
-> before parsing it.
-> 
-> nfc_llcp_rx_skb() reads the header via nfc_llcp_ptype()/nfc_llcp_dsap()/
-> nfc_llcp_ssap(), which dereference pdu->data[0] and pdu->data[1], and a
-> CONNECT or CC PDU then computes
-> 
-> 	tlv_array_len = skb->len - LLCP_HEADER_SIZE;
-> 
-> as a size_t and hands it to the TLV walk. When the frame is shorter than
-> the header the subtraction wraps to a huge value and the walk runs far
-> past the buffer, an out-of-bounds read.
-> 
-> A nearby NFC device can reach this without authentication; LLCP link
-> activation happens automatically after NFC-DEP.
-> 
-> Guard the common receive choke point __nfc_llcp_recv(), shared by both the
-> target (nfc_llcp_data_received()) and initiator (nfc_llcp_recv()) paths, so
-> a short skb is dropped before the rx_work worker parses it. Use
-> pskb_may_pull() rather than a skb->len test so the two header bytes are
-> guaranteed to sit in the skb linear area even for a non-linear skb,
-> matching how the sibling NCI and HCI receive paths validate their headers.
-> 
-> Reproduced with a KFENCE out-of-bounds read via /dev/virtual_nci on
-> linux-next.
-> 
-> Found by 0sec automated security-research tooling (https://0sec.ai).
-> 
-> Fixes: d646960f7986 ("NFC: Initial LLCP support")
-> Cc: stable@vger.kernel.org
-> Suggested-by: David Laight <david.laight.linux@gmail.com>
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
-> ---
-> v3: use pskb_may_pull() so the guard also covers non-linear skbs and
->      guarantees the header bytes are in the linear area (David Laight).
-> v2: move the guard into __nfc_llcp_recv() so both the target and
->      initiator receive paths are covered by a single check.
-> 
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index aed5fe1afef0..e3b2627cb089 100644
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -1565,6 +1565,11 @@ static void nfc_llcp_rx_work(struct work_struct *work)
->   
->   static void __nfc_llcp_recv(struct nfc_llcp_local *local, struct sk_buff *skb)
->   {
-> +	if (!pskb_may_pull(skb, LLCP_HEADER_SIZE)) {
-> +		kfree_skb(skb);
-> +		return;
-> +	}
-> +
->   	local->rx_pending = skb;
->   	timer_delete(&local->link_timer);
->   	schedule_work(&local->rx_work);
+The firmware download receive path removes the NCI data header and
+reads the helper command before validating the remaining packet length.
+A short frame can therefore reach the data access before the malformed
+packet is rejected.
 
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Validate the complete helper command length before stripping the NCI
+data header.
+
+Fixes: 3194c6870158 ("NFC: nfcmrvl: add firmware download support")
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/nfc/nfcmrvl/fw_dnld.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
+index 2b8f401d8fd7..8b9d5257320d 100644
+--- a/drivers/nfc/nfcmrvl/fw_dnld.c
++++ b/drivers/nfc/nfcmrvl/fw_dnld.c
+@@ -263,9 +263,14 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
+ 		 * B8..N: payload
+ 		 */
+ 
+-		/* Remove NCI HDR */
+-		skb_pull(skb, 3);
+-		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT || skb->len != 5) {
++		if (skb->len != NCI_DATA_HDR_SIZE + 5) {
++			nfc_err(priv->dev, "bad command");
++			return -EINVAL;
++		}
++
++		/* Remove NCI header */
++		skb_pull(skb, NCI_DATA_HDR_SIZE);
++		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT) {
+ 			nfc_err(priv->dev, "bad command");
+ 			return -EINVAL;
+ 		}
+-- 
+2.43.0
+
