@@ -1,85 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outbound.ms.icloud.com (ms-2001e-snip4-11.eps.apple.com [57.103.73.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDFE324B2C;
-	Thu, 16 Jul 2026 14:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D067F38E8D4
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 16 Jul 2026 20:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.73.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784213932; cv=none; b=M3RxneinyI6YyngxpbQvRHqu4jiiGUvwA3uQAnifu4vf+LOSlDQXXLTZB0Dmqh/JByJsnbTTKhPNBosrUKgz2YqH0z/+w7g60QNg8tqmE002ScjQcJKl7nZBeHf0/nBXOBtz81/JmDM6tlKFyuNIf+aGW53O12nXvw8MGaddwM4=
+	t=1784234329; cv=none; b=T+BG15aVwFqkIwwOL+H6OT51fpLWCyXW32JiTQjQFLk7W9Ptt0LEKB3OjqEIsygrBj0gE+bi44F/e8ymragCuxMvFO9S1EeIl2klHeG1Abj0TdcsP9htisWRmJR9Gy0EQhPCm5XvIeJ3i6PvqEQset3Az5lRVasrIzDaz8gMc3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784213932; c=relaxed/simple;
-	bh=YYT94eJBx3or6U8w7zZRBnkxg9IlWo3HIkdU+D5Oy64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k9epjq9rS/Q0rFulbZE+nkpZ82G8A/RdGxy5f8xV9E//1v0Zv6CJJ87bAWP0Ox7yhBwoFDxm5wK4XAt7qQqxZrRBMQnlageuNWisBulrPNfeETDZNiszu5BrBJsVQygM0IDG7NUtkpfuuJohpBw01Pz/zwIw+elnaiXafkt6MFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BDzjhTht; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784234329; c=relaxed/simple;
+	bh=8dk4SeVyd/X+HwM8UCU9I8OLQ2e4wTy03ZREsV8NFjI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sTWudfSPKmZtWxXJQGt2z+p0qYp6Tpo6uSrvM1VrmTtjRlaGRggXeS26pY4//lui+TO4+QlnwE/94gYb32wKoZ1aqR/RZsEfILj2H78hUXaVYpVTyIUx24uFmZ9v3T4Y9kZ8TcQ7vyMnkqGSJSIXmgrQ8NDTcTBAw0hFQBPZzFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=jX+ceZyC; arc=none smtp.client-ip=57.103.73.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BDzjhTht"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44CD61F000E9;
-	Thu, 16 Jul 2026 14:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784213930;
-	bh=hdWH9w598lMkzkulklCO/KS15UEmhMIp1D6LdV+8aeE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BDzjhThtK1/9Sqzw/sdNqD/B1Xkb00unxro5KoRg3X9wygMUVkVSeGfMPiriSa+Xr
-	 WUoQzgipCowDu/JyYB3i9nkUxvJmWi926tiEq7XVhtR0DNSqyrIrSUYid8to2wM3C4
-	 4eza1I9zEHFFvbaIci2qJHiSZk0nnnBT4k7gjNUmXYH4VmBDq795C0ajBWrn6IAC8v
-	 42HP1J036cbGORM+DnOx4FYMdUn8NlBuR1VGpnjXloek7ojMGZyYICPTKcpxjSPnsd
-	 mc4Vs3L5iPMKNFAe9zJLZBP94tBsgHrjlXiRZXz5U5eVOZjq9MOOZWl2j9I2TEvQIa
-	 7Mw0e9aBcTjvg==
-Date: Thu, 16 Jul 2026 15:58:46 +0100
-From: Simon Horman <horms@kernel.org>
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net] nfc: st21nfca: validate ATR_REQ length against the
- received frame
-Message-ID: <20260716145846.GM95246@horms.kernel.org>
-References: <20260711071301.58071-1-doruk@0sec.ai>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="jX+ceZyC"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-60-percent-9 (Postfix) with ESMTPS id 05B391800117;
+	Thu, 16 Jul 2026 20:38:44 +0000 (UTC)
+X-ICL-RepId: 019f6ca7-33ec-7c2a-bb35-343fb7ebbe27
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQ1OHVQORQBEF0kDXRcOVk1KFlwaQAdTG1w4Wg5bBEcUFxtcABcNVk1QG18CQg8cE1YVEx9UVgNBGRBWAVhWXQVNGlwYWQ8cHUpWWg5bBEcUFxtcABcbRgIEIwJfAEUCXglWATAXD1ZNUBtfAkIPHBNWFRMAXg8PTAtIAVsHXANGC0gAWAdcHEcKSgtABkZBHlYPRAFWAFcwUBtfAkIPHBNWFQ1NQxJCFQQRUAFYHlY=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1784234327; x=1786826327; bh=M02iASs7Ytws1bpLPc+7UurQGgw9o60ho8uuBszePNg=; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=jX+ceZyCqaITXhdZTbFIvJ9Y4TVdyOYMnabGw5nyS7IMPH1hUkLCuaA2ucXAs/3s5x+U+5ltBxC3AFtUgYcP1gX2nXlRsZ8FOwiq0uDr2tnTY9eue1+V3JkZYHc4GrX61ddKkL9kKmusF1YPf7mOkOGetk46y5Dy4VNzQrQZRyu0iEHTXK2EB6HMIvZYQ7aG3KO3USWSqRoWoLnr/SICOhKIpRpfikGg+De7geAWuh3GbZ4/Su6MRQXyyDvKWj1uXezHVN3d86DZfhtuouk9BLJYlqx31vyjDKosVh+9c8nzOdc97zkyw06t3+ujjnwE68BZPj5YGRoJWrrlph+2EQ==
+Received: from mainframe.tailfb0f7b.ts.net (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-60-percent-9 (Postfix) with ESMTPSA id 36B551800112;
+	Thu, 16 Jul 2026 20:38:42 +0000 (UTC)
+From: =?UTF-8?q?Lek=C3=AB=20Hap=C3=A7iu?= <snowwlake@icloud.com>
+To: David Heidelberg <david+nfc@ixit.cz>
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	krzk@kernel.org,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	=?UTF-8?q?Lek=C3=AB=20Hap=C3=A7iu?= <snowwlake@icloud.com>
+Subject: [PATCH net v5 0/3] nfc: fix remaining OOB bugs in NCI/LLCP parsing
+Date: Thu, 16 Jul 2026 22:35:04 +0200
+Message-ID: <20260716203507.7328-1-snowwlake@icloud.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260711071301.58071-1-doruk@0sec.ai>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: wAm5HlmW9IUjJCJOUf6Z3H1GPdWt4oef
+X-Proofpoint-GUID: wAm5HlmW9IUjJCJOUf6Z3H1GPdWt4oef
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDIxMSBTYWx0ZWRfX2N2rk7UQD0DA
+ X+fSJZlg4VR1pDN/cH15fBhjmfVsXifdNluSmC4Z9xVQ927SzeyK+76O1D4aZa88nQSB3QtQcQj
+ lV7WeRTbhjhr9+5K7ciEqPIkJLtaervATliZP3sxg5wrosqK7Cw15xKK9f6YJvcvbFP49PA1XkQ
+ s0EgiHonKLrvYR9ZW0Yzw13gPh7paRXs/zEyBupzYgTPD4Jw3asPeXtSRnHEnrHFh2hqDum3KhN
+ jk4U/NBXXdFSMjcGe2QAhmD+R5g+yFHh8CT8kbqfJ0lbfDtoi+fPb2/J1OVkbJGmNdjsZMhcsnF
+ DK5nWkWkQkaiY75mD9G
 
-On Sat, Jul 11, 2026 at 09:13:01AM +0200, Doruk Tan Ozturk wrote:
-> st21nfca_tm_recv_atr_req() checks that the received ATR_REQ frame is at
-> least ST21NFCA_ATR_REQ_MIN_SIZE and that the self-declared atr_req->length
-> is at least sizeof(struct st21nfca_atr_req), but never checks that
-> atr_req->length does not exceed the actual received length (skb->len).
-> 
-> st21nfca_tm_send_atr_res() then trusts the declared length:
-> 
-> 	gb_len = atr_req->length - sizeof(struct st21nfca_atr_req);
-> 	...
-> 	memcpy(atr_res->gbi, atr_req->gbi, gb_len);
-> 
-> so an RF peer that sends a short frame but sets atr_req->length larger
-> than the frame makes gb_len exceed the general bytes actually present,
-> and the memcpy reads out of bounds past the received skb. Those bytes are
-> placed in the ATR_RES and sent back to the peer (kernel-memory disclosure
-> to a proximity attacker); a larger declared length is an out-of-bounds
-> read (DoS).
-> 
-> Reject frames whose declared length exceeds the received length. The
-> adjacent nfc_tm_activated() path in the same function already derives its
-> general-bytes length from skb->len rather than the declared field.
-> 
-> Found by 0sec (https://0sec.ai) using automated source analysis; the
-> missing bound is evident from source. Compile-tested.
-> 
-> Fixes: 1892bf844ea0 ("NFC: st21nfca: Adding P2P support to st21nfca in Initiator & Target mode")
-> Cc: stable@vger.kernel.org
-> Assisted-by: 0sec:claude-opus-4-8
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+Rebased against David's linux-nfc for-linus tree [1], as requested.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+This was originally a 5-patch series. Two of the five (the
+parse_gb_tlv()/parse_connection_tlv() offset-wrap fix and the
+nfc_llcp_recv_snl() TLV bounds fix) have since been fixed independently
+by other contributors already merged into for-linus:
 
-FTR, the AI-generated review of this patch on sashiko.dev does seem to
-raise legitimate pre-existing issues which relate closely to this patch.
-But I think they can be treated as potential follow-up rather than impeding
-progress of this patch.
+  d8bd2dedbde5 ("nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers")
+  27256cdb290e ("nfc: llcp: bound SNL TLV parsing to the skb and add length checks")
+
+Those two are dropped from this series to avoid duplicating work. The
+remaining three patches are unchanged in substance from v4, just
+rebased and renumbered:
+
+  1/3 (was 1/5) - nci_store_general_bytes_nfc_dep() u8 underflow
+  2/3 (was 4/5) - nfc_llcp_recv_dm() OOB read of the reason byte
+  3/3 (was 5/5) - nfc_llcp_connect_sn() TLV parsing OOB
+
+All three still reproduce against current for-linus (verified against
+1671b8fb7300 before rebase). checkpatch --strict is clean on all three.
+
+[1] https://codeberg.org/linux-nfc/linux.git for-linus
+
+Lekë Hapçiu (3):
+  nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep
+  nfc: llcp: fix OOB read of DM reason byte in nfc_llcp_recv_dm
+  nfc: llcp: fix TLV parsing OOB in nfc_llcp_connect_sn
+
+ net/nfc/llcp_core.c | 19 +++++++++++++++++--
+ net/nfc/nci/ntf.c   |  6 ++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+
+-- 
+2.51.0
+
