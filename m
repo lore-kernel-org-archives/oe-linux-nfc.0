@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEA725B09D
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 14:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8288D3A3E8C
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 15:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784473025; cv=none; b=fY+cPRa8CXv4JQloGvVNAKTm9F/kuJEnyGdMsGoxr0KQG7YbrNfmxsE7tKhpJ6YvsKY1nVE301BfAATSATmYuV1L/W+7YjTRyJdEE+ioffqWSsHDGoIEAimpc0URmx/UQa3+VI6Mur9Y0dDKJAiAtU4J7DEkn3QKCH9fOtR+uQY=
+	t=1784473464; cv=none; b=vA+Q5PzDZg2h5esccciz2sJzK5tyma8U2TFyTLBw9BTLdouBJJpsbLduo3nG3rJqoqE48qPzIepXrTvLK8mFftJ1zT6PlisHkiv0B3ilC+Oq+WTYPh3+Lb//GIiKiX0c0wCQYFFIei1LlAXtBZosmyRFPOODrjolY3Lny2e3IVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784473025; c=relaxed/simple;
-	bh=BSdDS4BnSaYiaQdJzgd9ND2JV8p15NZceDEXtTuXyhs=;
+	s=arc-20240116; t=1784473464; c=relaxed/simple;
+	bh=sGkUnfWYBxVACT6C6QfNFhZtQX1HjIOQQnzDRBM2+MM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1ZvGoaTfFiH+ohI1Hv0dTtSsv3p3ylXqztLwvLS4g5LGFnAJCJK6CZEMzCCdXUZxdEUDr75c4rFr1K8IpvVEDLYpDmrrqiR1jKWIdxfNVuiA3FGJ9rBgwsFBAQLyHkDpDli89umySiN0Muy1H384q+6ehQUm28W8nUpPNqcX1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=sw+yYzDV; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=J8irAspNWyjSkDlg82DGVIsa//xg3R0cfZ6zwUHcTE0ySrtJpqoUsYTBFB1dNdOIQytRfm0qPCKYNjtMN9RRIEHctaP1D/pGmnNWAEXByCx7xESd3YfT5+Ec4Um9NcbqzjHYveHSY92saYMDOKtCSaXxpTX3N7Ox8+FeHfFXBIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=o6KdAx7B; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="sw+yYzDV"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="o6KdAx7B"
 Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 2B1205340249;
-	Sun, 19 Jul 2026 16:56:59 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 9E2D25340260;
+	Sun, 19 Jul 2026 17:04:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784473019;
+	t=1784473459;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DhVOLA73dceqAtcrXFLpeM378Jlk+ATnXoEMgNymJao=;
-	b=sw+yYzDVcpen4eUfXBPZkscwBkHqP9tgRa0GIune6BKiEtmqCZ8fgAujbuUV3b3WGtvwQK
-	0e/wSMQieDHC3xLxNse7GRzIJeafKmyf1kAvlmVJVCoz0UcW1BGFdWID7m+AY+VXP1gu4C
-	FsO9y0PSAb7je4X7nwoSvkJH2krWzYU=
-Message-ID: <5d26f3ae-1287-4440-bd38-96c9900f16ea@ixit.cz>
-Date: Sun, 19 Jul 2026 16:56:58 +0200
+	bh=GyueglzthAji0VEDQ7Os7bxVp3phdIK0YEGjL1Ln/M4=;
+	b=o6KdAx7BvtAJWhjAqnHt7YHjrKyFD7RCz+gsIy/5+Q61+8gjvsuu3lhCPlbxCFX0QphiZB
+	iQR8x7iQjEU5AW59O9jOe+Jc5+RlplsfkwTJKtGY+kG1evavvziE2MSgxqnklRNE53r395
+	B1LDkB5oWnsr03X6JoxCbfV2bANd96g=
+Message-ID: <6753b289-3102-44be-a5b5-2a25e7a82366@ixit.cz>
+Date: Sun, 19 Jul 2026 17:04:19 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,19 +41,15 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/2] nfc: s3fwrn5: support the S3NRN4V variant
-To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- Luca Weiss <luca.weiss@fairphone.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260705190621.128257-1-jorijnvdgraaf@catcrafts.net>
- <20260705190621.128257-3-jorijnvdgraaf@catcrafts.net>
- <18c3e13f-88e4-458e-9f57-7aceeb1ce1d1@ixit.cz>
- <20260719142241.12640-1-jorijnvdgraaf@catcrafts.net>
+Subject: Re: [PATCH net v5 0/3] nfc: fix remaining OOB bugs in NCI/LLCP
+ parsing
+To: =?UTF-8?B?TGVrw6sgSGFww6dpdQ==?= <snowwlake@icloud.com>,
+ David Heidelberg <david+nfc@ixit.cz>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, krzk@kernel.org, horms@kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ oe-linux-nfc@lists.linux.dev
+References: <20260716203507.7328-1-snowwlake@icloud.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -99,135 +95,54 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260719142241.12640-1-jorijnvdgraaf@catcrafts.net>
+In-Reply-To: <20260716203507.7328-1-snowwlake@icloud.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/07/2026 16:22, Jorijn van der Graaf wrote:
-> Hello David,
+On 16/07/2026 22:35, Lekë Hapçiu wrote:
+> Rebased against David's linux-nfc for-linus tree [1], as requested.
 > 
-> Thank you for the review!
+> This was originally a 5-patch series. Two of the five (the
+> parse_gb_tlv()/parse_connection_tlv() offset-wrap fix and the
+> nfc_llcp_recv_snl() TLV bounds fix) have since been fixed independently
+> by other contributors already merged into for-linus:
 > 
-> On 19/07/2026 15:15, David Heidelberg wrote:
->> Please, send the "drop the of_match_ptr()/__maybe_unused annotations
->> from it." type of change as part of the series, but as a separate
->> commit before the new HW support introduction.
+>    d8bd2dedbde5 ("nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers")
+>    27256cdb290e ("nfc: llcp: bound SNL TLV parsing to the skb and add length checks")
 > 
-> Will do in v3.
+> Those two are dropped from this series to avoid duplicating work. The
+> remaining three patches are unchanged in substance from v4, just
+> rebased and renumbered:
 > 
->> Since you touch S3FWRN5_I2C_DRIVER_NAME, replace define
->> S3FWRN5_I2C_DRIVER_NAME occurenced with the "s3fwrn5_i2c" directly
->> before introducing the support (also separate commit)
+>    1/3 (was 1/5) - nci_store_general_bytes_nfc_dep() u8 underflow
+>    2/3 (was 4/5) - nfc_llcp_recv_dm() OOB read of the reason byte
+>    3/3 (was 5/5) - nfc_llcp_connect_sn() TLV parsing OOB
 > 
-> Will do, also in v3.
+> All three still reproduce against current for-linus (verified against
+> 1671b8fb7300 before rebase). checkpatch --strict is clean on all three.
 > 
->> is S3NRN4V really a variant of S3FWRN5 or is it just S3NRN4V?
+> [1] https://codeberg.org/linux-nfc/linux.git for-linus
 > 
-> It is a separate, later part, but from the same Samsung S.LSI NFC
-> controller line this driver covers. Samsung's downstream stack drives
-> that whole line with one kernel driver and one HAL: the HAL's product
-> table lists the N5 (S3FWRN5) and N82 (S3FWRN82) generations next to
-> RN4V (S3NRN4V) and others, dispatching on a product code reported by
-> the chip's bootloader, and the parts share the I2C framing, the
-> power-control GPIO scheme and the proprietary-NCI style of
-> configuration. The generational differences (bootloader protocol,
-> RF-register transport command, FW_CFG payload form) are exactly what
-> this patch dispatches on -- the same way the driver already supports
-> the S3FWRN82 next to the S3FWRN5.
+> Lekë Hapçiu (3):
+>    nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep
+>    nfc: llcp: fix OOB read of DM reason byte in nfc_llcp_recv_dm
+>    nfc: llcp: fix TLV parsing OOB in nfc_llcp_connect_sn
 > 
-> That said, "S3FWRN5-family" can indeed be read as "a variant of the
-> S3FWRN5 chip", which it is not, so I'll reword it in v3 to something
-> like "a later part of the same Samsung NFC controller line". The
-> phrase also sits in the commit message of the already-acked binding
-> patch; I'll tweak it there too (commit message only) and note it in
-> the changelog.
+>   net/nfc/llcp_core.c | 19 +++++++++++++++++--
+>   net/nfc/nci/ntf.c   |  6 ++++++
+>   2 files changed, 23 insertions(+), 2 deletions(-)
 > 
->> While it's "register update" and function is named "configure_dual",
->> it's loading firmware.
->>
->> If it's not a firmware, but only configuration, it can reside inside
->> the driver, maybe LLM even be able to decode to understandable
->> sequence of registers and values.
-> 
-> There are two separate things here: the chip's executable firmware
-> (~180 KiB) ships in its flash and is not touched by this patch at all
-> -- its download protocol is not implemented, which is why the
-> download step is skipped. What is loaded here are only the two RF
-> register tables (~3.5 KiB combined).
-> 
-> Those tables are configuration by nature, but I don't think they can
-> reside in the driver:
-> 
-> - They are board-specific analog/RF tuning, not chip constants: the
->    values match a particular antenna/matching-network design, and the
->    vendor revises them across software releases (my two Fairphone 6
->    units shipped different builds of these files, with different
->    version stamps embedded). A different S3NRN4V board design would be
->    expected to ship its own tables. Per-device data loaded at runtime
->    is what request_firmware() is there for, much like Wi-Fi
->    board/calibration files. The tables ship in the device's vendor
->    image, which is where I extracted them from.
-> 
-> - There is nothing to decode them against. The register map of these
->    controllers is not publicly documented, and even Samsung's own
->    (Apache-licensed) HAL treats the register content as opaque: the
->    only part of the image it interprets is a 16-byte metadata trailer
->    at its end (version stamps, used to decide whether an update is
->    needed at all, plus a region code), while the register content
->    itself is pushed to the chip untouched, in 252-byte sections.
->    Nothing in the stream or in the vendor stack identifies
->    address/value pairs one could transcribe, so "decoded" into the
->    driver this could only become a 3.5 KiB hex array in C, and we
->    would lose the ability to ship a newer table without rebuilding
->    the kernel.
-> 
-> - It also mirrors what this driver already does for the parts it
->    supports: s3fwrn5_nci_rf_configure() loads the same class of table
->    (sec_s3fwrn5_rfreg.bin) with request_firmware() and pushes it via
->    the older START/SET/STOP_RFREG commands. The new function is the
->    same operation over the newer parts' transport command.
-> 
-> If the naming reads confusingly I'm happy to rename the function or
-> extend its comment to spell out the firmware-vs-register-table
-> distinction.
 
-Thanks,
+Hello Lekë,
 
-now it makes more sense to me, feel free to name it as calibration data.
+I'm afraid I won't make you happy here, but after merging the outstanding 
+backlog today, I ran into conflicts again with your patch series. I'm very sorry 
+about that, but I've been receiving a high number of fixes.
 
-I would suggest to introduce something as a calibration-variant (see ath10k code).
+Now that I'm back from the conference, if you send the next revision based on 
+the current for-linus / for-next, I believe I'll be able to apply it quickly 
+enough to avoid conflicts.
 
-If I understand right, firmware location path could look like
-
-default path + driver vendor and model + device vendor and model + revision
-
-/lib/firmware/ + Samsung/s3nrn4v/ + Fairphone/FP5/hwrevision.bin
-
-/cc Luca here, as he may know more about the different configuration data shipped.
-
-We should assume the configuration will be shipped with linux-firmware at some 
-point.
+Thank you for your understanding.
 
 David
-
-> 
->> For next revision of the patch, I'll likely still have some
->> additional feedback.
-> 
-> Understood -- I'll send the v3 with all of the above shortly.
-> 
->> With next revision send also as last patch the device-tree entry for
->> the Fairphone 6, so we can also get additional testing from
->> developers/users.
-> 
-> Will do -- v3 will carry the Fairphone 6 DT patch at the end of the
-> series, marked as included for testing and presumably to be picked up
-> via the Qualcomm DT tree once the driver side is settled; I'll Cc
-> linux-arm-msm and the qcom maintainers on that patch.
-> 
-> Thanks again,
-> Jorijn
-
--- 
-David Heidelberg
-
