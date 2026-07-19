@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A03245005
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 13:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED5B395D98
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 14:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784469275; cv=none; b=qN2eh+ktrlT48DsAXL7r8oostqvB+cS0q0+XIfZYfKIKBnwW6NDA685TDNvJJHP0pdMN8u+fdOj/X3l92+GxS4PKYpDacQYvsdIRTAHBqNeTKErTuEq9wwgvxM/XzIsAyW6Vbs0ovj5Kmn9EwCsodDF8L5fQEe4HbIvioEbmh1M=
+	t=1784470540; cv=none; b=lA5Eax9w6FT2IkVzdt24XEJ6j25ior4Vx+vH2osBT+oxawsRKmHXQwSSJEzxpixkJIIG0KfU4sxO7VbgHRjxjNtx/Tg/8y4dTNnAaV9wjl6oC9SYz6d/L+c8746rcCqmFlQbVMoBBllXH3dAlVSoN4SQdhhJWc/sqy9wMpOVLFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784469275; c=relaxed/simple;
-	bh=/PhoqMVL9mcsyGslg7SgTWNoq9GWVfz6EitBdHgsXiM=;
+	s=arc-20240116; t=1784470540; c=relaxed/simple;
+	bh=YJsO0Igz9ejAntkPWpUOO93hQ/04bNPFWfwgh1Wng7E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s3l0tfHBdKvln5rxh6mIXqGKQmksPB/UHlv4T81lVe3RUuLPifhmQnPJeSZ1Id638TPT7WAKZ1RxQFii6ZK47gr3d6GDj0B1VBoFUboXsqU3VXp7q8F2pWeZvdJceI4Jz5mVUUeKpNEPMOAkugKFMX8yvlBWmWtZApu3J8uJudw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=zIUcrI4j; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=WLX+0hH+JZvBAAzye5QsE9sJpqLav9/qvVrYjC5MNGWlFS9RWryKpTSjcRqQF6onpjqZXArI3WkoApFELPZNVhInidMBLaiwHTScMkcATPafPYTY1lvue+7LFWmjqbxfqcfvLQ5JTsTolDh61TDxTNR0dN703FPgQof5Jat158Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=p2abl3aD; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="zIUcrI4j"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="p2abl3aD"
 Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9F9395340265;
-	Sun, 19 Jul 2026 15:54:30 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 401655340347;
+	Sun, 19 Jul 2026 16:15:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784469271;
+	t=1784470532;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c9LFxycx3GrVr71vZRhoRf5rE4DaLHLv8PjSSLAT7J0=;
-	b=zIUcrI4jZu1it+7cpVQIrz2jzgH+Vy7LTlX1XjL5tZbuyl8w+1ffRLvYDGXAFbGluN5jvA
-	O25GIcXMeONWjN8JGJLMotsvzQOLWO1INlU9hYM8rV3Gs4AWQ6f6V94+DPcAusf17bBF/6
-	ZTsAvnADQgy9QSqC9vxay/G5GBwT3zY=
-Message-ID: <9ddb9e1b-1366-4f45-bab6-66b80ee444cf@ixit.cz>
-Date: Sun, 19 Jul 2026 15:54:30 +0200
+	bh=FXJadZLUGdKyXuh5fGQeoMSpowamWmNy8VLNPi5Tpqo=;
+	b=p2abl3aD3xms1ZUruKKWzp0RdpgNNSqjz6PcrChAocpZkGITlhrnPWg9kPSFDTpNS9BUhn
+	bLEhDz/cfSIiP16o+/HY7h1dezWrxml0TMhjnvZM06PVDXURRJR+nKchYHftvUpb2ia2G0
+	W3faridKP3Ag0DAAyI2+Mat+xLlmIRA=
+Message-ID: <c1e0bd81-15ef-4aa0-a8d6-bbc193d95cf8@ixit.cz>
+Date: Sun, 19 Jul 2026 16:15:31 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,14 +41,13 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds read in activation
- parameter parsing
-To: Muhammad Bilal <meatuni001@gmail.com>, netdev@vger.kernel.org
-Cc: "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260628210026.129941-1-meatuni001@gmail.com>
+Subject: Re: [PATCH net] nfc: microread: validate CARD_FOUND event length
+ before parsing targets
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Pengpeng Hou <pengpeng@iscas.ac.cn>
+References: <20260713215936.23137-1-doruk@0sec.ai>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -94,43 +93,49 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260628210026.129941-1-meatuni001@gmail.com>
+In-Reply-To: <20260713215936.23137-1-doruk@0sec.ai>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 28/06/2026 23:00, Muhammad Bilal wrote:
-> nci_extract_activation_params_iso_dep() and
-> nci_extract_activation_params_nfc_dep() receive a pointer into the
-> RF_INTF_ACTIVATED_NTF notification but are not told how many bytes
-> remain.  Each reads a one-byte length field (rats_res_len,
-> attrib_res_len, atr_res_len or atr_req_len) and then memcpy()s that many
-> bytes from the packet.  The length is clamped to the destination size,
-> but it is never checked against the remaining activation-parameter data,
-> so a notification whose length field is larger than the data present
-> reads past the end of the buffer.
+On 13/07/2026 23:59, Doruk Tan Ozturk wrote:
+> microread_target_discovered() parses a device-supplied MREAD_CARD_FOUND
+> event into a struct nfc_target, reading fixed offsets and -- for the
+> ISO-A and ISO-A-3 gates -- a variable-length NFCID1 straight out of the
+> event skb. The only length check is nfcid1_len vs sizeof(targets->nfcid1);
+> skb->len itself is never validated, so a short event makes every gate
+> case read out of bounds past the skb:
 > 
-> The sibling nci_extract_rf_params_*() helpers were recently given a
-> data_len argument and matching remaining-length checks, but the
-> activation-parameter helpers were not updated.
+>    - ISO-A / ISO-A-3: fixed ATQA/SAK/LEN reads plus a memcpy of an
+>      attacker-controlled nfcid1_len bytes from the NFCID1 offset;
+>    - ISO-B / NFC-T1 / NFC-T3: a fixed 4- or 8-byte NFCID1 memcpy from a
+>      fixed offset.
 > 
-> Pass the remaining length down and validate each field against it before
-> copying, as the rf_params helpers do.
+> The copied nfcid1 is exported to user space via nfc_targets_found(), so
+> the over-read is an information leak (and a possible oops on an unmapped
+> page).
 > 
-> Fixes: ac2068384034 ("NFC: Parse NCI NFC-DEP activation params")
+> Reject events too short for the fields each gate case reads.
+> 
+> Found by 0sec (https://0sec.ai).
+> 
+> Fixes: cfad1ba87150 ("NFC: Initial support for Inside Secure microread")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+> Assisted-by: 0sec
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 > ---
->   net/nfc/nci/ntf.c | 36 ++++++++++++++++++++++++++++++------
->   1 file changed, 30 insertions(+), 6 deletions(-)
+>   drivers/nfc/microread/microread.c | 31 +++++++++++++++++++++++++++++--
+>   1 file changed, 29 insertions(+), 2 deletions(-)
 > 
-Hello Muhammad.
+Hello Doruk,
 
-This issue got (partially?) addressed by
+thanks for the patch, 1. 7. I got the same one from Pengpeng, which needs to 
+address Fixes and Cc tag [1].
 
-https://lore.kernel.org/all/20260612-b4-disp-6d52d8b0-v3-1-e26221f8826d@proton.me/
+Feel free to sync together for the future effort to not get duplicated (and 
+tokens not wasted ;-) )
 
-If you feel there is still something to improve, feel free to send patch against 
-the for-linus branch where it's already applied.
+Adding Pengpeng to Cc.
 
-Thank you
 David
+
+[1] https://lore.kernel.org/all/20260701053709.45176-1-pengpeng@iscas.ac.cn/
