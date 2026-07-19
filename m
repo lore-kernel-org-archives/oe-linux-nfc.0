@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348781E531
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 11:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447E37701A
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 11:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784461549; cv=none; b=PF4EetJ3Y1NYlnHocf66Y9qj2OK3LEuVzgtDpvUpVsfEAKMqBqu4EPccWedI9m4D1lsmGMxY2VCkR0inKyKGv7NXC9xaFbvQl42UYB/Rm7uZ0rRfo/14zoucKWqVgzFoEmC5dw2oNpfKWIMRUR/lWTevbB2y2Pl+YuZaUjGUltI=
+	t=1784462052; cv=none; b=KUY31mcwcjaLIlRq/wsiZ4tw5U5WHohhomdVq/NxbBSTumy4vMAZDbNLLxyH34IXXVl97X+m0M9xbr+sEV0mmQ7cl+Hg94qf8BCl4AeeSU/XWPJ1rs36GKt4u0OBiS442nYSo2Z/NB1zJ/flQRLwqnYW1TCxAWLW8xKTjfYvkOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784461549; c=relaxed/simple;
-	bh=fCMZT3L/NsKJB5T5zcBTrnS32jONSDmcIR/uU2CVFKQ=;
+	s=arc-20240116; t=1784462052; c=relaxed/simple;
+	bh=ysu496wkYyDPNy4UtjkzhheYLJSstmjIQsD58PvkO0E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tX8P4oQ4HNWt2iQX3PP2gbE39FRvxlt08/5b9DZdMLUEgxf90vFH+NJzlsT9by42PHT4go1rOdrHbM6AMYeKeSKaZK1pUBdOYX59Kx0p9PDFV+NXG2jKzvw8VrM8Vy31njM1xFCmsbxwAeLSXnEguqX41q2GQBNW0TxBpqQkhDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=esrCS8rO; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=hd5w6iJqJm1/fPKAyI+/aWaGjk9pCUOpL2//dYdwzjGk+3JyLCtnbC7P+3gsBoocRoAABrdpBecLxkvsXrHPxlNuihX8UfXwttKndVbO/mexRT7l9LfuNrfFsmnrL+FpGFpiX82Im7xk96/WuU7ill3UEJ2tOd0ZUguY+RCuTsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=PeQUuiVW; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="esrCS8rO"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="PeQUuiVW"
 Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id C1D445340262;
-	Sun, 19 Jul 2026 13:45:44 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id AC97253402AF;
+	Sun, 19 Jul 2026 13:54:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784461544;
+	t=1784462048;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o1wq4YDI1X/ikcLDEt14KKCfyPXq3sroRVtCJ2gipMM=;
-	b=esrCS8rOsmOoHboAGyEm6Thm329WRgy5+6w4JS1SBIzG0TY3jZzAH/Fm5JwUHSxkC/Q2bz
-	ZPe4tSD7BrhpzjIzPUbbctk1eElfaKMgwhMrR8S/riNSu8oke+7/5scTGsvLm98e6uKqfT
-	VnoqexsYNghNHQyfxDHHYpnQ3rueVIo=
-Message-ID: <1f0159e8-f4d5-402c-8b80-614a0f6070a7@ixit.cz>
-Date: Sun, 19 Jul 2026 13:45:44 +0200
+	bh=0oud3ONW6zV/T8t9DbOU+1lK5iOAairrRLcNu03G540=;
+	b=PeQUuiVWWi/1ZwRA9YwLOS7isbeGBHspvVhEHyrWJkScpQ50QQpWFgjk/W8m6hjZNO+lDH
+	Hjl3+PQj8EFgJuXrvPO13/mo9fS89V9KP/h84ygkPeGtZLXcySWc9cWvGIaD7PuKvod/sj
+	CmqldE5KZ+JX4N27EoCWrln5ODsT7GM=
+Message-ID: <bafc5a4f-de22-47f5-b706-603dc168b7ff@ixit.cz>
+Date: Sun, 19 Jul 2026 13:54:08 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,17 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] NFC: nxp-nci: fix deadlock between firmware download and
- IRQ handler
-To: Ian Ray <ian.ray@gehealthcare.com>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260624155615.858-1-ian.ray@gehealthcare.com>
+Subject: Re: [PATCH net v2] nfc: nci: fix uninit-value in the RF
+ discover/activated NTF handlers
+To: Sam P <sam@bynar.io>
+Cc: "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260626090301.2139500-1-sam@bynar.io>
+ <9f73948f-7045-4ef3-bc8c-731fde943c1e@ixit.cz>
+ <edfa1b87-a28c-40ca-85ca-e11ac3482518@bynar.io>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,50 +97,44 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260624155615.858-1-ian.ray@gehealthcare.com>
+In-Reply-To: <edfa1b87-a28c-40ca-85ca-e11ac3482518@bynar.io>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 24/06/2026 17:56, Ian Ray wrote:
-> The firmware download work function holds `info_lock' while calling the
-> nxp_nci_fw_send(), which waits for a completion.
+On 29/06/2026 14:23, Sam P wrote:
+> On 27/06/2026 19:41, David Heidelberg wrote:
+>>> Assisted-by: Bynario AI
+>>
+>> Hello Samuel,
+>>
+>> the fix look good, may I ask you to follow the Assisted-by syntax as requested 
+>> in [1]?
+>>
+>> Thank you
+>> David
+>>
+>> [1] https://docs.kernel.org/process/coding-assistants.html
 > 
-> The completion is signalled by the IRQ thread handler, which also takes
-> `info_lock', causing a deadlock.
+> Hey David,
 > 
-> Fix by dropping the mutex while waiting for the completion.
+> The :MODEL_VERSION was omitted as we use a range of different models and 
+> versions in our pipeline, making it hard to attribute to a single model/version. 
+> As for the AGENT_NAME, in this instance, would the correct syntax be to remove 
+> the spacing here (e.g. Bynario-AI)?
 > 
-> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
-> ---
->   drivers/nfc/nxp-nci/firmware.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
+> Once clarified, I'll submit a new patch with the correct syntax.
 
-Hello Ian!
+Hello Sam,
 
-Thanks for your submission, could you add Fixes tag and Cc for stable?
+with recent discussion about the tag itself, I'm fine to keep it as-is :)
 
-Thank you
 David
 
-> diff --git a/drivers/nfc/nxp-nci/firmware.c b/drivers/nfc/nxp-nci/firmware.c
-> index a9533977aff8..38fcac26ce56 100644
-> --- a/drivers/nfc/nxp-nci/firmware.c
-> +++ b/drivers/nfc/nxp-nci/firmware.c
-> @@ -154,8 +154,13 @@ static int nxp_nci_fw_send(struct nxp_nci_info *info)
->   		if (fw_info->fw)
->   			schedule_work(&fw_info->work);
->   	} else {
-> +		mutex_unlock(&info->info_lock);
-> +
->   		completion_rc = wait_for_completion_interruptible_timeout(
->   			&fw_info->cmd_completion, NXP_NCI_FW_ANSWER_TIMEOUT);
-> +
-> +		mutex_lock(&info->info_lock);
-> +
->   		if (completion_rc == 0)
->   			return -ETIMEDOUT;
->   	}
+> 
+> Thanks,
+> Sam
+> 
+> 
 
 -- 
 David Heidelberg
