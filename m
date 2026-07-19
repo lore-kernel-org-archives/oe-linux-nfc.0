@@ -1,135 +1,114 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from MTA-07-3.privateemail.com (mta-07-3.privateemail.com [198.54.118.214])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6F039A075
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 15:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D56543F083
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 18:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.118.214
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784474911; cv=none; b=AcBg550JmlJNP+m/lBi7/y1faUdjBN2yaS1pWUkocm8UZDL41Qp3jovZEvPJM416DB0eOqSgf71VvFe9LNSa3x/eWMsZzdsp2r30BQZWob6kDfHKMRIKw7rmYo3AFX9IZyP84doe0mMC3Mvq7tLHutF8rt3MrsEwv2M0ZAfzmXA=
+	t=1784484678; cv=none; b=BE4DJj0xNJDh5NhNy6ewsXmo4VmzA1aL8l4uCBZ6jHkc1fNXffF/etUnAXGS5AdUqVdwTAWkN2i6o/kqSDLYq2SQSSq2dD/mtCCT5b9Bj16cAO5I5wTPcB0V3wXKu0XQPRQh+AcdLG2ifpwyCPfGvQdiCupVe0Ch5N4ELCA8SEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784474911; c=relaxed/simple;
-	bh=4szXG3oCIYfGJMLJQ3aXcKn/f2UJWpQmZ27iox0NLpc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FjevX5rEn+sVjZVaw9lc2f1Xv9t8a4U52Z3B7PsO4GC4aUoqZWPX2GehInN0hFOgnBwV1zeww6UFdkVwKjyxqJUQgqeDKJOfo8g6O+ypl+fqqAr4csnvFQlOvZiLsOncHfL34m8qvHV6JrxW8uddjR9mWkhGBMcOo5UQIOVWFTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=G+jTO4Ji; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="G+jTO4Ji"
-Received: from [192.168.1.182] (unknown [62.24.73.79])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 91E7F53402CB;
-	Sun, 19 Jul 2026 17:28:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784474901;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oAwnD0Gho5jsRu8MC6m2O7F77dNL0HpcZ3QnBX3VISc=;
-	b=G+jTO4Ji5RrpReCee5tIy40Db9XkSI3KgeqciBbWKf50+k6wjlkweBunWq8lpyTHmY2L0k
-	/R4+vh+Hl9CXFIgq9Eck7kCb/GVXzCqvdykoBy8Pqdl9npFdtBfYH/xeMDHA3bA6A8ncqR
-	stVI1NWiCCmguBsM9b4iFluXHBcaDvQ=
-Message-ID: <b8433f37-374d-4764-a3c2-119375d0e309@ixit.cz>
-Date: Sun, 19 Jul 2026 17:27:49 +0200
+	s=arc-20240116; t=1784484678; c=relaxed/simple;
+	bh=Bul3j/OsqTw//nRoLthgWciTE7FwKi3LL1jaArRj4W8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JW0fwe2xtusYAxXOdbd5jEQA723VmGYaI1rWz/kDqaR4cHN/ELPJUowDqs5vVwt7Nl5Vnt4q1kW2SBx8Ge6ZxI6Ve57dSuqi4/DIdhpvwRWqG15Gn655ZfaoZ1O6k2JhnOUD8gEP7VSnRr82lJ4pa6NajNlvftYJH6rcnNYFNag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.118.214
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (unknown [87.215.145.39])
+	by mta-07.privateemail.com (Postfix) with ESMTPA id 4h3BXT4njxz3hhTG;
+	Sun, 19 Jul 2026 14:10:49 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: David Heidelberg <david@ixit.cz>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] nfc: s3fwrn5: support the S3NRN4V variant
+Date: Sun, 19 Jul 2026 20:09:38 +0200
+Message-ID: <20260719180938.43341-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <5d26f3ae-1287-4440-bd38-96c9900f16ea@ixit.cz>
+References: <20260705190621.128257-1-jorijnvdgraaf@catcrafts.net> <20260705190621.128257-3-jorijnvdgraaf@catcrafts.net> <18c3e13f-88e4-458e-9f57-7aceeb1ce1d1@ixit.cz> <20260719142241.12640-1-jorijnvdgraaf@catcrafts.net> <5d26f3ae-1287-4440-bd38-96c9900f16ea@ixit.cz>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] nfc: nci: fix use of uninitialized memory in
- NFC-DEP general bytes
-To: Muhammad Bilal <meatuni001@gmail.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260628214929.135152-1-meatuni001@gmail.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260628214929.135152-1-meatuni001@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 28/06/2026 23:49, Muhammad Bilal wrote:
-> nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
-> general bytes by subtracting the fixed general-bytes offset from the ATR
-> length:
-> 
->    atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
->    atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
-> 
-> It never checks that the ATR is at least that long.  When a
-> RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
-> subtraction is negative; because min_t() casts its arguments to __u8 the
-> negative value becomes large and is then capped at
-> NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE.  remote_gb_len is thus
-> set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
-> on-stack atr_res/atr_req buffer were copied from the packet, and the
-> following memcpy() reads the uninitialized remainder into
-> ndev->remote_gb.
-> 
-> Zero remote_gb_len and skip storing the general bytes when the ATR is
-> shorter than the general-bytes offset, so that a stale remote_gb_len
-> from a previous activation does not survive into the new session.
-> 
-> Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
-> ---
->   net/nfc/nci/ntf.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-Hello Muhammad,
 
-could you please rebase the patch on the currect version for-linus or for-next?
+Hello David,
 
-Thank you
-David
+On 19/07/2026 16:56, David Heidelberg wrote:
+> now it makes more sense to me, feel free to name it as calibration
+> data.
+
+Will do -- v3 will say "RF calibration data" in the commit message and
+comments.
+
+> I would suggest to introduce something as a calibration-variant (see
+> ath10k code).
+>
+> If I understand right, firmware location path could look like
+>
+> default path + driver vendor and model + device vendor and model +
+> revision
+>
+> /lib/firmware/ + Samsung/s3nrn4v/ + Fairphone/FP5/hwrevision.bin
+
+That layout makes sense to me. My inclination for v3:
+
+- request the files from a chip-scoped directory:
+  samsung/s3nrn4v/hwreg.bin + samsung/s3nrn4v/swreg.bin (the existing
+  parts' sec_s3fwrn5_rfreg.bin is untouched);
+
+- an optional samsung,calibration-variant string property (modelled
+  on ath10k's qcom,calibration-variant) that, when set, makes the
+  driver try a device-scoped location first, e.g.
+  samsung/s3nrn4v/fairphone-fp6/hwreg.bin, falling back to the bare
+  files above.
+
+The variant lookup can also be added compatibly later, once a second
+S3NRN4V design (or a diverging FP6 revision) actually appears -- so
+if you'd rather keep v3 minimal, I'd do only the directory move now
+and add the property when first needed. Either works for me.
+
+So far I have seen no evidence of per-revision or per-region variants
+on the FP6: the only difference I have identified between my two
+units' tables is the vendor software release (build-date stamps).
+But Fairphone would know better.
+
+> /cc Luca here, as he may know more about the different configuration
+> data shipped.
+
+Luca, two questions your way:
+
+- do FP6 hardware revisions (or regional SKUs) ship different NFC
+  hwreg/swreg tables, or is it one set per software release?
+
+- could Fairphone submit these tables to linux-firmware? I assume
+  the redistribution question sits with Fairphone/Samsung, and having
+  them there would make NFC work out of the box on mainline.
+
+> We should assume the configuration will be shipped with
+> linux-firmware at some point.
+
+Agreed -- that is exactly why I'd like to settle the path scheme now.
+
+v3 is otherwise ready, including the Fairphone 6 DT patch; rather
+than sending it right away as I said earlier today, I'll give this
+a few days for Luca's input and then send it.
+
+Thanks,
+Jorijn
