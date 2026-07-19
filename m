@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAE52D5926
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 12:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A160438E8D6
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 12:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784463253; cv=none; b=lbRB9kExPLGABGhlBPFZwE/uzjFgGgDGlGU6zgHzXYOMWby9GAJ7khhPWLoL+kahpstc1fSpTJL1CHvnZlwH9HhboU9QVCbKFwQRpLd7VfInwSOsVt7VOlwGux2LhSNhbL3UF3YwOGem+rl91a4MaZwQyMMb8TzkgrrOJ8bM9TE=
+	t=1784464036; cv=none; b=oSbyg5vQonmoeUVHX5YYOOndgat0mVAMd4w36cVnTE3CKGRYxmG8yoEvOAg4UBY3PScUbt8flOvcmDj9qYxeoijLfPOvPieiDIdd15wuqMSJVlNZk2ER88gLQ3ytSCtSbQJfNAdt3jBvM0v2L683Twg3FYG65daPp91Cl4VW214=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784463253; c=relaxed/simple;
-	bh=n74QA6Bp7DlNao/fLiVOT578bz0UE/d51QFiAJzoY+A=;
+	s=arc-20240116; t=1784464036; c=relaxed/simple;
+	bh=3eglMVdgdWWdenNEAhrSEkVduYzC8PtbeGucl2PMEqE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xkbs8zBxXuro5d7Wr4gZlgIo9uuKiz8r5Ex2FsFZJrK7uYvhr42VTp77zZMazoXIO4W+Swe/Iz8LfUdAPDTZmhEeD5sfj6va4DXcrWQGVSBZkeEoaIuEOdifRxT3MjgWeOlQSfvWUN9Do62YZxVdCnFdhLC5VcD9nBudI5g2MKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=B1RuRpwh; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=vCxPn/k9TW2SoQso65Ox0xPgk5wemSLt00eGB2ngOqIlUJaeEpteOP23uUN0v5rWLFJYxzyGVqY6vMMzka359PgssIoOa1WW8XmlspU/O9yi1Om6EVqxUALzPRhkFnZw5b3kBQ1am5SjboLQglzI0GEWc8htYFbfKBQEPgGiP/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=G4U3/Izf; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="B1RuRpwh"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="G4U3/Izf"
 Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9A69653401F9;
-	Sun, 19 Jul 2026 14:14:08 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 5FE9B53402FF;
+	Sun, 19 Jul 2026 14:27:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784463249;
+	t=1784464030;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ab2MQ2LRcvSBzPXG69BvKFFbZxI1zSYKmeh8It7jStI=;
-	b=B1RuRpwhYorVvqYgV8IwvhgPrUbo9ULLOcuzn2Tc/fRi2mV3cc2CnYv6LMxFwuxz2GFWys
-	iq/kKjm/4LoU88z2Graq1NNrVbZm+Nv3K5PxJEkvmkPbjdGWwuSWma6h1vBqLiglA09ERR
-	/5hou4gT0RoLUnCwVy3ZVspDf78kiaM=
-Message-ID: <315535a1-ca29-4f52-b027-9e5af86effd3@ixit.cz>
-Date: Sun, 19 Jul 2026 14:14:08 +0200
+	bh=ZHXfROMSBlFSvpeFf5wgBQr9uiTnUBDsfLX4DClzKhY=;
+	b=G4U3/IzfoQ0bgp2zHMO0LGI1Z/ursvGhoBWgaB9rW9HkJcmPSct1/np3q4mrejFcT7QT6O
+	uajIZvsrNrNxdSkqkAbgjyQnpEd0Teaj15eKrK7vPThxpM47hLz/BVfy86aG8GtY60QzFT
+	G6A8MtWErrnHnSogFQeER1TfeNr58O4=
+Message-ID: <4909379b-fed6-4636-bfff-cea94f1cfcce@ixit.cz>
+Date: Sun, 19 Jul 2026 14:27:09 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,14 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: pn533: free queued command skbs during cleanup
-To: raoxu <raoxu@uniontech.com>
-Cc: kuba@kernel.org, krzk@kernel.org, error27@gmail.com, kees@kernel.org,
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <3B4941C5D2E3FEE0+20260706083926.798888-1-raoxu@uniontech.com>
+Subject: Re: [PATCH] nfc: st-nci: Add error handling to IRQ handlers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ oe-linux-nfc@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, Griffin Kroah-Hartman <griffin@kroah.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+References: <2026070726-wiring-yield-ceca@gregkh>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,127 +94,156 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <3B4941C5D2E3FEE0+20260706083926.798888-1-raoxu@uniontech.com>
+In-Reply-To: <2026070726-wiring-yield-ceca@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/07/2026 10:39, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
+On 07/07/2026 16:21, Greg Kroah-Hartman wrote:
+> From: Griffin Kroah-Hartman <griffin@kroah.com>
 > 
-> pn53x_common_clean() destroys the workqueue and releases the common
-> PN533 state. It purges resp_q, but leaves fragment_skb untouched and
-> drops queued pn533_cmd objects without freeing their request skbs.
+> Add ndlc_remove() to st_nci_i2c_probe() and st_nci_spi_probe() if the
+> devm_request_threaded_irq() function fails.  This is to properly unwind
+> after ndlc_probe() was called prior to this.
 > 
-> Queued commands are created by __pn533_send_async() when another command
-> is pending. At that point the queued command owns cmd->req until it is
-> sent or discarded. Fragmented transfers can also leave skbs queued in
-> fragment_skb.
-> 
-> Purge fragment_skb and free queued command request skbs before freeing
-> the command objects.
-> 
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Assisted-by: gkh_clanker_2000
+> Cc: David Heidelberg <david@ixit.cz>
+> Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->   drivers/nfc/pn533/pn533.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/nfc/st-nci/i2c.c | 4 +++-
+>   drivers/nfc/st-nci/spi.c | 4 +++-
+>   2 files changed, 6 insertions(+), 2 deletions(-)
 > 
-Hello Xu,
+Heya,
 
-thank you for working on this. Could you append Fixes tag and add Cc for stable?
+the Sashiko review look reasonable here, check?
 
-btw. you may want to also look at Sashiko output below [1].
-These issues are preexisting, just in case you wanted to fix more of pn533.
+Thanks
+David
 
+--- Patch [1]: [PATCH] nfc: st-nci: Add error handling to IRQ handlers ---
+commit ae7497e7a0338b16d82e7783afc2835614c291c1
+Author: Griffin Kroah-Hartman <griffin@kroah.com>
 
-commit 6e3289c813a4d66537faa65e9880657bebff74b1
-Author: Xu Rao <raoxu@uniontech.com>
+nfc: st-nci: Add error handling to IRQ handlers
 
-     nfc: pn533: free queued command skbs during cleanup
+Add ndlc_remove() to st_nci_i2c_probe() and st_nci_spi_probe() if the
+devm_request_threaded_irq() function fails.  This is to properly unwind
+after ndlc_probe() was called prior to this.
 
-     pn53x_common_clean() destroys the workqueue and releases the common
-     PN533 state. It purges resp_q, but leaves fragment_skb untouched and
-     drops queued pn533_cmd objects without freeing their request skbs.
+ > diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
+ > index 9ae839a6f5cc0..7f727d9b97ba8 100644
+ > --- a/drivers/nfc/st-nci/i2c.c
+ > +++ b/drivers/nfc/st-nci/i2c.c
+ > @@ -243,8 +243,10 @@ static int st_nci_i2c_probe(struct i2c_client *client)
+ >  				st_nci_irq_thread_fn,
+ >  				IRQF_ONESHOT,
+ >  				ST_NCI_DRIVER_NAME, phy);
 
- > diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
- > index d7bdbc82e2ba2..de2b7f4d708c6 100644
- > --- a/drivers/nfc/pn533/pn533.c
- > +++ b/drivers/nfc/pn533/pn533.c
- > @@ -2799,9 +2799,11 @@ void pn53x_common_clean(struct pn533 *priv)
- >  	destroy_workqueue(priv->wq);
+This is a pre-existing issue, but is there a race condition here?
 
-This isn't a bug introduced by this patch, but is there a use-after-free
-risk in the disconnect paths involving this cleanup?
+In st_nci_i2c_probe(), the driver calls ndlc_probe() which synchronously
+registers the device to the netlink subsystem, exposing it to userspace.
+The IRQ handler is requested immediately after.
 
-In drivers/nfc/pn533/usb.c:pn533_usb_disconnect(), the core driver state
-is freed via pn53x_common_clean() before hardware transport operations are
-stopped:
+If userspace opens the device in the brief window between ndlc_probe()
+and devm_request_threaded_irq(), could st_nci_open() attempt to enable
+an unrequested IRQ and cause communication timeouts?
 
-	pn53x_common_clean(phy->priv);
-	...
-	usb_kill_urb(phy->in_urb);
+ > -	if (r < 0)
+ > +	if (r < 0) {
+ >  		nfc_err(&client->dev, "Unable to register IRQ handler\n");
+ > +		ndlc_remove(phy->ndlc);
 
-When usb_kill_urb() cancels the in-flight URB, the completion callback
-pn533_recv_ack() executes with -ENOENT and dereferences the already freed
-priv pointer to queue work on this destroyed workqueue:
+Does calling ndlc_remove() here lead to an unbalanced IRQ disable?
 
-	case -ENOENT:
-		dev_dbg(&phy->udev->dev,
-			"The urb has been stopped (status %d)\n",
-			urb->status);
-		goto sched_wq;
-	...
-	sched_wq:
-		queue_work(priv->wq, &priv->cmd_complete_work);
+When devm_request_threaded_irq() fails, this new error path calls
+ndlc_remove(). This function eventually calls st_nci_i2c_disable(),
+which unconditionally executes disable_irq_nosync().
 
-A similar ordering issue appears in
-drivers/nfc/pn533/uart.c:pn532_uart_remove() where priv is freed before
-timer_shutdown_sync(&pn532->cmd_timeout).
+Since the IRQ registration just failed, would disabling this unrequested
+shared IRQ line break other devices and trigger an unbalanced IRQ disable
+warning?
 
+Will this error path also cause a blocking wait and memory leak?
+
+When ndlc_remove() cascades to ndlc_close(), it sends a synchronous NCI
+mode-set command via nci_prop_cmd().
+
+Since the device was never opened by userspace during this failed probe,
+the ST_NCI_RUNNING flag is not set. This causes st_nci_send() to return
+-EBUSY and drop the transmission without freeing the sk_buff.
+
+Because nci_prop_cmd() waits synchronously for a response that will never
+arrive, won't this block the probe failure path for the full 2-second
+timeout?
+
+This is a pre-existing issue, but does the teardown order in ndlc_remove()
+allow work items to be re-armed after cancellation?
+
+In ndlc_remove(), background work is cancelled before deregistration:
+
+drivers/nfc/st-nci/ndlc.c:ndlc_remove() {
+     ...
+     cancel_work_sync(&ndlc->sm_work);
+     st_nci_remove(ndlc->ndev);
+     ...
+}
+
+However, st_nci_remove() delegates to ndlc_close(), which queues a
+mode-set command. If the interface was running, this command flows to
+ndlc_send(), which calls schedule_work(&ndlc->sm_work).
+
+Could this re-arm the work item after the cancellation sync, allowing it
+to outlive the device's managed memory and cause a use-after-free?
+
+This is a pre-existing issue, but are the Secure Element timers leaking
+during device removal?
+
+The timers bwi_timer and se_active_timer are initialized in
+st_nci_se_init() using managed memory, but st_nci_remove() orchestrates
+teardown without ever calling the designated st_nci_se_deinit() cleanup
+function:
+
+drivers/nfc/st-nci/core.c:st_nci_remove() {
+     struct st_nci_info *info = nci_get_drvdata(ndev);
+
+     ndlc_close(info->ndlc);
+
+     nci_unregister_device(ndev);
+     nci_free_device(ndev);
+}
+
+If a timer is running when the module unbinds, could it survive the
+devres cleanup and cause a use-after-free when it fires?
+
+This is a pre-existing issue, but is there a missing cleanup step if
+st_nci_se_init() fails?
+
+In st_nci_probe(), the device is registered to the core, but if the
+subsequent Secure Element initialization fails, it returns early:
+
+drivers/nfc/st-nci/core.c:st_nci_probe() {
+     ...
+     r = nci_register_device(ndlc->ndev);
+     if (r) {
+         pr_err("Cannot register nfc device to nci core\n");
+         goto err_reg_dev;
+     }
+
+     return st_nci_se_init(ndlc->ndev, se_status);
+}
+
+If st_nci_se_init() returns an error, the devres cleanup will free the
+driver-private objects, but the NCI interface is never unregistered.
+Would this leave a dangling interface accessible to userspace, leading
+to a use-after-free?
+
+ > +	}
  >
- >  	skb_queue_purge(&priv->resp_q);
- > +	skb_queue_purge(&priv->fragment_skb);
- >
- >  	list_for_each_entry_safe(cmd, n, &priv->cmd_queue, queue) {
- >  		list_del(&cmd->queue);
- > +		dev_kfree_skb(cmd->req);
- >  		kfree(cmd);
+ >  	return r;
+ >  }
 
-This is a pre-existing issue, but does dropping queued commands here cause
-callers to hang?
-
-When commands are removed from the queue and freed, their complete_cb is
-never invoked. Callers waiting on wait_for_completion() inside
-pn533_send_cmd_sync() could hang forever in TASK_UNINTERRUPTIBLE, and
-async callers might leak memory allocated for complete_cb_context.
-
-This is also a pre-existing issue, but does this cleanup routine also need
-to free the actively executing command?
-
-If the device is removed while a command is actively in-flight, it seems
-priv->cmd and its associated cmd->req SKB might be leaked here when priv
-is ultimately freed, since the active command is not in the cmd_queue.
-
-This is another pre-existing issue, but does a transmission failure
-permanently stall the command queue elsewhere in this file?
-
-In drivers/nfc/pn533/pn533.c:pn533_wq_cmd(), if the physical layer
-transmission fails:
-
-	rc = dev->phy_ops->send_frame(dev, cmd->req);
-	if (rc < 0) {
-		dev->cmd = NULL;
-		dev_kfree_skb(cmd->req);
-		kfree(cmd);
-		return;
-	}
-
-The function frees the command but skips calling its complete_cb (hanging
-the caller) and fails to reset dev->cmd_pending = 0. This seems like it
-would permanently stall all subsequent commands in the cmd_queue.
-
- >  	}
- >
-
-
-[1] 
-https://sashiko.dev/#/patchset/3B4941C5D2E3FEE0%2B20260706083926.798888-1-raoxu%40uniontech.com
+[ ... ]
