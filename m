@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8288D3A3E8C
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 15:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6F039A075
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 15:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784473464; cv=none; b=vA+Q5PzDZg2h5esccciz2sJzK5tyma8U2TFyTLBw9BTLdouBJJpsbLduo3nG3rJqoqE48qPzIepXrTvLK8mFftJ1zT6PlisHkiv0B3ilC+Oq+WTYPh3+Lb//GIiKiX0c0wCQYFFIei1LlAXtBZosmyRFPOODrjolY3Lny2e3IVg=
+	t=1784474911; cv=none; b=AcBg550JmlJNP+m/lBi7/y1faUdjBN2yaS1pWUkocm8UZDL41Qp3jovZEvPJM416DB0eOqSgf71VvFe9LNSa3x/eWMsZzdsp2r30BQZWob6kDfHKMRIKw7rmYo3AFX9IZyP84doe0mMC3Mvq7tLHutF8rt3MrsEwv2M0ZAfzmXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784473464; c=relaxed/simple;
-	bh=sGkUnfWYBxVACT6C6QfNFhZtQX1HjIOQQnzDRBM2+MM=;
+	s=arc-20240116; t=1784474911; c=relaxed/simple;
+	bh=4szXG3oCIYfGJMLJQ3aXcKn/f2UJWpQmZ27iox0NLpc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J8irAspNWyjSkDlg82DGVIsa//xg3R0cfZ6zwUHcTE0ySrtJpqoUsYTBFB1dNdOIQytRfm0qPCKYNjtMN9RRIEHctaP1D/pGmnNWAEXByCx7xESd3YfT5+Ec4Um9NcbqzjHYveHSY92saYMDOKtCSaXxpTX3N7Ox8+FeHfFXBIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=o6KdAx7B; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=FjevX5rEn+sVjZVaw9lc2f1Xv9t8a4U52Z3B7PsO4GC4aUoqZWPX2GehInN0hFOgnBwV1zeww6UFdkVwKjyxqJUQgqeDKJOfo8g6O+ypl+fqqAr4csnvFQlOvZiLsOncHfL34m8qvHV6JrxW8uddjR9mWkhGBMcOo5UQIOVWFTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=G+jTO4Ji; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="o6KdAx7B"
-Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="G+jTO4Ji"
+Received: from [192.168.1.182] (unknown [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9E2D25340260;
-	Sun, 19 Jul 2026 17:04:19 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 91E7F53402CB;
+	Sun, 19 Jul 2026 17:28:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784473459;
+	t=1784474901;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=GyueglzthAji0VEDQ7Os7bxVp3phdIK0YEGjL1Ln/M4=;
-	b=o6KdAx7BvtAJWhjAqnHt7YHjrKyFD7RCz+gsIy/5+Q61+8gjvsuu3lhCPlbxCFX0QphiZB
-	iQR8x7iQjEU5AW59O9jOe+Jc5+RlplsfkwTJKtGY+kG1evavvziE2MSgxqnklRNE53r395
-	B1LDkB5oWnsr03X6JoxCbfV2bANd96g=
-Message-ID: <6753b289-3102-44be-a5b5-2a25e7a82366@ixit.cz>
-Date: Sun, 19 Jul 2026 17:04:19 +0200
+	bh=oAwnD0Gho5jsRu8MC6m2O7F77dNL0HpcZ3QnBX3VISc=;
+	b=G+jTO4Ji5RrpReCee5tIy40Db9XkSI3KgeqciBbWKf50+k6wjlkweBunWq8lpyTHmY2L0k
+	/R4+vh+Hl9CXFIgq9Eck7kCb/GVXzCqvdykoBy8Pqdl9npFdtBfYH/xeMDHA3bA6A8ncqR
+	stVI1NWiCCmguBsM9b4iFluXHBcaDvQ=
+Message-ID: <b8433f37-374d-4764-a3c2-119375d0e309@ixit.cz>
+Date: Sun, 19 Jul 2026 17:27:49 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,15 +41,14 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v5 0/3] nfc: fix remaining OOB bugs in NCI/LLCP
- parsing
-To: =?UTF-8?B?TGVrw6sgSGFww6dpdQ==?= <snowwlake@icloud.com>,
- David Heidelberg <david+nfc@ixit.cz>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, krzk@kernel.org, horms@kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- oe-linux-nfc@lists.linux.dev
-References: <20260716203507.7328-1-snowwlake@icloud.com>
+Subject: Re: [PATCH net v2] nfc: nci: fix use of uninitialized memory in
+ NFC-DEP general bytes
+To: Muhammad Bilal <meatuni001@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260628214929.135152-1-meatuni001@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -95,54 +94,42 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260716203507.7328-1-snowwlake@icloud.com>
+In-Reply-To: <20260628214929.135152-1-meatuni001@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 16/07/2026 22:35, Lekë Hapçiu wrote:
-> Rebased against David's linux-nfc for-linus tree [1], as requested.
+On 28/06/2026 23:49, Muhammad Bilal wrote:
+> nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
+> general bytes by subtracting the fixed general-bytes offset from the ATR
+> length:
 > 
-> This was originally a 5-patch series. Two of the five (the
-> parse_gb_tlv()/parse_connection_tlv() offset-wrap fix and the
-> nfc_llcp_recv_snl() TLV bounds fix) have since been fixed independently
-> by other contributors already merged into for-linus:
+>    atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
+>    atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
 > 
->    d8bd2dedbde5 ("nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers")
->    27256cdb290e ("nfc: llcp: bound SNL TLV parsing to the skb and add length checks")
+> It never checks that the ATR is at least that long.  When a
+> RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
+> subtraction is negative; because min_t() casts its arguments to __u8 the
+> negative value becomes large and is then capped at
+> NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE.  remote_gb_len is thus
+> set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
+> on-stack atr_res/atr_req buffer were copied from the packet, and the
+> following memcpy() reads the uninitialized remainder into
+> ndev->remote_gb.
 > 
-> Those two are dropped from this series to avoid duplicating work. The
-> remaining three patches are unchanged in substance from v4, just
-> rebased and renumbered:
+> Zero remote_gb_len and skip storing the general bytes when the ATR is
+> shorter than the general-bytes offset, so that a stale remote_gb_len
+> from a previous activation does not survive into the new session.
 > 
->    1/3 (was 1/5) - nci_store_general_bytes_nfc_dep() u8 underflow
->    2/3 (was 4/5) - nfc_llcp_recv_dm() OOB read of the reason byte
->    3/3 (was 5/5) - nfc_llcp_connect_sn() TLV parsing OOB
+> Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+> ---
+>   net/nfc/nci/ntf.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> All three still reproduce against current for-linus (verified against
-> 1671b8fb7300 before rebase). checkpatch --strict is clean on all three.
-> 
-> [1] https://codeberg.org/linux-nfc/linux.git for-linus
-> 
-> Lekë Hapçiu (3):
->    nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep
->    nfc: llcp: fix OOB read of DM reason byte in nfc_llcp_recv_dm
->    nfc: llcp: fix TLV parsing OOB in nfc_llcp_connect_sn
-> 
->   net/nfc/llcp_core.c | 19 +++++++++++++++++--
->   net/nfc/nci/ntf.c   |  6 ++++++
->   2 files changed, 23 insertions(+), 2 deletions(-)
-> 
+Hello Muhammad,
 
-Hello Lekë,
+could you please rebase the patch on the currect version for-linus or for-next?
 
-I'm afraid I won't make you happy here, but after merging the outstanding 
-backlog today, I ran into conflicts again with your patch series. I'm very sorry 
-about that, but I've been receiving a high number of fixes.
-
-Now that I'm back from the conference, if you send the next revision based on 
-the current for-linus / for-next, I believe I'll be able to apply it quickly 
-enough to avoid conflicts.
-
-Thank you for your understanding.
-
+Thank you
 David
