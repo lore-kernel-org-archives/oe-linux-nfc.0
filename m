@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E552212548
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 11:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1526C392829
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 12:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784462081; cv=none; b=Ftvr9SWAQNYOgVfsjDIL1VLJZK3758Lzd/2XgOJ38qTeL230oS7G2dTnoYfcHqM4k9wD2Bc1db2m0tdnPFgD6KGNDs9DpXdybBv4OuZlWepm3YNGcgCF1GO4ubaGkmssblfvtUFJ+baMdW5mlCzquyI3QZcgkD/fKMqJf7rur68=
+	t=1784462737; cv=none; b=uTuZjCnkHoCJXAiLnLra7eQNEYbAO6AX1L68BQMvUynUQvXrgAdYhpGzY+QfrKtSJ7XoBc7MXXU27hgpzxg7KSkzL17qkrvPFISR5GIyNrBJwzcqi4zP/JAxQK53XdTxymoFOreJWE82NMlm4Eycl0IaF9P4r9kfBNf0v0gTwiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784462081; c=relaxed/simple;
-	bh=ZxoKGtt1W6TxWWYUBgP97bKzwyi9KacKWdLCg8OPuRY=;
+	s=arc-20240116; t=1784462737; c=relaxed/simple;
+	bh=ux9GyB4zspvkT8RzycKu3ydO+zHmk8MSxf2/1Sg33Xo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OL55OVn/Wu/LsQEJUDNDjHwyTobj11TMAi+b3PJ6j3LkfGSwEbNIRhm0qW87UM2rTWdlguEWeNIgS3R2WFKQplyYEm2C/i27GymDNCgY0MS74Vz7wtqNRtBJZSTGvNzsXNepDvP8xjfv7yVo4CV/fOVmVBGE5a51iPWbNmCmwKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=PwBJUDBk; arc=none smtp.client-ip=185.100.197.86
+	 In-Reply-To:Content-Type; b=bHx2hORleo3J1w1lUw93q2Y6gdZ3OwHypkUMrBqpEGq6xPQfVspAVdEKCTiJ2F4Dld8R8MLO3hy4/4dEqQGXMC3rXT6+aj+HLlTixFsmpzasiCdQn97udC1feH5cY6joTgHMp6ANWTp608IV4VksGk44oey7t79+x7eVbREXO74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=r8/dktL9; arc=none smtp.client-ip=185.100.197.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="PwBJUDBk"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="r8/dktL9"
 Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id D216953402AF;
-	Sun, 19 Jul 2026 13:54:36 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 0157D53402E0;
+	Sun, 19 Jul 2026 14:05:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784462077;
+	t=1784462733;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=PsK8uNcn+7B1MNkrcMwBjD2UoVL3uoTGMoceQSYky7c=;
-	b=PwBJUDBkvjtbk2JTEVJ1BL6Zs539yrPork9TnZg6HYDoX9N5xbrzNLJG0dNKrRMOUR14Ub
-	GJv41evKhyZIDDefTh8hMqIKeQdfz51LPE+LQw8psRxn6lyOcblHkGyge7AQWjbgYMgTfL
-	GlEierPtG3UpTTddrr7Wj5xQyodl4dY=
-Message-ID: <7574625f-f75b-4a7f-9a39-92e45ba5075e@ixit.cz>
-Date: Sun, 19 Jul 2026 13:54:36 +0200
+	bh=fSxMgNv6FBapGuBNPMJOFVVkP3RQYJqwoIMLtKMnf/0=;
+	b=r8/dktL9SXRUU77jNvqcEsCggCuSVyDrudLqV8TyDJtF9xrm+W2YNko8HOWzaNwotNDxlp
+	fY/Uk7nFaonEYy5FxesLyNWH3+1+RxpqUYRB4qWCcX1IDhQdqiSFiIxaFVpqJgcAaWd/M1
+	cCa5yXkhBIKI0Qk7mXb2Zqak6sDRQdU=
+Message-ID: <64337008-50c9-4b49-9967-c7160e6ccc3e@ixit.cz>
+Date: Sun, 19 Jul 2026 14:05:32 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,17 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] nfc: nci: fix uninit-value in the RF
- discover/activated NTF handlers
-To: Sam P <sam@bynar.io>
-Cc: "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260626090301.2139500-1-sam@bynar.io>
- <9f73948f-7045-4ef3-bc8c-731fde943c1e@ixit.cz>
- <edfa1b87-a28c-40ca-85ca-e11ac3482518@bynar.io>
+Subject: Re: [PATCH] nfc: microread: validate target discovery payload lengths
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Kees Cook <kees@kernel.org>
+References: <20260701053709.45176-1-pengpeng@iscas.ac.cn>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -97,19 +91,29 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <edfa1b87-a28c-40ca-85ca-e11ac3482518@bynar.io>
+In-Reply-To: <20260701053709.45176-1-pengpeng@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 01/07/2026 07:37, Pengpeng Hou wrote:
+> microread_target_discovered() parses target discovery payloads from
+> skb->data according to the HCI gate. The fixed field offsets and UID
+> copies were checked only against the destination nfc_target buffers, not
+> against the actual skb length.
+> 
+> Validate that each gate-specific payload contains the fixed fields and
+> UID bytes before reading or copying them.
+> 
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> ---
+>   drivers/nfc/microread/microread.c |   31 +++++++++++++++++++++++++++++--
+>   1 file changed, 29 insertions(+), 2 deletions(-)
+> 
 
-On Fri, 26 Jun 2026 10:03:01 +0100, Samuel Page wrote:
- > nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
+Hello Pengpeng,
 
-Applied, thanks!
+thank you for your work!
+May I ask you to add Fixes tag and Cc for stable kernels?
 
-[1/1] nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
-       commit: 7b5b8b3bb6d96474484b5666eac5a793eb0fdb4e
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
+Thank you
+David
