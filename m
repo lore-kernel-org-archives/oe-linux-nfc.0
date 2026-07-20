@@ -1,122 +1,99 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444AA4192EE
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 12:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1DA423783
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 13:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784550899; cv=none; b=jK+eIHnFcOXo7c9S9OFSd4WLJd6rlDfHxLIQoaKAywaF3/7bcml5GXu8nMn+3ASWRHpypE/ytgksPnZIJd6iSgka5SuGKrjdfofvZKl6DeOVvVhrGofsk2xDJkWG1SuHomhRaZ7wymn6x6wc/HH4Q3/NGU//aQ0/ZjCa4LIgTfM=
+	t=1784553700; cv=none; b=lYafu/pBPWEW2x9cRe2CZg++qkLSqJ3n8vH6VOOdLGtBEMfnuhby0nvZY5Z7tvYaIkX6c+DZuWSDTFi1T3sj+UQpQotmmE2c33OLZW61x/pFHaj8xXuPJ4xe1digNnoNUuOCVZ30veGblvfCw9F6c3sPXXr7GLTuxsIspjNeK+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784550899; c=relaxed/simple;
-	bh=yj+BLK/sVb5a8ZUSAxrRnPZqVjf9o9t67KSM27TbQvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b+cGwhyyoHt10zKV8T4N+ffjcbEQTjaVDH0dgm4aPaVzR1KGPFY/hNbicbm9Kdivekp6HXKF4Mbp3jB+6uwSJwDJJXWPFtJb/71sCpRdHimuvKJKEBtMIKMhi4/DrJ7ZIig0z9Mw4qGl9rtBfaxiMN/gAkgZv2tFYWDD1O7ZFqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pYQyADO/; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1784553700; c=relaxed/simple;
+	bh=q/i+h1xLBAMF009p2KMCeNBKzps8J4NXn33rD07ylA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=usaahENV8W9oXqz4IphSh+AITqjCjQPIzavJuLLRO8Y2/Ifb+iaJ6QPaF1NT4pFe01B1enza4GmeHj5vXZm4njFKEoXgwK5QLyafP+QEla/AlXlKhHJCXV37APtGg5+0jweH/5kQceu3lRSU6PlwINfGw/lnJJAdV2/F0BjT0j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=MTNElB+2; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pYQyADO/"
-Received: from [172.16.124.192] (ip-78-44-13-22.bb.vodafone.cz [78.44.13.22])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 205725340340;
-	Mon, 20 Jul 2026 14:34:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1784550884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LK4CI4woJniHR1+28Wl4WoOZgVSPsgTVlk3ZVXsj+ag=;
-	b=pYQyADO/imst3RwNlFSrY5H5nOEhP8rvDdA1CrdF5sChho8/HKGpnskM746jOnOuQAAQLr
-	MlHDym8Dqq/U4r+m/esLXTIfhMMsKba/GAhyINPxD9kCxk3sn0cP+4ZpxoiqX1NAodvC14
-	v4o9Y4p9qeg+nzZvHuGlp4dP2i4X7J0=
-Message-ID: <c8ae85ad-bd1d-4f75-bd74-9fc1da98b02a@ixit.cz>
-Date: Mon, 20 Jul 2026 14:34:43 +0200
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="MTNElB+2"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-495590dde14so14687995e9.0
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 06:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0sec.ai; s=google; t=1784553697; x=1785158497; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=q/i+h1xLBAMF009p2KMCeNBKzps8J4NXn33rD07ylA0=;
+        b=MTNElB+2+6lVH8V5V5xQZwuDfb1/mMkKS7nDlzTQXlqpuUwT3VfKhRUL8DMXE83ttL
+         1yRffBNBScd5HrICt0l24C4FmXJpWXLVsjlHIg6vLS8HHGZTNszw8iazTb1or3jYQ6H3
+         sGRL43a0YZodNye1e1WF3cNvaHkuPHCZduLOSFZS0BzEu+8MuM4vO1wfm5u2VCbzkbYq
+         rWEXGkJtk3PHXlJvpLdO71krqzIdtvrI7Opd8KSQXp3W9py7IUm1b3shjjHdA+jG9HpT
+         SFRhId6lgU0T6zPbNychRhHuXVUNWTvOYj1UeLx8QxG0jGoXPUVas+N4d39s1NpTjPXw
+         r5Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784553697; x=1785158497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=q/i+h1xLBAMF009p2KMCeNBKzps8J4NXn33rD07ylA0=;
+        b=CLXqeqzVojntYs/zACA4IgPg06usyQHmcs04jJ7emVtG9b1hM+bx5hXZB2IJcp0bBL
+         Aj7q5+BNlBAJUONc1GH0F9hD70iSWbKbwTzPClFIAhXnvWI9lNr1vuSwYJzAqkBGDLdr
+         KZ8Wa2/QdQ6lFrBPD51yr6fZpAaaAMenGfN+AnBhVh1RRnJaPg9zhcsGyLj46pJF47Yx
+         rg8yWZrcFUoSGYjxsu+kilUV5J/FsDwdu1/yP8UpW2cnGZzhv7T3X2n2WCDqnTC+av8f
+         oMwDlyb9Yu70nU3zmWfiyzUVuFQy68PpiJE0q3NYcbex2AzMnJqm4XFNEDW6STEB/jps
+         gJ0Q==
+X-Gm-Message-State: AOJu0YwGKEKhsRvUTqiXk3375//nJ2wKoHig8GfPtHJk3W6rrS+P/QzD
+	D0EwYE67cNXOyVSEgMOtxDzIg+eFy+qajB5yzYDsDcYSzmxuGyflX2UJFcJRyPHe4ySd
+X-Gm-Gg: AfdE7cmi1pEcQXIXDpIgVtFrFMf0xxMPViJIRmN0Q6YIwztAIuqNn7ucx0R1WX3ieX9
+	5NKEKrLsvJoeWAZgA2Sn3+NraNhKReP9rfF+hewrn6W83Ocg9twCQldhEnYUhy31heXj/PBpfev
+	79F/K7X7bbqbG0EMwUskK2BAjq3KZIHS6kMhFXYRxsTnYZj2FE+E4zI++z1Lz+FHLGYFvBbZ449
+	ohhv+iEj7GO+d6AuaFidUm3t8hDaxQNGbfqN4Ez5vFP9a4sNa5qZXKTDrM/Icf33Ei+MGhnuYwN
+	ay+abIkTl0/71VHhCXHcDXEI+Y2sNPEl9NqyN5AMBs421c2BmEqfNOOde6Yc333xPnqqRa5COXm
+	pqzW790lf9X72wUOooaqqv/PgGlxaLjHTlCrbBrwfjRsAmYgWpjrxzWA1YYG7/2S0sZrsqgrdDR
+	j3qSo7fvxF2xftd3ornyQETLTITrB2i841/LB+ZGk11BmgiKnqxsLJCKxM1NOitjSwHJopPu6Cs
+	QIHzxaOMgPIqI9DOvCDT+Xm
+X-Received: by 2002:a05:600c:198a:b0:495:6478:2dbc with SMTP id 5b1f17b1804b1-49564782e0fmr3937485e9.6.1784553696132;
+        Mon, 20 Jul 2026 06:21:36 -0700 (PDT)
+Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.222.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm509642335e9.7.2026.07.20.06.21.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 20 Jul 2026 06:21:35 -0700 (PDT)
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+To: david@ixit.cz,
+	horms@kernel.org
+Cc: oe-linux-nfc@lists.linux.dev,
+	hexlabsecurity@proton.me,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net] nfc: fdp: bound the device-supplied read size in fdp_nci_i2c_read()
+Date: Mon, 20 Jul 2026 15:21:33 +0200
+Message-ID: <20260720132133.69635-1-doruk@0sec.ai>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <879ab436-043a-450d-87c0-70e7c6f4ff8f@ixit.cz>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] nfc: microread: validate CARD_FOUND event length
- before parsing targets
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: pengpeng@iscas.ac.cn, oe-linux-nfc@lists.linux.dev
-References: <20260720122517.22197-1-doruk@0sec.ai>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260720122517.22197-1-doruk@0sec.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/07/2026 14:25, Doruk Tan Ozturk wrote:
-> On 19/07/2026, David Heidelberg wrote:
->> thanks for the patch, 1. 7. I got the same one from Pengpeng, which
->> needs to address Fixes and Cc tag [1]. Feel free to sync together for
->> the future effort to not get duplicated
-> 
-> Thanks David, happy to defer to Pengpeng's, it's the same fix and theirs
-> landed first. Please drop mine.
+On 20/07/2026, David Heidelberg wrote:
+> I agree, I was looking at this patch yesterday and the current format
+> feels unfavorable. Please send next revision with Simon suggestion :)
 
-Okay.
+Will do. One heads-up before I resend: Bryam Vargas posted a v2 for the
+same bug back in June [1] that is more complete than mine. It also
+rejects len < FDP_NCI_I2C_MIN_PAYLOAD (the lower bound Simon flagged,
+reachable via the u16 truncation) and fixes an skb leak in the same
+loop, with a KASAN reproducer, and it carries Simon's Suggested-by. It
+looks like it just stalled.
 
-> 
-> For the Fixes tag: it's cfad1ba87150 ("NFC: Initial support for Inside
-> Secure microread"), and it wants Cc: stable@vger.kernel.org. Hope that
-> saves a round.
+If you would rather pick that one up, it covers more than mine does.
+Happy to send my (narrower) v2 with Simon's suggestion if you prefer it
+instead, just let me know.
 
-Don't worry about the round, from the maintainer perspective, it's preferred to 
-make a extra round, but having a patch which is a accepted without any 
-modification :)
+-Doruk
 
-Have a nice day
-David
-
-> 
-> -Doruk
+[1] https://lore.kernel.org/all/20260616-b4-disp-b1f8ab4c-v2-1-2d1fe5955325@proton.me/
