@@ -1,115 +1,72 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BE92882C5
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 02:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858B9399007;
+	Mon, 20 Jul 2026 10:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784513771; cv=none; b=NpGeQu09Bsl+nrchqbRveTjHNsXqY36OJpPewi5w1QMS+HKL2/JAP//IBy2YU3oV7mdMqtfP7u6/arGhBdbwX98h13oeoj6fx1oVDA7tolL4rGD38pFBpuVZnewif/Y2TpyLU+d6ukjH+0mitBU82XhYHVi/Yb9/YdHfUeBw1Yc=
+	t=1784542313; cv=none; b=Hk0axwSB6fbfZrS1TX5BaNn8Jasof2oXlWUMh1pM9UTMZ14VDn3I+hv38yl+qmCTq0pAwXUGg5XpvRJgUpOW3dwvzEJcQXS5c4QXX+YIxA5KVXRjnQvEYR/KmVyRJKgJ5oE+5s94gU9MK3R88cLEKuMcuZ/vKepDQUGHpHqQetE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784513771; c=relaxed/simple;
-	bh=ZgHVEtOq2Rwcq6liMTh2Ia3gDejKXmkZVAGuiDzqiOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uiOYKFFbDYJ3Bb2SctZH9sWCvTEUEQu5Z9Gdu7rEDAoPX2ZiGkl+JvtTLAHENbubpfmwGoxfkBHRYy/3D9fCaoqKPxxjx6hPk19KKuftoJtPwX311qjNenl1jODvL0JxCbGV/p2CNDlTIgIHlsN+lbUpmZrwI4sVXVTmIaSd+bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=XCLlAwHd; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1784542313; c=relaxed/simple;
+	bh=DewHG13sUWC7dIhfFvBcDvyz9zU9ThsJoF2f4+913QM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BUO0G+x+gSLmjpoQBojdTHzcdcYbFAc3IHhytdtGnaUV8ORDYMFLBSgQrnQ+9SQLYfMJBO6I0rfUi+pZZVSkU1vUzR2v8OCOnn/XwUiJIeZsvJre3/OvdYxcYOAkre+bga7OYGHOTyvrnCtVlF0g87/4Fg+D3eD2h+BskB0JURQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVEnz2ec; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="XCLlAwHd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1784513706;
-	bh=FnPhHP0vAmPH/HL0nJh6vKsrhj3OLcSDjcZY8qN8cAQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=XCLlAwHdt8cHtm3ipXHPDB2M7rAzKenZ/UpSP6UkCR0SZVmhMiddqc0v7hOiIH0Hz
-	 I73IL8HEUXBd+uJw9Sw9+gBUcVjXeF1qrPB3qldNjRixyJoSue2aeH88qdLG8Z33Td
-	 OwsbwFR6Gx6by5HmO+ExI/pxWuMWj34lQzeSW4Vg=
-X-QQ-mid: esmtpgz11t1784513688ta208e4d7
-X-QQ-Originating-IP: oK4aREHWhptA46o4dQdQwJLNIQ2+B92IkJZTsIj4V0o=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 20 Jul 2026 10:14:46 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12807910474211670954
-EX-QQ-RecipientCnt: 9
-From: raoxu <raoxu@uniontech.com>
-To: david@ixit.cz
-Cc: raoxu@uniontech.com,
-	kuba@kernel.org,
-	krzk@kernel.org,
-	error27@gmail.com,
-	kees@kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] nfc: pn533: purge fragmented skbs during cleanup
-Date: Mon, 20 Jul 2026 10:14:44 +0800
-Message-ID: <2D896607CAE4408E+20260720021444.3362044-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVEnz2ec"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9033A1F00A3A;
+	Mon, 20 Jul 2026 10:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784542301;
+	bh=dbm6A8rAyWLjLJX3rbi1Bn9V1WupYEoffrCvgsjM+sk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NVEnz2ec5EMP0aXv914FPIV+OGPSj9DOh0NKq4hyYH2wGFyhPWAv+I9fN9lIMol6d
+	 5U8nlax0pKLlxgW0fplKnC0iYlb9yGDRNkEb8gPWxhKiuNdHGzyw+gbHtxDMbtpxmk
+	 AOToUof/CGIo8yXUQ8Nz4Ce6SL/gDnj/cZ9WP3R3ztmK9154SHhJ964lEdALLxdnk/
+	 QDP5bDtE+/AJOXn3ROupmWkCgwCIxCdiw59XBfeVx2h0bsx3XDrx9qtlw7mAUqTmp0
+	 jTvlfElidWxtRnhnQrv2MfGRZvbI1njGCg1bqJaZGxfoUIyQqen3WX4ci2HMZM94jb
+	 vFy7MU122hJhw==
+Date: Mon, 20 Jul 2026 11:11:38 +0100
+From: Simon Horman <horms@kernel.org>
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: david@ixit.cz, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net] nfc: port100: reject frames whose declared length
+ exceeds the received data
+Message-ID: <20260720101138.GC19108@horms.kernel.org>
+References: <20260711123651.32595-1-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NFNrK8KlcSCR04LgPZlnPCbiPt21agmYF7FhRUiCmQ/i9vd929Lu6d0k
-	f9M3uOvTTjZt65sscfJzJqmOZi9UgTyPxLP0YDgJkd/WTJy002jywyboah/+/4BxfSaIAQq
-	/JCakQbgKBzKrLEZPOXWSw3dD2vPwdu+n4J7GKpx9NeObjjgnLXpjwT616jd1Z6dVHJ9Vd2
-	OUnPumS2RG5TXa7FVtb6T6eotj+ollUOBuvHGKGa5e47ZJEa37sUHyKtotzTHR+tpSjqRLv
-	km4fiXzEyBFvFhndsa76wGlu19sK9KxAYI7kXsy/x1SVgWY3qJQgmSjFrgbAJPdZdfMheDC
-	QGGpx/fYgiq1wSd8rrio5zffYJErL4jjL2G7ByAc/uo9m2bshW5SZfCAC8RIFG6FqA1A3pK
-	Q8Dy50LYfeI9I5apB9ay0ZKaHFS8CnRfPw+5V0ZXa8k5H2cqFSmMG037QNyzdkFpdxlZ/2x
-	RTf18zO6qLgjJR8Rqgxxh1tITBCtf61kg8NO8LNrTrAPtTVsQc0h4/YhHpaBoyWVfESFIQY
-	a0PhsyOvhJ/DbZzQ5sQ0jSfCHL7XsNqnd67Rg6+qPuWYny8xQNYkqhVwXZKC+EpjQEM2XAA
-	atzMboZ2MukZNzZmi3j2HlKQUnFvIzWlA9afVv+G15W0XtYtHNFMB2XdNp5uGo050oeyQsB
-	c9JzbNoMoU5HTWr/V4zsRQlnhF1JRS58Qw/LpOW98RsRkF4Sfi5oYqOvV853nWMONJsb3Lw
-	jve7vDs8etl/1yOrEBm8H2W+HKCegi6IGloPI5h0ABrf0PqaYkJyIPgo0i1fp2Oh5m/i8pG
-	7MvBSTYO5fbe4NtwWx9KgQPI54G5LCudDPuD/YO+UnWZIPJH2kgsJ44aHAxSaH5xuJOWgBI
-	b927Tf1scztGXWI+/ix4jQLL3pVUN5F7tD74gH3O8nanwA3W+5fzowBgaRmKdkn42qrppqj
-	4Oq2FzUctqkRp0rcMgbEvsi6p3PmGq52p7dUXSJ6dV4GmnpI6+Ge+u09lRWgPgZIxKhxbjq
-	BJSKNPX+HcQ5sSpdL/KH4cg3qysvypfw49eZbkyegQIlqS0zIg5SespkItwcY=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260711123651.32595-1-doruk@0sec.ai>
 
-From: Xu Rao <raoxu@uniontech.com>
+On Sat, Jul 11, 2026 at 02:36:51PM +0200, Doruk Tan Ozturk wrote:
+> port100_recv_response() passes the URB transfer buffer to
+> port100_rx_frame_is_valid(), which checksums le16_to_cpu(frame->datalen)
+> bytes of frame->data. datalen is a 16-bit field supplied by the device
+> and is never checked against the number of bytes actually received
+> (urb->actual_length), so a device reporting a datalen larger than the
+> received frame makes port100_data_checksum() read out of bounds past the
+> transfer buffer.
+> 
+> Reject a response whose declared frame size does not fit the received
+> length before validating it.
+> 
+> Found by 0sec (https://0sec.ai) using automated source analysis; the
+> missing bound is evident from source. Compile-tested.
+> 
+> Fixes: 562d4d59b8a1 ("NFC: Sony Port-100 Series driver")
+> Cc: stable@vger.kernel.org
+> Assisted-by: 0sec:claude-opus-4-8
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 
-pn53x_common_clean() purges resp_q before freeing the common PN533 state,
-but it leaves fragment_skb untouched.  The fragmentation helpers queue
-transmit fragments there while sending large initiator or target-mode
-frames, and those skbs remain owned by the driver until they are sent or
-discarded.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-If the device is removed while fragments are still queued, the common
-cleanup path frees the PN533 state without releasing the queued fragment
-skbs, leaking them.
-
-Purge fragment_skb during cleanup alongside resp_q.
-
-Fixes: 963a82e07d4e ("NFC: pn533: Split large Tx frames in chunks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
-Changes in v2:
-- Split out the queued command cleanup; this patch only fixes the
-  fragmented skb leak.
-- Add Fixes tags and Cc stable as requested by David Heidelberg.
-
- drivers/nfc/pn533/pn533.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index d7bdbc82e2ba..6db9ec90f594 100644
---- a/drivers/nfc/pn533/pn533.c
-+++ b/drivers/nfc/pn533/pn533.c
-@@ -2799,6 +2799,7 @@ void pn53x_common_clean(struct pn533 *priv)
- 	destroy_workqueue(priv->wq);
-
- 	skb_queue_purge(&priv->resp_q);
-+	skb_queue_purge(&priv->fragment_skb);
-
- 	list_for_each_entry_safe(cmd, n, &priv->cmd_queue, queue) {
- 		list_del(&cmd->queue);
---
-2.50.1
+FTR, I do not believe the issues raised in the AI-generated review of this
+patch on sashiko.dev should impede the progress of this patch. Rather, I
+think those issues can be considered in the context of possible follow-up.
