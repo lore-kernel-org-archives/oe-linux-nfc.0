@@ -1,44 +1,50 @@
-Received: from MTA-07-3.privateemail.com (mta-07-3.privateemail.com [198.54.118.214])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D56543F083
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 19 Jul 2026 18:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.118.214
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BE92882C5
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 02:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784484678; cv=none; b=BE4DJj0xNJDh5NhNy6ewsXmo4VmzA1aL8l4uCBZ6jHkc1fNXffF/etUnAXGS5AdUqVdwTAWkN2i6o/kqSDLYq2SQSSq2dD/mtCCT5b9Bj16cAO5I5wTPcB0V3wXKu0XQPRQh+AcdLG2ifpwyCPfGvQdiCupVe0Ch5N4ELCA8SEA=
+	t=1784513771; cv=none; b=NpGeQu09Bsl+nrchqbRveTjHNsXqY36OJpPewi5w1QMS+HKL2/JAP//IBy2YU3oV7mdMqtfP7u6/arGhBdbwX98h13oeoj6fx1oVDA7tolL4rGD38pFBpuVZnewif/Y2TpyLU+d6ukjH+0mitBU82XhYHVi/Yb9/YdHfUeBw1Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784484678; c=relaxed/simple;
-	bh=Bul3j/OsqTw//nRoLthgWciTE7FwKi3LL1jaArRj4W8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JW0fwe2xtusYAxXOdbd5jEQA723VmGYaI1rWz/kDqaR4cHN/ELPJUowDqs5vVwt7Nl5Vnt4q1kW2SBx8Ge6ZxI6Ve57dSuqi4/DIdhpvwRWqG15Gn655ZfaoZ1O6k2JhnOUD8gEP7VSnRr82lJ4pa6NajNlvftYJH6rcnNYFNag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.118.214
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
-Received: from mail.privateemail.com (unknown [87.215.145.39])
-	by mta-07.privateemail.com (Postfix) with ESMTPA id 4h3BXT4njxz3hhTG;
-	Sun, 19 Jul 2026 14:10:49 -0400 (EDT)
-From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-To: David Heidelberg <david@ixit.cz>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1784513771; c=relaxed/simple;
+	bh=ZgHVEtOq2Rwcq6liMTh2Ia3gDejKXmkZVAGuiDzqiOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uiOYKFFbDYJ3Bb2SctZH9sWCvTEUEQu5Z9Gdu7rEDAoPX2ZiGkl+JvtTLAHENbubpfmwGoxfkBHRYy/3D9fCaoqKPxxjx6hPk19KKuftoJtPwX311qjNenl1jODvL0JxCbGV/p2CNDlTIgIHlsN+lbUpmZrwI4sVXVTmIaSd+bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=XCLlAwHd; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="XCLlAwHd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1784513706;
+	bh=FnPhHP0vAmPH/HL0nJh6vKsrhj3OLcSDjcZY8qN8cAQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=XCLlAwHdt8cHtm3ipXHPDB2M7rAzKenZ/UpSP6UkCR0SZVmhMiddqc0v7hOiIH0Hz
+	 I73IL8HEUXBd+uJw9Sw9+gBUcVjXeF1qrPB3qldNjRixyJoSue2aeH88qdLG8Z33Td
+	 OwsbwFR6Gx6by5HmO+ExI/pxWuMWj34lQzeSW4Vg=
+X-QQ-mid: esmtpgz11t1784513688ta208e4d7
+X-QQ-Originating-IP: oK4aREHWhptA46o4dQdQwJLNIQ2+B92IkJZTsIj4V0o=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 20 Jul 2026 10:14:46 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12807910474211670954
+EX-QQ-RecipientCnt: 9
+From: raoxu <raoxu@uniontech.com>
+To: david@ixit.cz
+Cc: raoxu@uniontech.com,
+	kuba@kernel.org,
+	krzk@kernel.org,
+	error27@gmail.com,
+	kees@kernel.org,
 	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] nfc: s3fwrn5: support the S3NRN4V variant
-Date: Sun, 19 Jul 2026 20:09:38 +0200
-Message-ID: <20260719180938.43341-1-jorijnvdgraaf@catcrafts.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <5d26f3ae-1287-4440-bd38-96c9900f16ea@ixit.cz>
-References: <20260705190621.128257-1-jorijnvdgraaf@catcrafts.net> <20260705190621.128257-3-jorijnvdgraaf@catcrafts.net> <18c3e13f-88e4-458e-9f57-7aceeb1ce1d1@ixit.cz> <20260719142241.12640-1-jorijnvdgraaf@catcrafts.net> <5d26f3ae-1287-4440-bd38-96c9900f16ea@ixit.cz>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] nfc: pn533: purge fragmented skbs during cleanup
+Date: Mon, 20 Jul 2026 10:14:44 +0800
+Message-ID: <2D896607CAE4408E+20260720021444.3362044-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -46,69 +52,64 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NFNrK8KlcSCR04LgPZlnPCbiPt21agmYF7FhRUiCmQ/i9vd929Lu6d0k
+	f9M3uOvTTjZt65sscfJzJqmOZi9UgTyPxLP0YDgJkd/WTJy002jywyboah/+/4BxfSaIAQq
+	/JCakQbgKBzKrLEZPOXWSw3dD2vPwdu+n4J7GKpx9NeObjjgnLXpjwT616jd1Z6dVHJ9Vd2
+	OUnPumS2RG5TXa7FVtb6T6eotj+ollUOBuvHGKGa5e47ZJEa37sUHyKtotzTHR+tpSjqRLv
+	km4fiXzEyBFvFhndsa76wGlu19sK9KxAYI7kXsy/x1SVgWY3qJQgmSjFrgbAJPdZdfMheDC
+	QGGpx/fYgiq1wSd8rrio5zffYJErL4jjL2G7ByAc/uo9m2bshW5SZfCAC8RIFG6FqA1A3pK
+	Q8Dy50LYfeI9I5apB9ay0ZKaHFS8CnRfPw+5V0ZXa8k5H2cqFSmMG037QNyzdkFpdxlZ/2x
+	RTf18zO6qLgjJR8Rqgxxh1tITBCtf61kg8NO8LNrTrAPtTVsQc0h4/YhHpaBoyWVfESFIQY
+	a0PhsyOvhJ/DbZzQ5sQ0jSfCHL7XsNqnd67Rg6+qPuWYny8xQNYkqhVwXZKC+EpjQEM2XAA
+	atzMboZ2MukZNzZmi3j2HlKQUnFvIzWlA9afVv+G15W0XtYtHNFMB2XdNp5uGo050oeyQsB
+	c9JzbNoMoU5HTWr/V4zsRQlnhF1JRS58Qw/LpOW98RsRkF4Sfi5oYqOvV853nWMONJsb3Lw
+	jve7vDs8etl/1yOrEBm8H2W+HKCegi6IGloPI5h0ABrf0PqaYkJyIPgo0i1fp2Oh5m/i8pG
+	7MvBSTYO5fbe4NtwWx9KgQPI54G5LCudDPuD/YO+UnWZIPJH2kgsJ44aHAxSaH5xuJOWgBI
+	b927Tf1scztGXWI+/ix4jQLL3pVUN5F7tD74gH3O8nanwA3W+5fzowBgaRmKdkn42qrppqj
+	4Oq2FzUctqkRp0rcMgbEvsi6p3PmGq52p7dUXSJ6dV4GmnpI6+Ge+u09lRWgPgZIxKhxbjq
+	BJSKNPX+HcQ5sSpdL/KH4cg3qysvypfw49eZbkyegQIlqS0zIg5SespkItwcY=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-RECHKSPAM: 0
 
+From: Xu Rao <raoxu@uniontech.com>
 
-Hello David,
+pn53x_common_clean() purges resp_q before freeing the common PN533 state,
+but it leaves fragment_skb untouched.  The fragmentation helpers queue
+transmit fragments there while sending large initiator or target-mode
+frames, and those skbs remain owned by the driver until they are sent or
+discarded.
 
-On 19/07/2026 16:56, David Heidelberg wrote:
-> now it makes more sense to me, feel free to name it as calibration
-> data.
+If the device is removed while fragments are still queued, the common
+cleanup path frees the PN533 state without releasing the queued fragment
+skbs, leaking them.
 
-Will do -- v3 will say "RF calibration data" in the commit message and
-comments.
+Purge fragment_skb during cleanup alongside resp_q.
 
-> I would suggest to introduce something as a calibration-variant (see
-> ath10k code).
->
-> If I understand right, firmware location path could look like
->
-> default path + driver vendor and model + device vendor and model +
-> revision
->
-> /lib/firmware/ + Samsung/s3nrn4v/ + Fairphone/FP5/hwrevision.bin
+Fixes: 963a82e07d4e ("NFC: pn533: Split large Tx frames in chunks")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+Changes in v2:
+- Split out the queued command cleanup; this patch only fixes the
+  fragmented skb leak.
+- Add Fixes tags and Cc stable as requested by David Heidelberg.
 
-That layout makes sense to me. My inclination for v3:
+ drivers/nfc/pn533/pn533.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-- request the files from a chip-scoped directory:
-  samsung/s3nrn4v/hwreg.bin + samsung/s3nrn4v/swreg.bin (the existing
-  parts' sec_s3fwrn5_rfreg.bin is untouched);
+diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
+index d7bdbc82e2ba..6db9ec90f594 100644
+--- a/drivers/nfc/pn533/pn533.c
++++ b/drivers/nfc/pn533/pn533.c
+@@ -2799,6 +2799,7 @@ void pn53x_common_clean(struct pn533 *priv)
+ 	destroy_workqueue(priv->wq);
 
-- an optional samsung,calibration-variant string property (modelled
-  on ath10k's qcom,calibration-variant) that, when set, makes the
-  driver try a device-scoped location first, e.g.
-  samsung/s3nrn4v/fairphone-fp6/hwreg.bin, falling back to the bare
-  files above.
+ 	skb_queue_purge(&priv->resp_q);
++	skb_queue_purge(&priv->fragment_skb);
 
-The variant lookup can also be added compatibly later, once a second
-S3NRN4V design (or a diverging FP6 revision) actually appears -- so
-if you'd rather keep v3 minimal, I'd do only the directory move now
-and add the property when first needed. Either works for me.
-
-So far I have seen no evidence of per-revision or per-region variants
-on the FP6: the only difference I have identified between my two
-units' tables is the vendor software release (build-date stamps).
-But Fairphone would know better.
-
-> /cc Luca here, as he may know more about the different configuration
-> data shipped.
-
-Luca, two questions your way:
-
-- do FP6 hardware revisions (or regional SKUs) ship different NFC
-  hwreg/swreg tables, or is it one set per software release?
-
-- could Fairphone submit these tables to linux-firmware? I assume
-  the redistribution question sits with Fairphone/Samsung, and having
-  them there would make NFC work out of the box on mainline.
-
-> We should assume the configuration will be shipped with
-> linux-firmware at some point.
-
-Agreed -- that is exactly why I'd like to settle the path scheme now.
-
-v3 is otherwise ready, including the Fairphone 6 DT patch; rather
-than sending it right away as I said earlier today, I'll give this
-a few days for Luca's input and then send it.
-
-Thanks,
-Jorijn
+ 	list_for_each_entry_safe(cmd, n, &priv->cmd_queue, queue) {
+ 		list_del(&cmd->queue);
+--
+2.50.1
