@@ -1,76 +1,52 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813AD3B14DB
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 19:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D462400DF6
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 21 Jul 2026 02:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576299; cv=none; b=eODZCfsJf+YTEWJ0PtemPT5WYfl87/5nf2pCuXrAzHXFa6uo2sCXpSQCSCYrUnt9uFRLk0eEc1pvE/EnPs3mOe+x0jWipZPekqhKdc0cBiI94SPRgTfltTzetSin4R81HdaUlQ4OyFHZLEYQTipTXx2sFgkakBmvxobuFsyKx+A=
+	t=1784601330; cv=none; b=bivHSVTOL7o29Finkas6Hz0zJ3XYeSnkayHumqU6PsAsNG1KcrNF47mMtI61yKee6UjU8VDyjv9u43LQwEneieUW61brwcD+uN75QNELanFgRKJWM3Pd9lud1SYmPJI6nV4b++J33scvTK1yiU25sXrokNn88DFUIqguYtRp/rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576299; c=relaxed/simple;
-	bh=ztLYbWJ1y8k0+eUnrRRP6Ge2zqUEpkXCr50a1DVmokE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DRxF3K9hRSRbn/VDnF0dZ1DM7jV185br/7tcR29PUG2wm2YeMWxHoss+UjPU0Yb7GfVKWwiJ1dgNv5Hf6KmJk4ZhvH0sY7c7vv7zhCECrOxTgYewTgUOexeZz0n4B5Y76LZc1bfRb5cAeN647mOk0r8FtpM4KAGOxUZXCsvAlk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=og/TfXLY; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="og/TfXLY"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8eeadbc5e21so46494636d6.3
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 20 Jul 2026 12:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784576295; x=1785181095; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XVmP6Q1Pga6fp07J2kITQdzujOlBsfUzlR7zTDUVucw=;
-        b=og/TfXLYvYX5pnLgEQ4NBXY+vJbDsDdwlUB9FZ9h07858qOvKHta7fqoUlvoqAjTbJ
-         91YTLRV5Znj2E07aarzBUtsi5nIhtwfiPdmQodHt50lgWeL/9Kn5kCd9l8/kapxkzPxR
-         7yHdG1Lw4/1csptOY77erlsCFUaaQHE9qnp92HGTp2suvF1E8i5rEIRv8uZ6a/8/QDs2
-         /cXuI+jaP4K2CMWGcoRoQG3Oj3VUN/gI8jlDGfuMSgepwfBkL/2ngleoXu1iGN7turCm
-         KCQ1g61sf3LelP0/5kf1rkoJmbX9ftcqEFwSl3LyjH0GpdmxJmikkwv4yqjIzdX5g3KW
-         BL6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576295; x=1785181095;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XVmP6Q1Pga6fp07J2kITQdzujOlBsfUzlR7zTDUVucw=;
-        b=EXH7wqZai4c49RC/iWftfF4/wvbOPjg//LTtyqoC23ENFBYGuzVUax07JY1x+vGrs5
-         8hui9aHbdO8HtF5yzI3wqCsbYYbyIVYtooz4eu3gmG8ME6jvurphBiEibtWL36TEkBJO
-         Gc91sqJgsIg/F4qDQX1P1fhN1ankb8mf5tWjnKresHyfLaRrQSXHLernd259cfLFLXq3
-         DpkXVY6LuCphKlCk5a3bc0NJOJdT7JEvoOEvlGrEn7gr+RsN5/k2rlzyjVcARnRwUqO8
-         zqQJgo7pgPikhzTTSAIsz2M6WKeNNNasa3aVwlNjiurnr3MKm0GkR9cq8CYbtZg4neiE
-         8ziA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrf6itkTjJAA44QYtwcXeGZVbK8DE1WBFr3lD1qSOan0UidEYPpExfLoKwpvmqpF6K/2clk4umKn5jaNKk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJl/Hls/wPWvoJAfpGKS1lmMQ0yOh+/b3d9Zj/PAiFn8McTb2O
-	+uBvETYlOV1Jch3GEMdf9zG9NlREBu4fTkGqbygPQE8wZ4Sp7qJfCr/O
-X-Gm-Gg: AR+sD10CXTdEkBlBCvwLjFdBUP9XRZ8LP9yBGXX10i21wgwhI68yMpv0ZOB73kKLLNr
-	FTKHIFVESChv+wX6MJxRbBWMZB4UlA8nOPPtdKGNyLB6y1IFp5t9it/W5pYYnlzz1XPjNl7RPR2
-	qyaYx6GhakWABi6FdpQecbYhkZT8Pwu7y/QPey0+Ui7ApFKXAdad3xrWnvWNGpkauc77Ma9x337
-	jGHJGe4N8LsRMR0Z6RdIH9fJBBdKSgGry0ZdNZxMRX30C5OqO6KOL022N5gKkdKUWyaNuUw8n3Z
-	sFC7KedNfn7T/idDH/848yOBMSWHYIEjyZGmpKy66ywxZXcHZzRnUHS/YNOdvR9cEVBVQTat+tu
-	zFbOETWUypQQO7DQEPWbVSOkXQzm59SNzHViyNt2AmilBfQuc9wbjvZIyuA+dTW8DI7P10aeiIa
-	e8f17xjOWCf7zuh4kdXbOCMEikOYcT/Bg=
-X-Received: by 2002:a05:6214:2269:b0:8f1:8937:5dc7 with SMTP id 6a1803df08f44-907784ddf91mr182320336d6.56.1784576295334;
-        Mon, 20 Jul 2026 12:38:15 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9077871f650sm98436156d6.45.2026.07.20.12.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:38:15 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: david@ixit.cz,
-	oe-linux-nfc@lists.linux.dev
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
+	s=arc-20240116; t=1784601330; c=relaxed/simple;
+	bh=JJj5o37i385985F1b/QZFIFJxt3DXc5e1rLS5CNGjhY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AGPKbMmPySB/PDPeBjxDrfBj4JuRcHj6W8914a/WzfGV2f1zCNu1r/tB7PCYFgxoUauJGdCUeK+q2W0v5LRn0DBjfyDnFmIE3PAnGcUchC2QAqJUTfVVvOK81C0fkUxNJi3wSONBaikehlS4O8/8Ss/5NGPTNB7clOk/deHOrHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: d2d52a9084ac11f1aa26b74ffac11d73-20260721
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:9df154ce-bb56-4648-a308-6211d9759bdc,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9cecef36158ac82cb24a66f026585700,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d2d52a9084ac11f1aa26b74ffac11d73-20260721
+X-User: lilinmao@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lilinmao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 692568123; Tue, 21 Jul 2026 10:35:23 +0800
+From: Linmao Li <lilinmao@kylinos.cn>
+To: David Heidelberg <david@ixit.cz>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Subject: [PATCH v2] nfc: llcp: Fix nfc_dev refcount leak in connect
-Date: Mon, 20 Jul 2026 15:37:59 -0400
-Message-ID: <20260720193759.1773705-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Linmao Li <lilinmao@kylinos.cn>
+Subject: [PATCH net] nfc: nci: free destination parameters when closing a connection
+Date: Tue, 21 Jul 2026 10:35:18 +0800
+Message-Id: <20260721023518.1697625-1-lilinmao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -79,50 +55,29 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-llcp_sock_connect() takes a reference to the NFC device and keeps it
-while a connection is active. For a nonblocking connection,
-sock_wait_state() returns -EINPROGRESS while the socket remains in
-LLCP_CONNECTING.
+When a connection is closed, nci_core_conn_close_rsp_packet() frees
+conn_info but not conn_info->dest_params, which is a separate devm
+allocation. Each connect/close cycle leaks one dest_params until the
+NFC device is removed. Free dest_params along with conn_info.
 
-If the socket is released before reaching LLCP_CONNECTED,
-llcp_sock_destruct() does not drop the reference because it only handles
-connected sockets.
-
-Drop the device reference in llcp_sock_release() when unlinking a
-connecting socket. At this point llcp_sock->dev is still valid, unlike
-after a failed blocking connection has cleared it.
-
-Fixes: b4011239a08e ("NFC: llcp: Fix non blocking sockets connections")
-Link: https://lore.kernel.org/r/20260707183518.1888697-1-shuangpeng.kernel@gmail.com
-Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+Fixes: 9b8d1a4cf2aa ("nfc: nci: Add an additional parameter to identify a connection id")
+Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
 ---
-Changes in v2:
-- Move the device put from llcp_sock_destruct() to llcp_sock_release()
-  to avoid dereferencing a NULL llcp_sock->dev after a failed blocking
-  connect.
-- Add Fixes and Link tags.
+ net/nfc/nci/rsp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- net/nfc/llcp_sock.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index feab29fc62f4..0a3d87c2c9b3 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -633,10 +633,12 @@ static int llcp_sock_release(struct socket *sock)
- 
- 	if (sock->type == SOCK_RAW)
- 		nfc_llcp_sock_unlink(&local->raw_sockets, sk);
--	else if (sk->sk_state == LLCP_CONNECTING)
-+	else if (sk->sk_state == LLCP_CONNECTING) {
- 		nfc_llcp_sock_unlink(&local->connecting_sockets, sk);
--	else
-+		nfc_put_device(llcp_sock->dev);
-+	} else {
- 		nfc_llcp_sock_unlink(&local->sockets, sk);
-+	}
- 
- 	if (llcp_sock->reserved_ssap < LLCP_SAP_MAX)
- 		nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index 6b2fa6bdbd14..21c2fe64490e 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -360,6 +360,7 @@ static void nci_core_conn_close_rsp_packet(struct nci_dev *ndev,
+ 			list_del(&conn_info->list);
+ 			if (conn_info == ndev->rf_conn_info)
+ 				ndev->rf_conn_info = NULL;
++			devm_kfree(&ndev->nfc_dev->dev, conn_info->dest_params);
+ 			devm_kfree(&ndev->nfc_dev->dev, conn_info);
+ 		}
+ 	}
 -- 
-2.43.0
+2.25.1
+
