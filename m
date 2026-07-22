@@ -1,67 +1,39 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA2847127C
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 07:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BA9439F7D
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 15:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784705740; cv=none; b=U8iXhjcQbjbV3Hll81ByrOyFJtsxpoCeIDMBgOX7H6UYB2J2jeW205XfPA8fbAoDv5P4PkfvP3S9d8BRWlLvnveh9heioy5DAT9s9wBg4FNOfR03/bNpw5yRmXj2C/E/fssWll2ezs0kDPDh90DcwHxz7bP68ZLiZPkw7/EOLkc=
+	t=1784735648; cv=none; b=N33EOBzeoBaG4/20nM0KzaEV3145jMUZ8nyYqd4jeOTciEL2KKaO8x9Bi56eZohi3pnO0fUVQ6rpREUcgIYk+BK2/5vrcimjNvtsB5PONI6WpqcKtrX2DWHs6Cl0MHZU5reRbcmvddBR+aFgw6Q6C9YAfoWWLnsyJ1vhDjdY+oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784705740; c=relaxed/simple;
-	bh=NzaLpCbVr+WpUWdGU1r/uprVlE+cNyid29E0Cpbjtb8=;
+	s=arc-20240116; t=1784735648; c=relaxed/simple;
+	bh=KxUjSuQAuZ8HjUOIFu0BUnWGJHXlDC3xYbKd49T4w1w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WI2u9/FlzP88ZWz5QOurjj5jeAvRZiuOG4vFE80QZoKk51kS9CjTiFmKUvp6ChBpd3zlpb7hvlCYMSf+APMDyalMeuuMVdkyBIzbL+0K4A1zwMdG5VVJcdl9bO9YmLZHpw4ndJQSrON6V1ac4vrgb/hdRGgzSVTe3XDpRFW58LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S7GCQ7kp; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=fLSMnkLOnuFZHXGVCnPQwPMuDBvZyRvtGYiOdg86Q8rxVR52aaUA/Ak03R+NLvUXQjoaRa+GjLAU19E4rCEmrgEpNCAKUmqBRpoivc4z0cHspbZ8/HmFID8RVoInWwuHOaMC137RYcHadGKitqUWO18s6JZfmMr2TZgi+UkfNeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=vaWyRnXb; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7GCQ7kp"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-80bb41f7f3cso85267357b3.2
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 00:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784705734; x=1785310534; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MjAn08LMgZdcLrgugv1HWMEjLz40TQ45oEq4cOcP7cI=;
-        b=S7GCQ7kptyYrrYtWC3hN2WinngZY3uuVUZ4VSSsHL4MfQgmIavghb5AEYAuyNQGSlx
-         3aDz2xJGkROuQErjH2or4KuPqKYu1BTmqzryVy8mqfjsHgxIYjgncVwzQuiFUX0wo42l
-         t8Ndaqb9R+LY3NYa8P4NmkgaK9TqSUaTZGgTf+ZJUfuQVWPAzNWBiITR8jw5/coNqOqR
-         fSLLg+6S8qggc52mOdsdQhV2nqunogll5IoftnisxmJOUpLMo5kLl/Qxm0Ce7ugA5BWK
-         2Oj4ePJ7DVLPk0KZE5BX3A85NNZ9G0CAcF6pcElkrmzdGriQO0H27XNi0gDGQTYj1Dc7
-         0DzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784705734; x=1785310534;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MjAn08LMgZdcLrgugv1HWMEjLz40TQ45oEq4cOcP7cI=;
-        b=EQa4SeP3+TceI9R+/rYrONLUCDxcB5ccgMu00rGIXjFA9omit/2loeVITmfDwSR5Pr
-         fyO3PXePRntPkER6d87RFsAh6xEkyCVIh9rb8sXDTILBmkzlGmy4qzheWFCmGZNuLUJ/
-         gXYrIqACFLj2qwd5RDjn8R0pLreaF5f3y0pApZGSVnT5RfCdTRuJSlwMABaUneJccdZL
-         pUVgn8WLNC/ULwOkl2Mo5M5rGRhCMR3Q9JWnuuX/S2do+0GE0UCwT+rKAY2Np2/dS0Tj
-         PJhvVeDp2DkiXV59IjK2m8TT9O+NLuxXcHcL2zuG6m8vxbBmaZJqY0JsVI3GBpDpCHAI
-         gfdw==
-X-Forwarded-Encrypted: i=1; AHgh+RpCOWbUL6l0JD62QZz/F4IdSK0vhlZOFfFmdzXJVfG5LQH++Yf7eioPviW9BAmFvRJ91lRkWKyQlP6DU+U=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0oV7VpzBSXDzL++yqgixIwapAHsAigeN5IX8Qb+XtAfLiWC7g
-	YvbcHxyn4Y5Eb4bLGSz9wWiq5681MCHYJt/oMnlRrsqRsdTppwm4wOjO
-X-Gm-Gg: AR+sD107i9HkIBRqOxPR5++gKZOcJNg9OJIg1ZLSBpcj4XEaJOoPAm3VszZ2a/HsF43
-	oyeOilpXLzYs21IkxATa316KcfRYAnyoyHIeNlgBqrvPfhOV6R+0Mwc7MsfRltmcTnz7BsDqLZL
-	KqCfKFb/3UTtNh9SML+wp0qjb36sjUWIz56G0H91hUsVZVOichEU7oK7RqVzvkdGzuSAHITHixH
-	QmBSYSoFEtECldl7ysHqLX7xwAs9x7ntimyGH/LqnzJ2Ab+4yqnTHsaJ6RM/T4SgwerNk4gPQVU
-	KJEnorR+zK0XYflIDcHRiDZJS8Dsq+B65XlHs+dXIjjoGMKj3LFZfeCmr4pyphj2Hxa3ctzeVyM
-	utlrp8BaQkRSRTtQgMCyARNN+xCb+Zf6kWhmm9oMJAeaGKo6nGyZiKVeI73LcY7lu8CA6ElcneS
-	vBoL2QPYQEobC7XgCbQbeZ
-X-Received: by 2002:a05:690c:7408:b0:81e:a471:e893 with SMTP id 00721157ae682-81ef23f6d0fmr69358347b3.24.1784705734677;
-        Wed, 22 Jul 2026 00:35:34 -0700 (PDT)
-Received: from [141.223.124.60] ([141.223.124.60])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f33bf2df0sm9706647b3.6.2026.07.22.00.35.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2026 00:35:33 -0700 (PDT)
-Message-ID: <f9c6bf99-28df-498e-99d2-efd7d2b303c2@gmail.com>
-Date: Wed, 22 Jul 2026 16:35:29 +0900
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="vaWyRnXb"
+Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 5746B53401EC;
+	Wed, 22 Jul 2026 17:53:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1784735634;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=84zpGxaORMWW5r9jWTm3g056X6ZGl4agfLxeXUaXbjg=;
+	b=vaWyRnXbil/d96NfHHkkF+lGuwaRnPB7Lq65y28+odkLXqAoxMw9SWL+PMRKgX7ApQrqoO
+	iMhYS7Eu7fHOAeeTcPazn1EUFaED78lBKZRfFdXnGpLbU0FYZSvzzoC/e/yWp5UtHqfALU
+	ZpvVoXLFa5n3zMPtAplARoc5NXS570U=
+Message-ID: <65f33561-b675-4da3-8248-453c296b69fa@ixit.cz>
+Date: Wed, 22 Jul 2026 17:53:52 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -69,31 +41,72 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] nfc: llcp: race between nfc_llcp_send_ui_frame() and
- llcp_sock_bind() dereferences NULL sock->dev
-To: David Heidelberg <david@ixit.cz>
-Cc: krzk@kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com>
- <93f2ff92-a7d6-4521-9273-2e84fa37337d@ixit.cz>
+Subject: Re: [PATCH net] MAINTAINERS: add nci tests to nfc
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, horms@kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260721205555.1020513-1-kuba@kernel.org>
 Content-Language: en-US
-From: Junwoong Doh <jdoh.kernel@gmail.com>
-In-Reply-To: <93f2ff92-a7d6-4521-9273-2e84fa37337d@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+In-Reply-To: <20260721205555.1020513-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/19/26 23:24, David Heidelberg wrote:
-> 
-> Hello Junwoong,
-> 
-> thank you for the report. Would you be willing to try preparing a patch against
-> the NFC for-next or for-linus tree to fix the issue?
 
-Yes, I'd be happy to.
-Since this is a bug that's already in mainline, I'll base the patch on for-linus.
-I'll send it by the end of the week.
 
-Thanks,
-Junwoong
+On 21/07/2026 22:55, Jakub Kicinski wrote:
+> NCI is part of NFC, so include its selftests under the NFC entry.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: david@ixit.cz
+> CC: oe-linux-nfc@lists.linux.dev
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> Thanks,
+
+Reviewed-by: David Heidelberg <david@ixit.cz>
