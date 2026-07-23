@@ -1,76 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D48F4399F2;
-	Wed, 22 Jul 2026 18:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9A6279DB6
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 23 Jul 2026 00:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784743849; cv=none; b=jcimXpOb9zOPfo1u+/bkljiitajesd9OdGK26d1WlfPZYahxzbXzCLCgRaH0jAi+0o65XraFKb9SiGHNVQA5kqkkA1FdO/RdDOYjOZcR+oAoxFc8oHpch5ZnI6Lq59ELo9LnQTSPtFHgmCja+BHPgYJLBEN5Hlm1/ir4oYvvx7o=
+	t=1784767174; cv=none; b=e4/vZIrwSB4HPmFXCR+ReGdnir2IeKNuNojTbFLOKqAbfpAuCvfDoNt8nutqK5hhTzWrahOsJxgXCWI89t7XAIb8tgr0ApbQZ56P/jGJ0128FfiNlpyt9mO3PV9/Na2arN05JW3CBzmo1GX1CklhtEpXF1+0/5AVqr8Qa9bQ9vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784743849; c=relaxed/simple;
-	bh=k2N/rUj8HmNt60UQps8oP0EWzT2kTkB7FdVLzUF2KG8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Fcg82LoR1WoxTMOF8qZFbg7MwM52utTZLsD+HIZIXpyZWyll2rlwiei+gogMf6QP4i2H6t+njpNA4D4LtW9u3z8DpbdCGXVuLTY/bodAMawbUNcB6WL02LgnVYwbcU4d4nxXE43HT0tumpbbPu7t/90rZBEwDgHubi6D833Af6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjx7WrVl; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjx7WrVl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A801F000E9;
-	Wed, 22 Jul 2026 18:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784743847;
-	bh=9gmwbfdN1XxOCMG9+CyJlaLkJl7tbV6S7Wv2xFdJp3E=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=jjx7WrVl4Tc+T27QvzMbFdMdpYmbKAUx+Xa7ZIzDe+eg7ZX3n9G1PVSdaZNTOnQR+
-	 1xJENVqgVzG3psGkte6028T55f1g6ettR4PxF7mKZmQAF+CKDiPI0rM35GD+iwlUYP
-	 RlEXrLhk9qz3B2w8li4Gv+kkR95Uf8IqXhinNbRzwSb2BiyU3Nw3UWilicjvJf3NVf
-	 WO6tYffmhf/1oOFyGj9p+2ug4axnAN0MpfGiWfE3jRR53cZSYgAT4vUpppbBattoSj
-	 tTF1+dHRn8krdUwB1n2ELJ/1v2GJ0H1d/Tdkh/qSg2ib8LLNcqg11q64wuHtmEQOf3
-	 Y4amw07Ipy3EQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 197B3380CECD;
-	Wed, 22 Jul 2026 18:10:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1784767174; c=relaxed/simple;
+	bh=NvKeBWEPTljeH0OraIY2kdDqlCpntQjPiAMlQ1DcMrQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ARA35FnKIdhcsq2yKsIppjM8OvPgUE+TUGcU1F3mNrGAP2d6Giz1cd3jlwfz7AcOZ2yhngwWcbbqxrBuHILZCGnonUCGbNdk4hMGxW4QB8KMzeuuEOX8CcdRqPPNikMzQXBPqf3BDW2b355I+LCQ95uD1irWsjAqOJa+6dOX//Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-456b5122c7cso53158fac.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 17:39:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784767171; x=1785371971;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CZbNS/13+64JV2lMjMJl+r/9dBrsjiPt4ulSptJVrL8=;
+        b=EnTdqvXuOkKPE5f06jktBzkErlbnScnuPN4yaLhQyXqSnG8rgVu52KiJACXyjiQeUA
+         YaMohNTZIaWZJH+QrYRsZlNbNdSnpk3FPl5g4m/8/E8MsePh5MI/EEvD+EUxDSeX1Swh
+         n7sIgXvrzxTObqmAwq9Bb0lFDEw4mY+s8IJZINDe79T1WqyJRywaci9cIFVOsgHpCR23
+         neXs3RfUSOIYVE/9TU6Ca+unRG4Yy1Lz92H/TjpnmQvnJUefm/mm+G8847aHFYDB3CdL
+         hvPIMlofyMPS3MEl5RRyri2FgtJspXLYGPkMuIc3th+SktltNf1T6mbTH++fD/qodwQ9
+         D58Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrytZrzbltNwOsdv6aa/h9LTFDA0RJARxjVzfSusUzFzktJ9yenH9kN3SNIKcccx9fo87FW9xaxoq4GCEo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZapmGujjeu0sK+XlGghgntWS9lT0w8jPpnTBAkOwzSVUgOFQ1
+	REeaLBLtZzUskBVo336j8V5olIslDqvGFHUKNqaTSqHfamrv4iMmCBO4PVxVNM/r9k1YEM8Fm7U
+	RZ33SVGt5WYY7pbZVhReUWSO86KWBGbG7dAGiMods+Ptynbnl+BkXn/ivD04=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] MAINTAINERS: add nci tests to nfc
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178474381563.1967992.1709720639386325689.git-patchwork-notify@kernel.org>
-Date: Wed, 22 Jul 2026 18:10:15 +0000
-References: <20260721205555.1020513-1-kuba@kernel.org>
-In-Reply-To: <20260721205555.1020513-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, david@ixit.cz,
- oe-linux-nfc@lists.linux.dev
+X-Received: by 2002:a05:6808:2203:b0:491:c51e:189c with SMTP id
+ 5614622812f47-4ab38691a27mr211172b6e.24.1784767171495; Wed, 22 Jul 2026
+ 17:39:31 -0700 (PDT)
+Date: Wed, 22 Jul 2026 17:39:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6162c3.16bfb6d0.3c48cb.0007.GAE@google.com>
+Subject: [syzbot] [net?] [nfc?] WARNING in nci_rx_work
+From: syzbot <syzbot+0b9d9b42dd0539b0e9fe@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Hello,
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+syzbot found the following issue on:
 
-On Tue, 21 Jul 2026 13:55:55 -0700 you wrote:
-> NCI is part of NFC, so include its selftests under the NFC entry.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: david@ixit.cz
-> CC: oe-linux-nfc@lists.linux.dev
-> 
-> [...]
+HEAD commit:    1229e2e57a5c Merge tag 'v7.2-rc3-smb3-server-fixes' of git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=170c5789580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
+dashboard link: https://syzkaller.appspot.com/bug?extid=0b9d9b42dd0539b0e9fe
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Here is the summary with links:
-  - [net] MAINTAINERS: add nci tests to nfc
-    https://git.kernel.org/netdev/net/c/9545fef46d36
+Unfortunately, I don't have any reproducer for this issue yet.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e39c7e41c516/disk-1229e2e5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cb6d56cd3388/vmlinux-1229e2e5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c229a44ba578/bzImage-1229e2e5.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0b9d9b42dd0539b0e9fe@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+workqueue: cannot queue nci_cmd_work on wq nfc2_nci_cmd_wq
+WARNING: kernel/workqueue.c:2306 at __queue_work+0xd4a/0x10a0 kernel/workqueue.c:2305, CPU#0: kworker/u8:4/75
+Modules linked in:
+CPU: 0 UID: 0 PID: 75 Comm: kworker/u8:4 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/10/2026
+Workqueue: nfc2_nci_rx_wq nci_rx_work
+RIP: 0010:__queue_work+0xd66/0x10a0 kernel/workqueue.c:2305
+Code: 49 81 c7 70 01 00 00 4c 8d 35 36 66 cd 0e 48 89 f8 48 c1 e8 03 80 3c 18 00 74 05 e8 c4 b8 a6 00 49 8b 75 18 4c 89 f7 4c 89 fa <67> 48 0f b9 3a 4c 89 e8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ef e8
+RSP: 0018:ffffc900015e7998 EFLAGS: 00010046
+RAX: 1ffff1100549d422 RBX: dffffc0000000000 RCX: 0000000000100000
+RDX: ffff8880528c7970 RSI: ffffffff8ba1ec40 RDI: ffffffff905ab090
+RBP: 0000000000000020 R08: ffff88802a4ea0ff R09: 1ffff1100549d41f
+R10: dffffc0000000000 R11: ffffed100549d420 R12: 0000000000000008
+R13: ffff88802a4ea0f8 R14: ffffffff905ab090 R15: ffff8880528c7970
+FS:  0000000000000000(0000) GS:ffff888124f54000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b34012ff8 CR3: 00000000355ce000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ queue_work_on+0x106/0x1d0 kernel/workqueue.c:2452
+ nci_rx_work+0x235/0x4b0 net/nfc/nci/core.c:1579
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	49 81 c7 70 01 00 00 	add    $0x170,%r15
+   7:	4c 8d 35 36 66 cd 0e 	lea    0xecd6636(%rip),%r14        # 0xecd6644
+   e:	48 89 f8             	mov    %rdi,%rax
+  11:	48 c1 e8 03          	shr    $0x3,%rax
+  15:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
+  19:	74 05                	je     0x20
+  1b:	e8 c4 b8 a6 00       	call   0xa6b8e4
+  20:	49 8b 75 18          	mov    0x18(%r13),%rsi
+  24:	4c 89 f7             	mov    %r14,%rdi
+  27:	4c 89 fa             	mov    %r15,%rdx
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	4c 89 e8             	mov    %r13,%rax
+  32:	48 c1 e8 03          	shr    $0x3,%rax
+  36:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
+  3a:	74 08                	je     0x44
+  3c:	4c 89 ef             	mov    %r13,%rdi
+  3f:	e8                   	.byte 0xe8
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
