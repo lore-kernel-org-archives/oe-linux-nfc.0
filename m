@@ -1,146 +1,1028 @@
-Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9A6279DB6
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 23 Jul 2026 00:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50D231D74B
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 23 Jul 2026 02:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784767174; cv=none; b=e4/vZIrwSB4HPmFXCR+ReGdnir2IeKNuNojTbFLOKqAbfpAuCvfDoNt8nutqK5hhTzWrahOsJxgXCWI89t7XAIb8tgr0ApbQZ56P/jGJ0128FfiNlpyt9mO3PV9/Na2arN05JW3CBzmo1GX1CklhtEpXF1+0/5AVqr8Qa9bQ9vw=
+	t=1784773497; cv=none; b=XgZWnyhMS10CV/Hapmsxqd42Wuyt03SfgTRCQ0TWVV42DBb+rl1faOPwMXJO099ORmf4KVx9whzLIZIqsCNRdjb5GEvp5R0Sqz6Eo204ALm1XJmoghZKe5OCucc2odCn7O2Md8RYkepW0/kg8qXaw0mq82k8EAYXIjoLhblgJKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784767174; c=relaxed/simple;
-	bh=NvKeBWEPTljeH0OraIY2kdDqlCpntQjPiAMlQ1DcMrQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ARA35FnKIdhcsq2yKsIppjM8OvPgUE+TUGcU1F3mNrGAP2d6Giz1cd3jlwfz7AcOZ2yhngwWcbbqxrBuHILZCGnonUCGbNdk4hMGxW4QB8KMzeuuEOX8CcdRqPPNikMzQXBPqf3BDW2b355I+LCQ95uD1irWsjAqOJa+6dOX//Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-456b5122c7cso53158fac.1
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 17:39:32 -0700 (PDT)
+	s=arc-20240116; t=1784773497; c=relaxed/simple;
+	bh=tABmB1/kW0JDasoLUwQOzzuBiYWYw9a7bzBSFdsm7e4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TaZC/jgfON316550Gn3sCJ4LkgK1CFE/xSyOYk5jtv5tB8SBgrOQZ1eerwAs6EEx8BqDgApPvVo2PEiAjMP2kEXX6LtOQxTpfpliIPSSCQMxAxaPcOzW/Xp3989Ffn9x4qY01YJCZgedgSEbkVO9S9PJDjZuL8mFE1ETQJRCskE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ePyImuOs; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePyImuOs"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so1693455ad.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 22 Jul 2026 19:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784773494; x=1785378294; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fZCnR4B/MekCn1lTTtDL2oBst2/7Abw1Lem8ZtySJ4Y=;
+        b=ePyImuOsEk2VO9xnh/AW5MXPIXBToW5EyWqEVUR4xW/68hibYMIo1dGSwaWlIV8Rhp
+         dtyGaJlTSdsxe1mdVjaMUV3uJUeGrf3RvGlr3QReze20Pyl+mC70jjOh5bueBUEfbc0w
+         T0rGR2kKv+2Fmw8bHT29ULnFwoh+tLTfqqinF23JZ3Ludb4jyIGastRIekbG8Oib4ESA
+         Wwsqa3w5XJlJJykqRNdcQyqQN3oKIOzaeChelcdcBzDVETSr0XJdAgFZkIfaaaHi+6eR
+         QWfN1+TBa5v/WROffq2QPSQHO7czwfEtCOwEO3izpKFGUEqQLFbkveyqQPmbrl2K8qzx
+         GDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784767171; x=1785371971;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CZbNS/13+64JV2lMjMJl+r/9dBrsjiPt4ulSptJVrL8=;
-        b=EnTdqvXuOkKPE5f06jktBzkErlbnScnuPN4yaLhQyXqSnG8rgVu52KiJACXyjiQeUA
-         YaMohNTZIaWZJH+QrYRsZlNbNdSnpk3FPl5g4m/8/E8MsePh5MI/EEvD+EUxDSeX1Swh
-         n7sIgXvrzxTObqmAwq9Bb0lFDEw4mY+s8IJZINDe79T1WqyJRywaci9cIFVOsgHpCR23
-         neXs3RfUSOIYVE/9TU6Ca+unRG4Yy1Lz92H/TjpnmQvnJUefm/mm+G8847aHFYDB3CdL
-         hvPIMlofyMPS3MEl5RRyri2FgtJspXLYGPkMuIc3th+SktltNf1T6mbTH++fD/qodwQ9
-         D58Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrytZrzbltNwOsdv6aa/h9LTFDA0RJARxjVzfSusUzFzktJ9yenH9kN3SNIKcccx9fo87FW9xaxoq4GCEo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZapmGujjeu0sK+XlGghgntWS9lT0w8jPpnTBAkOwzSVUgOFQ1
-	REeaLBLtZzUskBVo336j8V5olIslDqvGFHUKNqaTSqHfamrv4iMmCBO4PVxVNM/r9k1YEM8Fm7U
-	RZ33SVGt5WYY7pbZVhReUWSO86KWBGbG7dAGiMods+Ptynbnl+BkXn/ivD04=
+        d=1e100.net; s=20251104; t=1784773494; x=1785378294;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fZCnR4B/MekCn1lTTtDL2oBst2/7Abw1Lem8ZtySJ4Y=;
+        b=Tb7CbQgB/vd9RSkx/+nFFYMTN+c5pmzLSZBA11ldvC+A1b1i5GpBo7JmflcffgefNo
+         cw8A4CI3OX6/f+WTd94NcH9eL1t25Acd5hcMG+gMK6V4Hhky94E+WVg86S96gAdcTUlp
+         xhaVQhi+dfXtJo2UHVdEGcn2+i0Fh61TXT1QNQQjH0jfjO6G8hZV/dmL88R4iw60yLkz
+         SGa5r0PZDmZVKb8LTa9JKmC+NN3vv9U03tPYJsa15tikGWgBqXizZ+RIP44m47jJQT7U
+         UoK+f3riW5RwWixqoBNoaHPQJ8JHmrYjUxZLLnzF1NW2uVyE7dK/Q3vBYX1AXZ8s5cbP
+         l7YA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro0EW38Dh15XSwlAFuZMlnvf1fyJjHttWlIKE66M4rXWHq7gob0nCHgeef/ZVwLUjTsmwAtOBacm3vQAbk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnDcCyyoFA19wvzgpixhRWBRV1DWcWe67NIY0hhvo2Cv3g5DRg
+	VRsNC56fLbX+XO/zg+8XAEe6j/sBtCYwiK7XVWQw1dPqDOQcWCrHVJq4
+X-Gm-Gg: AR+sD10qwIfeUMaUbfEiDd4aOQs43qRShCVTGV/6/tK4tphxvipgSeTZtz4Z4XLXT23
+	9ruKFS9G1ataWPD0kwvy/4BwNvFYXnEP47WM6VqpQ8JV2T4NWYJCZNiKAjbMu/To18Fa9DibwO5
+	q+mLBU3s7jkW0BXI97o5vyvbZOGMQZd6P/y5SZv1OYPxee3+J7tJq0oAPGnXI58l8DNplDPWov5
+	nEUJukjYumR2/d/1anx6CIsQJjsZCrRMCkfeNfyW5+rtFkIA+7PZbGHObyeSF4esYvg/ttT75qT
+	jRPFNVR16n09OaZYeMgIf6YbGCXgwMteGhALPfAIHFtZF8AULknTkpoVMnpaI7ExdZALRYLNI6f
+	zsbrlzzAlKm+UrOsgScUifwD/HzHOxSqKTY4oy173jHgqenjy8Mj6NYTiZ3tDQpDY9mePNOFC9T
+	8EPjgfZS87oUP4jX31LeWjG6UjbqjgBmQxK8o7G9a//LeBJQMwz3fyqAhsbXti4GTw5g==
+X-Received: by 2002:a17:902:c942:b0:2ca:e565:7b15 with SMTP id d9443c01a7336-2cfa6a5a196mr14944055ad.10.1784773493944;
+        Wed, 22 Jul 2026 19:24:53 -0700 (PDT)
+Received: from secrnd-cstp.tailb7f510.ts.net ([125.131.91.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efa39e9sm23809715ad.10.2026.07.22.19.24.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 19:24:53 -0700 (PDT)
+From: Sanghyun Park <sanghyun.park.cnu@gmail.com>
+To: David Heidelberg <david@ixit.cz>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	Joe Damato <joe@dama.to>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Ashutosh Desai <ashutoshdesai993@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Deepak Sharma <deepak.sharma.472935@gmail.com>,
+	Michael Thalmeier <michael.thalmeier@hale.at>,
+	Christophe Ricard <christophe.ricard@gmail.com>,
+	Samuel Ortiz <sameo@linux.intel.com>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net v4] nfc: nci: Fix conn_info use-after-free
+Date: Thu, 23 Jul 2026 11:24:07 +0900
+Message-ID: <20260723022407.3402916-2-sanghyun.park.cnu@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2203:b0:491:c51e:189c with SMTP id
- 5614622812f47-4ab38691a27mr211172b6e.24.1784767171495; Wed, 22 Jul 2026
- 17:39:31 -0700 (PDT)
-Date: Wed, 22 Jul 2026 17:39:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6162c3.16bfb6d0.3c48cb.0007.GAE@google.com>
-Subject: [syzbot] [net?] [nfc?] WARNING in nci_rx_work
-From: syzbot <syzbot+0b9d9b42dd0539b0e9fe@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+nci_tx_work() looks up conn_info from conn_info_list and keeps using
+that pointer while sending queued data. nci_core_conn_close_rsp_packet()
+runs on the separate rx_wq and can remove and free the same conn_info,
+so the tx worker can dereference freed memory.
 
-syzbot found the following issue on:
+The same lifetime rule also has to cover other conn_info_list users and
+the direct rf_conn_info and hci_dev->conn_info aliases. Protect
+conn_info_list and conn_info pointer aliases with a dedicated lock, use
+it while publishing and removing entries, and keep readers under the lock
+while they dereference conn_info or copy the fields they need.
 
-HEAD commit:    1229e2e57a5c Merge tag 'v7.2-rc3-smb3-server-fixes' of git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=170c5789580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
-dashboard link: https://syzkaller.appspot.com/bug?extid=0b9d9b42dd0539b0e9fe
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+In nci_tx_work(), take the lock only around lookup, credit checks, skb
+dequeue, and credit accounting so close cannot free conn_info while it is
+used, but transport send latency does not block rx_wq response
+processing.
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e39c7e41c516/disk-1229e2e5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/cb6d56cd3388/vmlinux-1229e2e5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c229a44ba578/bzImage-1229e2e5.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0b9d9b42dd0539b0e9fe@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-workqueue: cannot queue nci_cmd_work on wq nfc2_nci_cmd_wq
-WARNING: kernel/workqueue.c:2306 at __queue_work+0xd4a/0x10a0 kernel/workqueue.c:2305, CPU#0: kworker/u8:4/75
-Modules linked in:
-CPU: 0 UID: 0 PID: 75 Comm: kworker/u8:4 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/10/2026
-Workqueue: nfc2_nci_rx_wq nci_rx_work
-RIP: 0010:__queue_work+0xd66/0x10a0 kernel/workqueue.c:2305
-Code: 49 81 c7 70 01 00 00 4c 8d 35 36 66 cd 0e 48 89 f8 48 c1 e8 03 80 3c 18 00 74 05 e8 c4 b8 a6 00 49 8b 75 18 4c 89 f7 4c 89 fa <67> 48 0f b9 3a 4c 89 e8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ef e8
-RSP: 0018:ffffc900015e7998 EFLAGS: 00010046
-RAX: 1ffff1100549d422 RBX: dffffc0000000000 RCX: 0000000000100000
-RDX: ffff8880528c7970 RSI: ffffffff8ba1ec40 RDI: ffffffff905ab090
-RBP: 0000000000000020 R08: ffff88802a4ea0ff R09: 1ffff1100549d41f
-R10: dffffc0000000000 R11: ffffed100549d420 R12: 0000000000000008
-R13: ffff88802a4ea0f8 R14: ffffffff905ab090 R15: ffff8880528c7970
-FS:  0000000000000000(0000) GS:ffff888124f54000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b34012ff8 CR3: 00000000355ce000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- queue_work_on+0x106/0x1d0 kernel/workqueue.c:2452
- nci_rx_work+0x235/0x4b0 net/nfc/nci/core.c:1579
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	49 81 c7 70 01 00 00 	add    $0x170,%r15
-   7:	4c 8d 35 36 66 cd 0e 	lea    0xecd6636(%rip),%r14        # 0xecd6644
-   e:	48 89 f8             	mov    %rdi,%rax
-  11:	48 c1 e8 03          	shr    $0x3,%rax
-  15:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-  19:	74 05                	je     0x20
-  1b:	e8 c4 b8 a6 00       	call   0xa6b8e4
-  20:	49 8b 75 18          	mov    0x18(%r13),%rsi
-  24:	4c 89 f7             	mov    %r14,%rdi
-  27:	4c 89 fa             	mov    %r15,%rdx
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	4c 89 e8             	mov    %r13,%rax
-  32:	48 c1 e8 03          	shr    $0x3,%rax
-  36:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-  3a:	74 08                	je     0x44
-  3c:	4c 89 ef             	mov    %r13,%rdi
-  3f:	e8                   	.byte 0xe8
-
-
+Fixes: 736bb9577407 ("NFC: nci: Support logical connections management")
+Signed-off-by: Sanghyun Park <sanghyun.park.cnu@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+v4:
+  - Guard hci_dev before clearing its conn_info alias during teardown.
+  - Reflow lines flagged by the netdev 80-column check.
+  - Use the current NFC maintainer address from MAINTAINERS.
+v3: https://lore.kernel.org/netdev/20260630071717.3618185-2-sanghyun.park.cnu@gmail.com/
+  - Add Fixes tag for the logical connection close lifetime bug.
+  - Add the missing NFC maintainer and oe-linux-nfc list.
+  - Cover all conn_info_list helper users, not only nci_tx_work().
+  - Protect direct rf_conn_info and hci_dev->conn_info aliases.
+  - Publish and remove conn_info entries under the same lock.
+  - Protect RF conn_info discovery publication with the same lock.
+  - Keep HCI rx_skb immediate dereferences under conn_info_lock.
+  - Narrow nci_send_data() lock coverage around skb queueing.
+  - Avoid holding conn_info_lock across nci_send_frame().
+  - Use spin_lock_bh() so HCI timer callbacks do not take a sleepable lock.
+  - Keep conn_info_lock alive until nci_dev teardown instead of destroying it before nfc_remove_device().
+v2: https://patchwork.kernel.org/project/netdevbpf/patch/20260610081657.686636-1-sanghyun.park.cnu@gmail.com/
+  - Replace flush-only fix with conn_info locking around tx and close.
+v1: https://patchwork.kernel.org/project/netdevbpf/patch/CAOrxSK5UmFFfzdRG+P89+E+Rvg_1DmOvTs+M7353Q8=hkPXmSg@mail.gmail.com/
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ drivers/nfc/st-nci/se.c    |  16 +++---
+ include/net/nfc/nci_core.h |   9 ++-
+ net/nfc/nci/core.c         |  98 +++++++++++++++++++++++++--------
+ net/nfc/nci/data.c         |  68 ++++++++++++++---------
+ net/nfc/nci/hci.c          | 109 +++++++++++++++++++++++++++++--------
+ net/nfc/nci/ntf.c          |  23 ++++++--
+ net/nfc/nci/rsp.c          |  52 +++++++++++++-----
+ 7 files changed, 271 insertions(+), 104 deletions(-)
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+diff --git a/drivers/nfc/st-nci/se.c b/drivers/nfc/st-nci/se.c
+index 607ec768eb7b4..1f8e2265e20b0 100644
+--- a/drivers/nfc/st-nci/se.c
++++ b/drivers/nfc/st-nci/se.c
+@@ -548,6 +548,7 @@ static int st_nci_hci_network_init(struct nci_dev *ndev)
+ 	struct core_conn_create_dest_spec_params *dest_params;
+ 	struct dest_spec_params spec_params;
+ 	struct nci_conn_info    *conn_info;
++	u8 nfcee_id;
+ 	int r, dev_num;
+ 
+ 	dest_params =
+@@ -569,9 +570,14 @@ static int st_nci_hci_network_init(struct nci_dev *ndev)
+ 	if (r != NCI_STATUS_OK)
+ 		goto free_dest_params;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		goto free_dest_params;
++	}
++	nfcee_id = conn_info->dest_params->id;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	ndev->hci_dev->init_data.gate_count = ARRAY_SIZE(st_nci_gates);
+ 	memcpy(ndev->hci_dev->init_data.gates, st_nci_gates,
+@@ -601,13 +607,9 @@ static int st_nci_hci_network_init(struct nci_dev *ndev)
+ 	 * HCI will be used here only for proprietary commands.
+ 	 */
+ 	if (test_bit(ST_NCI_FACTORY_MODE, &info->flags))
+-		r = nci_nfcee_mode_set(ndev,
+-				       ndev->hci_dev->conn_info->dest_params->id,
+-				       NCI_NFCEE_DISABLE);
++		r = nci_nfcee_mode_set(ndev, nfcee_id, NCI_NFCEE_DISABLE);
+ 	else
+-		r = nci_nfcee_mode_set(ndev,
+-				       ndev->hci_dev->conn_info->dest_params->id,
+-				       NCI_NFCEE_ENABLE);
++		r = nci_nfcee_mode_set(ndev, nfcee_id, NCI_NFCEE_ENABLE);
+ 
+ free_dest_params:
+ 	kfree(dest_params);
+diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
+index 664d5058e66e0..1dd961507f9d3 100644
+--- a/include/net/nfc/nci_core.h
++++ b/include/net/nfc/nci_core.h
+@@ -19,6 +19,7 @@
+ 
+ #include <linux/interrupt.h>
+ #include <linux/skbuff.h>
++#include <linux/spinlock.h>
+ #include <linux/tty.h>
+ 
+ #include <net/nfc/nfc.h>
+@@ -227,6 +228,8 @@ struct nci_dev {
+ 	struct sk_buff_head	tx_q;
+ 
+ 	struct mutex		req_lock;
++	/* Serializes conn_info_list and conn_info pointer alias updates. */
++	spinlock_t		conn_info_lock;
+ 	struct completion	req_completion;
+ 	__u32			req_status;
+ 	__u32			req_result;
+@@ -382,8 +385,10 @@ void nci_clear_target_list(struct nci_dev *ndev);
+ #define NCI_REQ_CANCELED	2
+ 
+ void nci_req_complete(struct nci_dev *ndev, int result);
+-struct nci_conn_info *nci_get_conn_info_by_conn_id(struct nci_dev *ndev,
+-						   int conn_id);
++struct nci_conn_info *nci_get_conn_info_by_conn_id_locked(struct nci_dev *ndev,
++							  int conn_id);
++int nci_get_conn_info_by_dest_locked(struct nci_dev *ndev, u8 dest_type,
++				     const struct dest_spec_params *params);
+ int nci_get_conn_info_by_dest_type_params(struct nci_dev *ndev, u8 dest_type,
+ 					  const struct dest_spec_params *params);
+ 
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index 5f46c4b5720f6..57c144c5f31a4 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -40,8 +40,8 @@ static void nci_cmd_work(struct work_struct *work);
+ static void nci_rx_work(struct work_struct *work);
+ static void nci_tx_work(struct work_struct *work);
+ 
+-struct nci_conn_info *nci_get_conn_info_by_conn_id(struct nci_dev *ndev,
+-						   int conn_id)
++struct nci_conn_info *nci_get_conn_info_by_conn_id_locked(struct nci_dev *ndev,
++							  int conn_id)
+ {
+ 	struct nci_conn_info *conn_info;
+ 
+@@ -53,8 +53,8 @@ struct nci_conn_info *nci_get_conn_info_by_conn_id(struct nci_dev *ndev,
+ 	return NULL;
+ }
+ 
+-int nci_get_conn_info_by_dest_type_params(struct nci_dev *ndev, u8 dest_type,
+-					  const struct dest_spec_params *params)
++int nci_get_conn_info_by_dest_locked(struct nci_dev *ndev, u8 dest_type,
++				     const struct dest_spec_params *params)
+ {
+ 	const struct nci_conn_info *conn_info;
+ 
+@@ -71,6 +71,18 @@ int nci_get_conn_info_by_dest_type_params(struct nci_dev *ndev, u8 dest_type,
+ 
+ 	return -EINVAL;
+ }
++
++int nci_get_conn_info_by_dest_type_params(struct nci_dev *ndev, u8 dest_type,
++					  const struct dest_spec_params *params)
++{
++	int conn_id;
++
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_id = nci_get_conn_info_by_dest_locked(ndev, dest_type, params);
++	spin_unlock_bh(&ndev->conn_info_lock);
++
++	return conn_id;
++}
+ EXPORT_SYMBOL(nci_get_conn_info_by_dest_type_params);
+ 
+ /* ---- NCI requests ---- */
+@@ -411,13 +423,17 @@ static void nci_nfcc_loopback_cb(void *context, struct sk_buff *skb, int err)
+ 	struct nci_dev *ndev = (struct nci_dev *)context;
+ 	struct nci_conn_info *conn_info;
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev,
++							ndev->cur_conn_id);
+ 	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		nci_req_complete(ndev, NCI_STATUS_REJECTED);
+ 		return;
+ 	}
+ 
+ 	conn_info->rx_skb = skb;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	nci_req_complete(ndev, NCI_STATUS_OK);
+ }
+@@ -443,13 +459,17 @@ int nci_nfcc_loopback(struct nci_dev *ndev, const void *data, size_t data_len,
+ 					NULL);
+ 	}
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
+-	if (!conn_info)
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
+ 
+ 	/* store cb and context to be used on receiving data */
+ 	conn_info->data_exchange_cb = nci_nfcc_loopback_cb;
+ 	conn_info->data_exchange_cb_context = ndev;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	skb = nci_skb_alloc(ndev, NCI_DATA_HDR_SIZE + data_len, GFP_KERNEL);
+ 	if (!skb)
+@@ -464,8 +484,15 @@ int nci_nfcc_loopback(struct nci_dev *ndev, const void *data, size_t data_len,
+ 	ndev->cur_conn_id = conn_id;
+ 	r = nci_request(ndev, nci_send_data_req, &loopback_data,
+ 			msecs_to_jiffies(NCI_DATA_TIMEOUT));
+-	if (r == NCI_STATUS_OK && resp)
+-		*resp = conn_info->rx_skb;
++	if (r == NCI_STATUS_OK && resp) {
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
++		if (conn_info)
++			*resp = conn_info->rx_skb;
++		else
++			r = -EPROTO;
++		spin_unlock_bh(&ndev->conn_info_lock);
++	}
+ 
+ 	return r;
+ }
+@@ -1045,12 +1072,6 @@ static int nci_transceive(struct nfc_dev *nfc_dev, struct nfc_target *target,
+ 	int rc;
+ 	struct nci_conn_info *conn_info;
+ 
+-	conn_info = ndev->rf_conn_info;
+-	if (!conn_info) {
+-		kfree_skb(skb);
+-		return -EPROTO;
+-	}
+-
+ 	pr_debug("target_idx %d, len %d\n", target->idx, skb->len);
+ 
+ 	if (!ndev->target_active_prot) {
+@@ -1064,9 +1085,19 @@ static int nci_transceive(struct nfc_dev *nfc_dev, struct nfc_target *target,
+ 		return -EBUSY;
+ 	}
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = ndev->rf_conn_info;
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
++		kfree_skb(skb);
++		clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
++		return -EPROTO;
++	}
++
+ 	/* store cb and context to be used on receiving data */
+ 	conn_info->data_exchange_cb = cb;
+ 	conn_info->data_exchange_cb_context = cb_context;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	rc = nci_send_data(ndev, NCI_STATIC_RF_CONN_ID, skb);
+ 	if (rc)
+@@ -1288,6 +1319,7 @@ int nci_register_device(struct nci_dev *ndev)
+ 	timer_setup(&ndev->data_timer, nci_data_timer, 0);
+ 
+ 	mutex_init(&ndev->req_lock);
++	spin_lock_init(&ndev->conn_info_lock);
+ 	INIT_LIST_HEAD(&ndev->conn_info_list);
+ 
+ 	rc = nfc_register_device(ndev->nfc_dev);
+@@ -1333,11 +1365,17 @@ void nci_unregister_device(struct nci_dev *ndev)
+ 	destroy_workqueue(ndev->rx_wq);
+ 	destroy_workqueue(ndev->tx_wq);
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	list_for_each_entry_safe(conn_info, n, &ndev->conn_info_list, list) {
+ 		list_del(&conn_info->list);
++		if (conn_info == ndev->rf_conn_info)
++			ndev->rf_conn_info = NULL;
++		if (ndev->hci_dev &&
++		    conn_info == ndev->hci_dev->conn_info)
++			ndev->hci_dev->conn_info = NULL;
+ 		/* conn_info is allocated with devm_kzalloc */
+ 	}
+-
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 	nfc_remove_device(ndev->nfc_dev);
+ }
+ EXPORT_SYMBOL(nci_unregister_device);
+@@ -1523,23 +1561,32 @@ static void nci_tx_work(struct work_struct *work)
+ 	struct nci_conn_info *conn_info;
+ 	struct sk_buff *skb;
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, ndev->cur_conn_id);
+-	if (!conn_info)
+-		return;
++	/* Send queued tx data */
++	for (;;) {
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info =
++			nci_get_conn_info_by_conn_id_locked(ndev,
++							    ndev->cur_conn_id);
++		if (!conn_info)
++			goto unlock;
+ 
+-	pr_debug("credits_cnt %d\n", atomic_read(&conn_info->credits_cnt));
++		pr_debug("credits_cnt %d\n",
++			 atomic_read(&conn_info->credits_cnt));
++
++		if (!atomic_read(&conn_info->credits_cnt))
++			goto unlock;
+ 
+-	/* Send queued tx data */
+-	while (atomic_read(&conn_info->credits_cnt)) {
+ 		skb = skb_dequeue(&ndev->tx_q);
+ 		if (!skb)
+-			return;
+-		kcov_remote_start_common(skb_get_kcov_handle(skb));
++			goto unlock;
+ 
+ 		/* Check if data flow control is used */
+ 		if (atomic_read(&conn_info->credits_cnt) !=
+ 		    NCI_DATA_FLOW_CONTROL_NOT_USED)
+ 			atomic_dec(&conn_info->credits_cnt);
++		spin_unlock_bh(&ndev->conn_info_lock);
++
++		kcov_remote_start_common(skb_get_kcov_handle(skb));
+ 
+ 		pr_debug("NCI TX: MT=data, PBF=%d, conn_id=%d, plen=%d\n",
+ 			 nci_pbf(skb->data),
+@@ -1552,6 +1599,9 @@ static void nci_tx_work(struct work_struct *work)
+ 			  jiffies + msecs_to_jiffies(NCI_DATA_TIMEOUT));
+ 		kcov_remote_stop();
+ 	}
++
++unlock:
++	spin_unlock_bh(&ndev->conn_info_lock);
+ }
+ 
+ /* ----- NCI RX worker thread (data & control) ----- */
+diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+index 5f98c73db5afd..334c0e5a94dbc 100644
+--- a/net/nfc/nci/data.c
++++ b/net/nfc/nci/data.c
+@@ -30,8 +30,10 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
+ 	data_exchange_cb_t cb;
+ 	void *cb_context;
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
+ 	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		kfree_skb(skb);
+ 		clear_bit(NCI_DATA_EXCHANGE, &ndev->flags);
+ 		return;
+@@ -39,6 +41,7 @@ void nci_data_exchange_complete(struct nci_dev *ndev, struct sk_buff *skb,
+ 
+ 	cb = conn_info->data_exchange_cb;
+ 	cb_context = conn_info->data_exchange_cb_context;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	pr_debug("len %d, err %d\n", skb ? skb->len : 0, err);
+ 
+@@ -85,19 +88,26 @@ static inline void nci_push_data_hdr(struct nci_dev *ndev,
+ int nci_conn_max_data_pkt_payload_size(struct nci_dev *ndev, __u8 conn_id)
+ {
+ 	const struct nci_conn_info *conn_info;
++	int max_pkt_payload_len;
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
+-	if (!conn_info)
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
++	max_pkt_payload_len = conn_info->max_pkt_payload_len;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+-	return conn_info->max_pkt_payload_len;
++	return max_pkt_payload_len;
+ }
+ EXPORT_SYMBOL(nci_conn_max_data_pkt_payload_size);
+ 
+ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
+ 				   __u8 conn_id,
+-				   struct sk_buff *skb) {
+-	const struct nci_conn_info *conn_info;
++				   struct sk_buff *skb,
++				   __u8 max_pkt_payload_len)
++{
+ 	int total_len = skb->len;
+ 	const unsigned char *data = skb->data;
+ 	unsigned long flags;
+@@ -108,17 +118,10 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
+ 
+ 	pr_debug("conn_id 0x%x, total_len %d\n", conn_id, total_len);
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
+-	if (!conn_info) {
+-		rc = -EPROTO;
+-		goto exit;
+-	}
+-
+ 	__skb_queue_head_init(&frags_q);
+ 
+ 	while (total_len) {
+-		frag_len =
+-			min_t(int, total_len, conn_info->max_pkt_payload_len);
++		frag_len = min_t(int, total_len, max_pkt_payload_len);
+ 
+ 		skb_frag = nci_skb_alloc(ndev,
+ 					 (NCI_DATA_HDR_SIZE + frag_len),
+@@ -171,40 +174,47 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
+ int nci_send_data(struct nci_dev *ndev, __u8 conn_id, struct sk_buff *skb)
+ {
+ 	const struct nci_conn_info *conn_info;
++	__u8 max_pkt_payload_len;
+ 	int rc = 0;
+ 
+ 	pr_debug("conn_id 0x%x, plen %d\n", conn_id, skb->len);
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
+ 	if (!conn_info) {
+ 		rc = -EPROTO;
+-		goto free_exit;
++		goto unlock;
+ 	}
++	max_pkt_payload_len = conn_info->max_pkt_payload_len;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	/* check if the packet need to be fragmented */
+-	if (skb->len <= conn_info->max_pkt_payload_len) {
++	if (skb->len <= max_pkt_payload_len) {
+ 		/* no need to fragment packet */
+ 		nci_push_data_hdr(ndev, conn_id, skb, NCI_PBF_LAST);
+ 
+ 		skb_queue_tail(&ndev->tx_q, skb);
+ 	} else {
+ 		/* fragment packet and queue the fragments */
+-		rc = nci_queue_tx_data_frags(ndev, conn_id, skb);
++		rc = nci_queue_tx_data_frags(ndev, conn_id, skb,
++					     max_pkt_payload_len);
+ 		if (rc) {
+ 			pr_err("failed to fragment tx data packet\n");
+-			goto free_exit;
++			kfree_skb(skb);
++			return rc;
+ 		}
+ 	}
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	ndev->cur_conn_id = conn_id;
+-	queue_work(ndev->tx_wq, &ndev->tx_work);
+-
+-	goto exit;
+-
+-free_exit:
+-	kfree_skb(skb);
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+-exit:
++	queue_work(ndev->tx_wq, &ndev->tx_work);
++	return rc;
++unlock:
++	spin_unlock_bh(&ndev->conn_info_lock);
++	if (rc)
++		kfree_skb(skb);
+ 	return rc;
+ }
+ EXPORT_SYMBOL(nci_send_data);
+@@ -282,11 +292,15 @@ void nci_rx_data_packet(struct nci_dev *ndev, struct sk_buff *skb)
+ 		 nci_conn_id(skb->data),
+ 		 nci_plen(skb->data));
+ 
+-	conn_info = nci_get_conn_info_by_conn_id(ndev, nci_conn_id(skb->data));
++	spin_lock_bh(&ndev->conn_info_lock);
++	conn_info = nci_get_conn_info_by_conn_id_locked(ndev,
++							nci_conn_id(skb->data));
+ 	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		kfree_skb(skb);
+ 		return;
+ 	}
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	/* strip the nci data header */
+ 	skb_pull(skb, NCI_DATA_HDR_SIZE);
+diff --git a/net/nfc/nci/hci.c b/net/nfc/nci/hci.c
+index c03e8a0bd3bd6..e2f7ab15973ce 100644
+--- a/net/nfc/nci/hci.c
++++ b/net/nfc/nci/hci.c
+@@ -147,14 +147,22 @@ static int nci_hci_send_data(struct nci_dev *ndev, u8 pipe,
+ 	struct sk_buff *skb;
+ 	int len, i, r;
+ 	u8 cb = pipe;
++	u8 conn_id;
++	u8 max_pkt_payload_len;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
++	conn_id = conn_info->conn_id;
++	max_pkt_payload_len = conn_info->max_pkt_payload_len;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	i = 0;
+-	skb = nci_skb_alloc(ndev, conn_info->max_pkt_payload_len +
+-			    NCI_DATA_HDR_SIZE, GFP_ATOMIC);
++	skb = nci_skb_alloc(ndev, max_pkt_payload_len + NCI_DATA_HDR_SIZE,
++			    GFP_ATOMIC);
+ 	if (!skb)
+ 		return -ENOMEM;
+ 
+@@ -163,12 +171,11 @@ static int nci_hci_send_data(struct nci_dev *ndev, u8 pipe,
+ 
+ 	do {
+ 		/* If last packet add NCI_HFP_NO_CHAINING */
+-		if (i + conn_info->max_pkt_payload_len -
+-		    (skb->len + 1) >= data_len) {
++		if (i + max_pkt_payload_len - (skb->len + 1) >= data_len) {
+ 			cb |= NCI_HFP_NO_CHAINING;
+ 			len = data_len - i;
+ 		} else {
+-			len = conn_info->max_pkt_payload_len - skb->len - 1;
++			len = max_pkt_payload_len - skb->len - 1;
+ 		}
+ 
+ 		*(u8 *)skb_push(skb, 1) = cb;
+@@ -176,15 +183,14 @@ static int nci_hci_send_data(struct nci_dev *ndev, u8 pipe,
+ 		if (len > 0)
+ 			skb_put_data(skb, data + i, len);
+ 
+-		r = nci_send_data(ndev, conn_info->conn_id, skb);
++		r = nci_send_data(ndev, conn_id, skb);
+ 		if (r < 0)
+ 			return r;
+ 
+ 		i += len;
+ 
+ 		if (i < data_len) {
+-			skb = nci_skb_alloc(ndev,
+-					    conn_info->max_pkt_payload_len +
++			skb = nci_skb_alloc(ndev, max_pkt_payload_len +
+ 					    NCI_DATA_HDR_SIZE, GFP_ATOMIC);
+ 			if (!skb)
+ 				return -ENOMEM;
+@@ -225,17 +231,22 @@ int nci_hci_send_cmd(struct nci_dev *ndev, u8 gate, u8 cmd,
+ 	const struct nci_hcp_message *message;
+ 	const struct nci_conn_info *conn_info;
+ 	struct nci_data data;
++	struct sk_buff *rx_skb;
+ 	int r;
+ 	u8 pipe = ndev->hci_dev->gate2pipe[gate];
+ 
+ 	if (pipe == NCI_HCI_INVALID_PIPE)
+ 		return -EADDRNOTAVAIL;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
+ 
+ 	data.conn_id = conn_info->conn_id;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 	data.pipe = pipe;
+ 	data.cmd = NCI_HCP_HEADER(NCI_HCI_HCP_COMMAND, cmd);
+ 	data.data = param;
+@@ -244,13 +255,22 @@ int nci_hci_send_cmd(struct nci_dev *ndev, u8 gate, u8 cmd,
+ 	r = nci_request(ndev, nci_hci_send_data_req, &data,
+ 			msecs_to_jiffies(NCI_DATA_TIMEOUT));
+ 	if (r == NCI_STATUS_OK) {
+-		message = (struct nci_hcp_message *)conn_info->rx_skb->data;
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info = ndev->hci_dev->conn_info;
++		rx_skb = conn_info ? conn_info->rx_skb : NULL;
++		if (!rx_skb) {
++			spin_unlock_bh(&ndev->conn_info_lock);
++			return -EPROTO;
++		}
++
++		message = (struct nci_hcp_message *)rx_skb->data;
+ 		r = nci_hci_result_to_errno(
+ 			NCI_HCP_MSG_GET_CMD(message->header));
+-		skb_pull(conn_info->rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		skb_pull(rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 		if (!r && skb)
+-			*skb = conn_info->rx_skb;
++			*skb = rx_skb;
+ 	}
+ 
+ 	return r;
+@@ -366,11 +386,15 @@ static void nci_hci_resp_received(struct nci_dev *ndev, u8 pipe,
+ {
+ 	struct nci_conn_info *conn_info;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		goto exit;
++	}
+ 
+ 	conn_info->rx_skb = skb;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ exit:
+ 	nci_req_complete(ndev, NCI_STATUS_OK);
+@@ -510,11 +534,15 @@ int nci_hci_open_pipe(struct nci_dev *ndev, u8 pipe)
+ 	struct nci_data data;
+ 	const struct nci_conn_info *conn_info;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
+ 
+ 	data.conn_id = conn_info->conn_id;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 	data.pipe = pipe;
+ 	data.cmd = NCI_HCP_HEADER(NCI_HCI_HCP_COMMAND,
+ 				       NCI_HCI_ANY_OPEN_PIPE);
+@@ -569,6 +597,7 @@ int nci_hci_set_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	const struct nci_hcp_message *message;
+ 	const struct nci_conn_info *conn_info;
+ 	struct nci_data data;
++	struct sk_buff *rx_skb;
+ 	int r;
+ 	u8 *tmp;
+ 	u8 pipe = ndev->hci_dev->gate2pipe[gate];
+@@ -578,9 +607,14 @@ int nci_hci_set_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	if (pipe == NCI_HCI_INVALID_PIPE)
+ 		return -EADDRNOTAVAIL;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
++	data.conn_id = conn_info->conn_id;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	tmp = kmalloc(1 + param_len, GFP_KERNEL);
+ 	if (!tmp)
+@@ -589,7 +623,6 @@ int nci_hci_set_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	*tmp = idx;
+ 	memcpy(tmp + 1, param, param_len);
+ 
+-	data.conn_id = conn_info->conn_id;
+ 	data.pipe = pipe;
+ 	data.cmd = NCI_HCP_HEADER(NCI_HCI_HCP_COMMAND,
+ 				       NCI_HCI_ANY_SET_PARAMETER);
+@@ -599,10 +632,20 @@ int nci_hci_set_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	r = nci_request(ndev, nci_hci_send_data_req, &data,
+ 			msecs_to_jiffies(NCI_DATA_TIMEOUT));
+ 	if (r == NCI_STATUS_OK) {
+-		message = (struct nci_hcp_message *)conn_info->rx_skb->data;
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info = ndev->hci_dev->conn_info;
++		rx_skb = conn_info ? conn_info->rx_skb : NULL;
++		if (!rx_skb) {
++			spin_unlock_bh(&ndev->conn_info_lock);
++			kfree(tmp);
++			return -EPROTO;
++		}
++
++		message = (struct nci_hcp_message *)rx_skb->data;
+ 		r = nci_hci_result_to_errno(
+ 			NCI_HCP_MSG_GET_CMD(message->header));
+-		skb_pull(conn_info->rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		skb_pull(rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 	}
+ 
+ 	kfree(tmp);
+@@ -616,6 +659,7 @@ int nci_hci_get_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	const struct nci_hcp_message *message;
+ 	const struct nci_conn_info *conn_info;
+ 	struct nci_data data;
++	struct sk_buff *rx_skb;
+ 	int r;
+ 	u8 pipe = ndev->hci_dev->gate2pipe[gate];
+ 
+@@ -624,11 +668,15 @@ int nci_hci_get_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 	if (pipe == NCI_HCI_INVALID_PIPE)
+ 		return -EADDRNOTAVAIL;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
+ 
+ 	data.conn_id = conn_info->conn_id;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 	data.pipe = pipe;
+ 	data.cmd = NCI_HCP_HEADER(NCI_HCI_HCP_COMMAND,
+ 				  NCI_HCI_ANY_GET_PARAMETER);
+@@ -639,13 +687,22 @@ int nci_hci_get_param(struct nci_dev *ndev, u8 gate, u8 idx,
+ 			msecs_to_jiffies(NCI_DATA_TIMEOUT));
+ 
+ 	if (r == NCI_STATUS_OK) {
+-		message = (struct nci_hcp_message *)conn_info->rx_skb->data;
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info = ndev->hci_dev->conn_info;
++		rx_skb = conn_info ? conn_info->rx_skb : NULL;
++		if (!rx_skb) {
++			spin_unlock_bh(&ndev->conn_info_lock);
++			return -EPROTO;
++		}
++
++		message = (struct nci_hcp_message *)rx_skb->data;
+ 		r = nci_hci_result_to_errno(
+ 			NCI_HCP_MSG_GET_CMD(message->header));
+-		skb_pull(conn_info->rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		skb_pull(rx_skb, NCI_HCI_HCP_MESSAGE_HEADER_LEN);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 		if (!r && skb)
+-			*skb = conn_info->rx_skb;
++			*skb = rx_skb;
+ 	}
+ 
+ 	return r;
+@@ -729,12 +786,16 @@ int nci_hci_dev_session_init(struct nci_dev *ndev)
+ 	ndev->hci_dev->count_pipes = 0;
+ 	ndev->hci_dev->expected_pipes = 0;
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->hci_dev->conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return -EPROTO;
++	}
+ 
+ 	conn_info->data_exchange_cb = nci_hci_data_received_cb;
+ 	conn_info->data_exchange_cb_context = ndev;
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	nci_hci_reset_pipes(ndev->hci_dev);
+ 
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index c96512bb86531..15a95ee3658c0 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -56,6 +56,7 @@ static int nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+ {
+ 	struct nci_core_conn_credit_ntf *ntf;
+ 	struct nci_conn_info *conn_info;
++	int conn_id;
+ 	int i;
+ 
+ 	if (skb->len < offsetofend(struct nci_core_conn_credit_ntf, num_entries))
+@@ -81,13 +82,17 @@ static int nci_core_conn_credits_ntf_packet(struct nci_dev *ndev,
+ 			 i, ntf->conn_entries[i].conn_id,
+ 			 ntf->conn_entries[i].credits);
+ 
+-		conn_info = nci_get_conn_info_by_conn_id(ndev,
+-							 ntf->conn_entries[i].conn_id);
+-		if (!conn_info)
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_id = ntf->conn_entries[i].conn_id;
++		conn_info = nci_get_conn_info_by_conn_id_locked(ndev, conn_id);
++		if (!conn_info) {
++			spin_unlock_bh(&ndev->conn_info_lock);
+ 			return 0;
++		}
+ 
+ 		atomic_add(ntf->conn_entries[i].credits,
+ 			   &conn_info->credits_cnt);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 	}
+ 
+ 	/* trigger the next tx */
+@@ -828,9 +833,12 @@ static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 
+ exit:
+ 	if (err == NCI_STATUS_OK) {
++		spin_lock_bh(&ndev->conn_info_lock);
+ 		conn_info = ndev->rf_conn_info;
+-		if (!conn_info)
++		if (!conn_info) {
++			spin_unlock_bh(&ndev->conn_info_lock);
+ 			return 0;
++		}
+ 
+ 		conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
+ 		conn_info->initial_num_credits = ntf.initial_num_credits;
+@@ -838,6 +846,7 @@ static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
+ 		/* set the available credits to initial value */
+ 		atomic_set(&conn_info->credits_cnt,
+ 			   conn_info->initial_num_credits);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 		/* store general bytes to be reported later in dep_link_up */
+ 		if (ntf.rf_interface == NCI_RF_INTERFACE_NFC_DEP) {
+@@ -901,9 +910,13 @@ static int nci_rf_deactivate_ntf_packet(struct nci_dev *ndev,
+ 
+ 	pr_debug("entry, type 0x%x, reason 0x%x\n", ntf->type, ntf->reason);
+ 
++	spin_lock_bh(&ndev->conn_info_lock);
+ 	conn_info = ndev->rf_conn_info;
+-	if (!conn_info)
++	if (!conn_info) {
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 		return 0;
++	}
++	spin_unlock_bh(&ndev->conn_info_lock);
+ 
+ 	/* drop tx data queue */
+ 	skb_queue_purge(&ndev->tx_q);
+diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+index 9eeb862825c5f..f54bd2283af2e 100644
+--- a/net/nfc/nci/rsp.c
++++ b/net/nfc/nci/rsp.c
+@@ -186,6 +186,7 @@ static void nci_rf_disc_rsp_packet(struct nci_dev *ndev,
+ 				   const struct sk_buff *skb)
+ {
+ 	struct nci_conn_info *conn_info;
++	struct nci_conn_info *new_conn_info;
+ 	__u8 status = skb->data[0];
+ 
+ 	pr_debug("status 0x%x\n", status);
+@@ -193,19 +194,33 @@ static void nci_rf_disc_rsp_packet(struct nci_dev *ndev,
+ 	if (status == NCI_STATUS_OK) {
+ 		atomic_set(&ndev->state, NCI_DISCOVERY);
+ 
++		spin_lock_bh(&ndev->conn_info_lock);
+ 		conn_info = ndev->rf_conn_info;
++		spin_unlock_bh(&ndev->conn_info_lock);
++
+ 		if (!conn_info) {
+-			conn_info = devm_kzalloc(&ndev->nfc_dev->dev,
+-						 sizeof(struct nci_conn_info),
+-						 GFP_KERNEL);
+-			if (!conn_info) {
++			new_conn_info = devm_kzalloc(&ndev->nfc_dev->dev,
++						     sizeof(*new_conn_info),
++						     GFP_KERNEL);
++			if (!new_conn_info) {
+ 				status = NCI_STATUS_REJECTED;
+ 				goto exit;
+ 			}
+-			conn_info->conn_id = NCI_STATIC_RF_CONN_ID;
+-			INIT_LIST_HEAD(&conn_info->list);
+-			list_add(&conn_info->list, &ndev->conn_info_list);
+-			ndev->rf_conn_info = conn_info;
++
++			new_conn_info->conn_id = NCI_STATIC_RF_CONN_ID;
++			INIT_LIST_HEAD(&new_conn_info->list);
++
++			spin_lock_bh(&ndev->conn_info_lock);
++			if (!ndev->rf_conn_info) {
++				list_add(&new_conn_info->list,
++					 &ndev->conn_info_list);
++				ndev->rf_conn_info = new_conn_info;
++				new_conn_info = NULL;
++			}
++			spin_unlock_bh(&ndev->conn_info_lock);
++
++			if (new_conn_info)
++				devm_kfree(&ndev->nfc_dev->dev, new_conn_info);
+ 		}
+ 	}
+ 
+@@ -298,20 +313,20 @@ static void nci_core_conn_create_rsp_packet(struct nci_dev *ndev,
+ 		conn_info->dest_params->id = ndev->cur_params.id;
+ 		conn_info->dest_params->protocol = ndev->cur_params.protocol;
+ 		conn_info->conn_id = rsp->conn_id;
++		conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
++		atomic_set(&conn_info->credits_cnt, rsp->credits_cnt);
+ 
+ 		/* Note: data_exchange_cb and data_exchange_cb_context need to
+ 		 * be specify out of nci_core_conn_create_rsp_packet
+ 		 */
+ 
+ 		INIT_LIST_HEAD(&conn_info->list);
++		spin_lock_bh(&ndev->conn_info_lock);
+ 		list_add(&conn_info->list, &ndev->conn_info_list);
+ 
+ 		if (ndev->cur_params.id == ndev->hci_dev->nfcee_id)
+ 			ndev->hci_dev->conn_info = conn_info;
+-
+-		conn_info->conn_id = rsp->conn_id;
+-		conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
+-		atomic_set(&conn_info->credits_cnt, rsp->credits_cnt);
++		spin_unlock_bh(&ndev->conn_info_lock);
+ 	}
+ 
+ free_conn_info:
+@@ -330,14 +345,21 @@ static void nci_core_conn_close_rsp_packet(struct nci_dev *ndev,
+ 
+ 	pr_debug("status 0x%x\n", status);
+ 	if (status == NCI_STATUS_OK) {
+-		conn_info = nci_get_conn_info_by_conn_id(ndev,
+-							 ndev->cur_conn_id);
++		spin_lock_bh(&ndev->conn_info_lock);
++		conn_info =
++			nci_get_conn_info_by_conn_id_locked(ndev,
++							    ndev->cur_conn_id);
+ 		if (conn_info) {
+ 			list_del(&conn_info->list);
+ 			if (conn_info == ndev->rf_conn_info)
+ 				ndev->rf_conn_info = NULL;
+-			devm_kfree(&ndev->nfc_dev->dev, conn_info);
++			if (ndev->hci_dev &&
++			    conn_info == ndev->hci_dev->conn_info)
++				ndev->hci_dev->conn_info = NULL;
+ 		}
++		spin_unlock_bh(&ndev->conn_info_lock);
++		if (conn_info)
++			devm_kfree(&ndev->nfc_dev->dev, conn_info);
+ 	}
+ 	nci_req_complete(ndev, status);
+ }
