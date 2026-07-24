@@ -1,181 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105B64334A1;
-	Fri, 24 Jul 2026 11:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234E147604A
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 24 Jul 2026 23:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784892176; cv=none; b=T7ckCR2gzk88wWyh2ukS720dXujFdq/OlIABXvh/xDr8QZYNuhzp951dGukkj3MO4bnQ9C6IDAzIYzq+MDvVKsmTt7p0S1vr6kOOsxtS7+54gv0ITNhClYY9kMGHEi/gmbpe6I8ct6IvjJB8fTPw/pdRN3U7iKuzjtnn3DxXO/c=
+	t=1784934024; cv=none; b=EUPCW5guirwVQl+egwa7XbkZ4VRH9O1ZqFEaCF5h4OkCf0xGGxvROB11EyLDhgSBW3knB5LTNo4KRCs63vT3m8GuNxC48U5h9R+xxFR7KweD6P4TtD5rw1bpuR3YV2URG21kC37JcawzV31jQuGHqQ6Y/V7OmIABwaTRvVbtMIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784892176; c=relaxed/simple;
-	bh=LwZ0ho81G5yOP4rd8DAK6lMvo2taH7hpVW+nEwE1qAk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Xuuq2oAXB8g4mVfqwIcoHD6YoUgVZPnGY/5ZXk60xTIHmb/HthTSxjg9LdNKGnzrMcpC16n6ZKjsW3O9B//vWU0QN0UJnfJyruyAudRvf+UGKidJR/x8jqUAG6ShLiworf5XdmcjLfI4QU9CeBa700YGJTxLRNXIHtCYlstQwTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6PKWnPy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784934024; c=relaxed/simple;
+	bh=vTPbPaUCfbvCDH8I0hFjGnBATGgT0m+Ap2wg81Wj+3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GCtFLAjMnSA5MzrzqzddRDS/hvJnFenZIcaDXp3g9x/8cDe4h/LH9yLHW8oXvfYK8jgUbRGrK0ZeV/LEV534U9AQeuJlD5eP2uCH2+JKmSyv4v2mIiKr5kiuduUmakpNZ0dp6AfFYjinwT/PZ6TxKkQdMDPwGK4sBPmBPOnS/YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=skW4G1NF; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6PKWnPy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4622C19425;
-	Fri, 24 Jul 2026 11:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784892175;
-	bh=LwZ0ho81G5yOP4rd8DAK6lMvo2taH7hpVW+nEwE1qAk=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=N6PKWnPyc1Tl4uOGFo+gbwEgS4r3xS6FlwY9Bdv+Xky4ec85iVkXNxwcpFQT8UuHH
-	 nRh0zpMG2kwF9DLwT1Yw1qYIdw8C/p1GFp7JmNWlP78uh87fgLSj90k50fpYArOHD1
-	 YvTPBwtupXCmosQBXEVRc/CcHGSqWk5jJ7L0krs4kOLqlDZY/zRXZJTKkibA1S+uTE
-	 BK0D88s2+9A12cyXhqlotF5MbdhtFTRHGj+2kxkT+5C2U6ZT2DptOUFJXyjk+RqFG3
-	 +YaRJm5eVbdgQAN4ktE1ual8pUbvuQXBTBZMdHt3GSkXm4vLfSQx0Ejm+rVpP8JnRT
-	 qt34E2B3SRtkQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB8DC531C9;
-	Fri, 24 Jul 2026 11:22:55 +0000 (UTC)
-From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
-Date: Fri, 24 Jul 2026 06:22:55 -0500
-Subject: [PATCH v3] nfc: fdp: bound the device-reported read length and fix
- an skb leak
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skW4G1NF"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2caf228a910so7575025ad.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 24 Jul 2026 16:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784934019; x=1785538819; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OyqvMw4pNtuviAbPcMn+7IXNgSVNvvnPfbN1pURoWOA=;
+        b=skW4G1NFy1i2E7+6q42EETfoKuFXWdfpjAZmt8aSt8cw9Ap1JYOdC0/YWhuxDPBFZh
+         0Whx1waAqCb+Qbh2sNscVmLu8QJjYf6l9I17Gb4l+cfqcjxPekJ6IjZ/bkzhS8zJsWF+
+         POx4H1eN8JyQQudOSs2D1bhT5dOmZkqB2Xttv1x40Q5qFVZregmfgnss4PYnoVBWAKS8
+         tPIWiXegr9x56K//ULxJ0UOcBbZJGHkf3GTrDEErCiETobDXf6aaEG9D2CurpB8duFxn
+         oVW+ciw75SyR1DkMFyIIfFS+JOPGRshANw+DkBWmHRWx38VjdWHvxkTRtP97RMpxUaYZ
+         OEsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784934019; x=1785538819;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OyqvMw4pNtuviAbPcMn+7IXNgSVNvvnPfbN1pURoWOA=;
+        b=dcyW94fx/BPDtjdpt4R75XYNq/rbXHUgnTtxYzE6x0gZfHMNlbqgrcB7wLiffLqPTV
+         RupHOK1AtDQRrhidoEKnRaqWVL8NLLgqw4ICZmx8HMa+JlnK6/SBlA6Td/4p6k0zvuiN
+         NPJ5WjcQZ9kHMfCZ8Ox7v/b3xvWoBaubYP2Qj5nzrQLVxcRQvVksiJ8NIyYgQOMkeHDS
+         CpgxnLRQcFpfNClnCCnjT5bfikwuLWyi7tnASCGkhpQJ+zkFGuuJoXvAswnyHGODVpvm
+         ZrmUNZbQInL1bvAdyR2g1DVXsXDHmZ7qehtuEBGuWVGIQR21fZeMOC0F0OdXJW6rCQXw
+         6c9Q==
+X-Gm-Message-State: AOJu0YxWq4fRehyRJ4x7Bx6Drm5W51xX2cMvoXaQuRlDsYOJQfRGcrqo
+	0qKScPPxTF09V7dEsppUFqBVMLt+tDASefux0e3LkxX1ob5L/k+xwfNK
+X-Gm-Gg: AR+sD12YFtCKx811ebrtv00AVr+4d/0K4tBuIApN2lpCMzYTtEJXtAJJLm1IBOzue3r
+	I6uDnUlcq7E8gLHriaj+5zvL8Bywd3DzgdElyt1YalPPMTiFIJ0lXwOeHKDSE2H32zev77DPvfR
+	4vsIJZecQcRyfCCrUbKPbWOB/McQMXmP2dhgcMq+NQwmWTGu9uURjzT9bz5iC1/ssSPbbQElxXl
+	xu1k7uz4BV33WDx+7Mb3zugNxAuEa+a9ZQpMMdbpsJnSN12ANu1BSvmLl5R4hVlfpVG2Mb4DmCr
+	xHplOiBsnEgXWk2w1FQDg7QdznyClRqxz8qkXzyy49x1gui6AZ2/9/6C9sKNTCIlTn77lFoxyL6
+	4qm5xs8+jPaNXDhl+TkkrD2hHNUaduUrYZO6QvMJT27QR+N7Eq6AUL68Q6Kvd08pO4jFvxd+vPJ
+	DVa+TkjARmR6RjtvvJuqqKNHXCpaQ8WIzL3V1Xy6wfr04=
+X-Received: by 2002:a17:903:1845:b0:2ca:e565:7b15 with SMTP id d9443c01a7336-2cfde78b647mr2978215ad.10.1784934019267;
+        Fri, 24 Jul 2026 16:00:19 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:40e1:40e4:dabe:543e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde81dcc1sm1204655ad.84.2026.07.24.16.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2026 16:00:18 -0700 (PDT)
+Date: Fri, 24 Jul 2026 16:00:15 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: [PATCH v2] nfc: st95hf: switch to using sleeping variants of gpiod
+ API
+Message-ID: <amPsnh9wDIG2CeSi@google.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-b4-disp-e8ec6012-v3-1-3a6f3a2fee47@proton.me>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ5AMBBFryKz1qRK2sZVxIJ2MBZIB5GIu2tZv
- p//3g2MgZChzm4IeBLTukQo8wzc1C0jCvKRQUmlpVGV6CvhiTeBFp2WhYqDtd506aAhalvAga4
- v2bQ/89HP6PbUged5ARSRbfV0AAAA
-X-Change-ID: 20260724-b4-disp-e8ec6012-b488d7a20266
-To: David Heidelberg <david@ixit.cz>
-Cc: Doruk Tan Ozturk <doruk@0sec.ai>, Simon Horman <horms@kernel.org>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- Robert Dolca <robert.dolca@intel.com>, oe-linux-nfc@lists.linux.dev, 
- Samuel Ortiz <sameo@linux.intel.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784892174; l=5020;
- i=hexlabsecurity@proton.me; s=default; h=from:subject:message-id;
- bh=UN9beZ97743kheaOb4gEzoQEnO7dJ2vHjdtJmNOgSvQ=;
- b=lPooyy+f44NYeHGMa32HB3RTRIP9/Z4d2K6NOcPWj9brqeslvRB+JwN9f58K+cObfCQRWLZgy
- HWtZJxQu9h0DUPB4cSvH/c9wM6w3kU4PuEjj5zNb6MxmVqb/BjYgLn6
-X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
- pk=xw1AhCtQdvuoQc+bOQIYy9o8G++cp4/VniI2G/tc3G8=
-X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/default with
- auth_id=893
-X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
-Reply-To: hexlabsecurity@proton.me
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Bryam Vargas <hexlabsecurity@proton.me>
+The driver does not use gpiod API calls in an atomic context. Switch
+to gpiod_set_value_cansleep() calls to allow using the driver with GPIO
+controllers that might need process context to operate.
 
-fdp_nci_i2c_read() takes the next packet length from two device-supplied
-bytes and never validates it. The value is a u16 used as the
-i2c_master_recv() count into a 261-byte on-stack buffer: a malicious,
-counterfeit or malfunctioning controller (or an i2c bus interposer) can
-drive it far past the buffer for a stack out-of-bounds write that
-clobbers the canary and return address, or below the minimum frame size
-(directly, or by truncating the computed sum) so the header/LRC strip
-and the next length read run past a short receive. Reject a length
-outside [FDP_NCI_I2C_MIN_PAYLOAD, FDP_NCI_I2C_MAX_PAYLOAD], as a
-corrupted packet already is, and force resynchronization.
-
-The same loop allocates one data skb per iteration and assumes a length
-packet followed by a data packet; a device that sends two data packets
-in one call leaks the first skb when the second allocation overwrites
-it. Free a previously allocated skb before allocating the next.
-
-Fixes: a06347c04c13 ("NFC: Add Intel Fields Peak NFC solution driver")
-Cc: stable@vger.kernel.org
-Suggested-by: Simon Horman <horms@kernel.org>
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
-v3:
- - Rebase on current net; no code change since v2. Doruk Tan Ozturk
-   independently found the same missing bound (0sec,
-   https://lore.kernel.org/all/20260720132133.69635-1-doruk@0sec.ai) and
-   noted there that this v2 is the more complete fix -- it also rejects the
-   sub-minimum length Simon flagged and closes the skb leak. Reposting now
-   that the driver has an active maintainer.
- v2: https://lore.kernel.org/all/20260616-b4-disp-b1f8ab4c-v2-1-2d1fe5955325@proton.me
 
-v2:
- - Also reject next_read_size < FDP_NCI_I2C_MIN_PAYLOAD, not just
-   > FDP_NCI_I2C_MAX_PAYLOAD (Simon Horman). The small value is reachable
-   both directly (tmp[2] == 0 && tmp[3] < 2) and through the u16
-   truncation of the computed sum (e.g. 0xff,0xff -> 65538 -> 2); a single
-   range check on the stored value covers both, and also keeps the next
-   length-field read from running on stale buffer bytes.
- - Fold in a fix for an skb leak in the same function (two data packets
-   in one call overwrite and leak the first skb).
- v1: https://lore.kernel.org/all/20260615-b4-disp-f42dce2d-v1-1-186ff3dcbf37@proton.me
+v2: - dropped extra "not" from commit description (Przemek Kitszel)
+    - link to v1: https://lore.kernel.org/r/9b77e25c-8942-42f7-b82e-42b492b437d8@intel.com
 
-Reproduced in-kernel on x86-64 (Linux 7.1.0-rc5, CONFIG_KASAN_STACK=y)
-with a faithful port of the read loop, and at full device magnitude with
-a userspace AddressSanitizer model:
+FTR I am not using this driver but I'm helping clean up legacy gpio APIs
+and stumbled on this. Using "cansleep" where we can is simply a good
+practice.
 
-  Stack OOB write
-    A  no bound, next_read_size 281 -> 20 B past tmp[261]:
-         BUG: KASAN: stack-out-of-bounds in i2c_master_recv...
-         Write of size 281 ... This frame has 1 object: [48, 309) 'tmp'
-    B  bounded to <= FDP_NCI_I2C_MAX_PAYLOAD:   no KASAN report
-    C  well-formed (len 5):                     no KASAN report
-    ASan model, full u16 next_read_size = 65535 -> 65274-byte
-    stack-buffer-overflow WRITE on both -m32 and -m64; bounded build clean.
+ drivers/nfc/st95hf/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-skb leak (slabinfo active-object delta over 20000 reads, two data
-  packets each, measured after a slab shrink)
-    without the fix:  skbuff_head_cache +20047, skbuff_small_head +20057
-                      (one orphaned skb per call, unreclaimable)
-    with the fix:     ~0
----
- drivers/nfc/fdp/i2c.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/nfc/fdp/i2c.c b/drivers/nfc/fdp/i2c.c
-index c1896a1d978c..f292e7f37456 100644
---- a/drivers/nfc/fdp/i2c.c
-+++ b/drivers/nfc/fdp/i2c.c
-@@ -166,9 +166,36 @@ static int fdp_nci_i2c_read(struct fdp_i2c_phy *phy, struct sk_buff **skb)
- 		/* Packet that contains a length */
- 		if (tmp[0] == 0 && tmp[1] == 0) {
- 			phy->next_read_size = (tmp[2] << 8) + tmp[3] + 3;
-+
-+			/*
-+			 * next_read_size is taken from the device and is used
-+			 * as the i2c_master_recv() count for the next packet
-+			 * and as the data skb size. A value above the receive
-+			 * buffer overflows tmp[]; one below the minimum frame
-+			 * size runs the header/LRC strip and the length-field
-+			 * read past a short receive. Either way the packet is
-+			 * corrupt: drop it and force resynchronization.
-+			 */
-+			if (phy->next_read_size < FDP_NCI_I2C_MIN_PAYLOAD ||
-+			    phy->next_read_size > FDP_NCI_I2C_MAX_PAYLOAD) {
-+				dev_dbg(&client->dev, "%s: corrupted packet\n",
-+					__func__);
-+				phy->next_read_size = FDP_NCI_I2C_MIN_PAYLOAD;
-+				goto flush;
-+			}
- 		} else {
- 			phy->next_read_size = FDP_NCI_I2C_MIN_PAYLOAD;
+diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
+index 321fbe8aeca8..4d772a308bff 100644
+--- a/drivers/nfc/st95hf/core.c
++++ b/drivers/nfc/st95hf/core.c
+@@ -450,19 +450,19 @@ static int st95hf_select_protocol(struct st95hf_context *stcontext, int type)
+ static void st95hf_send_st95enable_negativepulse(struct st95hf_context *st95con)
+ {
+ 	/* First make irq_in pin high */
+-	gpiod_set_value(st95con->enable_gpiod, HIGH);
++	gpiod_set_value_cansleep(st95con->enable_gpiod, HIGH);
  
-+			/*
-+			 * Only one data packet is delivered per call; if the
-+			 * device sends another, do not overwrite and leak the
-+			 * skb allocated for the previous one.
-+			 */
-+			if (*skb) {
-+				kfree_skb(*skb);
-+				*skb = NULL;
-+			}
-+
- 			*skb = alloc_skb(len, GFP_KERNEL);
- 			if (*skb == NULL) {
- 				r = -ENOMEM;
-
----
-base-commit: 78f75d632f74b8de0f081a128588f7c37d0d1164
-change-id: 20260724-b4-disp-e8ec6012-b488d7a20266
-
-Best regards,
---  
-Bryam Vargas <hexlabsecurity@proton.me>
+ 	/* wait for 1 milisecond */
+ 	usleep_range(1000, 2000);
+ 
+ 	/* Make irq_in pin low */
+-	gpiod_set_value(st95con->enable_gpiod, LOW);
++	gpiod_set_value_cansleep(st95con->enable_gpiod, LOW);
+ 
+ 	/* wait for minimum interrupt pulse to make st95 active */
+ 	usleep_range(1000, 2000);
+ 
+ 	/* At end make it high */
+-	gpiod_set_value(st95con->enable_gpiod, HIGH);
++	gpiod_set_value_cansleep(st95con->enable_gpiod, HIGH);
+ }
+ 
+ /*
+-- 
+2.55.0.229.g6434b31f56-goog
 
 
+-- 
+Dmitry
