@@ -1,126 +1,161 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234E147604A
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 24 Jul 2026 23:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546D6322C67
+	for <oe-linux-nfc@lists.linux.dev>; Sat, 25 Jul 2026 11:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784934024; cv=none; b=EUPCW5guirwVQl+egwa7XbkZ4VRH9O1ZqFEaCF5h4OkCf0xGGxvROB11EyLDhgSBW3knB5LTNo4KRCs63vT3m8GuNxC48U5h9R+xxFR7KweD6P4TtD5rw1bpuR3YV2URG21kC37JcawzV31jQuGHqQ6Y/V7OmIABwaTRvVbtMIU=
+	t=1784980583; cv=none; b=UIo1n3dceYYuQyKEqVmHjnTZ6x3NKk8EceAy0SY5mCq1mt35Rkr5UuhyMAlZT07BEnFxH7vPF3Sfcjgk30eFtHRNsNQqDpvZjod1VL9S+BJF23VuQ+ZGk1KZXjzvnWa1In5dilIiQA93PtSa4UtpXbBUwRPIWxzC7Ou13yvAvqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784934024; c=relaxed/simple;
-	bh=vTPbPaUCfbvCDH8I0hFjGnBATGgT0m+Ap2wg81Wj+3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GCtFLAjMnSA5MzrzqzddRDS/hvJnFenZIcaDXp3g9x/8cDe4h/LH9yLHW8oXvfYK8jgUbRGrK0ZeV/LEV534U9AQeuJlD5eP2uCH2+JKmSyv4v2mIiKr5kiuduUmakpNZ0dp6AfFYjinwT/PZ6TxKkQdMDPwGK4sBPmBPOnS/YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=skW4G1NF; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1784980583; c=relaxed/simple;
+	bh=HoumKy1SZGGYhjHhoiDceuBl9nlvS4cV0Z64vMRnez0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IrfVF2MjqfwzqPeHORb5xqFmqxciQLiLkAtvkZ7lNC0YsKtl0umfDTsXU1q1CyW1KY8Wf/U2EHwnLXJ1nQlz4DndWFpvvF3UdCHcBt+4VkHw3pCNmy4LgZq9riDyu1X2wZdWu5uXZIDfr3+yNYQXYzClk4MSLvHfIm704sRl5b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pTi95mlF; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skW4G1NF"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2caf228a910so7575025ad.2
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 24 Jul 2026 16:00:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pTi95mlF"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-81f64e8dfbcso10509227b3.2
+        for <oe-linux-nfc@lists.linux.dev>; Sat, 25 Jul 2026 04:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784934019; x=1785538819; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OyqvMw4pNtuviAbPcMn+7IXNgSVNvvnPfbN1pURoWOA=;
-        b=skW4G1NFy1i2E7+6q42EETfoKuFXWdfpjAZmt8aSt8cw9Ap1JYOdC0/YWhuxDPBFZh
-         0Whx1waAqCb+Qbh2sNscVmLu8QJjYf6l9I17Gb4l+cfqcjxPekJ6IjZ/bkzhS8zJsWF+
-         POx4H1eN8JyQQudOSs2D1bhT5dOmZkqB2Xttv1x40Q5qFVZregmfgnss4PYnoVBWAKS8
-         tPIWiXegr9x56K//ULxJ0UOcBbZJGHkf3GTrDEErCiETobDXf6aaEG9D2CurpB8duFxn
-         oVW+ciw75SyR1DkMFyIIfFS+JOPGRshANw+DkBWmHRWx38VjdWHvxkTRtP97RMpxUaYZ
-         OEsg==
+        d=gmail.com; s=20251104; t=1784980581; x=1785585381; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8pMX2F7Mtpmm/z0irFwhF72qBFAkYFT3rWJazByM9SY=;
+        b=pTi95mlFKeW8mZiDh1+XFKp2V/LwZPjekZeVtOQqIIGdJ4IhEe7wBPuNbP42xD+AT+
+         3BjWZSqZnTEHqqiU0GDYRC4VNKV1MsMlFBF/e5k6wAz+rehXGNSVq6+GyAxRaGMlGq1m
+         BkIhG31cKbAf+3amAjyFUK4meKZmWV+eg3j7jzmhjssic8llhZdrZmGu3c7o7p5FRYX+
+         vJWvec8gQf4kpZDHrdLtVdLlC47AafYPJja7GdoyzpeJe81gg3DRxm++zjyd7/O+YkfD
+         4HfkIrAH+Znlb57p9cpYmgdtIUQq+ICkq5adLXE8BXwPc+RdJKk0KByp6+35eyzxpnSF
+         ueiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784934019; x=1785538819;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1784980581; x=1785585381;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OyqvMw4pNtuviAbPcMn+7IXNgSVNvvnPfbN1pURoWOA=;
-        b=dcyW94fx/BPDtjdpt4R75XYNq/rbXHUgnTtxYzE6x0gZfHMNlbqgrcB7wLiffLqPTV
-         RupHOK1AtDQRrhidoEKnRaqWVL8NLLgqw4ICZmx8HMa+JlnK6/SBlA6Td/4p6k0zvuiN
-         NPJ5WjcQZ9kHMfCZ8Ox7v/b3xvWoBaubYP2Qj5nzrQLVxcRQvVksiJ8NIyYgQOMkeHDS
-         CpgxnLRQcFpfNClnCCnjT5bfikwuLWyi7tnASCGkhpQJ+zkFGuuJoXvAswnyHGODVpvm
-         ZrmUNZbQInL1bvAdyR2g1DVXsXDHmZ7qehtuEBGuWVGIQR21fZeMOC0F0OdXJW6rCQXw
-         6c9Q==
-X-Gm-Message-State: AOJu0YxWq4fRehyRJ4x7Bx6Drm5W51xX2cMvoXaQuRlDsYOJQfRGcrqo
-	0qKScPPxTF09V7dEsppUFqBVMLt+tDASefux0e3LkxX1ob5L/k+xwfNK
-X-Gm-Gg: AR+sD12YFtCKx811ebrtv00AVr+4d/0K4tBuIApN2lpCMzYTtEJXtAJJLm1IBOzue3r
-	I6uDnUlcq7E8gLHriaj+5zvL8Bywd3DzgdElyt1YalPPMTiFIJ0lXwOeHKDSE2H32zev77DPvfR
-	4vsIJZecQcRyfCCrUbKPbWOB/McQMXmP2dhgcMq+NQwmWTGu9uURjzT9bz5iC1/ssSPbbQElxXl
-	xu1k7uz4BV33WDx+7Mb3zugNxAuEa+a9ZQpMMdbpsJnSN12ANu1BSvmLl5R4hVlfpVG2Mb4DmCr
-	xHplOiBsnEgXWk2w1FQDg7QdznyClRqxz8qkXzyy49x1gui6AZ2/9/6C9sKNTCIlTn77lFoxyL6
-	4qm5xs8+jPaNXDhl+TkkrD2hHNUaduUrYZO6QvMJT27QR+N7Eq6AUL68Q6Kvd08pO4jFvxd+vPJ
-	DVa+TkjARmR6RjtvvJuqqKNHXCpaQ8WIzL3V1Xy6wfr04=
-X-Received: by 2002:a17:903:1845:b0:2ca:e565:7b15 with SMTP id d9443c01a7336-2cfde78b647mr2978215ad.10.1784934019267;
-        Fri, 24 Jul 2026 16:00:19 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:40e1:40e4:dabe:543e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde81dcc1sm1204655ad.84.2026.07.24.16.00.17
+        bh=8pMX2F7Mtpmm/z0irFwhF72qBFAkYFT3rWJazByM9SY=;
+        b=AU+8zBeM1mpxBSa0za4P7KV1IbnecjD3N/DuQLK9apoBr9qoJ+E6pRdlvCpGQm+CvQ
+         U3b0Qqutffyfo61Bzs/M5N1ayAma7aUn0U7qcE2Y4uYbFWy7bf8W2C9Qer2P0/NyjwnK
+         a7y6BeE/U2yCscePJuzy5SYvVVHMzoql1W9rOMxGbA2JprJB1GAWi4o1Qz8k+ioULVi1
+         yPGfPQyJ68i0xEBTiu8T3wMmQSMzFqh5qI7Q11F0uQgiUpOSg/GvKOrenNgJZoZDydQl
+         RaCnSabeY0pcKYdW8bjKAYL0+G+vfhFKCCLEOQHZmVGwTwBmlnIOH7g7ESASlNMTuL7K
+         myoA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp2t/HCEyAEhO0H+SHtTUg2NWEbYENO+oPgvsKjoHUWKKXbpgnAvz6cTJqBDfalCxCMPBgzrMZsjWW88p8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTZ+FGm3P8T5Jfo/dhiR3F9lC93hy5Ob9p2r9tMB9k2dlqCYTI
+	+tjxS1dC2HG/JUTb454e8f1uw2vh7hqKNhJwbCpqhNr9mmpBA84Y4s1U
+X-Gm-Gg: AR+sD13OvfvzCtTM0EsR4RbARC7fXcuRfG35yMw2iC3FfMBxyOhL1eo44T5PzyDCjKT
+	aLXlw2gmvax0hmBo7hT46WtaG+M7gxM537VSxgArFSiKnVIPmrOqD/aX1BfPESGQupZc50bGxDe
+	lJ3Gni9ASYFn19AVGtaLySAArK7XRHxJVwzD4bv7ADd6Ua9vN4sZOg0UX4qy2DV3usjiG0iqNXS
+	i1FHLwGC2earpH2tGFSTaeAstwIS9EXPom90Z1rl9C9aDRBOtFwG7Mst6/awdYXqBT4aumTUcSH
+	Lg98ov+Fe+cGhHVvdlakBiZM38YK2J+RDPNONk1G6pjiXO8ROPOkrLuB/4D+Fsq8oFtW0pZ9YIV
+	ukID8c0FWdiChKtYVAFdGTYGBblw0xGIU+hCbmLlscpwtnzwstNdjWQEZ1ywYGvOjxYc1XtoR7u
+	iAZigUT/s=
+X-Received: by 2002:a05:690c:4483:b0:7cf:f14e:bf5a with SMTP id 00721157ae682-81f69d151b2mr6955017b3.20.1784980581193;
+        Sat, 25 Jul 2026 04:56:21 -0700 (PDT)
+Received: from jdoh-CompSec.. ([141.223.124.60])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657a14d9sm11259497b3.13.2026.07.25.04.56.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 16:00:18 -0700 (PDT)
-Date: Fri, 24 Jul 2026 16:00:15 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Sat, 25 Jul 2026 04:56:19 -0700 (PDT)
+From: Junwoong Doh <jdoh.kernel@gmail.com>
 To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: [PATCH v2] nfc: st95hf: switch to using sleeping variants of gpiod
- API
-Message-ID: <amPsnh9wDIG2CeSi@google.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Junwoong Doh <jdoh.kernel@gmail.com>
+Subject: [PATCH net] nfc: llcp: fix NULL pointer dereference race in nfc_llcp_send_ui_frame()
+Date: Sat, 25 Jul 2026 20:55:56 +0900
+Message-Id: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The driver does not use gpiod API calls in an atomic context. Switch
-to gpiod_set_value_cansleep() calls to allow using the driver with GPIO
-controllers that might need process context to operate.
+nfc_llcp_send_ui_frame() checks whether sock->local is NULL, but it is
+called by llcp_sock_sendmsg() without the socket lock held, which opens
+a window for a race condition. Between the sock->local check and the
+sock->dev use in nfc_alloc_send_skb(), llcp_sock_bind() can run
+concurrently and set both sock->local and sock->dev to NULL, which can
+lead to a NULL pointer dereference in nfc_alloc_send_skb().
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Take the socket lock in nfc_llcp_send_ui_frame() so that the sock->local
+check and the sock->dev use are performed under it. The message is
+copied from user space before the lock is taken, to avoid holding the
+lock across a user space access that can block for an unbounded amount
+of time.
+
+Fixes: dded08927ca3 ("nfc: llcp: fix NULL error pointer dereference on sendmsg() after failed bind()")
+Signed-off-by: Junwoong Doh <jdoh.kernel@gmail.com>
+Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
 ---
+ net/nfc/llcp_commands.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-v2: - dropped extra "not" from commit description (Przemek Kitszel)
-    - link to v1: https://lore.kernel.org/r/9b77e25c-8942-42f7-b82e-42b492b437d8@intel.com
-
-FTR I am not using this driver but I'm helping clean up legacy gpio APIs
-and stumbled on this. Using "cansleep" where we can is simply a good
-practice.
-
- drivers/nfc/st95hf/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
-index 321fbe8aeca8..4d772a308bff 100644
---- a/drivers/nfc/st95hf/core.c
-+++ b/drivers/nfc/st95hf/core.c
-@@ -450,19 +450,19 @@ static int st95hf_select_protocol(struct st95hf_context *stcontext, int type)
- static void st95hf_send_st95enable_negativepulse(struct st95hf_context *st95con)
+diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+index 291f26facbf3..cfd5f6aebf8d 100644
+--- a/net/nfc/llcp_commands.c
++++ b/net/nfc/llcp_commands.c
+@@ -730,6 +730,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
+ 			   struct msghdr *msg, size_t len)
  {
- 	/* First make irq_in pin high */
--	gpiod_set_value(st95con->enable_gpiod, HIGH);
-+	gpiod_set_value_cansleep(st95con->enable_gpiod, HIGH);
+ 	struct sk_buff *pdu;
++	struct sock *sk = &sock->sk;
+ 	struct nfc_llcp_local *local;
+ 	size_t frag_len = 0, remaining_len;
+ 	u8 *msg_ptr, *msg_data;
+@@ -738,10 +739,6 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
  
- 	/* wait for 1 milisecond */
- 	usleep_range(1000, 2000);
+ 	pr_debug("Send UI frame len %zd\n", len);
  
- 	/* Make irq_in pin low */
--	gpiod_set_value(st95con->enable_gpiod, LOW);
-+	gpiod_set_value_cansleep(st95con->enable_gpiod, LOW);
+-	local = sock->local;
+-	if (local == NULL)
+-		return -ENODEV;
+-
+ 	msg_data = kmalloc(len, GFP_USER | __GFP_NOWARN);
+ 	if (msg_data == NULL)
+ 		return -ENOMEM;
+@@ -751,6 +748,15 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
+ 		return -EFAULT;
+ 	}
  
- 	/* wait for minimum interrupt pulse to make st95 active */
- 	usleep_range(1000, 2000);
++	lock_sock(sk);
++
++	local = sock->local;
++	if (local == NULL) {
++		release_sock(sk);
++		kfree(msg_data);
++		return -ENODEV;
++	}
++
+ 	remaining_len = len;
+ 	msg_ptr = msg_data;
  
- 	/* At end make it high */
--	gpiod_set_value(st95con->enable_gpiod, HIGH);
-+	gpiod_set_value_cansleep(st95con->enable_gpiod, HIGH);
- }
+@@ -763,7 +769,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
+ 		pr_debug("Fragment %zd bytes remaining %zd",
+ 			 frag_len, remaining_len);
  
- /*
+-		pdu = nfc_alloc_send_skb(sock->dev, &sock->sk, 0,
++		pdu = nfc_alloc_send_skb(sock->dev, sk, 0,
+ 					 frag_len + LLCP_HEADER_SIZE, &err);
+ 		if (pdu == NULL) {
+ 			pr_err("Could not allocate PDU (error=%d)\n", err);
+@@ -800,6 +806,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
+ 		msg_ptr += frag_len;
+ 	} while (remaining_len > 0);
+ 
++	release_sock(sk);
+ 	kfree(msg_data);
+ 
+ 	return len;
 -- 
-2.55.0.229.g6434b31f56-goog
+2.34.1
 
-
--- 
-Dmitry
