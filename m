@@ -1,77 +1,44 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MTA-15-3.privateemail.com (mta-15-3.privateemail.com [198.54.122.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546D6322C67
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 25 Jul 2026 11:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204EF3E3C5A
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 26 Jul 2026 22:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784980583; cv=none; b=UIo1n3dceYYuQyKEqVmHjnTZ6x3NKk8EceAy0SY5mCq1mt35Rkr5UuhyMAlZT07BEnFxH7vPF3Sfcjgk30eFtHRNsNQqDpvZjod1VL9S+BJF23VuQ+ZGk1KZXjzvnWa1In5dilIiQA93PtSa4UtpXbBUwRPIWxzC7Ou13yvAvqk=
+	t=1785104674; cv=none; b=aA63T/W6mp1o/aNORIN83UInzoxtWrFs/e6roYPbUfWTlOV/KAw57L6urhOxIniJNySXvXKH5KCp2lDIJws/mjPD8B5wpzMcL3pqQ5L+LbcU9ZFZinHziW/DGbUxeCuRDrC6B082sMpW6QVbByiW65ICv4hEpbFsgAlAhqw53lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784980583; c=relaxed/simple;
-	bh=HoumKy1SZGGYhjHhoiDceuBl9nlvS4cV0Z64vMRnez0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IrfVF2MjqfwzqPeHORb5xqFmqxciQLiLkAtvkZ7lNC0YsKtl0umfDTsXU1q1CyW1KY8Wf/U2EHwnLXJ1nQlz4DndWFpvvF3UdCHcBt+4VkHw3pCNmy4LgZq9riDyu1X2wZdWu5uXZIDfr3+yNYQXYzClk4MSLvHfIm704sRl5b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pTi95mlF; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pTi95mlF"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-81f64e8dfbcso10509227b3.2
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 25 Jul 2026 04:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784980581; x=1785585381; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8pMX2F7Mtpmm/z0irFwhF72qBFAkYFT3rWJazByM9SY=;
-        b=pTi95mlFKeW8mZiDh1+XFKp2V/LwZPjekZeVtOQqIIGdJ4IhEe7wBPuNbP42xD+AT+
-         3BjWZSqZnTEHqqiU0GDYRC4VNKV1MsMlFBF/e5k6wAz+rehXGNSVq6+GyAxRaGMlGq1m
-         BkIhG31cKbAf+3amAjyFUK4meKZmWV+eg3j7jzmhjssic8llhZdrZmGu3c7o7p5FRYX+
-         vJWvec8gQf4kpZDHrdLtVdLlC47AafYPJja7GdoyzpeJe81gg3DRxm++zjyd7/O+YkfD
-         4HfkIrAH+Znlb57p9cpYmgdtIUQq+ICkq5adLXE8BXwPc+RdJKk0KByp6+35eyzxpnSF
-         ueiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784980581; x=1785585381;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8pMX2F7Mtpmm/z0irFwhF72qBFAkYFT3rWJazByM9SY=;
-        b=AU+8zBeM1mpxBSa0za4P7KV1IbnecjD3N/DuQLK9apoBr9qoJ+E6pRdlvCpGQm+CvQ
-         U3b0Qqutffyfo61Bzs/M5N1ayAma7aUn0U7qcE2Y4uYbFWy7bf8W2C9Qer2P0/NyjwnK
-         a7y6BeE/U2yCscePJuzy5SYvVVHMzoql1W9rOMxGbA2JprJB1GAWi4o1Qz8k+ioULVi1
-         yPGfPQyJ68i0xEBTiu8T3wMmQSMzFqh5qI7Q11F0uQgiUpOSg/GvKOrenNgJZoZDydQl
-         RaCnSabeY0pcKYdW8bjKAYL0+G+vfhFKCCLEOQHZmVGwTwBmlnIOH7g7ESASlNMTuL7K
-         myoA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2t/HCEyAEhO0H+SHtTUg2NWEbYENO+oPgvsKjoHUWKKXbpgnAvz6cTJqBDfalCxCMPBgzrMZsjWW88p8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTZ+FGm3P8T5Jfo/dhiR3F9lC93hy5Ob9p2r9tMB9k2dlqCYTI
-	+tjxS1dC2HG/JUTb454e8f1uw2vh7hqKNhJwbCpqhNr9mmpBA84Y4s1U
-X-Gm-Gg: AR+sD13OvfvzCtTM0EsR4RbARC7fXcuRfG35yMw2iC3FfMBxyOhL1eo44T5PzyDCjKT
-	aLXlw2gmvax0hmBo7hT46WtaG+M7gxM537VSxgArFSiKnVIPmrOqD/aX1BfPESGQupZc50bGxDe
-	lJ3Gni9ASYFn19AVGtaLySAArK7XRHxJVwzD4bv7ADd6Ua9vN4sZOg0UX4qy2DV3usjiG0iqNXS
-	i1FHLwGC2earpH2tGFSTaeAstwIS9EXPom90Z1rl9C9aDRBOtFwG7Mst6/awdYXqBT4aumTUcSH
-	Lg98ov+Fe+cGhHVvdlakBiZM38YK2J+RDPNONk1G6pjiXO8ROPOkrLuB/4D+Fsq8oFtW0pZ9YIV
-	ukID8c0FWdiChKtYVAFdGTYGBblw0xGIU+hCbmLlscpwtnzwstNdjWQEZ1ywYGvOjxYc1XtoR7u
-	iAZigUT/s=
-X-Received: by 2002:a05:690c:4483:b0:7cf:f14e:bf5a with SMTP id 00721157ae682-81f69d151b2mr6955017b3.20.1784980581193;
-        Sat, 25 Jul 2026 04:56:21 -0700 (PDT)
-Received: from jdoh-CompSec.. ([141.223.124.60])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657a14d9sm11259497b3.13.2026.07.25.04.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 04:56:19 -0700 (PDT)
-From: Junwoong Doh <jdoh.kernel@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: "David S . Miller" <davem@davemloft.net>,
+	s=arc-20240116; t=1785104674; c=relaxed/simple;
+	bh=/iQPJn3NQLLdPAX5ZuZSkiPiN+/IQGbQg5FhX6r96GU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PEO9XRDQ7HdxIcT0x96tpfaSoGGjEFxaGjYOY7ZNqiJSU0yMCk3dIFv8ri0hsjJVS2uvkZML+lANOWQcrEIphdLccWfHq7Y4y6GC3xETWmdUKv8LNk0FziG+clQpFVahS0cLxOsTvX145KFnrpmiWWmfEK4Fy/Ni8yxibyFqWcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (K8S-PROD-WORKER-10 [87.215.145.39])
+	by mta-15.privateemail.com (Postfix) with ESMTPA id 4h7bqb4dDRz3hhTF;
+	Sun, 26 Jul 2026 18:24:11 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: David Heidelberg <david@ixit.cz>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Luca Weiss <luca.weiss@fairphone.com>,
 	oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Junwoong Doh <jdoh.kernel@gmail.com>
-Subject: [PATCH net] nfc: llcp: fix NULL pointer dereference race in nfc_llcp_send_ui_frame()
-Date: Sat, 25 Jul 2026 20:55:56 +0900
-Message-Id: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] nfc: s3fwrn5: support the S3NRN4V variant
+Date: Mon, 27 Jul 2026 00:24:00 +0200
+Message-ID: <20260726222405.153008-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -80,82 +47,108 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-nfc_llcp_send_ui_frame() checks whether sock->local is NULL, but it is
-called by llcp_sock_sendmsg() without the socket lock held, which opens
-a window for a race condition. Between the sock->local check and the
-sock->dev use in nfc_alloc_send_skb(), llcp_sock_bind() can run
-concurrently and set both sock->local and sock->dev to NULL, which can
-lead to a NULL pointer dereference in nfc_alloc_send_skb().
+This adds support for the Samsung S3NRN4V, a later part in the Samsung
+NCI NFC controller line the s3fwrn5 driver covers, found e.g. on the
+Fairphone 6 (SM7635).
 
-Take the socket lock in nfc_llcp_send_ui_frame() so that the sock->local
-check and the sock->dev use are performed under it. The message is
-copied from user space before the lock is taken, to avoid holding the
-lock across a user space access that can block for an unbounded amount
-of time.
+The S3NRN4V differs from the already-supported parts in three ways: it
+ships with working firmware behind a bootloader protocol the driver
+does not implement (so firmware download is skipped), it loads its RF
+calibration data through a different proprietary command (DUAL_OPTION),
+and it gates its reference clock through a CLK_REQ line that the driver
+must service for the chip to be able to generate the 13.56 MHz poll
+carrier.
 
-Fixes: dded08927ca3 ("nfc: llcp: fix NULL error pointer dereference on sendmsg() after failed bind()")
-Signed-off-by: Junwoong Doh <jdoh.kernel@gmail.com>
-Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
----
- net/nfc/llcp_commands.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+Patches 1-2 are preparatory cleanups from the v2 review; patch 3 adds
+the compatible and the clk-req-gpios property to the binding; patch 4
+implements the variant in the driver; patch 5 adds the Fairphone 6
+board nodes (it depends on patch 3 and can equally go through the qcom
+tree once the binding has landed).
 
-diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
-index 291f26facbf3..cfd5f6aebf8d 100644
---- a/net/nfc/llcp_commands.c
-+++ b/net/nfc/llcp_commands.c
-@@ -730,6 +730,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
- 			   struct msghdr *msg, size_t len)
- {
- 	struct sk_buff *pdu;
-+	struct sock *sk = &sock->sk;
- 	struct nfc_llcp_local *local;
- 	size_t frag_len = 0, remaining_len;
- 	u8 *msg_ptr, *msg_data;
-@@ -738,10 +739,6 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
- 
- 	pr_debug("Send UI frame len %zd\n", len);
- 
--	local = sock->local;
--	if (local == NULL)
--		return -ENODEV;
--
- 	msg_data = kmalloc(len, GFP_USER | __GFP_NOWARN);
- 	if (msg_data == NULL)
- 		return -ENOMEM;
-@@ -751,6 +748,15 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
- 		return -EFAULT;
- 	}
- 
-+	lock_sock(sk);
-+
-+	local = sock->local;
-+	if (local == NULL) {
-+		release_sock(sk);
-+		kfree(msg_data);
-+		return -ENODEV;
-+	}
-+
- 	remaining_len = len;
- 	msg_ptr = msg_data;
- 
-@@ -763,7 +769,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
- 		pr_debug("Fragment %zd bytes remaining %zd",
- 			 frag_len, remaining_len);
- 
--		pdu = nfc_alloc_send_skb(sock->dev, &sock->sk, 0,
-+		pdu = nfc_alloc_send_skb(sock->dev, sk, 0,
- 					 frag_len + LLCP_HEADER_SIZE, &err);
- 		if (pdu == NULL) {
- 			pr_err("Could not allocate PDU (error=%d)\n", err);
-@@ -800,6 +806,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 ssap, u8 dsap,
- 		msg_ptr += frag_len;
- 	} while (remaining_len > 0);
- 
-+	release_sock(sk);
- 	kfree(msg_data);
- 
- 	return len;
+Tested on a Fairphone 6 running a milos-mainline kernel: reader mode
+polls and reads ISO 14443-4 tags reliably, from a fresh boot and across
+driver reloads, with the calibration files present at their new path
+(load success verified in the log) and also absent (the chip falls back
+to its flash defaults and still reads).
+
+Luca, the two questions from the v2 thread (revision/SKU variance of
+the calibration tables, linux-firmware submission) are still open;
+nothing in this series depends on the answers now that the variant
+property is deferred.
+
+The series is based on the nfc tree's for-next.
+
+Changes in v3:
+ - Call the DUAL_OPTION payload what it is -- RF calibration data --
+   in the driver commit message, comments and log strings (David).
+ - Load the calibration files from a chip-scoped directory,
+   samsung/s3nrn4v/{hwreg,swreg}.bin, instead of flat
+   sec_s3nrn4v_*.bin names (David). The samsung,calibration-variant
+   property discussed in the v2 thread is deferred until a device
+   actually needs a second set of tables; it can be added compatibly
+   on top.
+ - Request the calibration files with firmware_request_nowarn(): they
+   are optional by design and the driver logs its own warning, the way
+   ath10k requests its calibration files.
+ - Reword "S3FWRN5-family" in the binding and driver commit messages
+   to "a later part in the Samsung (NCI) NFC controller line" (David).
+   The binding change is commit-message-only, its content is unchanged
+   from v2, so Conor's Acked-by is retained.
+ - New patch 1: drop of_match_ptr() so the OF table is referenced in
+   every configuration (its __maybe_unused half is already in the nfc
+   tree as commit 9739e07fdb29 ("nfc: Drop __maybe_unused from
+   of_device_id tables")).
+ - New patch 2: spell out the "s3fwrn5_i2c" driver-name string
+   (Suggested by David).
+ - New patch 5: the Fairphone 6 board nodes, including the
+   pvdd-supply the binding marks required for the S3NRN4V.
+ - Rebase onto the nfc tree's for-next; the new of_device_id entries
+   follow the style of commit 179851e63fde ("nfc: Unify style of
+   of_device_id arrays").
+
+Changes in v2:
+ - Drop the -i2c bus suffix from the new compatible: it is now plain
+   samsung,s3nrn4v (Requested by: Conor Dooley).
+ - Close a race in the probe-time CLK_REQ seeding by reading the GPIO
+   level under clk_lock, so a stale level can never overwrite a fresher
+   state applied by the irq thread (found by the Sashiko AI review of
+   v1).
+ - Binding completeness: document the PVDD supply (required for the
+   S3NRN4V), add an S3NRN4V example exercising the new properties, make
+   clk-req-gpios depend on clocks, and describe the CLK_REQ pin in
+   hardware terms.
+ - Rework the binding commit message: justify the GPIO modelling in
+   hardware terms and explain why no fallback compatible applies.
+ - Add an s3nrn4v i2c_device_id entry carrying the variant so both
+   match paths agree, and describe the of_match_ptr() removal in the
+   driver commit message.
+ - Reject malformed calibration blobs (word alignment, single-byte
+   section index bound) up front instead of failing at STOP_UPDATE.
+ - Handle gpiod_get_value_cansleep() failure in the CLK_REQ sync
+   instead of treating an error as "clock off".
+
+v2: https://lore.kernel.org/20260705190621.128257-1-jorijnvdgraaf@catcrafts.net
+v1: https://lore.kernel.org/20260703202601.78563-1-jorijnvdgraaf@catcrafts.net
+
+Jorijn van der Graaf (5):
+  nfc: s3fwrn5: drop of_match_ptr() from the I2C driver
+  nfc: s3fwrn5: use the "s3fwrn5_i2c" string literal directly
+  dt-bindings: net: nfc: samsung,s3fwrn5: add S3NRN4V and clk-req-gpios
+  nfc: s3fwrn5: support the S3NRN4V variant
+  arm64: dts: qcom: milos-fairphone-fp6: Add NFC
+
+ .../bindings/net/nfc/samsung,s3fwrn5.yaml     |  65 +++++++-
+ .../boot/dts/qcom/milos-fairphone-fp6.dts     |  49 +++++-
+ drivers/nfc/s3fwrn5/core.c                    |  41 ++++-
+ drivers/nfc/s3fwrn5/i2c.c                     | 142 ++++++++++++++++--
+ drivers/nfc/s3fwrn5/nci.c                     | 121 ++++++++++++++-
+ drivers/nfc/s3fwrn5/nci.h                     |  32 +++-
+ drivers/nfc/s3fwrn5/s3fwrn5.h                 |  15 ++-
+ drivers/nfc/s3fwrn5/uart.c                    |   2 +-
+ 8 files changed, 446 insertions(+), 21 deletions(-)
+
+
+base-commit: f0054d864e6e734add71e29961f5ae15211ad24d
 -- 
-2.34.1
+2.55.0
 
