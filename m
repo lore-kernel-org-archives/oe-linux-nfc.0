@@ -1,75 +1,87 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB05A3E7BBD
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 27 Jul 2026 09:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E863F6618
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 27 Jul 2026 10:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785143254; cv=none; b=ANo9DKVza0kv8Nf/se3pc5SKmL3FQZUixZhb8uJIWTS4WZOQHn3nPo8Qe9hWT5fBVxdqEPmC/d8tf/ZFIZHq19kMe6eOIn320WrqR/vnw0Ox3/4nvr+do/ZHMYyZSnn62iJARD3UkUvA3H5hKlrMg0hnDa50rdImHJECBKGE3DU=
+	t=1785146851; cv=none; b=C4CcDa5F2qnCftZsoWVdTxe6PTHDs8ZH/DkflosEBDvz9MBgZsalWIr8UlhLL675ctV42xN67yM1sLyIQXDMOyQgPryv6oxj8m65wUkwffdgEQf77XZlzZhajE0hD8OcGkhbGBLZuY3C5Ut3jn7pXl9L/7YJ/xKiS8JCgTftLj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785143254; c=relaxed/simple;
-	bh=1ZAQHcP/rZjRYOHz4mnkrgSaIgju6m7GZWbsrsSqHTE=;
+	s=arc-20240116; t=1785146851; c=relaxed/simple;
+	bh=E15XfPG0XLJ/CQ6hsaGL76B/E+9/n45ilK578TAed5E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X3q4bcZbcie2QlWxfAy02SL9PM275IpEuwbEhWH3gegbdIobTxeD+TQ0tD1FTYt6xg3hduIBG7ZUi0X0RkN/ca/txSr/swpju7y6GqjhviKOnEuoVTPpTHp3YOIJ2L9FssaaWSnySJm8rebMrkhyw6KkbuCgwhEDLgEbcjHrDvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=WV1I+Ju9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NTgNUMCY; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	 In-Reply-To:Content-Type; b=oZKALTNDrcV027oMkzssc3TNXi7tjouJj9v3okDX2DRaVIoCWwoXtnwJZWJ/z8qkPwYe/c/PUNiSIQ/gEpC1fWa2CHAw22dbTXyhrbMaLFkLVBcT/nzWUrJfP8KuBX/UTk8PbfKM0abLjhFOSFl6EnE8MSHl+eM8kRN8pNDHPH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=phq/sV4b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UfRDDOZy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="WV1I+Ju9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NTgNUMCY"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 158727A0466;
-	Mon, 27 Jul 2026 05:07:32 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 27 Jul 2026 05:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1785143251;
-	 x=1785229651; bh=AGOgShQXgGOvUMp+qjwLCaMSbgTbSApAvhCupXXfoKQ=; b=
-	WV1I+Ju9jgvxlGYgkgiGZNBM8qmdiVGYBtmbgCfnfiNqlLGeIgcznA75rLAQz0L+
-	bstrvmCGKsSk5HR97VZNMZzaeDaX/jMvu26tq//6Vju9OAPIY03GqHDl0X42sA2B
-	aEOT2S/11ju3JPkLCub3wKD5aBD/2cFwmbmAdUz/hb4cwpBQ+rmaMSH70/Hydnfn
-	1QT0l9+niiPBk/jkiO8BYcTI7dUclrW6KRMO8oMAMKBNuFNP9w664wBid3yFs/Tv
-	Em9+8y/yZzwScQpqH3VEX6eGmpRehoK+dsnszTO4NqFycp6nW+jtdESdB5XOOW1j
-	ruXEuxbuS3ddafIr/56Tgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785143251; x=
-	1785229651; bh=AGOgShQXgGOvUMp+qjwLCaMSbgTbSApAvhCupXXfoKQ=; b=N
-	TgNUMCYNSt0AFhg/NOnys/twX70FdygHKZmwK6nJxArcWMvByzvbM0cmwwjq0GXN
-	c9MTOBJNndgVeOaLrCcfJw0qAtr1XKXIvj+b5PktQja1hEdXJds+yP+JQbLuVJ6n
-	Wm7I3g2W9hu0XM9mr2a+6ybsFcTfGgWfZK7iPBUI3ACl6Xc7HE+kO/WJYXALHgQH
-	HfueCMOQXIe0QAOIeTeTMnqe4Fii1ieR8zJ8BOn2GJBI4kRYAAV//4mu8aMeFg5B
-	2gbtIWuQrNRAi2dC+dQYnVNmS12O2X3ssv0yTxTpT9p19a0pCSMou50zQXaLHBOv
-	Alk9fIlICMD2UjgKTFV1Q==
-X-ME-Sender: <xms:0x9nard_GQ3_aQZrcBydkQcW8AV1Oms_lHOoRYjHFxRIt1sl4IGs7A>
-    <xme:0x9nasLpfXrhycTXK_kXh_0S92HlajjSfsnnaJJlE8_C61dlAyDfYmGupM6icKXDE
-    cUQkaQ6ObILqelZGCEiNDsoGe6t7fhEbNBIX4C9U2uqgb4ypQ4>
-X-ME-Received: <xmr:0x9najhKgRCjPBC32chakRMlTNlV-F499FThNCJcfVf5zc8obVZWtlEzJSY48Cowb5vfCzDGWAKYRBqhwRADt0LVK6s2w4If1w>
-X-ME-Proxy-Cause: dmFkZTECebrDEeSYir/DuEzS0DvfHXnSd16jaoBPR26nMbwatmgf0pn2BgwsUtACSRC47r
-    DymSMe+bmHsXrTCqLfPn88ie/76VPUg+8It0g0NkhJfCVYBdmRCB0bx7nIg6z2wTGy4kEj
-    j9DXw3hsZlVnQODex/jTbQh/pPkTIV3zKQ8RxpA9ShHF7Ev+dsOhmkAjJgwdHm8xlyDL4J
-    bwVFpHSvTZ8gdW6WZbmkr0vT1E04/jY7yS6wvWeWHAE3VAukYrn3uXPGOQeycm3MaCeTy5
-    oUuB5WY11roGkmNsscEIKX10lh4Fw9KuXsBSIukBW/XBs/LYUAtbmk47O2iKqQTB6jQwmH
-    c/h2ekKDuP8gr1XPTp09kIE15LWBPuFhBhA5AY0upWaNHHo/2HaIGGOnF03MZvNUKuYXgz
-    UyTs3LfL3U9o17NmJkEItGkj3aKSOABu+Wjk6rFBQA4BdvKQi8B7oKFQLsRRoqiAKLyKLO
-    zWCxbc8+0YsRRWi6US6Fld58dBcCaOh7SN7rQmJvWRkIATQCtN4zEpvc9Oww0rw7ZhSpXW
-    BDbtl7fch4b1D5plvRZkOHqTfoHaVeF9gpW1xl4nURBGvFndXlvWsO6kBjtUm2DqqUbx1T
-    1htLP29icOyzFlaipH+Ig/VbWZ51wM/m6BmJb7LDdEJ8drfgBwLzW8U/G/WA
-X-ME-Proxy: <xmx:0x9naiTuKCrOhVbPhHWnXryG9IuhTI2TbFpQK6XzgZuKUINTS2NT_g>
-    <xmx:0x9nalWZ1WWMnkAkZSeVCpNLb8zhL9kgpKM677uNE058uiPw6Ao71g>
-    <xmx:0x9namQVwOJypt5FzUYt-oDM-Qtpm6KJm8cRLyq1EVs2dvrzlupWJA>
-    <xmx:0x9navnH5dbOHeg2edhQ2leUMT8Fy9vKt6WfqPjGVEre9-U2ic2eHw>
-    <xmx:0x9narmpAx9dczg7Vao0yJ_rj0hVhcBEFhke8lymS8BE5-3xy0FREG6a>
-Feedback-ID: i1d2843be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jul 2026 05:07:30 -0400 (EDT)
-Message-ID: <7e5dab28-e672-4dfd-9082-7fc3cfc226d8@kroah.com>
-Date: Mon, 27 Jul 2026 11:07:27 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="phq/sV4b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UfRDDOZy"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66R9WtjK3316186
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 27 Jul 2026 10:07:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	S1N2mWIMe9XAYKGa9HXnaqIztknAlWljoYw1v6FDc68=; b=phq/sV4blnifXumr
+	8eBPUZfxbQqSY8HaTuCiy+ruRUfE5p306L0K/W7JZe/+3TBS+jTpDDDGOtHgHQ83
+	y7qk/FqNvdhNrWUV2Vm2OmEJYYhYa3CWP/Akp3hKLD2cqzww75wg3OWrjA+6r4dN
+	n70NxaqUCLTxLUV14KwjOrBAHTinl7P6v+n9UiJRDJVhe9QvmmnUhJZgReh52mfV
+	K2nh3N9UyZawn5al6zx0oOWMpCroUV2jw4suvjVofsxtcG5ls1pPORzm9ZnX814O
+	w8Pl3d82HHchd/i9dUoWi2DGuiRKqv9/uAywnDJAljGtJVicl1A66olwVpBxdUO1
+	ekupzg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fnsxs21rh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 27 Jul 2026 10:07:28 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51e9d892f0dso8336191cf.2
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 27 Jul 2026 03:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785146848; x=1785751648; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S1N2mWIMe9XAYKGa9HXnaqIztknAlWljoYw1v6FDc68=;
+        b=UfRDDOZy8JkoCmiU8jgYhqeGKKzd2W/TNdDrwMPMs+FeP3w4R/w3B5dhyAizuyTUdX
+         lA5vMfj54Uw8oXBI/swQvfSZGHrYqnF6tS1vE3FyLqbZ654mO1cNt9qjM5xh5viNKkIG
+         ZSmxSG/1WdfYohwthg1vIP3K93bKmlKNikLxu0uraoZGdbMGhCBOuGwEEcd3/o61PXl0
+         J59/yCEHtC6WPqTKvA+1Hbj4IXgvFsccmwAwdSbposK7MZvjfb40tECC6zgwIQ2BrNRm
+         +kBnS5BsBpyMBsc3FQjB2m0hihbgTJxj5G/AsA/33sVILD7ECRT2EP11N7QnlDN1pUWj
+         5y9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785146848; x=1785751648;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=S1N2mWIMe9XAYKGa9HXnaqIztknAlWljoYw1v6FDc68=;
+        b=TEGP74WhS47jI0M+KoacqFHVF0Yw7ePumr+mEwZSb3K0R7Xn+7BdeU+dYfdlBQBQ+1
+         KHhKECB1xTakFs26pQ/47DWEcjC5eoJyu4xacl4UZZbJJwNHxlQtdSlf8cqjxv2HxAaK
+         sbhs0vp+QU7MX/S4tE9nLUQr3k0BKhSm0sdjCblD6V48Yux9UCNsHDWcYQ4SZP+aA9nB
+         gyRVYEa8Na3zmYXaNqMuiv5RW3Xu1XABx5wI3wgNBw0bMbzeykGwg6kVTjzI+W34CyLv
+         HKVbWmKyUPIs5ZEant/kiYYhiJI2bGTR9cjNQSMMKnd/HVZjnUiAi30JfZwj//0Gg3Pn
+         /OXQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpdclitq2cdvwCrY5rQduN2V9Tig3vFaKhsIZCXdmv8bdZsIG8br9Pt5lcE/RMflE5yRyy1SLri5cCBTf8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcQkLQTVj53GnXagWR+qninMe7abChYM3Sr+C0ymI2ylfveOYw
+	M2aNI8AAV/eouIZRTF4dQ6a0KQOz7SsFXBGL7apShndQCi6zfRnEx2m5T0M0c8pOlm9OGL6qnpX
+	uJ9T3WS4pgjsKNCOuhxiDiGIQXzGZB8TN/BozT5eMdLf1iqgfZCITwLodEYzRg8mTmbY=
+X-Gm-Gg: AR+sD12UCBhVoLp3yKfJOpJFbGcnUhW3Jabz1q+VNzpT0RVUG/ijKCaEeHeCmiTLuke
+	TbuEvNeaEbPkmaX6EEvDJPFEhr8HCUtB/q+nxnWZ8BjQ2vkex8ybxPbv+YFD3L3GI5jIXS5g+Cy
+	sXbvBEqK0JV5s+oqF0p5dyAAf7Hxw189WREn9g9iKmRdIyNc9uqJ7gZIUwhJYjHbnZ72fbj2YwG
+	h2dylBohnX+d9AZr2tFy3PuboRkFaGrS8rfaWDXelK14QCr2oXNbPPfO2rkYT0V0rBNYbGEekvU
+	xrZg2p5boSHPUDHl/Rm5qS2L6aeYe0mshAFCChfeC7Jhx2U2vNnpzlXiPUhK2rx4p00ivzd/7Kq
+	0O7rR9oQTahboFw58JvxIztpS
+X-Received: by 2002:a05:620a:2728:b0:930:aff2:b1e8 with SMTP id af79cd13be357-932df77da40mr625324885a.8.1785146847613;
+        Mon, 27 Jul 2026 03:07:27 -0700 (PDT)
+X-Received: by 2002:a05:620a:2728:b0:930:aff2:b1e8 with SMTP id af79cd13be357-932df77da40mr625322285a.8.1785146847138;
+        Mon, 27 Jul 2026 03:07:27 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69fb5746e08sm2376666a12.23.2026.07.27.03.07.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 03:07:26 -0700 (PDT)
+Message-ID: <7ab0655a-52ac-4b15-9223-753c146a9469@oss.qualcomm.com>
+Date: Mon, 27 Jul 2026 12:07:22 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -77,95 +89,162 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: st-nci: Add error handling to IRQ handlers
-To: David Heidelberg <david@ixit.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, oe-linux-nfc@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-References: <2026070726-wiring-yield-ceca@gregkh>
- <4909379b-fed6-4636-bfff-cea94f1cfcce@ixit.cz>
+Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: milos-fairphone-fp6: Add NFC
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+        David Heidelberg <david@ixit.cz>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Luca Weiss
+ <luca.weiss@fairphone.com>, oe-linux-nfc@lists.linux.dev,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260726222405.153008-1-jorijnvdgraaf@catcrafts.net>
+ <20260726222405.153008-6-jorijnvdgraaf@catcrafts.net>
 Content-Language: en-US
-From: Griffin Kroah-Hartman <griffin@kroah.com>
-In-Reply-To: <4909379b-fed6-4636-bfff-cea94f1cfcce@ixit.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260726222405.153008-6-jorijnvdgraaf@catcrafts.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDA5OCBTYWx0ZWRfXx+pL4EJU//kJ
+ Xq7Ke/bm2QEEznVCWkZAQZ9Ooz9MSfZMO0IRfv65J7qbJ6vyo34y2nCUaVS7h/Xa2+CWN/DWYVK
+ K+MGgsU4YMzEDa9RTPWmVqjrSsgyFbxiXgkza22iXbiEOj8cyUJ+71Ee8Me7aSrZwm9GJ+R4LCE
+ QYShIibA87NkhkG1wgEF1Cu4rihoH8Z5uF25+va0qVTlFrGe8ndZOJp7CxJsDHmSrKFLc6Rjon8
+ AOl5ty/oTuZdNT+9sL5Nwxujb6MDBhxJF9iGGqwBEQVuEuTAbomBOzdfSoYVYhHdu0DWx79jWBG
+ 302uu2kQ4aBIrwjX6eAQ+MJVk42chhnkWw+VDfbqXnXGeExl+zKD+Z6V/GqEvJ305iwJZ7W3QQs
+ di0X8eZsfDUr88oZ1h1YAW/aWxGlQL/Y2zAhdCb0SvMnioJ9rLXbOphqDm8phJYoSiCYrg1LgT8
+ wahrlvApDcBPbeMXLbA==
+X-Authority-Analysis: v=2.4 cv=EYr4hvmC c=1 sm=1 tr=0 ts=6a672de0 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=GYSh3LzNAAAA:8 a=yBwHqnpkDyRxZW_GFQcA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=lWcdFasyL5yHfcDTNXXo:22
+X-Proofpoint-ORIG-GUID: vt8pjagHtCLCGugXbIzw93gmVxdLiQM-
+X-Proofpoint-GUID: vt8pjagHtCLCGugXbIzw93gmVxdLiQM-
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDA5OCBTYWx0ZWRfX959co4d2jLgP
+ YxWKIqzR7Rt108W3FMaxGSseEnBRAyiuFCzZMb+IIYFYFVg6k3bZpkhZJWUBrj+zj1clBcHcYpC
+ bVL3ef2firtTiS6ik9+uVpRMD9ZiUwI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_02,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270098
 
-On 7/19/26 2:27 PM, David Heidelberg wrote:
-> On 07/07/2026 16:21, Greg Kroah-Hartman wrote:
->> From: Griffin Kroah-Hartman <griffin@kroah.com>
->>
->> Add ndlc_remove() to st_nci_i2c_probe() and st_nci_spi_probe() if the
->> devm_request_threaded_irq() function fails.  This is to properly unwind
->> after ndlc_probe() was called prior to this.
->>
->> Assisted-by: gkh_clanker_2000
->> Cc: David Heidelberg <david@ixit.cz>
->> Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
->> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> ---
->>   drivers/nfc/st-nci/i2c.c | 4 +++-
->>   drivers/nfc/st-nci/spi.c | 4 +++-
->>   2 files changed, 6 insertions(+), 2 deletions(-)
->>
-> Heya,
->
-> the Sashiko review look reasonable here, check?
->
-> > diff --git a/drivers/nfc/st-nci/i2c.c b/drivers/nfc/st-nci/i2c.c
-> > index 9ae839a6f5cc0..7f727d9b97ba8 100644
-> > --- a/drivers/nfc/st-nci/i2c.c
-> > +++ b/drivers/nfc/st-nci/i2c.c
-> > @@ -243,8 +243,10 @@ static int st_nci_i2c_probe(struct i2c_client 
-> *client)
-> >                  st_nci_irq_thread_fn,
-> >                  IRQF_ONESHOT,
-> >                  ST_NCI_DRIVER_NAME, phy);
->
-> If userspace opens the device in the brief window between ndlc_probe()
-> and devm_request_threaded_irq(), could st_nci_open() attempt to enable
-> an unrequested IRQ and cause communication timeouts?
->
-> > -    if (r < 0)
-> > +    if (r < 0) {
-> >          nfc_err(&client->dev, "Unable to register IRQ handler\n");
-> > +        ndlc_remove(phy->ndlc);
->
-> Does calling ndlc_remove() here lead to an unbalanced IRQ disable?
->
-> When devm_request_threaded_irq() fails, this new error path calls
-> ndlc_remove(). This function eventually calls st_nci_i2c_disable(),
-> which unconditionally executes disable_irq_nosync().
->
-> Since the IRQ registration just failed, would disabling this unrequested
-> shared IRQ line break other devices and trigger an unbalanced IRQ disable
-> warning?
->
-> Will this error path also cause a blocking wait and memory leak?
->
-> When ndlc_remove() cascades to ndlc_close(), it sends a synchronous NCI
-> mode-set command via nci_prop_cmd().
->
-> Since the device was never opened by userspace during this failed probe,
-> the ST_NCI_RUNNING flag is not set. This causes st_nci_send() to return
-> -EBUSY and drop the transmission without freeing the sk_buff.
->
-> Because nci_prop_cmd() waits synchronously for a response that will never
-> arrive, won't this block the probe failure path for the full 2-second
-> timeout? 
+On 7/27/26 12:24 AM, Jorijn van der Graaf wrote:
+> Add the Samsung S3NRN4V NCI NFC controller on i2c1. Its XI clock is
+> provided by the RF_CLK2 PMIC buffer and gated through the controller's
+> CLK_REQ line on tlmm GPIO6. PVDD is fed from PM7550 LDO20, the rail the
+> downstream driver switches for this chip.
+> 
+> The enable line is routed to the chip's power-down input, which is
+> asserted high to turn the chip off (the downstream driver treats VEN as
+> active-low on this design) -- hence GPIO_ACTIVE_HIGH, unlike the
+> exynos5433-tm2 wiring of the same driver. The pin is pulled up so the
+> chip stays off while the line is not driven.
+> 
+> Assisted-by: Claude:claude-opus-4-8
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> ---
+>  .../boot/dts/qcom/milos-fairphone-fp6.dts     | 49 ++++++++++++++++++-
+>  1 file changed, 47 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
+> index ebdca0e2d2f3..a1b86e4092fe 100644
+> --- a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
+> +++ b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
+> @@ -601,9 +601,29 @@ &gcc {
+>  };
+>  
+>  &i2c1 {
+> -	/* Samsung NFC @ 0x27 */
+> -
+>  	status = "okay";
+> +
+> +	/*
+> +	 * Samsung S3NRN4V NFC controller. XI is driven by the RF_CLK2 PMIC
+> +	 * buffer; the chip has no oscillator of its own and gates the clock
+> +	 * via its CLK_REQ line, so the clock must be voted on in response
+> +	 * to it.
+> +	 */
 
-I agree, unwinding this error tree was much more complicated than I had 
-assumed,
+This seems like something that's more fitting of the commit message
+and/or dt-bindings (either description: or in a YAML comment)
+> +	nfc@27 {
+> +		compatible = "samsung,s3nrn4v";
+> +		reg = <0x27>;
+> +
+> +		clk-req-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+> +		clocks = <&rpmhcc RPMH_RF_CLK2>;
+> +		en-gpios = <&tlmm 56 GPIO_ACTIVE_HIGH>;
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <31 IRQ_TYPE_EDGE_RISING>;
 
-these warning messages look reasonable to me as well.
+interrupts-extended = <&tlmm 31 IRQ..>
 
+> +		pinctrl-0 = <&nfc_clk_req_default>, <&nfc_irq_default>,
+> +			    <&nfc_pd_default>;
 
-I will forgo this patch and ignore this change for now, Thanks for the 
-catch!
+You can create a group of pins (see below
 
+> +		pinctrl-names = "default";
+> +		pvdd-supply = <&vreg_l20b>;
+> +		wake-gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
 
-Griffin
+Please group the -gpios properties together
 
+> +	};
+>  };
+>  
+>  &i2c3 {
+> @@ -825,6 +845,31 @@ &tlmm {
+>  			       <13 1>, /* NC */
+>  			       <63 2>; /* WLAN UART */
+>  
+> +	nfc_clk_req_default: nfc-clk-req-default-state {
+> +		pins = "gpio6";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-disable;
+> +	};
+> +
+> +	nfc_irq_default: nfc-irq-default-state {
+> +		pins = "gpio31";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-disable;
+> +	};
+> +
+> +	/*
+> +	 * Pulled up so the NFC chip stays powered down while the line is
+> +	 * not driven (it is the chip's active-high power-down input).
+> +	 */
+> +	nfc_pd_default: nfc-pd-default-state {
+> +		pins = "gpio56";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-up;
+> +	};
+
+You can group them into something like:
+
+nfc_default_state: nfc-default-state {
+	nfc-clk-req-default-pins {
+		gpios = ""
+		...
+	};
+
+	...
+};
+
+Konrad
