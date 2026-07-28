@@ -1,49 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B386842BE9E;
-	Tue, 28 Jul 2026 12:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9343C435AA2
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 28 Jul 2026 13:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785240674; cv=none; b=Jdv6z3aDyj7yJpHYQkKv596y0G07b8H/Mw4PgQc1jh73nDhiRY3yOMQQ3WdHLWgi8rVmbrjxrND8IWoMklZqaMJywy7WeTANo7iXvON7gH288IksBb+uHiWlzqm0eoSpsI/9Mw2k7cUteh+jte0vDNgBbUyTY/gNewEUK7MX02k=
+	t=1785245330; cv=none; b=AVmo16Pxpce1VojBJvQWTzLJMg6ao05l7CdzScyZ/bHdTjfOGkEmjqEo/jTKrtziK7GMjghM5DFj1CODHZ/Rv+exwioYHBUHfQ0ZmuDUMDtVRInIrQojA5vYfxpJ1gMy6mjTifg6exURZoG7V9m0BFuo+CfHHweTa5wiA4fL8dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785240674; c=relaxed/simple;
-	bh=RdRbcYo4YQw8o2tm290WjpQUsK+BVcHblmsguTxjyj4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m8k0a6uIjwOV3KNwQcs+jdfdlrEJ2TSMh1bRuE/UJ2i7QB+s7zr0wSmHTbhaTeIMGH7glk5bx+zQLwgZ/3Hd4QA7lfU4UKmdePH1HFiAF5LSZAvq28jUAR+c+Lloa7Kj5c4qgRVKunAPngmy9BpqhObx6yay1UXt+xfyKrp2D2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GLrFWXCB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785245330; c=relaxed/simple;
+	bh=OAPZdRWyQy4q2zNyz4kGEhF+go9N3BGWG6beizQuBmk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pX7WxuAwh1d3XDyCHM8yztI9/6VgGg/gRSSswfRBhghBOdI03LuSe5K9hwmKc6XmAJLOHUXpzw758TQ1/FyxDRhZ70j+KOpgtBYgVrB4e1Ac2y++1H8r9r2JWQ0992+++FDtjQ/tbs2cvwJD37bIXXq0gOYn2gwABeTjI86i4uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6YrS3S7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GLrFWXCB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D8C1F000E9;
-	Tue, 28 Jul 2026 12:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785240673;
-	bh=buB0X43QUK9P3Fy3/obDOOcqSvxEKw3BsEa0Y+/pzxU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GLrFWXCB8m434h7EWqtxQubxsFveucC9g0WzH6IkgkOvZR3/BUqyHCMaef2E3Flys
-	 ywA5NaxZzNlEEi1WyU81zNgbqoKYw/8iMznnOZ+4t63PFncorqPIKDV/y6zZt91W3b
-	 EMDUabgfIyMdqzJSlS5+c0l8d+uflUYnvRMuutsSOm/drd3jHkp3xRysfLJv22NIH6
-	 skQewYPhZ5BJf6TdPsSoT3jvchScvXkDs+RFo9YDw0WovmAT5Yjrl5ZdUWeKbRGrQy
-	 T4gdRREhrkf5rpcdzsvNsUFNBVEZms6u/mCz52iyoz4YsVuRhXuF/5AILk/kVQVGwk
-	 ocDwRUOzmbb3A==
-From: Simon Horman <horms@kernel.org>
-To: bestswngs@gmail.com
-Cc: Simon Horman <horms@kernel.org>,
-	david@ixit.cz,
-	davem@davemloft.net,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6YrS3S7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-496b7622a83so20139825e9.2
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 28 Jul 2026 06:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785245326; x=1785850126; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jpQekUlMBXKHH4ypTl4Zdo+4HRaR5MNGsxg/blhT7gI=;
+        b=V6YrS3S7f2hfSxylDqETZtGleHrKNuXssWl62Iy+YvF/MRvolEEYcmiC21DMlZFXmT
+         d1I7+bvsVzja9DcB1yEO3eQ+L9SWQvEQuT4zDHTTO1I1NwbtmMzlxWLyJvye3AQfgolC
+         3L7aNiK7l/nXGg/GpMpXULClLakUiRCcNqi5ze+syEglLjBDzjBmhz9Y2n+i2vAKUwfq
+         MYWl4Zkf7nalP/dXPTP8tDvvmiuE1e084cSv7QcB63hmxWjh+1Ne4eX0cpyzzg54hsSo
+         FsM90/dAtkC5r1blZJIJyOnDFpsSBxC+m2fece7oM2dIdb22JeTswbiqPywuAOs59BWZ
+         nkrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785245326; x=1785850126;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jpQekUlMBXKHH4ypTl4Zdo+4HRaR5MNGsxg/blhT7gI=;
+        b=qBtOuVz7CGm5jy7S3KUw/io8CyFi54SKa6e5y6g0yeaEs5nMsoRjtsWWUyRK3LCJ3F
+         fM8wx6bYeEa30V50Jft2UlVt+xrndAyVwE8rieRw6B1WGGSUxFu5nGvuZbCaeDxH4qa8
+         ytW1SIl1zLsnlz0B3GaRBHATqkaJF7xvYWwqEnJTLyCPXqU5rDUaAIaBXWPQ6e2O8qpI
+         rBZfciaJuoIgh39J9zDaACg+8b/gWZctnK+HrVSa/gZshloU/KU2yTOOfFsJHS2Cjw2f
+         u7FrcRNNpsA34XvXfvJv+JJsCjUMVA+Xko+xyflNcHce3ugau7KQnFyf8Kv1YF130ms6
+         S9dA==
+X-Forwarded-Encrypted: i=1; AHgh+RrnwL593fTgCTQb9xNfqlfE3uLPykDKKRBY5RA/E3Y+nHkD9OOUbCXF9ckpgWxiJKML2on38A6LzQEeUpU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGy8hDMMY4X69sqUj4G7Gmw1bLFHnS6oMNcv2pyvHhjLtfi8i7
+	G2Z/4XgfQiqnPctt5CuEWK5pcp7fS/MRDobwBJrvhwDMh26do/a+2Jqv
+X-Gm-Gg: AR+sD11bfmPI/sPjkBWwhcDWLCa/pd+Z1mJJXuaHLZKgIDJizmrMoYtx33cVSJ0raTB
+	zzLPGD76vX5K+qMqvm3slrPLihkiHSRLLEQlM+LQnxN70bpdtEHK7LPjRruurr/zRmxPywGTjVq
+	5geeklgNBngrs7eWK3Sue2VzN0z+qmds3A0BC8asqzG6wixjL5kHm8NSRcYGjOJFbw/Ut2b3TwR
+	g4JIZhLkExh8/SKn99PBamN58fzexNsoksvkT509HEIRlVncG2CtZ+RdiucID6kH1CWjpSFltk2
+	fe2qH296s2msxup6MFnFjCL/qFQrHVegaeExKc3KAbdSrGVPCZoUjbVXh7Kaa09bZ5Wej5EK/Xa
+	PPfgOMiXbYNjoe79KU4+TOKGbUuWLVk1CZ0VwO7/JeQ3pLH/Q5EZ8+22Jws/ZsDPWki1cA0u6do
+	jMHzfbWDMYYeKzAlbMezkjL/0spu9bH9y8ACX873CtaysFRUc4zhMfSms=
+X-Received: by 2002:a05:600c:19c8:b0:495:4b00:1bab with SMTP id 5b1f17b1804b1-496c6565e12mr28399355e9.21.1785245326303;
+        Tue, 28 Jul 2026 06:28:46 -0700 (PDT)
+Received: from fedora ([202.47.63.86])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957f9b8b67sm359163395e9.4.2026.07.28.06.28.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 06:28:45 -0700 (PDT)
+From: Muhammad Bilal <meatuni001@gmail.com>
+To: david@ixit.cz,
+	netdev@vger.kernel.org
+Cc: davem@davemloft.net,
 	edumazet@google.com,
 	kuba@kernel.org,
 	pabeni@redhat.com,
+	horms@kernel.org,
 	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	xmei5@asu.edu
-Subject: Re: [PATCH net v2] nfc: digital: fix use-after-free in nfc_digital_unregister_device()
-Date: Tue, 28 Jul 2026 13:10:43 +0100
-Message-ID: <20260728121043.896478-1-horms@kernel.org>
+	stable@vger.kernel.org,
+	Muhammad Bilal <meatuni001@gmail.com>
+Subject: [PATCH net v3] nfc: nci: fix use of uninitialized memory in NFC-DEP general bytes
+Date: Tue, 28 Jul 2026 18:28:36 +0500
+Message-ID: <20260728132836.41868-1-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260723174450.1015153-2-bestswngs@gmail.com>
-References: <20260723174450.1015153-2-bestswngs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -52,84 +80,70 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260723174450.1015153-2-bestswngs@gmail.com?part=1
+nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
+general bytes by subtracting the fixed general-bytes offset from the ATR
+length:
+
+  atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
+  atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
+
+It never checks that the ATR is at least that long. When a
+RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
+subtraction is negative; because min_t() casts its arguments to __u8 the
+negative value becomes large and is then capped at
+NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE. remote_gb_len is thus
+set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
+on-stack atr_res/atr_req buffer were copied from the packet, and the
+following memcpy() reads the uninitialized remainder into
+ndev->remote_gb.
+
+Skip storing the general bytes when the ATR is shorter than the
+general-bytes offset. remote_gb_len is already zeroed unconditionally
+at the top of the function by commit 9c328f54741b ("net: nfc: nci: Add
+parameter validation for packet data"), so the short-ATR case needs no
+separate zeroing here anymore, unlike in the v2 posted upstream.
+
+Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 ---
-Subject: nfc: digital: fix use-after-free in nfc_digital_unregister_device()
+v3: Rebased onto current net.git for-next, requested by David
+    Heidelberg. The function moved and gained an unconditional
+    "remote_gb_len = 0" at entry (from commit 9c328f54741b, landed
+    after v2 was posted), which made v2's explicit zeroing inside the
+    short-ATR branch redundant, so this version drops it and only adds
+    the missing length checks.
+v2: Also zero remote_gb_len explicitly in the short-ATR branch so a
+    stale value from a previous activation doesn't survive into the
+    new session.
 
-This patch replaces cancel_work_sync() with disable_work_sync() on
-cmd_work and cmd_complete_work in nfc_digital_unregister_device() so
-that re-arming schedule_work() calls become no-ops before the cmd_queue
-is freed.
+ net/nfc/nci/ntf.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> diff --git a/net/nfc/digital_core.c b/net/nfc/digital_core.c
-> index 7cb1e6aaae90..6def5132a4a6 100644
-> --- a/net/nfc/digital_core.c
-> +++ b/net/nfc/digital_core.c
-> @@ -843,8 +843,8 @@ void nfc_digital_unregister_device(struct nfc_digital_dev *ddev)
->  	mutex_unlock(&ddev->poll_lock);
->  
->  	cancel_delayed_work_sync(&ddev->poll_work);
-> -	cancel_work_sync(&ddev->cmd_work);
-> -	cancel_work_sync(&ddev->cmd_complete_work);
-> +	disable_work_sync(&ddev->cmd_work);
-> +	disable_work_sync(&ddev->cmd_complete_work);
+diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+index c96512bb8653..e0555c90d657 100644
+--- a/net/nfc/nci/ntf.c
++++ b/net/nfc/nci/ntf.c
+@@ -631,6 +631,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+ 	switch (ntf->activation_rf_tech_and_mode) {
+ 	case NCI_NFC_A_PASSIVE_POLL_MODE:
+ 	case NCI_NFC_F_PASSIVE_POLL_MODE:
++		if (ntf->activation_params.poll_nfc_dep.atr_res_len <
++		    NFC_ATR_RES_GT_OFFSET)
++			break;
+ 		ndev->remote_gb_len = min_t(__u8,
+ 			(ntf->activation_params.poll_nfc_dep.atr_res_len
+ 						- NFC_ATR_RES_GT_OFFSET),
+@@ -643,6 +646,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+ 
+ 	case NCI_NFC_A_PASSIVE_LISTEN_MODE:
+ 	case NCI_NFC_F_PASSIVE_LISTEN_MODE:
++		if (ntf->activation_params.listen_nfc_dep.atr_req_len <
++		    NFC_ATR_REQ_GT_OFFSET)
++			break;
+ 		ndev->remote_gb_len = min_t(__u8,
+ 			(ntf->activation_params.listen_nfc_dep.atr_req_len
+ 						- NFC_ATR_REQ_GT_OFFSET),
+-- 
+2.55.0
 
-[High]
-Does this fully close the use-after-free window, or only the workqueue
-re-arm portion of it?
-
-Once digital_wq_cmd() has handed a command to the driver via
-ops->in_send_cmd(..., digital_send_cmd_complete, cmd), the driver
-retains a raw pointer to that digital_cmd in its own async machinery
-(for nfcsim this is dev->recv_work / dev->arg, for real drivers it is
-URB completions, timers, etc.).
-
-disable_work_sync() on cmd_work and cmd_complete_work waits only for
-those two work items; it does not synchronize the driver's async
-completion path.  When that completion later fires it calls back into
-digital_send_cmd_complete():
-
-    static void digital_send_cmd_complete(struct nfc_digital_dev *ddev,
-                                          void *arg, struct sk_buff *resp)
-    {
-            struct digital_cmd *cmd = arg;
-
-            cmd->resp = resp;
-
-            schedule_work(&ddev->cmd_complete_work);
-    }
-
-The subsequent schedule_work() is correctly a no-op after
-disable_work_sync(), but the cmd->resp = resp store happens first, on
-a digital_cmd that the cleanup loop in nfc_digital_unregister_device()
-may already have kfree()'d.
-
-The same reproducer described in the commit message applies: in
-nfcsim_device_free(), nfc_digital_unregister_device() runs before
-cancel_work_sync(&dev->recv_work) and before dev->up = false, so a
-pending dev->recv_work blocked in wait_event can wake up after the
-queue has been freed and call dev->cb(ddev, dev->arg, skb) with
-dev->arg pointing at a freed digital_cmd.
-
-Elsewhere in this file the pattern for stopping in-flight commands
-before touching the queue calls digital_abort_cmd(ddev) (see
-digital_stop_poll(), digital_dep_link_down(), and
-digital_deactivate_target()), which asks the driver to abort its
-outstanding commands.  Would an equivalent digital_abort_cmd(ddev) in
-nfc_digital_unregister_device(), before the list_for_each_entry_safe()
-kfree loop, be needed here as well?
-
-The commit message states:
-
-    Once both works are disabled no work can run, and the cleanup
-    loop frees the queue with no work able to reach a freed command.
-
-Is that description accurate given that the driver's completion
-callback reaches the digital_cmd directly through the arg pointer
-rather than through cmd_work or cmd_complete_work?
-
-This residual issue is pre-existing rather than introduced by the
-patch, but it seems relevant to the completeness of the fix as
-described.
