@@ -1,36 +1,49 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A436930EF68
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 28 Jul 2026 03:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B386842BE9E;
+	Tue, 28 Jul 2026 12:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785208292; cv=none; b=C/ZX/3TQ8CFVapJ3EDPs6I+hmeipadlxJ+fzUTjIYHgO3jELLPWVnUst5c9F0L+nFSlmX/0Fw+QKTY/J4n7r//tfQUzpn1sRT9TyM7xQaj2pqRV3Y87xPTxFXWaRPiqLaj+tcAY/9FnEnIXh7kpKAUXJrdiEl5OGOGwWNbps/Fs=
+	t=1785240674; cv=none; b=Jdv6z3aDyj7yJpHYQkKv596y0G07b8H/Mw4PgQc1jh73nDhiRY3yOMQQ3WdHLWgi8rVmbrjxrND8IWoMklZqaMJywy7WeTANo7iXvON7gH288IksBb+uHiWlzqm0eoSpsI/9Mw2k7cUteh+jte0vDNgBbUyTY/gNewEUK7MX02k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785208292; c=relaxed/simple;
-	bh=DS4+3AB7AxZeGvi5gfOm+zI8ypTKA6ksvPTZzHVQrqg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MHfRRzuuLWaYbXJCRQe+BZabMjY4jZa5kcniANOIyBtXQgykdOB+UWoWmYPr6/BcfwGQoTGEPtMvwmP73LT7tlV16dEchzt9GV8onBOxtOMQXNm0BFNLDxnAvSnFFXdAVklDOchjAz1w059x8Omdg1SaWPjQWyR/mpw+lT+p+ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wCnoyjVHWhqsmRGAA--.30886S3;
-	Tue, 28 Jul 2026 11:11:17 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgDHFMnUHWhq9zBHAw--.62812S2;
-	Tue, 28 Jul 2026 11:11:16 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: netdev@vger.kernel.org
-Cc: horms@kernel.org,
+	s=arc-20240116; t=1785240674; c=relaxed/simple;
+	bh=RdRbcYo4YQw8o2tm290WjpQUsK+BVcHblmsguTxjyj4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m8k0a6uIjwOV3KNwQcs+jdfdlrEJ2TSMh1bRuE/UJ2i7QB+s7zr0wSmHTbhaTeIMGH7glk5bx+zQLwgZ/3Hd4QA7lfU4UKmdePH1HFiAF5LSZAvq28jUAR+c+Lloa7Kj5c4qgRVKunAPngmy9BpqhObx6yay1UXt+xfyKrp2D2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GLrFWXCB; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GLrFWXCB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D8C1F000E9;
+	Tue, 28 Jul 2026 12:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785240673;
+	bh=buB0X43QUK9P3Fy3/obDOOcqSvxEKw3BsEa0Y+/pzxU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=GLrFWXCB8m434h7EWqtxQubxsFveucC9g0WzH6IkgkOvZR3/BUqyHCMaef2E3Flys
+	 ywA5NaxZzNlEEi1WyU81zNgbqoKYw/8iMznnOZ+4t63PFncorqPIKDV/y6zZt91W3b
+	 EMDUabgfIyMdqzJSlS5+c0l8d+uflUYnvRMuutsSOm/drd3jHkp3xRysfLJv22NIH6
+	 skQewYPhZ5BJf6TdPsSoT3jvchScvXkDs+RFo9YDw0WovmAT5Yjrl5ZdUWeKbRGrQy
+	 T4gdRREhrkf5rpcdzsvNsUFNBVEZms6u/mCz52iyoz4YsVuRhXuF/5AILk/kVQVGwk
+	 ocDwRUOzmbb3A==
+From: Simon Horman <horms@kernel.org>
+To: bestswngs@gmail.com
+Cc: Simon Horman <horms@kernel.org>,
 	david@ixit.cz,
-	mgreer@animalcreek.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
 	oe-linux-nfc@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH net] nfc: trf7970a: initialize lock and timeout_work before requesting the IRQ
-Date: Tue, 28 Jul 2026 03:10:21 +0000
-Message-Id: <20260728031021.230831-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	xmei5@asu.edu
+Subject: Re: [PATCH net v2] nfc: digital: fix use-after-free in nfc_digital_unregister_device()
+Date: Tue, 28 Jul 2026 13:10:43 +0100
+Message-ID: <20260728121043.896478-1-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260723174450.1015153-2-bestswngs@gmail.com>
+References: <20260723174450.1015153-2-bestswngs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -38,80 +51,85 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgDHFMnUHWhq9zBHAw--.62812S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?SNpX/gXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI2ljwtTJtsodX+CbV0a33Py9CptzckDSmBROxD8ytt34lCh
-	vnG6Fi0T40569oL4j3qp9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoW7Ww1rZrW8Cry3tw17XF4DWrX_yoW8ury8pr
-	sIgw4qvrW8CFWjyF17AFWIqa4F9w18Cr42ka409asxJanYyFs7AF1jqaya9Fy8Ars5Z3WY
-	kFWUXr48ZFn0vrcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24l42xK82IYc2Ij64vIr41l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
-	WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
-	Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rV
-	WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4U
-	JbIYCTnIWIevJa73UjIFyTuYvjxU7ID7DUUUU
 
-trf7970a_probe() calls devm_request_threaded_irq() -- which registers the
-threaded handler trf7970a_irq() -- before it initializes trf->lock with
-mutex_init() and trf->timeout_work with INIT_DELAYED_WORK(). The handler
-takes trf->lock at entry and, through the helpers it dispatches to
-(fill_fifo/drain_fifo/issue_eof/transmit), can schedule_delayed_work() on
-trf->timeout_work. In the window between the IRQ request succeeding and
-those two initializations, an IRQ would therefore touch an uninitialized
-mutex and/or schedule an uninitialized delayed_work.
-
-Initialize trf->lock and trf->timeout_work before requesting the IRQ. On
-IRQ-request failure, destroy the mutex inline and return directly: the
-request failed, so no handler is registered and nothing else will touch
-the mutex.
-
-This issue was found by an in-house static analysis tool.
-
-Fixes: 165063f1dac4 ("NFC: trf7970a: Add driver with ISO/IEC 14443 Type 2 Tag Support")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260723174450.1015153-2-bestswngs@gmail.com?part=1
 ---
- drivers/nfc/trf7970a.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Subject: nfc: digital: fix use-after-free in nfc_digital_unregister_device()
 
-diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-index f22e091..bc4d974 100644
---- a/drivers/nfc/trf7970a.c
-+++ b/drivers/nfc/trf7970a.c
-@@ -2124,18 +2124,19 @@ static int trf7970a_probe(struct spi_device *spi)
- 		}
- 	}
- 
-+	mutex_init(&trf->lock);
-+	INIT_DELAYED_WORK(&trf->timeout_work, trf7970a_timeout_work_handler);
-+
- 	ret = devm_request_threaded_irq(trf->dev, spi->irq, NULL,
- 					trf7970a_irq,
- 					IRQF_TRIGGER_RISING | IRQF_ONESHOT,
- 					"trf7970a", trf);
- 	if (ret) {
- 		dev_err(trf->dev, "Can't request IRQ#%d: %d\n", spi->irq, ret);
-+		mutex_destroy(&trf->lock);
- 		return ret;
- 	}
- 
--	mutex_init(&trf->lock);
--	INIT_DELAYED_WORK(&trf->timeout_work, trf7970a_timeout_work_handler);
--
- 	trf->vin_regulator = devm_regulator_get(&spi->dev, "vin");
- 	if (IS_ERR(trf->vin_regulator)) {
- 		ret = PTR_ERR(trf->vin_regulator);
--- 
-2.34.1
+This patch replaces cancel_work_sync() with disable_work_sync() on
+cmd_work and cmd_complete_work in nfc_digital_unregister_device() so
+that re-arming schedule_work() calls become no-ops before the cmd_queue
+is freed.
 
+> diff --git a/net/nfc/digital_core.c b/net/nfc/digital_core.c
+> index 7cb1e6aaae90..6def5132a4a6 100644
+> --- a/net/nfc/digital_core.c
+> +++ b/net/nfc/digital_core.c
+> @@ -843,8 +843,8 @@ void nfc_digital_unregister_device(struct nfc_digital_dev *ddev)
+>  	mutex_unlock(&ddev->poll_lock);
+>  
+>  	cancel_delayed_work_sync(&ddev->poll_work);
+> -	cancel_work_sync(&ddev->cmd_work);
+> -	cancel_work_sync(&ddev->cmd_complete_work);
+> +	disable_work_sync(&ddev->cmd_work);
+> +	disable_work_sync(&ddev->cmd_complete_work);
+
+[High]
+Does this fully close the use-after-free window, or only the workqueue
+re-arm portion of it?
+
+Once digital_wq_cmd() has handed a command to the driver via
+ops->in_send_cmd(..., digital_send_cmd_complete, cmd), the driver
+retains a raw pointer to that digital_cmd in its own async machinery
+(for nfcsim this is dev->recv_work / dev->arg, for real drivers it is
+URB completions, timers, etc.).
+
+disable_work_sync() on cmd_work and cmd_complete_work waits only for
+those two work items; it does not synchronize the driver's async
+completion path.  When that completion later fires it calls back into
+digital_send_cmd_complete():
+
+    static void digital_send_cmd_complete(struct nfc_digital_dev *ddev,
+                                          void *arg, struct sk_buff *resp)
+    {
+            struct digital_cmd *cmd = arg;
+
+            cmd->resp = resp;
+
+            schedule_work(&ddev->cmd_complete_work);
+    }
+
+The subsequent schedule_work() is correctly a no-op after
+disable_work_sync(), but the cmd->resp = resp store happens first, on
+a digital_cmd that the cleanup loop in nfc_digital_unregister_device()
+may already have kfree()'d.
+
+The same reproducer described in the commit message applies: in
+nfcsim_device_free(), nfc_digital_unregister_device() runs before
+cancel_work_sync(&dev->recv_work) and before dev->up = false, so a
+pending dev->recv_work blocked in wait_event can wake up after the
+queue has been freed and call dev->cb(ddev, dev->arg, skb) with
+dev->arg pointing at a freed digital_cmd.
+
+Elsewhere in this file the pattern for stopping in-flight commands
+before touching the queue calls digital_abort_cmd(ddev) (see
+digital_stop_poll(), digital_dep_link_down(), and
+digital_deactivate_target()), which asks the driver to abort its
+outstanding commands.  Would an equivalent digital_abort_cmd(ddev) in
+nfc_digital_unregister_device(), before the list_for_each_entry_safe()
+kfree loop, be needed here as well?
+
+The commit message states:
+
+    Once both works are disabled no work can run, and the cleanup
+    loop frees the queue with no work able to reach a freed command.
+
+Is that description accurate given that the driver's completion
+callback reaches the digital_cmd directly through the arg pointer
+rather than through cmd_work or cmd_complete_work?
+
+This residual issue is pre-existing rather than introduced by the
+patch, but it seems relevant to the completeness of the fix as
+described.
