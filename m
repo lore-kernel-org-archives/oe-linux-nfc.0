@@ -1,149 +1,124 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.qs.icloud.com (qs-2006f-snip4-1.eps.apple.com [57.103.85.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9343C435AA2
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 28 Jul 2026 13:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63593233933
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 29 Jul 2026 01:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.85.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785245330; cv=none; b=AVmo16Pxpce1VojBJvQWTzLJMg6ao05l7CdzScyZ/bHdTjfOGkEmjqEo/jTKrtziK7GMjghM5DFj1CODHZ/Rv+exwioYHBUHfQ0ZmuDUMDtVRInIrQojA5vYfxpJ1gMy6mjTifg6exURZoG7V9m0BFuo+CfHHweTa5wiA4fL8dA=
+	t=1785287799; cv=none; b=oWSBFHhCZCrX0Oyp06FMWp/Am4CELsFqiyjHcw+shF3nfjug0Ygf1wX3jHC9yNqiMmQp8K/04gkvH9Yf3HzHCsDlBkxUQAdgeq+j/49Ze5RUnhatddkix6FKnweVx/SUXdp9uR12Qt6ukGVdMZLc6Drs0b5OUAd0WVKuAskWzGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785245330; c=relaxed/simple;
-	bh=OAPZdRWyQy4q2zNyz4kGEhF+go9N3BGWG6beizQuBmk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pX7WxuAwh1d3XDyCHM8yztI9/6VgGg/gRSSswfRBhghBOdI03LuSe5K9hwmKc6XmAJLOHUXpzw758TQ1/FyxDRhZ70j+KOpgtBYgVrB4e1Ac2y++1H8r9r2JWQ0992+++FDtjQ/tbs2cvwJD37bIXXq0gOYn2gwABeTjI86i4uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6YrS3S7; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785287799; c=relaxed/simple;
+	bh=/xLHixPPHgwI/mktxPqxg3tUxxSyHalLo29pAOZfuXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CQCcJcRWB3az4JXPDdkIn1bysszET+6GSAcktDVS++iApVDqt8/6ZK1SZ0f7uilAnzMIwva1LETRlGfXvQbLR+Ft7txLtRt2PzksTXtvy0aedWf8Cg7z9kOxa5bIabHwvni1J1VHk9LGxwIb6UIDTOhWr8qbFITgqmvqpxwVC6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=pllhzpun; arc=none smtp.client-ip=57.103.85.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6YrS3S7"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-496b7622a83so20139825e9.2
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 28 Jul 2026 06:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785245326; x=1785850126; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jpQekUlMBXKHH4ypTl4Zdo+4HRaR5MNGsxg/blhT7gI=;
-        b=V6YrS3S7f2hfSxylDqETZtGleHrKNuXssWl62Iy+YvF/MRvolEEYcmiC21DMlZFXmT
-         d1I7+bvsVzja9DcB1yEO3eQ+L9SWQvEQuT4zDHTTO1I1NwbtmMzlxWLyJvye3AQfgolC
-         3L7aNiK7l/nXGg/GpMpXULClLakUiRCcNqi5ze+syEglLjBDzjBmhz9Y2n+i2vAKUwfq
-         MYWl4Zkf7nalP/dXPTP8tDvvmiuE1e084cSv7QcB63hmxWjh+1Ne4eX0cpyzzg54hsSo
-         FsM90/dAtkC5r1blZJIJyOnDFpsSBxC+m2fece7oM2dIdb22JeTswbiqPywuAOs59BWZ
-         nkrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785245326; x=1785850126;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jpQekUlMBXKHH4ypTl4Zdo+4HRaR5MNGsxg/blhT7gI=;
-        b=qBtOuVz7CGm5jy7S3KUw/io8CyFi54SKa6e5y6g0yeaEs5nMsoRjtsWWUyRK3LCJ3F
-         fM8wx6bYeEa30V50Jft2UlVt+xrndAyVwE8rieRw6B1WGGSUxFu5nGvuZbCaeDxH4qa8
-         ytW1SIl1zLsnlz0B3GaRBHATqkaJF7xvYWwqEnJTLyCPXqU5rDUaAIaBXWPQ6e2O8qpI
-         rBZfciaJuoIgh39J9zDaACg+8b/gWZctnK+HrVSa/gZshloU/KU2yTOOfFsJHS2Cjw2f
-         u7FrcRNNpsA34XvXfvJv+JJsCjUMVA+Xko+xyflNcHce3ugau7KQnFyf8Kv1YF130ms6
-         S9dA==
-X-Forwarded-Encrypted: i=1; AHgh+RrnwL593fTgCTQb9xNfqlfE3uLPykDKKRBY5RA/E3Y+nHkD9OOUbCXF9ckpgWxiJKML2on38A6LzQEeUpU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGy8hDMMY4X69sqUj4G7Gmw1bLFHnS6oMNcv2pyvHhjLtfi8i7
-	G2Z/4XgfQiqnPctt5CuEWK5pcp7fS/MRDobwBJrvhwDMh26do/a+2Jqv
-X-Gm-Gg: AR+sD11bfmPI/sPjkBWwhcDWLCa/pd+Z1mJJXuaHLZKgIDJizmrMoYtx33cVSJ0raTB
-	zzLPGD76vX5K+qMqvm3slrPLihkiHSRLLEQlM+LQnxN70bpdtEHK7LPjRruurr/zRmxPywGTjVq
-	5geeklgNBngrs7eWK3Sue2VzN0z+qmds3A0BC8asqzG6wixjL5kHm8NSRcYGjOJFbw/Ut2b3TwR
-	g4JIZhLkExh8/SKn99PBamN58fzexNsoksvkT509HEIRlVncG2CtZ+RdiucID6kH1CWjpSFltk2
-	fe2qH296s2msxup6MFnFjCL/qFQrHVegaeExKc3KAbdSrGVPCZoUjbVXh7Kaa09bZ5Wej5EK/Xa
-	PPfgOMiXbYNjoe79KU4+TOKGbUuWLVk1CZ0VwO7/JeQ3pLH/Q5EZ8+22Jws/ZsDPWki1cA0u6do
-	jMHzfbWDMYYeKzAlbMezkjL/0spu9bH9y8ACX873CtaysFRUc4zhMfSms=
-X-Received: by 2002:a05:600c:19c8:b0:495:4b00:1bab with SMTP id 5b1f17b1804b1-496c6565e12mr28399355e9.21.1785245326303;
-        Tue, 28 Jul 2026 06:28:46 -0700 (PDT)
-Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957f9b8b67sm359163395e9.4.2026.07.28.06.28.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 06:28:45 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: david@ixit.cz,
-	netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="pllhzpun"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-0 (Postfix) with ESMTPS id C20A518001BD;
+	Wed, 29 Jul 2026 01:16:34 +0000 (UTC)
+X-ICL-RepId: 019fab71-e021-7504-b2ec-357fbe25243d
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhLBkMGWAReC0wdVRcOVk1KFlwaQAdTG1w4Wg5bBEcUFxtcABcNVk1QG18CQg8cE1YVEx9UVgNBGRBWAVhWXQVNGlwYWQ8cAUpWWg5bBEcUFxtcABcbRgIEIwJfAEUCXglWATAXD1ZNUBtfAkIPHBNWFRMAXg8PTAtIAVsHXABJCUkCWANcHEEASQpcGlofA1cXRBpbClkVeRFQAVgeVl5aF15TFx9LAFxFWg5bBEcU
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1785287796; x=1787879796; bh=P8vDWChRywZk11eXLObnIJl0i0uCHh7F3bByRED5MNY=; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=pllhzpunLWG7vGZgqw94pcGqiWzU6JvaRIOnGx4ymT/r12MF7IHgh/Cayz6T5WoXfmEa8/0Ux6oBVE1GN28bT1Lw273sJKNgJ57vCAZtodpww7RNANHLtC+0EKTJKwP3hH+4LWL5yjsHBh3g2lCEOkd3D+MUPuF8/nXVWQli+klutXc1XTrg/v5WsnTIl6OysSFblhIiVC+sCjIRCWZlO1PxYP7VD/j6AMalyC9QAhlHbCOekA7097WkJ3vg5jMD577Q2OAmza2WOOdwn/0R/PeGHqcScQj1YAXGVx0ZIRW+Z0wm7gJVCBx04KhbJAG7HFUGaUCYja/y6Y0oXo/Ztw==
+Received: from mainframe.tailfb0f7b.ts.net (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-0 (Postfix) with ESMTPSA id 4F141180018E;
+	Wed, 29 Jul 2026 01:16:32 +0000 (UTC)
+From: =?UTF-8?q?Lek=C3=AB=20Hap=C3=A7iu?= <snowwlake@icloud.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: netdev@vger.kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH net v3] nfc: nci: fix use of uninitialized memory in NFC-DEP general bytes
-Date: Tue, 28 Jul 2026 18:28:36 +0500
-Message-ID: <20260728132836.41868-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Simon Horman <horms@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	=?UTF-8?q?Lek=C3=AB=20Hap=C3=A7iu?= <snowwlake@icloud.com>,
+	stable@vger.kernel.org
+Subject: [PATCH net 1/2] nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep
+Date: Wed, 29 Jul 2026 03:15:46 +0200
+Message-ID: <20260729011547.19191-1-snowwlake@icloud.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=SZ/6t/Ru c=1 sm=1 tr=0 ts=6a695473
+ cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=M51BFTxLslgA:10 a=x7bEGLp0ZPQA:10 a=LbuW6tbUWPcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=v3ZZPjhaAAAA:8
+ a=D1Ezx_vhIy9DZtWJ5osA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=JKcXVnpmuwdQ7RL0mgk_:22 a=5Q-93EyGrU3sW_9myDOF:22
+X-Proofpoint-ORIG-GUID: YLz_5tAZMuFu1KyW3ieqGplDpra4K7gv
+X-Proofpoint-GUID: YLz_5tAZMuFu1KyW3ieqGplDpra4K7gv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDAwNyBTYWx0ZWRfX0OY+Y1by0cDv
+ wLLm7L4VZNtS882sDmcx9vZZoaki/FUA9wP3NFWR3xlCnvirnswi3aruisZnIOuGJ4ceoxAMGnD
+ 0HyNVb7lk5c4GzxwLBLqVoBItnb49AxfNFJOH2qhFx6G8fXjiratNgcN73ERpxh2JN2OkcKGtaS
+ mVIT7+lwTqQCPLOA3hnQ1y0WBtlOFJOaK5R6jU2Qi4CLdRquiIEAZYWN3Kb7tp2QIEI8Vd6Va9G
+ wD+cfubVr+L8DMDWru+J2E86RnA/Ih5CjJDCnNhckfDRCqznKp/KnMtuEyhRdOuBqyR2TV+Tvv2
+ lM0Em+5547vsb+20+hWFdsxqfAqkca2qcKzE1UGFjknQ4L5WkGov3uaMK+6efA=
 
-nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
-general bytes by subtracting the fixed general-bytes offset from the ATR
-length:
+nci_store_general_bytes_nfc_dep() computes the General Bytes length by
+subtracting a fixed header offset from the peer-supplied atr_res_len
+(POLL) or atr_req_len (LISTEN) field:
 
-  atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
-  atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
+    ndev->remote_gb_len = min_t(__u8,
+        atr_res_len - NFC_ATR_RES_GT_OFFSET,   /* offset = 15 */
+        NFC_ATR_RES_GB_MAXSIZE);
 
-It never checks that the ATR is at least that long. When a
-RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
-subtraction is negative; because min_t() casts its arguments to __u8 the
-negative value becomes large and is then capped at
-NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE. remote_gb_len is thus
-set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
-on-stack atr_res/atr_req buffer were copied from the packet, and the
-following memcpy() reads the uninitialized remainder into
-ndev->remote_gb.
+Both length fields are __u8.  When a malicious NFC-DEP peer sends an
+ATR_RES/ATR_REQ whose length is smaller than the fixed offset (< 15
+or < 14 respectively), the subtraction wraps:
 
-Skip storing the general bytes when the ATR is shorter than the
-general-bytes offset. remote_gb_len is already zeroed unconditionally
-at the top of the function by commit 9c328f54741b ("net: nfc: nci: Add
-parameter validation for packet data"), so the short-ATR case needs no
-separate zeroing here anymore, unlike in the v2 posted upstream.
+    atr_res_len = 0  ->  (u8)(0 - 15) = 241
+    min_t(__u8, 241, NFC_ATR_RES_GB_MAXSIZE=47) = 47
 
-Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
+The subsequent memcpy then reads 47 bytes beyond the valid activation
+parameter data into ndev->remote_gb[].  This buffer is later fed to
+nfc_llcp_parse_gb_tlv() as a TLV array.
+
+Reject the frame with NCI_STATUS_RF_PROTOCOL_ERROR when the length is
+below the required offset.  The existing caller already logs and
+continues for other helpers that return a non-OK status from this
+switch, so no change is required on the caller side.
+
+Fixes: 767f19ae698e ("NFC: Implement NCI dep_link_up and dep_link_down")
 Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+Signed-off-by: Lekë Hapçiu <snowwlake@icloud.com>
 ---
-v3: Rebased onto current net.git for-next, requested by David
-    Heidelberg. The function moved and gained an unconditional
-    "remote_gb_len = 0" at entry (from commit 9c328f54741b, landed
-    after v2 was posted), which made v2's explicit zeroing inside the
-    short-ATR branch redundant, so this version drops it and only adds
-    the missing length checks.
-v2: Also zero remote_gb_len explicitly in the short-ATR branch so a
-    stale value from a previous activation doesn't survive into the
-    new session.
-
  net/nfc/nci/ntf.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index c96512bb8653..e0555c90d657 100644
+index f5c9a8ab7ec1..263f76a2450f 100644
 --- a/net/nfc/nci/ntf.c
 +++ b/net/nfc/nci/ntf.c
-@@ -631,6 +631,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+@@ -653,6 +653,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
  	switch (ntf->activation_rf_tech_and_mode) {
  	case NCI_NFC_A_PASSIVE_POLL_MODE:
  	case NCI_NFC_F_PASSIVE_POLL_MODE:
 +		if (ntf->activation_params.poll_nfc_dep.atr_res_len <
 +		    NFC_ATR_RES_GT_OFFSET)
-+			break;
++			return NCI_STATUS_RF_PROTOCOL_ERROR;
  		ndev->remote_gb_len = min_t(__u8,
  			(ntf->activation_params.poll_nfc_dep.atr_res_len
  						- NFC_ATR_RES_GT_OFFSET),
-@@ -643,6 +646,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
+@@ -665,6 +668,9 @@ static int nci_store_general_bytes_nfc_dep(struct nci_dev *ndev,
  
  	case NCI_NFC_A_PASSIVE_LISTEN_MODE:
  	case NCI_NFC_F_PASSIVE_LISTEN_MODE:
 +		if (ntf->activation_params.listen_nfc_dep.atr_req_len <
 +		    NFC_ATR_REQ_GT_OFFSET)
-+			break;
++			return NCI_STATUS_RF_PROTOCOL_ERROR;
  		ndev->remote_gb_len = min_t(__u8,
  			(ntf->activation_params.listen_nfc_dep.atr_req_len
  						- NFC_ATR_REQ_GT_OFFSET),
 -- 
-2.55.0
+2.51.0
 
