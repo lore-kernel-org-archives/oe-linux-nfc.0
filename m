@@ -1,126 +1,64 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9550041DEDE
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 29 Jul 2026 07:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50FB42F707;
+	Thu, 30 Jul 2026 13:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785309922; cv=none; b=X59dJKXWgdbJoZq2uu0+Ix9ZQarliOLJwLVlbwPF6Z9DDnbwXN47IuU9PEYyaFVtJ0cep8SVrpAf6Ql60eE51WUZ6DVGF5hmNpX8LLXdQTpuBN5Us7WRbp4NuWeM1Gz1dK7yEl8GJoGluqSbWPqDbidYja8SxZv68jp+NSxUWvk=
+	t=1785416889; cv=none; b=hpPmG3MFSGCWqWpmyJ4t/HCercdvxDL43MabgVA60KAyUicWC8BX5uV3nftjWKDUIwBA0lu9cmD0Rv02IXXs04FP7B2P+E3YdOXcLqgjV+cBBJz8xGxTqU9ghYZ8+fl06sxLUSGbAX8jDLB47zJl6bhnNFaeux0tu2v4HmcA3K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785309922; c=relaxed/simple;
-	bh=uA9E/02FBdvC/3xgD65N3r2jIubgdR1WUsAw5W6kXyg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dBi57RSj7BYuAA8NuLUKP/qd64nNDvm8Hldsmlt4AXAcxrSUAJo6h5/YDSN65rgu4CXcylItJ81B0EgIGyExJzXE0V2SCUy27maipaybmSrarwDyDITtbn7614n+Tlz3jTO6WbZGDkkI9N6vhZm3HUsKfmLIL9SNGvYam0h8ogI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KCnHMQTY; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1785416889; c=relaxed/simple;
+	bh=lLbbYgjI26srYjleM1KDoyoyUaTluBQqehul74XRbgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P02M2gE45KTvbdlBPmBRy8idJua3FJ7YVFFntu+7JgqrpJlUiJ8u0p7UIALFRVpp+AWwlJRBzQivnix0DHWxNgTn0asc8nK4HSAU02M3aiEcDgQa5pDWI9c/ZnYXz4wjvE3WOJclvQ/LOUbPvNmwiaDcLoz0NwQciD/msrCMzoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=ulTnAn79; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KCnHMQTY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=vr
-	qb3sxHYXBZhJfHNSGI2OIYuH/m+iQgzsQRyibmvh4=; b=KCnHMQTYzPp+UN2aBT
-	y+zB93ZLVEnnykqasZgTrKLaSPrNC2gsL7FCuvXMlhODROyLsA+4NNc6W325mUxV
-	sIIw28Rj7O2x/0McHL4TjbOK23yQ0XS+VUQ2EePsXcuN+Ac0mMd7wPG1tbrMqbzj
-	ex36r+RmeMHZ0cnYAUrr2zo6I=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3dImqqmlq0n+hMg--.15305S2;
-	Wed, 29 Jul 2026 15:24:26 +0800 (CST)
-From: Lei Zhu <zhulei_szu@163.com>
-To: david@ixit.cz,
-	bongsu.jeon@samsung.com,
-	shuah@kernel.org
-Cc: oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v2] selftests: nci: Correct pthread_create return value check
-Date: Wed, 29 Jul 2026 15:24:26 +0800
-Message-Id: <20260729072426.303484-1-zhulei_szu@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="ulTnAn79"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=lLbbYgjI26srYjleM1KDoyoyUaTluBQqehul74XRbgo=; b=ulTnAn79rXEQaZxAsJmLzFuG0I
+	stTt2QyXwn9yFvPn7ohmu+uppj6vQPCP2v09aDpNxDG+KPfCakMDo56KTXOuOkA4Ej4uTGjJwnBkn
+	Ye4+F5XeS5nLItD1RKw7ZDNRIEr6NW22HZss0fuydqcHx5T55XYQt58F1reFV6SnG21f5K0jVNzgI
+	6sTZbSYi+tU8JhkQQUVIQ2znA1Ba++mtQF93AlTRNJoyf5MK3Cdv1e2P/xrrAakjY236rDWP8dB3t
+	vIQgYXmZfy3vqW3rkl5l7sx8C0S3rlIUqdMUBiwMKDCBLvIGHsQeiIUcAIvxyuHHdr2KW3APi5xv5
+	+eE6tVfQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wpQUL-009GCE-2q;
+	Thu, 30 Jul 2026 13:07:54 +0000
+Date: Thu, 30 Jul 2026 06:07:49 -0700
+From: Breno Leitao <leitao@debian.org>
+To: David Heidelberg <david@ixit.cz>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, kernel-team@meta.com
+Subject: Re: [PATCH net-next 0/2] nfc: llcp: Move to .getsockopt_iter
+Message-ID: <amtMjiKCFJGY6DAY@gmail.com>
+References: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3dImqqmlq0n+hMg--.15305S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KFWxZr4UCr15urWfJFWUJwb_yoW5JF1kpa
-	48Aa4kCF48AF4vy3W3AFZ0vF45tr4DXFWkArZ09348u3y3X3yrtr1kKFyUWF17urZ8t3WF
-	vryruF9xuF4xJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jeoGQUUUUU=
-X-CM-SenderInfo: x2kxzvxlbv63i6rwjhhfrp/xtbC7wvJF2ppqqtIigAA36
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
+X-Debian-User: leitao
 
-From: Lei Zhu <zhulei@kylinos.cn>
+On Wed, Jul 08, 2026 at 04:51:57AM -0700, Breno Leitao wrote:
+> Continue to convert the protocols to getsockopt_iter callback.
 
-The pthread_create() functions returns 0 on success and a positive value on
-failure. Modify the return value check to correctly detect failure cases.
+Hello David,
 
-Fixes: 72696bd8a09d ("selftests: nci: Extract the start/stop discovery function")
-Signed-off-by: Lei Zhu <zhulei@kylinos.cn>
----
-- Sashiko pointed out ignored the return value check in
-  disconnect_tag. Fixed now.
----
- tools/testing/selftests/nci/nci_dev.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+Have you had a chance to look at this change?
 
-diff --git a/tools/testing/selftests/nci/nci_dev.c b/tools/testing/selftests/nci/nci_dev.c
-index 312f84ee0444..c053f5cf2745 100644
---- a/tools/testing/selftests/nci/nci_dev.c
-+++ b/tools/testing/selftests/nci/nci_dev.c
-@@ -438,7 +438,7 @@ FIXTURE_SETUP(NCI)
- 	else
- 		rc = pthread_create(&thread_t, NULL, virtual_dev_open,
- 				    (void *)&self->virtual_nci_fd);
--	ASSERT_GT(rc, -1);
-+	ASSERT_EQ(rc, 0);
- 
- 	rc = send_cmd_with_idx(self->sd, self->fid, self->pid,
- 			       NFC_CMD_DEV_UP, self->dev_idex);
-@@ -509,7 +509,7 @@ FIXTURE_TEARDOWN(NCI)
- 			rc = pthread_create(&thread_t, NULL, virtual_deinit,
- 					    (void *)&self->virtual_nci_fd);
- 
--		ASSERT_GT(rc, -1);
-+		ASSERT_EQ(rc, 0);
- 		rc = send_cmd_with_idx(self->sd, self->fid, self->pid,
- 				       NFC_CMD_DEV_DOWN, self->dev_idex);
- 		EXPECT_EQ(rc, 0);
-@@ -590,7 +590,7 @@ int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid, int p
- 
- 	rc = pthread_create(&thread_t, NULL, virtual_poll_start,
- 			    (void *)&virtual_fd);
--	if (rc < 0)
-+	if (rc)
- 		return rc;
- 
- 	rc = send_cmd_mt_nla(sd, fid, pid, NFC_CMD_START_POLL, 2, nla_start_poll_type,
-@@ -610,7 +610,7 @@ int stop_polling(int dev_idx, int virtual_fd, int sd, int fid, int pid)
- 
- 	rc = pthread_create(&thread_t, NULL, virtual_poll_stop,
- 			    (void *)&virtual_fd);
--	if (rc < 0)
-+	if (rc)
- 		return rc;
- 
- 	rc = send_cmd_with_idx(sd, fid, pid,
-@@ -830,6 +830,8 @@ int disconnect_tag(int nfc_sock, int virtual_fd)
- 
- 	status = pthread_create(&thread_t, NULL, virtual_deactivate_proc,
- 				(void *)&virtual_fd);
-+	if (status)
-+		return status;
- 
- 	close(nfc_sock);
- 	pthread_join(thread_t, (void **)&status);
-@@ -874,7 +876,7 @@ TEST_F(NCI, deinit)
- 	else
- 		rc = pthread_create(&thread_t, NULL, virtual_deinit,
- 				    (void *)&self->virtual_nci_fd);
--	ASSERT_GT(rc, -1);
-+	ASSERT_EQ(rc, 0);
- 
- 	rc = send_cmd_with_idx(self->sd, self->fid, self->pid,
- 			       NFC_CMD_DEV_DOWN, self->dev_idex);
--- 
-2.25.1
-
+Thanks
+--breno
