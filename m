@@ -1,114 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821C743846C;
-	Thu, 30 Jul 2026 13:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58E0B336888
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 31 Jul 2026 02:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785418613; cv=none; b=cMQdw8jiZy4KHrvsVotwJiGohRyr1DoRZxM4856rl/qMGIlF19RqVJM06z67H7R6LAGGBGxzaZbeXWdaliF+mxQQzxPCd16S2vIzwKHEM+bZWyQ3Vun2pk5MT3UKxTSRiTwpExhi+s0wRp6rTVbF3X6LbcMuvRfD9/ygmOPp1gc=
+	t=1785465893; cv=none; b=bSzGZmkbgbah3UCmuJ6FyutwdY8vj3hZV8h6T4gg1F8iluy5ogeLhUQTj8jB+Y6k17YdmxYKgNsEdzAr+WUa9UNwTeTdzcnISN0uguugfshGya7DmvTu8ttQBQQ3dwJh3Ybyms7XhABNuD3JEK4Sy/L/yDwquMw2FoiLdne2GG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785418613; c=relaxed/simple;
-	bh=cy78vmkSWsMBJa6w7Nx+k4PAR86/jFxz+3HWwQjx5lY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P7jLvrazrC5jX+yRjUBdE2elTsde3enQVQKtxJpqVNN8i9Z2YDKMdtDclwgsD4MMBCb4aztfLrT9FXY0hmOfsieHjL+hPr4qbTzwNuuYuLaa4Z0EdJppzYMGCWQ4sGrfdF4nn1qIOiWn3qhCBedX1Zyv8+dTMaoC+xlrRlmYs5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BD6dZVsq; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BD6dZVsq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4DD1F000E9;
-	Thu, 30 Jul 2026 13:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785418611;
-	bh=ViilNJPgoMkwo2zOy3hAi/9IjN6+I9KEXX+bony59A8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BD6dZVsqY9UCd0d4Hfz0+jZzD419tY6GWKb+Oyfn3EQ5eN8p4Oyh+p8p66bJiD85N
-	 ZWJ7zEJV98FBm+GkWyj/lFKu+33JF28cG140sxEP/QvdPsROe/saHt2Kb5DlLXJ0Sq
-	 xC7klYv89xIZt2hTsv3APFDia1gBwgJUOsX/JTVPiyL/JAqx7l/1KjPMvuRZcEPCuR
-	 XT7hxtYowbUuuyFJg3uepjy/kqJmS1SZ1V6jN9sYM98/DyqpPH6sK7yiCSZGyFz5Wi
-	 HvXodJYJOMBl3pwljvSop+KjeazH3hwT+ssxxPiXKpS1ZDb1YC8AY3pfcRueU/wN1t
-	 YwtP5NK1dWeWA==
-Date: Thu, 30 Jul 2026 14:36:47 +0100
-From: Simon Horman <horms@kernel.org>
-To: hexlabsecurity@proton.me
-Cc: David Heidelberg <david@ixit.cz>, Doruk Tan Ozturk <doruk@0sec.ai>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Robert Dolca <robert.dolca@intel.com>, oe-linux-nfc@lists.linux.dev,
-	Samuel Ortiz <sameo@linux.intel.com>
-Subject: Re: [PATCH v3] nfc: fdp: bound the device-reported read length and
- fix an skb leak
-Message-ID: <20260730133647.GC51943@horms.kernel.org>
-References: <20260724-b4-disp-e8ec6012-v3-1-3a6f3a2fee47@proton.me>
+	s=arc-20240116; t=1785465893; c=relaxed/simple;
+	bh=szVPcQXMTP3fnNVA681RQaf1BfEUwcjxnUUvZq9fxSY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=qYka2SdVcIBgWfN+i6rFrpN5HnuvbWUtq4dpqBJA/BOUIzMoPdUY+lXddaQtkaTU83hA8eok9BMNb+leqsMlaUGNZzVH7ctBzWH0jpaNc3au9amwALI5mnMNk2f4f8WBxAyw4nrNt/vKJOiT2fAr0K6/bejSTFNuv2+0biAAe+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wA3UT0XDGxqVyNSAA--.614S3;
+	Fri, 31 Jul 2026 10:44:39 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app2 (Coremail) with SMTP id zC_KCgCH9coXDGxq1EJjAw--.19349S3;
+	Fri, 31 Jul 2026 10:44:39 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: horms@kernel.org,
+	david@ixit.cz,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuniyu@google.com,
+	christophe.ricard@gmail.com,
+	sameo@linux.intel.com,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH net v2 1/2] nfc: reject SE I/O while a device is shutting down
+Date: Fri, 31 Jul 2026 02:43:43 +0000
+Message-Id: <20260731024344.317793-2-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260731024344.317793-1-fanwu01@zju.edu.cn>
+References: <20260731024344.317793-1-fanwu01@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724-b4-disp-e8ec6012-v3-1-3a6f3a2fee47@proton.me>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zC_KCgCH9coXDGxq1EJjAw--.19349S3
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?9d/8mAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfncGSG+szpQCInt5Y8rbJUI1EDM1PB+C2j8nywt/ZgZNq5XDDVYGTb/X7qfj0EuaAm9ix
+	ro3au4WYx7I81bRccaGp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxWFW8XF1DWF1fCr47ZF4xuFX_yoW5Wry5pa
+	sxG3WxKr92gryUWw4vyF1IqFyY9a4DuayrCFWF934IkF9xZFyFqw4kKryUZFykCrZ5AF47
+	tr1YqrWUuay5JFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
+	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
+	6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
+	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcUDGUUUUU
 
-On Fri, Jul 24, 2026 at 06:22:55AM -0500, Bryam Vargas via B4 Relay wrote:
-> From: Bryam Vargas <hexlabsecurity@proton.me>
-> 
-> fdp_nci_i2c_read() takes the next packet length from two device-supplied
-> bytes and never validates it. The value is a u16 used as the
-> i2c_master_recv() count into a 261-byte on-stack buffer: a malicious,
-> counterfeit or malfunctioning controller (or an i2c bus interposer) can
-> drive it far past the buffer for a stack out-of-bounds write that
-> clobbers the canary and return address, or below the minimum frame size
-> (directly, or by truncating the computed sum) so the header/LRC strip
-> and the next length read run past a short receive. Reject a length
-> outside [FDP_NCI_I2C_MIN_PAYLOAD, FDP_NCI_I2C_MAX_PAYLOAD], as a
-> corrupted packet already is, and force resynchronization.
-> 
-> The same loop allocates one data skb per iteration and assumes a length
-> packet followed by a data packet; a device that sends two data packets
-> in one call leaks the first skb when the second allocation overwrites
-> it. Free a previously allocated skb before allocating the next.
-> 
-> Fixes: a06347c04c13 ("NFC: Add Intel Fields Peak NFC solution driver")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Simon Horman <horms@kernel.org>
-> Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
-> ---
-> v3:
->  - Rebase on current net; no code change since v2. Doruk Tan Ozturk
->    independently found the same missing bound (0sec,
->    https://lore.kernel.org/all/20260720132133.69635-1-doruk@0sec.ai) and
->    noted there that this v2 is the more complete fix -- it also rejects the
->    sub-minimum length Simon flagged and closes the skb leak. Reposting now
->    that the driver has an active maintainer.
->  v2: https://lore.kernel.org/all/20260616-b4-disp-b1f8ab4c-v2-1-2d1fe5955325@proton.me
-> 
-> v2:
->  - Also reject next_read_size < FDP_NCI_I2C_MIN_PAYLOAD, not just
->    > FDP_NCI_I2C_MAX_PAYLOAD (Simon Horman). The small value is reachable
->    both directly (tmp[2] == 0 && tmp[3] < 2) and through the u16
->    truncation of the computed sum (e.g. 0xff,0xff -> 65538 -> 2); a single
->    range check on the stored value covers both, and also keeps the next
->    length-field read from running on stale buffer bytes.
->  - Fold in a fix for an skb leak in the same function (two data packets
->    in one call overwrite and leak the first skb).
->  v1: https://lore.kernel.org/all/20260615-b4-disp-f42dce2d-v1-1-186ff3dcbf37@proton.me
-> 
-> Reproduced in-kernel on x86-64 (Linux 7.1.0-rc5, CONFIG_KASAN_STACK=y)
-> with a faithful port of the read loop, and at full device magnitude with
-> a userspace AddressSanitizer model:
-> 
->   Stack OOB write
->     A  no bound, next_read_size 281 -> 20 B past tmp[261]:
->          BUG: KASAN: stack-out-of-bounds in i2c_master_recv...
->          Write of size 281 ... This frame has 1 object: [48, 309) 'tmp'
->     B  bounded to <= FDP_NCI_I2C_MAX_PAYLOAD:   no KASAN report
->     C  well-formed (len 5):                     no KASAN report
->     ASan model, full u16 next_read_size = 65535 -> 65274-byte
->     stack-buffer-overflow WRITE on both -m32 and -m64; bounded build clean.
-> 
-> skb leak (slabinfo active-object delta over 20000 reads, two data
->   packets each, measured after a slab shrink)
->     without the fix:  skbuff_head_cache +20047, skbuff_small_head +20057
->                       (one orphaned skb per call, unreclaimable)
->     with the fix:     ~0
+nfc_se_io() is the only secure-element entry point that does not check
+dev->shutting_down: nfc_enable_se(), nfc_disable_se(), nfc_dev_up(),
+nfc_dev_down() and nfc_start_poll() all reject new operations once
+nfc_unregister_rfkill() has set the flag under the device lock.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+An NFC_CMD_SE_IO request racing device removal can therefore still reach a
+driver's se_io op after teardown has begun, arming driver state (for
+example a timer) that the driver's later drain cannot account for.  Add
+the same shutting_down check the other SE operations already perform; the
+existing error path frees the freshly allocated se_io_ctx.
+
+This also adds an optional nci_ops::pre_unregister hook, called in
+nci_unregister_device() right after nfc_unregister_rfkill() (the admission
+barrier is up, so new operations are rejected) and before
+nci_close_device()/destroy_workqueue() (the NCI core and its workqueues
+still exist).  An NCI driver whose teardown helper touches the NCI core can
+use it to drain driver-owned state at the correct point.  The hook is
+optional; nci_ops initialisers that leave it NULL are unaffected.
+
+This follows the barrier-first teardown ordering from d2492688bb9f.
+
+Cc: stable@vger.kernel.org # 6.6+
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+
+ include/net/nfc/nci_core.h | 1 +
+ net/nfc/nci/core.c         | 3 +++
+ net/nfc/netlink.c          | 5 +++++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
+index 664d5058e..754a67185 100644
+--- a/include/net/nfc/nci_core.h
++++ b/include/net/nfc/nci_core.h
+@@ -82,6 +82,7 @@ struct nci_ops {
+ 				    struct sk_buff *skb);
+ 	void  (*hci_cmd_received)(struct nci_dev *ndev, u8 pipe, u8 cmd,
+ 				  struct sk_buff *skb);
++	void  (*pre_unregister)(struct nci_dev *ndev);
+ 
+ 	const struct nci_driver_ops *prop_ops;
+ 	size_t n_prop_ops;
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index 5f46c4b57..86286c076 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -1321,6 +1321,9 @@ void nci_unregister_device(struct nci_dev *ndev)
+ 
+ 	nfc_unregister_rfkill(ndev->nfc_dev);
+ 
++	if (ndev->ops->pre_unregister)
++		ndev->ops->pre_unregister(ndev);
++
+ 	/* This set_bit is not protected with specialized barrier,
+ 	 * However, it is fine because the mutex_lock(&ndev->req_lock);
+ 	 * in nci_close_device() will help to emit one.
+diff --git a/net/nfc/netlink.c b/net/nfc/netlink.c
+index 0c58824cb..3132f7a90 100644
+--- a/net/nfc/netlink.c
++++ b/net/nfc/netlink.c
+@@ -1426,6 +1426,11 @@ static int nfc_se_io(struct nfc_dev *dev, u32 se_idx,
+ 
+ 	device_lock(&dev->dev);
+ 
++	if (dev->shutting_down) {
++		rc = -ENODEV;
++		goto error;
++	}
++
+ 	if (!device_is_registered(&dev->dev)) {
+ 		rc = -ENODEV;
+ 		goto error;
 
