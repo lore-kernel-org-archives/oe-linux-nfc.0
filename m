@@ -1,22 +1,21 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A7CC33A014
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 31 Jul 2026 02:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC023148D8
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 31 Jul 2026 02:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785465894; cv=none; b=ToFZXQ4ERC8Cu4EEIXlelwjnxplTDC0+7eiCQIelSdCXNEC1qWZpj6nEYD6I7Rm7h8Q2ZwTl6S6X7eh2JpyeC1EERXfir043i7+UPtFolWL1VZ19uwx8DZrIy5P3wa44UqmD7jCNdJedILXFJlaV0+8IrU6OtydIx8H4i9gbOqY=
+	t=1785465910; cv=none; b=CrtKWHUFZ+QCv1qzkmAlfFRmVo+FwzGbHMa2nx3X0qLplO/5IG8qJanmYo/U4j8tIrQpRiKKvAnmtTvbMhdNwmOjNIXqMF4jfAmTDKGvcAig6bHJm+ptuMiWCaR58k+hR/o8OpGhX8O6oBBCAx90IxZb0p6dBEHTOw5A3oMjGoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785465894; c=relaxed/simple;
-	bh=/0QDrerinODq9/3piMZlE8oSa1HH99hESCKuwez+nq8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=thjh+9ob2evAohd/DHjUxAl8quHIE3DKi6pnIVPQFi42merANsedqeBefKnmmYPjg1SEv6p+h3k13rZBjvfvwlV/DOEasVcYVAoSh2pBN75IVUrFrYyPxKX/AbffbUjqmsC7do7abXALHHtSMY66x+jusIhaGPYM4pKp0IL5jDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
+	s=arc-20240116; t=1785465910; c=relaxed/simple;
+	bh=w0KlrMO9P/MJZBucv1ynNv1CArXsmfi4apzicOb3kB4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rEfTJEM/foGLrjPCQ2F32bBawpF0/MmAMUjLVP5K8PWY3bABzjsuOGbL3CSK/pfVzjIxI9fq80ogy5T3hqv9Alt+BZGvZiClUaFkRte0sJRVp522SvGOjBTc6Wb6WltX0EY52oYXe4RUnXKbSsmCpTLyAL/UjIQ0rrpUBKKvt2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
 Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wDXZTUXDGxqWCNSAA--.20815S3;
-	Fri, 31 Jul 2026 10:44:39 +0800 (CST)
+	by mtasvr (Coremail) with SMTP id _____wDHGtQXDGxqViNSAA--.7644S3;
+	Fri, 31 Jul 2026 10:44:40 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgCH9coXDGxq1EJjAw--.19349S4;
+	by mail-app2 (Coremail) with SMTP id zC_KCgCH9coXDGxq1EJjAw--.19349S2;
 	Fri, 31 Jul 2026 10:44:39 +0800 (CST)
 From: Fan Wu <fanwu01@zju.edu.cn>
 To: netdev@vger.kernel.org
@@ -32,12 +31,10 @@ Cc: horms@kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH net v2 2/2] nfc: st-nci: drain SE timers before NCI teardown
-Date: Fri, 31 Jul 2026 02:43:44 +0000
-Message-Id: <20260731024344.317793-3-fanwu01@zju.edu.cn>
+Subject: [PATCH net v2 0/2] nfc: st-nci: drain SE timers before NCI teardown
+Date: Fri, 31 Jul 2026 02:43:42 +0000
+Message-Id: <20260731024344.317793-1-fanwu01@zju.edu.cn>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260731024344.317793-1-fanwu01@zju.edu.cn>
-References: <20260731024344.317793-1-fanwu01@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -45,133 +42,72 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgCH9coXDGxq1EJjAw--.19349S4
+X-CM-TRANSID:zC_KCgCH9coXDGxq1EJjAw--.19349S2
 X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?SR4TnAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI0HnIlrb2PNJ6YIDQJs+Wcx5XDDVYGTb/X7qfj0EuaAmx2c
-	Y63qR7Lz02zP9k4Smgap9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxWr1DCFyDZryxAFWxGw1UCFX_yoWrtF15pF
-	45Ww17Jr4rWr48WaykAw1DWFW5JayIkFWUK3srJaySvF45Kry0qF4UAFWS9FZxArZ5XF1x
-	tr4rXw1UWF1UtagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+X-CM-DELIVERINFO: =?B?QL9qwgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfncGSG+szpQCInt5Y8rbJUI0gCzlebqh2Vq8BSwVe27bE5XDDVYGTb/X7qfj0EuaAm7OZ
+	w1GPJhkomEWw1jVE3rSp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoW7Kw43tr15Wr4DJF4xJw4fWFX_yoW8tr48p3
+	ySg34fKFyktryIqanFvr47ZFWF9Fs5WFW7u34Ikry09r15KFyFkr9Yyr40vFWUC3s5G3y2
+	9FZ8Jw1kWr4kJabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
 	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
 	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
 	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
 	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
 	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
+	6r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
 	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
 	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
 	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
 	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
 	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7EoGDUUUU
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7rcfUUUUU
 
-st_nci_se_deinit() drains the two se_info timers (bwi_timer and
-se_active_timer), but it has had no caller since the secure-element
-support was added.  st_nci_remove() tears the device down with
-ndlc_close() / nci_unregister_device() / nci_free_device() and never
-reaches the helper.  A timer armed during operation therefore survives
-st_nci_remove() and the devm release of struct st_nci_info: the bwi
-callback st_nci_se_wt_timeout() reaches into the NCI core, and both
-callbacks dereference info->se_info.
+This is v2 of the st-nci SE-timer use-after-free fix.  v1 was reviewed by
+Simon Horman, who raised two concerns about draining the
+timers while userspace operations may be in flight.  v2 resolves both and
+is restructured as two patches so the drain runs behind an admission
+barrier instead of before the device is unregistered.
 
-Register the helper as the NCI pre_unregister callback added by the
-previous patch, so the NCI core invokes it in nci_unregister_device()
-after the NFC admission barrier (new SE operations are already rejected)
-and before nci_close_device() / destroy_workqueue() (the NCI core and its
-workqueues still exist).
+1/2 adds the barrier pieces to the NFC core:
+  - nfc_se_io() is the only secure-element entry point missing the
+    dev->shutting_down check the other SE operations have; add it.
+  - an optional nci_ops::pre_unregister hook, called in
+    nci_unregister_device() after nfc_unregister_rfkill() (the barrier is
+    up) and before nci_close_device()/destroy_workqueue() (the NCI core
+    still exists).
+  This follows the barrier-first teardown ordering from d2492688bb9f.
 
-Shut down both timers with timer_shutdown_sync().  Complete req_completion
-after the se_active_timer is shut down so an in-flight SE enable/disable is
-woken rather than left waiting: nfc_enable_se()/nfc_disable_se() hold the
-NFC device lock across st_nci_control_se().  For an outstanding APDU,
-invoke its completion callback with -ENODEV; the existing netlink
-completion path then frees se_io_ctx.
-bwi_active is an xchg() ownership token shared by the response, the
-timeout and teardown paths, so the callback is delivered exactly once.
+2/2 registers st_nci_se_deinit() as that hook so the two orphaned se_info
+timers are drained after the barrier and before the NCI core is torn down.
+It also completes an in-flight SE enable/disable and resolves a pending
+APDU with -ENODEV, using bwi_active as an xchg() ownership token so the
+callback fires exactly once.
 
-This issue was found by an in-house static analysis tool.
+The two patches are a pair: 2/2 assigns the pre_unregister hook that 1/2
+adds to struct nci_ops, so 2/2 will not build without 1/2.  Please take
+both, in order.
 
-Fixes: 8ae01f796771 ("NFC: st21nfcb: Add support for secure element")
-Cc: stable@vger.kernel.org # 6.6+
-Assisted-by: Codex:gpt-5.6
+v1 handled operations pending at the drain, but a new SE I/O could install
+callback state afterward; with the timer shut down and the PHY closed, that
+context was never resolved.  The barrier added by 1/2 closes the window.
+
 Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
 ---
 
- drivers/nfc/st-nci/core.c |  1 +
- drivers/nfc/st-nci/se.c   | 24 ++++++++++++------------
- 2 files changed, 13 insertions(+), 12 deletions(-)
+v1: <20260722034729.3254078-1-fanwu01@zju.edu.cn>
 
-diff --git a/drivers/nfc/st-nci/core.c b/drivers/nfc/st-nci/core.c
-index a367136d4..6e8f799f5 100644
---- a/drivers/nfc/st-nci/core.c
-+++ b/drivers/nfc/st-nci/core.c
-@@ -105,6 +105,7 @@ static const struct nci_ops st_nci_ops = {
- 	.hci_load_session = st_nci_hci_load_session,
- 	.hci_event_received = st_nci_hci_event_received,
- 	.hci_cmd_received = st_nci_hci_cmd_received,
-+	.pre_unregister = st_nci_se_deinit,
- 	.prop_ops = st_nci_prop_ops,
- 	.n_prop_ops = ARRAY_SIZE(st_nci_prop_ops),
- };
-diff --git a/drivers/nfc/st-nci/se.c b/drivers/nfc/st-nci/se.c
-index 607ec768e..232249d60 100644
---- a/drivers/nfc/st-nci/se.c
-+++ b/drivers/nfc/st-nci/se.c
-@@ -283,9 +283,9 @@ static int st_nci_hci_apdu_reader_event_received(struct nci_dev *ndev,
- 	switch (event) {
- 	case ST_NCI_EVT_TRANSMIT_DATA:
- 		timer_delete_sync(&info->se_info.bwi_timer);
--		info->se_info.bwi_active = false;
--		info->se_info.cb(info->se_info.cb_context,
--				 skb->data, skb->len, 0);
-+		if (xchg(&info->se_info.bwi_active, false))
-+			info->se_info.cb(info->se_info.cb_context,
-+					 skb->data, skb->len, 0);
- 	break;
- 	case ST_NCI_EVT_WTX_REQUEST:
- 		mod_timer(&info->se_info.bwi_timer, jiffies +
-@@ -665,9 +665,9 @@ int st_nci_se_io(struct nci_dev *ndev, u32 se_idx,
- 	case ST_NCI_ESE_HOST_ID:
- 		info->se_info.cb = cb;
- 		info->se_info.cb_context = cb_context;
-+		xchg(&info->se_info.bwi_active, true);
- 		mod_timer(&info->se_info.bwi_timer, jiffies +
- 			  msecs_to_jiffies(info->se_info.wt_timeout));
--		info->se_info.bwi_active = true;
- 		return nci_hci_send_event(ndev, ST_NCI_APDU_READER_GATE,
- 					ST_NCI_EVT_TRANSMIT_DATA, apdu,
- 					apdu_length);
-@@ -699,7 +699,8 @@ static void st_nci_se_wt_timeout(struct timer_list *t)
- 	struct st_nci_info *info = timer_container_of(info, t,
- 						      se_info.bwi_timer);
- 
--	info->se_info.bwi_active = false;
-+	if (!xchg(&info->se_info.bwi_active, false))
-+		return;
- 
- 	if (!info->se_info.xch_error) {
- 		info->se_info.xch_error = true;
-@@ -751,13 +752,12 @@ void st_nci_se_deinit(struct nci_dev *ndev)
- {
- 	struct st_nci_info *info = nci_get_drvdata(ndev);
- 
--	if (info->se_info.bwi_active)
--		timer_delete_sync(&info->se_info.bwi_timer);
--	if (info->se_info.se_active)
--		timer_delete_sync(&info->se_info.se_active_timer);
-+	timer_shutdown_sync(&info->se_info.bwi_timer);
-+	if (xchg(&info->se_info.bwi_active, false))
-+		info->se_info.cb(info->se_info.cb_context, NULL, 0, -ENODEV);
- 
--	info->se_info.se_active = false;
--	info->se_info.bwi_active = false;
-+	timer_shutdown_sync(&info->se_info.se_active_timer);
-+	xchg(&info->se_info.se_active, false);
-+	complete(&info->se_info.req_completion);
- }
- EXPORT_SYMBOL(st_nci_se_deinit);
--
+Changes since v1:
+  - restructure into this 2-patch series (admission barrier + hook drain)
+    instead of a direct deinit call in st_nci_remove();
+  - complete req_completion so an in-flight SE enable/disable holding the
+    device lock is not left waiting (concern 1);
+  - invoke the pending APDU callback with -ENODEV (concern 2);
+  - bwi_active as an xchg() ownership token (callback exactly once);
+  - Fixes: 8ae01f796771 (the orphaned deinit predates the rename).
+
+Tested: builds as a 2-patch series on netdev/net (st-nci.ko, x86_64);
+        applies cleanly in order.
 
