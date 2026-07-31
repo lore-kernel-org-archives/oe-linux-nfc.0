@@ -1,113 +1,270 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC023148D8
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 31 Jul 2026 02:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CEB427A10;
+	Fri, 31 Jul 2026 13:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785465910; cv=none; b=CrtKWHUFZ+QCv1qzkmAlfFRmVo+FwzGbHMa2nx3X0qLplO/5IG8qJanmYo/U4j8tIrQpRiKKvAnmtTvbMhdNwmOjNIXqMF4jfAmTDKGvcAig6bHJm+ptuMiWCaR58k+hR/o8OpGhX8O6oBBCAx90IxZb0p6dBEHTOw5A3oMjGoI=
+	t=1785503507; cv=none; b=sWqgXP0XVY/54HGDMx3wgwM9rC5uPfEOV8K0yWKJdjUBMufNvz4stXZigVHnOAARAdZxRLjTV3z7g04ttx/r6rvA8mlGjhIIWexb5qcdHl1GdxpQ8OoC77sRdlVbQDSTSUOuVi5B+vK11hLDoEl4jWmnYQnAI6G4lIASiJtmm6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785465910; c=relaxed/simple;
-	bh=w0KlrMO9P/MJZBucv1ynNv1CArXsmfi4apzicOb3kB4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rEfTJEM/foGLrjPCQ2F32bBawpF0/MmAMUjLVP5K8PWY3bABzjsuOGbL3CSK/pfVzjIxI9fq80ogy5T3hqv9Alt+BZGvZiClUaFkRte0sJRVp522SvGOjBTc6Wb6WltX0EY52oYXe4RUnXKbSsmCpTLyAL/UjIQ0rrpUBKKvt2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wDHGtQXDGxqViNSAA--.7644S3;
-	Fri, 31 Jul 2026 10:44:40 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgCH9coXDGxq1EJjAw--.19349S2;
-	Fri, 31 Jul 2026 10:44:39 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: netdev@vger.kernel.org
-Cc: horms@kernel.org,
-	david@ixit.cz,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuniyu@google.com,
-	christophe.ricard@gmail.com,
-	sameo@linux.intel.com,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net v2 0/2] nfc: st-nci: drain SE timers before NCI teardown
-Date: Fri, 31 Jul 2026 02:43:42 +0000
-Message-Id: <20260731024344.317793-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1785503507; c=relaxed/simple;
+	bh=cdVFN5+AJoKFcNRze2Moihk7gMMfozZteDphDsr4YOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEyguVIfUB9xamfQ19ehV+5f3scNqVGdEK5d3RJKVvnIr4vlJf3LpfMfqFVrye516S7QxRQyYJKoxUR+GA7sAb96byF1eXz60l8JhMJ9xWlPzHoA/b9a15Cc/lfz/eIu+NWrZkXg/8+T+vs1NM3t1ScAV7BCag8ntiHazYiA4Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1rjptIk; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1rjptIk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 913151F000E9;
+	Fri, 31 Jul 2026 13:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785503505;
+	bh=njAxdslaCwu+qgiLQg8pHyf0IOr9kMNfF7OhA7OHY3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l1rjptIkxhdCbx0SBIgY4e11Qr3HBWAv0gGsQ7GR6k5tk5F56P2OgNoKJJfyV5lm6
+	 O+T7YAvwieoIhRX+K5sivTHg9VW5AZJmY/FU43xpSI0zfVBFoAj3u03qEDR6Xj2g4Y
+	 csLcnOhvmuOvpslR1oAPeSAKKKFwroeF6H8eRFA6zCDNYoj8zXmSzhraz0wbNMddIy
+	 XXo2declF8ropp8q6rObtJkIkLneOtNdcsD9GdqV9mkqsitM3Oybm+9H2KDGSe4jsD
+	 PJwDrsmv15rezD/7GBA8UIBNDCIv05MYwUz4GhrrjFTi/yHl6pT2S0ml9SxUFf7wAE
+	 awUVudkdTH6Kw==
+Date: Fri, 31 Jul 2026 14:11:41 +0100
+From: Simon Horman <horms@kernel.org>
+To: Fan Wu <fanwu01@zju.edu.cn>
+Cc: netdev@vger.kernel.org, david@ixit.cz, mgreer@animalcreek.com,
+	oe-linux-nfc@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net v2] nfc: trf7970a: drain timeout_work and keep
+ trf->lock valid across teardown
+Message-ID: <20260731131141.GH51943@horms.kernel.org>
+References: <20260728030716.230626-1-fanwu01@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgCH9coXDGxq1EJjAw--.19349S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?QL9qwgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI0gCzlebqh2Vq8BSwVe27bE5XDDVYGTb/X7qfj0EuaAm7OZ
-	w1GPJhkomEWw1jVE3rSp9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoW7Kw43tr15Wr4DJF4xJw4fWFX_yoW8tr48p3
-	ySg34fKFyktryIqanFvr47ZFWF9Fs5WFW7u34Ikry09r15KFyFkr9Yyr40vFWUC3s5G3y2
-	9FZ8Jw1kWr4kJabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7rcfUUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260728030716.230626-1-fanwu01@zju.edu.cn>
 
-This is v2 of the st-nci SE-timer use-after-free fix.  v1 was reviewed by
-Simon Horman, who raised two concerns about draining the
-timers while userspace operations may be in flight.  v2 resolves both and
-is restructured as two patches so the drain runs behind an admission
-barrier instead of before the device is unregistered.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260728030716.230626-1-fanwu01@zju.edu.cn?part=1
 
-1/2 adds the barrier pieces to the NFC core:
-  - nfc_se_io() is the only secure-element entry point missing the
-    dev->shutting_down check the other SE operations have; add it.
-  - an optional nci_ops::pre_unregister hook, called in
-    nci_unregister_device() after nfc_unregister_rfkill() (the barrier is
-    up) and before nci_close_device()/destroy_workqueue() (the NCI core
-    still exists).
-  This follows the barrier-first teardown ordering from d2492688bb9f.
-
-2/2 registers st_nci_se_deinit() as that hook so the two orphaned se_info
-timers are drained after the barrier and before the NCI core is torn down.
-It also completes an in-flight SE enable/disable and resolves a pending
-APDU with -ENODEV, using bwi_active as an xchg() ownership token so the
-callback fires exactly once.
-
-The two patches are a pair: 2/2 assigns the pre_unregister hook that 1/2
-adds to struct nci_ops, so 2/2 will not build without 1/2.  Please take
-both, in order.
-
-v1 handled operations pending at the drain, but a new SE I/O could install
-callback state afterward; with the timer shut down and the PHY closed, that
-context was never resolved.  The barrier added by 1/2 closes the window.
-
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+Simon says; Thanks for the updates in v2. It seems that Sashiko
+            has some more feedback, I'd appreciate it if you could
+	    look over it.
 ---
+--- Patch [1]: [PATCH net v2] nfc: trf7970a: drain timeout_work and keep trf->lock valid across teardown ---
+commit 759d465c2a36b8aecb984c2dddb7b2b408b93082
+Author: Fan Wu <fanwu01@zju.edu.cn>
 
-v1: <20260722034729.3254078-1-fanwu01@zju.edu.cn>
+nfc: trf7970a: drain timeout_work and keep trf->lock valid across teardown
 
-Changes since v1:
-  - restructure into this 2-patch series (admission barrier + hook drain)
-    instead of a direct deinit call in st_nci_remove();
-  - complete req_completion so an in-flight SE enable/disable holding the
-    device lock is not left waiting (concern 1);
-  - invoke the pending APDU callback with -ENODEV (concern 2);
-  - bwi_active as an xchg() ownership token (callback exactly once);
-  - Fixes: 8ae01f796771 (the orphaned deinit predates the rename).
+The patch adds cancel_delayed_work_sync(&trf->timeout_work) to
+trf7970a_remove() (between nfc_digital_unregister_device() and
+nfc_digital_free_device()) and to the probe error path, and it drops
+mutex_destroy(&trf->lock) from both paths so the mutex stays valid until
+devm releases the threaded IRQ.
 
-Tested: builds as a 2-patch series on netdev/net (st-nci.ko, x86_64);
-        applies cleanly in order.
+A few questions below.
 
+> diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
+> index 60883001fa5d..37d543fd5913 100644
+> --- a/drivers/nfc/trf7970a.c
+> +++ b/drivers/nfc/trf7970a.c
+> @@ -2207,13 +2207,13 @@ static int trf7970a_probe(struct spi_device *spi)
+>  err_shutdown:
+>  	trf7970a_shutdown(trf);
+>  err_free_ddev:
+> +	cancel_delayed_work_sync(&trf->timeout_work);
+>  	nfc_digital_free_device(trf->ddev);
+>  err_disable_vddio_regulator:
+>  	regulator_disable(trf->vddio_regulator);
+>  err_disable_vin_regulator:
+>  	regulator_disable(trf->vin_regulator);
+>  err_destroy_lock:
+> -	mutex_destroy(&trf->lock);
+>  	return ret;
+>  }
+
+[Severity: Low]
+With mutex_destroy() gone, err_destroy_lock: is now an empty label sitting
+directly in front of return ret;, while its name still says a lock is
+destroyed there:
+
+	err_destroy_lock:
+		return ret;
+
+The two remaining users are the devm_regulator_get("vin") failure and the
+regulator_enable(vin) failure paths.  Would it be cleaner to turn those two
+gotos into plain return ret; statements, or to rename the label to something
+like err_out?
+
+>  
+> @@ -2228,12 +2228,11 @@ static void trf7970a_remove(struct spi_device *spi)
+>  	mutex_unlock(&trf->lock);
+>  
+>  	nfc_digital_unregister_device(trf->ddev);
+> +	cancel_delayed_work_sync(&trf->timeout_work);
+
+[Severity: High]
+Can the handler this drain waits for still complete upstream into the
+already-torn-down digital core?  This isn't a bug introduced by this patch
+(before it, the same handler could run even later, after remove() returned),
+but the commit message argues that this placement makes freeing the digital
+device safe, and that part looks incomplete.
+
+Consider a timeout handler that already started and is blocked in
+mutex_lock(&trf->lock) in trf7970a_timeout_work_handler() while remove()
+holds the lock.  trf7970a_shutdown() completes the command once through
+trf7970a_send_err_upstream(), which uses the non-blocking cancel:
+
+drivers/nfc/trf7970a.c:trf7970a_send_err_upstream() {
+	...
+	cancel_delayed_work(&trf->timeout_work);
+	...
+}
+
+For an already-executing handler that returns false, and the return value is
+discarded, so trf->ignore_timeout stays false.  Neither
+trf7970a_send_upstream() nor trf7970a_shutdown() clears trf->cb or
+trf->cb_arg.
+
+The handler is then released by the mutex_unlock() just above and, with
+state TRF7970A_ST_PWR_OFF and ignore_timeout false, takes the final else
+branch and does a second, stale completion:
+
+drivers/nfc/trf7970a.c:trf7970a_send_err_upstream() {
+	...
+	trf->cb(trf->ddev, trf->cb_arg, ERR_PTR(errno));
+}
+
+trf->cb is digital_send_cmd_complete() and trf->cb_arg is the digital_cmd
+that nfc_digital_unregister_device() just freed:
+
+net/nfc/digital_core.c:nfc_digital_unregister_device() {
+	...
+	cancel_work_sync(&ddev->cmd_complete_work);
+
+	list_for_each_entry_safe(cmd, n, &ddev->cmd_queue, queue) {
+		list_del(&cmd->queue);
+		...
+		kfree(cmd);
+	}
+}
+
+net/nfc/digital_core.c:digital_send_cmd_complete() {
+	struct digital_cmd *cmd = arg;
+
+	cmd->resp = resp;
+	...
+	schedule_work(&ddev->cmd_complete_work);
+}
+
+So the stale completion writes cmd->resp into freed memory and re-queues
+ddev->cmd_complete_work after the core already did its single
+cancel_work_sync(), and nfc_digital_free_device() frees ddev on the next
+line.  __cancel_work_sync() re-enables the work after flushing, so nothing
+blocks the re-queue.
+
+Would neutralising the upstream completion during teardown help here, for
+example clearing trf->cb/trf->cb_arg (or setting ignore_timeout / a
+"removing" flag) under trf->lock in the shutdown path, or draining both
+before and after nfc_digital_unregister_device()?
+
+[Severity: High]
+Is this drain the last event that can arm timeout_work?  This is also a
+pre-existing problem rather than something the patch introduces, but the
+TRF7970A_ST_LISTENING_MD state seems to escape the new drain.
+
+trf7970a_shutdown() does not handle that state:
+
+drivers/nfc/trf7970a.c:trf7970a_shutdown() {
+	switch (trf->state) {
+	...
+	case TRF7970A_ST_IDLE:
+	case TRF7970A_ST_IDLE_RX_BLOCKED:
+		trf7970a_switch_rf_off(trf);
+		break;
+	default:
+		break;
+	}
+	...
+}
+
+TRF7970A_ST_LISTENING_MD, set by _trf7970a_tg_listen(), falls into
+default:, so RF is never switched off and trf7970a_power_down() bails out
+(its return value is discarded):
+
+drivers/nfc/trf7970a.c:trf7970a_power_down() {
+	if (trf->state != TRF7970A_ST_RF_OFF) {
+		dev_dbg(trf->dev, "Can't power down - not RF_OFF state (%d)\n", trf->state);
+		return -EBUSY;
+	}
+	...
+}
+
+The chip stays enabled and its threaded IRQ stays registered until devm runs
+devm_free_irq() after .remove() returns.  trf7970a_irq() only short-circuits
+on TRF7970A_ST_RF_OFF, so an interrupt in that window reaches:
+
+drivers/nfc/trf7970a.c:trf7970a_irq() {
+	...
+	case TRF7970A_ST_LISTENING_MD:
+		if (status & TRF7970A_IRQ_STATUS_SRX) {
+			trf->ignore_timeout = !cancel_delayed_work(&trf->timeout_work);
+			ret = trf7970a_mode_detect(trf, &trf->md_rf_tech);
+			...
+				trf7970a_drain_fifo(trf, status);
+	...
+}
+
+and trf7970a_drain_fifo() re-arms the work:
+
+	schedule_delayed_work(&trf->timeout_work,
+			   msecs_to_jiffies(TRF7970A_WAIT_FOR_RX_DATA_TIMEOUT));
+
+Nothing drains it a second time, so the re-armed work can fire after devm
+frees the devm_kzalloc()'d trf, and the same IRQ path dereferences
+trf->ddev, which nfc_digital_free_device() freed on the next line.
+
+Separately, the same shutdown gap looks like it leaks a VIN enable
+reference: probe enables vin once and trf7970a_power_up() enables it again,
+against the single regulator_disable(trf->vin_regulator) in remove().
+
+Should TRF7970A_ST_LISTENING_MD be added to the shutdown switch (and the
+power_down() failure be handled) so the drain is really the last arming
+opportunity?
+
+>  	nfc_digital_free_device(trf->ddev);
+>  
+>  	regulator_disable(trf->vddio_regulator);
+>  	regulator_disable(trf->vin_regulator);
+> -
+> -	mutex_destroy(&trf->lock);
+>  }
+
+Simon says: I believe the issue below was discussed indirectly in the
+            review of v1. And the behaviour described below is expected.
+
+[Severity: Low]
+This isn't a bug, but the correctness of dropping mutex_destroy() now rests
+on an invariant that is not recorded anywhere in the file: devm reverse-order
+release must run devm_free_irq() (registered in trf7970a_probe() after the
+devm_kzalloc() of trf) before trf itself is freed.  The ordering as written
+today is fine, but a future change that moves devm_request_threaded_irq()
+ahead of the devm_kzalloc(), or converts trf to a non-devm allocation,
+silently brings back the use-after-free with no comment and no build-time
+check.  Removing mutex_destroy() also drops the CONFIG_DEBUG_MUTEXES
+use-after-destroy check for this lock.
+
+Would an explicit devm_free_irq()/disable_irq() at the top of
+trf7970a_remove() (which synchronises the handler and lets mutex_destroy()
+stay), or devm_mutex_init() so the mutex teardown is itself devm-ordered, be
+preferable to relying on the implicit order?  Either way, the threaded IRQ
+handler can still run during and after .remove(), taking trf->lock and
+driving a device that trf7970a_shutdown() already powered down and
+pm_runtime_disable()'d.
+
+>  
+>  #ifdef CONFIG_PM_SLEEP
