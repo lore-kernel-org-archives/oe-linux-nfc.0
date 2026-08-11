@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B0C263C8F
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E537F00B
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:31:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786472588; cv=none; b=luwUpMfjzSwFjHrV40JQsXNRrYXBVpdnteTzpqTKQMeCcDmsKJiNE006xUClwyr/zriNzjrE1WjphwPQ7xJOxkjtjlezGACTZF1k6IZW76ws4qfrLHFrsbRyH5zchxtHgFlgrQvcOJNWkVw4GctSWxmsUfo/FNR6rBJ7Jc2JP8Y=
+	t=1786473090; cv=none; b=bxVodZE/R2B4rJcfr0N6VFaYAcXVxKWQCqKIxoVbvVLW7AUcmgOgrO6PJfNEy2AB+vxQuJXJdzQJETO5xFS2aPlhBduocJ3mHjHhqNZ7FNzN+KhlmMiizzykOkNSEpqw2TJ7Fan6iNjfakp1fVLGKj2y9bGkX8hzovVYj7gWyho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786472588; c=relaxed/simple;
-	bh=J/JCNI4JP6PWEbRIaV+blSlUD3HtyB5zPYznoBNF450=;
+	s=arc-20240116; t=1786473090; c=relaxed/simple;
+	bh=Vo4Z3aUxM4tTHTF/z556wLMnLFj0u9fFoCoJ1zeiNhc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=miik5txC9XhZWUVJzZqrofVcph8HS4h0U5CEdg1XnR0L85vopu/roHiFqbCKb7MzePk+HX8pJ5X6o8KsNIUkCoEgddjxJK125aJI87BW8pUT7qfGDPilJ3Ex/VgdSWejtpk7t60fBLyVIUVq7t+o2hf4+LiG+xTR0n2ikb7svlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=G3bpCv5R; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=TofwrA1sFWj/Tbcv72dId48Ok8FMQGny1/NXTsZb4957RWdIqA+NaJop+uST25nvf7clnHhGQKozWISIVsksY8Lb8VR4CTwkDcvBK4KWhBRj3M0vCrpEeISp+aXTJv0gB3qLOfYS+SsYiRppd5UMF3KRKo7UjDg6PxqQQXAsXe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=zfCNJgqO; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="G3bpCv5R"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="zfCNJgqO"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 63CE35340428;
-	Tue, 11 Aug 2026 20:23:02 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 2FF9953406F4;
+	Tue, 11 Aug 2026 20:31:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786472582;
+	t=1786473087;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cXekTso0NmY5vetFykSsR+sNuU02JTTPlPjx9kOlbjs=;
-	b=G3bpCv5ROsPgEgJnQZtZYY4QbSi2bTonB+6hwgvi2rni9A/QnHD6ATN69bpeacMWkIg2a1
-	j22XK9+nldKXA9y4206lObrHhNfF7rMais7TnlK8x4oUBbWV8zp0fvxvPANKbM2b0WQWoZ
-	YCz6wK4wmBlsipsx9W8wCT4n0S/cT1w=
-Message-ID: <8e5c2ea4-53fe-4dd5-ac71-5bb3ab5ee911@ixit.cz>
-Date: Tue, 11 Aug 2026 20:23:02 +0200
+	bh=30y1Ndtt2pEAUgoeW88Dp+uTXv0eUW/Kz+uRzJE95tE=;
+	b=zfCNJgqOvOApZRF+wiZrKukRZJ42umrNrp/zL1hg0vxeWatodDDTlabkENmkWsVZ2VMGT4
+	Hw8vb3S84Fo3BwKwcrUiS4xAIa/Eql2mzTJdJIJyHu7GowcG2yc/S9Sjc6S2jVthvj7N6W
+	GQFK/2c0qEYFcTwppdYke3KFGToYQIM=
+Message-ID: <2d2b72ad-2aac-43f6-8f47-72b2fc148192@ixit.cz>
+Date: Tue, 11 Aug 2026 20:31:27 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,22 +41,15 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v4] nfc: nci: Fix conn_info use-after-free
-To: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net] nfc: llcp: fix NULL pointer dereference race in
+ nfc_llcp_send_ui_frame()
+To: Junwoong Doh <jdoh.kernel@gmail.com>
 Cc: "David S . Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Ian Ray <ian.ray@gehealthcare.com>, Joe Damato <joe@dama.to>,
- Kuniyuki Iwashima <kuniyu@google.com>, Kees Cook <kees@kernel.org>,
- Ashutosh Desai <ashutoshdesai993@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Deepak Sharma <deepak.sharma.472935@gmail.com>,
- Michael Thalmeier <michael.thalmeier@hale.at>,
- Christophe Ricard <christophe.ricard@gmail.com>,
- Samuel Ortiz <sameo@linux.intel.com>, oe-linux-nfc@lists.linux.dev,
+ Krzysztof Kozlowski <krzk@kernel.org>, oe-linux-nfc@lists.linux.dev,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260723022407.3402916-2-sanghyun.park.cnu@gmail.com>
+References: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -102,66 +95,105 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260723022407.3402916-2-sanghyun.park.cnu@gmail.com>
+In-Reply-To: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 23/07/2026 04:24, Sanghyun Park wrote:
-> nci_tx_work() looks up conn_info from conn_info_list and keeps using
-> that pointer while sending queued data. nci_core_conn_close_rsp_packet()
-> runs on the separate rx_wq and can remove and free the same conn_info,
-> so the tx worker can dereference freed memory.
+On 25/07/2026 13:55, Junwoong Doh wrote:
+> nfc_llcp_send_ui_frame() checks whether sock->local is NULL, but it is
+> called by llcp_sock_sendmsg() without the socket lock held, which opens
+> a window for a race condition. Between the sock->local check and the
+> sock->dev use in nfc_alloc_send_skb(), llcp_sock_bind() can run
+> concurrently and set both sock->local and sock->dev to NULL, which can
+> lead to a NULL pointer dereference in nfc_alloc_send_skb().
 > 
-> The same lifetime rule also has to cover other conn_info_list users and
-> the direct rf_conn_info and hci_dev->conn_info aliases. Protect
-> conn_info_list and conn_info pointer aliases with a dedicated lock, use
-> it while publishing and removing entries, and keep readers under the lock
-> while they dereference conn_info or copy the fields they need.
+> Take the socket lock in nfc_llcp_send_ui_frame() so that the sock->local
+> check and the sock->dev use are performed under it. The message is
+> copied from user space before the lock is taken, to avoid holding the
+> lock across a user space access that can block for an unbounded amount
+> of time.
 > 
-> In nci_tx_work(), take the lock only around lookup, credit checks, skb
-> dequeue, and credit accounting so close cannot free conn_info while it is
-> used, but transport send latency does not block rx_wq response
-> processing.
-> 
-> Fixes: 736bb9577407 ("NFC: nci: Support logical connections management")
-> Signed-off-by: Sanghyun Park <sanghyun.park.cnu@gmail.com>
+> Fixes: dded08927ca3 ("nfc: llcp: fix NULL error pointer dereference on sendmsg() after failed bind()")
+> Signed-off-by: Junwoong Doh <jdoh.kernel@gmail.com>
+> Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
 > ---
-> v4:
->    - Guard hci_dev before clearing its conn_info alias during teardown.
->    - Reflow lines flagged by the netdev 80-column check.
->    - Use the current NFC maintainer address from MAINTAINERS.
-> v3: https://lore.kernel.org/netdev/20260630071717.3618185-2-sanghyun.park.cnu@gmail.com/
->    - Add Fixes tag for the logical connection close lifetime bug.
->    - Add the missing NFC maintainer and oe-linux-nfc list.
->    - Cover all conn_info_list helper users, not only nci_tx_work().
->    - Protect direct rf_conn_info and hci_dev->conn_info aliases.
->    - Publish and remove conn_info entries under the same lock.
->    - Protect RF conn_info discovery publication with the same lock.
->    - Keep HCI rx_skb immediate dereferences under conn_info_lock.
->    - Narrow nci_send_data() lock coverage around skb queueing.
->    - Avoid holding conn_info_lock across nci_send_frame().
->    - Use spin_lock_bh() so HCI timer callbacks do not take a sleepable lock.
->    - Keep conn_info_lock alive until nci_dev teardown instead of destroying it before nfc_remove_device().
-> v2: https://patchwork.kernel.org/project/netdevbpf/patch/20260610081657.686636-1-sanghyun.park.cnu@gmail.com/
->    - Replace flush-only fix with conn_info locking around tx and close.
-> v1: https://patchwork.kernel.org/project/netdevbpf/patch/CAOrxSK5UmFFfzdRG+P89+E+Rvg_1DmOvTs+M7353Q8=hkPXmSg@mail.gmail.com/
+>   net/nfc/llcp_commands.c | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
 > 
->   drivers/nfc/st-nci/se.c    |  16 +++---
->   include/net/nfc/nci_core.h |   9 ++-
->   net/nfc/nci/core.c         |  98 +++++++++++++++++++++++++--------
->   net/nfc/nci/data.c         |  68 ++++++++++++++---------
->   net/nfc/nci/hci.c          | 109 +++++++++++++++++++++++++++++--------
->   net/nfc/nci/ntf.c          |  23 ++++++--
->   net/nfc/nci/rsp.c          |  52 +++++++++++++-----
->   7 files changed, 271 insertions(+), 104 deletions(-)
-> 
-Hello Sanghyun,
+Hello Junwoong,
 
-thank you for the patch, LGMT. Could you please rebase against
+it seems Sashiko noted an issue, could you verify it please (see below, feel 
+free to ignore the pre-existing one)?
 
-https://codeberg.org/linux-nfc/linux/src/branch/for-linus
-
-There is a small conflict in the rsp.c
-
-Thanks!
+Thanks
 David
+
+--- Patch [1]: [PATCH net] nfc: llcp: fix NULL pointer dereference race in 
+nfc_llcp_send_ui_frame() ---
+commit 9c4c4bdf57043772ddc74843af1f533e7e9bc0ca
+Author: Junwoong Doh <jdoh.kernel@gmail.com>
+
+nfc: llcp: fix NULL pointer dereference race in nfc_llcp_send_ui_frame()
+
+This patch fixes a race condition in nfc_llcp_send_ui_frame() where
+concurrent bind() calls can lead to a NULL pointer dereference. It moves
+the allocation and socket state checks inside the socket lock.
+
+Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
+
+ > diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+ > index 291f26facbf3a..cfd5f6aebf8df 100644
+ > --- a/net/nfc/llcp_commands.c
+ > +++ b/net/nfc/llcp_commands.c
+[ ... ]
+ > @@ -763,7 +769,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 
+ssap, u8 dsap,
+ >  		pr_debug("Fragment %zd bytes remaining %zd",
+ >  			 frag_len, remaining_len);
+ >
+ > -		pdu = nfc_alloc_send_skb(sock->dev, &sock->sk, 0,
+ > +		pdu = nfc_alloc_send_skb(sock->dev, sk, 0,
+ >  					 frag_len + LLCP_HEADER_SIZE, &err);
+
+Since the lock_sock(sk) critical section now covers this entire loop, could
+calling nfc_alloc_send_skb() with a hardcoded flags value of 0 cause an
+uninterruptible sleep deadlock?
+
+When the socket's write buffer is full, sock_alloc_send_skb() will invoke
+sock_wait_for_wmem() to sleep until memory is available. For datagram
+sockets, this function does not drop the socket lock while sleeping.
+
+Concurrently, any other operations needing the socket lock (such as close()
+calling llcp_sock_release) might hang in a D-state indefinitely until the
+send buffer drains.
+
+ >  		if (pdu == NULL) {
+ >  			pr_err("Could not allocate PDU (error=%d)\n", err);
+ >  			len -= remaining_len;
+
+This is a pre-existing issue, but does the exact same race condition remain
+unpatched in nfc_llcp_send_i_frame()?
+
+In nfc_llcp_send_i_frame(), llcp_allocate_pdu() is called without holding
+the socket lock. If a concurrent disconnect frame transitions the socket to
+LLCP_CLOSED, a concurrent failed bind() can set llcp_sock->dev to NULL:
+
+net/nfc/llcp_commands.c:nfc_llcp_send_i_frame() {
+     ...
+     pdu = llcp_allocate_pdu(sock, LLCP_PDU_I,
+                             frag_len + LLCP_SEQUENCE_SIZE);
+     ...
+}
+
+Which then calls nfc_alloc_send_skb() and dereferences the nullified
+sock->dev when computing the headroom:
+
+net/nfc/core.c:nfc_alloc_send_skb() {
+     ...
+     total_size = size +
+             dev->tx_headroom + dev->tx_tailroom + NFC_HEADER_SIZE;
+     ...
+}
+
+Would it be necessary to apply a similar locking fix to
+nfc_llcp_send_i_frame() to prevent this NULL pointer dereference?
