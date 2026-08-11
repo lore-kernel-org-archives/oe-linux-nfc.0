@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480B133938C
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 17:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B994582F5
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 17:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469534; cv=none; b=QVxcHdFxySz8E7mYj/1E7uBplWCKcgFmZBqwVXFGqq61utu25BITdxXqiW/iGF4PUJlYBIqjDoiebvMNXrciwHJc+1xKdl0tUWG8W7Q70e93hDQU/kyhrJ3FeWDjSx56vlfjkU8EMN3nBabHWNyTaVtLlHtRLWlSDcCyb4jAZr0=
+	t=1786469880; cv=none; b=AAhkeUMCsisp1uvJHLgkDabLRHevWRa2nGF3atCcTGMkvyO6v/4BxJtEQ1KWi+zMpOTM/DfxvHnts7A1h3GNDK3b2RNIzCtxlwsfsP1/MDPtmKZRec5jc7SlmK0TYzM+iiVJiF7juxeVixx2KNxSoN8h9WIHxXK6TF0bUu8HubY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469534; c=relaxed/simple;
-	bh=QqO0j2c6r7g9BA7YoAvH+NwS0neorVa3jYF5X9EjN70=;
+	s=arc-20240116; t=1786469880; c=relaxed/simple;
+	bh=SkQC+eJlJWmZIZGB/YMMab5cNwtWc9XOxM4+J4q/U4M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HcYBde4VWQDYaEe4Uf9LhXiaOjA+D1nuKqu/WmxrQTEnjY73h+aoSHz/7OSMqYOv6n0M8c63Q4ceDdoT4leQASLgrzfuqBgPUSPN7CT9XKEMErJCsYwA+HwDtFu6RTxIWvm+NqUf6MqjowIi390Bxj42O/KqM/cDauC81YL1BWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=XFV6YlmK; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=j6/MQVP0+ZdjxK4CGANy3UWoxq3pFCBLsUQxNxrsQYqmLqeOutO78ZZDCzC7MobzdBWrhCBqqUQGVj9Dp2YwjMh4JzhPV6veWuJtlQ5TNrWLxIQurim8sBnNeqGIz+TicARicb+/Bm8AX/B9Zy7kmgnGi+TcEL4gQqc9TDfIVNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=a9nTMURz; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="XFV6YlmK"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="a9nTMURz"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id E45995340EAE;
-	Tue, 11 Aug 2026 19:32:05 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 2E3335340FF5;
+	Tue, 11 Aug 2026 19:37:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786469526;
+	t=1786469877;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yCXBQQM7CL+u5OEmmD6QLFGYIqNBJNpX9oWxOyohZ9Q=;
-	b=XFV6YlmKDwJ63uG2G3xnjkUXt4dVpuBJEKZmH6Ai2+AphPpLFkpWErugOwAXdUsfv78cLq
-	Ks+ouNvz+awDMujVfHIoWtzJPCdPFfwcf55s4kPpuUgItn3S6rG14JjL+MG74e6obCRK0p
-	gQHa9q3OrGuYltbiYy8eFgWiExrOiPg=
-Message-ID: <b707c629-97a7-4766-955b-64a2a7626004@ixit.cz>
-Date: Tue, 11 Aug 2026 19:32:05 +0200
+	bh=LltJ62TmY8OPYY74XlaeABAqBaYohOvfRo1/gxEhscg=;
+	b=a9nTMURzPvoAeH1EMMQte0h7e+A8MhdtMFVVWWU4TlaSqV0x9ejGH2D3V8K6ShavNEDUoy
+	DHkUY/xlfPvf6J4rQUswDXKTxBjvpaeq5XMh+sMHQqj6QStVHSt55sVRAhMZ3m4+mDVwnU
+	iIwfUtxhTMQEdPjKNljchQTcUhM8dQc=
+Message-ID: <24ad202a-fb2e-425b-9322-de367dc9795a@ixit.cz>
+Date: Tue, 11 Aug 2026 19:37:56 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,14 +41,11 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] NFC: nxp-nci: fix deadlock between firmware download
- and IRQ handler
-To: Ian Ray <ian.ray@gehealthcare.com>,
- =?UTF-8?Q?Cl=C3=A9ment_Perrochaud?= <clement.perrochaud@nxp.com>,
- Samuel Ortiz <sameo@linux.intel.com>
-Cc: stable@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260810082137.719-1-ian.ray@gehealthcare.com>
+Subject: Re: Fwd: UAF in NFC digital DEP link-up (kernel heap info leak)
+To: vova tokarev <vladimirelitokarev@gmail.com>
+Cc: oe-linux-nfc@lists.linux.dev
+References: <CAGBKPgO6_A75gVMj47d-TpRniaXQsgWfDb6T1VicmytV8GCLdg@mail.gmail.com>
+ <CAGBKPgO1J1+2B-TTv3MX7J+zFeut3NRZG+DzgFu4Fhm588VXLg@mail.gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -94,133 +91,75 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260810082137.719-1-ian.ray@gehealthcare.com>
+In-Reply-To: <CAGBKPgO1J1+2B-TTv3MX7J+zFeut3NRZG+DzgFu4Fhm588VXLg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/08/2026 10:21, Ian Ray wrote:
-> The firmware download work function holds `info_lock' while calling the
-> nxp_nci_fw_send(), which waits for a completion.
-> 
-> The completion is signalled by the IRQ thread handler, which also takes
-> `info_lock', causing a deadlock.
-> 
-> Fix by dropping the mutex while waiting for the completion.
-> 
-> Fixes: dece45855a8b ("NFC: nxp-nci: Add support for NXP NCI chips")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
-> ---
-> Changes since v1:
-> - Fixes tag
-> - Cc for stable
-> ---
->   drivers/nfc/nxp-nci/firmware.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
+Hello Vladimir,
 
-Hello Ian,
+thank you for the report. Would be possible to send a patch based on [1]?
 
-I checked the Sashiko review and it seems found an issue (feel free to ignore 
-the 2nd pre-existing), could you check please (below)?
+Please let me know.
 
 Thanks
 David
 
---- Patch [1]: [PATCH v2] NFC: nxp-nci: fix deadlock between firmware download 
-and IRQ handler ---
-commit aeb1accbd1a732a455bf37b530649e8d9f406914
-Author: Ian Ray <ian.ray@gehealthcare.com>
-Subject: NFC: nxp-nci: fix deadlock between firmware download and IRQ handler
+P.S. Same gos for the 2nd finding.
 
-This commit addresses a deadlock during firmware download by dropping the
-info_lock mutex while waiting for the IRQ handler to signal completion.
+[1] https://codeberg.org/linux-nfc/linux/src/branch/for-linus
 
- > diff --git a/drivers/nfc/nxp-nci/firmware.c b/drivers/nfc/nxp-nci/firmware.c
- > index a9533977aff8e..38fcac26ce563 100644
- > --- a/drivers/nfc/nxp-nci/firmware.c
- > +++ b/drivers/nfc/nxp-nci/firmware.c
- > @@ -154,8 +154,13 @@ static int nxp_nci_fw_send(struct nxp_nci_info *info)
- >  		if (fw_info->fw)
- >  			schedule_work(&fw_info->work);
- >  	} else {
- > +		mutex_unlock(&info->info_lock);
- > +
- >  		completion_rc = wait_for_completion_interruptible_timeout(
- >  			&fw_info->cmd_completion, NXP_NCI_FW_ANSWER_TIMEOUT);
- > +
- > +		mutex_lock(&info->info_lock);
- > +
 
-If wait_for_completion_interruptible_timeout() times out, could this open a
-race condition leading to a use-after-free?
+On 07/08/2026 12:32, vova tokarev wrote:
+> Hi,
+> 
+> It's been almost two months since I reported this, and I haven't heard
+> back. I recently learned I should reach out to the subsystem maintainer
+> directly, so forwarding this to you.
+> 
+> The bug: digital_in_send_atr_req() in net/nfc/digital_dep.c stores a
+> raw struct nfc_target * pointer as cb_context (line 522). A concurrent
+> poll cycle frees the targets array via nfc_targets_found(), leaving a
+> dangling pointer. When digital_in_recv_atr_res() fires, it reads freed
+> kmalloc-96 memory -- leaking a kernel heap pointer to userspace via
+> NFC_ATTR_TARGET_INDEX netlink multicast.
+> 
+> Triggers reliably within 12-15 seconds using nfcsim (no hardware).
+> Full PoC attached in the original report.
+> 
+> I'd appreciate any feedback when you get a chance.
+> 
+> Thanks,
+> Vladimir
+> 
+> ---------- Forwarded message ---------
+> From: *vova tokarev* <vladimirelitokarev@gmail.com 
+> <mailto:vladimirelitokarev@gmail.com>>
+> Date: Sat, Jul 4, 2026 at 10:14 PM
+> Subject: UAF in NFC digital DEP link-up (kernel heap info leak)
+> To: <security@kernel.org <mailto:security@kernel.org>>
+> 
+> 
+> Hi,
+> 
+> I found a use-after-free in digital_in_recv_atr_res() in
+> net/nfc/digital_dep.c. A stale nfc_target pointer freed by
+> concurrent nfc_targets_found() is read by the ATR completion
+> callback, leaking 4 bytes from freed kmalloc-96 to userspace
+> via NFC_ATTR_TARGET_INDEX netlink broadcast.
+> 
+> No hardware needed (nfcsim). Fires in ~12 seconds. The PoC
+> leaks a kernel struct page * pointer (0xc51a8000), defeating
+> KASLR. The stale value also corrupts LLCP state.
+> 
+> Affected: Linux 3.13+
+> Confirmed: 7.1.0 (aarch64) with KASAN
+> 
+> Attached: report, two PoCs (minimal + info leak), KASAN output.
+> 
+> Thank you,
+> Vladimir Tokarev
+> 
 
-When the timeout expires, the IRQ handler might run before info_lock is
-re-acquired here. Since the timeout path hasn't cleaned up fw_info->fw yet,
-the IRQ handler would see fw_info->fw != NULL and erroneously call
-schedule_work(&fw_info->work) for a late response:
+-- 
+David Heidelberg
 
-drivers/nfc/nxp-nci/firmware.c:nxp_nci_fw_recv_frame() {
-     ...
-     if (fw_info->fw)
-         schedule_work(&fw_info->work);
-     ...
-}
-
-After re-acquiring the lock, this function returns -ETIMEDOUT, and the caller
-nxp_nci_fw_work_complete() will free the firmware buffer.
-
-Could the spuriously scheduled work then execute and dereference the freed
-memory when it calls nxp_nci_fw_send_chunk():
-
-     skb_put_data(skb, fw_info->data + fw_info->written, chunk_len);
-
- >  		if (completion_rc == 0)
- >  			return -ETIMEDOUT;
- >  	}
-
-This is a pre-existing issue, but does nxp_nci_remove() have a use-after-free
-if a firmware download is currently running?
-
-nxp_nci_remove() calls nxp_nci_fw_work_complete() to free the firmware buffer
-before cancelling the work queue:
-
-drivers/nfc/nxp-nci/core.c:nxp_nci_remove() {
-     ...
-     if (info->mode == NXP_NCI_MODE_FW)
-         nxp_nci_fw_work_complete(info, -ESHUTDOWN);
-     cancel_work_sync(&info->fw_info.work);
-     ...
-}
-
-Since nxp_nci_fw_work_complete() frees fw_info->fw without holding info_lock,
-could the concurrent nxp_nci_fw_work() thread be actively copying data from
-fw_info->data, resulting in a use-after-free or a double free if the worker
-finishes and calls nxp_nci_fw_work_complete() as well?
-
-This is a pre-existing issue, but is there a potential integer underflow and
-out-of-bounds read earlier in nxp_nci_fw_send()?
-
-Before dropping the lock, the firmware size is modified without a length
-check:
-
-drivers/nfc/nxp-nci/firmware.c:nxp_nci_fw_send() {
-     ...
-     if (fw_info->written == 0) {
-         fw_info->frame_size = get_unaligned_be16(fw_info->data) &
-                               NXP_NCI_FW_FRAME_LEN_MASK;
-         fw_info->data += NXP_NCI_FW_HDR_LEN;
-         fw_info->size -= NXP_NCI_FW_HDR_LEN;
-     }
-     ...
-}
-
-If the provided firmware file is smaller than NXP_NCI_FW_HDR_LEN (2 bytes),
-fw_info->size (which is unsigned) will underflow to a very large value.
-
-Would this cause the subsequent safety check to be bypassed:
-
-     if (fw_info->frame_size > fw_info->size)
-         return -EMSGSIZE;
-
-and allow nxp_nci_fw_send_chunk() to read out-of-bounds heap memory?
