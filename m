@@ -1,92 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8513334D90C
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 16:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480B133938C
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 17:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786467490; cv=none; b=raP1Ngt6nNvRlaZe16I9CAf6nu8UV/Fr4kSgXSmrdHRfbKW2BNLJIcJQySyRNv0TFpjt8ert0KD10sMRODyNqo2Jlz/EfYVkObdfLsqfoyBAvIvuO2JMDUKJDbt9xtqt+VHLxA52z7mOknyP5dfYiwxFL+iV3VJeGjbOGHEWVK4=
+	t=1786469534; cv=none; b=QVxcHdFxySz8E7mYj/1E7uBplWCKcgFmZBqwVXFGqq61utu25BITdxXqiW/iGF4PUJlYBIqjDoiebvMNXrciwHJc+1xKdl0tUWG8W7Q70e93hDQU/kyhrJ3FeWDjSx56vlfjkU8EMN3nBabHWNyTaVtLlHtRLWlSDcCyb4jAZr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786467490; c=relaxed/simple;
-	bh=Jp4NDt3+5n+xuScaTWkOybo13j3L5wYYT6UcFrftxEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TNI7d7f6qU3/YLPKYkeOiZkYp5OGWJKCnDT520foE3rP0BR6DM0PSziclaIfR7WXftsIIQJuSGvRRfXGcOafbYATCn7vVBr1MVYE/4+iSw9jIM4t9ZTt8F7InIk7McQ1j2Y2G0RU4KYkIzzjTsU4IBO2U1sYQdYbLMiNZzO1RAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2ziuOk7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786469534; c=relaxed/simple;
+	bh=QqO0j2c6r7g9BA7YoAvH+NwS0neorVa3jYF5X9EjN70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HcYBde4VWQDYaEe4Uf9LhXiaOjA+D1nuKqu/WmxrQTEnjY73h+aoSHz/7OSMqYOv6n0M8c63Q4ceDdoT4leQASLgrzfuqBgPUSPN7CT9XKEMErJCsYwA+HwDtFu6RTxIWvm+NqUf6MqjowIi390Bxj42O/KqM/cDauC81YL1BWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=XFV6YlmK; arc=none smtp.client-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2ziuOk7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F9E1F000E9;
-	Tue, 11 Aug 2026 16:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786467489;
-	bh=Jp4NDt3+5n+xuScaTWkOybo13j3L5wYYT6UcFrftxEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T2ziuOk7aekljC/O21R2eLuQG401zO8ZiPggQ472bXyZPE8ptgFxrfMtA9hFkUpjd
-	 YOUzdLrfVOxFUJdqoBIS3r6Fu8iqD1wjETTDZqDqZJoUA5xTfL429/Z2Banvs/rYiC
-	 LTQ0ydFOksToK/qJZ+Nm3PfF3X4jkOmRrZHubN7TfpaHC6aKhjgb194njcEOYW6NJJ
-	 d6GGqEgqP/a+HPwXPLVpPBu+jSyjpWvSB2CuaHnRmzty+BYAmmsmQq3ara55dxvUts
-	 J5cXbnuy3rzkc6IHoLGm59Sg0YroLlMEQrkTAH2gK+PKNkiAs/DPTQ+n9dZBKUz1IC
-	 Z3/ZOfhosbdYw==
-Date: Tue, 11 Aug 2026 17:58:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Matthieu Baerts <matttbe@kernel.org>, oe-linux-nfc@lists.linux.dev
-Subject: Re: Dup commits in NFC trees [Was: Time to call it quits for the
- maintainer summit?]
-Message-ID: <b4d94c63-aca9-4f35-9655-940b5d886a4e@sirena.org.uk>
-References: <CAPM=9tx7izyUJr_XVQju26fevzepZ-L6vs5vgH2aib9jPPjvRA@mail.gmail.com>
- <anl7CgkKb6tORavG@lucifer>
- <20260810091154.2d3cd6d5@gandalf.local.home>
- <cc6505e586325cd59ba036cef5429039c9c71ba8.camel@HansenPartnership.com>
- <20260810102423.342c4e9d@gandalf.local.home>
- <0a8c1e90-1de1-4a76-b0fa-e367a4bd4f55@sirena.org.uk>
- <0a723972-7be8-453b-8fd1-d934e3c422af@sirena.org.uk>
- <60e73341-ea31-4492-b660-5fd56081b02f@kernel.org>
- <dba6316e-6596-40d5-9f40-79149d8dec9d@sirena.org.uk>
- <03921009-20b1-4af4-bf4d-cb809e6e646f@ixit.cz>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="XFV6YlmK"
+Received: from [10.0.0.152] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id E45995340EAE;
+	Tue, 11 Aug 2026 19:32:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1786469526;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=yCXBQQM7CL+u5OEmmD6QLFGYIqNBJNpX9oWxOyohZ9Q=;
+	b=XFV6YlmKDwJ63uG2G3xnjkUXt4dVpuBJEKZmH6Ai2+AphPpLFkpWErugOwAXdUsfv78cLq
+	Ks+ouNvz+awDMujVfHIoWtzJPCdPFfwcf55s4kPpuUgItn3S6rG14JjL+MG74e6obCRK0p
+	gQHa9q3OrGuYltbiYy8eFgWiExrOiPg=
+Message-ID: <b707c629-97a7-4766-955b-64a2a7626004@ixit.cz>
+Date: Tue, 11 Aug 2026 19:32:05 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ikBAsdxK5KemAZdU"
-Content-Disposition: inline
-In-Reply-To: <03921009-20b1-4af4-bf4d-cb809e6e646f@ixit.cz>
-X-Cookie: Take me drunk, I'm home again!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] NFC: nxp-nci: fix deadlock between firmware download
+ and IRQ handler
+To: Ian Ray <ian.ray@gehealthcare.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Perrochaud?= <clement.perrochaud@nxp.com>,
+ Samuel Ortiz <sameo@linux.intel.com>
+Cc: stable@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260810082137.719-1-ian.ray@gehealthcare.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+In-Reply-To: <20260810082137.719-1-ian.ray@gehealthcare.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/08/2026 10:21, Ian Ray wrote:
+> The firmware download work function holds `info_lock' while calling the
+> nxp_nci_fw_send(), which waits for a completion.
+> 
+> The completion is signalled by the IRQ thread handler, which also takes
+> `info_lock', causing a deadlock.
+> 
+> Fix by dropping the mutex while waiting for the completion.
+> 
+> Fixes: dece45855a8b ("NFC: nxp-nci: Add support for NXP NCI chips")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
+> ---
+> Changes since v1:
+> - Fixes tag
+> - Cc for stable
+> ---
+>   drivers/nfc/nxp-nci/firmware.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
 
---ikBAsdxK5KemAZdU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hello Ian,
 
-On Tue, Aug 11, 2026 at 06:39:33PM +0200, David Heidelberg wrote:
-> On 11/08/2026 15:17, Mark Brown wrote:
+I checked the Sashiko review and it seems found an issue (feel free to ignore 
+the 2nd pre-existing), could you check please (below)?
 
-> > IOW it's possible whatever's going on is something that actually works
-> > fine and only results in transient duplications.
+Thanks
+David
 
-> Sorry bout that, the nfc-next and nfc-linus will not going to have any
-> duplication in future (at least intended duplication).
+--- Patch [1]: [PATCH v2] NFC: nxp-nci: fix deadlock between firmware download 
+and IRQ handler ---
+commit aeb1accbd1a732a455bf37b530649e8d9f406914
+Author: Ian Ray <ian.ray@gehealthcare.com>
+Subject: NFC: nxp-nci: fix deadlock between firmware download and IRQ handler
 
-Great, thanks - like I say it's not actually been a problem as far as
-I've seen, it just came up because the tooling surfaced them and I
-mentioned that as part of a discussion of other trees where there are
-actually issues.
+This commit addresses a deadlock during firmware download by dropping the
+info_lock mutex while waiting for the IRQ handler to signal completion.
 
---ikBAsdxK5KemAZdU
-Content-Type: application/pgp-signature; name="signature.asc"
+ > diff --git a/drivers/nfc/nxp-nci/firmware.c b/drivers/nfc/nxp-nci/firmware.c
+ > index a9533977aff8e..38fcac26ce563 100644
+ > --- a/drivers/nfc/nxp-nci/firmware.c
+ > +++ b/drivers/nfc/nxp-nci/firmware.c
+ > @@ -154,8 +154,13 @@ static int nxp_nci_fw_send(struct nxp_nci_info *info)
+ >  		if (fw_info->fw)
+ >  			schedule_work(&fw_info->work);
+ >  	} else {
+ > +		mutex_unlock(&info->info_lock);
+ > +
+ >  		completion_rc = wait_for_completion_interruptible_timeout(
+ >  			&fw_info->cmd_completion, NXP_NCI_FW_ANSWER_TIMEOUT);
+ > +
+ > +		mutex_lock(&info->info_lock);
+ > +
 
------BEGIN PGP SIGNATURE-----
+If wait_for_completion_interruptible_timeout() times out, could this open a
+race condition leading to a use-after-free?
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7VJwACgkQJNaLcl1U
-h9BajQf6Av/8DMqaEYpsc6/nvShh2WKGtM+cwt3e2ZcaqU4ce+gzWoTGSXtE7dUb
-LL4uS4HUB3tICOu7hJWxU4G3vqwC6Ph/pkGYyNQ4cGuJBpcup+9hS6O9Q8WmmgMZ
-G0UpWLzRanQI6+R/H2AkICJTV3s8H2nDyu6iKsiXdT/J4K3WiVr0DaBbLtYZf/zn
-OWsJkQ0dEzEDvB/U+5BS+gzGuyJzgvergNc4iFtchktEmJQ5FdYF4nZYCL8rD3Q4
-LnSI/yagbBsiUsLMfpweX20JsmGIJe4GTVb3rgHFYI8prb5plK7VG+QFsOGSpNiw
-ZzPGAkIfngqE2JisH0fsLFnPa2ePsg==
-=V3+o
------END PGP SIGNATURE-----
+When the timeout expires, the IRQ handler might run before info_lock is
+re-acquired here. Since the timeout path hasn't cleaned up fw_info->fw yet,
+the IRQ handler would see fw_info->fw != NULL and erroneously call
+schedule_work(&fw_info->work) for a late response:
 
---ikBAsdxK5KemAZdU--
+drivers/nfc/nxp-nci/firmware.c:nxp_nci_fw_recv_frame() {
+     ...
+     if (fw_info->fw)
+         schedule_work(&fw_info->work);
+     ...
+}
+
+After re-acquiring the lock, this function returns -ETIMEDOUT, and the caller
+nxp_nci_fw_work_complete() will free the firmware buffer.
+
+Could the spuriously scheduled work then execute and dereference the freed
+memory when it calls nxp_nci_fw_send_chunk():
+
+     skb_put_data(skb, fw_info->data + fw_info->written, chunk_len);
+
+ >  		if (completion_rc == 0)
+ >  			return -ETIMEDOUT;
+ >  	}
+
+This is a pre-existing issue, but does nxp_nci_remove() have a use-after-free
+if a firmware download is currently running?
+
+nxp_nci_remove() calls nxp_nci_fw_work_complete() to free the firmware buffer
+before cancelling the work queue:
+
+drivers/nfc/nxp-nci/core.c:nxp_nci_remove() {
+     ...
+     if (info->mode == NXP_NCI_MODE_FW)
+         nxp_nci_fw_work_complete(info, -ESHUTDOWN);
+     cancel_work_sync(&info->fw_info.work);
+     ...
+}
+
+Since nxp_nci_fw_work_complete() frees fw_info->fw without holding info_lock,
+could the concurrent nxp_nci_fw_work() thread be actively copying data from
+fw_info->data, resulting in a use-after-free or a double free if the worker
+finishes and calls nxp_nci_fw_work_complete() as well?
+
+This is a pre-existing issue, but is there a potential integer underflow and
+out-of-bounds read earlier in nxp_nci_fw_send()?
+
+Before dropping the lock, the firmware size is modified without a length
+check:
+
+drivers/nfc/nxp-nci/firmware.c:nxp_nci_fw_send() {
+     ...
+     if (fw_info->written == 0) {
+         fw_info->frame_size = get_unaligned_be16(fw_info->data) &
+                               NXP_NCI_FW_FRAME_LEN_MASK;
+         fw_info->data += NXP_NCI_FW_HDR_LEN;
+         fw_info->size -= NXP_NCI_FW_HDR_LEN;
+     }
+     ...
+}
+
+If the provided firmware file is smaller than NXP_NCI_FW_HDR_LEN (2 bytes),
+fw_info->size (which is unsigned) will underflow to a very large value.
+
+Would this cause the subsequent safety check to be bypassed:
+
+     if (fw_info->frame_size > fw_info->size)
+         return -EMSGSIZE;
+
+and allow nxp_nci_fw_send_chunk() to read out-of-bounds heap memory?
