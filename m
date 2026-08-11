@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429FE3DB339
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B73DA7D3
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 19:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786474564; cv=none; b=BzZpY51myCXUUW4Y324noeZf2mWsBmgk7mVYpu0hfOi8FD56wyrwtAqSrDDS/fbWU3JRATyf2Tryg/cCGWshzsOV61X95TyWsve0gXcJu23lFU7f9NjXXsL0xM1YsLikJ6+5zWC2dqL+qpVDACRubd4MNu+uiLzUEkvFO5dBg2k=
+	t=1786474932; cv=none; b=j6UtZZM45mjWXYjPF4QnLOsWUvtL3puhC0ZYwNdExVBaGBv6UTz5QfZAzIKGKRwW2XhVSIJFZFWE5ZZ1bsdYbJSRIrRg//80gTjOFN0My2jO7/yIphsFRQ8/WMrkyeciJ9JCJmp4jqpj4jEgu+bZzKpfbeP6rcaPjLGFHuHy7fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786474564; c=relaxed/simple;
-	bh=of9HkXv70DbMLnw6nwnIJ9wAZJIdlh4bf0Kp9FhycE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r5Hid4dHBDq1fcYDymFn9H8e+5962nCagYkCzreD3MoJn5apUmbpJIfPGmiigcHWH5hByYnGpYTDOjbHUV7iAfOxDXKzFzlPRR3wMHppzUYBjjMeKrM/d824loq1IfAph/M7lrbO/ZfO7J+6V6rcF1soZPmQuvWgaMhArpmMVGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pyjO9qyx; arc=none smtp.client-ip=84.42.129.46
+	s=arc-20240116; t=1786474932; c=relaxed/simple;
+	bh=1cLeN1BgelLvqyDQUGUkP5XBpsC5natTD2ItlOj3U/s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=P07Y3bZBzD84DO+QdT095a86arBNIUgxwNOrpi3U94zZ6A5dDW8C1/JAPXW4r7RPpiiDKwcGAvdd5Cr2Ggz/qk4Jly8HyWkAoKl9hxxuS+BVdntSPilyteKsDbEmqNYwbnddtcF7gO0ViFjqmRrHn9DG/aJisRf5Em+azAwekiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=q5w9y+pN; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pyjO9qyx"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="q5w9y+pN"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 9D4215340357;
-	Tue, 11 Aug 2026 20:55:59 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id EB9755340D28;
+	Tue, 11 Aug 2026 21:02:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786474559;
+	t=1786474926;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Hc249VhCOdr+BckjhwSO6JsZoEPEQpWK/mAZ08N31/I=;
-	b=pyjO9qyxQxwHke/KwHfeSV1ZhCUVmlIct2XG8VnCtp+5vG2sY2VbFJ6HzKRyJssk5S+/xB
-	TrSIds26rjglYyhPZE+3vDa/dn1RskOjJBDsYjiFtA0M0GGzc0z6w8G3TroT1c4xEUHmgp
-	N5669AWYh7JMg/DBvOvqxqKlLIb+UAw=
-Message-ID: <28b1e429-39ad-4bc1-aea5-a17def952da3@ixit.cz>
-Date: Tue, 11 Aug 2026 20:55:59 +0200
+	bh=rdFkELjn5PZN3i+Q5YPOGMZJZf9pkg+C8SSisil44Ro=;
+	b=q5w9y+pNnjplDBMuwC7ruzS0DwNgS6YaqonYJzyifI7+yJdJDcqKwfb/qvCvHykXnZJl06
+	PrlKxQnG9KmXdqj5UphHAmZk5/UAtquep+Y7s3dP+VxHgm3PRm70lP+gQYAli6cOG0tFFm
+	A8g6HKdqCI04EXuFYZUchClnjhZZJYo=
+Message-ID: <016b7162-b633-4561-a003-526c9d9c5f21@ixit.cz>
+Date: Tue, 11 Aug 2026 21:02:05 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,14 +41,16 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v3] nfc: nci: fix use of uninitialized memory in
- NFC-DEP general bytes
-To: Muhammad Bilal <meatuni001@gmail.com>, =?UTF-8?B?TGVrw6sgSGFww6dpdQ==?=
- <snowwlake@icloud.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, netdev@vger.kernel.org
-References: <20260728132836.41868-1-meatuni001@gmail.com>
+Subject: Re: [PATCH 1/1] nfc: llcp: Fix race condition in accept_queue
+ lifecycle
+To: Lee Jones <lee@kernel.org>, David Heidelberg <david+nfc@ixit.cz>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Szymon Janc <szymon.janc@tieto.com>,
+ Samuel Ortiz <sameo@linux.intel.com>, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260601140934.1040144-1-lee@kernel.org>
+ <20260811131433.GU2869284@google.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -94,70 +96,168 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260728132836.41868-1-meatuni001@gmail.com>
+In-Reply-To: <20260811131433.GU2869284@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 28/07/2026 15:28, Muhammad Bilal wrote:
-> nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
-> general bytes by subtracting the fixed general-bytes offset from the ATR
-> length:
+On 11/08/2026 15:14, Lee Jones wrote:
+> [INTENTIONAL TOP POST]
 > 
->    atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
->    atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
+> This one has been knocking around for a very long time.
 > 
-> It never checks that the ATR is at least that long. When a
-> RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
-> subtraction is negative; because min_t() casts its arguments to __u8 the
-> negative value becomes large and is then capped at
-> NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE. remote_gb_len is thus
-> set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
-> on-stack atr_res/atr_req buffer were copied from the packet, and the
-> following memcpy() reads the uninitialized remainder into
-> ndev->remote_gb.
+> Would you like me to [RESEND] it, or does everyone still have it?
 > 
-> Skip storing the general bytes when the ATR is shorter than the
-> general-bytes offset. remote_gb_len is already zeroed unconditionally
-> at the top of the function by commit 9c328f54741b ("net: nfc: nci: Add
-> parameter validation for packet data"), so the short-ATR case needs no
-> separate zeroing here anymore, unlike in the v2 posted upstream.
-> 
-> Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
-> ---
-> v3: Rebased onto current net.git for-next, requested by David
->      Heidelberg. The function moved and gained an unconditional
->      "remote_gb_len = 0" at entry (from commit 9c328f54741b, landed
->      after v2 was posted), which made v2's explicit zeroing inside the
->      short-ATR branch redundant, so this version drops it and only adds
->      the missing length checks.
-> v2: Also zero remote_gb_len explicitly in the short-ATR branch so a
->      stale value from a previous activation doesn't survive into the
->      new session.
-> 
->   net/nfc/nci/ntf.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-Hello Muhammad and Lekë.
+Hello Lee,
 
-I see you recently addressing same issues, such as this patch:
+sorry, I've must missed the patch. Could you check the Sashiko comments (below)?
 
-nfc: nci: fix use of uninitialized memory in NFC-DEP general bytes
+Feel free to ignore the pre-existing issue, the main complaint is about the 
+description.
 
-and later Lekë's:
-
-nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep [1].
-
-As I see you finding similar bugs and addressing them, I would be more than 
-happy if you would be interested to sync who's working on what and - that's huge 
-value here - cross review your patches, as you working in the similar field. 
-Sending good patch is great, but giving a good review can have a huge value and 
-move things forwards [2] (as you can see Tested-by and Reviewed-by is important 
-number too :) ).
-
-Thank you both for your work
+Thank you
 David
 
-[1] https://lore.kernel.org/r/20260729011547.19191-1-snowwlake@icloud.com
-[2] https://lwn.net/Articles/1077425/
+commit 74abfc44e401a556abde5003d20ce7cf50ee958d
+Author: Lee Jones <lee@kernel.org>
+
+nfc: llcp: Fix race condition in accept_queue lifecycle
+
+This commit attempts to fix a race condition between nfc_llcp_socket_release()
+and nfc_llcp_accept_dequeue() by replacing bh_lock_sock() with lock_sock()
+and lock_sock_nested(). It also introduces a socket popping helper and
+adds a parent check in nfc_llcp_accept_unlink().
+
+ > nfc_llcp_socket_release() walks the local sockets list and the listener
+ > socket's accept_queue under bh_lock_sock().  However, bh_lock_sock()
+ > does not provide mutual exclusion against process-context lock_sock()
+ > held by nfc_llcp_accept_dequeue() during accept().  Since socket_release()
+ > runs in process context (workqueue or kref cleanup), it never checks
+
+Is this description accurate?
+
+nfc_llcp_data_received() routinely runs from softirq/interrupt context
+via URB completion handlers like pn533_recv_response(). When it drops
+the last reference via nfc_llcp_local_put(), this triggers local_cleanup()
+and nfc_llcp_socket_release().
+
+Could this lead to a sleeping in atomic bug since lock_sock() acquires
+a mutex?
+
+ > sock_owned_by_user(), allowing both paths to manipulate the same child
+ > socket concurrently.  This leads to a double sock_put() (Use-After-Free)
+ > or a NULL pointer dereference of child->parent in nfc_llcp_accept_unlink().
+
+[ ... ]
+
+ > diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+ > index dc65c719f35f2..e51bd0d081b62 100644
+ > --- a/net/nfc/llcp_core.c
+ > +++ b/net/nfc/llcp_core.c
+ > @@ -63,21 +63,33 @@ static void nfc_llcp_socket_purge(struct nfc_llcp_sock *sock)
+ >  	}
+ >  }
+ >
+[ ... ]
+ > @@ -92,7 +104,8 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local 
+*local, bool device,
+ > -	sk_for_each_safe(sk, tmp, &local->sockets.head) {
+ > +	while ((sk = nfc_llcp_sock_list_pop(&local->sockets))) {
+ >  		llcp_sock = nfc_llcp_sock(sk);
+ >
+ > -		bh_lock_sock(sk);
+ > +		lock_sock(sk);
+
+Since nfc_llcp_socket_release() can be invoked from softirq teardown paths,
+does calling lock_sock() here cause a sleeping in atomic bug because it
+acquires a mutex?
+
+[ ... ]
+ >  						 &llcp_sock->accept_queue,
+ >  						 accept_queue) {
+ >  				accept_sk = &lsk->sk;
+ > -				bh_lock_sock(accept_sk);
+ > +				lock_sock_nested(accept_sk,
+ > +						 SINGLE_DEPTH_NESTING);
+
+Does this nested lock_sock_nested() also cause a sleep in atomic context
+when nfc_llcp_socket_release() is invoked from softirq teardown paths?
+
+ >  				nfc_llcp_accept_unlink(accept_sk);
+
+This isn't a bug introduced by this patch, but does this leak the initial
+sk_alloc reference count?
+
+Sockets created for incoming connections receive an initial sk_alloc
+reference. When the listener is closed, unaccepted child sockets are
+unlinked here and their list references are dropped.
+
+Since they were never accepted by userspace, sock_release() is never called.
+Do these unaccepted sockets permanently leak?
+
+[ ... ]
+ > @@ -135,12 +143,9 @@ static void nfc_llcp_socket_release(struct 
+nfc_llcp_local *local, bool device,
+ >  		sk->sk_state = LLCP_CLOSED;
+ >  		sk->sk_state_change(sk);
+ >
+ > -		bh_unlock_sock(sk);
+ > -
+ > -		sk_del_node_init(sk);
+ > +		release_sock(sk);
+ > +		sock_put(sk);
+ >  	}
+ > -
+ > -	write_unlock(&local->raw_sockets.lock);
+ >  }
+ >
+ >  static struct nfc_llcp_local *nfc_llcp_local_get(struct nfc_llcp_local *local)
+
+This isn't a bug introduced by this patch, but is it possible for a dying
+object to be resurrected here?
+
+If local_release() runs local_cleanup(), it purges sockets via
+nfc_llcp_socket_release() and then waits for rx_work via cancel_work_sync().
+
+If rx_work executes concurrently, it calls nfc_llcp_local_get() which uses
+kref_get() without checking for zero. Can rx_work then allocate and link a
+new socket just before local is freed, leading to a Use-After-Free?
+
+ > diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+ > index feab29fc62f44..3d30f0233b986 100644
+ > --- a/net/nfc/llcp_sock.c
+ > +++ b/net/nfc/llcp_sock.c
+[ ... ]
+ > @@ -622,7 +623,7 @@ static int llcp_sock_release(struct socket *sock)
+ >  		list_for_each_entry_safe(lsk, n, &llcp_sock->accept_queue,
+ >  					 accept_queue) {
+ >  			accept_sk = &lsk->sk;
+ > -			lock_sock(accept_sk);
+ > +			lock_sock_nested(accept_sk, SINGLE_DEPTH_NESTING);
+ >
+ >  			nfc_llcp_send_disconnect(lsk);
+ >  			nfc_llcp_accept_unlink(accept_sk);
+
+This isn't a bug introduced by this patch, but as mentioned above, does
+unlinking unaccepted child sockets here permanently leak their initial
+reference count?
+
+This isn't a bug introduced by this patch, but can the blocking loop in
+llcp_sock_accept() hang indefinitely?
+
+If the listener socket is shut down or released concurrently, the thread
+wakes up but doesn't check sk->sk_state:
+
+llcp_sock_accept() {
+     ...
+     while (!(new_sk = nfc_llcp_accept_dequeue(sk, newsock))) {
+         set_current_state(TASK_INTERRUPTIBLE);
+         ...
+         release_sock(sk);
+         timeo = schedule_timeout(timeo);
+         lock_sock_nested(sk, SINGLE_DEPTH_NESTING);
+     }
+     ...
+}
+
+Will it just go back to sleep waiting for a closed socket if no new
+socket was dequeued?
