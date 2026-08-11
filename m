@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADE42C032C;
-	Tue, 11 Aug 2026 08:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1332137C90A;
+	Tue, 11 Aug 2026 13:14:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786436371; cv=none; b=Jl8aqO8Aju70uT/+HUx5jQuGQBSyncp3zSDBzrArVF73e58Uem9jQRueSNIszlSOZtIbhqEN+f3FY3bj55pxFox4ZIEd9/UhsP31PVx/H/hwwgYX0Lhl4Vsipw+YHThkvO+u/oACHZy0HrLEGMZfVlWAN1i8iW1onv08hBjAUb8=
+	t=1786454080; cv=none; b=h38agTR6Bxcwf+2CzWkseEmsFIEcxQbtlkQTW54aUwy5zdy9PLlm5EXLswhHwBR8Uqpen4yMu/Taaj4cvNu8rDqAH3XlryKqPM84wv6Gds9H6nBbgFDAB5DW5nuEVQIgkJnLeHlsM80YXpWZ+OWr0VrXD/kL3Jp2xzlqv6TpDGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786436371; c=relaxed/simple;
-	bh=nWKozPvyrxJWcxJcvUKGnijZGAz7hWAYbC8jFwLPGAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZukrcQ6CcE43lYxE7R0q9ibj2z8W4WHIVC8NLbBSxhh6s4e7sGbKZxIrUnO2wt+I6sh1OltUfyOZlf2921cSEDc7+KMJB1b1ntKvi9E88mQvp/b07Lfyfi98Oc7mjGN/6HyV5j8wuM6siOM8fGgtopW6Qw6qvNy1oMPXDUGp7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejW4YNuj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786454080; c=relaxed/simple;
+	bh=Lnh0bMG90tvcU6DhgUINWiCd9LHrN5NObdGta+FC7sk=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ALqrxDqgkuTX9jt6Ci5EGEmYkyx5Xhrvw9n3QLksRfBqPOguWtQBhoF7fXw/9fq9bK5KW7zl2XgXl7f76Xn623GPdJ+xJMnaMeeca+D4v3c5rUaTZEJkOvQf6wzUC1FITJblid7ezjS8ROLZvdjo0XC9T30QFj2/0SQdsvY/t5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f6gjuVcy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejW4YNuj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB06C1F000E9;
-	Tue, 11 Aug 2026 08:19:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f6gjuVcy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4DD1F000E9;
+	Tue, 11 Aug 2026 13:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786436370;
-	bh=vJ/nn4l998g9AAeq2RJa47GwzFPg+QFpEzPNd0q7XpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ejW4YNujmqdWfFloDDdYwVSrzbhN/cWQf948Xbd/jgyGXjuSeqJ65EkBmSsW2Ndb4
-	 Kqd1XSR0uY0KxpKzLsqGYTKluDrukFUCVvdnypcOlUK9e/0oNrgH2STadAon2pgl5y
-	 O/UyXdy1IOz4XdAUk13DBmYTgweTWQ3fqjCTuOuvI9l/VolXNWlQ1vMzUVcR7bPtGK
-	 7A1zN/WHYtVkUVNC5gxMDxreyrx2ZO3dIMnq1q/rT4xclVNrdkwOHXfZYucxRvkrMT
-	 VBpfw4O2gSZGrPjhdDUWi2Kr9nYjFeWOPG4KLaIcvTJzFt0orfKuu0Wo9g9Iwn3pH1
-	 yf+/QE7vE/9fg==
-Date: Tue, 11 Aug 2026 09:19:24 +0100
-From: Simon Horman <horms@kernel.org>
-To: Ren Wei <weir@nebusec.ai>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, david@ixit.cz,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, pengpeng@iscas.ac.cn, kees@kernel.org,
-	error27@gmail.com, raoxu@uniontech.com, dddddd@hust.edu.cn,
-	ian.ray@gehealthcare.com, joe@dama.to, kuniyu@google.com,
-	linma@zju.edu.cn, vega@nebusec.ai, rakukuip@gmail.com
-Subject: Re: [PATCH 1/1] nfc: llcp: Pass caller buffer to
- nfc_llcp_general_bytes to fix UAF and memory leaks
-Message-ID: <20260811081924.GX51943@horms.kernel.org>
-References: <cover.1786029423.git.rakukuip@gmail.com>
- <006437e618b55acc0df69d94255244a490b11461.1786029423.git.rakukuip@gmail.com>
+	s=k20260515; t=1786454078;
+	bh=gTLskmDphRkVYVwpl41sbsstdMinqtNg1UCBu3syw1o=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=f6gjuVcyWlT8EB+FZpuop61ElX4m5opJokg+xrM6ThiCsPAtFo+x8WKMTOJrIka6U
+	 NM+QfT24d4CPLrCNxeIrixc+qppiMR/arGXHoboIurowoZpLz11fz9HWypd8A35I+T
+	 LCIMc8gKTVOOV5bHuGgtZSBOMeZJKwIUYSopVNuyNTtMRIODfW3GDpIvRzBbBFQV0U
+	 5R7Oas7c8O4t3nD2Jle2hrqr5gBiklPa8xQhVOeMr/pWS/nZ210IzINIuA3gMP4m95
+	 sMe30rA5JFO/jDz1wkKpWPxLCzDkPh/HyXgZ0oomAzD8KIkQJqLPR0lslv+vhjAr2R
+	 wSWo8ufUdlnMw==
+Date: Tue, 11 Aug 2026 14:14:33 +0100
+From: Lee Jones <lee@kernel.org>
+To: David Heidelberg <david+nfc@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Szymon Janc <szymon.janc@tieto.com>,
+	Samuel Ortiz <sameo@linux.intel.com>, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] nfc: llcp: Fix race condition in accept_queue
+ lifecycle
+Message-ID: <20260811131433.GU2869284@google.com>
+References: <20260601140934.1040144-1-lee@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -48,115 +48,183 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <006437e618b55acc0df69d94255244a490b11461.1786029423.git.rakukuip@gmail.com>
+In-Reply-To: <20260601140934.1040144-1-lee@kernel.org>
 
-On Sat, Aug 08, 2026 at 12:28:51AM +0800, Ren Wei wrote:
-> From: Luxiao Xu <rakukuip@gmail.com>
+[INTENTIONAL TOP POST]
+
+This one has been knocking around for a very long time.
+
+Would you like me to [RESEND] it, or does everyone still have it?
+
+On Mon, 01 Jun 2026, Lee Jones wrote:
+
+> nfc_llcp_socket_release() walks the local sockets list and the listener
+> socket's accept_queue under bh_lock_sock().  However, bh_lock_sock()
+> does not provide mutual exclusion against process-context lock_sock()
+> held by nfc_llcp_accept_dequeue() during accept().  Since socket_release()
+> runs in process context (workqueue or kref cleanup), it never checks
+> sock_owned_by_user(), allowing both paths to manipulate the same child
+> socket concurrently.  This leads to a double sock_put() (Use-After-Free)
+> or a NULL pointer dereference of child->parent in nfc_llcp_accept_unlink().
 > 
-> commit 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
-> attempted to fix a use-after-free (UAF) issue by
-> invoking nfc_llcp_local_put(local) after accessing local->gb. However,
-> if the reference count dropped to zero, local was freed prematurely,
-> leading to a Use-After-Free when the returned pointer was accessed.
-> Alternative approaches using dynamic allocation (such as kmemdup) introduced
-> severe memory leaks and state inconsistency because callers consistently
-> treated the returned pointer as borrowed memory.
+> Fix this by converting nfc_llcp_socket_release() to use lock_sock().
+> Since it is called with the local sockets write-lock held (which disables
+> preemption, preventing sleep), repeatedly pop the head socket from the
+> list under the write-lock using a new helper nfc_llcp_sock_list_pop(),
+> then safely acquire lock_sock() on it after dropping the list lock.
+> A sock_hold() is taken under the list lock to keep the socket alive
+> across the sleep and balanced with a sock_put() after release.
 > 
-> Fix this properly by refactoring nfc_llcp_general_bytes() and
-> nfc_get_local_general_bytes() to accept a caller-provided output buffer
-> (out_gb) and its maximum length (gb_max_len). The general bytes are
-> safely copied into out_gb BEFORE calling nfc_llcp_local_put(local),
-> ensuring safe lifetime management without ownership transfer complications.
+> Additionally, add a check for a non-NULL parent in nfc_llcp_accept_unlink()
+> to ensure idempotency and prevent NULL pointer dereference if the unlink
+> races with dequeue.
 > 
-> Update all callers across drivers (microread, pn533, pn544, st21nfca,
-> digital_dep, and nci) to allocate local stack buffers of size
-> NFC_MAX_GT_LEN and pass them to nfc_get_local_general_bytes().
+> Fixes: 50b78b2a6500 ("NFC: Fix sleeping in atomic when releasing socket")
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  net/nfc/llcp_core.c | 47 +++++++++++++++++++++++++--------------------
+>  net/nfc/llcp_sock.c | 13 +++++++------
+>  2 files changed, 33 insertions(+), 27 deletions(-)
 > 
-> Fixes: 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
-> Cc: stable@vger.kernel.org
-> Reported-by: Vega <vega@nebusec.ai>
-> Assisted-by: Codex:gpt-5.4
-> Signed-off-by: Luxiao Xu <rakukuip@gmail.com>
-> Signed-off-by: Ren Wei <weir@nebusec.ai>
-
-Hi Ren,
-
-Thanks for your patch.
-I've provided some minor feedback below.
-
-> diff --git a/drivers/nfc/microread/microread.c b/drivers/nfc/microread/microread.c
-> index 4149c5d735bd..0f0a03da9ff4 100644
-> --- a/drivers/nfc/microread/microread.c
-> +++ b/drivers/nfc/microread/microread.c
-> @@ -251,9 +251,8 @@ static int microread_start_poll(struct nfc_hci_dev *hdev,
->  		param[1] |= (1 << 1);
->  
->  	if ((im_protocols | tm_protocols) & NFC_PROTO_NFC_DEP_MASK) {
-> -		hdev->gb = nfc_get_local_general_bytes(hdev->ndev,
-> -						       &hdev->gb_len);
-> -		if (hdev->gb == NULL || hdev->gb_len == 0) {
-> +		nfc_get_local_general_bytes(hdev->ndev, hdev->gb, sizeof(hdev->gb), &hdev->gb_len);
-
-Please line wrap so that lines are 80 columns wide or less.
-Likewise elsewhere in this patch.
-
-> +		if (hdev->gb_len == 0) {
->  			im_protocols &= ~NFC_PROTO_NFC_DEP_MASK;
->  			tm_protocols &= ~NFC_PROTO_NFC_DEP_MASK;
->  		}
-
-...
-
 > diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index dc65c719f35f..1ed0ecde5872 100644
+> index dc65c719f35f2..e51bd0d081b62 100644
 > --- a/net/nfc/llcp_core.c
 > +++ b/net/nfc/llcp_core.c
-> @@ -635,23 +635,29 @@ static int nfc_llcp_build_gb(struct nfc_llcp_local *local)
->  	return ret;
+> @@ -63,21 +63,33 @@ static void nfc_llcp_socket_purge(struct nfc_llcp_sock *sock)
+>  	}
 >  }
 >  
-> -u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, size_t *general_bytes_len)
-> +u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb, size_t gb_max_len, size_t *general_bytes_len)
->  {
->  	struct nfc_llcp_local *local;
->  
-> +	if (!out_gb || !general_bytes_len)
-> +		return NULL;
+> +static struct sock *nfc_llcp_sock_list_pop(struct llcp_sock_list *l)
+> +{
+> +	struct sock *sk;
 > +
-> +	*general_bytes_len = 0;
-> +
->  	local = nfc_llcp_find_local(dev);
-> -	if (local == NULL) {
-> -		*general_bytes_len = 0;
-> +	if (local == NULL)
->  		return NULL;
-> -	}
->  
->  	nfc_llcp_build_gb(local);
->  
-> -	*general_bytes_len = local->gb_len;
-> +	if (local->gb && local->gb_len) {
-> +		*general_bytes_len = min_t(size_t, local->gb_len, gb_max_len);
-> +		memcpy(out_gb, local->gb, *general_bytes_len);
+> +	write_lock(&l->lock);
+> +	sk = sk_head(&l->head);
+> +	if (sk) {
+> +		sock_hold(sk);
+> +		sk_del_node_init(sk);
 > +	}
-
-x86_64 W=1 builds with GCC 16.1.0 warn that:
-
-  net/nfc/llcp_core.c: In function 'nfc_llcp_general_bytes':
-  net/nfc/llcp_core.c:653:13: warning: the comparison will always evaluate as 'true' for the address of 'gb' will never be NULL [-Waddress]
-    653 |         if (local->gb && local->gb_len) {
-        |             ^~~~~
-  In file included from net/nfc/llcp_core.c:15:
-  net/nfc/llcp.h:77:12: note: 'gb' declared here
-     77 |         u8 gb[NFC_MAX_GT_LEN];
-        |            ^~
-
+> +	write_unlock(&l->lock);
+> +
+> +	return sk;
+> +}
+> +
+>  static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  				    int err)
+>  {
+>  	struct sock *sk;
+> -	struct hlist_node *tmp;
+>  	struct nfc_llcp_sock *llcp_sock;
 >  
->  	nfc_llcp_local_put(local);
+>  	skb_queue_purge(&local->tx_queue);
 >  
-> -	return local->gb;
-> +	return out_gb;
+> -	write_lock(&local->sockets.lock);
+> -
+> -	sk_for_each_safe(sk, tmp, &local->sockets.head) {
+> +	while ((sk = nfc_llcp_sock_list_pop(&local->sockets))) {
+>  		llcp_sock = nfc_llcp_sock(sk);
+>  
+> -		bh_lock_sock(sk);
+> +		lock_sock(sk);
+>  
+>  		nfc_llcp_socket_purge(llcp_sock);
+>  
+> @@ -92,7 +104,8 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  						 &llcp_sock->accept_queue,
+>  						 accept_queue) {
+>  				accept_sk = &lsk->sk;
+> -				bh_lock_sock(accept_sk);
+> +				lock_sock_nested(accept_sk,
+> +						 SINGLE_DEPTH_NESTING);
+>  
+>  				nfc_llcp_accept_unlink(accept_sk);
+>  
+> @@ -101,7 +114,7 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  				accept_sk->sk_state = LLCP_CLOSED;
+>  				accept_sk->sk_state_change(sk);
+>  
+> -				bh_unlock_sock(accept_sk);
+> +				release_sock(accept_sk);
+>  			}
+>  		}
+>  
+> @@ -110,23 +123,18 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  		sk->sk_state = LLCP_CLOSED;
+>  		sk->sk_state_change(sk);
+>  
+> -		bh_unlock_sock(sk);
+> -
+> -		sk_del_node_init(sk);
+> +		release_sock(sk);
+> +		sock_put(sk);
+>  	}
+>  
+> -	write_unlock(&local->sockets.lock);
+> -
+>  	/* If we still have a device, we keep the RAW sockets alive */
+>  	if (device == true)
+>  		return;
+>  
+> -	write_lock(&local->raw_sockets.lock);
+> -
+> -	sk_for_each_safe(sk, tmp, &local->raw_sockets.head) {
+> +	while ((sk = nfc_llcp_sock_list_pop(&local->raw_sockets))) {
+>  		llcp_sock = nfc_llcp_sock(sk);
+>  
+> -		bh_lock_sock(sk);
+> +		lock_sock(sk);
+>  
+>  		nfc_llcp_socket_purge(llcp_sock);
+>  
+> @@ -135,12 +143,9 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  		sk->sk_state = LLCP_CLOSED;
+>  		sk->sk_state_change(sk);
+>  
+> -		bh_unlock_sock(sk);
+> -
+> -		sk_del_node_init(sk);
+> +		release_sock(sk);
+> +		sock_put(sk);
+>  	}
+> -
+> -	write_unlock(&local->raw_sockets.lock);
 >  }
 >  
+>  static struct nfc_llcp_local *nfc_llcp_local_get(struct nfc_llcp_local *local)
+> diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+> index feab29fc62f44..3d30f0233b986 100644
+> --- a/net/nfc/llcp_sock.c
+> +++ b/net/nfc/llcp_sock.c
+> @@ -384,11 +384,12 @@ void nfc_llcp_accept_unlink(struct sock *sk)
+>  
+>  	pr_debug("state %d\n", sk->sk_state);
+>  
+> -	list_del_init(&llcp_sock->accept_queue);
+> -	sk_acceptq_removed(llcp_sock->parent);
+> -	llcp_sock->parent = NULL;
+> -
+> -	sock_put(sk);
+> +	if (llcp_sock->parent) {
+> +		list_del_init(&llcp_sock->accept_queue);
+> +		sk_acceptq_removed(llcp_sock->parent);
+> +		llcp_sock->parent = NULL;
+> +		sock_put(sk);
+> +	}
+>  }
+>  
+>  void nfc_llcp_accept_enqueue(struct sock *parent, struct sock *sk)
+> @@ -622,7 +623,7 @@ static int llcp_sock_release(struct socket *sock)
+>  		list_for_each_entry_safe(lsk, n, &llcp_sock->accept_queue,
+>  					 accept_queue) {
+>  			accept_sk = &lsk->sk;
+> -			lock_sock(accept_sk);
+> +			lock_sock_nested(accept_sk, SINGLE_DEPTH_NESTING);
+>  
+>  			nfc_llcp_send_disconnect(lsk);
+>  			nfc_llcp_accept_unlink(accept_sk);
+> -- 
+> 2.54.0.823.g6e5bcc1fc9-goog
+> 
 
-...
+-- 
+Lee Jones
