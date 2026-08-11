@@ -1,25 +1,25 @@
-Received: from out-2z4y-a128.jellyfish.systems (out-2z4y-a128.jellyfish.systems [198.54.127.128])
+Received: from out-93wp-a42.jellyfish.systems (out-93wp-a42.jellyfish.systems [104.207.68.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34B447DF8E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC8747DD63
 	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 22:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.207.68.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786485754; cv=none; b=JOQnZifAVw8bR+CfGQ4tJW6QXYOwCWmRizICi/0J/JEujwf0ObdR2Gx9yBSdFdW7OSgBDOl6GueuvelGCS+vzqojMuTY1yRfIQ/KhUxKBeI0JkRTgGEfJMIpMBdTxcImPwwNmSlx6qM8JR3AVHD0Eb6qqBhkWwH+6iszYLov1aY=
+	t=1786485755; cv=none; b=i9dXJISSeVcwoqF2UuZ+im9zQ/u6KMwql2TXYuHZopIwZZgh2c6HaBJEwjr3F0xYSm90lhMwa73CkkWEje7I/h4eCkei0Kywmp9gi64GrUfEHZCa1tLZtjyobo2WxpQeyF4rHYgk/ZTYPu9NI+OucS5Sm93NriblvACiqi39X/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786485754; c=relaxed/simple;
-	bh=Z3+PNZbexYEBGfPD5sFnQ1ueFQ5UZLxOTsSqCW/A9k0=;
+	s=arc-20240116; t=1786485755; c=relaxed/simple;
+	bh=hpay0Z4iP5WI8jafOAYJU7/3eg/US0fygLBZi8IsOVI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uePZDRzE+k2PXm/lfF0d3WjfuK5mUMMBFAyTWztFUuSvHvuvXtbHzCgwiiwz+lBPW2lqvTYiCqCZcJaKTiS5M2Y+066O1t+4rJjhsCPbrPF8EkkGo0LG+Qi1hmkofWIfsXpLsOpurLcD28cC0mFjN/r8opfuwWQd+fW5PIKMs0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.127.128
+	 MIME-Version; b=HHEaUkZXpqbsKNTAs3uwrfB1y2f1TpD1DT7G8KdY7PF2hfg96ebR/zAHRhKR7FLRaDfKJaLP/O81R9WBfbhhJaY+kw4EnzL3e0pFuga0hpFTXUks+2nZIfl/eZBFc5vDKEGkpB3+1oVFwWHL8dJpLTPPx/hrbM8uCmMCFYJk/7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=104.207.68.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
 Received: from mail.privateemail.com (unknown [87.215.145.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hKQZg1s6Xz8sWQ;
-	Tue, 11 Aug 2026 22:02:03 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hKQZs1gMPz8sWQ;
+	Tue, 11 Aug 2026 22:02:13 +0000 (UTC)
 From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 To: David Heidelberg <david@ixit.cz>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
@@ -43,9 +43,9 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
 	netdev@vger.kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-Subject: [PATCH v5 4/6] nfc: s3fwrn5: enable the PVDD supply
-Date: Wed, 12 Aug 2026 00:01:33 +0200
-Message-ID: <20260811220135.472380-5-jorijnvdgraaf@catcrafts.net>
+Subject: [PATCH v5 6/6] arm64: dts: qcom: milos-fairphone-fp6: Add NFC
+Date: Wed, 12 Aug 2026 00:01:35 +0200
+Message-ID: <20260811220135.472380-7-jorijnvdgraaf@catcrafts.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net>
 References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net>
@@ -58,46 +58,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Envelope-From: jorijnvdgraaf@catcrafts.net
 
-The controller is powered by an externally switched PVDD rail. Get and
-enable it in the i2c phy probe, before any of the chip's pins is driven
-or its clock started, so the chip's power does not depend on whatever
-state the bootloader or platform left the rail in.
+Add the Samsung S3NRN4V NCI NFC controller on i2c1. Its XI clock comes
+from the PMK7635 CLK7_LN buffer (RPMH_LN_BB_CLK2), and the reference is
+load-bearing: with no clocks reference at all the chip polls but never
+activates a tag, while a held rpmh clock vote lets it read (verified on
+hardware).
 
-The uart phy (s3fwrn82) is unchanged: the PVDD pin exists on that part
-too, but no in-tree DT describes an s3fwrn82, so an enable there would
-power nothing and could not be tested. It can follow with the first
-board that describes the rail.
+PVDD is fed from PM7550 LDO20, the rail the downstream driver switches
+for this chip.
 
+The enable line is routed to the chip's power-down input. The driver
+drives its "en" descriptor to logical 1 to hold the chip powered down,
+and on this board the chip is off while the pin is physically high, so
+the line is GPIO_ACTIVE_HIGH. The pin is pulled up so the chip stays
+off while the line is not driven.
+
+Assisted-by: Claude:claude-opus-4-8
 Assisted-by: Claude:claude-fable-5
 Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 ---
- drivers/nfc/s3fwrn5/i2c.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../boot/dts/qcom/milos-fairphone-fp6.dts     | 33 +++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index c528c085b43e..f93d8b47b65e 100644
---- a/drivers/nfc/s3fwrn5/i2c.c
-+++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -11,6 +11,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/delay.h>
- #include <linux/module.h>
-+#include <linux/regulator/consumer.h>
+diff --git a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
+index ebdca0e2d2f3..bdba848275db 100644
+--- a/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
++++ b/arch/arm64/boot/dts/qcom/milos-fairphone-fp6.dts
+@@ -601,9 +601,22 @@ &gcc {
+ };
  
- #include <net/nfc/nfc.h>
- 
-@@ -158,6 +159,11 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client)
- 	phy->i2c_dev = client;
- 	i2c_set_clientdata(client, phy);
- 
-+	ret = devm_regulator_get_enable(&client->dev, "pvdd");
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to enable pvdd\n");
+ &i2c1 {
+-	/* Samsung NFC @ 0x27 */
+-
+ 	status = "okay";
 +
- 	phy->common.gpio_en = devm_gpiod_get(&client->dev, "en", GPIOD_OUT_HIGH);
- 	if (IS_ERR(phy->common.gpio_en))
- 		return PTR_ERR(phy->common.gpio_en);
++	nfc@27 {
++		compatible = "samsung,s3nrn4v";
++		reg = <0x27>;
++
++		interrupts-extended = <&tlmm 31 IRQ_TYPE_EDGE_RISING>;
++		en-gpios = <&tlmm 56 GPIO_ACTIVE_HIGH>;
++		wake-gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
++		clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
++
++		pvdd-supply = <&vreg_l20b>;
++
++		pinctrl-0 = <&nfc_default>;
++		pinctrl-names = "default";
++	};
+ };
+ 
+ &i2c3 {
+@@ -825,6 +838,22 @@ &tlmm {
+ 			       <13 1>, /* NC */
+ 			       <63 2>; /* WLAN UART */
+ 
++	nfc_default: nfc-default-state {
++		irq-pins {
++			pins = "gpio31";
++			function = "gpio";
++			drive-strength = <2>;
++			bias-disable;
++		};
++
++		pd-pins {
++			pins = "gpio56";
++			function = "gpio";
++			drive-strength = <2>;
++			bias-pull-up;
++		};
++	};
++
+ 	sdc2_card_det_n: sdc2-card-det-state {
+ 		pins = "gpio65";
+ 		function = "gpio";
 -- 
 2.55.0
 
