@@ -1,25 +1,25 @@
-Received: from out-2z4y-a153.jellyfish.systems (out-2z4y-a153.jellyfish.systems [198.54.127.153])
+Received: from out-zbxj-a87.jellyfish.systems (out-zbxj-a87.jellyfish.systems [198.54.127.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22CB417BF9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF3847D445
 	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 22:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.153
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786485730; cv=none; b=pFK3NAjL4iCQlcrSU4lWDHjDhna/d3/qWh6/vpR4KAJGBi84BPiQVfmzcg/CGoSMcOX0ddZbdpiKX28QU3qNcPvi9rrvRk/3RvLp2dooI+ibNdj6n6KlNrB0im8Mpj3Usua6C2Qr97710r9awN738VxsZOdvN/LWGq8+AhNJnsU=
+	t=1786485730; cv=none; b=VNZ4w1vcv+YUkZlx7vdAGJER+DkE+hP6FI82bB/omUnT1WoGB9rxVJrn29fr2BPmQKrO/sAjds4KVHarAEZ31O3TPg3mmrPS8bmyGcnrklUBKA3t/bG1xV5N1XudfFKQSq1Tlfuff2PVsoAonGBC0leOTi1ZHZ6LlYjctOs7vnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786485730; c=relaxed/simple;
-	bh=rFuMfLFJVq/3ks2toWLWtGVVcTS1sq3q1RxvpflL70g=;
+	bh=p+SS7vZxOAXOrGGtNcEayjNQLffbukPNwaC7Z8qdp9A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jqJA8qU/7MdyAMl2y+tqFgYg3HGCma9ALFFdUkk/5PHSKz4Pf2gGFHTKj/wmw3belCXyjX7JYWUrmRAPFwAXoK2tZJ/xAwQc2cvhynifzQvOPFb1Tz7P3qT9/OhHaEGLrxf80OoVnsRkrGjBnwwIKM7hzx3HQwG/PBBDO6TMrkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.127.153
+	 MIME-Version; b=EZhtLlCg9k2sxyJVTghykKhhVWW57tRY+euL8QyDIWAdMSq5Q9joUkJ1AVlS8zIlZU+cJpiAKee96qSKcS9Ssk0eG0PKhsvOPhbKlPErh0uidYChT9hH2SUmLCYLa0GVDs3OBppY6NClIlkU2wxWmwJgfJBAppAVwkG5PXwf+uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.127.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
 Received: from mail.privateemail.com (unknown [87.215.145.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hKQZN2H6tz8sWP;
-	Tue, 11 Aug 2026 22:01:48 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hKQZT269Pz8sWQ;
+	Tue, 11 Aug 2026 22:01:53 +0000 (UTC)
 From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 To: David Heidelberg <david@ixit.cz>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
@@ -43,9 +43,9 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
 	netdev@vger.kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-Subject: [PATCH v5 1/6] nfc: s3fwrn5: drop of_match_ptr() from the I2C driver
-Date: Wed, 12 Aug 2026 00:01:30 +0200
-Message-ID: <20260811220135.472380-2-jorijnvdgraaf@catcrafts.net>
+Subject: [PATCH v5 2/6] nfc: s3fwrn5: use the "s3fwrn5_i2c" string literal directly
+Date: Wed, 12 Aug 2026 00:01:31 +0200
+Message-ID: <20260811220135.472380-3-jorijnvdgraaf@catcrafts.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net>
 References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net>
@@ -58,37 +58,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Envelope-From: jorijnvdgraaf@catcrafts.net
 
-Since commit 777fd2dab446 ("nfc: Drop __maybe_unused from of_device_id
-tables") the OF match table relies on its MODULE_DEVICE_TABLE()
-reference to count as used, while of_match_ptr() still discards the
-.of_match_table reference on !CONFIG_OF builds. Drop of_match_ptr() so
-every configuration uses the same code; the S3NRN4V support added later
-in this series carries its variant selector in this table's match data.
+The S3FWRN5_I2C_DRIVER_NAME define is an indirection for a string that
+is fixed ABI (the driver name) and only used within this file. Spell
+the string out at its three users and drop the define.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Suggested-by: David Heidelberg <david@ixit.cz>
 Assisted-by: Claude:claude-fable-5
-Assisted-by: Claude:claude-opus-5
 Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 ---
-The Reviewed-by was collected on v4; the referenced commit id was
-refreshed for the rebased for-next (same commit).
-
- drivers/nfc/s3fwrn5/i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nfc/s3fwrn5/i2c.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nfc/s3fwrn5/i2c.c b/drivers/nfc/s3fwrn5/i2c.c
-index 4ba762611711..cb73993446e0 100644
+index cb73993446e0..c528c085b43e 100644
 --- a/drivers/nfc/s3fwrn5/i2c.c
 +++ b/drivers/nfc/s3fwrn5/i2c.c
-@@ -219,7 +219,7 @@ MODULE_DEVICE_TABLE(of, of_s3fwrn5_i2c_match);
+@@ -16,8 +16,6 @@
+ 
+ #include "phy_common.h"
+ 
+-#define S3FWRN5_I2C_DRIVER_NAME "s3fwrn5_i2c"
+-
+ struct s3fwrn5_i2c_phy {
+ 	struct phy_common common;
+ 	struct i2c_client *i2c_dev;
+@@ -186,7 +184,7 @@ static int s3fwrn5_i2c_probe(struct i2c_client *client)
+ 
+ 	ret = devm_request_threaded_irq(&client->dev, phy->i2c_dev->irq, NULL,
+ 		s3fwrn5_i2c_irq_thread_fn, IRQF_ONESHOT,
+-		S3FWRN5_I2C_DRIVER_NAME, phy);
++		"s3fwrn5_i2c", phy);
+ 	if (ret)
+ 		goto s3fwrn5_remove;
+ 
+@@ -205,7 +203,7 @@ static void s3fwrn5_i2c_remove(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id s3fwrn5_i2c_id_table[] = {
+-	{ .name = S3FWRN5_I2C_DRIVER_NAME },
++	{ .name = "s3fwrn5_i2c" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, s3fwrn5_i2c_id_table);
+@@ -218,7 +216,7 @@ MODULE_DEVICE_TABLE(of, of_s3fwrn5_i2c_match);
+ 
  static struct i2c_driver s3fwrn5_i2c_driver = {
  	.driver = {
- 		.name = S3FWRN5_I2C_DRIVER_NAME,
--		.of_match_table = of_match_ptr(of_s3fwrn5_i2c_match),
-+		.of_match_table = of_s3fwrn5_i2c_match,
+-		.name = S3FWRN5_I2C_DRIVER_NAME,
++		.name = "s3fwrn5_i2c",
+ 		.of_match_table = of_s3fwrn5_i2c_match,
  	},
  	.probe = s3fwrn5_i2c_probe,
- 	.remove = s3fwrn5_i2c_remove,
 -- 
 2.55.0
 
