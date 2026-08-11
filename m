@@ -1,109 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00292DF6E6
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 13:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B5943FD06
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 16:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786454248; cv=none; b=uOfp1c2peqbyTA9ZcBE4qBZ3cqxH4zH71GcSMNCvIR+JRThAvdWxnvYiirD6lqEm7cPolTxpJJyJuFC1dnqSpZzEayaeMNT6CZHVZydgksKp7gbf/8cxBr9nAVsf0glFKxPqDCzqmbN5ubpN4N+Saq464S9aOMG4xrtzLgEU7+c=
+	t=1786465676; cv=none; b=j/NdDH+AWs1Bd7O7fJJmEGIwuRTMtzaAj3M7nIpuXWWt9en/LGf8ypNeJ1FLP5sVsObAEOsWPsAIsxBbrrKGlk3nqr1N2hLohqe2S60zIDRYHTSTOt3Ixu904G5yCCg9klM+GndGzYOHVh0plNmGmn+LSWAOuVIeyc10/pXBJMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786454248; c=relaxed/simple;
-	bh=2MBIHJPa/Rxs5pNOk0dBnOQ8T+GTufNTLF6pXaqQ+6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/8Djc1SPZkfkKMsGZRWhXvGeEUR4YWALWq7nyPAfxXvSbGL3uEl1DE1E69Qic/51UEEDNoq2KUv0v68HSyTp9O6p6+8y4l2tfwIaYHB4gdbu7xP92y4MvMh9S4yuOtgRCHqB7Dl4ARytVWBmyZhts8OTMeTgRUsdIjJYL0+opg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTwivVUA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786465676; c=relaxed/simple;
+	bh=qVKeeqp08xO+94wBtHU9pJ3mCnVTi5EFtkRqtdsR9jc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=JcVW11eEg7G/4u2VA0briyI4HH1HJW0rHroCenmAIlI4VGGEq79UiB8bZNegkoQiXevAyIp4cF67jAI0H4e2XG39uElokQJzCVGexuQK5B/Rl1gVt6b5pXP6eLz0Q8aro1dD7dxKyPfpyH9XUrFetdpeDUd1qb2CHPzq3GU25NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=LViTNhhp; arc=none smtp.client-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTwivVUA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E4F1F000E9;
-	Tue, 11 Aug 2026 13:17:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786454247;
-	bh=v9QXODzG3sdBTHSxPYg2gsDR3KqVHIPXHJc6IxAS9QE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bTwivVUApYbFXOV+j3bNS3sVmWhdJz5C//wA995bcRvNUd80Cw4rDOG9orfuhd7Eu
-	 6rJsZo59+iUUZpgiME5Xfw3DG0QndsovHG8GgqT5aYC5QrGZbAJZ068V+ofSgfDobP
-	 YOfosLmV3dcftz6bZ2cuZeXxLMYiGcAkBV7Nt/1ZUOh6E1PCiamScAXvvVqaTnUEYz
-	 B49T24tPUerTIszwR7mp+B9TcGgz8KBwimQVpZRzjrSMVfsCkROId/8D+SfpJbmKsi
-	 NrdJkViwEcFCCumm6rlO0Lj7pGwYHmNvVS95Ox8XYJHFfqMcHvY3oS+CqG4T6t8sol
-	 p80zw4vVv2lEA==
-Date: Tue, 11 Aug 2026 14:17:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev, David Heidelberg <david@ixit.cz>
-Subject: Re: Dup commits in NFC trees [Was: Time to call it quits for the
- maintainer summit?]
-Message-ID: <dba6316e-6596-40d5-9f40-79149d8dec9d@sirena.org.uk>
-References: <CAHk-=wi734UD_CKkmRwZJHnNXAPTzYASXFh_XR092BsgWs8Qng@mail.gmail.com>
- <anii3u-87kSrB9K3@lucifer>
- <CAPM=9tx7izyUJr_XVQju26fevzepZ-L6vs5vgH2aib9jPPjvRA@mail.gmail.com>
- <anl7CgkKb6tORavG@lucifer>
- <20260810091154.2d3cd6d5@gandalf.local.home>
- <cc6505e586325cd59ba036cef5429039c9c71ba8.camel@HansenPartnership.com>
- <20260810102423.342c4e9d@gandalf.local.home>
- <0a8c1e90-1de1-4a76-b0fa-e367a4bd4f55@sirena.org.uk>
- <0a723972-7be8-453b-8fd1-d934e3c422af@sirena.org.uk>
- <60e73341-ea31-4492-b660-5fd56081b02f@kernel.org>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="LViTNhhp"
+Received: from [10.0.0.152] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 7F01D53405B2;
+	Tue, 11 Aug 2026 18:27:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1786465670;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+	bh=khRRxb4sWKnRnDU17JqPgq8+LSMA/Ibvxy+lT48iRvQ=;
+	b=LViTNhhp2Ve+jbiD2LGGNMRbMaGT9e95NjWV1mdDhWkQLrfi5HJr/VEgSMDswLGyQir2oj
+	ET595J3qGvNK+PkIXKuVCwCpkUikb1dQq53NjkICViG3dfEO94qz+OPqpaLrl3gM0pY1j3
+	qfwpYq33sRPXA9iyk9p3E8HqN6ePwBY=
+Message-ID: <4bcd0efa-cd97-485b-a7ba-6db8e3c4d3dd@ixit.cz>
+Date: Tue, 11 Aug 2026 18:27:50 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="K9tcXXWnzsUdWcPh"
-Content-Disposition: inline
-In-Reply-To: <60e73341-ea31-4492-b660-5fd56081b02f@kernel.org>
-X-Cookie: Take me drunk, I'm home again!
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
+Cc: netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ oe-linux-nfc@lists.linux.dev
+From: David Heidelberg <david@ixit.cz>
+Subject: [pull-request] NFC fixes for net 7.1-rc8
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+The following changes since commit db2ddb87143519e20a95aa36c60b36107b736a58:
 
---K9tcXXWnzsUdWcPh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+   Linux 7.2-rc7 (2026-08-09 14:54:50 -0700)
 
-On Tue, Aug 11, 2026 at 10:12:40AM +0200, Matthieu Baerts wrote:
-> On 11/08/2026 00:47, Mark Brown wrote:
+are available in the Git repository at:
 
-> > For some numbers on the cherry picking: I'm currently seeing 111 dups in
-> > drm (we also have 6 more in subtrees), out of 1739 total non-merge
-> > commits.  That's about 6% which seems like a lot, and they generate
-> > almost all of the frequent conflicts that DRM generates.  Next on the
-> > list is nfc with 17/35 which is a much larger percentage, and all of the
-> > 8 commits in the hyperv-fixes tree are duplicates.
+   https://codeberg.org/linux-nfc/linux.git tags/nfc-7.1-rc8
 
-> I'm not sure whether you have been aware of this, but NFC has a new
-> maintainer: David [1]. I see that the new tree is listed in linux-next.
+for you to fetch changes up to 25519469972ef57c3edb1805dabd6c5612b90211:
 
-Yes, and he's the contact for those trees.
+   nfc: microread: validate target discovery payload lengths (2026-08-11 
+18:10:04 +0200)
 
-> Maybe David doesn't know he is not supposed to cherry-pick commits
-> between his "for-linus" and "for-next" branches, but he should merge
-> "for-linux" into "for-next" instead.
+----------------------------------------------------------------
+Mostly security fixes.
 
-Or just not merge them, or wait for Linus to merge things and merge
-Linus' tags (that means you also get other bugfixes which can help
-people with platform support).  TBH I've not looked at what nfc is doing
-since it doesn't really cause any problems for me - I can only see one
-conflict I've noticed in the tree and that doesn't look like it was the
-result of cherry picking.  I only saw the duplication due to generating
-a report.  We don't seem to have ended up with any duplication in
-mainline either from a quick check.
+nci: add data_len bound checks to activation parameter extractors
+nci: fix double completion race in nci_data_exchange_complete
+nci: fix out-of-bounds write in nci_target_auto_activated()
+nci: fix uninit-value in the RF discover/activated NTF handlers
+nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+nci: free destination parameters when closing a connection
+llcp: avoid userspace overflow on invalid optlen
+llcp: bound SNL TLV parsing to the skb and add length checks
+llcp: bound the connect_sn TLV walk to the skb
+llcp: fix OOB read and u8 offset wrap in TLV parsers
+llcp: read llcp_sock->local under the socket lock in getsockopt
+llcp: reject PDUs shorter than the LLCP header
+digital: Do not dump a NULL response in command completion
+digital: clamp SENSF_RES length to the destination buffer
+fdp: bound the device-reported read length and fix an skb leak
+microread: validate target discovery payload lengths
+pn533: hold a reference to the request skb during send_frame
+pn533: purge fragmented skbs during cleanup
+st21nfca: validate ATR_REQ length against the received frame
 
-IOW it's possible whatever's going on is something that actually works
-fine and only results in transient duplications.
+Signed-off-by: David Heidelberg <david@ixit.cz>
 
---K9tcXXWnzsUdWcPh
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+Breno Leitao (2):
+       nfc: llcp: avoid userspace overflow on invalid optlen
+       nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
 
------BEGIN PGP SIGNATURE-----
+Bryam Vargas (2):
+       nfc: nci: add data_len bound checks to activation parameter extractors
+       nfc: fdp: bound the device-reported read length and fix an skb leak
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7IOMACgkQJNaLcl1U
-h9DZ2gf/SSpusbEIqoY26gsNojt1B4BTJniYhuJ25DhEdO1yOJ54JFUeaS+CizSg
-3RpQXnc4sHgspYwGoNVcbc10Le2oBsRoyRTiEsGjJzTUDQnFxQLVDzvOkrGzvDX7
-kYI8E+wqKb2X27nDk6SO3/kKnILjnR8ZdM/k4/6f+ukE8TfeUTeZtPA4gBUL20dC
-PIH/m43tpW8xv4kMVeDDM3EG1KsF/GB2xCv8GJhoZpZef++q5cgTRInW0Q/kZU/5
-4GkCY5eDV6gdCUPkMk2Po2X+WjGYJz/tkCjHA2eLjHHWAiTfhuRlJjaN9Da4aLXD
-ObAW65y8d31/WCmkOQlUP6NC3Ek0og==
-=mgvV
------END PGP SIGNATURE-----
+Doruk Tan Ozturk (5):
+       nfc: digital: clamp SENSF_RES length to the destination buffer
+       nfc: llcp: bound SNL TLV parsing to the skb and add length checks
+       nfc: llcp: reject PDUs shorter than the LLCP header
+       nfc: llcp: bound the connect_sn TLV walk to the skb
+       nfc: st21nfca: validate ATR_REQ length against the received frame
 
---K9tcXXWnzsUdWcPh--
+Linmao Li (2):
+       nfc: digital: Do not dump a NULL response in command completion
+       nfc: nci: free destination parameters when closing a connection
+
+Muhammad Bilal (1):
+       nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
+
+Pengpeng Hou (1):
+       nfc: microread: validate target discovery payload lengths
+
+Samuel Page (2):
+       nfc: nci: fix out-of-bounds write in nci_target_auto_activated()
+       nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
+
+Xu Rao (1):
+       nfc: pn533: purge fragmented skbs during cleanup
+
+Yinhao Hu (1):
+       nfc: pn533: hold a reference to the request skb during send_frame
+
+Yun Zhou (1):
+       nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+
+Zhenghang Xiao (1):
+       nfc: nci: fix double completion race in nci_data_exchange_complete
+
+  drivers/nfc/fdp/i2c.c             | 27 +++++++++++++++++++++++++++
+  drivers/nfc/microread/microread.c | 31 +++++++++++++++++++++++++++++--
+  drivers/nfc/pn533/pn533.c         | 22 ++++++++++++++++------
+  drivers/nfc/st21nfca/dep.c        |  3 +++
+  net/nfc/digital_core.c            |  2 +-
+  net/nfc/digital_technology.c      |  2 ++
+  net/nfc/llcp_commands.c           | 18 ++++++++++++++++--
+  net/nfc/llcp_core.c               | 44 
+++++++++++++++++++++++++++++++++------------
+  net/nfc/llcp_sock.c               | 14 +++++++++++---
+  net/nfc/nci/data.c                | 10 +++++-----
+  net/nfc/nci/ntf.c                 | 36 ++++++++++++++++++++++++++++++------
+  net/nfc/nci/rsp.c                 | 42 +++++++++++++++++++++++++++++++++++++++---
+  12 files changed, 211 insertions(+), 40 deletions(-)
