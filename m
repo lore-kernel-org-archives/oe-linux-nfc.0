@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E537F00B
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A740B3A382F
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786473090; cv=none; b=bxVodZE/R2B4rJcfr0N6VFaYAcXVxKWQCqKIxoVbvVLW7AUcmgOgrO6PJfNEy2AB+vxQuJXJdzQJETO5xFS2aPlhBduocJ3mHjHhqNZ7FNzN+KhlmMiizzykOkNSEpqw2TJ7Fan6iNjfakp1fVLGKj2y9bGkX8hzovVYj7gWyho=
+	t=1786473983; cv=none; b=CS0iz6KFwPnZZPM9G5cKzqkQvnpTlFmtvI6WRFXw/wA9qP7DW6GSDsfQxfGIv/xTkPKkf4OxvZsOo/YZB58QMqqfuTq/47w+eH7mo31PHidSX5CDP/H9P9EwglLYVb328hFXBsVnBE2afym4c2+JeNb3eE0b/C8khtwsJXohWY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786473090; c=relaxed/simple;
-	bh=Vo4Z3aUxM4tTHTF/z556wLMnLFj0u9fFoCoJ1zeiNhc=;
+	s=arc-20240116; t=1786473983; c=relaxed/simple;
+	bh=Y0artTnDdsaQZbiyrwWAJ6h3Q1wIJzOBcAdw+ttpsS8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TofwrA1sFWj/Tbcv72dId48Ok8FMQGny1/NXTsZb4957RWdIqA+NaJop+uST25nvf7clnHhGQKozWISIVsksY8Lb8VR4CTwkDcvBK4KWhBRj3M0vCrpEeISp+aXTJv0gB3qLOfYS+SsYiRppd5UMF3KRKo7UjDg6PxqQQXAsXe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=zfCNJgqO; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=R30oLC7tLGU/6x/qWjsyLIxPvpQE4VZ654xDB52Vg3wXmMsTbF9Us+RBRRkNa8Vyz/MoMLYkO3p0XRFxpdLMFWchgNQwxEy3YiLFJWHmQd3k1HbO1jfrHhWjH+y+YSo8EwRgjvLOWtWCbA85QtkZa9rW51/fmzyjAlkzzS8NcQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=KEn1InCd; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="zfCNJgqO"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="KEn1InCd"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 2FF9953406F4;
-	Tue, 11 Aug 2026 20:31:27 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id C97FC53402B9;
+	Tue, 11 Aug 2026 20:46:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786473087;
+	t=1786473971;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=30y1Ndtt2pEAUgoeW88Dp+uTXv0eUW/Kz+uRzJE95tE=;
-	b=zfCNJgqOvOApZRF+wiZrKukRZJ42umrNrp/zL1hg0vxeWatodDDTlabkENmkWsVZ2VMGT4
-	Hw8vb3S84Fo3BwKwcrUiS4xAIa/Eql2mzTJdJIJyHu7GowcG2yc/S9Sjc6S2jVthvj7N6W
-	GQFK/2c0qEYFcTwppdYke3KFGToYQIM=
-Message-ID: <2d2b72ad-2aac-43f6-8f47-72b2fc148192@ixit.cz>
-Date: Tue, 11 Aug 2026 20:31:27 +0200
+	bh=mSgsv+/IeNR/3PErszXC5lh1owkuic102AtLNb8adpk=;
+	b=KEn1InCd+83RstwYGoRK3ckfFLrEsvsY/CeS34QNOp3SDJwsBgeZw1zM0CojcoSjt5AA8S
+	HDPCWLwnXB+K/xxNrllLCN1wVVLI7RgxsPFRMOVuxUPdIZWX8My5AepcoV6AMSBBNV1BM1
+	0w3pwNh4CancTaulseo7kIOxzRQ1ijg=
+Message-ID: <8536d413-a46c-4798-8feb-d4a0e0fa78c2@ixit.cz>
+Date: Tue, 11 Aug 2026 20:46:11 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,15 +41,15 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] nfc: llcp: fix NULL pointer dereference race in
- nfc_llcp_send_ui_frame()
-To: Junwoong Doh <jdoh.kernel@gmail.com>
-Cc: "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
+Subject: Re: [PATCH net-next 0/2] nfc: llcp: Move to .getsockopt_iter
+To: Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, kernel-team@meta.com
+References: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
+ <amtMjiKCFJGY6DAY@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -95,105 +95,32 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260725115556.1250160-1-jdoh.kernel@gmail.com>
+In-Reply-To: <amtMjiKCFJGY6DAY@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 25/07/2026 13:55, Junwoong Doh wrote:
-> nfc_llcp_send_ui_frame() checks whether sock->local is NULL, but it is
-> called by llcp_sock_sendmsg() without the socket lock held, which opens
-> a window for a race condition. Between the sock->local check and the
-> sock->dev use in nfc_alloc_send_skb(), llcp_sock_bind() can run
-> concurrently and set both sock->local and sock->dev to NULL, which can
-> lead to a NULL pointer dereference in nfc_alloc_send_skb().
+On 30/07/2026 15:07, Breno Leitao wrote:
+> On Wed, Jul 08, 2026 at 04:51:57AM -0700, Breno Leitao wrote:
+>> Continue to convert the protocols to getsockopt_iter callback.
 > 
-> Take the socket lock in nfc_llcp_send_ui_frame() so that the sock->local
-> check and the sock->dev use are performed under it. The message is
-> copied from user space before the lock is taken, to avoid holding the
-> lock across a user space access that can block for an unbounded amount
-> of time.
+> Hello David,
 > 
-> Fixes: dded08927ca3 ("nfc: llcp: fix NULL error pointer dereference on sendmsg() after failed bind()")
-> Signed-off-by: Junwoong Doh <jdoh.kernel@gmail.com>
-> Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
-> ---
->   net/nfc/llcp_commands.c | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-Hello Junwoong,
+> Have you had a chance to look at this change?
 
-it seems Sashiko noted an issue, could you verify it please (see below, feel 
-free to ignore the pre-existing one)?
+Hello Breno,
+
+sadly I don't have it inside my mailbox nor archive.
+
+Can you send it again please? Preferably in a week after another batch of fixes 
+will land?
 
 Thanks
 David
 
---- Patch [1]: [PATCH net] nfc: llcp: fix NULL pointer dereference race in 
-nfc_llcp_send_ui_frame() ---
-commit 9c4c4bdf57043772ddc74843af1f533e7e9bc0ca
-Author: Junwoong Doh <jdoh.kernel@gmail.com>
+> 
+> Thanks
+> --breno
 
-nfc: llcp: fix NULL pointer dereference race in nfc_llcp_send_ui_frame()
+-- 
+David Heidelberg
 
-This patch fixes a race condition in nfc_llcp_send_ui_frame() where
-concurrent bind() calls can lead to a NULL pointer dereference. It moves
-the allocation and socket state checks inside the socket lock.
-
-Link: https://lore.kernel.org/all/a89d0419-8bcf-40a2-b52d-3e5d911f11da@gmail.com/
-
- > diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
- > index 291f26facbf3a..cfd5f6aebf8df 100644
- > --- a/net/nfc/llcp_commands.c
- > +++ b/net/nfc/llcp_commands.c
-[ ... ]
- > @@ -763,7 +769,7 @@ int nfc_llcp_send_ui_frame(struct nfc_llcp_sock *sock, u8 
-ssap, u8 dsap,
- >  		pr_debug("Fragment %zd bytes remaining %zd",
- >  			 frag_len, remaining_len);
- >
- > -		pdu = nfc_alloc_send_skb(sock->dev, &sock->sk, 0,
- > +		pdu = nfc_alloc_send_skb(sock->dev, sk, 0,
- >  					 frag_len + LLCP_HEADER_SIZE, &err);
-
-Since the lock_sock(sk) critical section now covers this entire loop, could
-calling nfc_alloc_send_skb() with a hardcoded flags value of 0 cause an
-uninterruptible sleep deadlock?
-
-When the socket's write buffer is full, sock_alloc_send_skb() will invoke
-sock_wait_for_wmem() to sleep until memory is available. For datagram
-sockets, this function does not drop the socket lock while sleeping.
-
-Concurrently, any other operations needing the socket lock (such as close()
-calling llcp_sock_release) might hang in a D-state indefinitely until the
-send buffer drains.
-
- >  		if (pdu == NULL) {
- >  			pr_err("Could not allocate PDU (error=%d)\n", err);
- >  			len -= remaining_len;
-
-This is a pre-existing issue, but does the exact same race condition remain
-unpatched in nfc_llcp_send_i_frame()?
-
-In nfc_llcp_send_i_frame(), llcp_allocate_pdu() is called without holding
-the socket lock. If a concurrent disconnect frame transitions the socket to
-LLCP_CLOSED, a concurrent failed bind() can set llcp_sock->dev to NULL:
-
-net/nfc/llcp_commands.c:nfc_llcp_send_i_frame() {
-     ...
-     pdu = llcp_allocate_pdu(sock, LLCP_PDU_I,
-                             frag_len + LLCP_SEQUENCE_SIZE);
-     ...
-}
-
-Which then calls nfc_alloc_send_skb() and dereferences the nullified
-sock->dev when computing the headroom:
-
-net/nfc/core.c:nfc_alloc_send_skb() {
-     ...
-     total_size = size +
-             dev->tx_headroom + dev->tx_tailroom + NFC_HEADER_SIZE;
-     ...
-}
-
-Would it be necessary to apply a similar locking fix to
-nfc_llcp_send_i_frame() to prevent this NULL pointer dereference?
