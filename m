@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B994582F5
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 17:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B0C263C8F
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469880; cv=none; b=AAhkeUMCsisp1uvJHLgkDabLRHevWRa2nGF3atCcTGMkvyO6v/4BxJtEQ1KWi+zMpOTM/DfxvHnts7A1h3GNDK3b2RNIzCtxlwsfsP1/MDPtmKZRec5jc7SlmK0TYzM+iiVJiF7juxeVixx2KNxSoN8h9WIHxXK6TF0bUu8HubY=
+	t=1786472588; cv=none; b=luwUpMfjzSwFjHrV40JQsXNRrYXBVpdnteTzpqTKQMeCcDmsKJiNE006xUClwyr/zriNzjrE1WjphwPQ7xJOxkjtjlezGACTZF1k6IZW76ws4qfrLHFrsbRyH5zchxtHgFlgrQvcOJNWkVw4GctSWxmsUfo/FNR6rBJ7Jc2JP8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469880; c=relaxed/simple;
-	bh=SkQC+eJlJWmZIZGB/YMMab5cNwtWc9XOxM4+J4q/U4M=;
+	s=arc-20240116; t=1786472588; c=relaxed/simple;
+	bh=J/JCNI4JP6PWEbRIaV+blSlUD3HtyB5zPYznoBNF450=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j6/MQVP0+ZdjxK4CGANy3UWoxq3pFCBLsUQxNxrsQYqmLqeOutO78ZZDCzC7MobzdBWrhCBqqUQGVj9Dp2YwjMh4JzhPV6veWuJtlQ5TNrWLxIQurim8sBnNeqGIz+TicARicb+/Bm8AX/B9Zy7kmgnGi+TcEL4gQqc9TDfIVNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=a9nTMURz; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=miik5txC9XhZWUVJzZqrofVcph8HS4h0U5CEdg1XnR0L85vopu/roHiFqbCKb7MzePk+HX8pJ5X6o8KsNIUkCoEgddjxJK125aJI87BW8pUT7qfGDPilJ3Ex/VgdSWejtpk7t60fBLyVIUVq7t+o2hf4+LiG+xTR0n2ikb7svlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=G3bpCv5R; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="a9nTMURz"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="G3bpCv5R"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 2E3335340FF5;
-	Tue, 11 Aug 2026 19:37:57 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 63CE35340428;
+	Tue, 11 Aug 2026 20:23:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786469877;
+	t=1786472582;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LltJ62TmY8OPYY74XlaeABAqBaYohOvfRo1/gxEhscg=;
-	b=a9nTMURzPvoAeH1EMMQte0h7e+A8MhdtMFVVWWU4TlaSqV0x9ejGH2D3V8K6ShavNEDUoy
-	DHkUY/xlfPvf6J4rQUswDXKTxBjvpaeq5XMh+sMHQqj6QStVHSt55sVRAhMZ3m4+mDVwnU
-	iIwfUtxhTMQEdPjKNljchQTcUhM8dQc=
-Message-ID: <24ad202a-fb2e-425b-9322-de367dc9795a@ixit.cz>
-Date: Tue, 11 Aug 2026 19:37:56 +0200
+	bh=cXekTso0NmY5vetFykSsR+sNuU02JTTPlPjx9kOlbjs=;
+	b=G3bpCv5ROsPgEgJnQZtZYY4QbSi2bTonB+6hwgvi2rni9A/QnHD6ATN69bpeacMWkIg2a1
+	j22XK9+nldKXA9y4206lObrHhNfF7rMais7TnlK8x4oUBbWV8zp0fvxvPANKbM2b0WQWoZ
+	YCz6wK4wmBlsipsx9W8wCT4n0S/cT1w=
+Message-ID: <8e5c2ea4-53fe-4dd5-ac71-5bb3ab5ee911@ixit.cz>
+Date: Tue, 11 Aug 2026 20:23:02 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,11 +41,22 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: UAF in NFC digital DEP link-up (kernel heap info leak)
-To: vova tokarev <vladimirelitokarev@gmail.com>
-Cc: oe-linux-nfc@lists.linux.dev
-References: <CAGBKPgO6_A75gVMj47d-TpRniaXQsgWfDb6T1VicmytV8GCLdg@mail.gmail.com>
- <CAGBKPgO1J1+2B-TTv3MX7J+zFeut3NRZG+DzgFu4Fhm588VXLg@mail.gmail.com>
+Subject: Re: [PATCH net v4] nfc: nci: Fix conn_info use-after-free
+To: Sanghyun Park <sanghyun.park.cnu@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Ian Ray <ian.ray@gehealthcare.com>, Joe Damato <joe@dama.to>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Kees Cook <kees@kernel.org>,
+ Ashutosh Desai <ashutoshdesai993@gmail.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Deepak Sharma <deepak.sharma.472935@gmail.com>,
+ Michael Thalmeier <michael.thalmeier@hale.at>,
+ Christophe Ricard <christophe.ricard@gmail.com>,
+ Samuel Ortiz <sameo@linux.intel.com>, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260723022407.3402916-2-sanghyun.park.cnu@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -91,75 +102,66 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <CAGBKPgO1J1+2B-TTv3MX7J+zFeut3NRZG+DzgFu4Fhm588VXLg@mail.gmail.com>
+In-Reply-To: <20260723022407.3402916-2-sanghyun.park.cnu@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hello Vladimir,
+On 23/07/2026 04:24, Sanghyun Park wrote:
+> nci_tx_work() looks up conn_info from conn_info_list and keeps using
+> that pointer while sending queued data. nci_core_conn_close_rsp_packet()
+> runs on the separate rx_wq and can remove and free the same conn_info,
+> so the tx worker can dereference freed memory.
+> 
+> The same lifetime rule also has to cover other conn_info_list users and
+> the direct rf_conn_info and hci_dev->conn_info aliases. Protect
+> conn_info_list and conn_info pointer aliases with a dedicated lock, use
+> it while publishing and removing entries, and keep readers under the lock
+> while they dereference conn_info or copy the fields they need.
+> 
+> In nci_tx_work(), take the lock only around lookup, credit checks, skb
+> dequeue, and credit accounting so close cannot free conn_info while it is
+> used, but transport send latency does not block rx_wq response
+> processing.
+> 
+> Fixes: 736bb9577407 ("NFC: nci: Support logical connections management")
+> Signed-off-by: Sanghyun Park <sanghyun.park.cnu@gmail.com>
+> ---
+> v4:
+>    - Guard hci_dev before clearing its conn_info alias during teardown.
+>    - Reflow lines flagged by the netdev 80-column check.
+>    - Use the current NFC maintainer address from MAINTAINERS.
+> v3: https://lore.kernel.org/netdev/20260630071717.3618185-2-sanghyun.park.cnu@gmail.com/
+>    - Add Fixes tag for the logical connection close lifetime bug.
+>    - Add the missing NFC maintainer and oe-linux-nfc list.
+>    - Cover all conn_info_list helper users, not only nci_tx_work().
+>    - Protect direct rf_conn_info and hci_dev->conn_info aliases.
+>    - Publish and remove conn_info entries under the same lock.
+>    - Protect RF conn_info discovery publication with the same lock.
+>    - Keep HCI rx_skb immediate dereferences under conn_info_lock.
+>    - Narrow nci_send_data() lock coverage around skb queueing.
+>    - Avoid holding conn_info_lock across nci_send_frame().
+>    - Use spin_lock_bh() so HCI timer callbacks do not take a sleepable lock.
+>    - Keep conn_info_lock alive until nci_dev teardown instead of destroying it before nfc_remove_device().
+> v2: https://patchwork.kernel.org/project/netdevbpf/patch/20260610081657.686636-1-sanghyun.park.cnu@gmail.com/
+>    - Replace flush-only fix with conn_info locking around tx and close.
+> v1: https://patchwork.kernel.org/project/netdevbpf/patch/CAOrxSK5UmFFfzdRG+P89+E+Rvg_1DmOvTs+M7353Q8=hkPXmSg@mail.gmail.com/
+> 
+>   drivers/nfc/st-nci/se.c    |  16 +++---
+>   include/net/nfc/nci_core.h |   9 ++-
+>   net/nfc/nci/core.c         |  98 +++++++++++++++++++++++++--------
+>   net/nfc/nci/data.c         |  68 ++++++++++++++---------
+>   net/nfc/nci/hci.c          | 109 +++++++++++++++++++++++++++++--------
+>   net/nfc/nci/ntf.c          |  23 ++++++--
+>   net/nfc/nci/rsp.c          |  52 +++++++++++++-----
+>   7 files changed, 271 insertions(+), 104 deletions(-)
+> 
+Hello Sanghyun,
 
-thank you for the report. Would be possible to send a patch based on [1]?
+thank you for the patch, LGMT. Could you please rebase against
 
-Please let me know.
+https://codeberg.org/linux-nfc/linux/src/branch/for-linus
 
-Thanks
+There is a small conflict in the rsp.c
+
+Thanks!
 David
-
-P.S. Same gos for the 2nd finding.
-
-[1] https://codeberg.org/linux-nfc/linux/src/branch/for-linus
-
-
-On 07/08/2026 12:32, vova tokarev wrote:
-> Hi,
-> 
-> It's been almost two months since I reported this, and I haven't heard
-> back. I recently learned I should reach out to the subsystem maintainer
-> directly, so forwarding this to you.
-> 
-> The bug: digital_in_send_atr_req() in net/nfc/digital_dep.c stores a
-> raw struct nfc_target * pointer as cb_context (line 522). A concurrent
-> poll cycle frees the targets array via nfc_targets_found(), leaving a
-> dangling pointer. When digital_in_recv_atr_res() fires, it reads freed
-> kmalloc-96 memory -- leaking a kernel heap pointer to userspace via
-> NFC_ATTR_TARGET_INDEX netlink multicast.
-> 
-> Triggers reliably within 12-15 seconds using nfcsim (no hardware).
-> Full PoC attached in the original report.
-> 
-> I'd appreciate any feedback when you get a chance.
-> 
-> Thanks,
-> Vladimir
-> 
-> ---------- Forwarded message ---------
-> From: *vova tokarev* <vladimirelitokarev@gmail.com 
-> <mailto:vladimirelitokarev@gmail.com>>
-> Date: Sat, Jul 4, 2026 at 10:14 PM
-> Subject: UAF in NFC digital DEP link-up (kernel heap info leak)
-> To: <security@kernel.org <mailto:security@kernel.org>>
-> 
-> 
-> Hi,
-> 
-> I found a use-after-free in digital_in_recv_atr_res() in
-> net/nfc/digital_dep.c. A stale nfc_target pointer freed by
-> concurrent nfc_targets_found() is read by the ATR completion
-> callback, leaking 4 bytes from freed kmalloc-96 to userspace
-> via NFC_ATTR_TARGET_INDEX netlink broadcast.
-> 
-> No hardware needed (nfcsim). Fires in ~12 seconds. The PoC
-> leaks a kernel struct page * pointer (0xc51a8000), defeating
-> KASLR. The stale value also corrupts LLCP state.
-> 
-> Affected: Linux 3.13+
-> Confirmed: 7.1.0 (aarch64) with KASAN
-> 
-> Attached: report, two PoCs (minimal + info leak), KASAN output.
-> 
-> Thank you,
-> Vladimir Tokarev
-> 
-
--- 
-David Heidelberg
-
