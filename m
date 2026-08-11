@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A740B3A382F
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429FE3DB339
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 11 Aug 2026 18:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786473983; cv=none; b=CS0iz6KFwPnZZPM9G5cKzqkQvnpTlFmtvI6WRFXw/wA9qP7DW6GSDsfQxfGIv/xTkPKkf4OxvZsOo/YZB58QMqqfuTq/47w+eH7mo31PHidSX5CDP/H9P9EwglLYVb328hFXBsVnBE2afym4c2+JeNb3eE0b/C8khtwsJXohWY4=
+	t=1786474564; cv=none; b=BzZpY51myCXUUW4Y324noeZf2mWsBmgk7mVYpu0hfOi8FD56wyrwtAqSrDDS/fbWU3JRATyf2Tryg/cCGWshzsOV61X95TyWsve0gXcJu23lFU7f9NjXXsL0xM1YsLikJ6+5zWC2dqL+qpVDACRubd4MNu+uiLzUEkvFO5dBg2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786473983; c=relaxed/simple;
-	bh=Y0artTnDdsaQZbiyrwWAJ6h3Q1wIJzOBcAdw+ttpsS8=;
+	s=arc-20240116; t=1786474564; c=relaxed/simple;
+	bh=of9HkXv70DbMLnw6nwnIJ9wAZJIdlh4bf0Kp9FhycE8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R30oLC7tLGU/6x/qWjsyLIxPvpQE4VZ654xDB52Vg3wXmMsTbF9Us+RBRRkNa8Vyz/MoMLYkO3p0XRFxpdLMFWchgNQwxEy3YiLFJWHmQd3k1HbO1jfrHhWjH+y+YSo8EwRgjvLOWtWCbA85QtkZa9rW51/fmzyjAlkzzS8NcQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=KEn1InCd; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=r5Hid4dHBDq1fcYDymFn9H8e+5962nCagYkCzreD3MoJn5apUmbpJIfPGmiigcHWH5hByYnGpYTDOjbHUV7iAfOxDXKzFzlPRR3wMHppzUYBjjMeKrM/d824loq1IfAph/M7lrbO/ZfO7J+6V6rcF1soZPmQuvWgaMhArpmMVGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=pyjO9qyx; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="KEn1InCd"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="pyjO9qyx"
 Received: from [10.0.0.152] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id C97FC53402B9;
-	Tue, 11 Aug 2026 20:46:11 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 9D4215340357;
+	Tue, 11 Aug 2026 20:55:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786473971;
+	t=1786474559;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mSgsv+/IeNR/3PErszXC5lh1owkuic102AtLNb8adpk=;
-	b=KEn1InCd+83RstwYGoRK3ckfFLrEsvsY/CeS34QNOp3SDJwsBgeZw1zM0CojcoSjt5AA8S
-	HDPCWLwnXB+K/xxNrllLCN1wVVLI7RgxsPFRMOVuxUPdIZWX8My5AepcoV6AMSBBNV1BM1
-	0w3pwNh4CancTaulseo7kIOxzRQ1ijg=
-Message-ID: <8536d413-a46c-4798-8feb-d4a0e0fa78c2@ixit.cz>
-Date: Tue, 11 Aug 2026 20:46:11 +0200
+	bh=Hc249VhCOdr+BckjhwSO6JsZoEPEQpWK/mAZ08N31/I=;
+	b=pyjO9qyxQxwHke/KwHfeSV1ZhCUVmlIct2XG8VnCtp+5vG2sY2VbFJ6HzKRyJssk5S+/xB
+	TrSIds26rjglYyhPZE+3vDa/dn1RskOjJBDsYjiFtA0M0GGzc0z6w8G3TroT1c4xEUHmgp
+	N5669AWYh7JMg/DBvOvqxqKlLIb+UAw=
+Message-ID: <28b1e429-39ad-4bc1-aea5-a17def952da3@ixit.cz>
+Date: Tue, 11 Aug 2026 20:55:59 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,15 +41,14 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/2] nfc: llcp: Move to .getsockopt_iter
-To: Breno Leitao <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, kernel-team@meta.com
-References: <20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org>
- <amtMjiKCFJGY6DAY@gmail.com>
+Subject: Re: [PATCH net v3] nfc: nci: fix use of uninitialized memory in
+ NFC-DEP general bytes
+To: Muhammad Bilal <meatuni001@gmail.com>, =?UTF-8?B?TGVrw6sgSGFww6dpdQ==?=
+ <snowwlake@icloud.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, netdev@vger.kernel.org
+References: <20260728132836.41868-1-meatuni001@gmail.com>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -95,32 +94,70 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <amtMjiKCFJGY6DAY@gmail.com>
+In-Reply-To: <20260728132836.41868-1-meatuni001@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 30/07/2026 15:07, Breno Leitao wrote:
-> On Wed, Jul 08, 2026 at 04:51:57AM -0700, Breno Leitao wrote:
->> Continue to convert the protocols to getsockopt_iter callback.
+On 28/07/2026 15:28, Muhammad Bilal wrote:
+> nci_store_general_bytes_nfc_dep() derives the length of the NFC-DEP
+> general bytes by subtracting the fixed general-bytes offset from the ATR
+> length:
 > 
-> Hello David,
+>    atr_res_len - NFC_ATR_RES_GT_OFFSET   (poll, offset 15)
+>    atr_req_len - NFC_ATR_REQ_GT_OFFSET   (listen, offset 14)
 > 
-> Have you had a chance to look at this change?
+> It never checks that the ATR is at least that long. When a
+> RF_INTF_ACTIVATED_NTF reports an ATR shorter than the offset the
+> subtraction is negative; because min_t() casts its arguments to __u8 the
+> negative value becomes large and is then capped at
+> NFC_ATR_RES_GB_MAXSIZE / NFC_ATR_REQ_GB_MAXSIZE. remote_gb_len is thus
+> set to up to 47/48 even though only atr_res_len/atr_req_len bytes of the
+> on-stack atr_res/atr_req buffer were copied from the packet, and the
+> following memcpy() reads the uninitialized remainder into
+> ndev->remote_gb.
+> 
+> Skip storing the general bytes when the ATR is shorter than the
+> general-bytes offset. remote_gb_len is already zeroed unconditionally
+> at the top of the function by commit 9c328f54741b ("net: nfc: nci: Add
+> parameter validation for packet data"), so the short-ATR case needs no
+> separate zeroing here anymore, unlike in the v2 posted upstream.
+> 
+> Fixes: a99903ec4566 ("NFC: NCI: Handle Target mode activation")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+> ---
+> v3: Rebased onto current net.git for-next, requested by David
+>      Heidelberg. The function moved and gained an unconditional
+>      "remote_gb_len = 0" at entry (from commit 9c328f54741b, landed
+>      after v2 was posted), which made v2's explicit zeroing inside the
+>      short-ATR branch redundant, so this version drops it and only adds
+>      the missing length checks.
+> v2: Also zero remote_gb_len explicitly in the short-ATR branch so a
+>      stale value from a previous activation doesn't survive into the
+>      new session.
+> 
+>   net/nfc/nci/ntf.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+Hello Muhammad and Lekë.
 
-Hello Breno,
+I see you recently addressing same issues, such as this patch:
 
-sadly I don't have it inside my mailbox nor archive.
+nfc: nci: fix use of uninitialized memory in NFC-DEP general bytes
 
-Can you send it again please? Preferably in a week after another batch of fixes 
-will land?
+and later Lekë's:
 
-Thanks
+nfc: nci: fix u8 underflow in nci_store_general_bytes_nfc_dep [1].
+
+As I see you finding similar bugs and addressing them, I would be more than 
+happy if you would be interested to sync who's working on what and - that's huge 
+value here - cross review your patches, as you working in the similar field. 
+Sending good patch is great, but giving a good review can have a huge value and 
+move things forwards [2] (as you can see Tested-by and Reviewed-by is important 
+number too :) ).
+
+Thank you both for your work
 David
 
-> 
-> Thanks
-> --breno
-
--- 
-David Heidelberg
-
+[1] https://lore.kernel.org/r/20260729011547.19191-1-snowwlake@icloud.com
+[2] https://lwn.net/Articles/1077425/
