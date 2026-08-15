@@ -1,31 +1,34 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D8C341AC7
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 15 Aug 2026 13:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8328C23643F
+	for <oe-linux-nfc@lists.linux.dev>; Sat, 15 Aug 2026 13:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786800432; cv=none; b=eu5sBTq+vR80WT9g7QWTYG2tH01CEKLiQYBaHYBI0ni5OfatELHVsz6GK+QhprE4CC+scaK4dlNiC07GHRhg0gNslQUg7ZkOg5asCGRf3foTDScJJ0jeWaYzhvek1zbb6H7dg8wECmiNRfyj6f/5ysx6eXVYAMNdOBDXU5Whi1s=
+	t=1786801713; cv=none; b=SOSEI7ZVa+TwZSQbiuo189CMElV2Y2wbY6d46nTqGXZANt/4Fr7+8Vc/CFn5RdwB6HOvbC11iGBdZdJXIymGOeR9esRRhz+u2Vpj3lKEXyw65lvJOuENPjGSWlcEzFUbvAu/hhqA612I0DOBi7TuUPypdMQ1Ynw5usXBNZCwgaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786800432; c=relaxed/simple;
-	bh=3i6ATnHwyB3/VBG7vmQcEUx820r61tf0FG2JvCPCTxo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WKr/9zwqgq9F2qrX2GBR9dzzLCJUlPoJfguubx0H+7SpevLhoarnZn3iPNwzAaliOQwofT7zvqvAxDZJcFh7ElV0sI5stIaleCS77eUYp39kv3tde9D1HWQ6r9xkReCD3XHGLQW7ZkyqNLOpgFRVD4t+dwQ+tu6+3ziZn7ClHoo=
+	s=arc-20240116; t=1786801713; c=relaxed/simple;
+	bh=7UV2D4vpN/KBruWZwdioP8alSCGT965QmckpccyECIc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OyT4IHzt8AjwRFEvdDtVpZ5J/rBaSyZ/DJ1QHFOVz8H5Q9Px3CN0yWb7rkCoIFYEn7Db95SwZM2l9e9naPDekuaNXqnqYmWsSklFHA/H7067mRSxxLnhgfOdxJVwYZID0olSqoj4T7ed4B+TjNFH0YSolJIYP5Vr1vEfuAnlrb0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-05 (Coremail) with SMTP id zQCowAAXhT8paYBqNv_QBQ--.22822S2;
-	Sat, 15 Aug 2026 21:27:06 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowAAHcTspboBqB13RBQ--.2466S2;
+	Sat, 15 Aug 2026 21:48:25 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: David Heidelberg <david@ixit.cz>
+To: david@ixit.cz
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Kees Cook <kees@kernel.org>,
+	Doruk Tan Ozturk <doruk@0sec.ai>,
+	Eric Lapuyade <eric.lapuyade@linux.intel.com>,
 	Samuel Ortiz <sameo@linux.intel.com>,
-	Vincent Cuissard <cuissard@marvell.com>,
 	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] nfc: nfcmrvl: validate the firmware download length chain
-Date: Sat, 15 Aug 2026 21:27:04 +0800
-Message-ID: <20260815132704.34075-1-pengpeng@iscas.ac.cn>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3] nfc: microread: validate target discovery payload lengths
+Date: Sat, 15 Aug 2026 21:48:25 +0800
+Message-ID: <20260815134825.48593-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -33,182 +36,134 @@ List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAXhT8paYBqNv_QBQ--.22822S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtw15CFWDJryDur47Kw4xXrb_yoW7trW8pF
-	45AFyqyr4UAFWSqr18tFsrAFW5Cws3CFW3Wa47JFn3Ar1YvF18Ja4ktryY93yqqrZ8Ga13
-	G3s8Aa4j9F4ktrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkC14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:zQCowAAHcTspboBqB13RBQ--.2466S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFyrZrWkKFyDKw1xCrW3Jrb_yoWrAr1Dpa
+	yUWr1DKrW5JrW7Gw13ZFn7ZF1UJw4xuwsF9F1xJwsaya1Yk34DJas3W3y2vF4UAF98urW2
+	kF1vv39xGa9rAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYNVyDU
-	UUU
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUL0e
+	dUUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-The firmware download state machine reads its fixed firmware header before
-proving that the image contains it.  It also accepts a 16-bit
-helper-requested chunk length, narrows it to the 8-bit NCI payload field,
-and copies that many bytes from a firmware offset without binding the
-complete chain to fw->size.
+microread_target_discovered() parses target discovery payloads from
+skb->data according to the HCI gate. The fixed field offsets and UID
+copies were checked only against the destination nfc_target buffers, not
+against the actual skb length.
 
-Validate the fixed firmware header and both image offsets, require the
-exact NCI helper-command frame and payload length, and reject chunks that
-exceed either the NCI payload limit or the remaining firmware bytes.  Keep
-offsets and chunk lengths in size_t so the checks dominate allocation,
-copy and advancement without an intermediate narrowing.
+Validate that each gate-specific payload contains the fixed fields and
+UID bytes before reading or copying them.
 
-Fixes: 3194c6870158 ("NFC: nfcmrvl: add firmware download support")
-
+Fixes: cfad1ba87150 ("NFC: Initial support for Inside Secure microread")
+Cc: stable@vger.kernel.org
 Assisted-by: Codex:gpt-5
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
+Changes since v2:
+https://lore.kernel.org/all/20260723103508.1-microread-v2-pengpeng@iscas.ac.cn/
+- no code changes
+- revalidate the patch against current mainline
+- add the required coding-assistant attribution
+
 Changes since v1:
-https://lore.kernel.org/all/20260715084325.40276-1-pengpeng@iscas.ac.cn/
-- validate the firmware header and both initial image offsets
-- require the exact NCI helper-command frame and payload length
-- reject chunks that exceed U8_MAX or the remaining firmware image
-- keep chunk lengths and offsets wide through allocation and copying
-- clear download state through one release path
+https://lore.kernel.org/all/20260701053709.45176-1-pengpeng@iscas.ac.cn/
+- add the Fixes tag and stable Cc requested during review
+- rebase onto the current net tree
 
-This revision was not built or tested with nfcmrvl hardware, malformed
-helper frames, or malformed firmware images.
+ drivers/nfc/microread/microread.c | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
- drivers/nfc/nfcmrvl/fw_dnld.c | 52 +++++++++++++++++++++++++++++------
- drivers/nfc/nfcmrvl/fw_dnld.h |  4 +--
- 2 files changed, 45 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-index 2b8f401d8fd7..d97e7491e22c 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.c
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-@@ -238,6 +238,8 @@ static int process_state_open_lc(struct nfcmrvl_private *priv,
- 	    memcmp(skb->data, nci_pattern_core_conn_create_rsp,
- 		   sizeof(nci_pattern_core_conn_create_rsp)))
- 		return -EINVAL;
-+	if (priv->fw_dnld.binary_config->offset > priv->fw_dnld.fw->size)
-+		return -EINVAL;
+diff --git a/drivers/nfc/microread/microread.c b/drivers/nfc/microread/microread.c
+index 4149c5d735bd..dfa2490db545 100644
+--- a/drivers/nfc/microread/microread.c
++++ b/drivers/nfc/microread/microread.c
+@@ -483,13 +483,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
  
- 	priv->fw_dnld.state = STATE_FW_DNLD;
- 	priv->fw_dnld.substate = SUBSTATE_WAIT_COMMAND;
-@@ -263,9 +265,19 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
- 		 * B8..N: payload
- 		 */
- 
--		/* Remove NCI HDR */
--		skb_pull(skb, 3);
--		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT || skb->len != 5) {
-+		if (skb->len != NCI_DATA_HDR_SIZE + 5) {
-+			nfc_err(priv->dev, "bad command");
-+			return -EINVAL;
+ 	switch (gate) {
+ 	case MICROREAD_GATE_ID_MREAD_ISO_A:
++		if (skb->len <= MICROREAD_EMCF_A_LEN) {
++			r = -EINVAL;
++			goto exit_free;
 +		}
 +
-+		if (nci_plen(skb->data) != 5) {
-+			nfc_err(priv->dev, "bad command length");
-+			return -EINVAL;
-+		}
-+
-+		/* Remove NCI header */
-+		skb_pull(skb, NCI_DATA_HDR_SIZE);
-+		if (skb->data[0] != HELPER_CMD_PACKET_FORMAT) {
- 			nfc_err(priv->dev, "bad command");
- 			return -EINVAL;
+ 		targets->supported_protocols =
+ 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A_SAK]);
+ 		targets->sens_res =
+ 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A_ATQA]);
+ 		targets->sel_res = skb->data[MICROREAD_EMCF_A_SAK];
+ 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A_LEN];
+-		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
++		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
++		    targets->nfcid1_len > skb->len - MICROREAD_EMCF_A_UID) {
+ 			r = -EINVAL;
+ 			goto exit_free;
  		}
-@@ -273,7 +285,6 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
- 		len = get_unaligned_le16(skb->data);
- 		skb_pull(skb, 2);
- 		comp_len = get_unaligned_le16(skb->data);
--		memcpy(&comp_len, skb->data, 2);
- 		skb_pull(skb, 2);
- 		if (((~len) & 0xFFFF) != comp_len) {
- 			nfc_err(priv->dev, "bad len complement: %x %x %x",
-@@ -286,6 +297,12 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
- 			priv->fw_dnld.substate = SUBSTATE_WAIT_NACK_CREDIT;
- 			return 0;
- 		}
-+		if (len > NCI_MAX_PAYLOAD_SIZE ||
-+		    priv->fw_dnld.offset > priv->fw_dnld.fw->size ||
-+		    len > priv->fw_dnld.fw->size - priv->fw_dnld.offset) {
-+			nfc_err(priv->dev, "invalid firmware chunk: %u", len);
-+			return -EINVAL;
+@@ -497,13 +503,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
+ 		       targets->nfcid1_len);
+ 		break;
+ 	case MICROREAD_GATE_ID_MREAD_ISO_A_3:
++		if (skb->len <= MICROREAD_EMCF_A3_LEN) {
++			r = -EINVAL;
++			goto exit_free;
 +		}
- 		priv->fw_dnld.chunk_len = len;
- 		out_skb = alloc_lc_skb(priv, 1);
- 		if (!out_skb)
-@@ -310,7 +327,8 @@ static int process_state_fw_dnld(struct nfcmrvl_private *priv,
- 			nci_send_cmd(priv->ndev, NCI_OP_CORE_CONN_CLOSE_CMD,
- 				     1, &conn_id);
- 		} else {
--			out_skb = alloc_lc_skb(priv, priv->fw_dnld.chunk_len);
-+			out_skb = alloc_lc_skb(priv,
-+					       (u8)priv->fw_dnld.chunk_len);
- 			if (!out_skb)
- 				return -ENOMEM;
- 			skb_put_data(out_skb,
-@@ -507,16 +525,25 @@ int nfcmrvl_fw_dnld_start(struct nci_dev *ndev, const char *firmware_name)
- 		return -ENOENT;
- 	}
- 
--	fw_dnld->header = (const struct nfcmrvl_fw *) priv->fw_dnld.fw->data;
-+	if (fw_dnld->fw->size < sizeof(struct nfcmrvl_fw)) {
-+		nfc_err(priv->dev, "firmware binary %s is too small",
-+			firmware_name);
-+		goto release_firmware;
-+	}
-+	fw_dnld->header = (const struct nfcmrvl_fw *)fw_dnld->fw->data;
- 
- 	if (fw_dnld->header->magic != NFCMRVL_FW_MAGIC ||
- 	    fw_dnld->header->phy != priv->phy) {
- 		nfc_err(priv->dev, "bad firmware binary %s magic=0x%x phy=%d",
- 			firmware_name, fw_dnld->header->magic,
- 			fw_dnld->header->phy);
--		release_firmware(fw_dnld->fw);
--		fw_dnld->header = NULL;
--		return -EINVAL;
-+		goto release_firmware;
-+	}
-+	if (fw_dnld->header->helper.offset > fw_dnld->fw->size ||
-+	    fw_dnld->header->firmware.offset > fw_dnld->fw->size) {
-+		nfc_err(priv->dev, "firmware binary %s has invalid offsets",
-+			firmware_name);
-+		goto release_firmware;
- 	}
- 
- 	if (fw_dnld->header->helper.offset != 0) {
-@@ -546,4 +573,11 @@ int nfcmrvl_fw_dnld_start(struct nci_dev *ndev, const char *firmware_name)
- 	/* Now wait for CORE_RESET_NTF or timeout */
- 
- 	return 0;
 +
-+release_firmware:
-+	release_firmware(fw_dnld->fw);
-+	fw_dnld->fw = NULL;
-+	fw_dnld->header = NULL;
-+	fw_dnld->binary_config = NULL;
-+	return -EINVAL;
- }
-diff --git a/drivers/nfc/nfcmrvl/fw_dnld.h b/drivers/nfc/nfcmrvl/fw_dnld.h
-index 7c4d91b01910..68f8cf8eee71 100644
---- a/drivers/nfc/nfcmrvl/fw_dnld.h
-+++ b/drivers/nfc/nfcmrvl/fw_dnld.h
-@@ -67,8 +67,8 @@ struct nfcmrvl_fw_dnld {
- 
- 	int state;
- 	int substate;
--	int offset;
--	int chunk_len;
-+	size_t offset;
-+	size_t chunk_len;
- 
- 	struct workqueue_struct	*rx_wq;
- 	struct work_struct rx_work;
+ 		targets->supported_protocols =
+ 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A3_SAK]);
+ 		targets->sens_res =
+ 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A3_ATQA]);
+ 		targets->sel_res = skb->data[MICROREAD_EMCF_A3_SAK];
+ 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A3_LEN];
+-		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
++		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
++		    targets->nfcid1_len > skb->len - MICROREAD_EMCF_A3_UID) {
+ 			r = -EINVAL;
+ 			goto exit_free;
+ 		}
+@@ -511,11 +523,21 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
+ 		       targets->nfcid1_len);
+ 		break;
+ 	case MICROREAD_GATE_ID_MREAD_ISO_B:
++		if (skb->len < MICROREAD_EMCF_B_UID + 4) {
++			r = -EINVAL;
++			goto exit_free;
++		}
++
+ 		targets->supported_protocols = NFC_PROTO_ISO14443_B_MASK;
+ 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_B_UID], 4);
+ 		targets->nfcid1_len = 4;
+ 		break;
+ 	case MICROREAD_GATE_ID_MREAD_NFC_T1:
++		if (skb->len < MICROREAD_EMCF_T1_UID + 4) {
++			r = -EINVAL;
++			goto exit_free;
++		}
++
+ 		targets->supported_protocols = NFC_PROTO_JEWEL_MASK;
+ 		targets->sens_res =
+ 			le16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_T1_ATQA]);
+@@ -523,6 +545,11 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
+ 		targets->nfcid1_len = 4;
+ 		break;
+ 	case MICROREAD_GATE_ID_MREAD_NFC_T3:
++		if (skb->len < MICROREAD_EMCF_T3_UID + 8) {
++			r = -EINVAL;
++			goto exit_free;
++		}
++
+ 		targets->supported_protocols = NFC_PROTO_FELICA_MASK;
+ 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_T3_UID], 8);
+ 		targets->nfcid1_len = 8;
 
 base-commit: dac3e89a2c90c2feeb471e1f22a2512ad424b792
 -- 
