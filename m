@@ -1,152 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75ACE4B049C
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 18:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311DF3A9879;
+	Mon, 17 Aug 2026 18:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786992411; cv=none; b=mrPOglRTnLM4EqTco5gdonOaHWjs8ZEOHF4J+L46E4+9ci/y9PiblV7mEnM3oYOh8ibIC42G1HVNHlyOx1qt/0S0sJbvrxBLLq0kUDNBvXBJovNzgP0jkSqejBwBzX5qd9nA4xoI+E9lp+d+ArCzH8z2hKwM+m0wNLwLM4OspiI=
+	t=1786992809; cv=none; b=NAVZ/QbkiGJeB9NQ8YQgaEdlIyY13iTlHgijLaosKVMW/kxlhYrxfMeNnGLddTD7Cwbqb9SFg+pMZ5YiebvTSI4xppDBYrojNGwdg8R2bOC4Zrsl40Hu3GYoySVCBeNiHNtDp2bc8XLzLsDnMul9j13sqpsX7jguTqQ9Iklvnfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786992411; c=relaxed/simple;
-	bh=xVmHJlFrQrU+BNvTVmBFyd8+1yfvVnB4Cal9+GCRYxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=O65/x+E5GQU4ln1lO/7jRtI6wIuN+AhYGnECOuKCUV4jvlQrsW66ZvucgFsplFsEKcmU7PVbX+PX24ejahJreRrDvpagZYoqa+Mw3SDfFQt/hUVYTbMRPKvNfbZk4Rlf4BpGXNo3wh51he1c9bB86MmFB7a6P04UnceXolbD+5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f5B8c5MI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786992809; c=relaxed/simple;
+	bh=1qk5o6mqf10UOvNgrnTGj/YqzhCs2+kNG4ImE2A9omE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SrdFZWHfptNi8p335fDGPx3U0S2M+V22tQ1D3vRRwp+GJj9gIyt5IYs39OlT4mB3HMIru+lkWqP1fRh/rycrsa7vfLi5DaU1DqmYSUQKGrABoscFC7cDe8kh5ivodfn87j/0fIIxVI84mktnpIp+++7zX3CdpqHPK0em/pwif2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NODOT7Ev; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f5B8c5MI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786992409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4GlCflkteeelg4VY0ysidlGum1huGIUMb9+9VM+1VjQ=;
-	b=f5B8c5MI6r3XKd7y+7g3hcXrUXQyNvgILDEyEprFEoWpD643ogNu49HdF9Am5ZM98d950F
-	i27hGLLlig0Bmw/oSt9Wx/Iy/4xPNXy0zplgdBeTBEtzK9rHG3UHblSkb+5rXlbmVUenGZ
-	4KeAgAx9rocYH3NoN56lkT9XppRPmQI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-62-MqdoLrTVN7SVLsg8DO9jFg-1; Mon,
- 17 Aug 2026 14:46:40 -0400
-X-MC-Unique: MqdoLrTVN7SVLsg8DO9jFg-1
-X-Mimecast-MFC-AGG-ID: MqdoLrTVN7SVLsg8DO9jFg_1786992398
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8254E18007FB;
-	Mon, 17 Aug 2026 18:46:38 +0000 (UTC)
-Received: from thuth-p1g4.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 68590423;
-	Mon, 17 Aug 2026 18:46:35 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Bongsu Jeon <bongsu.jeon@samsung.com>,
-	David Heidelberg <david@ixit.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: stable@vger.kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] selftests: nci: Fix wrong size of status variables in nci_dev test
-Date: Mon, 17 Aug 2026 20:46:33 +0200
-Message-ID: <20260817184633.324615-1-thuth@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NODOT7Ev"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992D41F000E9;
+	Mon, 17 Aug 2026 18:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786992807;
+	bh=QAEG0GQGVlUiDpCh1oFzyLFsr4ifZC4c4sD6vkSuKJ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=NODOT7EvHZO5YWUKJJjRiZ0D5NAcNEkQRiMFNZqyB0euiH485+XNfIqw/j0pomMo2
+	 XNh5t7feqS7q9IMubyMc1G8djmUn0khvPNVspsBLalrZrSo0vBmDisG+/iHN/kMUT9
+	 5H4lEBovzNN3Uvl1PeI5WZSTVHH6g+ieCgQMFlCg/iPlRST1w//Ou4KIbXs7vmJEkw
+	 cWIZUlFzRElaiKwuNbeDKT3qfIfxv6Xn02jjQIOKpgNUKE6gSlq0bwqFmeAvZP61d+
+	 1IXTaCLdYi3TTuB38mAIVMNSQj3cjAQ8cGTyesoJy65m8ULO0cEeLG7VLi6xxuVzyd
+	 kB1tDpcNhbRzw==
+Date: Mon, 17 Aug 2026 11:53:25 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+Cc: Paolo Abeni <pabeni@redhat.com>, "David S. Miller"
+ <davem@davemloft.net>, netdev@vger.kernel.org, LKML
+ <linux-kernel@vger.kernel.org>, oe-linux-nfc@lists.linux.dev
+Subject: Re: [pull-request] NFC updates for next-next 2026-08-17
+Message-ID: <20260817115325.4333587c@kernel.org>
+In-Reply-To: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
+References: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-X-Mimecast-MFC-PROC-ID: iVWCay4PTQ7QFfqV7I-j8VZMkrIAgjtsQvwLy708rpk_1786992398
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-pthread_join() stores the thread's return value (a "void *", i.e.
-8 bytes on 64 bit computers) into the address of "status", but the
-"status" variable is declared as "int" with only 4 bytes. The extra
-4 bytes clobber whatever is adjacent on the stack, which could
-silently corrupt other local variables. Use "intptr_t" to declare
-the "status" variables with the correct size.
+On Mon, 17 Aug 2026 19:45:45 +0200 David Heidelberg wrote:
+> The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
+> 
+>    Linux 7.2 (2026-08-16 14:32:26 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260817
 
-Fixes: f595cf1242f3d ("selftests: Add nci suite")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Add "Fixes:" and "Cc: stable" tags
+Please don't rebase your trees. The base of your tree should be at
+whatever point net-next was after the previous PR to net-next.
+Because:
+ - we don't have the 7.2 tag in our trees yet, if I merge this it will
+   look like I pulled a week worth of Linus's tree, not a small PR from
+   you
+ - the commit hashes in linux-next do not match what you have in this PR
 
- tools/testing/selftests/nci/nci_dev.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Did you rebase this tree recently? Perhaps you still have the previous
+version in git reflog that we could pull instead? Exceptionally, this
+time you may need to rebase to go back to an older base..
 
-diff --git a/tools/testing/selftests/nci/nci_dev.c b/tools/testing/selftests/nci/nci_dev.c
-index 312f84ee0444f..4e7a5856f7ea3 100644
---- a/tools/testing/selftests/nci/nci_dev.c
-+++ b/tools/testing/selftests/nci/nci_dev.c
-@@ -6,6 +6,7 @@
-  * Test code for nci
-  */
- 
-+#include <stdint.h>
- #include <stdlib.h>
- #include <errno.h>
- #include <string.h>
-@@ -404,7 +405,7 @@ FIXTURE_SETUP(NCI)
- 	struct msgtemplate msg;
- 	pthread_t thread_t;
- 	__u32 event_group;
--	int status;
-+	intptr_t status;
- 	int rc;
- 
- 	self->open_state = false;
-@@ -497,7 +498,7 @@ static void *virtual_deinit_v2(void *data)
- FIXTURE_TEARDOWN(NCI)
- {
- 	pthread_t thread_t;
--	int status;
-+	intptr_t status;
- 	int rc;
- 
- 	if (self->open_state) {
-@@ -585,7 +586,7 @@ int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid, int p
- 	void *nla_start_poll_data[2] = {&dev_idx, &proto};
- 	int nla_start_poll_len[2] = {4, 4};
- 	pthread_t thread_t;
--	int status;
-+	intptr_t status;
- 	int rc;
- 
- 	rc = pthread_create(&thread_t, NULL, virtual_poll_start,
-@@ -605,7 +606,7 @@ int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid, int p
- int stop_polling(int dev_idx, int virtual_fd, int sd, int fid, int pid)
- {
- 	pthread_t thread_t;
--	int status;
-+	intptr_t status;
- 	int rc;
- 
- 	rc = pthread_create(&thread_t, NULL, virtual_poll_stop,
-@@ -816,7 +817,7 @@ int disconnect_tag(int nfc_sock, int virtual_fd)
- {
- 	pthread_t thread_t;
- 	char buf[256];
--	int status;
-+	intptr_t status;
- 	int len;
- 
- 	send(nfc_sock, &nci_t4t_select_cmd3[3], sizeof(nci_t4t_select_cmd3) - 3, 0);
-@@ -860,7 +861,7 @@ TEST_F(NCI, deinit)
- {
- 	struct msgtemplate msg;
- 	pthread_t thread_t;
--	int status;
-+	intptr_t status;
- 	int rc;
- 
- 	rc = get_nci_devid(self->sd, self->fid, self->pid, self->dev_idex,
--- 
-2.55.0
+BTW normally to get your own fixes into your own -next tree you should
+stagger the PRs - first send the fixes, after net -> net-next merge on
+Thu afternoon - send the -next PR.
 
