@@ -1,171 +1,123 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from ixit.cz (ixit.cz [84.42.129.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8328C23643F
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 15 Aug 2026 13:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F2543B498
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 17:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786801713; cv=none; b=SOSEI7ZVa+TwZSQbiuo189CMElV2Y2wbY6d46nTqGXZANt/4Fr7+8Vc/CFn5RdwB6HOvbC11iGBdZdJXIymGOeR9esRRhz+u2Vpj3lKEXyw65lvJOuENPjGSWlcEzFUbvAu/hhqA612I0DOBi7TuUPypdMQ1Ynw5usXBNZCwgaQ=
+	t=1786987846; cv=none; b=o25qGqKfILdUKS2I409lgB9nH2rk+aTYkGbuDM9xZhhqJO7nUU3uwJmdDodiTjUjl8dt0WPJ5bekZPh39FFgc8ALgnABoiWHkQUiRZ8WocsD6sOwccO4ZYRW4+YNY1oCD+cvBIBce/DGZVmrkQ/17BWigRbvQwmXf8FBDcxG0KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786801713; c=relaxed/simple;
-	bh=7UV2D4vpN/KBruWZwdioP8alSCGT965QmckpccyECIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OyT4IHzt8AjwRFEvdDtVpZ5J/rBaSyZ/DJ1QHFOVz8H5Q9Px3CN0yWb7rkCoIFYEn7Db95SwZM2l9e9naPDekuaNXqnqYmWsSklFHA/H7067mRSxxLnhgfOdxJVwYZID0olSqoj4T7ed4B+TjNFH0YSolJIYP5Vr1vEfuAnlrb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-05 (Coremail) with SMTP id zQCowAAHcTspboBqB13RBQ--.2466S2;
-	Sat, 15 Aug 2026 21:48:25 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: david@ixit.cz
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Kees Cook <kees@kernel.org>,
-	Doruk Tan Ozturk <doruk@0sec.ai>,
-	Eric Lapuyade <eric.lapuyade@linux.intel.com>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3] nfc: microread: validate target discovery payload lengths
-Date: Sat, 15 Aug 2026 21:48:25 +0800
-Message-ID: <20260815134825.48593-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1786987846; c=relaxed/simple;
+	bh=cb6pVMksMHMPTDxo/kvrw5u1m/c9HHoY/lS+YN99ahk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tg3xncw+q2Js9mqz8Ji8vLwI5auoeHyypmrnj6qGBC+fI9ukpK/jmI4urA6HSixVJG+gMOqezslaYZc0PRb1ipj6yAnn2xBlQ7iVFCgWXKYKpS0f/xl5anpACywklk6fhrNU1PLm1MSjSUfiNISrZ9hG3Vct5Vof/OcT4XrBuU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=CKzoZKPd; arc=none smtp.client-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="CKzoZKPd"
+Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 94F655340C71;
+	Mon, 17 Aug 2026 19:30:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1786987842;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dDlF5nqubTOYJbOyasb5Y1xe2nSm9uhNshmMbSKyQO0=;
+	b=CKzoZKPdRfplJP9TokbBbknVjte1vJbT9Boept5IuupB8dDTWDVxfNPgiBzBD0E8uZyY8B
+	SwL9OvySfnFEAszud7mbltdQz1E/Jrsv7/ZzD2t5CF8J4BxqPzvRYBv7KH9UxzZsGekT0z
+	jjP4P2hmjtxzfm0nYxqL64amIcOntnE=
+Message-ID: <ad9df9cc-625c-4650-8220-fd0eec734294@ixit.cz>
+Date: Mon, 17 Aug 2026 19:30:42 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: nci: Fix wrong size of status variables in
+ nci_dev test
+To: Thomas Huth <thuth@redhat.com>, Bongsu Jeon <bongsu.jeon@samsung.com>
+Cc: Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260710112300.512433-1-thuth@redhat.com>
+ <68b1d486-37a9-43d4-a02f-66fa4689d437@redhat.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+In-Reply-To: <68b1d486-37a9-43d4-a02f-66fa4689d437@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAHcTspboBqB13RBQ--.2466S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFyrZrWkKFyDKw1xCrW3Jrb_yoWrAr1Dpa
-	yUWr1DKrW5JrW7Gw13ZFn7ZF1UJw4xuwsF9F1xJwsaya1Yk34DJas3W3y2vF4UAF98urW2
-	kF1vv39xGa9rAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUL0e
-	dUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-microread_target_discovered() parses target discovery payloads from
-skb->data according to the HCI gate. The fixed field offsets and UID
-copies were checked only against the destination nfc_target buffers, not
-against the actual skb length.
+On 13/08/2026 16:45, Thomas Huth wrote:
+> On 10/07/2026 13.23, Thomas Huth wrote:
+>> From: Thomas Huth <thuth@redhat.com>
 
-Validate that each gate-specific payload contains the fixed fields and
-UID bytes before reading or copying them.
+[...]
 
-Fixes: cfad1ba87150 ("NFC: Initial support for Inside Secure microread")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
-Changes since v2:
-https://lore.kernel.org/all/20260723103508.1-microread-v2-pengpeng@iscas.ac.cn/
-- no code changes
-- revalidate the patch against current mainline
-- add the required coding-assistant attribution
+Hello Thomas,
 
-Changes since v1:
-https://lore.kernel.org/all/20260701053709.45176-1-pengpeng@iscas.ac.cn/
-- add the Fixes tag and stable Cc requested during review
-- rebase onto the current net tree
+sadly this one missed my inbox for some reason.
 
- drivers/nfc/microread/microread.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+Could you please send v2 with added `Fixes: ` and `Cc: stable@vger.kernel.org` tags?
 
-diff --git a/drivers/nfc/microread/microread.c b/drivers/nfc/microread/microread.c
-index 4149c5d735bd..dfa2490db545 100644
---- a/drivers/nfc/microread/microread.c
-+++ b/drivers/nfc/microread/microread.c
-@@ -483,13 +483,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 
- 	switch (gate) {
- 	case MICROREAD_GATE_ID_MREAD_ISO_A:
-+		if (skb->len <= MICROREAD_EMCF_A_LEN) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols =
- 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A_SAK]);
- 		targets->sens_res =
- 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A_ATQA]);
- 		targets->sel_res = skb->data[MICROREAD_EMCF_A_SAK];
- 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A_LEN];
--		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
-+		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
-+		    targets->nfcid1_len > skb->len - MICROREAD_EMCF_A_UID) {
- 			r = -EINVAL;
- 			goto exit_free;
- 		}
-@@ -497,13 +503,19 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		       targets->nfcid1_len);
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_ISO_A_3:
-+		if (skb->len <= MICROREAD_EMCF_A3_LEN) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols =
- 		      nfc_hci_sak_to_protocol(skb->data[MICROREAD_EMCF_A3_SAK]);
- 		targets->sens_res =
- 			 be16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_A3_ATQA]);
- 		targets->sel_res = skb->data[MICROREAD_EMCF_A3_SAK];
- 		targets->nfcid1_len = skb->data[MICROREAD_EMCF_A3_LEN];
--		if (targets->nfcid1_len > sizeof(targets->nfcid1)) {
-+		if (targets->nfcid1_len > sizeof(targets->nfcid1) ||
-+		    targets->nfcid1_len > skb->len - MICROREAD_EMCF_A3_UID) {
- 			r = -EINVAL;
- 			goto exit_free;
- 		}
-@@ -511,11 +523,21 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		       targets->nfcid1_len);
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_ISO_B:
-+		if (skb->len < MICROREAD_EMCF_B_UID + 4) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_ISO14443_B_MASK;
- 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_B_UID], 4);
- 		targets->nfcid1_len = 4;
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_NFC_T1:
-+		if (skb->len < MICROREAD_EMCF_T1_UID + 4) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_JEWEL_MASK;
- 		targets->sens_res =
- 			le16_to_cpu(*(u16 *)&skb->data[MICROREAD_EMCF_T1_ATQA]);
-@@ -523,6 +545,11 @@ static void microread_target_discovered(struct nfc_hci_dev *hdev, u8 gate,
- 		targets->nfcid1_len = 4;
- 		break;
- 	case MICROREAD_GATE_ID_MREAD_NFC_T3:
-+		if (skb->len < MICROREAD_EMCF_T3_UID + 8) {
-+			r = -EINVAL;
-+			goto exit_free;
-+		}
-+
- 		targets->supported_protocols = NFC_PROTO_FELICA_MASK;
- 		memcpy(targets->nfcid1, &skb->data[MICROREAD_EMCF_T3_UID], 8);
- 		targets->nfcid1_len = 8;
+Thanks
+David
 
-base-commit: dac3e89a2c90c2feeb471e1f22a2512ad424b792
+> 
+> Friendly ping!
+> 
+>   Thomas
+> 
+
 -- 
-2.50.1 (Apple Git-155)
+David Heidelberg
 
