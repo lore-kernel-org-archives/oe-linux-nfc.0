@@ -1,208 +1,152 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C8C27C162
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 17:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75ACE4B049C
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 18:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786988750; cv=none; b=u0bffpcWL4w17wlpN0ITBk4tDZ/YaQ4jT6B7KCqf9418Pl9lzEFm00cZ5hS7dgd30ucU8yK3SGrokox6e2toUz2YDQtMFVlv6dTTeGpn3WS5v36+cULB7v9fCQ8FukTTcYOep9dCBBBAgzlnXtpn3hC59kGLNyrxxh4ev6OX4lY=
+	t=1786992411; cv=none; b=mrPOglRTnLM4EqTco5gdonOaHWjs8ZEOHF4J+L46E4+9ci/y9PiblV7mEnM3oYOh8ibIC42G1HVNHlyOx1qt/0S0sJbvrxBLLq0kUDNBvXBJovNzgP0jkSqejBwBzX5qd9nA4xoI+E9lp+d+ArCzH8z2hKwM+m0wNLwLM4OspiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786988750; c=relaxed/simple;
-	bh=cmiZCpyFbW7G6EV3Am3rZbgt804snACTQKJjB0jKlZs=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=e4bh3dRQDU4nTcq6vkMessFu5Htyq8uwnxK/aAj6wL77GWwIEakJNYUJnb6HidjGzPw54O7UU5EFoFyv+Ks/zypYRQ1L4vb3vJsVpBJzmT/C3KVJlgeyHSR0X/qNp2+LOZiw5gzH2lzC/9s3ASxtiBXBgNaCj5p5fRufblg0qDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=BQchZlLp; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1786992411; c=relaxed/simple;
+	bh=xVmHJlFrQrU+BNvTVmBFyd8+1yfvVnB4Cal9+GCRYxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=O65/x+E5GQU4ln1lO/7jRtI6wIuN+AhYGnECOuKCUV4jvlQrsW66ZvucgFsplFsEKcmU7PVbX+PX24ejahJreRrDvpagZYoqa+Mw3SDfFQt/hUVYTbMRPKvNfbZk4Rlf4BpGXNo3wh51he1c9bB86MmFB7a6P04UnceXolbD+5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f5B8c5MI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="BQchZlLp"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 6B87F5340244;
-	Mon, 17 Aug 2026 19:45:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786988745;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f5B8c5MI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786992409;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=DQm4wCwWKLowVLwxtHFSqbiNXV1TR5TiADhIErbWjsw=;
-	b=BQchZlLpLCiyZwgvkz0vVSDNGuprMKAQWq6I3PBLrxaGfmlV5kiWzkDivzg6dEbVJVQR8V
-	A/e8+tM2CwqLZW3+AXJsRMVYXgZWz4l5f0pxefWRqvZ+ZicuoUpodix8sYmZGzjuLtOh0j
-	zNj7znrJehzjWN2wnsz2tk5paXXW+Cs=
-Message-ID: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
-Date: Mon, 17 Aug 2026 19:45:45 +0200
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4GlCflkteeelg4VY0ysidlGum1huGIUMb9+9VM+1VjQ=;
+	b=f5B8c5MI6r3XKd7y+7g3hcXrUXQyNvgILDEyEprFEoWpD643ogNu49HdF9Am5ZM98d950F
+	i27hGLLlig0Bmw/oSt9Wx/Iy/4xPNXy0zplgdBeTBEtzK9rHG3UHblSkb+5rXlbmVUenGZ
+	4KeAgAx9rocYH3NoN56lkT9XppRPmQI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-62-MqdoLrTVN7SVLsg8DO9jFg-1; Mon,
+ 17 Aug 2026 14:46:40 -0400
+X-MC-Unique: MqdoLrTVN7SVLsg8DO9jFg-1
+X-Mimecast-MFC-AGG-ID: MqdoLrTVN7SVLsg8DO9jFg_1786992398
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8254E18007FB;
+	Mon, 17 Aug 2026 18:46:38 +0000 (UTC)
+Received: from thuth-p1g4.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 68590423;
+	Mon, 17 Aug 2026 18:46:35 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Bongsu Jeon <bongsu.jeon@samsung.com>,
+	David Heidelberg <david@ixit.cz>,
+	Shuah Khan <shuah@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: stable@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] selftests: nci: Fix wrong size of status variables in nci_dev test
+Date: Mon, 17 Aug 2026 20:46:33 +0200
+Message-ID: <20260817184633.324615-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
-Cc: netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- oe-linux-nfc@lists.linux.dev
-From: David Heidelberg <david@ixit.cz>
-Subject: [pull-request] NFC updates for next-next 2026-08-17
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: iVWCay4PTQ7QFfqV7I-j8VZMkrIAgjtsQvwLy708rpk_1786992398
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
+pthread_join() stores the thread's return value (a "void *", i.e.
+8 bytes on 64 bit computers) into the address of "status", but the
+"status" variable is declared as "int" with only 4 bytes. The extra
+4 bytes clobber whatever is adjacent on the stack, which could
+silently corrupt other local variables. Use "intptr_t" to declare
+the "status" variables with the correct size.
 
-   Linux 7.2 (2026-08-16 14:32:26 -0700)
+Fixes: f595cf1242f3d ("selftests: Add nci suite")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Add "Fixes:" and "Cc: stable" tags
 
-are available in the Git repository at:
+ tools/testing/selftests/nci/nci_dev.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-   https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260817
+diff --git a/tools/testing/selftests/nci/nci_dev.c b/tools/testing/selftests/nci/nci_dev.c
+index 312f84ee0444f..4e7a5856f7ea3 100644
+--- a/tools/testing/selftests/nci/nci_dev.c
++++ b/tools/testing/selftests/nci/nci_dev.c
+@@ -6,6 +6,7 @@
+  * Test code for nci
+  */
+ 
++#include <stdint.h>
+ #include <stdlib.h>
+ #include <errno.h>
+ #include <string.h>
+@@ -404,7 +405,7 @@ FIXTURE_SETUP(NCI)
+ 	struct msgtemplate msg;
+ 	pthread_t thread_t;
+ 	__u32 event_group;
+-	int status;
++	intptr_t status;
+ 	int rc;
+ 
+ 	self->open_state = false;
+@@ -497,7 +498,7 @@ static void *virtual_deinit_v2(void *data)
+ FIXTURE_TEARDOWN(NCI)
+ {
+ 	pthread_t thread_t;
+-	int status;
++	intptr_t status;
+ 	int rc;
+ 
+ 	if (self->open_state) {
+@@ -585,7 +586,7 @@ int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid, int p
+ 	void *nla_start_poll_data[2] = {&dev_idx, &proto};
+ 	int nla_start_poll_len[2] = {4, 4};
+ 	pthread_t thread_t;
+-	int status;
++	intptr_t status;
+ 	int rc;
+ 
+ 	rc = pthread_create(&thread_t, NULL, virtual_poll_start,
+@@ -605,7 +606,7 @@ int start_polling(int dev_idx, int proto, int virtual_fd, int sd, int fid, int p
+ int stop_polling(int dev_idx, int virtual_fd, int sd, int fid, int pid)
+ {
+ 	pthread_t thread_t;
+-	int status;
++	intptr_t status;
+ 	int rc;
+ 
+ 	rc = pthread_create(&thread_t, NULL, virtual_poll_stop,
+@@ -816,7 +817,7 @@ int disconnect_tag(int nfc_sock, int virtual_fd)
+ {
+ 	pthread_t thread_t;
+ 	char buf[256];
+-	int status;
++	intptr_t status;
+ 	int len;
+ 
+ 	send(nfc_sock, &nci_t4t_select_cmd3[3], sizeof(nci_t4t_select_cmd3) - 3, 0);
+@@ -860,7 +861,7 @@ TEST_F(NCI, deinit)
+ {
+ 	struct msgtemplate msg;
+ 	pthread_t thread_t;
+-	int status;
++	intptr_t status;
+ 	int rc;
+ 
+ 	rc = get_nci_devid(self->sd, self->fid, self->pid, self->dev_idex,
+-- 
+2.55.0
 
-for you to fetch changes up to be47ff78de05e931ede1d0a407f8ef6f063054d3:
-
-   selftests: nci: Correct pthread_create return value check (2026-08-17 19:27:51
-+0200)
-
-----------------------------------------------------------------
-NFC updates for net-next 2026-08-17
-
-Improvements:
-   nxp-nci: Add remove on IRQ error
-   mrvl: spi: Unregister dev on allocation fail
-
-Cleanups:
-   Drop __maybe_unused from acpi_device_id tables
-   Drop unused assignment of acpi_device_id driver data
-   Initialize acpi_device_id arrays using member names
-   Unify style of acpi_device_id arrays
-   Initialize mei_cl_device_idarrays using member names
-   Drop __maybe_unused from of_device_id tables
-   Unify style of of_device_id arrays
-   Drop unused assignment of spi_device_id driver data
-   Initialize spi_device_idarrays using member names
-   Unify style of spi_device_id arrays
-   Unify style of usb_device_id arrays
-   pn544: Drop empty line between i2c_device_id array and MODULE_DEVICE_TABLE()
-   trf7970a: Use NULL when no response is expected
-
-Modernization:
-   st95hf: switch to using sleeping variants of gpiod API
-
-Others:
-   MAINTAINERS: Add Matrix channel to the NFC subsystem
-   pn533: fix memcpy overflow warning
-
-Signed-off-by: David Heidelberg <david@ixit.cz>
-
-----------------------------------------------------------------
-Aldo Ariel Panzardo (1):
-       nfc: llcp: Fix list corruption / refcount desync in nfc_llcp_recv_dm()
-
-Breno Leitao (2):
-       nfc: llcp: avoid userspace overflow on invalid optlen
-       nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
-
-Bryam Vargas (2):
-       nfc: nci: add data_len bound checks to activation parameter extractors
-       nfc: fdp: bound the device-reported read length and fix an skb leak
-
-Doruk Tan Ozturk (6):
-       nfc: digital: clamp SENSF_RES length to the destination buffer
-       nfc: llcp: bound SNL TLV parsing to the skb and add length checks
-       nfc: llcp: reject PDUs shorter than the LLCP header
-       nfc: llcp: bound the connect_sn TLV walk to the skb
-       nfc: st21nfca: validate ATR_REQ length against the received frame
-       nfc: port100: reject frames whose declared length exceeds the received data
-
-Lei Zhu (1):
-       selftests: nci: Correct pthread_create return value check
-
-Linmao Li (2):
-       nfc: digital: Do not dump a NULL response in command completion
-       nfc: nci: free destination parameters when closing a connection
-
-Muhammad Bilal (1):
-       nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
-
-Pengpeng Hou (3):
-       nfc: microread: validate target discovery payload lengths
-       nfc: nfcmrvl: validate helper command length before pull
-       nfc: st21nfca: validate received frame size
-
-Samuel Page (2):
-       nfc: nci: fix out-of-bounds write in nci_target_auto_activated()
-       nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
-
-Xu Rao (1):
-       nfc: pn533: purge fragmented skbs during cleanup
-
-Yinhao Hu (1):
-       nfc: pn533: hold a reference to the request skb during send_frame
-
-Yun Zhou (1):
-       nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
-
-Zhenghang Xiao (1):
-       nfc: nci: fix double completion race in nci_data_exchange_complete
-
-  drivers/nfc/fdp/i2c.c                 | 27 +++++++++++++++++++++++++++
-  drivers/nfc/microread/microread.c     | 31 +++++++++++++++++++++++++++++--
-  drivers/nfc/nfcmrvl/fw_dnld.c         | 11 ++++++++---
-  drivers/nfc/pn533/pn533.c             | 22 ++++++++++++++++------
-  drivers/nfc/port100.c                 |  7 +++++++
-  drivers/nfc/st21nfca/dep.c            |  3 +++
-  drivers/nfc/st21nfca/i2c.c            | 29 +++++++++++++++++++----------
-  net/nfc/digital_core.c                |  2 +-
-  net/nfc/digital_technology.c          |  2 ++
-  net/nfc/llcp_commands.c               | 18 ++++++++++++++++--
-  net/nfc/llcp_core.c                   | 69 ++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++------------
-  net/nfc/llcp_sock.c                   | 14 +++++++++++---
-  net/nfc/nci/data.c                    | 10 +++++-----
-  net/nfc/nci/ntf.c                     | 36 ++++++++++++++++++++++++++++++------
-  net/nfc/nci/rsp.c                     | 42 ++++++++++++++++++++++++++++++++++++
-+++---
-  tools/testing/selftests/nci/nci_dev.c | 12 +++++++-----
-  16 files changed, 277 insertions(+), 58 deletions(-)
