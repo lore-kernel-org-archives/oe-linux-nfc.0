@@ -1,77 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF1D35DA42;
-	Mon, 17 Aug 2026 19:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55681125A0
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 20:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786995977; cv=none; b=tT43TvXiiaiaBNDJAFllzRRCaYF0lxRckcoLXK5GwxG4ZTRgkoSl3yH7LynzSlobgr2M33e64TeokZhJpRIQBRZi6hAJdTJS6eDKvQ/hJjtaAn9bTO0P5P3gKX4tTFXHD9fHoJ7OBhGvoPvaxRzbknMPXc/2xrA02E6U9CaDSKA=
+	t=1786997031; cv=none; b=RZCk9NcdZs0hr61KckfXWsQyz9SOkePFjV/zN/j5KPjESPImJEorwJVQSbDdkj2U7PpEBOiZTgdph4BpA5l9bzZcdOgj/Bm9kjA1hhHIqXI8M6IOzst2uN0pb20WB8VxPMqWqtHdFh0ptCtftEpO1ghAna1OvhNuf7LzZ596BX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786995977; c=relaxed/simple;
-	bh=7sFG7IKe0TjqOwhZhr+gHtjf2ZVa30iVJC5PcHnFdH8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=WEe0Gw+im2rpSbSF/kBHXQpb2zBop9PvmMcPDgK4GqzNPQFjo7x54mYyijncATjaRECBgBdzaro/jIQxNKZib8KxzA9jCc78pA5ux+sAAwhP7OOmv1yiwzhDbFttMzV2q9EVN7OnP1mUTuG50kmxYNyfIdi/fl0Sqm8CEnwxFW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YfqBC1zX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786997031; c=relaxed/simple;
+	bh=UpZJ2Frife9XFXJMgfiy84YCxCgaaU2KK+7c0df+Vdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q/FKI43Ebj5F241Y9rdPCqVlQgvqeC0/XgSa355Ab2mQOZmWefzZ6AZ8BZbRpFh50FWA9jJGv+kebVpays0bTeyfAn1Y4tq0zI4BWm3EpZNDqth6TZrq9nJWKopeF0kRlh2MWFXXHHU2yodRuNgdRWH4IB5yIecQfX4PJYA5dcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Dg6axNGw; arc=none smtp.client-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YfqBC1zX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71B111F000E9;
-	Mon, 17 Aug 2026 19:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786995976;
-	bh=wqn44WbkbVRRvfq3n4GCmvsx8PC/4xHXMLWv/tMFrCo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=YfqBC1zXSF29dI5+LY6kciQXFXrTjJ4CHmsWpjx4UGuFZkbMm0+VyZmGsPqZmSBjP
-	 mv5TdAn/0siWJEECzDb4BWRlxX3+ogiHclvhKTihUvrFuKtYeWBixwXJQuStC/ruL1
-	 /CPcTrVmKEWhGyXN5qTiCquKK27x2kfhAqqBZ8h/+AMtay0PgfWFIjmzb7Xrb5F9v5
-	 4mjBJUHuUcpO39OZkDa+pl9xGoP3B7t4zrxeHfasWY7h3j8KH880YIYzLIXoe8xSqP
-	 ySuluUGt/M9oWh8D6AiG+Zg3GDrxskiUbwRl5fhyCwSWJ6fHdXVLfgYmxsW2Wf7r5u
-	 7V9ksgBPKEoRQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D09D63926262;
-	Mon, 17 Aug 2026 19:45:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Dg6axNGw"
+Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 7048253405DB;
+	Mon, 17 Aug 2026 22:03:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1786997027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=CJwbK4Hd5hG+cB08tP/aOrYbCBUNOyMxs/eMI0RzurE=;
+	b=Dg6axNGweWyKfPKQvZyWUAT/a/+L9dY8mip0Rnym46kyr3F5MxlV1IwCKlyUEw7ZTSXrMM
+	Ik1Ir3xQfy+cMEi9jSaOFeJyxPApph0BiqcWJ+h3KjUE5WXIO/HS/tRtigDcBY9J67SJQy
+	8zG9/+mNhUEkfeAxbu+hTZhJHmvtIjs=
+Message-ID: <da5d3eb0-0926-4f0d-bb46-1453930b2491@ixit.cz>
+Date: Mon, 17 Aug 2026 22:03:47 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [pull-request] NFC fixes for net 7.1-rc8
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178699592843.1691257.18400258097143079777.git-patchwork-notify@kernel.org>
-Date: Mon, 17 Aug 2026 19:45:28 +0000
-References: <4bcd0efa-cd97-485b-a7ba-6db8e3c4d3dd@ixit.cz>
-In-Reply-To: <4bcd0efa-cd97-485b-a7ba-6db8e3c4d3dd@ixit.cz>
-To: David Heidelberg <david@ixit.cz>
-Cc: kuba@kernel.org, pabeni@redhat.com, davem@davemloft.net,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [pull-request] NFC updates for next-next 2026-08-17
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
  oe-linux-nfc@lists.linux.dev
+References: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
+ <20260817115325.4333587c@kernel.org>
+Content-Language: en-US, cs-CZ
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+In-Reply-To: <20260817115325.4333587c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This pull request was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 11 Aug 2026 18:27:50 +0200 you wrote:
-> The following changes since commit db2ddb87143519e20a95aa36c60b36107b736a58:
+On 17/08/2026 20:53, Jakub Kicinski wrote:
+> On Mon, 17 Aug 2026 19:45:45 +0200 David Heidelberg wrote:
+>> The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
+>>
+>>     Linux 7.2 (2026-08-16 14:32:26 -0700)
+>>
+>> are available in the Git repository at:
+>>
+>>     https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260817
 > 
->    Linux 7.2-rc7 (2026-08-09 14:54:50 -0700)
+> Please don't rebase your trees. The base of your tree should be at
+> whatever point net-next was after the previous PR to net-next.
+> Because:
+>   - we don't have the 7.2 tag in our trees yet, if I merge this it will
+>     look like I pulled a week worth of Linus's tree, not a small PR from
+>     you
+>   - the commit hashes in linux-next do not match what you have in this PR
 > 
-> are available in the Git repository at:
+> Did you rebase this tree recently? Perhaps you still have the previous
+> version in git reflog that we could pull instead? Exceptionally, this
+> time you may need to rebase to go back to an older base..
+
+Yes I have, let me tag the rc8 instead.
+
+David>
+> BTW normally to get your own fixes into your own -next tree you should
+> stagger the PRs - first send the fixes, after net -> net-next merge on
+> Thu afternoon - send the -next PR.
 > 
->    https://codeberg.org/linux-nfc/linux.git tags/nfc-7.1-rc8
-> 
-> [...]
-
-Here is the summary with links:
-  - [pull-request] NFC fixes for net 7.1-rc8
-    https://git.kernel.org/netdev/net/c/a22054d74333
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
 
