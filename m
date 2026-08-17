@@ -1,39 +1,37 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F2543B498
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 17:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C8C27C162
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 17 Aug 2026 17:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786987846; cv=none; b=o25qGqKfILdUKS2I409lgB9nH2rk+aTYkGbuDM9xZhhqJO7nUU3uwJmdDodiTjUjl8dt0WPJ5bekZPh39FFgc8ALgnABoiWHkQUiRZ8WocsD6sOwccO4ZYRW4+YNY1oCD+cvBIBce/DGZVmrkQ/17BWigRbvQwmXf8FBDcxG0KM=
+	t=1786988750; cv=none; b=u0bffpcWL4w17wlpN0ITBk4tDZ/YaQ4jT6B7KCqf9418Pl9lzEFm00cZ5hS7dgd30ucU8yK3SGrokox6e2toUz2YDQtMFVlv6dTTeGpn3WS5v36+cULB7v9fCQ8FukTTcYOep9dCBBBAgzlnXtpn3hC59kGLNyrxxh4ev6OX4lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786987846; c=relaxed/simple;
-	bh=cb6pVMksMHMPTDxo/kvrw5u1m/c9HHoY/lS+YN99ahk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tg3xncw+q2Js9mqz8Ji8vLwI5auoeHyypmrnj6qGBC+fI9ukpK/jmI4urA6HSixVJG+gMOqezslaYZc0PRb1ipj6yAnn2xBlQ7iVFCgWXKYKpS0f/xl5anpACywklk6fhrNU1PLm1MSjSUfiNISrZ9hG3Vct5Vof/OcT4XrBuU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=CKzoZKPd; arc=none smtp.client-ip=84.42.129.46
+	s=arc-20240116; t=1786988750; c=relaxed/simple;
+	bh=cmiZCpyFbW7G6EV3Am3rZbgt804snACTQKJjB0jKlZs=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=e4bh3dRQDU4nTcq6vkMessFu5Htyq8uwnxK/aAj6wL77GWwIEakJNYUJnb6HidjGzPw54O7UU5EFoFyv+Ks/zypYRQ1L4vb3vJsVpBJzmT/C3KVJlgeyHSR0X/qNp2+LOZiw5gzH2lzC/9s3ASxtiBXBgNaCj5p5fRufblg0qDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=BQchZlLp; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="CKzoZKPd"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="BQchZlLp"
 Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 94F655340C71;
-	Mon, 17 Aug 2026 19:30:42 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 6B87F5340244;
+	Mon, 17 Aug 2026 19:45:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1786987842;
+	t=1786988745;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dDlF5nqubTOYJbOyasb5Y1xe2nSm9uhNshmMbSKyQO0=;
-	b=CKzoZKPdRfplJP9TokbBbknVjte1vJbT9Boept5IuupB8dDTWDVxfNPgiBzBD0E8uZyY8B
-	SwL9OvySfnFEAszud7mbltdQz1E/Jrsv7/ZzD2t5CF8J4BxqPzvRYBv7KH9UxzZsGekT0z
-	jjP4P2hmjtxzfm0nYxqL64amIcOntnE=
-Message-ID: <ad9df9cc-625c-4650-8220-fd0eec734294@ixit.cz>
-Date: Mon, 17 Aug 2026 19:30:42 +0200
+	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+	bh=DQm4wCwWKLowVLwxtHFSqbiNXV1TR5TiADhIErbWjsw=;
+	b=BQchZlLpLCiyZwgvkz0vVSDNGuprMKAQWq6I3PBLrxaGfmlV5kiWzkDivzg6dEbVJVQR8V
+	A/e8+tM2CwqLZW3+AXJsRMVYXgZWz4l5f0pxefWRqvZ+ZicuoUpodix8sYmZGzjuLtOh0j
+	zNj7znrJehzjWN2wnsz2tk5paXXW+Cs=
+Message-ID: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
+Date: Mon, 17 Aug 2026 19:45:45 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,15 +39,13 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests: nci: Fix wrong size of status variables in
- nci_dev test
-To: Thomas Huth <thuth@redhat.com>, Bongsu Jeon <bongsu.jeon@samsung.com>
-Cc: Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
-References: <20260710112300.512433-1-thuth@redhat.com>
- <68b1d486-37a9-43d4-a02f-66fa4689d437@redhat.com>
 Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
+Cc: netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ oe-linux-nfc@lists.linux.dev
 From: David Heidelberg <david@ixit.cz>
+Subject: [pull-request] NFC updates for next-next 2026-08-17
 Autocrypt: addr=david@ixit.cz; keydata=
  xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
  9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
@@ -93,31 +89,120 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <68b1d486-37a9-43d4-a02f-66fa4689d437@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 13/08/2026 16:45, Thomas Huth wrote:
-> On 10/07/2026 13.23, Thomas Huth wrote:
->> From: Thomas Huth <thuth@redhat.com>
+The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
 
-[...]
+   Linux 7.2 (2026-08-16 14:32:26 -0700)
 
-Hello Thomas,
+are available in the Git repository at:
 
-sadly this one missed my inbox for some reason.
+   https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260817
 
-Could you please send v2 with added `Fixes: ` and `Cc: stable@vger.kernel.org` tags?
+for you to fetch changes up to be47ff78de05e931ede1d0a407f8ef6f063054d3:
 
-Thanks
-David
+   selftests: nci: Correct pthread_create return value check (2026-08-17 19:27:51
++0200)
 
-> 
-> Friendly ping!
-> 
->   Thomas
-> 
+----------------------------------------------------------------
+NFC updates for net-next 2026-08-17
 
--- 
-David Heidelberg
+Improvements:
+   nxp-nci: Add remove on IRQ error
+   mrvl: spi: Unregister dev on allocation fail
 
+Cleanups:
+   Drop __maybe_unused from acpi_device_id tables
+   Drop unused assignment of acpi_device_id driver data
+   Initialize acpi_device_id arrays using member names
+   Unify style of acpi_device_id arrays
+   Initialize mei_cl_device_idarrays using member names
+   Drop __maybe_unused from of_device_id tables
+   Unify style of of_device_id arrays
+   Drop unused assignment of spi_device_id driver data
+   Initialize spi_device_idarrays using member names
+   Unify style of spi_device_id arrays
+   Unify style of usb_device_id arrays
+   pn544: Drop empty line between i2c_device_id array and MODULE_DEVICE_TABLE()
+   trf7970a: Use NULL when no response is expected
+
+Modernization:
+   st95hf: switch to using sleeping variants of gpiod API
+
+Others:
+   MAINTAINERS: Add Matrix channel to the NFC subsystem
+   pn533: fix memcpy overflow warning
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+
+----------------------------------------------------------------
+Aldo Ariel Panzardo (1):
+       nfc: llcp: Fix list corruption / refcount desync in nfc_llcp_recv_dm()
+
+Breno Leitao (2):
+       nfc: llcp: avoid userspace overflow on invalid optlen
+       nfc: llcp: read llcp_sock->local under the socket lock in getsockopt
+
+Bryam Vargas (2):
+       nfc: nci: add data_len bound checks to activation parameter extractors
+       nfc: fdp: bound the device-reported read length and fix an skb leak
+
+Doruk Tan Ozturk (6):
+       nfc: digital: clamp SENSF_RES length to the destination buffer
+       nfc: llcp: bound SNL TLV parsing to the skb and add length checks
+       nfc: llcp: reject PDUs shorter than the LLCP header
+       nfc: llcp: bound the connect_sn TLV walk to the skb
+       nfc: st21nfca: validate ATR_REQ length against the received frame
+       nfc: port100: reject frames whose declared length exceeds the received data
+
+Lei Zhu (1):
+       selftests: nci: Correct pthread_create return value check
+
+Linmao Li (2):
+       nfc: digital: Do not dump a NULL response in command completion
+       nfc: nci: free destination parameters when closing a connection
+
+Muhammad Bilal (1):
+       nfc: llcp: fix OOB read and u8 offset wrap in TLV parsers
+
+Pengpeng Hou (3):
+       nfc: microread: validate target discovery payload lengths
+       nfc: nfcmrvl: validate helper command length before pull
+       nfc: st21nfca: validate received frame size
+
+Samuel Page (2):
+       nfc: nci: fix out-of-bounds write in nci_target_auto_activated()
+       nfc: nci: fix uninit-value in the RF discover/activated NTF handlers
+
+Xu Rao (1):
+       nfc: pn533: purge fragmented skbs during cleanup
+
+Yinhao Hu (1):
+       nfc: pn533: hold a reference to the request skb during send_frame
+
+Yun Zhou (1):
+       nfc: nci: fix use of uninitialized memory in CORE_INIT_RSP parsing
+
+Zhenghang Xiao (1):
+       nfc: nci: fix double completion race in nci_data_exchange_complete
+
+  drivers/nfc/fdp/i2c.c                 | 27 +++++++++++++++++++++++++++
+  drivers/nfc/microread/microread.c     | 31 +++++++++++++++++++++++++++++--
+  drivers/nfc/nfcmrvl/fw_dnld.c         | 11 ++++++++---
+  drivers/nfc/pn533/pn533.c             | 22 ++++++++++++++++------
+  drivers/nfc/port100.c                 |  7 +++++++
+  drivers/nfc/st21nfca/dep.c            |  3 +++
+  drivers/nfc/st21nfca/i2c.c            | 29 +++++++++++++++++++----------
+  net/nfc/digital_core.c                |  2 +-
+  net/nfc/digital_technology.c          |  2 ++
+  net/nfc/llcp_commands.c               | 18 ++++++++++++++++--
+  net/nfc/llcp_core.c                   | 69 ++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++------------
+  net/nfc/llcp_sock.c                   | 14 +++++++++++---
+  net/nfc/nci/data.c                    | 10 +++++-----
+  net/nfc/nci/ntf.c                     | 36 ++++++++++++++++++++++++++++++------
+  net/nfc/nci/rsp.c                     | 42 ++++++++++++++++++++++++++++++++++++
++++---
+  tools/testing/selftests/nci/nci_dev.c | 12 +++++++-----
+  16 files changed, 277 insertions(+), 58 deletions(-)
