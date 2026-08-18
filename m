@@ -1,39 +1,87 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75371448BBE
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 09:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B743C65E0
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 10:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787046909; cv=none; b=BXI6dLNavNEjYmMECASeGrMHN2+YG4fQC39G7RQmLH0Vzw7v2idnnYeuX6lBbpYViI5dY+Q6w7+E4XdqfTfu3Tl+0oYOvYONQ6YF/UxpTa/IXeursbZpoLfNC8mROJLl9m86stOlSRKzl+PddEC0MbsbbE95QatLaZ+0Kqoc2TE=
+	t=1787048859; cv=none; b=oUYva1FHGp5S2MdCPgggJDtwFGMtBWY/Wb13N6sl5hc+diBqz0J65G3wOjv4Na6b6pQX7Yw+OxHfZj176cwvFL6iJA4qIBzrdK5tTuZKJ4R86KckAA61xn9BjyIdM0ydebQUefG4OSdEvrG08klvuIUPbu7Z01lJD7iQp3Fs+QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787046909; c=relaxed/simple;
-	bh=ue1M3wuqiY1uCyjqgUKlDpO/vNTCUqC8fmQJxlZdkf8=;
+	s=arc-20240116; t=1787048859; c=relaxed/simple;
+	bh=qzVduJq5GdVNzfjCOi6IYK/AGsAYiirXHMuWBR5pY6M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VB10zgdKwpaA8nQwpgDE3vLVPss2fXQN1DQZt4mcPI7EwzKpakI4H9eS+yEQ4rV5JXeCsh3oXX/5nFp9wAZQIunAaStgXimQIE676MlbCDXashqvanUSKlws4IATshd6Hhslv5YDQFIx9gN68Pwxk/YKgePBLPgytpu53h5DzF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=eVMat6TJ; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	 In-Reply-To:Content-Type; b=TU8g0ocOEz2r+3BZE71mSoED6WOlN34Ui3BsiJpp2/FiCckDMxsnZPhJIJDltt3+gl0lmIJrhvoUX+6Gtl4vI3uBqmXpKpAYF0Y1FQJtqZUN4lM7LZDSPxFlXNDGNawusUAa9pwATVPlWon60Leyl0MMwMeLtnkrEAp6LfvUVaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PchoZbV0; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U6hKLWjH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="eVMat6TJ"
-Received: from [172.16.124.192] (ip-78-44-13-22.bb.vodafone.cz [78.44.13.22])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 18F515340235;
-	Tue, 18 Aug 2026 11:55:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1787046905;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YGXqIzh5pemn/L9cV1UChmirs6mv15oVNMRsDWcJ1do=;
-	b=eVMat6TJaABH7ru0NzSrZPvdBRxni5vZDBQWF5EnZoowr/wti7hyYndQciMsBSMqUhqAs4
-	EFRBqXqu0tH5LfeG6U/5/DysMPb/PxdTURNbFMDVrNbgT1jGnIXBS6v0zjUwmtusd3Npcc
-	xpUL2d7Adjax+UBTWHVGSWd5yvQqRqI=
-Message-ID: <b446e0e2-359c-4e8b-8fe7-6d72210ad55b@ixit.cz>
-Date: Tue, 18 Aug 2026 11:55:04 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PchoZbV0";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U6hKLWjH"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67IABl6S068849
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 10:27:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	kbAw28JEMDtsVhR/iRFJoE82+XonCmoCsrWXqTH4a6I=; b=PchoZbV0KUbr4cVv
+	pqYicGS389HO7wkBfrbAxIwrMP5B0dwDc1c7hzD6zE+C6B89rB8Qit96iKeW5O1x
+	89PHNnfolz7ua/md1UbTN71YtmKMDux8bs8djS5N+vKqEf/Yr0iZUVQBWdOV4eUD
+	R4p25oPtf0XkJJAIGXROex6rU0auIcuLaax1iFxXyu3Lm1O0by5hJHm/J3x36Ww4
+	B3ETSZxK0MP0AKL9Y0qDmRbEOdgPW97Z0UeXDi1+gRPuocIap7+c6EvYwWsWjorp
+	idnRcaIc81lxN9ZOABVyvfwpAAnIPo11V/yi4BCRG91IP/Z37jhPyp/4sc5uqkSe
+	PrqGug==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4f5psqav-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 10:27:37 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93494b1e35cso4972685a.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 03:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787048856; x=1787653656; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kbAw28JEMDtsVhR/iRFJoE82+XonCmoCsrWXqTH4a6I=;
+        b=U6hKLWjHxKz1n5EyqWOIX6lxUBIXcMpFzEAwI3Mzj9jotpYlCrepNnAVMq9fO85WgG
+         MZdjQoMNuZeeLGf4VAaekRWh3z5kBcmnGcV0oHeYSH/TSbpY+29X01DYT/aU4XOqM7jt
+         qnllVWAhdG3xaKmapg7o+mo4hnmc49n3V5A5d8jwRkyXDBKFArLgXuBR4haCsFhBGwD1
+         Fs9agT/+bIy3Y5RTZftM9KmaPyBRWGy0uJduYGzE/ed3jeGWrsIF2g+8W7oqHybW0tb7
+         dT2+TXGnHV8kj0edqv30bnWR2CPTZC6IWwaEDDkNhdmjc2RGJdiz6btumGzh/AGd7rTH
+         bXOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787048856; x=1787653656;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kbAw28JEMDtsVhR/iRFJoE82+XonCmoCsrWXqTH4a6I=;
+        b=Fr254zn9EATHj/pbfBv08ioPXlUngSi8aouOklJ6quuCuQFq37IK8U1HF5DiATtztp
+         Komqn3LJMpsDcdHL+Dago9TCRosylGAfL/O8ZrGRLRw9XinH/xsWpsqyX/42RP0ChSpB
+         7QY7qqtCJLTPUONz4h4EWuyj9FcIRDSAR3p7LhZAHfvS9dk1zCsvo9P/vfFP07YHdRFU
+         L56Zs3x8tmRvJYs/lBp+3JGvxI8mpZl1U6g7V2Cx4sSQE8gIh4ZkOpr8/h0o4WccWtjY
+         tpJH+/ZwtcPUQ6YuIQUgQ8vy8KC6GzBd2v/Bgb5dBUynR+fEhwz0LTWUDKY174bPsf9l
+         xpmw==
+X-Forwarded-Encrypted: i=1; AHgh+RpqUyzV3/J7ymlXfMaAtXTTIbor1XFhVsIcMumnRKLjOjrnuuCKhOIspxml2AZupgpKQrg+NMHAWHhK8T0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7Qr9cnjqKYQdxrKiyiQLetqetbHJlTxGpIBQij9nb8Zqhrt4q
+	7SulhPy+y3UST6hxeLxc5pqMxDHBMGN1IBf7HwVwSfjgAXaiE54rAEz2bLj0FSW2J7Is1OPLTCS
+	K73xmUWITW7KFXEM12BPHjh3J0/qVnOtb5tQKeUY2honmOlvqH9tnQWDBBR5T245lxN4=
+X-Gm-Gg: AR+sD11I0uD8mLhbh8EoIBwglWT+BoOLQkdFw/2U8arZtfTsZWYodAuHVrfA9IfFZ1Z
+	I3DEpvXss16oe9AtBQgFi+g1GLzkWnMIcUpsycmPhXLCinnJj9AGxwIULmO8uM/ltqX4V0ZOfXr
+	y2/iRMFPUDvk8ov2qpKNMLwvPqYkN7YkmQl4DjqQuDn3cZpLCEYiqbq2Yc1VAcNc9uAJgGUDFq0
+	QGcvZ1VhUwduFLXLSOybtBssSD+jBax8EWIsSkuWPpIt8s8NEuwJi7XCYnuzHA2DY5BoWlzmcpV
+	V7CciK+uUw+zW1qBHuG7+ZTcTZAYQ+HOI1E3Yk/cbbaxkDCAHjepgXxS7vNrNrZoWcHBPsrzqV4
+	DZV8qgVvyujqCNKhRJbz3EGdN
+X-Received: by 2002:a05:622a:190a:b0:51c:2324:666 with SMTP id d75a77b69052e-52d85425e6fmr252266201cf.3.1787048856544;
+        Tue, 18 Aug 2026 03:27:36 -0700 (PDT)
+X-Received: by 2002:a05:622a:190a:b0:51c:2324:666 with SMTP id d75a77b69052e-52d85425e6fmr252265751cf.3.1787048856096;
+        Tue, 18 Aug 2026 03:27:36 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3d859b274sm1576957a12.25.2026.08.18.03.27.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2026 03:27:34 -0700 (PDT)
+Message-ID: <8c04340d-6d19-4292-a873-7ded67caacca@oss.qualcomm.com>
+Date: Tue, 18 Aug 2026 12:27:31 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,96 +89,82 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [pull-request] NFC updates for next-next 2026-08-17
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- oe-linux-nfc@lists.linux.dev
-References: <93a47987-885f-4e5f-8920-788fb281db67@ixit.cz>
- <20260817115325.4333587c@kernel.org>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260817115325.4333587c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v5 6/6] arm64: dts: qcom: milos-fairphone-fp6: Add NFC
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+        David Heidelberg <david@ixit.cz>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Conor Dooley
+ <conor.dooley@microchip.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Luca Weiss <luca.weiss@fairphone.com>, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net>
+ <20260811220135.472380-7-jorijnvdgraaf@catcrafts.net>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260811220135.472380-7-jorijnvdgraaf@catcrafts.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=S+/pBosP c=1 sm=1 tr=0 ts=6a843399 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=GYSh3LzNAAAA:8 a=EUspDBNiAAAA:8 a=Dd_GrI0rTSTmvMZCxHUA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=lWcdFasyL5yHfcDTNXXo:22
+X-Proofpoint-GUID: 5XHBkEBa6S3lpLo4Lx-Pm-VQUheWeHpr
+X-Proofpoint-ORIG-GUID: 5XHBkEBa6S3lpLo4Lx-Pm-VQUheWeHpr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA3NiBTYWx0ZWRfXxJTFwsXDlWxe
+ o/SKf5jWWETAMp2N8kwNqWDoRYO4sT175Xqi+0EtmRfoyIPe+FKtpO5lgm5ldOPbcfe0qPEp6JO
+ j+64cioGiZ31pa1s0ygbTUabTKRYqpGJM9gCBgLqI8Nn9zUiG+ZdYtU90g0XhtovmM9oRITFjgD
+ oMBp8LBTZ1VJZAOQJHoGa9PqKi8XQGWjAHBkwGlTNOpY0gsxzXTxUjCzcnZyNqW7eocbvURQkDj
+ 4gq6pCcnUWMSfjJNnUv4j1A5WTvI9YeQQroNhqUNNJC73xj0H84zOhtG1qW1plDhZeAij+Tuxs2
+ 3BLJ/HBvRp1g7d7D9vbJdQHA266nhPLqbWcZUYOG+iErgxMc3uZYS7plE8cUFMO67gs/xWqbk/+
+ IymNBmlivt6B+UcB7W1KW7BbplUPIDaD4ndPlNJh4US5RpZmrxjN5t3O40qM072fgEWXplJrCW9
+ fM4z7j8JT6axdz3Zb3Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA3NiBTYWx0ZWRfX+J8v6WH7d1T7
+ kpenB9ZFoFaOjYx+l1dL4YGoGkOhALg+9dP5yXbef7u3Y5DNYDCF+LLofi7GbX5p8KFsqYFPED2
+ yFbQe8vfSkz3x3bWXSVxDZf38SgN9Jw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1011 bulkscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608180076
 
-On 17/08/2026 20:53, Jakub Kicinski wrote:
-> On Mon, 17 Aug 2026 19:45:45 +0200 David Heidelberg wrote:
->> The following changes since commit 8d3ae59288f1e7d58d76558a6ee96d533bc5019f:
->>
->>     Linux 7.2 (2026-08-16 14:32:26 -0700)
->>
->> are available in the Git repository at:
->>
->>     https://codeberg.org/linux-nfc/linux.git tags/nfc-net-next-20260817
+On 8/12/26 12:01 AM, Jorijn van der Graaf wrote:
+> Add the Samsung S3NRN4V NCI NFC controller on i2c1. Its XI clock comes
+> from the PMK7635 CLK7_LN buffer (RPMH_LN_BB_CLK2), and the reference is
+> load-bearing: with no clocks reference at all the chip polls but never
+> activates a tag, while a held rpmh clock vote lets it read (verified on
+> hardware).
+
+hw generally works better when plugged in!
+
+> PVDD is fed from PM7550 LDO20, the rail the downstream driver switches
+> for this chip.
 > 
-> Please don't rebase your trees. The base of your tree should be at
-> whatever point net-next was after the previous PR to net-next.
-> Because:
->   - we don't have the 7.2 tag in our trees yet, if I merge this it will
->     look like I pulled a week worth of Linus's tree, not a small PR from
->     you
->   - the commit hashes in linux-next do not match what you have in this PR
-
-Found reflog of the rc7, thus [1] should be identical.
-
-[1] https://lore.kernel.org/netdev/7fc49075-884e-4284-b742-7057cbba4b17@ixit.cz/>
-> Did you rebase this tree recently? Perhaps you still have the previous
-> version in git reflog that we could pull instead? Exceptionally, this
-> time you may need to rebase to go back to an older base..
+> The enable line is routed to the chip's power-down input. The driver
+> drives its "en" descriptor to logical 1 to hold the chip powered down,
+> and on this board the chip is off while the pin is physically high, so
+> the line is GPIO_ACTIVE_HIGH. The pin is pulled up so the chip stays
+> off while the line is not driven.
 > 
-> BTW normally to get your own fixes into your own -next tree you should
-> stagger the PRs - first send the fixes, after net -> net-next merge on
-> Thu afternoon - send the -next PR.
+> Assisted-by: Claude:claude-opus-4-8
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> ---
 
-Sure, I'll keep that on my mind. In this case both fixes and next shouldn't 
-conflict, thus order in which this gets applied shouldn't matter.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Thank you
-David
-
-> 
-
+Konrad
