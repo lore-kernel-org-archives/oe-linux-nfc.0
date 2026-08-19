@@ -1,184 +1,160 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A47A370D47
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 07:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787126119; cv=pass; b=nszM41lp23IjB+7xHPvj+aX+FFdi3gCsLg3q1nl8o0LMqfXWattHYf3c73ayHCNh2YXbmd1rfHCDdo2wfCaho7KeYLEIPupLshL6iIxhH9bncq5HbfaKBdO6wPfFWtjFIHk66iJx8HVrLvqe3hEKvFrVaOWoykqXmLhWxyWCid4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787126119; c=relaxed/simple;
-	bh=DhtrX2h5AwpSmXYAz2ilrcLD4hNqnstbiVM2oGQHPe0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0JavEi1/b9ndY+Jg9FHwzeqk/IJYUvuaLGc07d+Iee9PbBllDPA1okrhylIVRP6Jep02KPID9eNra+ikiXkzzq1pcb3gx/zHz0JqVr1/pEJLO1dOhiTVqccYI+qQzI6IPO4/ATCVTqayzUHNgY8N8K1PT2KeUD6EL7B+YuC6EA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dQ4Mv84h; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577203CB911
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 08:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787129906; cv=none; b=srNBHo3VBbsfiUAmcnxt+aBiklSGQWvCx8t79Xy575QM9VzkZCrp5Uxbvd3O8r5D/kVP/Sfrtosfb+u4V6py0ZeaJipSezYxyWxkxHlUcXoSyLIDaippbMMF+xx6FLCGp4Wcq5QRMx14lGJdwrmKDlb4XIyLGqagOUjiT9htcRs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787129906; c=relaxed/simple;
+	bh=xy5f4yB2DW6sWV4q3Tyz6Upe2KQdZq5pgbZ5gJyoZlM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JsOrxN+s4yarB2W5RVkqbNG0pUAt+cMb5IOVr6Qd6td9JXJcENzeD4oTVfUBBHO9Odx6uDaxs4GrABA+RRU2TykT/pSgqYWMqTeC03LOgATwfTE1lU5/CLc62ps4exMabUmMQFqg0ITphwKIjrX1rE84uk92GVKgH87Ki25qfmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DDgWCAs1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SDj/SNDR; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dQ4Mv84h"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-52d8748cde5so3623021cf.0
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 00:55:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787126117; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bixObTVbJZguV0CEZ04azIoYOhl3idha9XfDO2q/GP6pzJw5erCyNnFGgLBrnUQDR3
-         MFC6zlZXYsI5om4y043yx/M8lhF79xTWQvzaFkxkMmgJwMdbdudktBeS5+KJdsioA+3b
-         z9KDVdV3jrpViy4lxRQA1otwr2G4n6E94b7LTtylK0LZzqs5zJeiGzXAl42NHdZVgXXs
-         OBdcK+/EgrFXXyXCSEmQ+oKot0summl8ju6eLJtr4rUM6DCQMUEItOSdThuNdMaPtwpr
-         rUDwL23bfErq/4WQvmpyyWn8bzbh6/Hw4VzOkTrXDlfExY34ga2dXDOjrjAR+9pnllZr
-         bBjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z0jE3gzT9/KW+Ch7bTrTGuJUus0VXch6kYVBXgjVeNE=;
-        fh=D7QLMuwFGon8u58n6urRRunYS267iOWds7u3P2HGFZ4=;
-        b=QzOWxQoHNPOxRHLU4FK0K7aB/EGZI3Qd/Sf49Xm0MkPwMg6AqPS2COhT8sYSzLdm8X
-         Bc/qgZHlWzQlKakbfB0MUPfQDaT/e3kNmy7oJeEZxZEXcZmwNQKGcEh0Fe1xfMt6fgjb
-         y2T1xGWRbjRj+1mfCNfarvMkvXbXGEsxoUImxnyzZgvc9VOPZgIWW2MRh/uBMaN1Gl1l
-         NevIagcOFTL6KPYCsGqqmwPz46UPvILr0yB1iywZUoIY+fLWhWXbg5z7C3ce7FQ5hFvy
-         ZQYnKGzsZlKhA8JfrekEYQ1gPed39NPDvgL0Gqbzo35j7kUFnnAqFt9g0G34Mfz1BBjy
-         NFtg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DDgWCAs1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SDj/SNDR"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67J6ZLaV2457014
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 08:58:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VgXMRBypRqfhAj6RjPVVVARbvuqQB5nTNT5Y33zDvrU=; b=DDgWCAs1cohMV1jJ
+	pwSqRKw5KZm/gUwJoCefJTZDevQ1N5XCRJegEGTlwo9Vd5QIknVO6XZbtyE5k7Tz
+	Wo8G9hVoptm2wRqAeX4XWnJ30qsqeU5EAsF8syg38ExzmBTuaddkFLWfZMuINn7c
+	iAykdsZSYodye76A+yWPrVtIQHvciknQonhYg22zz3WG+aX46Y1FKTWhq7PdD56T
+	Xjw1GzE5aq39A7M61iP1LsoTwslQmB+Rz4rc0RKrXgZqfdQrdnOarehO87whRzJV
+	p41BCvHaRlXS9CMgEoy/llo0DWrX+60olp0ITDmK9G+aV5AQpH1t9Q0SScjnMsQp
+	ywpTdQ==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4yfkaata-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 08:58:21 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-9058a836724so3060216d6.2
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 01:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787126117; x=1787730917; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z0jE3gzT9/KW+Ch7bTrTGuJUus0VXch6kYVBXgjVeNE=;
-        b=dQ4Mv84husFW1oDCAic5sb7R0fu7ikudW8t9fyB89SttdfllAT6O9gDS2Lo5n1udmU
-         d1b7JPXZioAjyIt7zcAKXl/YbFF2moJ86t6Q8eqX6hGB5lFJuUjWaKHFhLKLVN4QHYaF
-         KUTQt7MRz6Zujhp1zPevgfL4ZbyJ817ohfsP6dvpTVWQ+HNJNAcs6SrgsmdC82+CjMf8
-         nUh7kDAY+Ei2sMKbrvVV2feM67KHwrz1jj7CKlhAfAWru4o+hNCIhr+Udqxm942+WeJN
-         iqRjWvE+b4qES/ycCs87P+4wkpi+IQzeOuumUAVi5D6uikZv24NxkebS8cixHbwr+Bh2
-         0AwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787126117; x=1787730917;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1787129901; x=1787734701; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Z0jE3gzT9/KW+Ch7bTrTGuJUus0VXch6kYVBXgjVeNE=;
-        b=aUowG7sJAgM5PHUKwcoej1fJuO696p79Cvz5VAmuECvg7o0bYoD0oY+ZHalLzrlF9T
-         xd0TtIhnb5Bule3IFeo5tRSEyWNqbIGPk9DS1xnVnUKkBuwTZOT+upOfXBhUpgeOsKUC
-         /KZ7Smomy7xeFv3CyZGdFdvrtYxYhRlh2eB6yWhp44/xBSkYebQyxHseHW4C17YIe4j4
-         O5e06F7ijGHRSVXyz6L+/8nUsgXrpJJF1Q2cHVY8i8/nI2j64CKkyTnylTbdoWBIXR9k
-         2NRA/mJv2exA2z4SMH4aMEn9H2LaFv+iQJj4YJxhRms6BY19/wGtSIvSaRU8RavZd9Da
-         KMhA==
-X-Forwarded-Encrypted: i=1; AHgh+RoqbtnLG0OU/9T22qpXiU9jbwDYdQvqjMZwg/5Nf3I0TL/dIxzrZfrXwRjf00Q6unoy6E4noYpavwNhJ2g=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyccKBx+Vt0K1B9Pnwakl6Us64AoTdzdIC0dc8qd/ICzZjO94mu
-	slMk9ttGaXfx+qA1G1arQS68dRFfv8eTyFa123hjRam4Ubv8t2g4mN0Dtgks7/QUQHHrEmdp0LF
-	v16WIJ+EDAXvIPoBME3a/WJ9Sp20xuqrSpNpup7l2
-X-Gm-Gg: AR+sD12VWTTNQOzM6KjrnejACd3ZOCw+TTBDgHjFzaCx7s1klyREx12I757fAAQX4/j
-	C0brlacIm5TBqpYxtkS35xS+aGfxqA62JcPcmwzAYHolkP8a8VeyJJ3Y/3yraqKWK28n+J336XV
-	3fVi30iF5uZHD+bv+Wkih+RbUJXc9TUJ2h8nx+KYRRG6rv17KQmoq3wtEn0xW6CM0gVBHtx4nAC
-	KVL/EtDdYgI1VCYXJgzrO6JNr/v+nPhLWwn6FdrxDofR8q8xKZkxXt4iT6ced4/sfwIabCiA0fA
-	IXd6psI8HIA1H3q49W6+hHzK9SRIs+Lj+E2h7p/uzjoRABj3M1Pxb2ZN2zaOtjt5hCeZWlalZob
-	6ku0l/UbB0xWbyOC9iiyhzvdt67a4AcLJ0Jum0okE9Y3PYRSBVePTuFbjvSzFl3m9BnEZmnCkJA
-	ulLv4f7AQeU7jZH9s=
-X-Received: by 2002:ac8:5f87:0:b0:51a:bec0:1040 with SMTP id
- d75a77b69052e-52dd57d7a99mr21982071cf.12.1787126116158; Wed, 19 Aug 2026
- 00:55:16 -0700 (PDT)
+        bh=VgXMRBypRqfhAj6RjPVVVARbvuqQB5nTNT5Y33zDvrU=;
+        b=SDj/SNDRmfVq6HFbrYbSkZk9cspY51oJ/mtiF96EjXrBQMhqRyJtddgTVCdflSfMVG
+         pPnoeu5lyV0dATB9DaLYgdoQ94Vp83VnDZjNxAFzvjJCnAr7V+13HPvTrm7EEgBQx4/T
+         ig/OhQ2dktPc5cmgDckc74xTmRLF5GdfkoaVaivM6A7LFHbwj/oVvsOGW9MYyBymHkBH
+         9wThgO3aYjgJRPpF5q/D6AIKrXLqbTSR79JEd/C308uuKu7XfJXrn0GT2+lUuIk7dlV4
+         LDGu8c9HUhj6r5KADVPWY4tJaVe21vI6bsuRZaXUaXi170DDmHCbV7ZOsRrjcxGvwUYD
+         HNgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787129901; x=1787734701;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VgXMRBypRqfhAj6RjPVVVARbvuqQB5nTNT5Y33zDvrU=;
+        b=Lljj9j42wNRsw3z6LCPvSpSO1Gf/FttRDA9OiOSDYfjbCHbdvAo4jEuV7E6qD41i4y
+         pvpNcwsY9gn+/1ptI0MPoWW8NiM++QbjZq+w1niAT1LcJNOtaRSW1RCFDgd25dbFLsMc
+         mbIX3N1HJMeuaHnXp75oV21QazLxTJg7Vln9k8rEon2a/su7F9i/ry0MCG+AxZDyxIkF
+         GHY2m2i8/3vN7xFyFO3UaF8vCyOCm+odLKn6q845HzaLYwkg3GUhVZa7+qRrdEOCfhQD
+         7VZk4VkVNox/7cv5Qb9JUjFDoZul9HjIfQlwiCKYx4hs4zJinFu8pizKqkGO4c1G+M09
+         DReg==
+X-Forwarded-Encrypted: i=1; AHgh+RrHsTf28USFJl6DvxDSfHwyEMMxH7K2YFVmDbH7W8Hzaf2SNZRIcYmW3yjRGKjNKmRQOdAaTD/amCVUNNw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH/r0MqlFk5iFnlW+qLqMge7WnnAbxaI/gMg+kX1X7I1vGLngD
+	H4p/1I4/t9WHciLDn6t2+YQSAnszURAeGZqDySvEYIii1zH7vKuUI8nBKWWeIatClqSEPzB0H57
+	PZ+hZGH1eOkG3iJw1q4zjxllD84WF0Oh51VV2jXLA8W1sexL1HTjPpPYOZM/iW03KDM8=
+X-Gm-Gg: AR+sD10khTbN4060C+rbzHVHVBQRq7DcYxo9QtX8pPLpgVDK/KYK0tUwk+/8uN/Wfl3
+	ndaRvjO3hnb3KjyyeJ+zqOh5JUP1zqHUMogOgRNAn9w3HsHx41wEMT4eFF+2wPZpcBhfNGkvI8I
+	KFCmaruAcSaChJcBrhyAS0sj1Hky2q2uFAukzJ/5HhZDLpXU3y+uy3RDHglp6sxOsOsaiEdu+0r
+	+Ghe5KVvTp2cjfum9UDiCiXrzOq2WbmEmjZcTfC0dyfgdZqRDOLRc0xkzaeNDZGRALBQAdjZtjx
+	yFstP3iafuPAz7g47UPg9xu/ZRUI/YhKj67lcHW4Rqrs18/PytLkTxTk+nmFhtKNeTUDyHS+xnB
+	yb9p6CXUOyndglaypYfmeAGtH
+X-Received: by 2002:a05:620a:6508:b0:936:5a34:7a6a with SMTP id af79cd13be357-9371e703370mr216687785a.3.1787129900894;
+        Wed, 19 Aug 2026 01:58:20 -0700 (PDT)
+X-Received: by 2002:a05:620a:6508:b0:936:5a34:7a6a with SMTP id af79cd13be357-9371e703370mr216686285a.3.1787129900331;
+        Wed, 19 Aug 2026 01:58:20 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff16c16bsm634126a12.20.2026.08.19.01.58.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2026 01:58:19 -0700 (PDT)
+Message-ID: <03ae6ad6-de5d-4f14-904d-bca58c07ee00@oss.qualcomm.com>
+Date: Wed, 19 Aug 2026 10:58:17 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260819002050.3476701-1-shuangpeng.kernel@gmail.com>
-In-Reply-To: <20260819002050.3476701-1-shuangpeng.kernel@gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 19 Aug 2026 09:55:01 +0200
-X-Gm-Features: AcwNN1VsS45iVRLEmH9P5MrxlMzat4vRZ5QZUA9pnoNCEpr9m6epGfzcraRAdno
-Message-ID: <CANn89iL2_QhxnZvng7LJ-Rx8KSX5pvymYf_mBgP8aFSeVkPY=g@mail.gmail.com>
-Subject: Re: [BUG] nfc: KASAN: slab-use-after-free in nfc_llcp_rx_skb
-To: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Cc: David Heidelberg <david@ixit.cz>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: add ST21NFCD
+ NFC
+To: Kristian Brox <isyourbrainfoss@proton.me>, oe-linux-nfc@lists.linux.dev
+Cc: david+nfc@ixit.cz, krzysztof.kozlowski@linaro.org,
+        luca.weiss@fairphone.com, linux-arm-msm@vger.kernel.org
+References: <20260818205940.1973944-1-isyourbrainfoss@proton.me>
+ <20260818205940.1973944-4-isyourbrainfoss@proton.me>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260818205940.1973944-4-isyourbrainfoss@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=PoGjqQM3 c=1 sm=1 tr=0 ts=6a85702d cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=wLTDt5XO8WXoAWZpawcA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE5MDA2NyBTYWx0ZWRfX03gtoXd4WVn5
+ Hx74Hjwm6diNQiIk1EYAC5LFQYOPmqTTJh09MYH5UyCBzF50HGImXZdrx9xC195dFPepdoObYFI
+ cwK2ptQJrhYRqBtt8gMNilbgvwQC3I8LDYFUpFhZiE3rh31xhLKqMXvy4QrdFS17aT4zJSGFPQq
+ 6nXEfHCDe0KcMWpTgTkPDYCDhXomW6mf4B4mWR3FOA18ashzaGniMeFYo/Ki/ndIihF1PVII38G
+ HSC7XQuVfTsg27pz3lDUeJIDLN9CFLrnlgAg1leUjL7BSO+x7QA8OYYDk26KWQkR6wC3qmp/tBx
+ ledmfmlMNgQUCpbAF5COMg3X8XXd++Xa1Dc3wHoigA8LX3FFgu90JDbhUKithoeO82vqFdN1MRz
+ AaJvxpHJ4udD87NM+pWH9E4iscjSvk2AmVa3a/qj6GCj5GFMnbt0h/qMoExoZNdPtWyVRwnLntf
+ /r24Cv0Y6DH0xYXVeUw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE5MDA2NyBTYWx0ZWRfX12XCxLxzT5VF
+ dBSJyQQyxHLhJQKoUtJmMsjT8FGZyWw7iyOwKDkGzPLp6uhB6u+EsXq1nQqeRcx6YdRzTG+0UkS
+ PX0xCrVtzH1TXNdfhxDJDzUeJ9oRp8s=
+X-Proofpoint-GUID: zKhiaPJe4Ud0mjrASxEo85FT34mAz42b
+X-Proofpoint-ORIG-GUID: zKhiaPJe4Ud0mjrASxEo85FT34mAz42b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_02,2026-08-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 bulkscore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608190067
 
-On Wed, Aug 19, 2026 at 2:21=E2=80=AFAM Shuangpeng Bai
-<shuangpeng.kernel@gmail.com> wrote:
->
-> Hi Kernel Maintainers,
->
-> I hit the following report while testing current upstream kernel:
->
-> KASAN: slab-use-after-free in nfc_llcp_rx_skb
->
-> on commit: 3609fa95fb0f2c1b099e69e56634edb8fc03f87c (2026-01-04)
+On 8/18/26 11:00 PM, Kristian Brox wrote:
+> Enable the ST21NFCD on i2c9 (0x08), IRQ TLMM 41, reset TLMM 38
+> active-high. Compatible is st,st21nfcd-i2c (raw NCI). ese-present and
+> uicc-present are unset; those links are unproven on this board.
+> 
+> Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
+> ---
+> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> index d48cf38b7..a485edd24 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> @@ -1006,7 +1006,14 @@ redriver_ss_in: endpoint {
+>  &i2c9 {
+>  	status = "okay";
+>  
+> -	/* ST21NFC NFC @ 28 */
+> +	nfc@8 {
+> +		compatible = "st,st21nfcd-i2c";
+> +		reg = <0x08>;
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <41 IRQ_TYPE_LEVEL_HIGH>;
 
-Are you sure this was not already fixed by 2b5dd4632966
-("nfc: llcp: add missing return after LLCP_CLOSED checks") ?
+interrupts-extended = <&tlmm 41 IRQ..>
 
->
-> The reproducer and .config files are here.
-> https://gist.github.com/shuangpengbai/70e3bdc241dbd675970fe89f30f0b84e
->
-> I'm happy to test debug patches or provide additional information.
->
-> Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
->
-> Decoded source path:
->
-> use: net/nfc/llcp_core.c:1185 in nfc_llcp_recv_disc(), reading sk->sk_sta=
-te
->      after nfc_llcp_sock_put() at line 1182; DISC dispatch is called from
->      net/nfc/llcp_core.c:1483 in nfc_llcp_rx_skb().
-> free: concurrent socket release drops the final reference through
->       net/nfc/llcp_sock.c:646 sock_put(), then sk_free() releases the sam=
-e
->       struct nfc_llcp_sock allocation.
->
-> [   81.172360][  T830] BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb=
- (net/nfc/llcp_core.c:? net/nfc/llcp_core.c:1483)
-> [   81.173044][  T830] Read of size 1 at addr ffff888119369812 by task kw=
-orker/1:2/830
-> [   81.173940][  T830] Tainted: [B]=3DBAD_PAGE, [W]=3DWARN
-> [   81.173941][  T830] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + P=
-IIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> [   81.173943][  T830] Workqueue: events nfc_llcp_rx_work
-> [   81.173946][  T830] Call Trace:
-> [   81.173947][  T830]  <TASK>
-> [   81.173952][  T830]  print_report (mm/kasan/report.c:379 mm/kasan/repo=
-rt.c:482)
-> [   81.173959][  T830]  kasan_report (mm/kasan/report.c:597)
-> [   81.173965][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:? net/nfc/ll=
-cp_core.c:1483)
-> [   81.173973][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-> [   81.173976][  T830]  process_scheduled_works (kernel/workqueue.c:3262 =
-kernel/workqueue.c:3340)
-> [   81.173980][  T830]  worker_thread (./include/linux/list.h:381 kernel/=
-workqueue.c:946 kernel/workqueue.c:3422)
-> [   81.173984][  T830]  kthread (kernel/kthread.c:465)
-> [   81.174000][  T830]  ret_from_fork (archkernel/process.c:164)
-> [   81.174011][  T830]  ret_from_fork_asm (arch/x86/entry/entry_64.S:256)
-> [   81.174014][  T830]  </TASK>
-> [   81.187221][  T830] Allocated by task 4409 on cpu 1 at 75.384100s:
-> [   81.188593][  T830]  __kmalloc_noprof (mm/slub.c:5658 mm/slub.c:5669)
-> [   81.189018][  T830]  sk_prot_alloc (./include/linux/slab.h:961 net/cor=
-e/sock.c:2245)
-> [   81.189420][  T830]  sk_alloc (net/core/sock.c:2301)
-> [   81.189779][  T830]  nfc_llcp_sock_alloc (net/nfc/llcp_sock.c:979)
-> [   81.190222][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:971 net/nfc/=
-llcp_core.c:1478)
-> [   81.190656][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-> [   81.193365][  T830] Freed by task 31 on cpu 196609 at 78.490492s:
-> [   81.195183][  T830]  kfree (mm/slub.c:6670 mm/slub.c:6878)
-> [   81.195531][  T830]  __sk_destruct (net/core/sock.c:2285 net/core/sock=
-.c:2384)
-> [   81.195937][  T830]  nfc_llcp_rx_skb (.net/sock.h:? net/nfc/llcp_core.=
-c:233 net/nfc/llcp_core.c:1194 net/nfc/llcp_core.c:1483)
-> [   81.196379][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-> [   81.199084][  T830] The buggy address belongs to the object at ffff888=
-119369800
-> [   81.199084][  T830]  which belongs to the cache kmalloc-1k of size 102=
-4
-> [   81.200297][  T830] The buggy address is located 18 bytes inside of
-> [   81.200297][  T830]  freed 1024-byte region [ffff888119369800, ffff888=
-119369c00)
->
->
-> Best,
-> Shuangpeng
+> +		reset-gpios = <&tlmm 38 GPIO_ACTIVE_HIGH>;
+
+You should also add a pinctrl entry for both these pins, to make
+sure the appropriate bias/pull settings are applied
+
+Konrad
