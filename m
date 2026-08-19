@@ -1,75 +1,76 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5275533344A
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 00:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1CA2E7378
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 05:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787098883; cv=none; b=Q+zsofwvdJ4mpSrKpm9VbKdQg+FdpUM7WA3MdbV5WT16CpmKrK7nMNTym+BAHsj9id4JXP9ug0got2nO3Rly7hHkJGLF2JQppT9jIC7csF7YPqqaDREh9bg/ephenzrIeO5KQfTGkt7gjWOKrtR/OZwBqJJwATFQzG0asDMBDhI=
+	t=1787115646; cv=none; b=POmwRUjd79invyYrcJu8TrhaYd2e5jOAriuOSU0h7we46w3xFM/JoKYHLB9yEN+ZWMmuYAm6A7V4/jrbctbz47JUw+SHj/8kywl10ttic/5CCSLY8kyZPWKpspl3sqLwSbrtpCYTniJTsQxbnZa3g1q0XGIEAE3ib9OoeNioNNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787098883; c=relaxed/simple;
-	bh=7ZGFJi1Tw0QxpKzaA4112Co/fYEKIQvtec5peI9QIT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qTG/Ctx/uikPpuw2rqsHLV8Z7KHWQvB9YeGuLR98Etvp+dDvBgivvWW9WoWYOrH4Mwa/FRjWPVsuasfv8Ttr3bJh/W8pQMlqTCiO2h1MvGXCw3SuqrnR6nPeNgBzoFj+ZPDd06F1CY+plhZY6jFFkJPZOlGkPQ1KgquJZCVsjvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LL/nYF3X; arc=none smtp.client-ip=209.85.222.173
+	s=arc-20240116; t=1787115646; c=relaxed/simple;
+	bh=oYXiS9FaK1OvuFYKVJThsj1YU55cH8Ln0SqDR+ONfFY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KqOFzRVhtHaeNqoKon7HGH8FfUPYa2BYAo9rFDK5K3MFBCOCyWZe/r88d2rALgJKnJEk6Dckdk6XW/vkbP9uOjYuG74P0RroSJkfpzt/TIHPL3dHj9ORz8hVon42ztukQbnLhcYDXQcC7exLIMLnihfYRU2q0Y81EQdBCEQ162k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfs0qQJE; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LL/nYF3X"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-92e50a650a0so30503785a.1
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 17:21:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfs0qQJE"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-9063b380982so8470436d6.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 22:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787098876; x=1787703676; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787115644; x=1787720444; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=srzljoPEhNJ1BkMUMJRW9e/8iKXpV+6wETzcN3+pJcQ=;
-        b=LL/nYF3XikY8TxL+SVfOGDgdDPrHyf6G+rt0pkbXwkj2vCG5mVa8HqJTeKbVGpPpmE
-         3/uIgOrx6vLj3wlALHg7I4cuW8AgF7VysQCQ2EbGmdbQQkZYI9amE+mayxtFJ0WJGVMb
-         0CjZhYLgqfFeKEZbn0Mec9bFLqsa1/J7oo/GBTRkR5fFLyyH9fTUlX6FD7oe89kdySLE
-         t5Zesb0XWFxrGu2pLedLRpUYmYZvNGlD+ZSQYIkffVAEQvusz8Apcy96pKwUQyH37njJ
-         GnII5BCYnRdiz2BqCRqPxIFJOvf+wsSLnsHjEzf7h3KPfBFIXO/+X6xVNS32aI++/yeV
-         vpWA==
+        bh=SC0i4Lg6k/dnZmYD88qiv579EkxNdGPFnYXp1dk34PA=;
+        b=dfs0qQJETmzbYenTK/Xnj5FnBQhs3yEUSHl7nNLzD16eNaoZj1X8hWRAudWRo2MEIl
+         TAUgu8gBIdmQwSMc4NNHL9+ef/BOTyw4IHehYKmFY5VH/pbBc0tf1uOfuScqtwEPmuNN
+         nD41vcP2kq8KkfgxGEEuxiQDTx7xrgUdySHXRCkWyGNfCjyfY2+b6ah+sTQJVCHVh2MS
+         exhL6jN80JSdIyYhEOMRWpS/z1aGFtZHP2Bf/p4Li592yV1I8zgOGnKaP+Rz1bUj+aBT
+         7KwmbcLoBL4GEqIE8dybnGrMQojblB1D7EBjDCErCMvJrcq7UckMrGmVK2UYHrhwWANn
+         m5+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787098876; x=1787703676;
+        d=1e100.net; s=20251104; t=1787115644; x=1787720444;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=srzljoPEhNJ1BkMUMJRW9e/8iKXpV+6wETzcN3+pJcQ=;
-        b=Kv0tj0V5Euj4pybas1hunUhth4JDIDaMhxzzXc8CKBLX87RgNjDpDGfLXy0ge3SKEo
-         NpyHaVlrYQxEqm/sRTlWKXCHO1w98CtP1JEvEcn8knHKeRhY8G1f1ixhIuk+5RAJ38/2
-         Spm2U2arO7wtSLpzkEOsmOQcSHA+Tiw/KkMIX7z7SGHzMkiLrlcWHPC9QrKwE8N1c34B
-         h19yPiv9w0sDOApcROz3uU/KP5DOvexSwBXwNogTaM7j17LGu3KoZO20moO8YpwVc9tp
-         wdvDNqwSbAf3q1dwgUPf0NmiLj2hhvY9uL/jY1BBw4tAEIX3mIisZLOJnnTr7+Pe+xt9
-         GbCg==
-X-Forwarded-Encrypted: i=1; AHgh+RohHMvYCzV0n8IVMoiUrFJgyhuWTbU6Cn8uNT0C+h6VKncmcqu8L+KyjPL/cC/t/G9xJGsL65yFDNspA2s=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhPmurRMvFtLh0bpVj6yAOoF2CaL+D7efXRGIf4K10a4cagk+2
-	KfKHun89H1lyCrPKqlsPzY3XehpoRKHYrBnxbs7KExFYeHmqy3/zzBSZ
-X-Gm-Gg: AR+sD12IJHeveXhcdhHFrWvZ97rQ51S8E+qNHku/9+7iQxBiWLUJ8N+TBcsCWkyqZ/0
-	8bXhsCuv9AGTmlMFuGAPxP/Ck/egmPdE7ZMxAiRGSKgOaj/xFm2HrKMEbZbvaHFd9btf/VPmyKP
-	Gg4DzeD5Ip96MRefIhELzSLbE4qthnQJspevln6IfOiaKJyYmCqFxSlnFINzfSHnxX8/iz5AXJ4
-	EFPui2Pfoq3Zt4d20UzY0yu6s4jNN4JB8xcOpjbl4JSGu74Is5A0BV+SJemn6h+KMj4qjeaTsPS
-	2d7pEw9IsvbMwNETt5WE8XMHbCd/DaoLid9H1Y5G2sAPAY+x8rkkklPYK/1FUfDriDs9i53RxBC
-	PShag7mBjv2hSNS8ZhUytbFKm9qOxzbMvWAA/OLLfZK5t9idQyFwJSimq6LEkuNZ/GHWjCRLH3s
-	2Ab2X6ffLtTNSp/GVSsvgjsMXkYzFvnRlE4Gr3qRj+0cYZ0nwEOaCi4ODwynavGN4LkXHpb4qwZ
-	RKIAEsxdFXReITimA==
-X-Received: by 2002:a05:620a:4708:b0:930:f306:8275 with SMTP id af79cd13be357-9371e20fed9mr109795485a.9.1787098875889;
-        Tue, 18 Aug 2026 17:21:15 -0700 (PDT)
+        bh=SC0i4Lg6k/dnZmYD88qiv579EkxNdGPFnYXp1dk34PA=;
+        b=HxJPgeij8WkhtpcfZ1N7NGuqAqEufV5daKm4t6kLyw/XKCDu4wsNvqaXFezRXZyeQ2
+         Xx57VR+tbMnmXI596iXyPzAzLjSFUwHCympdYSF9U43dxzxVI476lMnprjcPPBdEVoka
+         ZvYA6lcNvls7JaB7YvFqrurL/PVLVWNGrZ8kF8irF1inDkT3mpTdaJ0CvcsSLEui2Z0D
+         gd+eODv74bAU3eA9UwOE02A7UOR4FtY1shHcQUpzkcGp2aveWTrTKbfkLeHQ+d+E5ixx
+         312EwJzfE71NE8PTdO2uhsIN1Fte9i+bCT6BZ2a6e506v6hvg0tEHGcBu1DavbYCR7x8
+         I/rw==
+X-Forwarded-Encrypted: i=1; AHgh+Rorf6asjXk3yDuY9TSEEKhRa7DByfyCg/4kw8KxtCdmNCqETFsCxDbqbtUQ52GUoIXvOaIzLD8eBsXn8VE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNfAI4sep0rkPJrWHIZqvxNxHlr5PY94y6+ctbYWV529qNlPsb
+	Ef/6Hu6nZiDUxp2iDyMW+ItCehZXe+bDD76RgeWPkknWX8TRS5fCrJOv
+X-Gm-Gg: AR+sD13Tyk+fYqMTWN65MKi7RmoWC01F13oFC7OJBk66nIYaoJHnFtmD5SdRCu7w6Wg
+	tQnSVyof9ISH098QK/Cirssl5406SMmuTtr6OEQpPLTaAsHcPicxyDSeZTX4A5wpQpssm2qBRbq
+	r2x6PnEAhMcI7ozcgRjwJNrUyhOJAp5Sqgx4kKT9KLjf3GsDzP81gG540y8hWJSvjzToJLrC5IT
+	9B3k9YAOKxIXLk/J0lsMZspkCFgsKSY+v9VvHyTZ/4XnHFPTHR/057MYpfMMMtW3pHgZz1a0yh9
+	DO3qEabwUyF4Mt69duiRBQWVlM7VemQdzUdY9PNDHDBhh1zNz8u6LMSKlwstKyWlcyUzzmPNwuD
+	f6idl+lok/lUzdU7SVzPZZW+ddwnyS9tFnFDPgrZf3eMoDc0eanY+atbE3JqoPkkUcswg8o7gP7
+	r8x9BKCYVYSTT8boy9+Qo+kGqRnZ1HuTvmKkxXdb9ZtYZKohdOLHjMFOYX9nE6DQqP/7OxtxUlQ
+	MkotcjaSNdkUc/R2g==
+X-Received: by 2002:a05:6214:20e3:b0:907:5c68:54d1 with SMTP id 6a1803df08f44-90c5eb75e01mr17604316d6.18.1787115643593;
+        Tue, 18 Aug 2026 22:00:43 -0700 (PDT)
 Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720582980sm15764985a.33.2026.08.18.17.21.15
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5f2a386fsm6042596d6.33.2026.08.18.22.00.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 17:21:15 -0700 (PDT)
+        Tue, 18 Aug 2026 22:00:43 -0700 (PDT)
 From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: David Heidelberg <david@ixit.cz>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
+To: David Heidelberg <david@ixit.cz>
 Cc: Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [BUG] nfc: KASAN: slab-use-after-free in nfc_llcp_rx_skb
-Date: Tue, 18 Aug 2026 20:20:45 -0400
-Message-ID: <20260819002050.3476701-1-shuangpeng.kernel@gmail.com>
+Subject: [BUG] NFC: slab-use-after-free in _raw_spin_lock_irqsave
+Date: Wed, 19 Aug 2026 01:00:29 -0400
+Message-ID: <20260819050031.2725592-1-shuangpeng.kernel@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -83,60 +84,76 @@ Hi Kernel Maintainers,
 
 I hit the following report while testing current upstream kernel:
 
-KASAN: slab-use-after-free in nfc_llcp_rx_skb
+KASAN: slab-use-after-free in _raw_spin_lock_irqsave
 
-on commit: 3609fa95fb0f2c1b099e69e56634edb8fc03f87c (2026-01-04)
+on commit: 3aa1dcaa4f6f5ae08936491e08bd456f331f2d40 (2026-08-13)
+
+To help trigger the bug more reliably, we applied a minimal diagnostic patch
+that only adds delays and print statements.
 
 The reproducer and .config files are here.
-https://gist.github.com/shuangpengbai/70e3bdc241dbd675970fe89f30f0b84e
+https://gist.github.com/shuangpengbai/f7dab4725e2a2d57b1d302714c93c549
 
 I'm happy to test debug patches or provide additional information.
 
 Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
 
-Decoded source path:
-
-use: net/nfc/llcp_core.c:1185 in nfc_llcp_recv_disc(), reading sk->sk_state
-     after nfc_llcp_sock_put() at line 1182; DISC dispatch is called from
-     net/nfc/llcp_core.c:1483 in nfc_llcp_rx_skb().
-free: concurrent socket release drops the final reference through
-      net/nfc/llcp_sock.c:646 sock_put(), then sk_free() releases the same
-      struct nfc_llcp_sock allocation.
-
-[   81.172360][  T830] BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb (net/nfc/llcp_core.c:? net/nfc/llcp_core.c:1483)
-[   81.173044][  T830] Read of size 1 at addr ffff888119369812 by task kworker/1:2/830
-[   81.173940][  T830] Tainted: [B]=BAD_PAGE, [W]=WARN
-[   81.173941][  T830] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   81.173943][  T830] Workqueue: events nfc_llcp_rx_work
-[   81.173946][  T830] Call Trace:
-[   81.173947][  T830]  <TASK>
-[   81.173952][  T830]  print_report (mm/kasan/report.c:379 mm/kasan/report.c:482)
-[   81.173959][  T830]  kasan_report (mm/kasan/report.c:597)
-[   81.173965][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:? net/nfc/llcp_core.c:1483)
-[   81.173973][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-[   81.173976][  T830]  process_scheduled_works (kernel/workqueue.c:3262 kernel/workqueue.c:3340)
-[   81.173980][  T830]  worker_thread (./include/linux/list.h:381 kernel/workqueue.c:946 kernel/workqueue.c:3422)
-[   81.173984][  T830]  kthread (kernel/kthread.c:465)
-[   81.174000][  T830]  ret_from_fork (archkernel/process.c:164)
-[   81.174011][  T830]  ret_from_fork_asm (arch/x86/entry/entry_64.S:256)
-[   81.174014][  T830]  </TASK>
-[   81.187221][  T830] Allocated by task 4409 on cpu 1 at 75.384100s:
-[   81.188593][  T830]  __kmalloc_noprof (mm/slub.c:5658 mm/slub.c:5669)
-[   81.189018][  T830]  sk_prot_alloc (./include/linux/slab.h:961 net/core/sock.c:2245)
-[   81.189420][  T830]  sk_alloc (net/core/sock.c:2301)
-[   81.189779][  T830]  nfc_llcp_sock_alloc (net/nfc/llcp_sock.c:979)
-[   81.190222][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:971 net/nfc/llcp_core.c:1478)
-[   81.190656][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-[   81.193365][  T830] Freed by task 31 on cpu 196609 at 78.490492s:
-[   81.195183][  T830]  kfree (mm/slub.c:6670 mm/slub.c:6878)
-[   81.195531][  T830]  __sk_destruct (net/core/sock.c:2285 net/core/sock.c:2384)
-[   81.195937][  T830]  nfc_llcp_rx_skb (.net/sock.h:? net/nfc/llcp_core.c:233 net/nfc/llcp_core.c:1194 net/nfc/llcp_core.c:1483)
-[   81.196379][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
-[   81.199084][  T830] The buggy address belongs to the object at ffff888119369800
-[   81.199084][  T830]  which belongs to the cache kmalloc-1k of size 1024
-[   81.200297][  T830] The buggy address is located 18 bytes inside of
-[   81.200297][  T830]  freed 1024-byte region [ffff888119369800, ffff888119369c00)
-
+[   46.711115][    T9] ==================================================================
+[   46.711848][    T9] BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave (./include/linux/instrumented.h:112 ./include/linux/atomic/atomic-instrumented.h:1300 ./include/asm-generic/qspinlock.h:111 ./include/linux/spinlock.h:187 ./include/linux/spinlock_api_smp.h:133 kernel/locking/spinlock.c:166)
+[   46.712620][    T9] Write of size 4 at addr ffff88811da9cb94 by task kworker/0:0/9
+[   46.713329][    T9]
+[   46.713560][    T9] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[   46.713563][    T9] Workqueue: events nfc_llcp_tx_work
+[   46.713570][    T9] Call Trace:
+[   46.713573][    T9]  <TASK>
+[   46.713574][    T9]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+[   46.713580][    T9]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+[   46.713598][    T9]  kasan_report (mm/kasan/report.c:595)
+[   46.713606][    T9]  kasan_check_range (mm/kasan/generic.c:? mm/kasan/generic.c:200)
+[   46.713609][    T9]  _raw_spin_lock_irqsave (./include/linux/instrumented.h:112 ./include/linux/atomic/atomic-instrumented.h:1300 ./include/asm-generic/qspinlock.h:111 ./include/linux/spinlock.h:187 ./include/linux/spinlock_api_smp.h:133 kernel/locking/spinlock.c:166)
+[   46.713621][    T9]  skb_queue_tail (net/core/skbuff.c:4114)
+[   46.713627][    T9]  nfc_llcp_tx_work (net/nfc/llcp_core.c:848)
+[   46.713631][    T9]  process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
+[   46.713637][    T9]  worker_thread (kernel/workqueue.c:3486)
+[   46.713642][    T9]  kthread (kernel/kthread.c:436)
+[   46.713654][    T9]  ret_from_fork (archkernel/process.c:158)
+[   46.713669][    T9]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[   46.713673][    T9]  </TASK>
+[   46.713675][    T9]
+[   46.728016][    T9] Allocated by task 8236 on cpu 0 at 46.562534s:
+[   46.728599][    T9]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
+[   46.729032][    T9]  __kasan_kmalloc (mm/kasan/common.c:398 mm/kasan/common.c:415)
+[   46.729460][    T9]  __kmalloc_noprof (./include/linux/kasan.h:263 mm/slub.c:5334 mm/slub.c:5359)
+[   46.729908][    T9]  sk_prot_alloc (./include/linux/slab.h:992 net/core/sock.c:2251)
+[   46.730337][    T9]  sk_alloc (net/core/sock.c:2307)
+[   46.730711][    T9]  llcp_sock_create (net/nfc/llcp_sock.c:1004 net/nfc/llcp_sock.c:1069)
+[   46.731154][    T9]  nfc_sock_create (net/nfc/af_nfc.c:31)
+[   46.731587][    T9]  __sock_create (net/socket.c:1651)
+[   46.732010][    T9]  __sys_socket (net/socket.c:1709 net/socket.c:1746 net/socket.c:1793)
+[   46.732424][    T9]  __x64_sys_socket (net/socket.c:1807 net/socket.c:1805 net/socket.c:1805)
+[   46.732853][    T9]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)
+[   46.733274][    T9]  entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
+[   46.733815][    T9]
+[   46.734038][    T9] Freed by task 8236 on cpu 0 at 46.686415s:
+[   46.734594][    T9]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
+[   46.735024][    T9]  kasan_save_free_info (mm/kasan/generic.c:584)
+[   46.735493][    T9]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
+[   46.735945][    T9]  kfree (./include/linux/kasan.h:235 mm/slub.c:2677 mm/slub.c:6377 mm/slub.c:6692)
+[   46.736307][    T9]  __sk_destruct (net/core/sock.c:2290 net/core/sock.c:2390)
+[   46.736732][    T9]  llcp_sock_release (.net/sock.h:2020 net/nfc/llcp_sock.c:664)
+[   46.737189][    T9]  sock_close (net/socket.c:710 net/socket.c:1501)
+[   46.737580][    T9]  __fput (fs/file_table.c:512)
+[   46.737946][    T9]  fput_close_sync (fs/file_table.c:617)
+[   46.738388][    T9]  __x64_sys_close (fs/open.c:1511 fs/open.c:1496 fs/open.c:1496)
+[   46.738811][    T9]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)
+[   46.739230][    T9]  entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
+[   46.739771][    T9]
+[   46.739991][    T9] The buggy address belongs to the object at ffff88811da9c800
+[   46.739991][    T9]  which belongs to the cache kmalloc-1k of size 1024
+[   46.741271][    T9] The buggy address is located 916 bytes inside of
+[   46.741271][    T9]  freed 1024-byte region [ffff88811da9c800, ffff88811da9cc00)
+[   46.742518][    T9]
+[   46.742742][    T9] The buggy address belongs to the physical page:
 
 Best,
 Shuangpeng
