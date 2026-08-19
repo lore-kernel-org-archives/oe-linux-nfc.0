@@ -1,143 +1,142 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBD423B62B
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 23:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5275533344A
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 00:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787095363; cv=none; b=lhQEzAOvJWHbbRRWnqL/GW7CfsKa874sISJGfre1PW+MsAbia0CwcctWbpVoxaCCyBhDnwYKyC7rOwMbkxHxEs6IIj7eYWcl2aTloAx0fMPNRuDanD8MiasMRxC27RMB5MlEnB1jcCMlYWMceFEYocnVDhJq1vVrqYooLm0hamM=
+	t=1787098883; cv=none; b=Q+zsofwvdJ4mpSrKpm9VbKdQg+FdpUM7WA3MdbV5WT16CpmKrK7nMNTym+BAHsj9id4JXP9ug0got2nO3Rly7hHkJGLF2JQppT9jIC7csF7YPqqaDREh9bg/ephenzrIeO5KQfTGkt7gjWOKrtR/OZwBqJJwATFQzG0asDMBDhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787095363; c=relaxed/simple;
-	bh=Di+Untc5QDv2uGNXQYM+e5ElnCl0AEfACepIPVd8i64=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bYySiyFLMvQO0hRCTBsLFF0MLxwLE1nl7ah3k68RD9jCDfwdW10LUMDAcIAYOzFlOIMXqKfFSnBAq1ODC0u4whFJQoD0A0hf4GNJF7mmdXSaT5EHDjR3Cxcq4LAhJo8s8NNXXBL3ydPurewahYmOv4rd26Y9LmRB1FjCHzid4Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=c+uZXVtk; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1787098883; c=relaxed/simple;
+	bh=7ZGFJi1Tw0QxpKzaA4112Co/fYEKIQvtec5peI9QIT8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qTG/Ctx/uikPpuw2rqsHLV8Z7KHWQvB9YeGuLR98Etvp+dDvBgivvWW9WoWYOrH4Mwa/FRjWPVsuasfv8Ttr3bJh/W8pQMlqTCiO2h1MvGXCw3SuqrnR6nPeNgBzoFj+ZPDd06F1CY+plhZY6jFFkJPZOlGkPQ1KgquJZCVsjvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LL/nYF3X; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="c+uZXVtk"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id BBD2E5340BE6;
-	Wed, 19 Aug 2026 01:22:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1787095351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=lJi1R7blbBTWLpX63ppzRZGExWfW5lcs2UkIXrQQpII=;
-	b=c+uZXVtkPwjYWtLqZ8BW+84EeUXg0JDMz/vWaUalRnKOLvXLJX7BFRIrAQ6NCBlkaZ0/ek
-	Y6E8G8BBVuLUZ8C+Xqk9S1YG1RnII7aMmXvjC3pe8oLO76TcoMGzhBcwTfv/YPE+tBJZ4V
-	chWPoVa3Mo1+YaVvBJbY6KEbEmMepfo=
-Message-ID: <babb5c20-1b95-481a-b0af-1d581425d37b@ixit.cz>
-Date: Wed, 19 Aug 2026 01:22:31 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LL/nYF3X"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-92e50a650a0so30503785a.1
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 17:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787098876; x=1787703676; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=srzljoPEhNJ1BkMUMJRW9e/8iKXpV+6wETzcN3+pJcQ=;
+        b=LL/nYF3XikY8TxL+SVfOGDgdDPrHyf6G+rt0pkbXwkj2vCG5mVa8HqJTeKbVGpPpmE
+         3/uIgOrx6vLj3wlALHg7I4cuW8AgF7VysQCQ2EbGmdbQQkZYI9amE+mayxtFJ0WJGVMb
+         0CjZhYLgqfFeKEZbn0Mec9bFLqsa1/J7oo/GBTRkR5fFLyyH9fTUlX6FD7oe89kdySLE
+         t5Zesb0XWFxrGu2pLedLRpUYmYZvNGlD+ZSQYIkffVAEQvusz8Apcy96pKwUQyH37njJ
+         GnII5BCYnRdiz2BqCRqPxIFJOvf+wsSLnsHjEzf7h3KPfBFIXO/+X6xVNS32aI++/yeV
+         vpWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787098876; x=1787703676;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=srzljoPEhNJ1BkMUMJRW9e/8iKXpV+6wETzcN3+pJcQ=;
+        b=Kv0tj0V5Euj4pybas1hunUhth4JDIDaMhxzzXc8CKBLX87RgNjDpDGfLXy0ge3SKEo
+         NpyHaVlrYQxEqm/sRTlWKXCHO1w98CtP1JEvEcn8knHKeRhY8G1f1ixhIuk+5RAJ38/2
+         Spm2U2arO7wtSLpzkEOsmOQcSHA+Tiw/KkMIX7z7SGHzMkiLrlcWHPC9QrKwE8N1c34B
+         h19yPiv9w0sDOApcROz3uU/KP5DOvexSwBXwNogTaM7j17LGu3KoZO20moO8YpwVc9tp
+         wdvDNqwSbAf3q1dwgUPf0NmiLj2hhvY9uL/jY1BBw4tAEIX3mIisZLOJnnTr7+Pe+xt9
+         GbCg==
+X-Forwarded-Encrypted: i=1; AHgh+RohHMvYCzV0n8IVMoiUrFJgyhuWTbU6Cn8uNT0C+h6VKncmcqu8L+KyjPL/cC/t/G9xJGsL65yFDNspA2s=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhPmurRMvFtLh0bpVj6yAOoF2CaL+D7efXRGIf4K10a4cagk+2
+	KfKHun89H1lyCrPKqlsPzY3XehpoRKHYrBnxbs7KExFYeHmqy3/zzBSZ
+X-Gm-Gg: AR+sD12IJHeveXhcdhHFrWvZ97rQ51S8E+qNHku/9+7iQxBiWLUJ8N+TBcsCWkyqZ/0
+	8bXhsCuv9AGTmlMFuGAPxP/Ck/egmPdE7ZMxAiRGSKgOaj/xFm2HrKMEbZbvaHFd9btf/VPmyKP
+	Gg4DzeD5Ip96MRefIhELzSLbE4qthnQJspevln6IfOiaKJyYmCqFxSlnFINzfSHnxX8/iz5AXJ4
+	EFPui2Pfoq3Zt4d20UzY0yu6s4jNN4JB8xcOpjbl4JSGu74Is5A0BV+SJemn6h+KMj4qjeaTsPS
+	2d7pEw9IsvbMwNETt5WE8XMHbCd/DaoLid9H1Y5G2sAPAY+x8rkkklPYK/1FUfDriDs9i53RxBC
+	PShag7mBjv2hSNS8ZhUytbFKm9qOxzbMvWAA/OLLfZK5t9idQyFwJSimq6LEkuNZ/GHWjCRLH3s
+	2Ab2X6ffLtTNSp/GVSsvgjsMXkYzFvnRlE4Gr3qRj+0cYZ0nwEOaCi4ODwynavGN4LkXHpb4qwZ
+	RKIAEsxdFXReITimA==
+X-Received: by 2002:a05:620a:4708:b0:930:f306:8275 with SMTP id af79cd13be357-9371e20fed9mr109795485a.9.1787098875889;
+        Tue, 18 Aug 2026 17:21:15 -0700 (PDT)
+Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720582980sm15764985a.33.2026.08.18.17.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 17:21:15 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: David Heidelberg <david@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [BUG] nfc: KASAN: slab-use-after-free in nfc_llcp_rx_skb
+Date: Tue, 18 Aug 2026 20:20:45 -0400
+Message-ID: <20260819002050.3476701-1-shuangpeng.kernel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: net: nfc: add st,st21nfcd-i2c
-To: Kristian Brox <isyourbrainfoss@proton.me>, oe-linux-nfc@lists.linux.dev
-Cc: krzysztof.kozlowski@linaro.org, luca.weiss@fairphone.com,
- linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org
-References: <20260818205940.1973944-1-isyourbrainfoss@proton.me>
- <20260818205940.1973944-2-isyourbrainfoss@proton.me>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260818205940.1973944-2-isyourbrainfoss@proton.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/08/2026 22:59, Kristian Brox wrote:
-> The ST21NFCD (e.g. Fairphone 5) speaks raw NCI on I2C. Existing
-> st,st21nfcb-* and st,st21nfcc-i2c compatibles stay NDLC. Add a
-> separate compatible so those boards are not switched to the wrong
-> framing.
-> 
-> Also document the difference and add an I2C example without
-> ese-present / uicc-present.
-> 
-> Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
-> ---
-> diff --git a/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml b/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
-> index 1dcbddbc5..3523a8df0 100644
-> --- a/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
-> +++ b/Documentation/devicetree/bindings/net/nfc/st,st-nci.yaml
-> @@ -11,10 +11,14 @@ maintainers:
->   
->   properties:
->     compatible:
-> +    description: |
-> +      st,st21nfcb-* and st,st21nfcc-i2c use NDLC on the wire.
-> +      st,st21nfcd-i2c is ST21NFCD with raw NCI (no NDLC PCB).
->       enum:
->         - st,st21nfcb-i2c
->         - st,st21nfcb-spi
->         - st,st21nfcc-i2c
-> +      - st,st21nfcd-i2c
+Hi Kernel Maintainers,
 
-Hello Kristian.
+I hit the following report while testing current upstream kernel:
 
-Thank you for your patches!
+KASAN: slab-use-after-free in nfc_llcp_rx_skb
 
-Before I do full review, for next revision, definitely the compatible should 
-omit -i2c suffix, thus only `st,st21nfcd`.
+on commit: 3609fa95fb0f2c1b099e69e56634edb8fc03f87c (2026-01-04)
 
-If possible, send next revision with b4 (thou you don't have to, it's usually 
-more fancy and convenient for both parties, takes care about CCing the right 
-people, checkpatch etc.) [1].
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/70e3bdc241dbd675970fe89f30f0b84e
 
-Thanks
-David
+I'm happy to test debug patches or provide additional information.
 
-[1] https://b4.docs.kernel.org/en/latest/contributor/overview.html
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
 
-[...]
+Decoded source path:
+
+use: net/nfc/llcp_core.c:1185 in nfc_llcp_recv_disc(), reading sk->sk_state
+     after nfc_llcp_sock_put() at line 1182; DISC dispatch is called from
+     net/nfc/llcp_core.c:1483 in nfc_llcp_rx_skb().
+free: concurrent socket release drops the final reference through
+      net/nfc/llcp_sock.c:646 sock_put(), then sk_free() releases the same
+      struct nfc_llcp_sock allocation.
+
+[   81.172360][  T830] BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb (net/nfc/llcp_core.c:? net/nfc/llcp_core.c:1483)
+[   81.173044][  T830] Read of size 1 at addr ffff888119369812 by task kworker/1:2/830
+[   81.173940][  T830] Tainted: [B]=BAD_PAGE, [W]=WARN
+[   81.173941][  T830] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[   81.173943][  T830] Workqueue: events nfc_llcp_rx_work
+[   81.173946][  T830] Call Trace:
+[   81.173947][  T830]  <TASK>
+[   81.173952][  T830]  print_report (mm/kasan/report.c:379 mm/kasan/report.c:482)
+[   81.173959][  T830]  kasan_report (mm/kasan/report.c:597)
+[   81.173965][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:? net/nfc/llcp_core.c:1483)
+[   81.173973][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
+[   81.173976][  T830]  process_scheduled_works (kernel/workqueue.c:3262 kernel/workqueue.c:3340)
+[   81.173980][  T830]  worker_thread (./include/linux/list.h:381 kernel/workqueue.c:946 kernel/workqueue.c:3422)
+[   81.173984][  T830]  kthread (kernel/kthread.c:465)
+[   81.174000][  T830]  ret_from_fork (archkernel/process.c:164)
+[   81.174011][  T830]  ret_from_fork_asm (arch/x86/entry/entry_64.S:256)
+[   81.174014][  T830]  </TASK>
+[   81.187221][  T830] Allocated by task 4409 on cpu 1 at 75.384100s:
+[   81.188593][  T830]  __kmalloc_noprof (mm/slub.c:5658 mm/slub.c:5669)
+[   81.189018][  T830]  sk_prot_alloc (./include/linux/slab.h:961 net/core/sock.c:2245)
+[   81.189420][  T830]  sk_alloc (net/core/sock.c:2301)
+[   81.189779][  T830]  nfc_llcp_sock_alloc (net/nfc/llcp_sock.c:979)
+[   81.190222][  T830]  nfc_llcp_rx_skb (net/nfc/llcp_core.c:971 net/nfc/llcp_core.c:1478)
+[   81.190656][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
+[   81.193365][  T830] Freed by task 31 on cpu 196609 at 78.490492s:
+[   81.195183][  T830]  kfree (mm/slub.c:6670 mm/slub.c:6878)
+[   81.195531][  T830]  __sk_destruct (net/core/sock.c:2285 net/core/sock.c:2384)
+[   81.195937][  T830]  nfc_llcp_rx_skb (.net/sock.h:? net/nfc/llcp_core.c:233 net/nfc/llcp_core.c:1194 net/nfc/llcp_core.c:1483)
+[   81.196379][  T830]  nfc_llcp_rx_work (net/nfc/llcp_core.c:1533)
+[   81.199084][  T830] The buggy address belongs to the object at ffff888119369800
+[   81.199084][  T830]  which belongs to the cache kmalloc-1k of size 1024
+[   81.200297][  T830] The buggy address is located 18 bytes inside of
+[   81.200297][  T830]  freed 1024-byte region [ffff888119369800, ffff888119369c00)
+
+
+Best,
+Shuangpeng
