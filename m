@@ -1,149 +1,145 @@
-Received: from mta1.migadu.com (out-249.mta1.migadu.com [95.215.58.249])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD01D352008
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 14:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B9147F76F
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 15:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787151327; cv=none; b=PbWaXcrC2x1SWN/pZZ42ZfLFdKXeXYEMcLkwFWkrmE4+5GLs5iCJ7Ov6VbYRKAY03rpMVJgbVsaL5Q9fQXbciFcdeazeKQ7tdyK81/K4ZSlAnUnZSDg3BMwawm7gCyU17tx2Ac0eyXZOa2o8WwJznn2O4MYzcus9d+AIkn0iz+s=
+	t=1787152252; cv=none; b=Zu+hWn0YY7/uoKqUDXa+GLpF5QjvTOTiKuMZ6kSQ5aQLSeF8QGCgZKK0fUXhc5u5B4n4yC63nH54OaNCfsWepE7pFQR8pwJLOcK4b/O/H5Tni1Oykpbnr14okCJI9DvWSmCXsxP0rAH5V3z1pG0o6abegcSjKJzXHNZ4WoJSZ5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787151327; c=relaxed/simple;
-	bh=8wNfg5Ll8U/gOyT+7g9lgcQRSGPtknL4RTLBa0Av4Ng=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc; b=hLA3l0OQWhUBW5QO7YLqUkUu54atzO3mTLZ6MyLY22Q2KBvKNQzNfE+KvUPVx2YKcw0/egCawB91+CTKUUjOETj9QqaqfXJDcYvZObXLRr/BBLfU04zmveqgDOg+WWQw11BJjHzKKohKKrLdWD5zRBw14RhfnOEsuanx2drYaeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v8hxzRW6; arc=none smtp.client-ip=95.215.58.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787152252; c=relaxed/simple;
+	bh=F3lvj/4K46bjW1es84GGKG+07YgBbrH+81rQje8Z1Fw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kjWsLDK3FDC0IuP0O123i1HGpy80+kfKOShoZgE8CpuDL1mVEn3e1Jbvhw499e4us5/ucx/gvMkuJXss6gaTkwQR09BLO3cLIN+gJ/e9z31k0rBRaRlAIq9dOuNAy+It9TJm7ChEXnEm2onXmzieqPiKl/JukyAAnmvjpOZtoRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=R76WDfXA; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v8hxzRW6"
-X-Envelope-To: oe-linux-nfc@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=8wNfg5Ll8U/gOyT+7g9lgcQRSGPtknL4RTLBa0Av4Ng=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787151322; v=1; x=1787756122;
- b=v8hxzRW6h8lrCp5hpKnOk+D4auuL9e0+KILnioXtTCW1PUu/ClUJyLhEYV8YzOCbyxqGhPLx
- C97qLIas5xi13QwFXiG1M2FQI3g1dnrLpgIdEXmg23kst9aiwnWC/Ydn45finzwBR+zmxPJRbXB
- WFToUbk9lHIioL64msdYT4ug=
-X-Envelope-To: oe-linux-nfc@lists.linux.dev
-Received: from webmail.migadu.com (2001:41d0:303:fc7a::)
-	by smtp.migadu.com with ESMTPS id 9ba50729c19702ff;
-	Wed, 19 Aug 2026 14:55:21 +0000
-X-Mizu-Trace-ID: 9ba50729c19702ff
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="R76WDfXA"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49978908b35so8148785e9.0
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 08:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1787152247; x=1787757047; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=TxPC8vpecxGJhj++hKRNkt6aU+0imcHu8gQy6A/MCx8=;
+        b=R76WDfXA8ABlsi2qaiHvJ9QWyErZHRZEvbTK7m9xJWwGg4ZsR1hTpSupF2jqO8AVX/
+         sNVZWSivzZ+XNrtr9sblR939qCvZUVE1fHBzgEkgB+uMnV+xp+BUkf3d7dMgy0rNGvlj
+         B72Jw6sw9x2GbXFUZ+zykq77O4lo05K5knv3ilap52jwthTcqe5GT0c4fKfS5+POPZPv
+         Y+AKc+7A3FZp6kl5ziH0VCbzbXSpJDRUKc0ehmKA2h1zgp12Ml8a9WFVhm/rY/poQ7sL
+         g+9jsiaYx3gnvs0HF2GNjr9EM82Q+vAypBsk3BPmgrga9QQXMPOcWJMtZesmPXMwh9kq
+         OfFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787152247; x=1787757047;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TxPC8vpecxGJhj++hKRNkt6aU+0imcHu8gQy6A/MCx8=;
+        b=sUJjJCkawFVCymiaVoaOA4lSP8YJiKoZBJb7Iq8i7La8CUnI9cahC9piZ6TY1DK+/g
+         ZcZisHyC9uK+ZJOleStcuSQFYptkv35I3DTWDtywweVkX7fkl8oECOay4JDBZaPKPvnM
+         JRPn9ls0RRFoxfQOhyoLN5Qboo6KjpDJISXm3Mo2yLqSJ+agrXQTcCnrkHkiS1lFIS3T
+         vJIDiKGj5g27zgw7UxkSSreRgXTgCRPsr1OJhlheF0mP0pAdFdCtIbjoNs6JUKeGezwj
+         OGNwngmZLR9J/UkfZS8bzrRjC2DFZF3HjO/s4ADbDBL+tf6Ul1Urgw2ZoSpD4Os7LiPy
+         N2AQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp2gsjB5AexopVQFFBWQdSFK5eaMufBiBWK3LNv9ncELnkOeEvDbmwT9oINgWq97v0gSnOkG+q0KTHzOnA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YySHqpqJLePAWcq8ep1EQfwaeI53qOBONDc3CJSWnE/BtnGgll6
+	1Vco6oMY18cFxrCgLpXyeZUE4Et63zPJqMOM6hoyesx9AE3gHJLiIy40zNuV30LaRtk=
+X-Gm-Gg: AR+sD12Bn7VfOmv20JqcRJsHm8+F4KkVk/HKQgmc3Pfbrt39sA4bynMj6CJUOFWtGjN
+	x6nMiITPTA32i12B2PZyURCL05O0SVNR4gBHl54rmw3356XHXm2uBInMZPCQ9iX9Nh37ZwomJrR
+	7yf5szVgyRXJbfM/Iktiz0aKzUft28zutnRGErMNe3/z9CKHf1VFkRQjzwYfJzRc9g/lj/WIMWm
+	qKbJCcxo3ZsNBGla4HIX6q+m1nEhptedTJ89tQ2jwOaznR/BpHV7ytEkEyIWIJZu6wBQAz2XyCJ
+	w/kFZnFSbkS2Z7d5hXruYn2xjJuhVohVzTjeY2jABPo1V0ahzj85IkxWrwnShMyyW2SME5leSyG
+	/e2sh5PUUKhwauFBU3Y48In2vVO4GkF28e5RnqRRJXEydc7mWNkgaxzPW/KjFr2s1CXXT/htOS6
+	mwdx9kmx23oVNiWyxhh0TqfILRDvTCGahAIugxON2rF3LHCzOukcAftLB2PBibWi6PzpC4A7yWD
+	Y7Gtf7N30M9IbgdJw==
+X-Received: by 2002:a05:600c:4e94:b0:499:78b3:7b36 with SMTP id 5b1f17b1804b1-499aa1b549cmr97313725e9.11.1787152246988;
+        Wed, 19 Aug 2026 08:10:46 -0700 (PDT)
+Received: from localhost (pekko.lucaweiss.eu. [5.180.148.229])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499a9e784a4sm68071005e9.1.2026.08.19.08.10.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2026 08:10:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Wed, 19 Aug 2026 14:55:21 +0000
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <91f49a98dd42655829b7206f0d64cc31ef9c0e95@linux.dev>
-TLS-Required: No
-Subject: [PATCH] nfc: st95hf: validate device-reported response length before
- reading
-To: david@ixit.cz, sameo@linux.intel.com, shikha.singh@st.com
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 19 Aug 2026 17:10:45 +0200
+Message-Id: <DKT0LJOID8PS.2NZUSIK66M1NR@fairphone.com>
+Cc: <david+nfc@ixit.cz>, <krzysztof.kozlowski@linaro.org>,
+ <luca.weiss@fairphone.com>, <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: add
+ ST21NFCD NFC
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Kristian Brox" <isyourbrainfoss@proton.me>,
+ <oe-linux-nfc@lists.linux.dev>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260818205940.1973944-1-isyourbrainfoss@proton.me>
+ <20260818205940.1973944-4-isyourbrainfoss@proton.me>
+In-Reply-To: <20260818205940.1973944-4-isyourbrainfoss@proton.me>
 
-From: Tianchu Chen <flynnnchen@tencent.com>
+Hi Kristian,
 
-st95hf_spi_recv_response() reads a 2-byte header from the device,
-derives the total response length from it (up to 1025 bytes via the
-long-frame encoding) and then blindly reads len - 2 more bytes into
-the caller's buffer, whose size it knows nothing about.
+Thanks for the patch!
 
-Call sites can be overflowed by a device reporting a large length,=20
-for=20example, st95hf_irq_thread_handler() passes the data area of a
-280-byte skb.
+On Tue Aug 18, 2026 at 11:00 PM CEST, Kristian Brox wrote:
+> Enable the ST21NFCD on i2c9 (0x08), IRQ TLMM 41, reset TLMM 38
+> active-high. Compatible is st,st21nfcd-i2c (raw NCI). ese-present and
+> uicc-present are unset; those links are unproven on this board.
+>
+> Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
+> ---
+> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/ar=
+m64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> index d48cf38b7..a485edd24 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> @@ -1006,7 +1006,14 @@ redriver_ss_in: endpoint {
+>  &i2c9 {
+>  	status =3D "okay";
+> =20
+> -	/* ST21NFC NFC @ 28 */
+> +	nfc@8 {
+> +		compatible =3D "st,st21nfcd-i2c";
+> +		reg =3D <0x08>;
+> +		interrupt-parent =3D <&tlmm>;
+> +		interrupts =3D <41 IRQ_TYPE_LEVEL_HIGH>;
+> +		reset-gpios =3D <&tlmm 38 GPIO_ACTIVE_HIGH>;
 
-ST95HF datasheet states "In Reader mode it is possible to receive up to
-528 bytes of frame data from VICC and TypeB cards", so technically a bogu=
-s
-NFC tag may trigger the OOB-write if the card-reader's firmware allows
-large packets.
+GPIO 38 and 41 look correct.
 
-Add a buff_len parameter and reject a device-reported length that does
-not fit into the caller's buffer before issuing the second SPI
-transfer. Also modify callers to pass their real buffer sizes.
+Some more things that probably should be described here:
 
-Discovered by Atuin - Automated Vulnerability Discovery Engine.
+LN_BB_CLK2 from the SoC is connected to SYS_CLK from the chip, which is
+the reference clock input (clocks =3D <&rpmhcc RPMH_LN_BB_CLK2> ?).
 
-Fixes: cab47333f0f75 ("NFC: Add STMicroelectronics ST95HF driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
----
- drivers/nfc/st95hf/core.c | 6 ++++--
- drivers/nfc/st95hf/spi.c  | 7 ++++++-
- drivers/nfc/st95hf/spi.h  | 2 +-
- 3 files changed, 11 insertions(+), 4 deletions(-)
+GPIO 39 is NFC_CLK_REQ, the External reference clock request signal
+Honestly not sure what it's for exactly. But if it's similar to [0],
+maybe it's irrelevant.
 
-diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
-index 4d772a308bfff..0fbb60deada23 100644
---- a/drivers/nfc/st95hf/core.c
-+++ b/drivers/nfc/st95hf/core.c
-@@ -283,7 +283,8 @@ static int st95hf_send_recv_cmd(struct st95hf_context=
- *st95context,
- 		unsigned char st95hf_response_arr[2];
-=20
-=20		ret =3D st95hf_spi_recv_response(&st95context->spicontext,
--					       st95hf_response_arr);
-+					       st95hf_response_arr,
-+					       sizeof(st95hf_response_arr));
- 		if (ret < 0) {
- 			dev_err(dev, "spi error from st95hf_spi_recv_response(), err =3D 0x%x=
-\n",
- 				ret);
-@@ -800,7 +801,8 @@ static irqreturn_t st95hf_irq_thread_handler(int irq,=
- void  *st95hfcontext)
-=20
-=20	mutex_lock(&stcontext->rm_lock);
- 	res_len =3D st95hf_spi_recv_response(&stcontext->spicontext,
--					   skb_resp->data);
-+					   skb_resp->data,
-+					   skb_tailroom(skb_resp));
- 	if (res_len < 0) {
- 		dev_err(spidevice, "TISR spi response err =3D 0x%x\n", res_len);
- 		result =3D res_len;
-diff --git a/drivers/nfc/st95hf/spi.c b/drivers/nfc/st95hf/spi.c
-index ffaf2789c4069..f48abd09a08fc 100644
---- a/drivers/nfc/st95hf/spi.c
-+++ b/drivers/nfc/st95hf/spi.c
-@@ -66,7 +66,7 @@ EXPORT_SYMBOL_GPL(st95hf_spi_send);
-=20
-=20/* Function to Receive command Response */
- int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
--			     unsigned char *receivebuff)
-+			     unsigned char *receivebuff, int buff_len)
- {
- 	int len =3D 0;
- 	struct spi_transfer tx_takedata;
-@@ -106,6 +106,11 @@ int st95hf_spi_recv_response(struct st95hf_spi_conte=
-xt *spicontext,
- 	else
- 		len +=3D receivebuff[1];
-=20
-+=09if (len > buff_len) {
-+		mutex_unlock(&spicontext->spi_lock);
-+		return -E2BIG;
-+	}
-+
- 	/* Now make a transfer to read only relevant bytes */
- 	tx_takedata.rx_buf =3D &receivebuff[2];
- 	tx_takedata.len =3D len - 2;
-diff --git a/drivers/nfc/st95hf/spi.h b/drivers/nfc/st95hf/spi.h
-index 3ab678734c174..443a5053c0128 100644
---- a/drivers/nfc/st95hf/spi.h
-+++ b/drivers/nfc/st95hf/spi.h
-@@ -45,7 +45,7 @@ int st95hf_spi_send(struct st95hf_spi_context *spiconte=
-xt,
- 		    enum req_type reqtype);
-=20
-=20int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
--			     unsigned char *receivebuff);
-+			     unsigned char *receivebuff, int buff_len);
-=20
-=20int st95hf_spi_recv_echo_res(struct st95hf_spi_context *spicontext,
- 			     unsigned char *receivebuff);
---=20
-2.51.0
+For power supplies, L18B is VPS_IO (digital IO power supply) and L4C for
+VCC_UICC_IN (power supply for the UICC). I think at least VPS_IO should
+be modelled.
+
+VBAT and VDD_TX power inputs also exist, but they're both connected to
+VPH_PWR on FP5, not sure how much sense it makes to add them?
+
+And yes, as Konrad said, SWP_SE and SWP_UICC are connected to SIM1 and
+SIM2 respectively.
+
+[0] https://lore.kernel.org/all/20260811220135.472380-1-jorijnvdgraaf@catcr=
+afts.net/t/
+
+Regards
+Luca
+
+> +	};
+> +
+>  	/* VL53L3 ToF @ 29 */
+>  };
+> =20
+
