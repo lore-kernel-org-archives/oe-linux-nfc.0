@@ -1,188 +1,129 @@
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E662625D53B
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 19 Aug 2026 05:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F79331ED7;
+	Wed, 19 Aug 2026 06:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787116966; cv=none; b=J2F81CcuEYBorzg7i+Z3EanbWemdHZC8CCenaHcuyGpYdm+ZSpc5i4wE8f1h/tP83DsQeK9uCAey+4y5wEkwc/2urt34rfur1IR1sgMitzkwMCC9XchEtQ8QAPQBG0NetyzFU0cp1/gux4AtmM9AZReqvfcXAsg2YxEfDFDdD8E=
+	t=1787120333; cv=none; b=NZ8h0A/sZWHKzqrkDVfFU1tDTbQztY7BWBhvDECP/5WnicMqBx8riNvQTHWbMQcNhTZZsrPC5U/yBfP8dauKA9OQr8KB3KKL/ernJiupQEbeYhSiif4CydNXhfbWFPj+3W4WgHfDjDJv3xhmhmr1MnHCa0Pv5/ShyLUOy8Pp6LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787116966; c=relaxed/simple;
-	bh=zLGKfpFVpvTKysp73BiHdafFNbAOOjcW2hoYffmXx1Y=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HFhPScToocN/etGD5F7HtYKFn9eeFkK1zRK4SAMFiHEYd2RgofOwPmudpA62hR6QpG3KIfX0sS2p2XdP31niZjGWXe0OnT8la3mawwx1f9ZJCrF+TwjDb+6u6/dW6rUQhUDhBR6qXY1CHGGRUUKbb/xIgHy+pMO2EXOq5bIW62I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4a7de733fa9so832458b6e.3
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 18 Aug 2026 22:22:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787116964; x=1787721764;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4jdYzixkR4xffbs5/m+OOw2qi2WWx8yCuZKRPQjX7oU=;
-        b=cAourpRjMzIYJaR6W8PgLqdOuXke2f/n6FzqQzncDD5MBQnYyUYK84r7LfNs7eYcyB
-         NNMSeqMH6+34GKWbTnA3JGftLECa6tBYK1i1DtUU689e8qvYFIp0nh2t+28FOqW36H16
-         synMaZ9j/Q/Tfj84UyXf7dPgbmzX5rDTOIts+GpmcQSvfe1L2f4///k9pn5wRsaPDEys
-         OylCXEDrZn1YbFw9B1Crap3kLpw7iGfN3DDHdxEUWvs4jXANyFbItFhTkE/F91mk7fnV
-         AzU17cYBeWW1Ga6O6Wb8zTZF2UShCQebWhVG/9abQpSmpgA43VveAH/21Fgsi3eyCkXZ
-         OgeQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqv39E72cJ6QwcPIShs+OGUPUVXT+4U4xpLIhoU+phk9u+FqIrYwvwYOk57zjkDZCfPLwRkSAAHnCE6VWw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzwKZgTVjS1fJ/omG6hScesq2bKORD9Rp6HJcTDkrhA6PjzycEI
-	Z3VREA/MAob+iVdez+Te4Sh+k5j7abKO1rKbuzI0YpeGbB1yft/F5HO/MNHZOF+qRp31gcpoqLv
-	ehjSwRYta5Juuro4Gu9KRKTp4l7hiLVQ9SAo8DbE2nuXEIITta6kM90Mm6jA=
+	s=arc-20240116; t=1787120333; c=relaxed/simple;
+	bh=w9xkFzvdncQZlPhilVHc2CXicumUZsPnpW50/JkKHk0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rORtF7Q1EEsxQEgyzqng+e+NCOYav703XuELyMVT/WITtAgk45Zq5bJLBEP2HqPl16Aq0bVmPJp2vym1B5mmw2MdnGW2HBnbGeHQP/K8T1ZG/MKV7/BZOV1P4HmeMNolh5PS08JVLbKKNSRhjjmJMxJeTcacNZq7WIrQBaMtaQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhvCgviU; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhvCgviU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D56431F000E9;
+	Wed, 19 Aug 2026 06:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787120331;
+	bh=QNVwnamZ/7cmOP2/HAn3KuBxJDTQ8UvecelRH4hzTxM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lhvCgviUllZChy5IriBGTB9QUkbs4XzHtfkOnWA5CfHN3Q9Mh141mGFtm7Mn3MEhs
+	 nQH+SNOKEL7b0LlwkQoC2MX7ZAgAvW5IR5RVP669DCWuPfDqKJH26dl/JtFkVkXCkA
+	 TeFsq5pWmlbVkWwAr5aGO0c0yZqh/xNug0bZN0bjO0P4I/ZCXXit4e/gtemp+sIyeB
+	 fTI+qa3EbD5CwfhRoZK2nby3DZYOvVjMHJmUAJfnh821OmBn8bKaTB8ZktjRy+TiKd
+	 jDA6wwPoAsPHn0JyxiaxsT9ZcbbMT1YH8lzUApWsVzKj+XP4fK06XKKjtMCQjeJwYU
+	 O1GmVGKOnnk4A==
+Message-ID: <4293b936-c3ea-4b5a-9c35-697c4cdb7841@kernel.org>
+Date: Wed, 19 Aug 2026 08:18:47 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1525:b0:4b2:8e51:aac2 with SMTP id
- 5614622812f47-4b2bc93b5cbmr1792453b6e.8.1787116963849; Tue, 18 Aug 2026
- 22:22:43 -0700 (PDT)
-Date: Tue, 18 Aug 2026 22:22:43 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a853da3.ae6ddae5.3da009.0006.GAE@google.com>
-Subject: [syzbot] [net?] [nfc?] KASAN: slab-out-of-bounds Read in __dynamic_pr_debug
-From: syzbot <syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: net: nfc: add st,st21nfcd-i2c
+To: Kristian Brox <isyourbrainfoss@proton.me>, oe-linux-nfc@lists.linux.dev
+Cc: david+nfc@ixit.cz, krzysztof.kozlowski@linaro.org,
+ luca.weiss@fairphone.com, linux-arm-msm@vger.kernel.org
+References: <20260818205940.1973944-1-isyourbrainfoss@proton.me>
+ <20260818205940.1973944-2-isyourbrainfoss@proton.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260818205940.1973944-2-isyourbrainfoss@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 18/08/2026 22:59, Kristian Brox wrote:
+> The ST21NFCD (e.g. Fairphone 5) speaks raw NCI on I2C. Existing
+> st,st21nfcb-* and st,st21nfcc-i2c compatibles stay NDLC. Add a
+> separate compatible so those boards are not switched to the wrong
+> framing.
+> 
+> Also document the difference and add an I2C example without
+> ese-present / uicc-present.
+> 
+> Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
 
-syzbot found the following issue on:
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-HEAD commit:    21d6ac051080 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=13653679580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=1e3df0852e82c21ca418
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/88380e2ddcb9/disk-21d6ac05.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5dba5c2896b7/vmlinux-21d6ac05.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/52ac739e37e0/Image-21d6ac05.gz.xz
+Please kindly resend and include all necessary To/Cc entries.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
-
-dvmrp0: entered allmulticast mode
-==================================================================
-BUG: KASAN: slab-out-of-bounds in string_nocheck+0xd8/0x140 lib/vsprintf.c:648
-Read of size 1 at addr ffff0000c2554ae1 by task syz.2.798/8384
-
-CPU: 1 UID: 0 PID: 8384 Comm: syz.2.798 Tainted: G             L      syzkaller #0 PREEMPT 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack+0x30/0x40 lib/dump_stack.c:94
- dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
- print_address_description+0xb0/0x238 mm/kasan/report.c:378
- print_report+0x68/0x84 mm/kasan/report.c:482
- kasan_report+0x8c/0xc4 mm/kasan/report.c:595
- __asan_report_load1_noabort+0x20/0x2c mm/kasan/report_generic.c:378
- string_nocheck+0xd8/0x140 lib/vsprintf.c:648
- string+0x8c/0xc8 lib/vsprintf.c:730
- vsnprintf+0x880/0xd10 lib/vsprintf.c:2945
- va_format lib/vsprintf.c:1725 [inline]
- pointer+0x5e8/0x6b4 lib/vsprintf.c:2573
- vsnprintf+0x618/0xd10 lib/vsprintf.c:2949
- vprintk_store+0x344/0xb94 kernel/printk/printk.c:2307
- vprintk_emit+0x1bc/0x514 kernel/printk/printk.c:2455
- vprintk_default+0x54/0x80 kernel/printk/printk.c:2494
- vprintk+0x9c/0x114 kernel/printk/printk_safe.c:82
- _printk+0xe0/0x130 kernel/printk/printk.c:2504
- __dynamic_pr_debug+0x148/0x1e4 lib/dynamic_debug.c:879
- nfc_llcp_wks_sap net/nfc/llcp_core.c:344 [inline]
- nfc_llcp_get_sdp_ssap+0x350/0x3fc net/nfc/llcp_core.c:420
- llcp_sock_bind+0x2e0/0x58c net/nfc/llcp_sock.c:114
- __sys_bind_socket net/socket.c:1920 [inline]
- __sys_bind+0x1c4/0x268 net/socket.c:1951
- __do_sys_bind net/socket.c:1956 [inline]
- __se_sys_bind net/socket.c:1954 [inline]
- __arm64_sys_bind+0x84/0x9c net/socket.c:1954
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-
-Allocated by task 8384:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x40/0x78 mm/kasan/common.c:78
- kasan_save_alloc_info+0x40/0x50 mm/kasan/generic.c:570
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x9c/0xb4 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5334 [inline]
- __kmalloc_node_track_caller_noprof+0x434/0x6d4 mm/slub.c:5471
- kmemdup_noprof+0x44/0x8c mm/util.c:138
- kmemdup_noprof include/linux/fortify-string.h:715 [inline]
- llcp_sock_bind+0x2b0/0x58c net/nfc/llcp_sock.c:107
- __sys_bind_socket net/socket.c:1920 [inline]
- __sys_bind+0x1c4/0x268 net/socket.c:1951
- __do_sys_bind net/socket.c:1956 [inline]
- __se_sys_bind net/socket.c:1954 [inline]
- __arm64_sys_bind+0x84/0x9c net/socket.c:1954
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-
-The buggy address belongs to the object at ffff0000c2554ae0
- which belongs to the cache kmalloc-8 of size 8
-The buggy address is located 0 bytes to the right of
- allocated 1-byte region [ffff0000c2554ae0, ffff0000c2554ae1)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff0000c2554a80 pfn:0x102554
-flags: 0x5ffc00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 05ffc00000000200 ffff0000c0001500 fffffdffc318aa10 fffffdffc30937d0
-raw: ffff0000c2554a80 0000000800800069 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff0000c2554980: 00 fc fc fc 07 fc fc fc fa fc fc fc 07 fc fc fc
- ffff0000c2554a00: fa fc fc fc fa fc fc fc fa fc fc fc 07 fc fc fc
->ffff0000c2554a80: fa fc fc fc 05 fc fc fc 05 fc fc fc 01 fc fc fc
-                                                       ^
- ffff0000c2554b00: fa fc fc fc 05 fc fc fc 00 fc fc fc 00 fc fc fc
- ffff0000c2554b80: 00 fc fc fc 00 fc fc fc fa fc fc fc 00 fc fc fc
-==================================================================
+You CC-ed an address, which suggests you do not work on mainline kernel
+or you do not use get_maintainers.pl/b4/patman. Please rebase and always
+work on mainline or start using mentioned tools, so correct addresses
+will be used.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Best regards,
+Krzysztof
