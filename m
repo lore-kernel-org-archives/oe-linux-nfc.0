@@ -1,140 +1,148 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC4B495052
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 14:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787321707; cv=pass; b=rPwa+27eyhgmFGoTy8DmgJ2yoJ4iLYMq1DDa5xWcjJHeXUJ9Og/BAP8ZFOUP5Q9Su/zYiJSGK7a+++LU3VcyQNxlMwOzKeOHW9t1YWEUapp4DLWtX8iutgvp4udadHlqHYK+PcsaxfT8OnlvtRs17V04Hf/f/d83MWiBRj1a2TU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787321707; c=relaxed/simple;
-	bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gKgmqE9benCFbFou0VZ2GuoGn/Hs72T+ixhQcU08RoZE3CubwPFpzT4dVaIqvtERQNj9v8jdPZNfIkj/cC1jWVZzu5T7QS+WJ72Tcf92Mizj6sMMG1XR9EH+RBSqsuXXZ/glS4g0qnbHsag0VTHaL+qkLrhybBnFn2XOwPiTkos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tEZbCLEP; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEAA4C0424
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 14:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787322089; cv=none; b=dN22a7fTz9at5Pi/R70XCfA2etjHalyh1sEQGssWezQN09tSg2eQjCLmygj2dQi/tBeQwA0WNvSVRgG62oZFpnGgEjBUjwG6Ama4l9dXP6IcrU2aSGDHoyGV3XPO7HPx4MDJDXXpgR76NCAIPyu0AHwTR9bCiw3wCbR3TWRfbJI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787322089; c=relaxed/simple;
+	bh=swPCRg0mE4H3SHLdPEqXkupOTDy1ncDa3bxxkpac4lU=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=aQToDclO+8XtKhRorxgc4SpBvP32zEYWPdMj62iMnLQD1PnwSbcAuNPU08L4Tn/AjqjWGpF/W4VL4bRjb600hSHLfTwrF7XbhhIIC0bMfx3e2ck7PM7xm6lIgKkHZ1D8brvvG31GYr8rkf8WFVsarLQqwHxaJ4exp9KWRE64mqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSUdDaSA; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tEZbCLEP"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c08df8513so6320041cf.3
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 07:15:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787321705; cv=none;
-        d=google.com; s=arc-20260327;
-        b=avVOn4B2dmzLKSg2cWnC/sUPy3BYdP6o0EZrtQ95kf1VSvdDdWrb5TYhQZiQWoJ2ru
-         VsmQgl15ybfn/dOap9EThPbvIX2luj9vnZvz2o1c8/7Qf5MHNB6BmGe4OqTbWfg4JI1e
-         BPUBkJC5QYxF4itqXoOQ5Ulhv/nzDIMgt495fHDuIrPH2qPzN2x6/+OkGgGMiaV7f2b9
-         uMrufZz42Tp2w3vnkYOltd+0MIfWASv/etw908d6NjwhuP0GPlGyIpBMJ0fQGUNkaX28
-         qPMh0WRTYaWBZtQbXhzV0GboVjejOI2eY6eaWM5hWcsgv34lAO3DZ0P0eSIUQDKDbVs4
-         w+oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
-        fh=V/kCgEDTR3KnKFLGTmkQ83nVnMy7kF4wqLc8E36+8gQ=;
-        b=ZvU4NuGqYpp08WM8wCG0rxXPWJyRYGiPUboHMslRHI85bf2CGooCRx4HRx/uW4rJa7
-         7Fw+ukTlRT9+TwO9i9ND7l34N77Ij9SzF65zCZu3pbT0sKW1ZaaLIafNKO7WHFomc0Gs
-         ilr7jNPPSoR9E0BVQ/EZ7aTEXXt6KSbaQ54rikqV8ZpgSq4zm4D5zc46dHlbo+s2ei72
-         p1GvacIPham7gv89ovQPGLye74BX4TH6C0FjTcRnc706WdC1HmUmukSpfpYFzgbBkIbL
-         OiTIzZNz1EOM7ULxvBnWzi4+itfUMh/Rk49uLIYfR1YgecswufptawZJknGwa0LX8rFx
-         AjCQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSUdDaSA"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c0cea8883so8348361cf.1
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 07:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787321705; x=1787926505; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
-        b=tEZbCLEP23gCmhgP6oL9pkivx3NmRgbGsfMB3BIWxVtIGXRTT60281vCMBOC6LJRZi
-         aFkC1x5MmwzwVy6UA6F8AOOKh9dm/O7b8fo24b4s7VlZsLEzXX2svcKPUi6fIh8KLDWX
-         qShPD6DdTC2wCOJhf1meyP1EUU/b9Ij9BcsRH9Pqssw3DlVcnSFsyYA9UK9T0Lgodm46
-         V/Hfm6EF/Kqsh6eYmNgiS8vOAo1ry11Y6ntOBa1Q9nyFLNEsF6uDJItymh7sDaZtFYxw
-         SN2iT9O8nbaykvEULjGTA3yDS1hB1dPoaiw70k9/sq3b+GryWJ2LmcDO3Cx22J+hnzWn
-         ioIg==
+        d=gmail.com; s=20251104; t=1787322087; x=1787926887; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lTuRd4xQT37Jqul00lElcHcBakjw1tAhFp/7eCwHpYw=;
+        b=KSUdDaSAqPnng3W7xvmaXH/6/hZEYmEwLX+24J6rmS0wmI4kpi1PcpQ9mWuoFT8A78
+         kUVPJ4Bkm+z0uGdfYQs9cgoNqDcd8YWdK4xFzdSYJm1LcKFxh718ppJKytk/hksgxqyF
+         kSzqjtcFQO3JcBxXDx1K90tFZT7mpmaKkO2E1tFm+731DN1D6lSBzdnKMSZ1H0ETLlUv
+         xymqFJNx/n5GWNOqNxqmKIS1bjHuXrQkrrIICn2U/XYvjjSefZwIaCl9MRS8qyzk8Pka
+         NdhfQGlkhl1opjwYwYukfEAhu1zOWe5tC/OkM/h7u/U7l6GCu+VUboEEnVlg5N4u7Ft6
+         1U1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787321705; x=1787926505;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1787322087; x=1787926887;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
-        b=IzabBmhKgr3laG+zi/x0ZBlMdP4y02NY4oEEnw0zRzqUOO792JS9xznMCLN9aBzNiB
-         8JLo6VkSNh6F4rZiMDbJE5ux4oK0pvA4eXrhC3GqNUOFs61yMfUEUHqbC9ejrxXCD+BN
-         DjVCWDtFP2+8bs/itOtqkKEDab10BtSUxIfTyTNLNZ047iGSUaZaUZYywBF+8//SLgC0
-         luGQ58ev1FGpjwBp1UQaeJntgU9dM+03gCnomBpGAOcxkxkSvGX8l2HXC2R+dyHL657T
-         hCw13zDEV2XfG3yp7wB6etH2qcgOvFk5UvV79h2qQk/M4UI0CBgSbLYSg1J3C7dFCtJB
-         /ExA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro++nMT1zx0jgU6UDUVtuY5LI1hkpRSOheksTQ7zoa+0nT03Ki7iElIpKhICT+D0ICdQ1+s5BA9VMjJVHc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+oq7TVXvW3cXlhNdPMVTHgrUJoFGx+pued0jqCy7PLuRvPiYu
-	0+jFmUMTltoaJHUNS31J0TEoAlcnOcaU4ghj3+PYLa20dolAQFiPHg1QE/f52EtgTguvj1dCkqO
-	upQ5d9nCRL3w3T6GKQandAumfm0drn0Z7tFkvB87+
-X-Gm-Gg: AR+sD12UcmEIJ3IJWzN8CRarHr1pQ9oZHC9F6LypE8Cp2utwF1+pe9rKRD2lszAU1Sj
-	UbEuK6CodqMDIU56O0W21fg4B60ZQQNRrC95O61denJizpjA05/wulJM9mb14v7MGYA+3qOijmo
-	VRwnK9/Ku7YGnP9/1VVBO/tCnmEV9puWw69Ww71+G8/bo3V96jU/kqycvM4cYWxqQLMUzHzCjDf
-	33KEhBXLe8sTEZCeE7Hyc5iNHU/7wOd4cIcqiSfofPCWxaG2Hu32t57xu4QUnx0aNOLkU6fT35W
-	s3ZaapOXPfgnYDqLT106hecmhyjQwiClVV4/RaoV34TdSkkoV+0CCYDMl1UzYPWMiS2YMbE0b4w
-	E6NQWqtsmzTHwV8VuBRHMqsWwQ3trVWYS1BLz3nP/bvNFIO31dXG24Ivn5Q==
-X-Received: by 2002:a05:622a:14b:b0:528:38b1:b54c with SMTP id
- d75a77b69052e-52df56eb847mr62757171cf.2.1787321704290; Fri, 21 Aug 2026
- 07:15:04 -0700 (PDT)
+        bh=lTuRd4xQT37Jqul00lElcHcBakjw1tAhFp/7eCwHpYw=;
+        b=Pn8Dc7P8xIF2dJdlOeSTpPJvBEmQyjOFmIT0W6p3s6eqARI4UtLjLFoQRcQQCcoYOv
+         KSdqjs9Mk5Rsr3Ap1C/jBotWAyynnIy+gnPF73lipqkqBXqHKnL4AJXHvrAnssbuIyJB
+         0jLdfiiZi7f6TkKVEUv1zMXoWBHqYVVFScvjVm/DMCV/OKKYa4U3w7ELhlersaZC1HZh
+         TTG4tlrwEQncq6XtGgEDe7Ug2gvRPfq7+h+suPaWGgNU9JVcDoUDI0jIp4LE2rXEkMsy
+         hlzhywpr4dxqz3c4O9At0dhx+6QDpQ18IGroLHGwi7VBsUCNkqhD568fPqOBSrIDDH/x
+         QCoQ==
+X-Forwarded-Encrypted: i=1; AHgh+RooqCA41s4szIhyNffMcSpkZr+Op/zE+J/Yp9bafITE/gkZgWnoyfwzEYyimq7f/EG/e5M+BJ1OoNkNBL0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxorgt7YTDp2RygoZXgP67culycplSlXhas2xKr3p0sZg9GwFun
+	i70qK4v/QN4OFH3g7wJj5Dxky7lMKeuRCirZdNrJ+XEla6retzPqaKjE
+X-Gm-Gg: AR+sD12oajh2JfBEK0A0pLeLr4ctfGRpYxN3LXHr2+DLvfex0t6j7VS88+PYt28sDOI
+	uNHTMcFVp6yjKNYS8GP+x/lM10ClNr0zo/gygugB6h7lZs7qjksp/7+8320CDzqCN3PyrjgrP/q
+	FJrECaCINjU+Biw7fMu8FC920walKyemtGCDdD47rnAaFCXUaJoshpJ5xQyTVzC9rUMtRv8jhbp
+	60k6+hsrxosfNnkD87aSLl/DrBstiMaRN9KUaCNbrdEcNimmqAEDQ0oc4U3SFBfWLuTez4URz5S
+	HHtMaIcVgUAqRJU/fOYFax0N0mK3TwrPyBiQJMl3MrXX+9Hn2cUmKQWwE3HvaVVcYJnJMWlSSBs
+	KWm7kRRSTjV9DGe0kRI3IhKmz4SgpAeLdTCkNbWfrIaiASeqfG3/76bCnIbBshf+h1eRsutwPst
+	1Zc7F4/NFGuIjEJPUyFyvSf2OJLEj4iOSQfjo=
+X-Received: by 2002:a05:622a:1904:b0:50e:635b:5562 with SMTP id d75a77b69052e-52df676e1a9mr48704461cf.22.1787322087254;
+        Fri, 21 Aug 2026 07:21:27 -0700 (PDT)
+Received: from smtpclient.apple ([165.85.199.100])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52dd857b6b1sm51365781cf.3.2026.08.21.07.21.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 21 Aug 2026 07:21:26 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260819050031.2725592-1-shuangpeng.kernel@gmail.com>
- <CANn89iJbOs54esoGSukvMiYnXQkHadnC7NgQanbAXOeiHXOsjg@mail.gmail.com> <F1E58A29-96B2-4BB0-8840-8A168477F48E@gmail.com>
-In-Reply-To: <F1E58A29-96B2-4BB0-8840-8A168477F48E@gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 21 Aug 2026 16:14:53 +0200
-X-Gm-Features: AcwNN1Ug5BQfMCgHF1cykLrwRDkb8I8sreh-uNSxFtMO9C306K_evZ6Ynhi4Ebk
-Message-ID: <CANn89i+Oz1498M1YGnMCUmFSe3TQxLhP=+z724e5vsrkUnJu7w@mail.gmail.com>
-Subject: Re: [BUG] NFC: slab-use-after-free in _raw_spin_lock_irqsave
-To: Shuangpeng <shuangpeng.kernel@gmail.com>
-Cc: David Heidelberg <david@ixit.cz>, davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	horms@kernel.org, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [PATCH net] nfc: llcp: fix UAF on socket in nfc_llcp_tx_work()
+From: Shuangpeng <shuangpeng.kernel@gmail.com>
+In-Reply-To: <20260821141358.3546366-1-edumazet@google.com>
+Date: Fri, 21 Aug 2026 10:20:53 -0400
+Cc: "David S . Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>,
+ netdev@vger.kernel.org,
+ eric.dumazet@gmail.com,
+ David Heidelberg <david@ixit.cz>,
+ oe-linux-nfc@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <CBC379D4-4F31-422D-A81A-0E88EED9CC23@gmail.com>
+References: <20260821141358.3546366-1-edumazet@google.com>
+To: Eric Dumazet <edumazet@google.com>
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 
-On Fri, Aug 21, 2026 at 2:54=E2=80=AFAM Shuangpeng <shuangpeng.kernel@gmail=
-.com> wrote:
->
->
->
-> > On Aug 19, 2026, at 03:48, Eric Dumazet <edumazet@google.com> wrote:
-> >
-> > On Wed, Aug 19, 2026 at 7:00=E2=80=AFAM Shuangpeng Bai
-> > <shuangpeng.kernel@gmail.com> wrote:
-> >>
-> >> Hi Kernel Maintainers,
-> >>
-> >> I hit the following report while testing current upstream kernel:
-> >>
-> >> KASAN: slab-use-after-free in _raw_spin_lock_irqsave
-> >>
-> >> on commit: 3aa1dcaa4f6f5ae08936491e08bd456f331f2d40 (2026-08-13)
-> >>
-> >> To help trigger the bug more reliably, we applied a minimal diagnostic=
- patch
-> >> that only adds delays and print statements.
-> >>
-> >> The reproducer and .config files are here.
-> >> https://gist.github.com/shuangpengbai/f7dab4725e2a2d57b1d302714c93c549
-> >>
-> >> I'm happy to test debug patches or provide additional information.
-> >
-> > Thanks for the report, could you test adding one skb_set_owner_w()
-> > after the skb_copy() in nfc_llcp_tx_work() ?
-> >
-> > Something like this (untested, not compiled) patch.
->
-> Thanks for your fix!
->
-> I tested the patch and reran the reproducer. The bug did not reappear.
+Thanks for your patch!
 
-Great, I have sent a formal patch, please fell free to add a Tested-by: tag=
-.
+Tested-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
 
-Thanks.
+On Aug 21, 2026, at 10:13, Eric Dumazet <edumazet@google.com> wrote:
+>=20
+> Shuangpeng Bai reported a slab-use-after-free in nfc_llcp_tx_work():
+>=20
+>  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave
+>  Write of size 4 at addr ffff88811da9cb94 by task kworker/0:0/9
+>  Call Trace:
+>   _raw_spin_lock_irqsave (kernel/locking/spinlock.c:166)
+>   skb_queue_tail (net/core/skbuff.c:4114)
+>   nfc_llcp_tx_work (net/nfc/llcp_core.c:848)
+>=20
+> When transmitting an I-frame, nfc_llcp_tx_work() creates a copy via
+> skb_copy() to keep in tx_pending_queue. If the socket is closed
+> concurrently, freeing the original skb during nfc_data_exchange()
+> drops sk_wmem_alloc to 0 and destroys the socket before copy_skb is
+> queued to llcp_sock->tx_pending_queue.
+>=20
+> Call skb_set_owner_w(copy_skb, sk) to keep the socket alive while
+> copy_skb is queued.
+>=20
+> Fixes: be02b6b62400 ("NFC: Queue a copy of the transmitted LLCP skb")
+> Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+> Closes: =
+https://lore.kernel.org/netdev/20260819050031.2725592-1-shuangpeng.kernel@=
+gmail.com/
+> Signed-off-by: Eric Dumazet <edumazet@google.com>
+> ---
+> Cc: David Heidelberg <david@ixit.cz>
+> Cc: oe-linux-nfc@lists.linux.dev
+> ---
+> net/nfc/llcp_core.c | 5 ++++-
+> 1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index =
+cac1b5487064d0c5b4966bb6a75aa26e67131049..49cb632268c0c2841e3b44dde124c796=
+6267b709 100644
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -786,8 +786,11 @@ static void nfc_llcp_tx_work(struct work_struct =
+*work)
+> print_hex_dump_debug("LLCP Tx: ", DUMP_PREFIX_OFFSET,
+>     16, 1, skb->data, skb->len, true);
+>=20
+> - if (ptype =3D=3D LLCP_PDU_I)
+> + if (ptype =3D=3D LLCP_PDU_I) {
+> copy_skb =3D skb_copy(skb, GFP_ATOMIC);
+> + if (copy_skb)
+> + skb_set_owner_w(copy_skb, sk);
+> + }
+>=20
+> __net_timestamp(skb);
+>=20
+> --=20
+> 2.55.0.766.g2966f0265a-goog
+>=20
+
