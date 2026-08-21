@@ -1,117 +1,140 @@
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002C82931D3
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 14:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787321642; cv=none; b=tNhyhjwvd22uv+U172GRVsPgXYNzlvj2HTacavL3ZcDrdENzK9L3SilClR1btV+IOtrD01A/3hwdNuQchWp2cdOOxnXNVtAsOCJcOCl6JtBGaTiN/bPA2wMkOLMDJmn0J4ieDiSK9uiLQCbZMwheAUlOT0G7weX53iK1nU1lDD0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787321642; c=relaxed/simple;
-	bh=hvl49ZGK6HsSSAwstg1wJcjqRJab1dshAkK50S5lixY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=thsSag84GNTpdFuYBg1nqQ2yPd/PR8255k8hFsEyKIz5+7qznchq/PWZF6+mLM1XLtfQk7TSZ1BKVxducrjzfc0QRihBxnG0JtZb/LmRYnuH6H5mevCpSPkgXVsmaaxkvoOzQNM4s+kPIYcIukaxzMj1chs9MieA+H0exDXzawA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edumazet.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e0OFJihL; arc=none smtp.client-ip=209.85.160.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC4B495052
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 14:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787321707; cv=pass; b=rPwa+27eyhgmFGoTy8DmgJ2yoJ4iLYMq1DDa5xWcjJHeXUJ9Og/BAP8ZFOUP5Q9Su/zYiJSGK7a+++LU3VcyQNxlMwOzKeOHW9t1YWEUapp4DLWtX8iutgvp4udadHlqHYK+PcsaxfT8OnlvtRs17V04Hf/f/d83MWiBRj1a2TU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787321707; c=relaxed/simple;
+	bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gKgmqE9benCFbFou0VZ2GuoGn/Hs72T+ixhQcU08RoZE3CubwPFpzT4dVaIqvtERQNj9v8jdPZNfIkj/cC1jWVZzu5T7QS+WJ72Tcf92Mizj6sMMG1XR9EH+RBSqsuXXZ/glS4g0qnbHsag0VTHaL+qkLrhybBnFn2XOwPiTkos=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tEZbCLEP; arc=pass smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--edumazet.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e0OFJihL"
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-52dd69b00cfso11851321cf.3
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 07:14:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tEZbCLEP"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c08df8513so6320041cf.3
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 21 Aug 2026 07:15:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787321705; cv=none;
+        d=google.com; s=arc-20260327;
+        b=avVOn4B2dmzLKSg2cWnC/sUPy3BYdP6o0EZrtQ95kf1VSvdDdWrb5TYhQZiQWoJ2ru
+         VsmQgl15ybfn/dOap9EThPbvIX2luj9vnZvz2o1c8/7Qf5MHNB6BmGe4OqTbWfg4JI1e
+         BPUBkJC5QYxF4itqXoOQ5Ulhv/nzDIMgt495fHDuIrPH2qPzN2x6/+OkGgGMiaV7f2b9
+         uMrufZz42Tp2w3vnkYOltd+0MIfWASv/etw908d6NjwhuP0GPlGyIpBMJ0fQGUNkaX28
+         qPMh0WRTYaWBZtQbXhzV0GboVjejOI2eY6eaWM5hWcsgv34lAO3DZ0P0eSIUQDKDbVs4
+         w+oQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
+        fh=V/kCgEDTR3KnKFLGTmkQ83nVnMy7kF4wqLc8E36+8gQ=;
+        b=ZvU4NuGqYpp08WM8wCG0rxXPWJyRYGiPUboHMslRHI85bf2CGooCRx4HRx/uW4rJa7
+         7Fw+ukTlRT9+TwO9i9ND7l34N77Ij9SzF65zCZu3pbT0sKW1ZaaLIafNKO7WHFomc0Gs
+         ilr7jNPPSoR9E0BVQ/EZ7aTEXXt6KSbaQ54rikqV8ZpgSq4zm4D5zc46dHlbo+s2ei72
+         p1GvacIPham7gv89ovQPGLye74BX4TH6C0FjTcRnc706WdC1HmUmukSpfpYFzgbBkIbL
+         OiTIzZNz1EOM7ULxvBnWzi4+itfUMh/Rk49uLIYfR1YgecswufptawZJknGwa0LX8rFx
+         AjCQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787321640; x=1787926440; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kj5oXf6SHvBaxi3VxJxxuzo7/3pqWkr7u+zCwQJJkPo=;
-        b=e0OFJihLolYuJFaTj87T+4IK8DtcQkklcRy+Dr3kygwWUkJdzkYSwn9gqJbnDllmp/
-         IK/qffobjDzQI/3mOwuPRGqy8UQgSb4aSncfwTY6Pl9EB7n6E93Uib6E624U6WtoUFTj
-         XVu7KDI1wcxMwRdiYA/505zrbzxUlGSbeeZIPXoOpLZxLAEXTpWlk+/yUV1LYdgvg/TX
-         bhjClL6cooE0Ib8kBa6Ps4vYUkMxp01uSXoveeiqYg4ZP2xtWOuymAIUPzPQSAh+eBNA
-         +7CEwJboWjLP+qjS8a3UlobG7cPHRVwNzvRJ0XMSgM7omD+7XqIqKvjKXnmuFuqh4Rnn
-         adNw==
+        d=google.com; s=20251104; t=1787321705; x=1787926505; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
+        b=tEZbCLEP23gCmhgP6oL9pkivx3NmRgbGsfMB3BIWxVtIGXRTT60281vCMBOC6LJRZi
+         aFkC1x5MmwzwVy6UA6F8AOOKh9dm/O7b8fo24b4s7VlZsLEzXX2svcKPUi6fIh8KLDWX
+         qShPD6DdTC2wCOJhf1meyP1EUU/b9Ij9BcsRH9Pqssw3DlVcnSFsyYA9UK9T0Lgodm46
+         V/Hfm6EF/Kqsh6eYmNgiS8vOAo1ry11Y6ntOBa1Q9nyFLNEsF6uDJItymh7sDaZtFYxw
+         SN2iT9O8nbaykvEULjGTA3yDS1hB1dPoaiw70k9/sq3b+GryWJ2LmcDO3Cx22J+hnzWn
+         ioIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787321640; x=1787926440;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
+        d=1e100.net; s=20251104; t=1787321705; x=1787926505;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kj5oXf6SHvBaxi3VxJxxuzo7/3pqWkr7u+zCwQJJkPo=;
-        b=TlEcG/fbP5xcw+aZf2/28d614DJpg6ztpHXmaW4fCSr0h5nMu8qXYsmFDHyUtNpJlW
-         byRS1faj5jjFjUV9lJt7hfY+xpH/JdvJ9Adq7y7zA18f73c6drPyg2w75qxjUWFy0C+p
-         nhC7aa++QabD93ONoVX9Kpds04YSh04q9GsDJ9MEnhNpFtmsxH6bu5EhP20rpAsohEUO
-         YlvBAxruGIFFeDl4nmpvJ8nxruC9tKKdKwsf8kpB0fd8tMArgHTQX+wRy4pV52fbyVMq
-         gYCVtpgazLohMlrpMOCyvbHUB+QmumDaYHlci7tp2PGUxhVupxKxqXW/Ui488yILTbYK
-         DoEg==
-X-Forwarded-Encrypted: i=1; AHgh+RohoDYE+8Iy1i12m8eAynwU2d7Wisp0D6RKzhG3rWPaeyaLlkJK+zOsBqq1oVRD4tmME+mliuYRuf6lAw4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXptIUHb9HLlEjnxiybQ6j+yBdWm9Ta9NCRogRFVyiW1Q7trdH
-	ECVUo2GolC+wdw8EQhxpjDYRUWn22O0nF0STLyD1SadYuLONIKDqFKJtGXP2q4YjzSXRmjhajZ2
-	ml7yNYRBRrfeLwA==
-X-Received: from qtxo14.prod.google.com ([2002:a05:622a:44e:b0:520:1230:fda2])
- (user=edumazet job=prod-delivery.src-stubby-dispatcher) by
- 2002:ac8:6f0c:0:b0:52b:71dd:c92c with SMTP id d75a77b69052e-52df56f9736mr62570081cf.2.1787321639567;
- Fri, 21 Aug 2026 07:13:59 -0700 (PDT)
-Date: Fri, 21 Aug 2026 14:13:58 +0000
+        bh=TccSS+NIaXCENyWwJJSgaLleoIe7Il1Nz65FsBDFwkI=;
+        b=IzabBmhKgr3laG+zi/x0ZBlMdP4y02NY4oEEnw0zRzqUOO792JS9xznMCLN9aBzNiB
+         8JLo6VkSNh6F4rZiMDbJE5ux4oK0pvA4eXrhC3GqNUOFs61yMfUEUHqbC9ejrxXCD+BN
+         DjVCWDtFP2+8bs/itOtqkKEDab10BtSUxIfTyTNLNZ047iGSUaZaUZYywBF+8//SLgC0
+         luGQ58ev1FGpjwBp1UQaeJntgU9dM+03gCnomBpGAOcxkxkSvGX8l2HXC2R+dyHL657T
+         hCw13zDEV2XfG3yp7wB6etH2qcgOvFk5UvV79h2qQk/M4UI0CBgSbLYSg1J3C7dFCtJB
+         /ExA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro++nMT1zx0jgU6UDUVtuY5LI1hkpRSOheksTQ7zoa+0nT03Ki7iElIpKhICT+D0ICdQ1+s5BA9VMjJVHc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+oq7TVXvW3cXlhNdPMVTHgrUJoFGx+pued0jqCy7PLuRvPiYu
+	0+jFmUMTltoaJHUNS31J0TEoAlcnOcaU4ghj3+PYLa20dolAQFiPHg1QE/f52EtgTguvj1dCkqO
+	upQ5d9nCRL3w3T6GKQandAumfm0drn0Z7tFkvB87+
+X-Gm-Gg: AR+sD12UcmEIJ3IJWzN8CRarHr1pQ9oZHC9F6LypE8Cp2utwF1+pe9rKRD2lszAU1Sj
+	UbEuK6CodqMDIU56O0W21fg4B60ZQQNRrC95O61denJizpjA05/wulJM9mb14v7MGYA+3qOijmo
+	VRwnK9/Ku7YGnP9/1VVBO/tCnmEV9puWw69Ww71+G8/bo3V96jU/kqycvM4cYWxqQLMUzHzCjDf
+	33KEhBXLe8sTEZCeE7Hyc5iNHU/7wOd4cIcqiSfofPCWxaG2Hu32t57xu4QUnx0aNOLkU6fT35W
+	s3ZaapOXPfgnYDqLT106hecmhyjQwiClVV4/RaoV34TdSkkoV+0CCYDMl1UzYPWMiS2YMbE0b4w
+	E6NQWqtsmzTHwV8VuBRHMqsWwQ3trVWYS1BLz3nP/bvNFIO31dXG24Ivn5Q==
+X-Received: by 2002:a05:622a:14b:b0:528:38b1:b54c with SMTP id
+ d75a77b69052e-52df56eb847mr62757171cf.2.1787321704290; Fri, 21 Aug 2026
+ 07:15:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.766.g2966f0265a-goog
-Message-ID: <20260821141358.3546366-1-edumazet@google.com>
-Subject: [PATCH net] nfc: llcp: fix UAF on socket in nfc_llcp_tx_work()
+MIME-Version: 1.0
+References: <20260819050031.2725592-1-shuangpeng.kernel@gmail.com>
+ <CANn89iJbOs54esoGSukvMiYnXQkHadnC7NgQanbAXOeiHXOsjg@mail.gmail.com> <F1E58A29-96B2-4BB0-8840-8A168477F48E@gmail.com>
+In-Reply-To: <F1E58A29-96B2-4BB0-8840-8A168477F48E@gmail.com>
 From: Eric Dumazet <edumazet@google.com>
-To: "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>, netdev@vger.kernel.org, eric.dumazet@gmail.com, 
-	Eric Dumazet <edumazet@google.com>, Shuangpeng Bai <shuangpeng.kernel@gmail.com>, 
-	David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev
+Date: Fri, 21 Aug 2026 16:14:53 +0200
+X-Gm-Features: AcwNN1Ug5BQfMCgHF1cykLrwRDkb8I8sreh-uNSxFtMO9C306K_evZ6Ynhi4Ebk
+Message-ID: <CANn89i+Oz1498M1YGnMCUmFSe3TQxLhP=+z724e5vsrkUnJu7w@mail.gmail.com>
+Subject: Re: [BUG] NFC: slab-use-after-free in _raw_spin_lock_irqsave
+To: Shuangpeng <shuangpeng.kernel@gmail.com>
+Cc: David Heidelberg <david@ixit.cz>, davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	horms@kernel.org, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Shuangpeng Bai reported a slab-use-after-free in nfc_llcp_tx_work():
+On Fri, Aug 21, 2026 at 2:54=E2=80=AFAM Shuangpeng <shuangpeng.kernel@gmail=
+.com> wrote:
+>
+>
+>
+> > On Aug 19, 2026, at 03:48, Eric Dumazet <edumazet@google.com> wrote:
+> >
+> > On Wed, Aug 19, 2026 at 7:00=E2=80=AFAM Shuangpeng Bai
+> > <shuangpeng.kernel@gmail.com> wrote:
+> >>
+> >> Hi Kernel Maintainers,
+> >>
+> >> I hit the following report while testing current upstream kernel:
+> >>
+> >> KASAN: slab-use-after-free in _raw_spin_lock_irqsave
+> >>
+> >> on commit: 3aa1dcaa4f6f5ae08936491e08bd456f331f2d40 (2026-08-13)
+> >>
+> >> To help trigger the bug more reliably, we applied a minimal diagnostic=
+ patch
+> >> that only adds delays and print statements.
+> >>
+> >> The reproducer and .config files are here.
+> >> https://gist.github.com/shuangpengbai/f7dab4725e2a2d57b1d302714c93c549
+> >>
+> >> I'm happy to test debug patches or provide additional information.
+> >
+> > Thanks for the report, could you test adding one skb_set_owner_w()
+> > after the skb_copy() in nfc_llcp_tx_work() ?
+> >
+> > Something like this (untested, not compiled) patch.
+>
+> Thanks for your fix!
+>
+> I tested the patch and reran the reproducer. The bug did not reappear.
 
-  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave
-  Write of size 4 at addr ffff88811da9cb94 by task kworker/0:0/9
-  Call Trace:
-   _raw_spin_lock_irqsave (kernel/locking/spinlock.c:166)
-   skb_queue_tail (net/core/skbuff.c:4114)
-   nfc_llcp_tx_work (net/nfc/llcp_core.c:848)
+Great, I have sent a formal patch, please fell free to add a Tested-by: tag=
+.
 
-When transmitting an I-frame, nfc_llcp_tx_work() creates a copy via
-skb_copy() to keep in tx_pending_queue. If the socket is closed
-concurrently, freeing the original skb during nfc_data_exchange()
-drops sk_wmem_alloc to 0 and destroys the socket before copy_skb is
-queued to llcp_sock->tx_pending_queue.
-
-Call skb_set_owner_w(copy_skb, sk) to keep the socket alive while
-copy_skb is queued.
-
-Fixes: be02b6b62400 ("NFC: Queue a copy of the transmitted LLCP skb")
-Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Closes: https://lore.kernel.org/netdev/20260819050031.2725592-1-shuangpeng.kernel@gmail.com/
-Signed-off-by: Eric Dumazet <edumazet@google.com>
----
-Cc: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev
----
- net/nfc/llcp_core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index cac1b5487064d0c5b4966bb6a75aa26e67131049..49cb632268c0c2841e3b44dde124c7966267b709 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -786,8 +786,11 @@ static void nfc_llcp_tx_work(struct work_struct *work)
- 			print_hex_dump_debug("LLCP Tx: ", DUMP_PREFIX_OFFSET,
- 					     16, 1, skb->data, skb->len, true);
- 
--			if (ptype == LLCP_PDU_I)
-+			if (ptype == LLCP_PDU_I) {
- 				copy_skb = skb_copy(skb, GFP_ATOMIC);
-+				if (copy_skb)
-+					skb_set_owner_w(copy_skb, sk);
-+			}
- 
- 			__net_timestamp(skb);
- 
--- 
-2.55.0.766.g2966f0265a-goog
-
+Thanks.
