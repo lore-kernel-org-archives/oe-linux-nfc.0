@@ -1,179 +1,92 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF8531D39A
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 26 Aug 2026 10:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1E41DE0D;
+	Thu, 27 Aug 2026 10:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787739117; cv=none; b=s4xQh0wNlNhc3HiqJBomVUumyWehVG+lRe1Bzn0ZW2q7kuUm7yGCKV+MOVDnKMy6OL0zqu2P9Wvu3xqzOczK4j8ZiphZ6UShEU3xv8OhhFZjcvfQ5eCxMvoz0FMBQ42SJuNrgshpiWumeuMhp4ENDjBl/MnpTEoFdDt5OD3p0YM=
+	t=1787825949; cv=none; b=ldRafrKg6YIrjnAPsxFWxt3GHyWOA/AW/u/2s5CqK7nB5FVoLX3C0ae1lc2hengyTIMCwW5dqyW+1eBzZkjBAlFpC/qku7Te5CVWDNDyQ6p7NMy8XJKTs3Gvpuvehf4nIVWt13Ds64utUUX0uxNjBeguS6JKVxDnulTJiM4VJIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787739117; c=relaxed/simple;
-	bh=oPmmiOIz17kMUSkXuHD6ICEr1VdG2WgD4ERH23dDkzk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=TGRrIISSahvuyQ9goEJ96XIAWk9qLh7qdMWQyZnoKVvkj91Jxw9akQlTIFLCo/Cpb4rxMNVjR60tD+mdSaK23EXmkvTPtMeZwan0UA7F1Zxz8NlaOB4uwftwmkGe2fDRk8TobmaI9A+YeL0LxAzSdGOghkrcoL2Jf5b0TdbCU8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b28d7ffab1so1762126b6e.1
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 26 Aug 2026 03:11:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787739114; x=1788343914;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Bc+hFQHEJTLq8xd3e/5RzI08QtJyD4Yew8VDbBzp9uo=;
-        b=DIK9UN1PStti404j45Y2ewriWwyCY3FgFBizTNMvcCu6ziJRbcgw77GWOwC8EUUt7w
-         UOTtshlzM0vip5FcUmNyzdgzXRoqHcwSScOJna2eBFY9XMWgOvmIkc01CABQ3QVxo5sM
-         HGeApR+oHEibWBo1uZ4HvauyHFPQ9U//bvyB38w6g3dSQ9ukPIaDJHaTCPT7r3a4n4pY
-         uJPggJuvnj3ICbDIZZosaNr57kN9qBZIJrcxaXwBcXP2fnM5mui9x/yy0vXYoOV6qtaJ
-         WCoTcB4mnD4TJqKbQ6kmFGuHk+ManWyw9Ea8bUBQ4KWmvTpIY5SX///d7ApN+8ajnbb+
-         FV+Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpJXyZtxW/mupWrQsq+WUpNgRqyCo2D+qRVUfEeG4zK77/yiBqXUUIpFYhl85GO0D+rTSN8nyodu2nhZVw=@lists.linux.dev
-X-Gm-Message-State: AFuF++nXCEFmvlVRk57h+cR3TDUVyFxyQXqnL+/ay2HEgHePrzIjG4oC
-	SZYGR8PaGRzU9zmu3hDgowS2djmNfdQSCYGKNDIu7cv1EjoUWeazjw9e//xlqRSYQLHbtO6tnXC
-	QWISOdZG6PtCvAcxM311kGy/NYlabQvC+MQ7HlvEZfrgq0kOQj1xMMbXChfs=
+	s=arc-20240116; t=1787825949; c=relaxed/simple;
+	bh=b23i4JInd3NgcZWX9YdVLFKS7PQlXWm71AW8ccT03TM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AiF2UoYJbHvFTqbAfVOOoOl1SnwV87apZ3DEXapdC8ATyYmTMsYR8yhD7hWnxIQRbTPkYCKKSysI1IMXsifp1vk176UYG+ZVQMbeVCySiVjA0DoXfx75sFtRFdw0xsexL7Ug8AisJHIRinhzquxMAq7XiMLLHXE22L3RrYzgkrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkihwFH0; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkihwFH0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCC191F000E9;
+	Thu, 27 Aug 2026 10:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787825940;
+	bh=RHMZgXDnYG9+lZOZk7gZyNeyINoTKCnT+RWVcPW3E2M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YkihwFH05IT2kv8KS9WydsuiR5v6RuRMQycw+UZd/Fm9gRfdkJWCg56rq+ly1ZHYr
+	 9s+uB0gt+Bh0npVqQkigGuNnAKt2wg9RMtxad8uHSfCxjqK2/bSG53Bvk2D4JDujJT
+	 qiYuI1H88tZ9Rd44eIipgxuIBd17/ECwPOf9PiPqRhFls4XV4sicluvPGhfGx6Ks5D
+	 ETonwaBVjOk9stp2x15FlD2QMXoZUNQ2Otn8yCrFU8YOGZKDyNJ10d29LxB37/GT3c
+	 l6L1PK+BDHvNkaYCEN92lUNNm8ozmr7eagAsLRB6EEp8dHy+aaf3Kvt2SCByF9Sr+J
+	 +xhIex1n3wIrg==
+Date: Thu, 27 Aug 2026 12:18:56 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Kristian Brox <isyourbrainfoss@proton.me>
+Cc: Luca Weiss <luca.weiss@fairphone.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] nfc: st-nci: add raw NCI path for ST21NFCD
+Message-ID: <20260827-garrulous-iguana-of-dignity-355fc7@quoll>
+References: <20260820-fp5-st21nfcd-v3-v3-0-5ee0a7f44d04@proton.me>
+ <20260820-fp5-st21nfcd-v3-v3-2-5ee0a7f44d04@proton.me>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3192:b0:4a4:989:bb1f with SMTP id
- 5614622812f47-4b350425f51mr10120061b6e.9.1787739114303; Wed, 26 Aug 2026
- 03:11:54 -0700 (PDT)
-Date: Wed, 26 Aug 2026 03:11:54 -0700
-In-Reply-To: <20260826075703.2400467-1-lee@kernel.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8ebbea.1d9ded08.62e62.00a2.GAE@google.com>
-Subject: [syzbot ci] Re: nfc: llcp: Fix race condition in accept_queue lifecycle
-From: syzbot ci <syzbot+cie83be755322835fa@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	kuba@kernel.org, lee@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	sameo@linux.intel.com, szymon.janc@tieto.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260820-fp5-st21nfcd-v3-v3-2-5ee0a7f44d04@proton.me>
 
-syzbot ci has tested the following series
+On Thu, Aug 20, 2026 at 08:56:10PM +0000, Kristian Brox wrote:
+>  static const struct i2c_device_id st_nci_i2c_id_table[] = {
+> -	{ .name = ST_NCI_DRIVER_NAME },
+> -	{ }
+> +	{ ST_NCI_DRIVER_NAME },
+> +	{}
+>  };
+>  MODULE_DEVICE_TABLE(i2c, st_nci_i2c_id_table);
+>  
+> -static const struct acpi_device_id st_nci_i2c_acpi_match[] = {
+> -	{ .id = "SMO2101" },
+> -	{ .id = "SMO2102" },
+> -	{ }
+> +static const struct acpi_device_id st_nci_i2c_acpi_match[] __maybe_unused = {
+> +	{"SMO2101"},
+> +	{"SMO2102"},
 
-[v2] nfc: llcp: Fix race condition in accept_queue lifecycle
-https://lore.kernel.org/all/20260826075703.2400467-1-lee@kernel.org
-* [PATCH v2 1/1] nfc: llcp: Fix race condition in accept_queue lifecycle
+Odd. Previous code was correct, this is not.
 
-and found the following issue:
-WARNING in __alloc_workqueue
+What are you doing here?
 
-Full report is available here:
-https://ci.syzbot.org/series/6f4e9aed-2eea-44c2-8ef0-04ce578d399f
+> +	{}
+>  };
+>  MODULE_DEVICE_TABLE(acpi, st_nci_i2c_acpi_match);
+>  
+> -static const struct of_device_id of_st_nci_i2c_match[] = {
+> -	{ .compatible = "st,st21nfcb-i2c" },
+> -	{ .compatible = "st,st21nfcb_i2c" },
+> -	{ .compatible = "st,st21nfcc-i2c" },
+> -	{ }
+> +static const struct of_device_id of_st_nci_i2c_match[] __maybe_unused = {
+> +	{ .compatible = "st,st21nfcb-i2c", },
+> +	{ .compatible = "st,st21nfcb_i2c", },
 
-***
+Why do you change the order of these entries?
 
-WARNING in __alloc_workqueue
+> +	{ .compatible = "st,st21nfcc-i2c", },
+> +	{ .compatible = "st,st21nfcd",
+> +	  .data = (void *)ST_NCI_I2C_PROTO_RAW_NCI },
+> +	{}
 
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      a8406e6c0b793ce0788019683837c40855b55995
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/3abfab5f-31c6-4773-9338-bbe1caeca14d/config
+Best regards,
+Krzysztof
 
-pci 0000:00:1f.2: [8086:2922] type 00 class 0x010601 conventional PCI endpoint
-pci 0000:00:1f.2: BAR 4 [io  0xc0a0-0xc0bf]
-pci 0000:00:1f.2: BAR 5 [mem 0xfebf2000-0xfebf2fff]
-pci 0000:00:1f.3: [8086:2930] type 00 class 0x0c0500 conventional PCI endpoint
-pci 0000:00:1f.3: BAR 4 [io  0x0700-0x073f]
-ACPI: PCI: Interrupt link LNKA configured for IRQ 10
-ACPI: PCI: Interrupt link LNKB configured for IRQ 10
-ACPI: PCI: Interrupt link LNKC configured for IRQ 11
-ACPI: PCI: Interrupt link LNKD configured for IRQ 11
-ACPI: PCI: Interrupt link LNKE configured for IRQ 10
-ACPI: PCI: Interrupt link LNKF configured for IRQ 10
-ACPI: PCI: Interrupt link LNKG configured for IRQ 11
-ACPI: PCI: Interrupt link LNKH configured for IRQ 11
-ACPI: PCI: Interrupt link GSIA configured for IRQ 16
-ACPI: PCI: Interrupt link GSIB configured for IRQ 17
-ACPI: PCI: Interrupt link GSIC configured for IRQ 18
-ACPI: PCI: Interrupt link GSID configured for IRQ 19
-ACPI: PCI: Interrupt link GSIE configured for IRQ 20
-ACPI: PCI: Interrupt link GSIF configured for IRQ 21
-ACPI: PCI: Interrupt link GSIG configured for IRQ 22
-ACPI: PCI: Interrupt link GSIH configured for IRQ 23
-iommu: Default domain type: Translated
-iommu: DMA domain TLB invalidation policy: lazy mode
-SCSI subsystem initialized
-ACPI: bus type USB registered
-usbcore: registered new interface driver usbfs
-usbcore: registered new interface driver hub
-usbcore: registered new device driver usb
-mc: Linux media interface: v0.10
-videodev: Linux video capture interface: v2.00
-pps_core: LinuxPPS API ver. 1 registered
-pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
-PTP clock support registered
-EDAC MC: Ver: 3.0.0
-Advanced Linux Sound Architecture Driver Initialized.
-Bluetooth: Core ver 2.22
-Bluetooth: Core ver 2.22
-NET: Registered PF_BLUETOOTH protocol family
-Bluetooth: HCI device and connection manager initialized
-Bluetooth: HCI socket layer initialized
-Bluetooth: L2CAP socket layer initialized
-Bluetooth: SCO socket layer initialized
-NET: Registered PF_ATMPVC protocol family
-NetLabel: Initializing
-NetLabel:  domain hash size = 128
-NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
-NetLabel:  unlabeled traffic allowed by default
-nfc: nfc_init: NFC Core ver 0.1
-------------[ cut here ]------------
-workqueue: nfc_llcp_wq is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
-WARNING: kernel/workqueue.c:5939 at __alloc_workqueue+0x1cd2/0x1fe0, CPU#1: swapper/0/1
-Modules linked in:
-CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__alloc_workqueue+0x1cd5/0x1fe0
-Code: 0b 90 e9 6d fc ff ff e8 f9 f0 38 00 e9 7f fb ff ff e8 ef f0 38 00 e9 85 fb ff ff e8 e5 f0 38 00 48 8d 3d 3e 1a ee 0e 4c 89 f6 <67> 48 0f b9 3a 41 81 cf 00 01 00 00 e9 10 e6 ff ff e8 c5 f0 38 00
-RSP: 0000:ffffc90000067788 EFLAGS: 00010293
-RAX: ffffffff818ecbbb RBX: 0000000000000000 RCX: ffff888102adda00
-RDX: 0000000000000000 RSI: ffff8881680b0d70 RDI: ffffffff907ce600
-RBP: ffffffff8d4e3fa0 R08: ffff888102adda00 R09: 0000000000000002
-R10: 0000000000000102 R11: 0000000000000000 R12: ffff8881680b0c00
-R13: ffff8881680b0c00 R14: ffff8881680b0d70 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8882a8ce0000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000000eb48000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- alloc_workqueue_noprof+0xe3/0x210
- nfc_llcp_init+0x15/0x50
- nfc_init+0x74/0xa0
- do_one_initcall+0x250/0x870
- do_initcall_level+0x10a/0x1a0
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x29d/0x3e0
- kernel_init+0x22/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
