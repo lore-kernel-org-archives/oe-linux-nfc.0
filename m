@@ -1,133 +1,213 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-oa2-f1.google.com (mail-oa2-f1.google.com [74.125.231.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5D33CA49C
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 28 Aug 2026 07:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B773A963D
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 30 Aug 2026 12:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787901968; cv=none; b=IdCIROi1KkeoJkQssOMQ1GO3Zc5+H4N+V946mOLyWADfv/dcKVXDljVP8wmsNWKPf2VjUh2GhuFiTbhIZpIIpX7fZos4fsMpC7uoVJvS7WJRAndsI8M2vax9bWs4MyGb1uylsFh4niH4S3hm19B5yjyVJTxGIbXoyqRBeXE2SXI=
+	t=1788094231; cv=none; b=OkNVd3jEwiQfShfJlXnjREE9QV3MObTqPQYO45RDe+52gLL/6J8xopOzsE1SL9Z9uUa/t1Zykcu1NIzjQcHLDD1hTi5/jERvZUnqYwprpGXyvEOENR03OpFMU7S7GCkroBFEGoh8LYjgUpl7gw0YZ5shlbKEDung2xFUIvDUSzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787901968; c=relaxed/simple;
-	bh=pjp4l55TcSvtQ0qk1M8HaIkpbfVrhCBR046DcCeU/U4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=W7ax24N8IamZJDbr3xCndeiM6ejmJbuodlTvSCTpUwUQs8Bn4Tx82rYEFmOqfbvrFAHWlUXi6ghoHW9Z/Mg9mxeaQVQs1L0lPCAg8sQfCOEi5L1DLO/U9AUdWaCTHX9IfBJJvuwbqMizPT/7zqJLfcINRMRIc9p0rYiWeUG91YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=tKaI6Edq; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="tKaI6Edq"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c2074710751so79700966b.1
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 28 Aug 2026 00:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1787901964; x=1788506764; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/zT7X/XiN8cWELBs01ki64OmNK2wItsswFcyj5x5QOQ=;
-        b=tKaI6Edq4IX/trx/DQSdhZbFZJr6TszoIDdHc9J7qMG6RkDAtS9FxS/oHfWJYePtPm
-         7Uz4H3rkOVSqtWyHjNeUGqGFYv5peorUNU6yn02rKtAQm2uq7dOkDG14klrTi4y+DLQ5
-         wUiYij8tn/dA8cwxDZb6oLTRVWdQGSBK9oOr5a+NGTQGkzBuECzEo2mrz8p3Vw84I14O
-         A0i3mNBDMhX1wmIwFqxUEoZn5x79Cjib964KD5XAlFo6LjOF7rBHINSQ9i5zISNoOhyS
-         ODfQGcMGeYNWdwlKjywosBYhTNMv4nsuqPzCw3NVK/aopDd7jp+K/v3YPe7ii9YtQ130
-         md8A==
+	s=arc-20240116; t=1788094231; c=relaxed/simple;
+	bh=C6E7Y94FP+suWFyULPZWMPFn3OYYCjHsZw7LbY90qHY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DtHIw/SDRx6nbqKT5qAnWBwOlvOECk02vJlyeIU/dYHsNE98jbaSglP4m5Rxm86tmKfdH2AmfrDsCmkj9g/yRKNbH6FXQ05GdUklZcs2KDIEujEtMQY5vzFl+IoTjMUqKfQP/mpjJyt0HOZqZ1RNHIDpiqBiDv07Y0j8LqcnkPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa2-f1.google.com with SMTP id 586e51a60fabf-4489b7aa0e7so690942fac.1
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 30 Aug 2026 05:50:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787901964; x=1788506764;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788094228; x=1788699028;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/zT7X/XiN8cWELBs01ki64OmNK2wItsswFcyj5x5QOQ=;
-        b=HH9Tr4fn8kJ27dTI8G4BDYDjeKg8otZ7CyM53XQiQ7mvZ8VL/l43Jwn2wwdITpRAUm
-         TPvzVjfL8v7I6soE7360w7QUcXvjV+ZPVn+AYW5Twlp16P10xmceaHnjpCSyn9/RpnOj
-         Jm76Tu7HWIKHtDqnk54oIXjDMWaMxOBqmG6l9njWcbBVTNTG5iiCPzFLw8+rBdLKW3G0
-         LwF22iwY/XcXoBCXRc5SGUukoS1FnGVvCOeeIV5JEVBIt74DORtPJ9eZOrD6VoD9HDUp
-         kvjPSgQ4Nxq1bSAPfkZ+2TCPVA0Xs97wpWqq9wX9NDfO48QJJ+0xP+Nuy9iesKFo8CGs
-         RlKA==
-X-Forwarded-Encrypted: i=1; AHgh+RozAI08qO2Rh0YmIH66SlvbS/54uCu97FfRjuO+WFKBYdCuro6tkc1KF0TjxU2MBLPQunSn41M4NDczIoU=@lists.linux.dev
-X-Gm-Message-State: AFuF++nJpvHuB0xiNU+QtT9PneATDZmFDv//qo6M0c4fh+WQJqkpNMuH
-	GG7V+kca9nxPo05tl0p/A8qAIwIoB7uhOMyKDOpwTLXoyIBD7tqcmSwieFzaD6rB1XM=
-X-Gm-Gg: AR+sD12rMzHPJXCRFtzNET3l2s/8qn5KKfB+CO4MlxvqRoXGxuKCSUjJFdWIWtKQIp0
-	5bzCEt5tUqK1ZPUzr262Hgys6LV8yUrHcrlTUIM6tBRLkKSQ/2O4uwwDUIOI9C7hkS0UYV7o1ex
-	GuYeQ9uHWlKdUCBbUwmErYnB0fzonsnnjbPF60foN2y2bC6fo+s0Nc9iMGnUxw4vC4eDTdKi10V
-	l46nmunzAqYs5qEVBHosXsj+1srNvWcKcXZmJdDCHkEPPrqHDl9Rs/w2hcXC8iGIpGyKJibgpTS
-	hfA+TV2/wxzbk4FBny6SpDus0PT+1ko0YFaJVeLBeBD23ClInqfyws+gw/pAY3zyyx8S93edOhr
-	IaKRVx0tYHCd5cIlgCwvrJOLAAuKa/xc03NCwjji3U6ExmK/c8MWOGUK0CSlBG9T3tWEtFai+Bu
-	c/4S1vM5mbjcBPPAkKAqRKYDl61IQERYd7WmoivYgMr+2UqGJqHjTPzycpqd5fx6CTXfYhspKFm
-	Z2y4oIf/YapNR5VtOI+rFfW4y1EJlZOnw==
-X-Received: by 2002:a17:907:c08c:b0:c1c:3b06:ed03 with SMTP id a640c23a62f3a-c2557423bfemr308843566b.23.1787901964423;
-        Fri, 28 Aug 2026 00:26:04 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255ee09f4dsm50367266b.6.2026.08.28.00.26.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2026 00:26:04 -0700 (PDT)
+        bh=/XI9Sq1kNaZAPWZ2QuqGzoa86CKZO8KeH/ZtsnkY1c4=;
+        b=awhecIyKf8kWkYaA7smOrWWBdX/KJ3iCHnhyuG/PKaD7phnMtohu8yoQfgqz2Faufp
+         5L4EkK6Eg4VGEyw5uyAQ+BGCebvlYqq/4whCY0BRJy/4KNjczXTEZZ2oAqNqbOvLaDMY
+         31082bJwOhoizJEOwSJ0Bu8g7IrCH5b4EAKr2R2hP66HquxUkq4VvpIgFMv54OL1Gm1G
+         YsMDwt8uv4PqHTcjKn2oIJ/kgqsOstVCbYYa20iRwrBahyZj5aeEDvGyYDMKJka7SoT3
+         OyZMyNCTKjknyGQScYjwUTAur21nGar3wBl83IUK+PPg74Zk24x7PG/w1SfrEETeSTxA
+         WgGw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro5dyubvRqiqH4h6YqBVtTi7W7vB6uAIbLBWcHkw1IqPXo3ZekCsakg4IQ4cWNltN8m6b3Flt1YvLDyk/M=@lists.linux.dev
+X-Gm-Message-State: AFuF++m0t9Ddpirqwzz+4kIiCG/RV5ew7Yyfb0guX1zfS2OzPQ5PEldF
+	Mnp8FdD/Mveb8CjWWzqfzfQhpkSf5DiwBGYBU0Nc5ULjyGKux3fBUi2hMLjFBXbXjfni34U5AIW
+	XhPMQsSU0LFwo/QvSY1/nrtVodie9kyAQ8X2ro6NoVJZrK8xB2LwacsrFCbQ=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 28 Aug 2026 09:26:03 +0200
-Message-Id: <DL0ECN3CA1GR.3P0BIK580UYDV@fairphone.com>
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Kristian Brox" <isyourbrainfoss@proton.me>, "Luca Weiss"
- <luca.weiss@fairphone.com>
-Cc: "Krzysztof Kozlowski" <krzk@kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "David Heidelberg" <david@ixit.cz>,
- <oe-linux-nfc@lists.linux.dev>, <netdev@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH v3 0/3] nfc: st-nci: Fairphone 5 NFC bring-up (ST21NFCD)
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260820-fp5-st21nfcd-v3-v3-0-5ee0a7f44d04@proton.me>
- <DKUIKHDS44LA.10CHEGZHLQSNS@fairphone.com>
- <20260823194152.501107-1-isyourbrainfoss@proton.me>
-In-Reply-To: <20260823194152.501107-1-isyourbrainfoss@proton.me>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:2229:b0:496:2b3:ae71 with SMTP id
+ 5614622812f47-4b39839d589mr22177376b6e.18.1788094228273; Sun, 30 Aug 2026
+ 05:50:28 -0700 (PDT)
+Date: Sun, 30 Aug 2026 05:50:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a942714.4d659fcc.734b4.003a.GAE@google.com>
+Subject: [syzbot] [usb?] [nfc?] [net?] memory leak in nci_send_cmd
+From: syzbot <syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Kristian,
+Hello,
 
-On Sun Aug 23, 2026 at 9:42 PM CEST, Kristian Brox wrote:
-> Hi Luca,
->
-> On Fri, Aug 21, 2026 at 11:28:22 +0200, Luca Weiss wrote:
->> Can you please confirm how you tested this on your side, and if I'm
->> maybe missing some parts?
->
-> Cover letter tests were postmarketOS, these changes as modules on
-> 7.1.2: nfctool -d nfc0 -1 -p on an NTAG 215, then neard for NDEF.
-> No extra firmware or userspace on top of the three patches.
->
-> That 7.1.2 dmesg already had
->
->   nci_ntf_packet: unsupported ntf opcode 0xf02
->
-> I treated a found tag as enough and did not mention it. I have a
-> driver change so that NTF is handled; I'll send it in v4. The ndlc:
-> dumps are debug prints.
->
-> I also ran nfctool -d nfc0 -1 -p on a locally built 7.2.0 kernel
-> (sc7280-mainline, with that handler): no 0xf02 line, a Type 2 tag
-> in about 0.13 s, and Ctrl-C with no tag still left Powered: Yes.
->
-> I have not reproduced an error after Ctrl-C with nfctool on that
-> kernel. If you have the nfctool and dmesg lines from the second
-> start, that would help.
+syzbot found the following issue on:
 
-I tried again a bit more yesterday and saw the same behavior. For a few
-tag scans it appears fine (apart from the bunch of errors in dmesg), but
-after playing around more, I again got the NFC stack into a state where
-no further tag scans were possible.
+HEAD commit:    73ae59e97596 Merge tag 'erofs-for-7.3-rc1-2' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12e70d49580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=563582168294b9d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=b197a0fb4e741cc5030e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11df1625580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=148b6979580000
 
-I've scanned both a standard r/w NFC tag (ISO 14443-3A, NXP - NTAG216),
-and sometimes my Android phone, which also got recognized as tag.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0e5c9cbfb31a/disk-73ae59e9.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/481171cf3bc4/vmlinux-73ae59e9.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9df84fec3c49/bzImage-73ae59e9.xz
 
-Looking forward to testing v4.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b197a0fb4e741cc5030e@syzkaller.appspotmail.com
 
-Regards
-Luca
+BUG: memory leak
+unreferenced object 0xffff88810a94e600 (size 240):
+  comm "syz.6.23", pid 5954, jiffies 4294942380
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 40 38 2b 81 88 ff ff 00 00 00 00 00 00 00 00  .@8+............
+  backtrace (crc 98a4d7):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4696 [inline]
+    slab_alloc_node mm/slub.c:4996 [inline]
+    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
+    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:704
+    alloc_skb include/linux/skbuff.h:1384 [inline]
+    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
+    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
+    nci_reset_req net/nfc/nci/core.c:167 [inline]
+    __nci_request net/nfc/nci/core.c:108 [inline]
+    nci_open_device net/nfc/nci/core.c:503 [inline]
+    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
+    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
+    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
+    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
+    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
+    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
+    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
+    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
+    sock_sendmsg_nosec net/socket.c:800 [inline]
+    __sock_sendmsg net/socket.c:815 [inline]
+    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
+    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
+    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
 
->
-> Regards
-> Kristian
+BUG: memory leak
+unreferenced object 0xffff888109c4bc80 (size 704):
+  comm "syz.6.23", pid 5954, jiffies 4294942380
+  hex dump (first 32 bytes):
+    20 00 01 01 00 00 00 00 00 00 00 00 00 00 00 00   ...............
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 40ddf9):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4696 [inline]
+    slab_alloc_node mm/slub.c:4996 [inline]
+    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
+    kmalloc_reserve+0xd2/0x1b0 net/core/skbuff.c:615
+    __alloc_skb+0x15d/0x4e0 net/core/skbuff.c:715
+    alloc_skb include/linux/skbuff.h:1384 [inline]
+    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
+    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
+    nci_reset_req net/nfc/nci/core.c:167 [inline]
+    __nci_request net/nfc/nci/core.c:108 [inline]
+    nci_open_device net/nfc/nci/core.c:503 [inline]
+    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
+    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
+    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
+    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
+    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
+    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
+    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
+    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
+    sock_sendmsg_nosec net/socket.c:800 [inline]
+    __sock_sendmsg net/socket.c:815 [inline]
+    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
+    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
+    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
 
+BUG: memory leak
+unreferenced object 0xffff88810aa0d700 (size 240):
+  comm "syz.0.26", pid 5976, jiffies 4294942681
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 a0 5b 28 81 88 ff ff 00 00 00 00 00 00 00 00  ..[(............
+  backtrace (crc cdb4723c):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4696 [inline]
+    slab_alloc_node mm/slub.c:4996 [inline]
+    kmem_cache_alloc_node_noprof+0x39f/0x440 mm/slub.c:5068
+    __alloc_skb+0xdc/0x4e0 net/core/skbuff.c:704
+    alloc_skb include/linux/skbuff.h:1384 [inline]
+    nci_skb_alloc include/net/nfc/nci_core.h:330 [inline]
+    nci_send_cmd+0x46/0x110 net/nfc/nci/core.c:1397
+    nci_reset_req net/nfc/nci/core.c:167 [inline]
+    __nci_request net/nfc/nci/core.c:108 [inline]
+    nci_open_device net/nfc/nci/core.c:503 [inline]
+    nci_dev_up+0x1b6/0x690 net/nfc/nci/core.c:643
+    nfc_dev_up+0xca/0x160 net/nfc/core.c:118
+    nfc_genl_dev_up+0x3d/0x70 net/nfc/netlink.c:775
+    genl_family_rcv_msg_doit+0x12e/0x1a0 net/netlink/genetlink.c:1114
+    genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+    genl_rcv_msg+0x302/0x440 net/netlink/genetlink.c:1209
+    netlink_rcv_skb+0x89/0x1c0 net/netlink/af_netlink.c:2556
+    genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+    netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+    netlink_unicast+0x38f/0x4e0 net/netlink/af_netlink.c:1345
+    netlink_sendmsg+0x335/0x690 net/netlink/af_netlink.c:1900
+    sock_sendmsg_nosec net/socket.c:800 [inline]
+    __sock_sendmsg net/socket.c:815 [inline]
+    ____sys_sendmsg+0x54a/0x580 net/socket.c:2713
+    ___sys_sendmsg+0x101/0x140 net/socket.c:2767
+    __sys_sendmsg+0xcd/0x140 net/socket.c:2799
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
