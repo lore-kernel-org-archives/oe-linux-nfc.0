@@ -1,129 +1,144 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [84.42.129.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD3A46C4CD
-	for <oe-linux-nfc@lists.linux.dev>; Fri,  4 Sep 2026 11:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B235433BAC
+	for <oe-linux-nfc@lists.linux.dev>; Fri,  4 Sep 2026 12:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788522399; cv=none; b=JRWgaBghGeMtcikagC6UWJ4f7XcqzU7XNy8RPj6FNjCUV4kH7QGoVOYeNsiuyvfwqXZNZLr79G3uQcwffbTYznwANyCp90capfciFEghcG0nYrAULz/lAGbX1fn6kTsyqwF/kBBhbKIblST3GI/qKb+tDt3APnaG0pwB1rFXpcA=
+	t=1788523241; cv=none; b=MY2ki1nV/bi1VVhxCAxHsI4EVp27Ok7ajqEBYNBR8JsG9HMmQ1pch+pZ3R/4Le0mwRI7jLQ9aj1l8EEZP+iagvSCGqMpkO9H4z41gmh0RiHcnjMAdjpFCBDVXcCdZfIQgeX2d6v4c0ZY11bGn6qKfbh4Ps/6W40qK0IHeGl8x54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788522399; c=relaxed/simple;
-	bh=q/EHG82b1n2sCjSHe/6Qi0YTt1OahLioR6F3Jco6HXc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lf+CqQ3MmhK8rk4/zZUXAYKYxT0Q6n6iK+SMQQ3KETz9ubIg/c9/kXomW68MK4nJ+RZ4gDsjtjFyYuWewbsoiEKp8R3CehY0vYgj9itO3BlLuEMewmxFapWUBtduMWSDLTC+0QZYlcJOIiW3VANe7TyIDj+KaBxHgza/ICPSyTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FaM4gltW; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788523241; c=relaxed/simple;
+	bh=e4K79EczHFJNQuBdexWnWvn7s185mGbXsOBXOOjRqTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ao2qHnNGt4DfB+3WYOS0HJDs/iqleWWGvFOImqTTOQ5IvNh5L4TBDYWs78auJiCb5SlWkPI2622axpsaWYSJaYnPxYRJWbsJ3f1lAN87f/yWpyg51cSOFdYme+PbTqiT85Kqxjby5sj7YeF6p9elw0QRY/6sGI84QtHrr2A1nBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=0GVJR2dd; arc=none smtp.client-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FaM4gltW"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6b1afdf5196so363611eaf.2
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 04 Sep 2026 04:46:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788522396; x=1789127196; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P5/ycngy5ku8gnwGq8mTTya2wxi5X2DaQH5UuYeTu+I=;
-        b=FaM4gltW9YOsmDn9mCjBQdx4cyPvjHmDku3d9ne/JKCjyxV+oTsW0o/Xvkhqxbf0oP
-         6QSDBHtVH72dnInOhAEvwjCfUz/RTd/1lG3KRdz70qPkAO+qvojRK+5U1oiSAK1oiGNV
-         0+HbQYi0ZENCvTGxLdXN8HtwqJJ+iZrokJSuTbnqGYWPrZrbn/UENkYxGpPRSSFwAire
-         ZD8hg5ZfIoiNmMAdQHDEMGwtZyyMOVh6qlAL0o5MlXQ84dEHOTPfa8/DjDEC6oJ56doI
-         6vj6dPobCQr49cu0+9hSgplwqDIcw9YOWbtsylRU/dBlmF8Fyi7VCq4LiaC8dWjXduu5
-         4EVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788522396; x=1789127196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P5/ycngy5ku8gnwGq8mTTya2wxi5X2DaQH5UuYeTu+I=;
-        b=cTyMpz1k1KPjYv9u+grTcz2Y6N0kQq6NyOFVXwj9qcTObptgFQmZ/wag6Skc7+VNc1
-         KOc0CzsyIdAGRieCw5les9FvVyX6BttTCv1yFcMoQ3Qi0PkCdeBA2SEr3cHiKJQh62SS
-         zXmmeK28ckr7qb+HwXLt49oUXYQI+pyDpOs7ZTiRnWpjdevU9dRIe3mkijkEB1Ga8Khi
-         H3bJi2LtTTjiKpSwFwkSOOLzE1qBqNeUvQ6uBeRtswDLnEdLk2hNxm6OhC0Rgi87RgL+
-         apeITUB5JrQLikMflkLHH3nBOn6dTtG3ftsyXEqiIjZ24jJ9I5c7hNaa475oEvWeuczk
-         gFAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxfIkY/kXGN218tyGBaI+gnjaVhIJPU6BXHvCQrWisl4O3keXUY57pudfhPmknk4ktnLLwE9dOBSmYg4bM=@lists.linux.dev
-X-Gm-Message-State: AFuF++n4Cyqvyn0lYJdtJYlj9lvMT0p+7nGGz01hQcik2IVV3kBhkCwT
-	6BIceA9WatBX/mzVEQ1jaxjZz8WrTLOmsuJ7b0qqkd2jMTIIFBdhMTgT
-X-Gm-Gg: AYBFou03mZwqmRI2phRcEpEOMU5AHRV+ZQwjNPbxlZJv3Y5lCwIO9rSqJvmVk94jfpU
-	+Rg3kjY3DkUbIGRth5lKy9/TusWzsfMKk6XOQuEw6/2jvHST5r/2PfHpCxoUdowY46PuQ7b5Pui
-	ccEi+NVG3pPPTDxOFXiF5KaOzw1CVfBLLRLRY7qcwV6ATW9nCcJrJa3Mab00IRrSmUJIKvBZKSh
-	9Mjeftmk4QflTsKZHmyc6f/BD4xJYNTra0LPMcFP2UAH/+frUal38uM6JYkyzuJL4EVTfedROsd
-	z6DVSBqWU8n/YEd1lXnQ+V6h3wJH6O0MW8N1oIHL0vGpilEP8lM5cBN6pQsZTvoUT9hT6DtA78u
-	zB/35tNzyqAQ8XVmQyBjIAgggeIa6FyirSYfDZtSYD2CrPZAHRLmbn99PLAqHQvi5chL0W0LbP2
-	fOBBK6PeFqraGsCmBgYroWiwyHiJj6cWdPRvFv47RJZ9s61vte5miKWxxaqvJjAKMfypS+BNERd
-	3CSZYValSIPVDF/HRV04w8PMKk=
-X-Received: by 2002:a05:6820:179b:b0:6b1:42ab:d040 with SMTP id 006d021491bc7-6b6fd3c83cbmr3514126eaf.28.1788522396581;
-        Fri, 04 Sep 2026 04:46:36 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a534152sm6071545eec.10.2026.09.04.04.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:46:36 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: linux-kernel@vger.kernel.org,
-	oe-linux-nfc@lists.linux.dev
-Subject: [PATCH] nfc: fix typo "occured" in comments
-Date: Fri,  4 Sep 2026 17:16:30 +0530
-Message-ID: <20260904114632.31336-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="0GVJR2dd"
+Received: from [10.0.0.152] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 373955340856;
+	Fri, 04 Sep 2026 14:00:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1788523231;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mgOf2xL48ibr3i6+D+XESN6DdSuugvEcc3NBGI3oc9U=;
+	b=0GVJR2ddFcpRTfEsYU/TW20zlEQBYt91AixJFaNu8wHUT2Ebmgk42EcqN2XV56Fio7wFn+
+	oV71fPfazgkIF2s8HI6v+Z2/B9LLESZNknFflyou1F1AFkmWRwcT3OCbpKMfkbCOGQK7N0
+	rmiOLa/mWvBvkWNxAvvNfu0FHqGNH/8=
+Message-ID: <dc3ba062-a548-4a9b-984e-a8f2473606dd@ixit.cz>
+Date: Fri, 4 Sep 2026 14:00:31 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nfc: fix typo "occured" in comments
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+References: <20260904114632.31336-1-hemanth.selam@gmail.com>
+Content-Language: en-US, cs-CZ
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260904114632.31336-1-hemanth.selam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Correct "occured" to "occurred", reported by scripts/checkpatch.pl using
-the misspelling list in scripts/spelling.txt.  Only touches comments, no
-code changes.
+On 04/09/2026 13:46, Hemanth Selam wrote:
+> Correct "occured" to "occurred", reported by scripts/checkpatch.pl using
+> the misspelling list in scripts/spelling.txt.  Only touches comments, no
+> code changes.
+> 
+> Assisted-by: Cursor:claude-opus-5
+> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+> ---
+>   drivers/nfc/microread/i2c.c | 2 +-
+>   drivers/nfc/pn544/i2c.c     | 2 +-
+>   drivers/nfc/st21nfca/i2c.c  | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+Heya, you don't need Artificial Intelligence for that, you can use
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/nfc/microread/i2c.c | 2 +-
- drivers/nfc/pn544/i2c.c     | 2 +-
- drivers/nfc/st21nfca/i2c.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+$ codespell drivers/nfc/*
+drivers/nfc/fdp/fdp.c:123: nd ==> and, 2nd
+drivers/nfc/fdp/fdp.c:126: nd ==> and, 2nd
+drivers/nfc/fdp/fdp.c:127: nd ==> and, 2nd
+drivers/nfc/fdp/fdp.c:138: nd ==> and, 2nd
+drivers/nfc/fdp/i2c.c:270: inclue ==> include
+drivers/nfc/microread/i2c.c:42: occured ==> occurred
+drivers/nfc/nfcmrvl/uart.c:180: sate ==> state
+drivers/nfc/pn533/uart.c:35: propability ==> probability
+drivers/nfc/pn533/uart.c:144: errornous ==> erroneous
+drivers/nfc/pn533/usb.c:215: stange ==> strange, stage, stance
+drivers/nfc/pn544/i2c.c:172: occured ==> occurred
+drivers/nfc/port100.c:104: Theses ==> These, Thesis
+drivers/nfc/st-nci/i2c.c:3: familly ==> family
+drivers/nfc/st-nci/ndlc.c:111: aknowledge ==> acknowledge
+drivers/nfc/st-nci/ndlc.c:172: aknowledge ==> acknowledge
+drivers/nfc/st-nci/spi.c:215: functionnalities ==> functionalities
+drivers/nfc/st21nfca/core.c:468: respone ==> response, respond
+drivers/nfc/st21nfca/i2c.c:28: mecanism ==> mechanism
+drivers/nfc/st21nfca/i2c.c:69: occured ==> occurred
+drivers/nfc/st21nfca/i2c.c:365: mecanism ==> mechanism
+drivers/nfc/st21nfca/i2c.c:385: corrupeted ==> corrupted
+drivers/nfc/st95hf/core.c:455: milisecond ==> millisecond
+drivers/nfc/st95hf/core.c:487: milisecond ==> millisecond
+drivers/nfc/st95hf/core.c:493: milisecond ==> millisecond
+drivers/nfc/st95hf/core.c:524: milisecond ==> millisecond
+drivers/nfc/st95hf/core.c:634: cofigure ==> configure
+drivers/nfc/st95hf/core.c:787: cant ==> can't
 
-diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
-index f45e883b8730..03dd11271027 100644
---- a/drivers/nfc/microread/i2c.c
-+++ b/drivers/nfc/microread/i2c.c
-@@ -39,7 +39,7 @@ struct microread_i2c_phy {
- 	struct nfc_hci_dev *hdev;
- 
- 	int hard_fault;		/*
--				 * < 0 if hardware error occured (e.g. i2c err)
-+				 * < 0 if hardware error occurred (e.g. i2c err)
- 				 * and prevents normal operation.
- 				 */
- };
-diff --git a/drivers/nfc/pn544/i2c.c b/drivers/nfc/pn544/i2c.c
-index 7fde3aefae70..edafa1709f95 100644
---- a/drivers/nfc/pn544/i2c.c
-+++ b/drivers/nfc/pn544/i2c.c
-@@ -169,7 +169,7 @@ struct pn544_i2c_phy {
- 	int run_mode;
- 
- 	int hard_fault;		/*
--				 * < 0 if hardware error occured (e.g. i2c err)
-+				 * < 0 if hardware error occurred (e.g. i2c err)
- 				 * and prevents normal operation.
- 				 */
- };
-diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
-index a4c93ff7c5b0..e760d1813edf 100644
---- a/drivers/nfc/st21nfca/i2c.c
-+++ b/drivers/nfc/st21nfca/i2c.c
-@@ -66,7 +66,7 @@ struct st21nfca_i2c_phy {
- 	int run_mode;
- 
- 	/*
--	 * < 0 if hardware error occured (e.g. i2c err)
-+	 * < 0 if hardware error occurred (e.g. i2c err)
- 	 * and prevents normal operation.
- 	 */
- 	int hard_fault;
--- 
-2.48.1
+Feel free to check validity and fix everything relevant (sometimes it report 
+false-positive).
 
+David
