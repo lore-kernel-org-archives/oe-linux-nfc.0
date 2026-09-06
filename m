@@ -1,138 +1,121 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811B22765DF
-	for <oe-linux-nfc@lists.linux.dev>; Sun,  6 Sep 2026 00:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA5337F72F
+	for <oe-linux-nfc@lists.linux.dev>; Sun,  6 Sep 2026 05:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788655175; cv=none; b=PUo0F7aopMkvgMKpJOlAaGlijj/cjAccj07OfyaIRf434R6m7I7xK4L+OQH0X4VzG9+D3nmKaLxvSpHNj8kM5DPiPES1ZItJ34RaVXA72wOW6Enyvp4X2dFu4VQXdtxTp+qgSn4BBso5iivlTQHD3RarZPMPC1oexxLgLr1U+CU=
+	t=1788673442; cv=none; b=dz4tzYRS3bfqbqk/ZMxzqwpcD5hN3xJF7ALFe/N7HOj1WtPhHkuC82q62Kr4MsXjFumMZsBLsucOb5ar+IRhDy8LGhr2YmRR/N/v3DREqSv1WxFLVTluR6tTrYuHYaLMl8ixnKOPejg/qR/9tkIpsUcVG8uU+QtMZBpWmSeRc4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788655175; c=relaxed/simple;
-	bh=X/xRmr4GqSFunc+sX8Q9MZBpCDeItpD08dRwHxnF2ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VWM3eT2DV00eA+wYWgMIx+RCadyZGctJvf4jpUiHQIHFE9a5/qqX9qhTX359ZFgJPNDs8lKTckLLMJO4lQu/gvYfH1RvjzLaI+3EmnidWBgFVWeV7F4tz0Nd/PqQqwwCmRxaClZj3e5c95nLzGiwUYSDnnt5egbhYJCZucaeSuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GSej4vAP; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1788673442; c=relaxed/simple;
+	bh=+7nqH51/1OdHpCcWbSJkBnwhzRrc5KxfkE7iE+q5aJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pQQn2HQINyPePphuTzKlI9kxqY9TCNxWp3zeY9H0eqOi3PRQJxJVFyFR6uIq48ga29Bj9lWkmB9wu6vC0mxsJZgrVuls5lW0zDzLWKTR/MR4tkxbLEokxiaeNHjt89q0uxWHmJJbdqt5mTzZXQiqbrq5l/2uDg9pNTCtyiZ8t0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgHCo2p9; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GSej4vAP"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-485850cf499so1304682f8f.3
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 05 Sep 2026 17:39:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgHCo2p9"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so1961509a91.0
+        for <oe-linux-nfc@lists.linux.dev>; Sat, 05 Sep 2026 22:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788655172; x=1789259972; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pcaDcOTwZKz9h65XJ4Y1vvTbk/7+OUqBRO3ySthF/ls=;
-        b=GSej4vAPVHO5upESErZPn3EIEFfSdhu2Q/LgiXQwDMUM+cxBY9qX+Ojhg/vlDQJ9nP
-         erN2Amgxtz5eXcCgBS0L3rzFtdyB/iC7exuvm9UIY1HV88T6WIHmLEDvyJJQac3H8+vX
-         vvHxR3pEgDrOWE41IzvPGVHpAjOBtNUV2pDX5P/WLvRJ7lObIw4Lll4dSmn5k87eYCMm
-         NFWUS2YbE2o5GKL+P1ArMW3fYuXju2x3LNsD2zPzDjO2riVbxU5A57rdZNMykQ6KXtAH
-         sgyo143HUTFPKHvCFwlwyCJd/ED6yIsXt8sb/aVRW/cOfGTyoddLwfTfSt5Rm/EJEof3
-         Kauw==
+        d=gmail.com; s=20251104; t=1788673440; x=1789278240; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fOlpr3i4pRMFaX6G1BU2/mCS2v2PccHIfgN4ACh/VAg=;
+        b=XgHCo2p9r7ydgijGR8bq3ZExA7OhfFaLBXtd9zc/2S7H6L21VdU1M+rUh9FHKF4YGG
+         ZRAS8iC4AA8bvxpbulN4zQF1Rje1TRuPlOxew+R022qaagfu3IDKFmFf1DtMW0RdcEXj
+         QDTNyRNXYvyzsNJCEi08jjh/8/Oa7J6GMKeHON/lsqCV2nNDWfJCOOBKMLbP26E5OWkj
+         +GnVxW1UmBI6a5EgDqYJwiE0Iy87njA68GsbKb5BiVjMKpRpxkfBv0ZsAQGBOj1YvWWg
+         YKGvYofaHSZB+YYr3BkFpYRqilNyBjKwy4GOLum5fI4w7Ho2BFzqxYaQF3mD4KGpGY5s
+         6ZJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788655172; x=1789259972;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pcaDcOTwZKz9h65XJ4Y1vvTbk/7+OUqBRO3ySthF/ls=;
-        b=J81kLTZMUjjaTMr8Sp+NJgAPNoW38BHo0riyYirtqeIxcYSU+6zQHwlQ4ZuShqFBkZ
-         S4FpIX37XlROQFETDoqjzRFub1mveKmBpX4FHxE9yv6/CUAkIkFrtMpn4bp4f5YPgRm6
-         Zwo+TlNMoE+LLBQY143xSduIgz078u1hghC3JgiElHeaDUVkFqWg3qACASMgQgeEolQP
-         2NofNIiIX2ll7L4rrfI1MNTZAzols1W7+kZIu5kCCNqjd4AfCTzltkkug294zjHUkPFT
-         pP+ZNf3EX7nhEleun9bpM/2Izr+SSLO9gN9DTX7cO6WFc7v6hjxijzd4czT7B+bax9r3
-         Ay/w==
-X-Forwarded-Encrypted: i=1; AKwUvBygbVdrl6Scjaayu6FjK8NZJK1fW/Dn6jW3KXO+F/ZMf3JNR8oyNmAxihKQx4u9FoB+/w1W2k/ORwH9wTs=@lists.linux.dev
-X-Gm-Message-State: AFuF++mhU/w4tqfDbAOraA2E9Uew2f90EGeV/twR8fMReoiten8m1JPA
-	Zjk233K8JGKC9zbAb+hBzTqreyzbMiv/SK8DkDpHjFTu4qUruH75L+i8
-X-Gm-Gg: AYBFou3QpS0iVUr1n/za1Y1dziawfJhkLxM809Id+Y8/+hLXqLygTaei96+TCyPGazU
-	WFOOMEhENi39QcONUDHDaAA9wr7mcxsFWhnJ7ttGA7KuO7TtWN54hBsAhR7klRcaVqn4vkqqP+g
-	+EGGDA35T4gLaKSeBslVUS5ne6PuX3cnFsys5ziiC74way4PF74Hok+G1ij8mUx7v3EcxeHVyUs
-	JTVIOTOIjvMpKJaROh4T1BOuotEj6hz6Ix2IT7YnuiFhuj/R/sMgsDyN3lRWvXNfpqlb2P6bpez
-	bNWB1Y7iKPs0mWTYzwavm9HsL0NBkq0Lao/eiDP6NpuHnwmj7PhD/GQhLOXb40jcB6cJe8tYQmi
-	Wi+HPa/+KUrk3vkKVG0LEA8a1P5gA9t3FU0wM7vRBBnUP687WWzTr1AwbiT7pJZk4NWxRt2GTDH
-	wqIHnKGKU9IVbjRTvJjCRKZxhtakMvRZ1Q7je2Yx/9vUxr9Kc1yXMiCxvRUg==
-X-Received: by 2002:a05:6000:18a8:b0:485:8c17:975e with SMTP id ffacd0b85a97d-4858c179915mr11914158f8f.32.1788655171649;
-        Sat, 05 Sep 2026 17:39:31 -0700 (PDT)
-Received: from metepc ([46.197.185.71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885b1320sm17088363f8f.27.2026.09.05.17.39.30
+        d=1e100.net; s=20251104; t=1788673440; x=1789278240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fOlpr3i4pRMFaX6G1BU2/mCS2v2PccHIfgN4ACh/VAg=;
+        b=XFBySv2tkAsU8uceLHdzurqXBpoYW/xo6B6IqmTfQ1EbEgtNJCCk34VziwqAuVfklK
+         0IRnntFmo8olH/8TZrO2XFgAbZ4Nb7ARyJG2U4VhY+tP0RHg+t58BKf6eBjKtsGQnWHY
+         T0c0lS9b7dLIkrO3AWmmGQpf8/xoqKYaOHUuL3R7+7eQZHb6knecj69ouGQXHtNgCUyC
+         nwYDZ17HFuiLHoZB9125H9wJWX8iSxCVfBQVe2mDKFXe6U2ed/iaCUnfc/5lEGitMSxH
+         q774qXnAA71pAZTACjWhl3Oo5mAXeTI3BASkPBu6YdHg+whI884kEda/R+W0HWjQWjY3
+         5Hxw==
+X-Forwarded-Encrypted: i=1; AKwUvBxIAtdrRNh7Tl89ZDqC/9eh6NHgQT5g8NIoonRD6A4Kw20TGRTAut7Q8X5lvIxqGGX6n372mwnkYTEsP/o=@lists.linux.dev
+X-Gm-Message-State: AFuF++mc7tJ/5VRYt9WYMMqHd+d9ngwZ9hqeU2Ur58mXek5eRG2mlUp+
+	J/E3X/1moTL/RXYO4Tp6oI7fRZBXyMc3qTG55iX9rlCAmcF8ILL0qkHE
+X-Gm-Gg: AYBFou0y6iLQQ7o5CppTm3+8GrbC4SOfrI0YBs4pl3TKiK9yh/9Idwxbk7+nvFPiibp
+	5kiSvm+reg3j/N27vmqOU+wMS8jtZnLUnVI0ciQe/UgWf+FW8fPCOcbicqV1RYCOlk5BJZAN2Bm
+	ot/IeKpnDd+UvTtNPKtRHicZpP6me0euFSX/r1zPmcc1hMgqVtGW3Hh0fZzpS+8/voJGeKv6HnU
+	nJ6IeqcetoHxkIB36WY244Ei4R5cnl+VHXpUVgrDQss3IV1CXO2iT9ghJtz0wq9CuqiVXYs0ys9
+	WHyyUIfUtQA4GcNYN2DeL6rEjXSinYOgs316cIiHL5U9SSBJCNGHFn/ragMSWXRmWFkJIP0P3ms
+	hGRHjbUYaVcZ4cyj+KbnFld8z+vjTHU8y2IpGOSNCKs/QYVJl9LhohW58oMufyFMe/IAankTJQx
+	yy7nwQsdE+DsW/7z2YCeKkKHuPNO9TscaolbeekuRbib6FMiBT13FQLJ0tUj8sFTi9cpdHETVvn
+	YpK/pXDyKgPu/HQZGoGGK9L16N6+DPzR2v7qU3cM2GZ3Of8anVWT4skBJUIBnPs
+X-Received: by 2002:a17:90b:384b:b0:38e:524:8797 with SMTP id 98e67ed59e1d1-39b261e79f1mr23457699a91.13.1788673439728;
+        Sat, 05 Sep 2026 22:43:59 -0700 (PDT)
+Received: from deepanshu-Legion-Pro-5-16AFR10.. ([2405:201:682f:383f:7136:e816:e198:c7e0])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm13569418a91.9.2026.09.05.22.43.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 17:39:31 -0700 (PDT)
-From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-To: netdev@vger.kernel.org
-Cc: david@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
+        Sat, 05 Sep 2026 22:43:58 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: david@ixit.cz
+Cc: kuba@kernel.org,
+	johan@kernel.org,
 	horms@kernel.org,
+	error27@gmail.com,
+	gregkh@linuxfoundation.org,
+	michael.thalmeier@hale.at,
+	sameo@linux.intel.com,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>,
-	syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
-Subject: [PATCH net v3] nfc: llcp: fix slab-out-of-bounds reads when logging service names
-Date: Sun,  6 Sep 2026 03:38:08 +0300
-Message-ID: <20260906003917.627282-1-omermetekaya0@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260905225211.596366-1-omermetekaya0@gmail.com>
-References: <20260905225211.596366-1-omermetekaya0@gmail.com>
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+Subject: [PATCH] nfc: pn533: fix OOB read in pn533_acr122_is_rx_frame_valid()
+Date: Sun,  6 Sep 2026 11:13:36 +0530
+Message-ID: <20260906054336.20187-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-nfc_llcp_wks_sap() and nfc_llcp_build_sdreq_tlv() pass non-null-
-terminated strings to pr_debug() using the %s format specifier.
-The buffers are allocated via kmemdup() or come from netlink
-attributes and are not guaranteed to be null-terminated, causing
-__dynamic_pr_debug() to read beyond the allocated region:
+frame->ccid.datalen is read directly from the USB response frame
+and used, unchecked, as an index into frame->data[]. A malicious or
+malfunctioning device can set this field to an arbitrary value,
+causing the driver to read far outside the received buffer.
 
-  KASAN: slab-out-of-bounds Read in __dynamic_pr_debug
+Bound ccid.datalen against the maximum possible ACR122 frame size
+before using it, and reject values less than 2 to avoid the
+"datalen - 2" underflowing.
 
-Fix both call sites by using %.*s with the explicit length to limit
-the output to the actual length of the string.
-
-Reported-by: syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=1e3df0852e82c21ca418
-Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
+Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
+Reported-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1853daab1a47603d4678
+Tested-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
 ---
-v3: Also fix identical issue in nfc_llcp_build_sdreq_tlv() as
-    suggested by Sashiko review.
- net/nfc/llcp_commands.c | 2 +-
- net/nfc/llcp_core.c     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/nfc/pn533/usb.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
-index ca89fe967d6a..1213946ce91f 100644
---- a/net/nfc/llcp_commands.c
-+++ b/net/nfc/llcp_commands.c
-@@ -135,7 +135,7 @@ struct nfc_llcp_sdp_tlv *nfc_llcp_build_sdreq_tlv(u8 tid, const char *uri,
- {
- 	struct nfc_llcp_sdp_tlv *sdreq;
+diff --git a/drivers/nfc/pn533/usb.c b/drivers/nfc/pn533/usb.c
+index efb07f944fce..d08d3b0df988 100644
+--- a/drivers/nfc/pn533/usb.c
++++ b/drivers/nfc/pn533/usb.c
+@@ -322,6 +322,11 @@ static bool pn533_acr122_is_rx_frame_valid(void *_frame, struct pn533 *dev)
+ 	if (!frame->ccid.datalen)
+ 		return false;
  
--	pr_debug("uri: %s, len: %zu\n", uri, uri_len);
-+	pr_debug("uri: %.*s, len: %zu\n", (int)uri_len, uri);
++	if (frame->ccid.datalen < 2 ||
++	    frame->ccid.datalen > PN533_ACR122_FRAME_MAX_PAYLOAD_LEN +
++	    PN533_ACR122_RX_FRAME_TAIL_LEN)
++		return false;
++
+ 	if (frame->data[frame->ccid.datalen - 2] == 0x63)
+ 		return false;
  
- 	/* sdreq->tlv_len is u8, takes uri_len, + 3 for header, + 1 for NULL */
- 	if (WARN_ON_ONCE(uri_len > U8_MAX - 4))
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index cac1b5487064..fda236e4d9fd 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -341,7 +341,7 @@ static int nfc_llcp_wks_sap(const char *service_name, size_t service_name_len)
- {
- 	int sap, num_wks;
- 
--	pr_debug("%s\n", service_name);
-+	pr_debug("%.*s\n", (int)service_name_len, service_name);
- 
- 	if (service_name == NULL)
- 		return -EINVAL;
 -- 
-2.55.0
+2.43.0
 
