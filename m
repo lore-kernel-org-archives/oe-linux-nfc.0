@@ -1,286 +1,463 @@
-Received: from mail-oa2-f0.google.com (mail-oa2-f0.google.com [74.125.231.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74E72C21DF
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  8 Sep 2026 01:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EDD3A961B;
+	Tue,  8 Sep 2026 08:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788830493; cv=none; b=kHsd+tQndJUHMaJN/bPPkPyRxwJzkY99yBHfkX3dkvI7+rQMls3yyN41NVQ0jT/eAvlRc7hGWjL5M1gls5D7CE62XFZa6SPudPv/IN0cDwJdS3E9oyphd4rOzxeQ8F++XxCE7RsY5/g0FoPjZF1oYt/LM/Ghtr8R5Z68/XyMfm8=
+	t=1788854805; cv=none; b=aZR+z4Iw/mDvwQrFpoLmymNif77rLpWOAIpDkuMkygUNM9RD9DdNlDZQJIvio7V2g9djPepyeuLjvZLtu7m2dbongpw9Z00vxrpb7Xysje9LEGDHwwwVJepKfGKm2jHgUwzG4cPBuo4HORZdaVKwbXkULQTxfAkU2O0JyuwnbVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788830493; c=relaxed/simple;
-	bh=ucccQuGY8j/wRxP8eacu26p1o9sbx4bFaegJro2+ptI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GmJf9kWj4BudXIEKJDfMjRjh9Agbn8ZbdAGWaWU2zId64uHn/blK24JKNW7SQMc6Ro0frD/yZsUKXQ2nsJ13+58W3cZ9O4ekaB9iZRgML7sN5V3YoZ1R2e0nCL7by+CEgBagqGjw3/nmpF0ivJFUYdL22ZZYkxNQwDSXqtWyjHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f0.google.com with SMTP id 586e51a60fabf-451e1066971so1307503fac.0
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 07 Sep 2026 18:21:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788830485; x=1789435285;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3UYGmgyd/TVNdJWflC8GEU7qdH21Y3+WnYIIM4E7fqI=;
-        b=LQxWfwDVJFUGGrbTOhMpuyHqi6nS1mLQQqylT21O1wqnWtiA0Aabl2pguCduIBLc3w
-         sk9X94u/AV/UpLE1kwstQaxDLA4iC+/ig1eLDGFly57g6gETXPXewaqprpYhJoxuC+yV
-         1unBoUFG4YhzO/NHLca8mQcPOA1TCJjXxWIRUzCW+dVlwTz/sBUqjFmUoMpq96hG1QZQ
-         QNClEvMBerFBw/w3pgsKMfsYceXXMZ/1Nu3gzRerbve1Z8VhGE/OgiQsev9FoQ32zbDN
-         JyYkXpB26aclrYeXbJJuYwvb8MfJrIndi1dr1THAgVT1lCvSfdgs1F7eb6gVKCBN0OHW
-         a/gQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzHNACuumMrSxeCPAUOz7Q43j3Fa49nnia15qpyBBk8xKbG9EhA1jOUJvejs0fpJBGgrd0/hdMEB84+jBc=@lists.linux.dev
-X-Gm-Message-State: AFuF++kjONy22FhjLIB7H4T3gac+wUG5dYDKfm5YHWtkPo2e/PbNzNuS
-	q5s+WZU95Gf4L+23o6It8JMNTyr9AuQgiP6sQxC4K8nNLVCo+oV8bLCwtIU/h4tM+QRlwO/pgkZ
-	/RvRD3g5eCuibvJn2pjqFq4KjKZqvjM3mHKoDS3Fze/kDHwclSY6kRqEscz4=
+	s=arc-20240116; t=1788854805; c=relaxed/simple;
+	bh=RMtCmZMdqd93NFPSVJln6yKON1M6pgpj31CMw55qoGQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQCtOq7lFVB8BYLn6iyRIwrOoUTZDiVI6SPVf5rw0a/8ARTP2SNLTw3MLKCRP5a7QE0jieZwpvdDllFPHoAfIKLkDN9idmlPwaks9G27Fcg0JC7rl4LICeFnIoZP6NHvmRLVlCFvl/0WmM9ytSkG8Yg3Zk+y4NE8vzLkBeZ0md4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gP9F/IXc; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gP9F/IXc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 218911F00AC4;
+	Tue,  8 Sep 2026 08:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788854803;
+	bh=C3dWyP1ymdYwK1JXfnr4eAjaAOB1e8b+TA8TtFWQc3M=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=gP9F/IXcHf8PLJ2OavhQ+dP/Anj7MwFEuIo9jdFzehmluUfnNpNdl7+2kqwVKW8TJ
+	 iULVRwwee7jHpX+bBcRvL9/gKoGtTqXw6jwMetQukwxYYLxqEdpm2BH6YBZFmApDLq
+	 3edQcJ75PiTdHPoinG8EYPNWi5FF0fK+01RRb4ADr1/ePNY9V+Ta1PJrkVdQrYh8iP
+	 VZPVdo3gH2k1yl+dCoLgRLiJaKXoCtNwHpq2UTw7YahYmAeG3AXxq3o2okiq34C1H5
+	 nQQwknlzw19ggNRZu0PFxAq/BEjdh8fxmoGUEA3Mu+59eGH5iu+KypX/XUSRT7qaWs
+	 L1Il/aWRQm8pA==
+Date: Tue, 8 Sep 2026 09:06:38 +0100
+From: Lee Jones <lee@kernel.org>
+To: David Heidelberg <david@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Samuel Ortiz <sameo@linux.intel.com>,
+	Szymon Janc <szymon.janc@tieto.com>, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] nfc: llcp: Fix race condition in accept_queue
+ lifecycle
+Message-ID: <20260908080638.GY2133376@google.com>
+References: <20260902123033.1169067-1-lee@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2202:b0:6b1:ac4f:f708 with SMTP id
- 006d021491bc7-6b6fcee3eb0mr23101338eaf.17.1788830485301; Mon, 07 Sep 2026
- 18:21:25 -0700 (PDT)
-Date: Mon, 07 Sep 2026 18:21:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9f6315.6e6c5f9e.28f11f.0003.GAE@google.com>
-Subject: [syzbot] [nfc?] [usb?] INFO: task hung in pn533_usb_probe
-From: syzbot <syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com>
-To: david@ixit.cz, krzk@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
-	oe-linux-nfc@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902123033.1169067-1-lee@kernel.org>
 
-Hello,
+[INTENTIONAL TOP-POST]
 
-syzbot found the following issue on:
+Good morning David,
 
-HEAD commit:    0d9ff90a5422 Merge tag 'scsi-fixes' of git://git.kernel.or..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12225125580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
-dashboard link: https://syzkaller.appspot.com/bug?extid=8996fbe184c5b84f89d4
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141a1b49580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=170ec2f9580000
+Just checking that this is on your radar this time [0].
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e2e2df1d57e0/disk-0d9ff90a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/451fb09afc42/vmlinux-0d9ff90a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8c588ee810e1/bzImage-0d9ff90a.xz
+Please let me know if you'd prefer a [RESEND].
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com
+[0] https://lore.kernel.org/all/016b7162-b633-4561-a003-526c9d9c5f21@ixit.cz/
 
-INFO: task kworker/1:1:30 blocked for more than 143 secon
-INFO: task kworker/1:1:30 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/1:1     state:D stack:24320 pid:30    tgid:30    ppid:2      task_flags:0x4208060 flags:0x00080000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5520 [inline]
- __schedule+0x17db/0x58f0 kernel/sched/core.c:7270
- __schedule_loop kernel/sched/core.c:7347 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7362
- schedule_timeout+0xc0/0x2c0 kernel/time/sleep_timeout.c:75
- do_wait_for_common kernel/sched/completion.c:100 [inline]
- __wait_for_common kernel/sched/completion.c:121 [inline]
- wait_for_common kernel/sched/completion.c:132 [inline]
- wait_for_completion+0x2ca/0x5e0 kernel/sched/completion.c:153
- pn533_acr122_poweron_rdr drivers/nfc/pn533/usb.c:419 [inline]
- pn533_usb_probe+0xbc9/0x10e0 drivers/nfc/pn533/usb.c:544
- usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_new_device+0x9aa/0x1690 drivers/usb/core/hub.c:2708
- hub_port_connect drivers/usb/core/hub.c:5580 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
- port_event drivers/usb/core/hub.c:5884 [inline]
- hub_event+0x28e8/0x4d30 drivers/usb/core/hub.c:5966
- process_one_work kernel/workqueue.c:3396 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-INFO: task syz-executor148:5650 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor148 state:D stack:23400 pid:5650  tgid:5650  ppid:5649   task_flags:0x400040 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5520 [inline]
- __schedule+0x17db/0x58f0 kernel/sched/core.c:7270
- __schedule_loop kernel/sched/core.c:7347 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7362
- schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7419
- __mutex_lock_common kernel/locking/mutex.c:726 [inline]
- __mutex_lock+0x7c1/0x1550 kernel/locking/mutex.c:821
- device_lock include/linux/device.h:1104 [inline]
- usbdev_open+0x151/0x770 drivers/usb/core/devio.c:1054
- chrdev_open+0x4d9/0x600 fs/char_dev.c:411
- do_dentry_open+0x816/0x1380 fs/open.c:996
- vfs_open+0x3b/0x340 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x1443/0x1d60 fs/namei.c:5000
- do_file_open+0x23e/0x4a0 fs/namei.c:5029
- do_sys_openat2+0x115/0x200 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5377931357
-RSP: 002b:00007ffe84753a10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 000055555a68f400 RCX: 00007f5377931357
-RDX: 000000000000a001 RSI: 00007ffe84753ab0 RDI: ffffffffffffff9c
-RBP: 00007ffe84753ab0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: cccccccccccccccd
-R13: 431bde82d7b634db R14: 00007f53779b1c40 R15: 0000000000000002
- </TASK>
+Kind regards,
+Lee
 
-Showing all locks held in the system:
-locks held by pr/ttyS0/16: 2, last CPU#1:
- #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: rcu_try_lock_acquire include/linux/rcupdate.h:314 [inline]
- #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: srcu_read_lock_nmisafe include/linux/srcu.h:439 [inline]
- #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: console_srcu_read_lock+0x30/0x60 kernel/printk/printk.c:291
- #1: ffffffff9ad33098 (&port_lock_key){-...}-{3:3}, at: __uart_port_lock_irqsave include/linux/serial_core.h:613 [inline]
- #1: ffffffff9ad33098 (&port_lock_key){-...}-{3:3}, at: univ8250_console_device_lock+0x67/0xc0 drivers/tty/serial/8250/8250_core.c:413
-locks held by kworker/1:1/30: 5, on CPU#1:
- #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
- #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
- #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
- #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
- #2: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #2: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x184/0x4d30 drivers/usb/core/hub.c:5912
- #3: ffff88807f3911d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #3: ffff88807f3911d8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x88/0x450 drivers/base/dd.c:1073
- #4: ffff888021ecb1a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #4: ffff888021ecb1a0 (&dev->mutex){....}-{4:4}, at: __device_attach+0x88/0x450 drivers/base/dd.c:1073
-locks held by khungtaskd/32: 1, last CPU#0:
- #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6837
-locks held by kworker/u8:7/1110: 2, on CPU#0:
- #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
- #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
- #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
- #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
-locks held by getty/5371: 2, on CPU#1:
- #0: ffff8880263f30a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
- #1: ffffc9000322b2e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x45a/0x1360 drivers/tty/n_tty.c:2211
-locks held by syz-executor148/5650: 1, on CPU#0:
- #0: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x770 drivers/usb/core/devio.c:1054
+> In nfc_llcp_socket_release(), sockets and listener accept queues are
+> walked under the local sockets rwlock and bh_lock_sock().  However,
+> bh_lock_sock() does not synchronise against process-context lock_sock()
+> held by nfc_llcp_accept_dequeue() during accept().  Because
+> socket_release() does not check sock_owned_by_user(), both paths can
+> concurrently unlink and release the same child socket, resulting in
+> use-after-free or a NULL pointer dereference of child->parent in
+> nfc_llcp_accept_unlink().
+> 
+> Fix this synchronisation race by having nfc_llcp_socket_release() use
+> process-context lock_sock() instead of bh_lock_sock():
+> 
+> 1. Pop sockets from the local sockets list under the write lock using
+>    nfc_llcp_sock_list_pop() so lock_sock() can be acquired without
+>    holding the rwlock.
+> 
+> 2. Because lock_sock() can sleep, defer the final release of the
+>    nfc_llcp_local structure to a workqueue (release_work).  This avoids
+>    a sleeping-in-atomic bug when the last local reference is dropped
+>    from softirq context.  Additionally, hold a single device reference
+>    on local from registration until final destruction.
+> 
+> 3. In nfc_llcp_local_get(), use kref_get_unless_zero() to prevent
+>    resurrecting a local object whose teardown has been scheduled.
+> 
+> 4. In llcp_sock_accept(), verify that the listener socket state is still
+>    LLCP_LISTEN after waking from schedule_timeout() to prevent hangs if
+>    the listener is closed concurrently.
+> 
+> 5. When unlinking unaccepted child sockets during listener release,
+>    unlink them from local->sockets, call sock_orphan(), and drop their
+>    initial sk_alloc creation reference via sock_put().
+> 
+> 6. Make nfc_llcp_accept_unlink() idempotent by guarding parent access with
+>    a NULL check.
+> 
+> Fixes: 50b78b2a6500 ("NFC: Fix sleeping in atomic when releasing socket")
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+> 
+> v1 -> v2:
+> - Defer local release to dedicated workqueue (llcp_wq) to avoid sleeping in atomic
+> - Drain and destroy llcp_wq on module unload to prevent module exit race
+> - Drop initial sk_alloc creation ref on unaccepted child sockets across all teardown paths
+> - Use kref_get_unless_zero() in local_get to prevent resurrecting dying local objects
+> - Check listener socket state after waking in llcp_sock_accept() to avoid hangs
+> - Standardise Parent (0) -> Child (1) lockdep subclass nesting
+> 
+> v2 -> v3:
+> - Allocate dedicated workqueue (llcp_wq) with WQ_UNBOUND to fix syzbot warning
+> 
+>  net/nfc/llcp.h      |   1 +
+>  net/nfc/llcp_core.c | 123 +++++++++++++++++++++++++++-----------------
+>  net/nfc/llcp_sock.c |  49 +++++++++++++-----
+>  3 files changed, 115 insertions(+), 58 deletions(-)
+> 
+> diff --git a/net/nfc/llcp.h b/net/nfc/llcp.h
+> index d8345ed57c95..23ae7a0112d3 100644
+> --- a/net/nfc/llcp.h
+> +++ b/net/nfc/llcp.h
+> @@ -91,6 +91,7 @@ struct nfc_llcp_local {
+>  	struct hlist_head pending_sdreqs;
+>  	struct timer_list sdreq_timer;
+>  	struct work_struct sdreq_timeout_work;
+> +	struct work_struct release_work;
+>  	u8 sdreq_next_tid;
+>  
+>  	/* sockets array */
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index bd6361e2efa4..23553e7426ec 100644
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -20,6 +20,8 @@ static LIST_HEAD(llcp_devices);
+>  /* Protects llcp_devices list */
+>  static DEFINE_SPINLOCK(llcp_devices_lock);
+>  
+> +static struct workqueue_struct *llcp_wq;
+> +
+>  static void nfc_llcp_rx_skb(struct nfc_llcp_local *local, struct sk_buff *skb);
+>  
+>  void nfc_llcp_sock_link(struct llcp_sock_list *l, struct sock *sk)
+> @@ -63,21 +65,33 @@ static void nfc_llcp_socket_purge(struct nfc_llcp_sock *sock)
+>  	}
+>  }
+>  
+> +static struct sock *nfc_llcp_sock_list_pop(struct llcp_sock_list *l)
+> +{
+> +	struct sock *sk;
+> +
+> +	write_lock(&l->lock);
+> +	sk = sk_head(&l->head);
+> +	if (sk) {
+> +		sock_hold(sk);
+> +		sk_del_node_init(sk);
+> +	}
+> +	write_unlock(&l->lock);
+> +
+> +	return sk;
+> +}
+> +
+>  static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  				    int err)
+>  {
+>  	struct sock *sk;
+> -	struct hlist_node *tmp;
+>  	struct nfc_llcp_sock *llcp_sock;
+>  
+>  	skb_queue_purge(&local->tx_queue);
+>  
+> -	write_lock(&local->sockets.lock);
+> -
+> -	sk_for_each_safe(sk, tmp, &local->sockets.head) {
+> +	while ((sk = nfc_llcp_sock_list_pop(&local->sockets))) {
+>  		llcp_sock = nfc_llcp_sock(sk);
+>  
+> -		bh_lock_sock(sk);
+> +		lock_sock(sk);
+>  
+>  		nfc_llcp_socket_purge(llcp_sock);
+>  
+> @@ -91,17 +105,27 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  			list_for_each_entry_safe(lsk, n,
+>  						 &llcp_sock->accept_queue,
+>  						 accept_queue) {
+> +				bool put_creation = false;
+> +
+>  				accept_sk = &lsk->sk;
+> -				bh_lock_sock(accept_sk);
+> +				lock_sock_nested(accept_sk,
+> +						 SINGLE_DEPTH_NESTING);
+>  
+> -				nfc_llcp_accept_unlink(accept_sk);
+> +				if (nfc_llcp_sock(accept_sk)->parent == sk) {
+> +					nfc_llcp_accept_unlink(accept_sk);
+> +					nfc_llcp_sock_unlink(&local->sockets, accept_sk);
+>  
+> -				if (err)
+> -					accept_sk->sk_err = err;
+> -				accept_sk->sk_state = LLCP_CLOSED;
+> -				accept_sk->sk_state_change(sk);
+> +					if (err)
+> +						accept_sk->sk_err = err;
+> +					accept_sk->sk_state = LLCP_CLOSED;
+> +					accept_sk->sk_state_change(accept_sk);
+> +					sock_orphan(accept_sk);
+> +					put_creation = true;
+> +				}
+>  
+> -				bh_unlock_sock(accept_sk);
+> +				release_sock(accept_sk);
+> +				if (put_creation)
+> +					sock_put(accept_sk); /* creation ref */
+>  			}
+>  		}
+>  
+> @@ -110,23 +134,18 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  		sk->sk_state = LLCP_CLOSED;
+>  		sk->sk_state_change(sk);
+>  
+> -		bh_unlock_sock(sk);
+> -
+> -		sk_del_node_init(sk);
+> +		release_sock(sk);
+> +		sock_put(sk);
+>  	}
+>  
+> -	write_unlock(&local->sockets.lock);
+> -
+>  	/* If we still have a device, we keep the RAW sockets alive */
+>  	if (device == true)
+>  		return;
+>  
+> -	write_lock(&local->raw_sockets.lock);
+> -
+> -	sk_for_each_safe(sk, tmp, &local->raw_sockets.head) {
+> +	while ((sk = nfc_llcp_sock_list_pop(&local->raw_sockets))) {
+>  		llcp_sock = nfc_llcp_sock(sk);
+>  
+> -		bh_lock_sock(sk);
+> +		lock_sock(sk);
+>  
+>  		nfc_llcp_socket_purge(llcp_sock);
+>  
+> @@ -135,26 +154,20 @@ static void nfc_llcp_socket_release(struct nfc_llcp_local *local, bool device,
+>  		sk->sk_state = LLCP_CLOSED;
+>  		sk->sk_state_change(sk);
+>  
+> -		bh_unlock_sock(sk);
+> -
+> -		sk_del_node_init(sk);
+> +		release_sock(sk);
+> +		sock_put(sk);
+>  	}
+> -
+> -	write_unlock(&local->raw_sockets.lock);
+>  }
+>  
+>  static struct nfc_llcp_local *nfc_llcp_local_get(struct nfc_llcp_local *local)
+>  {
+> -	/* Since using nfc_llcp_local may result in usage of nfc_dev, whenever
+> -	 * we hold a reference to local, we also need to hold a reference to
+> -	 * the device to avoid UAF.
+> -	 */
+> -	if (!nfc_get_device(local->dev->idx))
+> +	if (!local)
+>  		return NULL;
+>  
+> -	kref_get(&local->ref);
+> +	if (kref_get_unless_zero(&local->ref))
+> +		return local;
+>  
+> -	return local;
+> +	return NULL;
+>  }
+>  
+>  static void local_cleanup(struct nfc_llcp_local *local)
+> @@ -172,30 +185,34 @@ static void local_cleanup(struct nfc_llcp_local *local)
+>  	nfc_llcp_free_sdp_tlv_list(&local->pending_sdreqs);
+>  }
+>  
+> +static void local_release_work(struct work_struct *work)
+> +{
+> +	struct nfc_llcp_local *local;
+> +	struct nfc_dev *dev;
+> +
+> +	local = container_of(work, struct nfc_llcp_local, release_work);
+> +	dev = local->dev;
+> +
+> +	local_cleanup(local);
+> +	kfree(local);
+> +	nfc_put_device(dev);
+> +}
+> +
+>  static void local_release(struct kref *ref)
+>  {
+>  	struct nfc_llcp_local *local;
+>  
+>  	local = container_of(ref, struct nfc_llcp_local, ref);
+>  
+> -	local_cleanup(local);
+> -	kfree(local);
+> +	queue_work(llcp_wq, &local->release_work);
+>  }
+>  
+>  int nfc_llcp_local_put(struct nfc_llcp_local *local)
+>  {
+> -	struct nfc_dev *dev;
+> -	int ret;
+> -
+> -	if (local == NULL)
+> +	if (!local)
+>  		return 0;
+>  
+> -	dev = local->dev;
+> -
+> -	ret = kref_put(&local->ref, local_release);
+> -	nfc_put_device(dev);
+> -
+> -	return ret;
+> +	return kref_put(&local->ref, local_release);
+>  }
+>  
+>  static struct nfc_llcp_sock *nfc_llcp_sock_get(struct nfc_llcp_local *local,
+> @@ -1705,6 +1722,7 @@ int nfc_llcp_register_device(struct nfc_dev *ndev)
+>  	INIT_WORK(&local->rx_work, nfc_llcp_rx_work);
+>  
+>  	INIT_WORK(&local->timeout_work, nfc_llcp_timeout_work);
+> +	INIT_WORK(&local->release_work, local_release_work);
+>  
+>  	rwlock_init(&local->sockets.lock);
+>  	rwlock_init(&local->connecting_sockets.lock);
+> @@ -1748,10 +1766,23 @@ void nfc_llcp_unregister_device(struct nfc_dev *dev)
+>  
+>  int __init nfc_llcp_init(void)
+>  {
+> -	return nfc_llcp_sock_init();
+> +	int ret;
+> +
+> +	llcp_wq = alloc_workqueue("nfc_llcp_wq", WQ_UNBOUND, 0);
+> +	if (!llcp_wq)
+> +		return -ENOMEM;
+> +
+> +	ret = nfc_llcp_sock_init();
+> +	if (ret) {
+> +		destroy_workqueue(llcp_wq);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  void nfc_llcp_exit(void)
+>  {
+>  	nfc_llcp_sock_exit();
+> +	destroy_workqueue(llcp_wq);
+>  }
+> diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+> index 5558d8a4d48b..ce6875eb58fb 100644
+> --- a/net/nfc/llcp_sock.c
+> +++ b/net/nfc/llcp_sock.c
+> @@ -392,11 +392,12 @@ void nfc_llcp_accept_unlink(struct sock *sk)
+>  
+>  	pr_debug("state %d\n", sk->sk_state);
+>  
+> -	list_del_init(&llcp_sock->accept_queue);
+> -	sk_acceptq_removed(llcp_sock->parent);
+> -	llcp_sock->parent = NULL;
+> -
+> -	sock_put(sk);
+> +	if (llcp_sock->parent) {
+> +		list_del_init(&llcp_sock->accept_queue);
+> +		sk_acceptq_removed(llcp_sock->parent);
+> +		llcp_sock->parent = NULL;
+> +		sock_put(sk);
+> +	}
+>  }
+>  
+>  void nfc_llcp_accept_enqueue(struct sock *parent, struct sock *sk)
+> @@ -423,12 +424,20 @@ struct sock *nfc_llcp_accept_dequeue(struct sock *parent,
+>  
+>  	list_for_each_entry_safe(lsk, n, &llcp_parent->accept_queue,
+>  				 accept_queue) {
+> +		struct nfc_llcp_local *local;
+> +
+>  		sk = &lsk->sk;
+> -		lock_sock(sk);
+> +		lock_sock_nested(sk, SINGLE_DEPTH_NESTING);
+>  
+>  		if (sk->sk_state == LLCP_CLOSED) {
+> -			release_sock(sk);
+> +			local = nfc_llcp_sock(sk)->local;
+> +
+>  			nfc_llcp_accept_unlink(sk);
+> +			if (local)
+> +				nfc_llcp_sock_unlink(&local->sockets, sk);
+> +			sock_orphan(sk);
+> +			release_sock(sk);
+> +			sock_put(sk);
+>  			continue;
+>  		}
+>  
+> @@ -464,7 +473,7 @@ static int llcp_sock_accept(struct socket *sock, struct socket *newsock,
+>  
+>  	pr_debug("parent %p\n", sk);
+>  
+> -	lock_sock_nested(sk, SINGLE_DEPTH_NESTING);
+> +	lock_sock(sk);
+>  
+>  	if (sk->sk_state != LLCP_LISTEN) {
+>  		ret = -EBADFD;
+> @@ -490,7 +499,12 @@ static int llcp_sock_accept(struct socket *sock, struct socket *newsock,
+>  
+>  		release_sock(sk);
+>  		timeo = schedule_timeout(timeo);
+> -		lock_sock_nested(sk, SINGLE_DEPTH_NESTING);
+> +		lock_sock(sk);
+> +
+> +		if (sk->sk_state != LLCP_LISTEN) {
+> +			ret = -EBADFD;
+> +			break;
+> +		}
+>  	}
+>  	__set_current_state(TASK_RUNNING);
+>  	remove_wait_queue(sk_sleep(sk), &wait);
+> @@ -629,13 +643,24 @@ static int llcp_sock_release(struct socket *sock)
+>  
+>  		list_for_each_entry_safe(lsk, n, &llcp_sock->accept_queue,
+>  					 accept_queue) {
+> +			bool put_creation = false;
+> +
+>  			accept_sk = &lsk->sk;
+> -			lock_sock(accept_sk);
+> +			lock_sock_nested(accept_sk, SINGLE_DEPTH_NESTING);
+>  
+> -			nfc_llcp_send_disconnect(lsk);
+> -			nfc_llcp_accept_unlink(accept_sk);
+> +			if (nfc_llcp_sock(accept_sk)->parent == sk) {
+> +				nfc_llcp_send_disconnect(lsk);
+> +				nfc_llcp_accept_unlink(accept_sk);
+> +				nfc_llcp_sock_unlink(&local->sockets, accept_sk);
+> +
+> +				accept_sk->sk_state = LLCP_CLOSED;
+> +				sock_orphan(accept_sk);
+> +				put_creation = true;
+> +			}
+>  
+>  			release_sock(accept_sk);
+> +			if (put_creation)
+> +				sock_put(accept_sk); /* creation ref */
+>  		}
+>  	}
+>  
+> -- 
+> 2.55.0.966.g6673acef38-goog
+> 
 
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 32 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:123
- nmi_trigger_cpumask_backtrace+0x17d/0x390 lib/nmi_backtrace.c:66
- trigger_all_cpu_backtrace include/linux/nmi.h:164 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x135/0x170 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xfd7/0x1030 kernel/hung_task.c:561
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 16 Comm: pr/ttyS0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:io_serial_in+0x77/0xc0 drivers/tty/serial/8250/8250_port.c:409
-Code: e8 fe 97 55 fc 44 89 f9 d3 e3 49 83 c6 40 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 8f 6f c5 fc 41 03 1e 89 da ec <0f> b6 c0 5b 41 5c 41 5e 41 5f e9 4a 35 75 06 cc 44 89 f9 80 e1 07
-RSP: 0018:ffffc900001578b8 EFLAGS: 00000002
-RAX: 1ffffffff35a6600 RBX: 00000000000003fd RCX: 0000000000000000
-RDX: 00000000000003fd RSI: 0000000000000000 RDI: 0000000000000020
-RBP: dffffc0000000000 R08: 0000000000000003 R09: 0000000000000004
-R10: dffffc0000000000 R11: ffffffff857222d0 R12: dffffc0000000000
-R13: 0000000000000000 R14: ffffffff9ad330c0 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888124dd8000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000563e3d339168 CR3: 0000000078044000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- serial_in drivers/tty/serial/8250/8250.h:128 [inline]
- serial_lsr_in drivers/tty/serial/8250/8250.h:150 [inline]
- wait_for_lsr+0x184/0x2f0 drivers/tty/serial/8250/8250_port.c:2013
- serial8250_fifo_wait_for_lsr_thre drivers/tty/serial/8250/8250_port.c:3270 [inline]
- __serial8250_console_fifo_write+0xcd/0x3e0 drivers/tty/serial/8250/8250_port.c:3345
- serial8250_console_fifo_write drivers/tty/serial/8250/8250_port.c:3378 [inline]
- __serial8250_console_write drivers/tty/serial/8250/8250_port.c:3429 [inline]
- serial8250_console_write+0xaa1/0x1200 drivers/tty/serial/8250/8250_port.c:3493
- nbcon_emit_next_record+0xef5/0x1a90 kernel/printk/nbcon.c:-1
- nbcon_emit_one kernel/printk/nbcon.c:1157 [inline]
- nbcon_kthread_func+0x679/0x880 kernel/printk/nbcon.c:1271
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+Lee Jones
