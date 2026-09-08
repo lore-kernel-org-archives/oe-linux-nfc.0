@@ -1,179 +1,286 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazolkn19011025.outbound.protection.outlook.com [52.103.32.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa2-f0.google.com (mail-oa2-f0.google.com [74.125.231.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E04D3B8BC6
-	for <oe-linux-nfc@lists.linux.dev>; Mon,  7 Sep 2026 06:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788762546; cv=fail; b=jQVXEQH2ALiCDnj5vwWyzuf4iBySGYHxG1W9qoUIx+MzjdXtvWDK30hoUqH6Rx95SfVXkcM9c/CNUQPHjsR69QvOYpJ4hvpFy2degNJGQ1ymDrYf+Bl7vUAWnELee6q0dmJUhxSl+/9YdsSCDcteH3yOWMs1qNLwpuOWNpvbc7w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788762546; c=relaxed/simple;
-	bh=Jm/vHccIZUuUDo4adkIndx9ad1ujefvo1MjDqXhObZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=OUQ8M1CidE8i8yhxcPISY5Ov1hs4gz0j/p6DHVRnld7bVM76roWNp1peNfT4DCaGLYiREx+oOvz26w+d4XeaXvGWSMBSidiVYu+gto81A4ey6hMbE5lMGjL60gGPxdqcUZiHlUzKYaVLWXbn1RbHXUlaK4/7tBxnHUOMJ27KedQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=ZTha9Zic; arc=fail smtp.client-ip=52.103.32.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="ZTha9Zic"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GL81iLEDTUQFKGSWTqBqHblbFSJlPcEmVVKkYxmeFjS4+cUJdvjHCJQsIWhcXbYlhj6Y6I6RvuhhCMUs28ZWWH4sQUM28jrFunxYxUcwwj8KrK2omxHg/6eyozy7PhZnKcpXwB59QjGzO0PE8wY9l9kElQhuUR23h+SFCDZu+fdYco98v6OxtR9gDRVW87FmuSJi3psUfwsqwqQrNOwlmI/8Kv9IMaYHlRn9RFo88+U8fDgEIl+6Do6wLnwtjFm6vULiEV+pZ+5ofW6xRVZ7XVU3enfGCeir47iELFkg9YJwKsAU3JnWn2mkz15jospM3ClY+g7ULU2gaTkQO21frA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J0zndLH3+HelM8t3nrqVosLTbNIPoQVGcRtHb1rMy/Q=;
- b=PQAicHV92bfUxHlrvyuy3+goh1jXI4KwZkVaL4mQIxNW4aH3dHAgP3TBKex1YgpLWRcGMoprx+qNzV3JUHIXPvFOvC9FTIBl1jdkwg7Y28Ogy7VgajCn8jZZ442Xfp5ddAxJ7JA+tTiqccpWJJvDsZs3zYxwz6FM4bV+9geYH3+NmJKY/d/L7QtNpsW8KaJga4aShDvzJer+5YOEW8CMDnoEnqf/t+NJiqx6X8FplhmYmpjxzJeQNg1XJnzHSOdPDWSQohDXkQ+IxgLUMvCyKQ+3Ew0BUK3fUqE5hb+EdN4+wU7xRwqXpSqyGJ1e6Vqskb53FU7NjXM/Se5B/Rmzrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J0zndLH3+HelM8t3nrqVosLTbNIPoQVGcRtHb1rMy/Q=;
- b=ZTha9ZicdVkni6paNe3Ap2BgHEQl2VMvhcYrYnVt7MAtzh69BBxyGVBtudM4Jtsmvklu9rUdW6Jy9SGeBX/1r3MUi2qNQ1Ehtn59xYOwMso24TTGnZi6Oa8ivoLjpGigVj9/E/MHF0QBs7piP/zgE232xzyW4BLI/EqjrOPwWYQF5onDw8qqsWP8/HyQfQOvbbsTe/pjEy9KelmClHZxAJpwv+yAnBY85BNG2RpQs1SEtNs/+RFg/KNsLcQYFmLpleD39iKCJYZ7K7jM2DguoiTf46quai5leDat2cwrN9Wp3jsKICyLp46BEb91hGRHGqjFHuo5N/MN4QhUzmG0LQ==
-Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
- by PAXP251MB0028.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:1dd::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
- 2026 06:28:59 +0000
-Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- ([fe80::2952:d4d0:4ba:8352%6]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
- 06:28:59 +0000
-From: Aamir Ahmed <elb12345@hotmail.co.uk>
-To: David Heidelberg <david@ixit.cz>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Christophe Ricard <christophe.ricard@gmail.com>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Aamir Ahmed <elb12345@hotmail.co.uk>
-Subject: [PATCH] nfc: nci: validate CORE_CONN_CREATE response length before reading fields
-Date: Mon,  7 Sep 2026 06:28:55 +0000
-Message-ID:
- <AS8P251MB00015EC8F8C2D4D9B536F94DC8B22@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0403.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:189::12) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:344::22)
-X-Microsoft-Original-Message-ID:
- <20260907062855.572260-1-elb12345@hotmail.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74E72C21DF
+	for <oe-linux-nfc@lists.linux.dev>; Tue,  8 Sep 2026 01:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788830493; cv=none; b=kHsd+tQndJUHMaJN/bPPkPyRxwJzkY99yBHfkX3dkvI7+rQMls3yyN41NVQ0jT/eAvlRc7hGWjL5M1gls5D7CE62XFZa6SPudPv/IN0cDwJdS3E9oyphd4rOzxeQ8F++XxCE7RsY5/g0FoPjZF1oYt/LM/Ghtr8R5Z68/XyMfm8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788830493; c=relaxed/simple;
+	bh=ucccQuGY8j/wRxP8eacu26p1o9sbx4bFaegJro2+ptI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GmJf9kWj4BudXIEKJDfMjRjh9Agbn8ZbdAGWaWU2zId64uHn/blK24JKNW7SQMc6Ro0frD/yZsUKXQ2nsJ13+58W3cZ9O4ekaB9iZRgML7sN5V3YoZ1R2e0nCL7by+CEgBagqGjw3/nmpF0ivJFUYdL22ZZYkxNQwDSXqtWyjHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa2-f0.google.com with SMTP id 586e51a60fabf-451e1066971so1307503fac.0
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 07 Sep 2026 18:21:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788830485; x=1789435285;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3UYGmgyd/TVNdJWflC8GEU7qdH21Y3+WnYIIM4E7fqI=;
+        b=LQxWfwDVJFUGGrbTOhMpuyHqi6nS1mLQQqylT21O1wqnWtiA0Aabl2pguCduIBLc3w
+         sk9X94u/AV/UpLE1kwstQaxDLA4iC+/ig1eLDGFly57g6gETXPXewaqprpYhJoxuC+yV
+         1unBoUFG4YhzO/NHLca8mQcPOA1TCJjXxWIRUzCW+dVlwTz/sBUqjFmUoMpq96hG1QZQ
+         QNClEvMBerFBw/w3pgsKMfsYceXXMZ/1Nu3gzRerbve1Z8VhGE/OgiQsev9FoQ32zbDN
+         JyYkXpB26aclrYeXbJJuYwvb8MfJrIndi1dr1THAgVT1lCvSfdgs1F7eb6gVKCBN0OHW
+         a/gQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzHNACuumMrSxeCPAUOz7Q43j3Fa49nnia15qpyBBk8xKbG9EhA1jOUJvejs0fpJBGgrd0/hdMEB84+jBc=@lists.linux.dev
+X-Gm-Message-State: AFuF++kjONy22FhjLIB7H4T3gac+wUG5dYDKfm5YHWtkPo2e/PbNzNuS
+	q5s+WZU95Gf4L+23o6It8JMNTyr9AuQgiP6sQxC4K8nNLVCo+oV8bLCwtIU/h4tM+QRlwO/pgkZ
+	/RvRD3g5eCuibvJn2pjqFq4KjKZqvjM3mHKoDS3Fze/kDHwclSY6kRqEscz4=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|PAXP251MB0028:EE_
-X-MS-Office365-Filtering-Correlation-Id: dcc02ceb-6d88-48d1-23a6-08df0ca94cf7
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|25031999004|23021999003|37011999003|12121999013|15080799012|2604032031799003|19110799012|8060799015|55001999006|24021099003|25010399006|5072599009|5062599005|4140399003|40105399003|2607281247196008|3412199025|440099028|26104999009|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?a+4Ez0EbGACSRBO32RamcvtI7eZiYWeVqzpOhb9EvU9536po7+C39TY0JiAF?=
- =?us-ascii?Q?/CcdPFZMgG1QYfcwk8Qxb9DtSe7046Mv18sTtqrpJnptcQnaUei+x+iPhCOi?=
- =?us-ascii?Q?kx5bwo/EigssOMVNnvszPo8Hm2v6/pVxrAOF06KbEufHkMfN4EsKBvzMq3Eg?=
- =?us-ascii?Q?BhK3Betjkl8QPsntvenk/FwXLBRmf7LW3XAQOl6dw5+9ZIQK5tWgJUitUtN1?=
- =?us-ascii?Q?5RuP9d4rgzRDK/69DmkgLOnvPK6DvaFC4v8ACyHqL6+Zhfa++3Jw7MwA6mP6?=
- =?us-ascii?Q?x7vbSs3S8pGuUHXDxaFe/Y6bPWY9Ky9tSdXYgaygZwKmGttIAoXeaKoaCUnd?=
- =?us-ascii?Q?KNDQ+9tP4XwwzNtTaVB7i7CrEc2sbbr5cbJqiUAsHmkU0CfoILbDz60rxiMN?=
- =?us-ascii?Q?ppdESFYeo2WfenaPc7+0ohumnkzzZ5PDdVPqGETlCHOvgMATSO6WogXMq73t?=
- =?us-ascii?Q?4F3t9LLLYOsrN8aD/t8ilm++7rWtQyEwJouS2AL0GzS48PBLBFq+Q+1qYyIx?=
- =?us-ascii?Q?vBy2SyH14YH5V4UjhCdDQ2ooGclnSe1qBYGD5X0aofdkmqB109XDHu+4AC5M?=
- =?us-ascii?Q?BpO6Er8Lb0Y2A60PWMsd6ygNGCTby99fUTVN/DyPqdYWQmRsSL2PLJZOEW/v?=
- =?us-ascii?Q?9QPaDXJcujEketZ4B0EkeNBUTxQzdI9r/BNnpB9dYQNPcL7yLUi5nKIntJRP?=
- =?us-ascii?Q?PwNasgVHa5sb3KkCbD9S60CclR4neRalJeC4qtjB1M/I19bye9ugbSZeWd8f?=
- =?us-ascii?Q?ewML+IG0sFF2fMG/wVvp7M4wIlX1JOBvwEzDjJ45MJ7YHo7d+Ltp1sYG6DHe?=
- =?us-ascii?Q?8C54FYUnB5N96kgbfnouhRaLBpkrzu0pGMe/FyXfQsts2pmISQ05hUJUx2S4?=
- =?us-ascii?Q?3+08L7SfuIr/FSI/hvJN48MA/dDuO5Hjci4JrWhtUUoMq9mdvx8r3K9xkaE/?=
- =?us-ascii?Q?21erukTkDEYMotpZ8lzZzvcWKIlDccMykDJOq6mnRG3FtElvkpIGKsfYChq8?=
- =?us-ascii?Q?+BtPT/5/QjuVOGQPdaghvadgcbANji9VmpR5VJAxsI9YuklPYOEOMdAkrTIr?=
- =?us-ascii?Q?PwfE3oKKS7FQ4BTEJJ/UEwtjIbjyjPkORiRJhKLza+1AJ+yQTeVWTL2Tl9gD?=
- =?us-ascii?Q?xEaCmWZ7Bkr7?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P1wL2ZxVNF4VDRYDtUMJ9OZCYCWPHWYu1bYUDK4kSYXkEEU8rm17j/DCM0kK?=
- =?us-ascii?Q?ZU6xKdgLvovM9AvsANWe40j+Oc+B370iKrUja2Rw55sPxoDb2FP1xXSMRyo4?=
- =?us-ascii?Q?LSgic7YSeo6G7N/V2T0QcoEb8VzcuhS4gshNbFk7oCnCnaLw72L3W3nKNVBo?=
- =?us-ascii?Q?FMrfbOTNsBnip+SZyMOMNaqJrS5jMLfl6oxPSUAofjPH5bKdrWK6Rm2cFBKz?=
- =?us-ascii?Q?zbYy5A0j8aa+uU11rdyy0nUwPhH0XXwS1oCwqi1pKvFcymBMTDyTIPRt5z0O?=
- =?us-ascii?Q?FC/lcvKlDAK+OXtmzmUgnJCTUxVW3moirFZb6/T3qCJA+kAMwdNW5vLW2Hgh?=
- =?us-ascii?Q?DofISSNOxV3ZqBrjEcrJ4QFG3dAkfDFGADaQiPk8jeH+4SYpwQRLyp8QNjRe?=
- =?us-ascii?Q?lc02uTzxrabD3Ro+uShmkstbF8jvzevjJwtA4cAzCVk7dIcn5sRF9jfMlrpt?=
- =?us-ascii?Q?vWVZaQlSlY7yJV/KS87276XHZJrpGyVP76VE++5DLYsznQfhPMbC7PC12Ar6?=
- =?us-ascii?Q?JayCwqerO2BFHfL61iuHBEIPMEvO9Qwm+3f26MtAB6RU4jPUePUral3DuLli?=
- =?us-ascii?Q?Dz+5rrLtiTgjxxL11dNZzC2+QJZ4fxTzLhWqaUIrrninKnTmwXe0/mOSQwg1?=
- =?us-ascii?Q?uTKvTK52lscmE7U3r80q9vujHSo5+URrFEzHSxaqRfETP5gZC4bOGeOjUUWQ?=
- =?us-ascii?Q?44XrJh/YkYe3vXuUuFwfSdcqo4ZFK4yd89ORJEkgCdi3j0ubFEIp6EopRm2h?=
- =?us-ascii?Q?+I/JjZqS4NUH6IzKAp+oAdMS/LPLculMBB1oiTZ/t6xNhKj3MiYeSDL0ZrFY?=
- =?us-ascii?Q?M0qfXDUtEnZO8xphE3UPg39HlRKVztb5UbvsXzG5cQTklorHEsuZ+4uqWXot?=
- =?us-ascii?Q?+c36fgaagtPXBLW8fqypDi4LSqR3zI80PdjzFHzSeEJotwvDhCuK4ZrdQO7u?=
- =?us-ascii?Q?WlrQPOzCzvxjxh4jSgwEKVRxXu5aPNcYjhSbQoOMJ0MtLoXUXBpxIvnbfb7v?=
- =?us-ascii?Q?B9OiC6wiWlhVwuOn2YcKYcj07GSEQ2ZPworlQcsZW4KyTQtyAit6y2iV52Y+?=
- =?us-ascii?Q?AIlBOefTFmWjUiuQmln57c8JdcnrbW2TTdkgYNXojLc4BXsorO1kEHT4EETv?=
- =?us-ascii?Q?2CmqZuYIZxtvGO2vF18Qu/qQl9V99BE4rbeBW7ltjzNeIEekCZY4GjIOnFpB?=
- =?us-ascii?Q?v/0bsQBFZDM1WHer7CibKbrxM6geY41Otdsrh3S8fNmBElukFwvSw/MeDwfY?=
- =?us-ascii?Q?kEIJvKCE08Er8lGIkD6g031mzCCimgygVMNGbey3Lksq6zP7/nETjHogZfoU?=
- =?us-ascii?Q?kKYnT2pUf6Ot3jNd3e4Fg7XaGYKhZbDai7FMtJ9ybwWASW1pGOAuJcEW0que?=
- =?us-ascii?Q?faWM3q1W52vWnCf7oRxViSv6KjAVxMGVR7yIHlwUTBhdioE1D3nQgC4pY+Ay?=
- =?us-ascii?Q?SI3ToigR3bcH3bVeEzWu4NIFNRmrWkk0?=
-X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: dcc02ceb-6d88-48d1-23a6-08df0ca94cf7
-X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 06:28:59.3159
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP251MB0028
+X-Received: by 2002:a05:6820:2202:b0:6b1:ac4f:f708 with SMTP id
+ 006d021491bc7-6b6fcee3eb0mr23101338eaf.17.1788830485301; Mon, 07 Sep 2026
+ 18:21:25 -0700 (PDT)
+Date: Mon, 07 Sep 2026 18:21:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9f6315.6e6c5f9e.28f11f.0003.GAE@google.com>
+Subject: [syzbot] [nfc?] [usb?] INFO: task hung in pn533_usb_probe
+From: syzbot <syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com>
+To: david@ixit.cz, krzk@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-nci_core_conn_create_rsp_packet() casts skb->data to struct
-nci_core_conn_create_rsp and accesses its conn_id,
-max_ctrl_pkt_payload_len, and credits_cnt fields (offsets 1-3) when
-the status byte is NCI_STATUS_OK.  However, the NCI transport layer
-(nci_valid_size) only guarantees that the payload contains at least
-one byte.  A malformed response with plen=1 and status=0 passes this
-check, and the handler then reads three bytes past the valid payload,
-using uninitialised slab data to populate the connection info that is
-later used for NFC data exchange.
+Hello,
 
-This can be triggered from userspace via the virtual_ncidev interface
-by injecting a short CORE_CONN_CREATE_RSP frame.
+syzbot found the following issue on:
 
-Add a length check for the full response structure before accessing
-any field beyond the status byte.
+HEAD commit:    0d9ff90a5422 Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=12225125580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
+dashboard link: https://syzkaller.appspot.com/bug?extid=8996fbe184c5b84f89d4
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141a1b49580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=170ec2f9580000
 
-Fixes: 736bb9577407 ("NFC: nci: Support logical connections management")
-Cc: stable@vger.kernel.org
-Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e2e2df1d57e0/disk-0d9ff90a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/451fb09afc42/vmlinux-0d9ff90a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8c588ee810e1/bzImage-0d9ff90a.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com
+
+INFO: task kworker/1:1:30 blocked for more than 143 secon
+INFO: task kworker/1:1:30 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/1:1     state:D stack:24320 pid:30    tgid:30    ppid:2      task_flags:0x4208060 flags:0x00080000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5520 [inline]
+ __schedule+0x17db/0x58f0 kernel/sched/core.c:7270
+ __schedule_loop kernel/sched/core.c:7347 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7362
+ schedule_timeout+0xc0/0x2c0 kernel/time/sleep_timeout.c:75
+ do_wait_for_common kernel/sched/completion.c:100 [inline]
+ __wait_for_common kernel/sched/completion.c:121 [inline]
+ wait_for_common kernel/sched/completion.c:132 [inline]
+ wait_for_completion+0x2ca/0x5e0 kernel/sched/completion.c:153
+ pn533_acr122_poweron_rdr drivers/nfc/pn533/usb.c:419 [inline]
+ pn533_usb_probe+0xbc9/0x10e0 drivers/nfc/pn533/usb.c:544
+ usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3776
+ usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3776
+ usb_new_device+0x9aa/0x1690 drivers/usb/core/hub.c:2708
+ hub_port_connect drivers/usb/core/hub.c:5580 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event+0x28e8/0x4d30 drivers/usb/core/hub.c:5966
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+INFO: task syz-executor148:5650 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor148 state:D stack:23400 pid:5650  tgid:5650  ppid:5649   task_flags:0x400040 flags:0x00080002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5520 [inline]
+ __schedule+0x17db/0x58f0 kernel/sched/core.c:7270
+ __schedule_loop kernel/sched/core.c:7347 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7362
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7419
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0x7c1/0x1550 kernel/locking/mutex.c:821
+ device_lock include/linux/device.h:1104 [inline]
+ usbdev_open+0x151/0x770 drivers/usb/core/devio.c:1054
+ chrdev_open+0x4d9/0x600 fs/char_dev.c:411
+ do_dentry_open+0x816/0x1380 fs/open.c:996
+ vfs_open+0x3b/0x340 fs/open.c:1101
+ do_open fs/namei.c:4837 [inline]
+ path_openat+0x1443/0x1d60 fs/namei.c:5000
+ do_file_open+0x23e/0x4a0 fs/namei.c:5029
+ do_sys_openat2+0x115/0x200 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5377931357
+RSP: 002b:00007ffe84753a10 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 000055555a68f400 RCX: 00007f5377931357
+RDX: 000000000000a001 RSI: 00007ffe84753ab0 RDI: ffffffffffffff9c
+RBP: 00007ffe84753ab0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: cccccccccccccccd
+R13: 431bde82d7b634db R14: 00007f53779b1c40 R15: 0000000000000002
+ </TASK>
+
+Showing all locks held in the system:
+locks held by pr/ttyS0/16: 2, last CPU#1:
+ #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: rcu_try_lock_acquire include/linux/rcupdate.h:314 [inline]
+ #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: srcu_read_lock_nmisafe include/linux/srcu.h:439 [inline]
+ #0: ffffffff8ec362b8 (console_srcu){....}-{0:0}, at: console_srcu_read_lock+0x30/0x60 kernel/printk/printk.c:291
+ #1: ffffffff9ad33098 (&port_lock_key){-...}-{3:3}, at: __uart_port_lock_irqsave include/linux/serial_core.h:613 [inline]
+ #1: ffffffff9ad33098 (&port_lock_key){-...}-{3:3}, at: univ8250_console_device_lock+0x67/0xc0 drivers/tty/serial/8250/8250_core.c:413
+locks held by kworker/1:1/30: 5, on CPU#1:
+ #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
+ #0: ffff8880222a9940 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
+ #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
+ #1: ffffc90000a57c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
+ #2: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #2: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x184/0x4d30 drivers/usb/core/hub.c:5912
+ #3: ffff88807f3911d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #3: ffff88807f3911d8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x88/0x450 drivers/base/dd.c:1073
+ #4: ffff888021ecb1a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #4: ffff888021ecb1a0 (&dev->mutex){....}-{4:4}, at: __device_attach+0x88/0x450 drivers/base/dd.c:1073
+locks held by khungtaskd/32: 1, last CPU#0:
+ #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #0: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6837
+locks held by kworker/u8:7/1110: 2, on CPU#0:
+ #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
+ #0: ffff88801b0ac140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
+ #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3361 [inline]
+ #1: ffffc9000530fc40 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3479
+locks held by getty/5371: 2, on CPU#1:
+ #0: ffff8880263f30a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+ #1: ffffc9000322b2e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x45a/0x1360 drivers/tty/n_tty.c:2211
+locks held by syz-executor148/5650: 1, on CPU#0:
+ #0: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #0: ffff88802a3f61d8 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x770 drivers/usb/core/devio.c:1054
+
+=============================================
+
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 32 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:123
+ nmi_trigger_cpumask_backtrace+0x17d/0x390 lib/nmi_backtrace.c:66
+ trigger_all_cpu_backtrace include/linux/nmi.h:164 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x135/0x170 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 16 Comm: pr/ttyS0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:io_serial_in+0x77/0xc0 drivers/tty/serial/8250/8250_port.c:409
+Code: e8 fe 97 55 fc 44 89 f9 d3 e3 49 83 c6 40 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 8f 6f c5 fc 41 03 1e 89 da ec <0f> b6 c0 5b 41 5c 41 5e 41 5f e9 4a 35 75 06 cc 44 89 f9 80 e1 07
+RSP: 0018:ffffc900001578b8 EFLAGS: 00000002
+RAX: 1ffffffff35a6600 RBX: 00000000000003fd RCX: 0000000000000000
+RDX: 00000000000003fd RSI: 0000000000000000 RDI: 0000000000000020
+RBP: dffffc0000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: ffffffff857222d0 R12: dffffc0000000000
+R13: 0000000000000000 R14: ffffffff9ad330c0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888124dd8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000563e3d339168 CR3: 0000000078044000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ serial_in drivers/tty/serial/8250/8250.h:128 [inline]
+ serial_lsr_in drivers/tty/serial/8250/8250.h:150 [inline]
+ wait_for_lsr+0x184/0x2f0 drivers/tty/serial/8250/8250_port.c:2013
+ serial8250_fifo_wait_for_lsr_thre drivers/tty/serial/8250/8250_port.c:3270 [inline]
+ __serial8250_console_fifo_write+0xcd/0x3e0 drivers/tty/serial/8250/8250_port.c:3345
+ serial8250_console_fifo_write drivers/tty/serial/8250/8250_port.c:3378 [inline]
+ __serial8250_console_write drivers/tty/serial/8250/8250_port.c:3429 [inline]
+ serial8250_console_write+0xaa1/0x1200 drivers/tty/serial/8250/8250_port.c:3493
+ nbcon_emit_next_record+0xef5/0x1a90 kernel/printk/nbcon.c:-1
+ nbcon_emit_one kernel/printk/nbcon.c:1157 [inline]
+ nbcon_kthread_func+0x679/0x880 kernel/printk/nbcon.c:1271
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
 ---
- net/nfc/nci/rsp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index b0ab4f5acbce..72b748f0be9f 100644
---- a/net/nfc/nci/rsp.c
-+++ b/net/nfc/nci/rsp.c
-@@ -312,6 +312,10 @@ static void nci_core_conn_create_rsp_packet(struct nci_dev *ndev,
- 	pr_debug("status 0x%x\n", status);
- 
- 	if (status == NCI_STATUS_OK) {
-+		if (skb->len < sizeof(*rsp)) {
-+			status = NCI_STATUS_SYNTAX_ERROR;
-+			goto exit;
-+		}
- 		rsp = (struct nci_core_conn_create_rsp *)skb->data;
- 
- 		conn_info = devm_kzalloc(&ndev->nfc_dev->dev,
--- 
-2.43.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
