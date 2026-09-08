@@ -1,128 +1,94 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE534CA793
-	for <oe-linux-nfc@lists.linux.dev>; Tue,  8 Sep 2026 11:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B76F5650E5;
+	Tue,  8 Sep 2026 15:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788867047; cv=none; b=G+1da0BlvFHN5g0kp4FHLKaG6+xk5K7I4jAuA3MPaKWdvcIwDW47TEEM8tpqhXetsHgTZLatMkiTIP0HooiRhrqAtnj4wXX+ZPhQbjM+aYyOSiYdEfMf9XqkVmOdz+Mv70vB2rQaqS2J5HwPWb895vEYj9fMCIt8fstDYmX0heg=
+	t=1788882147; cv=none; b=nRGwHLdeaYOIm3W+WVRJcmBzKkpsAOV3oImHf8MVveMKLlr/1Re8fA+4c6LiQxnTHWbrAOwX9Yvb8IVUEAHobVsWsD8JjqZ7Bid7Cij1Y8Letda6AtL3S33wzJy1CA+6YkXsUtiZWW6A+h7GOQ+yl5zkv4n5S34FiZ90jX1DNkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788867047; c=relaxed/simple;
-	bh=31c0r96KNwxH60URkYG/Dq8KPtohqhJi7zlAxQBZBzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQB3/BHDATxzPI/AsOVhIULYMKO8EtVn8ukn9kmmk2oWfV7HHKjIZ53HtS7M3AKNR22SxkOWTu6faOB82EYVJHSgAmLrHv/KTOHUI38Hj6EyG8/1zul6Ia6Df4F9IrbUWxlnsOHhE7ko5URjO2eAdimw1H3rqtNsX58v4EL9Z4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BmY2d6yC; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BmY2d6yC"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso56802905e9.0
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 08 Sep 2026 04:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788867036; x=1789471836; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0b12Cm5Gb+b1IM+WblZsuohOBmH8KyzuDASigLWND6Y=;
-        b=BmY2d6yCqr1rBQ/l5COJDJ2qEpNgqzjobv9o+bJzy0Ht/gtgMKhAedYw9XI7X6wU4C
-         DoQkulgE5aH5u2Ewfp/76yHuyNhBlgoqsIFlExE9n5AGcVm9grpSOHMomAHWyLKbMrt+
-         f/D/sQAORjZLeFhdFxp8nv+iBANKzNLzvWCzY/EX0CrMFgpbpMmnmVYGRxP+UuOGOSO8
-         i+cU4I4LaM/nXWn06xzyz4va5GkQtmPTfVT9aMIZ9xhhKKqrz0OLjZ9vikqNXEWd7hcL
-         MLq1DZ7CSdXn/taot+2RgIRyye1pUlwHCO5mUW+werfilOKsDc0gfTiyuyEK6CY0m+yE
-         38LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788867036; x=1789471836;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0b12Cm5Gb+b1IM+WblZsuohOBmH8KyzuDASigLWND6Y=;
-        b=GwHToPkuWWP/AqoxGfOwq86Oed2F4cbLHef9H/nSuQNd20C6m+0COV6pZHFuKyExcP
-         GqC5SccKzB0Jxmc9W04NDcsSkSBzgs7NLu9wwC84mS9Sfmw3iC8xKisRWEEgR/4rSkXY
-         xFX23VBJAhxJIzS75LY+BDJR3TO94P0JtNkS8S4/rvlOLnl6iS5miXaxh/gGzbdcmSu2
-         7YT2igH5C33IEEI9Or2UJDqL69lFN/hMOo+lmdS6tDHSIivrbz74kFB7beI9bKu7H8NA
-         +6ILJvUjNvRqkyhhMEYEASmOJbn9j6ecstt4I3PFJMifDUKDfrHjn3lFN6NV1vhJ20Lb
-         13mQ==
-X-Gm-Message-State: AFuF++mOi0bbBHe3EoXHgJi80Ae/nCbWfGaGLQ+BGu2/3nubIh/R+gNG
-	nfoc+EF3V4MpWdbluVuXKuaOFdY/LSuW0kPqJWuF15oSxfHgvMIEkmj1
-X-Gm-Gg: AYBFou0zzXr/Vf8zUCtOagNWpQUSxF6cc3YXrkYP0DwkQA6fFth8xZwPfJC+0h1TtCq
-	Tkagnjg7QFqrbcEmxBAKazdWNtOfUMpEu7zSE6DQ2pNUQtV1k1vp9vRG//K/4SUC6sXlzEO4JxB
-	cSDoJ8ySdQKm5EArSrg4nEhh/oxCTemd8S1eygn07Fxp5HjRnCUiHnfSmITs2sPCplBiKMhFSGf
-	ev8aPerByhjhjszS0vA22PmCDihHhbcsOZTti9kP0OvJN0rZa3kpPpV8FxRPUIQJLfklb40s2O2
-	zVpVwNZxxEpZ7wMGhQ+3HHYKPoLlx2KU/YcdVp/Ujr9O4ANiuRBH/uEXADIYA2J1QJnCdXyE6YJ
-	Bb0PjMuQfurwMFlcLmuxDxi5dGd7kYOEv0U9So83q8eMyPbxr2iJWu/X4gNAYERSxVAYiu1/I8i
-	QbsBjnvLv0rVSTsoS9e2bWZbsTVVChtgRxNuAjIH48NB6Qe143XoxFfnTGmzKAWhTgtItKCtr0U
-	GBF5jETk399I7/zCbl8ygnT9+EveDuaemfgnLZO+xAj3bh+wJrPBac4/ansKPPJW0EI911AiglJ
-	WFOR85f1MisaDQ2QHNPiQCnx/gLKBGMWEKCzWq+NimcIfX0A/M1zZeh0Gr29M+IRaMi88lGgros
-	THCmwrVQz5HJaAuuYANQmryvcAiJKJRTYVAPic/F5khIhFVostORaWKtls5uUwvf7v/gWDQ==
-X-Received: by 2002:a05:600c:1c23:b0:49c:eb16:9fd with SMTP id 5b1f17b1804b1-49cf820a8e3mr314405825e9.3.1788867036409;
-        Tue, 08 Sep 2026 04:30:36 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4761dd1sm331050675e9.0.2026.09.08.04.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 04:30:36 -0700 (PDT)
-Date: Tue, 8 Sep 2026 13:30:33 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- syzbot+59d5e6a8ed04e6a000c8@syzkaller.appspotmail.com
-Subject: Re: [PATCH] nfc: nfcmrvl: fix null pointer dereference in
- nfcmrvl_bulk_complete
-Message-ID: <20260908133033.000037c5@gmail.com>
-In-Reply-To: <20260831104110.1307-1-joshua.crofts1@gmail.com>
-References: <20260831104110.1307-1-joshua.crofts1@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	s=arc-20240116; t=1788882147; c=relaxed/simple;
+	bh=I0PA1aW11Ll2I20WSWDwxpUIPtq7nTpywQaUUt5mpYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ji5ShqwTKccKwgHVj6hdCB/e2OjCahMJ1wHuKI4Q+lWqVXuKwm+Cv5IQ0ysTfqkqq7Vi7kYFrm6LQqUHB3PWCgFmAITUZEDX9YhtuHntnqMs58HZjOVUHChhZnufPu8Q0yxuY45WsUHKZXd1jTyusg3qvz2cPq1xBaUx6+LLsus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6141A1F00A3A;
+	Tue,  8 Sep 2026 15:42:24 +0000 (UTC)
+Date: Tue, 8 Sep 2026 16:41:52 +0100
+From: Simon Horman <horms@kernel.org>
+To: =?utf-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>
+Cc: netdev@vger.kernel.org, david@ixit.cz, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+	syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v3] nfc: llcp: fix slab-out-of-bounds reads when
+ logging service names
+Message-ID: <20260908154152.GA40544@horms.kernel.org>
+References: <20260905225211.596366-1-omermetekaya0@gmail.com>
+ <20260906003917.627282-1-omermetekaya0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260906003917.627282-1-omermetekaya0@gmail.com>
 
-On Mon, 31 Aug 2026 10:41:10 +0000
-Joshua Crofts <joshua.crofts1@gmail.com> wrote:
+On Sun, Sep 06, 2026 at 03:38:08AM +0300, Ömer Mete Kaya wrote:
+> nfc_llcp_wks_sap() and nfc_llcp_build_sdreq_tlv() pass non-null-
+> terminated strings to pr_debug() using the %s format specifier.
+> The buffers are allocated via kmemdup() or come from netlink
+> attributes and are not guaranteed to be null-terminated, causing
+> __dynamic_pr_debug() to read beyond the allocated region:
+> 
+>   KASAN: slab-out-of-bounds Read in __dynamic_pr_debug
+> 
+> Fix both call sites by using %.*s with the explicit length to limit
+> the output to the actual length of the string.
+> 
 
-> A race condition in the current implementation can cause a null pointer
-> dereference. When nfcmrvl_nci_register_dev() calls nci_register_device(),
-> the NCI device is immediately exposed to userspace. If userspace brings
-> up the device before probe() finishes assigning drv_data->priv,
-> submitted bulk URBs can complete while priv is still NULL.
-> 
-> Additionally, nfcmrvl_bulk_complete() incorrectly checked
-> NFCMRVL_NCI_RUNNING on drv_data->flags instead of drv_data->priv->flags.
-> 
-> Fix this by adding a NULL check and testing NFCMRVL_NCI_RUNNING on
-> drv_data->priv->flags before processing the completed URB.
-> 
-> Fixes: f26e30cc6b50 ("NFC: nfcmrvl: Initial commit for Marvell NFC driver")
-> Reported-by: syzbot+59d5e6a8ed04e6a000c8@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=59d5e6a8ed04e6a000c8
-> Tested-by: syzbot+59d5e6a8ed04e6a000c8@syzkaller.appspotmail.com
-> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+As a patch for net, this needs a Fixes tag here
+(no blank line between it and other tags).
+> Reported-by: syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=1e3df0852e82c21ca418
+> Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
 > ---
->  drivers/nfc/nfcmrvl/usb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v3: Also fix identical issue in nfc_llcp_build_sdreq_tlv() as
+>     suggested by Sashiko review.
+>  net/nfc/llcp_commands.c | 2 +-
+>  net/nfc/llcp_core.c     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/nfc/nfcmrvl/usb.c b/drivers/nfc/nfcmrvl/usb.c
-> index c7f2afe00b93..c22d783718fe 100644
-> --- a/drivers/nfc/nfcmrvl/usb.c
-> +++ b/drivers/nfc/nfcmrvl/usb.c
-> @@ -61,7 +61,7 @@ static void nfcmrvl_bulk_complete(struct urb *urb)
->  	dev_dbg(&drv_data->udev->dev, "urb %p status %d count %d\n",
->  		urb, urb->status, urb->actual_length);
+> diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+> index ca89fe967d6a..1213946ce91f 100644
+> --- a/net/nfc/llcp_commands.c
+> +++ b/net/nfc/llcp_commands.c
+> @@ -135,7 +135,7 @@ struct nfc_llcp_sdp_tlv *nfc_llcp_build_sdreq_tlv(u8 tid, const char *uri,
+>  {
+>  	struct nfc_llcp_sdp_tlv *sdreq;
 >  
-> -	if (!test_bit(NFCMRVL_NCI_RUNNING, &drv_data->flags))
-> +	if (!drv_data->priv || !test_bit(NFCMRVL_NCI_RUNNING, &drv_data->priv->flags))
->  		return;
+> -	pr_debug("uri: %s, len: %zu\n", uri, uri_len);
+> +	pr_debug("uri: %.*s, len: %zu\n", (int)uri_len, uri);
+
+This does not compile because the trailing uri_len argument is now missing.
+
 >  
->  	if (!urb->status) {
+>  	/* sdreq->tlv_len is u8, takes uri_len, + 3 for header, + 1 for NULL */
+>  	if (WARN_ON_ONCE(uri_len > U8_MAX - 4))
 
-Hi David,
+And some notes on process that I'd appreciate you keeping in mind:
 
-gentle ping on this patch.
+1. Please wait at least 24h before posting updated revisions of patches
+   CCed to the Netdev ML unless you receive a wavier from one of the
+   Networking maintainers on the ML.
 
--- 
-Kind regards,
-Joshua Crofts
+2. Please send updated revisions of patches as new email threads,
+   not as replies to earlier versions (or any other email).
+
+You can read more about the Netdev development process here:
+https://docs.kernel.org/process/maintainer-netdev.html
+
+Thanks!
