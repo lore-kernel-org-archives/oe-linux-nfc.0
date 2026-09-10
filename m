@@ -1,208 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5ED30DEDC;
-	Thu, 10 Sep 2026 03:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97684BB297
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 10 Sep 2026 16:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789012269; cv=none; b=S/0RJG+IqKkZBloNKgaffwlKXDUWW+R9JVYDawEuIY0Y6RaykQrtJmthE0/4KmgUyOUG5MDMiqOzDomz1I2vZ2yPS2V1Zw4soODT/9S+4PEfllD5JhSb++6SyDdPMNlCQm+zwIk3QUfw0TZO1x23Nnx++zaHTxTGlUI1XYZEa9w=
+	t=1789056755; cv=none; b=mvZqygrF60H+bhMu1rgGnb6bP4wwLsR7rnQSRpuiYuZ+iQMEGIahVOwQNyode4FZCXjCj1qPpctsYOtsLuegOi6noSNriTM9f+/3WLmrVw8HNq0ztr7mGPzfvPOvfNL8NSwGXwGq88NhWJGvxrleJEhX2hpeHLjfoumTuqot2Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789012269; c=relaxed/simple;
-	bh=zbufan/RqJ5Q1nBrrI4Svq41WAkcjTFrNniJSes07uU=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=em9Sgk8N5c+UtUSG/t2nhvv6jfQxF8kqr2DEdOD4P9pAYCvdndkRIFva6DtoozdT2xsNGd5qEdhDQoZimvu+wSAby/+2o8AAiE8Jcnn77jLHsql0bdJlKo5cq+c/6r3PZVib9MBXYZhmlSPKesuNb4tSi0DNMpKC4fylNUH8zpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LPIOfPW0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789056755; c=relaxed/simple;
+	bh=GXalrwLzzTTBgALbvFODGq3SYZ8bvEu2vVVnxJtIZ8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YZWQIjKP3RgSScLtdSsEb5iU2/JZs5nimwEfsqmCWLik14IS63J6kSfjuArkC68Qg9QazRjHUYVgHhXMQ355j1TQPrxQz85mWym2yvpI2YZEmSxbTBlYLAjVDJu43d+CJRaTyPZPbQjb2u7CwFsQ+hooGfBJ9Lkfzb/rH5cY3uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0loIQ5D; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LPIOfPW0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7036D1F000FF;
-	Thu, 10 Sep 2026 03:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789012268;
-	bh=0mtID7B/XCQ+V2hgeDztPVv74Rf9vBOfMI+kn5Mh+II=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=LPIOfPW0PSyuN3UYrFaddmVfLevOLY5Nh1KUk9QWg5xaJHNhs9FkqV4bE98ZhN0Ak
-	 zsNDoOEQ349zitkOIS7SRlxUNu/Hs8Wavu/yX2muzVopVRiU5Cn2PyLHAhlEaurpuq
-	 J49KWSWxCZSPRyHFCmkosZQ4rkErGlU25GVPXgcflUXvF9FTq9A1inPxGZEUK7hNh6
-	 KaYUIH2T1reiqMc8loCSglI8BbJmkAnlJQAyGvBg9lniybJU996TVQMP72Eez3zFwK
-	 NRgeoNb5DRAF5NisnSj+FXAFqqyRV5a5FgJ9pmje9RGPQBtutElPBBxp+LOGRaGFZT
-	 gXQ7vILpadQFw==
-Subject: Re: [PATCH net v2] nfc: llcp: fix slab-out-of-bounds read in
- nfc_llcp_wks_sap()
-From: netdev-bot+sashiko@kernel.org
-To: omermetekaya0@gmail.com
-Cc: netdev@vger.kernel.org, david@ixit.cz, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
-Date: Thu, 10 Sep 2026 03:51:06 +0000
-Message-ID: <178901226692.219967.13793449876885823121@kernel.org>
-In-Reply-To: <20260905225211.596366-1-omermetekaya0@gmail.com>
-References: <20260905225211.596366-1-omermetekaya0@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0loIQ5D"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb752so2542220a91.0
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 10 Sep 2026 09:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789056753; x=1789661553; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JzOXKkjLjek2eBf4/YRRMWedpMo9OjK0tCopm3Wj9N4=;
+        b=A0loIQ5DaSz03VJMjaM5XZ4JaKYUYP03bBMIiLf996YAxsWTJGLUkRDgsQxnNejIN4
+         QrMCzOjrazJxEz78WccWErgUhIlWdNc1sK8YBCC6zwV915i2i2KFYUZGbvTMZz2whx95
+         MaZpTyEsOQKmIhenTt4zhwZH7wSIQbennCXfBvsqnspktt/fi6yEbep9MU07DGWJcUwn
+         fZgdyEyyTh9+CNNV/uaHt9gEIW+KcG3miRrGvo3+STiFY0FuT3H3ua5kvaVb51nbJi3M
+         V+9m+jFdzYM7SeMlBAnFIdVJWU5Oh9g5owxIZxdrW26+ete69kptIxWBkE9j0Nxvc3IY
+         xHVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789056753; x=1789661553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JzOXKkjLjek2eBf4/YRRMWedpMo9OjK0tCopm3Wj9N4=;
+        b=WS4TrOoFCeeUo/DnXS0UORzC6O1RaWrNN8EA4rGwOx5svH5T2+9AeEYh74d54hzK1Y
+         k9Pv527wYJDREq8x5uLBNR9Z6RbPvZVLYJnu//NwkV5B1aJHXthvAWjvKGwnEGl1KwfT
+         o7IcZQxy22ztlvqss6jhBOLn2zETM05phdkKjuN8KzDf+J1FCTRH1njqNOgfXY94os4S
+         QrDM8WzZRqyUUZTxzDLEO13Nq7vdtRzBKCjPQvUhx9Zn1nkc75ogx1E1OJhZWfnnymWR
+         zbKlievPSTyIQp2EtvcRzsN0TXve+9GWnrafHKBtUBru9KNAZq3VDfFKf4IppSbclzZi
+         oa+g==
+X-Forwarded-Encrypted: i=1; AKwUvBzyxbtpiYlb7z5/j5KxRN2WlrXw1UWIxykdSIRq3m8ye68lY+1I7XTtpfuehMr/Gv/S2pJ+JflJqcrgUL8=@lists.linux.dev
+X-Gm-Message-State: AFuF++m9Q2Ijvt94el+dRMvquzqQj94TaMDS310aLG6JSoA+QpSpSABy
+	DIzv6aWFRRAk9/QNkMHznEPdrOJx7WiHPyRtrS0pj85A0Dq3k4nOb4cV
+X-Gm-Gg: AYBFou1YMXSi8BOhbzoLYjnhT/1C+xQ2971Qqdmwf+O9XMtbvQn96p52wS2TfW2e5aY
+	qo4eiHjOf6UZaFAHmjiJvpyYOPYK0Hm9dgMKDlbsQGmAFqGaE70tVG9p4rWb0POWuudTUVNolu+
+	Mw6n7BfG2eInMgz6lPYbXsAHjavOHsN8mJeduCVyC7I/rgnl5tqpGUzpynLAHsOYjvgrfF21NJ7
+	lrotvmICCDjORSKaAvoMnO28r/6izVj6JggGuBcS0YkPnr3opclH0ZVxsHlWWmduWmgAMM36h4Q
+	XCf0dS5OYu/jz5cMvMmU2jX5ot+zyLes1m5M5tp539ATpELvoSme0IuDMkryPpKVZWFx7Gw7CWf
+	MeivJe7rr2rq+0O3znKFkEPVkBzT8efi2J+qJUbqueKGgD4fAEIxZZnyffgeawfYXif3XHh7uOn
+	K1cTpX7mQem31WfU5lM+JTsOa2ecwCmLvLWj4mRzKFNKh/Bji1f8cBfhSu5ywYofNPi1AJw4iNi
+	MMWfXXJr/8iLqWErbk=
+X-Received: by 2002:a17:90b:2e86:b0:398:9be8:ea64 with SMTP id 98e67ed59e1d1-39bac3b0c7emr21419132a91.17.1789056752638;
+        Thu, 10 Sep 2026 09:12:32 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d38:5c70:ced9:ef96:e152:2608])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95994375sm281031a91.17.2026.09.10.09.12.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 09:12:32 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: linux-kernel@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com
+Subject: [PATCH] nfc: pn533: fix unbounded wait in pn533_acr122_poweron_rdr()
+Date: Thu, 10 Sep 2026 23:12:27 +0700
+Message-ID: <20260910161227.27945-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+pn533_acr122_poweron_rdr() submits phy->in_urb and then calls
+wait_for_completion() with no timeout. This runs from pn533_usb_probe(),
+which the USB core calls with the device's dev->mutex held (via
+hub_event -> usb_new_device -> device_add -> really_probe). If the
+device never answers that bulk-in read, the wait never returns: the
+hub_event kworker hangs forever inside probe() while still holding
+dev->mutex, and every other task that needs that same mutex (e.g.
+usbdev_open()) hangs too.
 
-Critical: 0 · High: 0 · Medium: 1 (1) · Low: 0 (1)
+Bound the wait with wait_for_completion_timeout(), matching the 5000ms
+timeout already used by usb_bulk_msg() for the TX half of the same
+exchange. On timeout, kill the urb and fail probe with -ETIMEDOUT
+instead of hanging indefinitely.
 
-- [Medium] Missing `Fixes:` tag on a [PATCH net] bug fix.
+Reported-by: syzbot+8996fbe184c5b84f89d4@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8996fbe184c5b84f89d4
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+---
+ drivers/nfc/pn533/usb.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Pre-existing issues:
-- [Medium] Prefix-match logic error in nfc_llcp_wks_sap()
-  (net/nfc/llcp_core.c:351-357): the loop does `strncmp(wks[sap],…
-- [Low] Unfixed sibling of the same defect class:
-  nfc_llcp_build_sdreq_tlv() (net/nfc/llcp_commands.c:138) still does…
-
---
-
-nfc: llcp: fix slab-out-of-bounds read in nfc_llcp_wks_sap()
-
-This changes the pr_debug() in nfc_llcp_wks_sap() from %s to %.*s bounded
-by service_name_len, so the non-NUL-terminated kmemdup()'d service name
-copied in llcp_sock_bind() is no longer over-read by the printk format
-scan.
-
-Closes: https://syzkaller.appspot.com/bug?extid=1e3df0852e82c21ca418
-
-> v2: Changed prefix to [PATCH net] but still I could not find the Fixes: tag both in the gitblame and the lore.
-
-[Severity: Medium]
-Regarding "still I could not find the Fixes: tag both in the gitblame and
-the lore" - does git blame on the removed statement point at the original
-LLCP support commit?
-
-Blaming the pr_debug("%s\n", service_name); line in nfc_llcp_wks_sap() at
-the baseline attributes it to:
-
-  d646960f7986 ("NFC: Initial LLCP support")
-
-Only the enclosing function signature was touched later, by 3df40eb3a2ea.
-The unterminated kmemdup() of the user-supplied service name in
-llcp_sock_bind() / llcp_sock_connect() comes from the same initial LLCP
-series, so would:
-
-  Fixes: d646960f7986 ("NFC: Initial LLCP support")
-
-be the right tag here?  Without it the affected range (everything since
-v3.3) has to be worked out by hand for stable backports, and the net tree
-process asks for the tag on fixes.
-
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index cac1b5487064d..fda236e4d9fdc 100644
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -341,7 +341,7 @@ static int nfc_llcp_wks_sap(const char *service_name, size_t service_name_len)
->  {
->  	int sap, num_wks;
->  
-> -	pr_debug("%s\n", service_name);
-> +	pr_debug("%.*s\n", (int)service_name_len, service_name);
-
-[Severity: Low]
-This is a pre-existing issue and not introduced by this patch, but is
-there a second copy of the same pattern that could be converted in the
-same change?  nfc_llcp_build_sdreq_tlv() in net/nfc/llcp_commands.c does:
-
-  pr_debug("uri: %s, len: %zu\n", uri, uri_len);
-
-The uri here is nla_data() of NFC_SDP_ATTR_URI, passed in from
-nfc_genl_llc_sdreq() together with nla_len().  The policy entry is:
-
-  [NFC_SDP_ATTR_URI] = { .type = NLA_STRING,
-                         .len = U8_MAX - 4 },
-
-NLA_STRING only trims an optional trailing NUL, it does not require one,
-and the rest of nfc_llcp_build_sdreq_tlv() is written length-based
-(if (uri[uri_len - 1] == 0) sdreq->tlv_len--; and memcpy(sdreq->uri, uri,
-uri_len)), so no terminator is assumed there either.
-
-Note this one does not appear to be able to produce the KASAN report the
-changelog quotes: the payload sits in the netlink skb linear area and the
-format scan stops on a zero byte inside the zeroed skb_shared_info of the
-same allocation:
-
-  net/core/skbuff.c:__alloc_skb() {
-      ...
-      memset(shinfo, 0, offsetof(struct skb_shared_info, dataref));
-      ...
-  }
-
-What is left is the unbounded %s printing adjacent attribute bytes plus up
-to three bytes of uninitialised SKB_DATA_ALIGN padding into dmesg, and it
-needs CAP_NET_ADMIN (NFC_CMD_LLC_SDREQ carries GENL_ADMIN_PERM) plus an
-enabled dyndbg callsite.  Would
-
-  pr_debug("uri: %.*s, len: %zu\n", (int)uri_len, uri, uri_len);
-
-be worth folding in for consistency?  The other %s users of a URI look
-fine, since sdreq->uri points into a kzalloc(sdreq->tlv_len + 1).
-
->  
->  	if (service_name == NULL)
->  		return -EINVAL;
->  
-
-The unquoted remainder of nfc_llcp_wks_sap() is the comparison loop:
-
-  net/nfc/llcp_core.c:nfc_llcp_wks_sap() {
-      ...
-      for (sap = 0; sap < num_wks; sap++) {
-              if (wks[sap] == NULL)
-                      continue;
-
-              if (strncmp(wks[sap], service_name, service_name_len) == 0)
-                      return sap;
-      }
-      ...
-  }
-
-[Severity: Medium]
-This is a pre-existing issue that the patch does not introduce, but since
-the change lands two lines above it: should this comparison also require
-service_name_len == strlen(wks[sap])?
-
-As written, any strict prefix of a well-known name matches, for example
-strncmp("urn:nfc:sn:ip", "urn:nfc:sn:i", 12) == 0 returns sap 2, and even a
-single byte "u" matches.
-
-nfc_llcp_wks_sap() is only reached from nfc_llcp_get_sdp_ssap(), which
-passes the name and length verbatim from llcp_sock_bind() and
-llcp_sock_connect().  Both just kmemdup() the user-supplied name under
-min_t(..., NFC_LLCP_MAX_SERVICE_NAME) with no content validation, and
-nfc_sock_create() does no capability check.
-
-nfc_llcp_get_sdp_ssap() then treats the socket as the well-known service:
-
-  net/nfc/llcp_core.c:nfc_llcp_get_sdp_ssap() {
-      ...
-      if (test_bit(ssap, &local->local_wks)) { ... return LLCP_SAP_MAX; }
-      set_bit(ssap, &local->local_wks);
-      return ssap;
-      ...
-  }
-
-So a bind of "urn:nfc:sn:i" reserves the SAP belonging to
-"urn:nfc:sn:ip", advertises it to the peer in the LLCP WKS general bytes,
-and a later bind of the real name then fails with -EADDRINUSE.
-
-The two peer-side sites in the same file do enforce exact length,
-nfc_llcp_recv_snl() with:
-
-  if (service_name_len == strlen("urn:nfc:sn:sdp") &&
-      !strncmp(service_name, "urn:nfc:sn:sdp", service_name_len)) {
-
-and nfc_llcp_sock_from_sn() skipping candidates whose service_name_len
-differs before memcmp().  Is the missing length equality check here just an
-oversight?  No out-of-bounds access is involved, strncmp reads at most
-service_name_len bytes.
-
+diff --git a/drivers/nfc/pn533/usb.c b/drivers/nfc/pn533/usb.c
+index efb07f944fce..ad4d84614241 100644
+--- a/drivers/nfc/pn533/usb.c
++++ b/drivers/nfc/pn533/usb.c
+@@ -416,10 +416,17 @@ static int pn533_acr122_poweron_rdr(struct pn533_usb_phy *phy)
+ 		return rc;
+ 	}
+ 
+-	wait_for_completion(&arg.done);
++	/* device may never reply: don't hang probe(), bound the wait */
++	if (!wait_for_completion_timeout(&arg.done, msecs_to_jiffies(5000))) {
++		usb_kill_urb(phy->in_urb); /* waits for the handler, so &arg can't outlive us */
++		nfc_err(&phy->udev->dev, "Reader poweron response timeout\n");
++		rc = -ETIMEDOUT;
++	} else {
++		rc = arg.rc;
++	}
+ 	phy->in_urb->context = cntx; /* restore context */
+ 
+-	return arg.rc;
++	return rc;
+ }
+ 
+ static void pn533_out_complete(struct urb *urb)
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260905225211.596366-1-omermetekaya0%40gmail.com
+2.43.0
+
