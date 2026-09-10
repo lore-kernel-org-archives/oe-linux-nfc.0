@@ -1,119 +1,208 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8E35505D0
-	for <oe-linux-nfc@lists.linux.dev>; Wed,  9 Sep 2026 12:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5ED30DEDC;
+	Thu, 10 Sep 2026 03:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788956457; cv=none; b=eOZdhN+Z9I65e9tU4CfUjyJwYV8MPQpQpI5GFAdukV/OeHdLCRgx+98Ld4clvMgdwATqXOAivNqpa1HO38C1EhFtEGfi6WA16rjHgO8/s7HEgyq5Dt/Rxq4V1OPCpSTL7x1KJD0C8L6DwQoKyd7IXJvrJzulftk//G24dDrVH5I=
+	t=1789012269; cv=none; b=S/0RJG+IqKkZBloNKgaffwlKXDUWW+R9JVYDawEuIY0Y6RaykQrtJmthE0/4KmgUyOUG5MDMiqOzDomz1I2vZ2yPS2V1Zw4soODT/9S+4PEfllD5JhSb++6SyDdPMNlCQm+zwIk3QUfw0TZO1x23Nnx++zaHTxTGlUI1XYZEa9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788956457; c=relaxed/simple;
-	bh=vd+z64yYMDOdR0OIYTpsYsjv0KiOe8KWY0gyD1raOhI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jrpsFjpZScAaG2gKhW78J4hyCNNuvNFdOl7ybJ4vR5wPSUSsv1mmNYNcHHd+Lok3R8T5iEZU0+Nnbmf9WJuItOgVEa053QO6FHBecYF7ycLYvrfN8VcxPhEWbnLCH7dBQ358CVzWCp8RdVMPbz/gztTToK+X+6I/zVd9tmBOOqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hWJA2eRd; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789012269; c=relaxed/simple;
+	bh=zbufan/RqJ5Q1nBrrI4Svq41WAkcjTFrNniJSes07uU=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=em9Sgk8N5c+UtUSG/t2nhvv6jfQxF8kqr2DEdOD4P9pAYCvdndkRIFva6DtoozdT2xsNGd5qEdhDQoZimvu+wSAby/+2o8AAiE8Jcnn77jLHsql0bdJlKo5cq+c/6r3PZVib9MBXYZhmlSPKesuNb4tSi0DNMpKC4fylNUH8zpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LPIOfPW0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hWJA2eRd"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d0e19300cso781695e9.1
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 09 Sep 2026 05:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788956454; x=1789561254; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+mWIg2sOePVQ5eOCne4aTRq59EeTij+H6YHGybcSN6I=;
-        b=hWJA2eRdeEf8PPpm5tgJ9LPwTFpCXUJQ/7lCq+SWtmKEYtI/X+Qxy0wCZ2sd2D0dHT
-         lFrqG3Nz+/cUnyCrSIxd1HqGf/sxaNHqYfAN9d+izUAPeuwps62TQuwekbV3wzwUQLpF
-         ZK0WsDPWE74XKgYXd2D6xwYeY90MCzRI/JZjN8cHUI6owl8tJ9lcVUrenky8uxD5ZSK2
-         XObA/2P1f7pAH+FTi3JLLRDfv1MnIJD6nt8z5gRinfqGnH969gj//ypoNLKe76yoP4xu
-         HoidSvaP5hM7xC6Ahx834MmAqS8b9AuEXvoid9MKRCSI3ibB45MX9OYCZRXQ71ghQohx
-         3vpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788956454; x=1789561254;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+mWIg2sOePVQ5eOCne4aTRq59EeTij+H6YHGybcSN6I=;
-        b=bIRGjgbs5sWaogdF7skkY61glJ3akuotlWjlXblmNsU4ypoRZL9Y1+kmbGzb5K+bjg
-         c5KTn7K6wLyk0T+yB9qcopdjf2tkBt1P77gaBaxh5dE3rYLW5VbfA8thEV8xzT7Zinna
-         zu9iLlxKa4S7CwkJznFri5el/eRkEAQrV0uUDFZ/VOeXka7k831bTO/FnjLtn83n4eDc
-         BfBXGxNNyKema8dEuElykIfIRfQJ+oyxY/9BWlPu30vVC1NozZXPlzAcvTYUnyo+eUBM
-         +c+Dr1CYfE3kA+68T/SYesJu2uqqVIRGd36ctz4rPu1eehEgtmaLhTEWlKI9oWt3LD40
-         nyQA==
-X-Gm-Message-State: AFuF++n9AiLhC8pdY5LR6N4swx4MTnVaVHPn4FBo6Bz0xVQN6bcFTif7
-	2aI+cShf2hCNmrE7SiZ4GbvpoJ2IxhatUJCQarTWjrqWNofJ9YLvjRYa2trUfl12jVxAzQ==
-X-Gm-Gg: AYBFou2ldVppKGeMcQEo9GTxHoqN/gSH2p6sRfSLCUNv94QFmnfPTu66yvyEjbLCtSU
-	dpKOXBlPe3du6ZsaQzPqfJZCwchShhm+1I/8Kh1VLlLxHbVml8Z48RqH3qU90qcr00flEHY92Af
-	0ZKpSHY8h1lLYzrSSr4MAZp6W67cpq1eabEN1ZNBVfLmUabog5Zsp0ew/2rrPkUG6rjv27Naz3d
-	AaaKMDPz0GDJ7SaVlVNor4WRl0kyTQ5h1FOa/uRD5h8fNU4q8N57unKzoIETSZrrIfJnhcrgllT
-	hpAS/zkUCgvU3Dnzk9RRHfrFKDhw80zCwlSb0aZk+fiI+BDwIK+B8TYSK7pdoEWyu8lIUoX4KdA
-	LcEAVBGBXoGA/b/gWmmAU8U8Nxc4c7X3OXPm3zKS1EW3VMO+uNh1a65uGb158/yDYVLeNtfENzI
-	iAhx25oAn9AriKWk0yikTesTDeJQhzDkbooFdBO2zDCJeNcpkjo1T8GpWSL8HMSizLqR7D
-X-Received: by 2002:a05:600c:4fce:b0:49d:24fa:8fc9 with SMTP id 5b1f17b1804b1-49d258cda59mr7298055e9.5.1788956454095;
-        Wed, 09 Sep 2026 05:20:54 -0700 (PDT)
-Received: from metepc ([46.197.185.71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588392b3esm49340906f8f.12.2026.09.09.05.20.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 05:20:53 -0700 (PDT)
-From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-To: oe-linux-nfc@lists.linux.dev
-Cc: david@ixit.cz,
-	horms@kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-Subject: [PATCH net] nfc: llcp: fix -ENOMEM on connect with zero-length service name
-Date: Wed,  9 Sep 2026 15:16:22 +0300
-Message-ID: <20260909122029.34081-1-omermetekaya0@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LPIOfPW0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7036D1F000FF;
+	Thu, 10 Sep 2026 03:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789012268;
+	bh=0mtID7B/XCQ+V2hgeDztPVv74Rf9vBOfMI+kn5Mh+II=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=LPIOfPW0PSyuN3UYrFaddmVfLevOLY5Nh1KUk9QWg5xaJHNhs9FkqV4bE98ZhN0Ak
+	 zsNDoOEQ349zitkOIS7SRlxUNu/Hs8Wavu/yX2muzVopVRiU5Cn2PyLHAhlEaurpuq
+	 J49KWSWxCZSPRyHFCmkosZQ4rkErGlU25GVPXgcflUXvF9FTq9A1inPxGZEUK7hNh6
+	 KaYUIH2T1reiqMc8loCSglI8BbJmkAnlJQAyGvBg9lniybJU996TVQMP72Eez3zFwK
+	 NRgeoNb5DRAF5NisnSj+FXAFqqyRV5a5FgJ9pmje9RGPQBtutElPBBxp+LOGRaGFZT
+	 gXQ7vILpadQFw==
+Subject: Re: [PATCH net v2] nfc: llcp: fix slab-out-of-bounds read in
+ nfc_llcp_wks_sap()
+From: netdev-bot+sashiko@kernel.org
+To: omermetekaya0@gmail.com
+Cc: netdev@vger.kernel.org, david@ixit.cz, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ syzbot+1e3df0852e82c21ca418@syzkaller.appspotmail.com
+Date: Thu, 10 Sep 2026 03:51:06 +0000
+Message-ID: <178901226692.219967.13793449876885823121@kernel.org>
+In-Reply-To: <20260905225211.596366-1-omermetekaya0@gmail.com>
+References: <20260905225211.596366-1-omermetekaya0@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-When service_name_len is 0, kmemdup() returns ZERO_SIZE_PTR which
-passes the NULL check, causing nfc_llcp_send_connect() to attempt
-building a zero-length service name TLV and fail with -ENOMEM.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-Fix by setting service_name to NULL directly when service_name_len is 0.
+Critical: 0 · High: 0 · Medium: 1 (1) · Low: 0 (1)
 
-Fixes: d646960f7986 ("NFC: Initial LLCP support")
-Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
----
- net/nfc/llcp_sock.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+- [Medium] Missing `Fixes:` tag on a [PATCH net] bug fix.
 
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 5558d8a4d48b..220cd38e253c 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -734,12 +734,16 @@ static int llcp_sock_connect(struct socket *sock, struct sockaddr_unsized *_addr
- 	llcp_sock->service_name_len = min_t(unsigned int,
- 					    addr->service_name_len,
- 					    NFC_LLCP_MAX_SERVICE_NAME);
--	llcp_sock->service_name = kmemdup(addr->service_name,
--					  llcp_sock->service_name_len,
--					  GFP_KERNEL);
--	if (!llcp_sock->service_name) {
--		ret = -ENOMEM;
--		goto sock_llcp_release;
-+	if (llcp_sock->service_name_len == 0) {
-+		llcp_sock->service_name = NULL;
-+	} else {
-+		llcp_sock->service_name = kmemdup(addr->service_name,
-+						  llcp_sock->service_name_len,
-+						  GFP_KERNEL);
-+		if (!llcp_sock->service_name) {
-+			ret = -ENOMEM;
-+			goto sock_llcp_release;
-+		}
- 	}
- 
- 	nfc_llcp_sock_link(&local->connecting_sockets, sk);
+Pre-existing issues:
+- [Medium] Prefix-match logic error in nfc_llcp_wks_sap()
+  (net/nfc/llcp_core.c:351-357): the loop does `strncmp(wks[sap],…
+- [Low] Unfixed sibling of the same defect class:
+  nfc_llcp_build_sdreq_tlv() (net/nfc/llcp_commands.c:138) still does…
+
+--
+
+nfc: llcp: fix slab-out-of-bounds read in nfc_llcp_wks_sap()
+
+This changes the pr_debug() in nfc_llcp_wks_sap() from %s to %.*s bounded
+by service_name_len, so the non-NUL-terminated kmemdup()'d service name
+copied in llcp_sock_bind() is no longer over-read by the printk format
+scan.
+
+Closes: https://syzkaller.appspot.com/bug?extid=1e3df0852e82c21ca418
+
+> v2: Changed prefix to [PATCH net] but still I could not find the Fixes: tag both in the gitblame and the lore.
+
+[Severity: Medium]
+Regarding "still I could not find the Fixes: tag both in the gitblame and
+the lore" - does git blame on the removed statement point at the original
+LLCP support commit?
+
+Blaming the pr_debug("%s\n", service_name); line in nfc_llcp_wks_sap() at
+the baseline attributes it to:
+
+  d646960f7986 ("NFC: Initial LLCP support")
+
+Only the enclosing function signature was touched later, by 3df40eb3a2ea.
+The unterminated kmemdup() of the user-supplied service name in
+llcp_sock_bind() / llcp_sock_connect() comes from the same initial LLCP
+series, so would:
+
+  Fixes: d646960f7986 ("NFC: Initial LLCP support")
+
+be the right tag here?  Without it the affected range (everything since
+v3.3) has to be worked out by hand for stable backports, and the net tree
+process asks for the tag on fixes.
+
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index cac1b5487064d..fda236e4d9fdc 100644
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -341,7 +341,7 @@ static int nfc_llcp_wks_sap(const char *service_name, size_t service_name_len)
+>  {
+>  	int sap, num_wks;
+>  
+> -	pr_debug("%s\n", service_name);
+> +	pr_debug("%.*s\n", (int)service_name_len, service_name);
+
+[Severity: Low]
+This is a pre-existing issue and not introduced by this patch, but is
+there a second copy of the same pattern that could be converted in the
+same change?  nfc_llcp_build_sdreq_tlv() in net/nfc/llcp_commands.c does:
+
+  pr_debug("uri: %s, len: %zu\n", uri, uri_len);
+
+The uri here is nla_data() of NFC_SDP_ATTR_URI, passed in from
+nfc_genl_llc_sdreq() together with nla_len().  The policy entry is:
+
+  [NFC_SDP_ATTR_URI] = { .type = NLA_STRING,
+                         .len = U8_MAX - 4 },
+
+NLA_STRING only trims an optional trailing NUL, it does not require one,
+and the rest of nfc_llcp_build_sdreq_tlv() is written length-based
+(if (uri[uri_len - 1] == 0) sdreq->tlv_len--; and memcpy(sdreq->uri, uri,
+uri_len)), so no terminator is assumed there either.
+
+Note this one does not appear to be able to produce the KASAN report the
+changelog quotes: the payload sits in the netlink skb linear area and the
+format scan stops on a zero byte inside the zeroed skb_shared_info of the
+same allocation:
+
+  net/core/skbuff.c:__alloc_skb() {
+      ...
+      memset(shinfo, 0, offsetof(struct skb_shared_info, dataref));
+      ...
+  }
+
+What is left is the unbounded %s printing adjacent attribute bytes plus up
+to three bytes of uninitialised SKB_DATA_ALIGN padding into dmesg, and it
+needs CAP_NET_ADMIN (NFC_CMD_LLC_SDREQ carries GENL_ADMIN_PERM) plus an
+enabled dyndbg callsite.  Would
+
+  pr_debug("uri: %.*s, len: %zu\n", (int)uri_len, uri, uri_len);
+
+be worth folding in for consistency?  The other %s users of a URI look
+fine, since sdreq->uri points into a kzalloc(sdreq->tlv_len + 1).
+
+>  
+>  	if (service_name == NULL)
+>  		return -EINVAL;
+>  
+
+The unquoted remainder of nfc_llcp_wks_sap() is the comparison loop:
+
+  net/nfc/llcp_core.c:nfc_llcp_wks_sap() {
+      ...
+      for (sap = 0; sap < num_wks; sap++) {
+              if (wks[sap] == NULL)
+                      continue;
+
+              if (strncmp(wks[sap], service_name, service_name_len) == 0)
+                      return sap;
+      }
+      ...
+  }
+
+[Severity: Medium]
+This is a pre-existing issue that the patch does not introduce, but since
+the change lands two lines above it: should this comparison also require
+service_name_len == strlen(wks[sap])?
+
+As written, any strict prefix of a well-known name matches, for example
+strncmp("urn:nfc:sn:ip", "urn:nfc:sn:i", 12) == 0 returns sap 2, and even a
+single byte "u" matches.
+
+nfc_llcp_wks_sap() is only reached from nfc_llcp_get_sdp_ssap(), which
+passes the name and length verbatim from llcp_sock_bind() and
+llcp_sock_connect().  Both just kmemdup() the user-supplied name under
+min_t(..., NFC_LLCP_MAX_SERVICE_NAME) with no content validation, and
+nfc_sock_create() does no capability check.
+
+nfc_llcp_get_sdp_ssap() then treats the socket as the well-known service:
+
+  net/nfc/llcp_core.c:nfc_llcp_get_sdp_ssap() {
+      ...
+      if (test_bit(ssap, &local->local_wks)) { ... return LLCP_SAP_MAX; }
+      set_bit(ssap, &local->local_wks);
+      return ssap;
+      ...
+  }
+
+So a bind of "urn:nfc:sn:i" reserves the SAP belonging to
+"urn:nfc:sn:ip", advertises it to the peer in the LLCP WKS general bytes,
+and a later bind of the real name then fails with -EADDRINUSE.
+
+The two peer-side sites in the same file do enforce exact length,
+nfc_llcp_recv_snl() with:
+
+  if (service_name_len == strlen("urn:nfc:sn:sdp") &&
+      !strncmp(service_name, "urn:nfc:sn:sdp", service_name_len)) {
+
+and nfc_llcp_sock_from_sn() skipping candidates whose service_name_len
+differs before memcmp().  Is the missing length equality check here just an
+oversight?  No out-of-bounds access is involved, strncmp reads at most
+service_name_len bytes.
+
 -- 
-2.55.0
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260905225211.596366-1-omermetekaya0%40gmail.com
