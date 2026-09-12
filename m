@@ -1,129 +1,163 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFB325B09D
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 12 Sep 2026 04:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D076E429CD3;
+	Sat, 12 Sep 2026 10:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789185843; cv=none; b=OzdvfbD1tQLWrMt3zLzh27F92Ujl/OHOTaEtnRUVADDgCNBm7l5V42I9gr/IGVEGFDz0D7h1l68EH35AL20rRk3zYney+hDtAnyqHIx7rWFIrDUYfHqYaSq1NjJeUvxR7OV3EKxFZ2h8kIkszYFRUgmOFdIeYJ9OpLe9eNA6WhM=
+	t=1789208208; cv=none; b=j2C5oKUY0VJnaujHV2W6XWsVc93jLZODlzX84z+gEJupXJw38H8jvr9oUMCUDndP4KxTkndLZj5TDcaGO7Y6g+APCKoeXxigxSh0pbzUviQk1k93AmenaecN7keiGI6AX7qOGZS6sJ/F4lXwSXf5W4K6gTExzjmFUS4uDksKs48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789185843; c=relaxed/simple;
-	bh=n2+a3bHoasD57GyzTGSQRXSs6iKWYXA4uMXs9bwZOSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CqGNzoKPghyq2OPOzOQQBGYHwZM3KnlTyL6/QpTvFrdxgVYQ8waFKqx6DUup9XucynhFarOrdOGXW81XV+eUcylRFqBrc17aqWcrvtBub+ly6yZ/M/3hiVZyn1HZK0uTXrpt0SpsUpcyZw4sGaLLfnv1Pa5ozyi9viOQKRn/sC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kp66jpO6; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789208208; c=relaxed/simple;
+	bh=gVa1dVjl7V/eqPPObgo8XKv+oAm+cCFhetLkPA10Lxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c51FYlrKVYzG6K9DkcR1ilhczGUz8PW5gMRGsP8dgyL8h1YxoFZ82KZ1iG0y5KATKh1cnIQHJI1TaVxIHLPxE5HpLHKUO4mPTIsKREhFLeKyoaxlQ1U6aLEpXcL2Mu7dMmvc9Hj/ZfdJnulp+qYoTAWbvIN6kgwJ27XS++/5MMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llJaGcJ1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kp66jpO6"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50dc1so103451a12.0
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 11 Sep 2026 21:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789185842; x=1789790642; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UClbOqJghVNS+HetxvyOx47BLVX5S3LX2RS9VshAjqk=;
-        b=kp66jpO6rLUpRPaWOo6NdGlxX+ppctHFNPQm3O6CKD3r3YaG77euygBSLmc1fPkByI
-         K92X0VsO+9iA726pDmXTfPBbeYQ/TQiDby2DW96UoOlc5FRaPvUS87ZdWyzJQGc7bm8x
-         Krrq5Nu2WOMU9C4rNipbPiKPZM69Jj7K8or5InxNSUS6TfA+PP23sc7afWo/Q+mgaI5/
-         gsIR9J2aubYkkBst1Z8jhNKyOa3kceQuIxokry/O8+a631MIVWbkhl4s6GyBib4FYQF1
-         Yfdg0jtyvaycBq6x64KnakdcGmRe3xgP89cFUkAaoVXMwI64Z3cyInfG97qJiNjx2h0H
-         bPow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789185842; x=1789790642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UClbOqJghVNS+HetxvyOx47BLVX5S3LX2RS9VshAjqk=;
-        b=np0Io6NbBJFtQBuqvXIXHo/3ZK2kuAScNsb22iYz6I6zFccfEYgPh2RY9rCnjmamQ4
-         eWrZQJUkxqVZWw+TdEcxUjWFFXb5Ud74PLTEogqkYtpx4d92apVz8J3hRDVSCkZStnnP
-         OPsMB7tDJb47njjerK99RXw6btlynpqqZcwdnFGDPPuIpXlJpaUgxfdpyGQmvusw8lPB
-         a8tLAmWMJC140m5rl4tZh+MB59/1o6Wjvq6PsLltAbBpb4aFshDmeDr0Mh70sPWojzXi
-         7aA5Ot19Vqt3Ll4MXDmz6yMGKcXPdP7f5MSNZTKsXpaUmvsVegM4esIIpv6CrYWoj1l5
-         LZPw==
-X-Forwarded-Encrypted: i=1; AKwUvBx+MgHmRhiMn5CXM/1Fqz1ZMJriZ3R22kQwZFTNJJqbAwROsD0rn3od8PVEmzICoRC9++zX4XeQKzqlF9U=@lists.linux.dev
-X-Gm-Message-State: AFuF++mTztmhFiJ7JuGTrCQ+6N+PAB8YVS26qpkyNDm+B9Wn4Icda9dJ
-	hoUHkTHoNGuRFfWeP0yUkOj99wYjUHHSDAkGiULZFnfAWGHuDxB5MqMN
-X-Gm-Gg: AYBFou3f+8kKrg+Pj1eu1T9aLa3/G2F0swGaAbWn+DvUSaVZk5qzM3V3n53osKKfKSq
-	qLa17WzBjZjNTQN+vDLEdgrJY7/dfP2W4wCUI9uhlWMXY3+6kwP/AvPhnJBc5TY2PzH8Y4jx6Hy
-	wSltWdL9nsK5ZhGw1HCWbYDePON2KALUlvrUa8wendE8Z7NfcsFnUPSyMDe0+7URu0qJsDp06d9
-	ap6/Ycs6lWe4CvoDAUQyuzB3khL+VQotsm7UFMgPfReoiYk6mxL3PYMfnnj5fLVQz494LZykqqB
-	S6xRRZ0T1jxxL2RtgXc/3KsDEqk4RDedwnh613t8BWFOEoIDJx+EGLqagT2kwSSWg6rwmFaRRd9
-	kMnnMbo7oewwAOP+ZdKESh55kN8uO7VryjlbVG3Uc8+SvfdcSE7fUQIeSkMkH2PdjL0XwwHBCeP
-	YnON3473kwfprzy1rd1jtB6OLe2QBOu5I+uA6nuAq/E6vg+TcGLjy4SMq13hkzw7W+hq9ZKQifD
-	xU9BqTFqUckZLD+URXwkCN+UN4g6LnJ8EiuZ2B/WZID7U7ngMmI96ITUdBM+Fw2
-X-Received: by 2002:a17:90a:c2c6:b0:396:5fce:8e24 with SMTP id 98e67ed59e1d1-39dbbe85d7bmr2067589a91.4.1789185841956;
-        Fri, 11 Sep 2026 21:04:01 -0700 (PDT)
-Received: from deepanshu-Legion-Pro-5-16AFR10.. ([2405:201:682f:383f:3e34:fc0e:e4a8:fba1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9d7ff2c5sm1937554a91.2.2026.09.11.21.03.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 21:04:00 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: david@ixit.cz,
-	johan@kernel.org
-Cc: kuba@kernel.org,
-	error27@gmail.com,
-	gregkh@linuxfoundation.org,
-	sameo@linux.intel.com,
-	michael.thalmeier@hale.at,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-Subject: [PATCH v2] nfc: pn533: fix OOB read in pn533_acr122_is_rx_frame_valid()
-Date: Sat, 12 Sep 2026 09:33:51 +0530
-Message-ID: <20260912040351.15056-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llJaGcJ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 926A01F00893;
+	Sat, 12 Sep 2026 10:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789208198;
+	bh=40UkVy/O/19XXQwA+1zxlsKkYJUI6RG9Chr/nA1zAsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=llJaGcJ1COxLfKOwc0Q386Tm3604/ETgnVdFeoEHkKdO+8TkhIC/DuCdlcb08GUUN
+	 a1sgQdcb0YV4Ctz3xxCFkyFjw4R8TsXoKFw0kMPGFM6tpE3V0AblYcS8TJflqQlbQT
+	 WewVIELp50iXoQnTrmq8PcxlFWz7XOcFxuAR03makHK6tLf00ApR2zfU+xPyDUNA0U
+	 WsvljSGsEW4KcE+S77ZcThD4cs1mRDJmidAbs1qYGgcVAuZSy92LSYGnuNkIaeiYtM
+	 XautI4gPueHW8IVGPbJS9FTAnhAr7RmWpCzXFCM4lOAhOdysidXn0rOuLcEn+2LVuS
+	 fcjteLwjj7LcA==
+Date: Sat, 12 Sep 2026 11:16:33 +0100
+From: Simon Horman <horms@kernel.org>
+To: Ren Wei <weir@nebusec.ai>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, david@ixit.cz,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, kees@kernel.org, pengpeng@iscas.ac.cn,
+	raoxu@uniontech.com, rosenp@gmail.com, dddddd@hust.edu.cn,
+	joe@dama.to, ian.ray@gehealthcare.com, kuniyu@google.com,
+	linma@zju.edu.cn, vega@nebusec.ai, rakukuip@gmail.com
+Subject: Re: [PATCH v3 1/1] net: nfc: fix use-after-free in
+ nfc_get_local_general_bytes
+Message-ID: <20260912101633.GG48209@horms.kernel.org>
+References: <cover.1788841682.git.rakukuip@gmail.com>
+ <3cbaac3bee23f8ff3a3284ed32d347696eb1d208.1788841683.git.rakukuip@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3cbaac3bee23f8ff3a3284ed32d347696eb1d208.1788841683.git.rakukuip@gmail.com>
 
-frame->ccid.datalen is read directly from the USB response frame
-and used, unchecked, as an index into frame->data[]. A malicious or
-malfunctioning device can set this field to an arbitrary value,
-causing the driver to read far outside the received buffer.
+On Wed, Sep 09, 2026 at 01:19:24PM +0800, Ren Wei wrote:
+> From: Luxiao Xu <rakukuip@gmail.com>
+> 
+> Commit 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by
+> nfc_llcp_find_local") attempted to fix a use-after-free (UAF) issue by
+> invoking nfc_llcp_local_put(local) after accessing local->gb. However,
+> if the reference count drops to zero, local is freed immediately,
+> leading to a use-after-free when callers access the returned pointer.
+> Alternative approaches using dynamic allocation (e.g. kmemdup) introduced
+> memory leaks because callers consistently treat the returned pointer as
+> borrowed memory.
+> 
+> Fix this properly by refactoring nfc_llcp_general_bytes() and
+> nfc_get_local_general_bytes() to accept a caller-provided output buffer
+> (out_gb) and its maximum length (gb_max_len). The general bytes are
+> safely copied into out_gb before calling nfc_llcp_local_put(local),
+> ensuring safe lifetime management without ownership transfer complications.
+> 
+> Update all callers across drivers (microread, pn533, pn544, st21nfca,
+> digital_dep, and nci) to provide their own destination buffers and pass
+> them to nfc_get_local_general_bytes().
+> 
+> Fixes: 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
+> Cc: stable@vger.kernel.org
+> Reported-by: Vega <vega@nebusec.ai>
+> Assisted-by: LLM
+> Signed-off-by: Luxiao Xu <rakukuip@gmail.com>
+> Signed-off-by: Ren Wei <weir@nebusec.ai>
+> ---
+> v3:
+>  - Include <net/nfc/nfc.h> in pn533.h to fix build error in uart.c
+>    caused by undefined NFC_MAX_GT_LEN.
+>  - Restore nci_request() in nci_set_local_general_bytes() to preserve
+>    ndev->req_lock synchronization (avoid unlocked __nci_request() via
+>    nci_set_config()).
+> v2:
+>  - Use caller-provided output buffers to fix UAF instead of dynamic
+>    allocation (kmemdup), avoiding memory leaks.
 
-Bound ccid.datalen against the maximum possible ACR122 frame size
-before using it. This replaces the existing datalen == 0 check,
-since datalen < 2 already covers that case and additionally
-rejects datalen == 1, which would still underflow the
-"datalen - 2" offset used below.
+Overall this patch looks good to me.
+But I'd appreciate it if you could consider my suggestion further below.
 
-Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
-Reported-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=1853daab1a47603d4678
-Tested-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-Assisted-by: Claude (Anthropic)
-Link: https://lore.kernel.org/all/20260906054336.20187-1-kartikey406@gmail.com/T/ [v1]
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+Reviewed-by: Simon Horman <horms@kernel.org>
 
----
-Changes in v2:
-- Replace the existing "if (!frame->ccid.datalen)" check instead of
-  adding the new bounds check alongside it, since the new check
-  already subsumes it (per Johan Hovold).
----
- drivers/nfc/pn533/usb.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+...
 
-diff --git a/drivers/nfc/pn533/usb.c b/drivers/nfc/pn533/usb.c
-index efb07f944fce..9471c34b4d4b 100644
---- a/drivers/nfc/pn533/usb.c
-+++ b/drivers/nfc/pn533/usb.c
-@@ -319,7 +319,9 @@ static bool pn533_acr122_is_rx_frame_valid(void *_frame, struct pn533 *dev)
- 	if (frame->ccid.type != 0x83)
- 		return false;
- 
--	if (!frame->ccid.datalen)
-+	if (frame->ccid.datalen < 2 ||
-+	    frame->ccid.datalen > PN533_ACR122_FRAME_MAX_PAYLOAD_LEN +
-+	    PN533_ACR122_RX_FRAME_TAIL_LEN)
- 		return false;
- 
- 	if (frame->data[frame->ccid.datalen - 2] == 0x63)
--- 
-2.43.0
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index dc65c719f35f..24cf212bf3f8 100644
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -635,23 +635,32 @@ static int nfc_llcp_build_gb(struct nfc_llcp_local *local)
+>  	return ret;
+>  }
+>  
+> -u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, size_t *general_bytes_len)
+> +u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb, size_t gb_max_len,
+> +			   size_t *general_bytes_len)
+>  {
+>  	struct nfc_llcp_local *local;
+>  
+> +	if (!out_gb || !general_bytes_len)
+> +		return NULL;
+> +
+>  	local = nfc_llcp_find_local(dev);
+> -	if (local == NULL) {
+> +	if (!local) {
+>  		*general_bytes_len = 0;
+>  		return NULL;
+>  	}
+>  
+>  	nfc_llcp_build_gb(local);
+>  
+> -	*general_bytes_len = local->gb_len;
+> +	if (local->gb_len) {
+> +		*general_bytes_len = min_t(size_t, local->gb_len, gb_max_len);
+> +		memcpy(out_gb, local->gb, *general_bytes_len);
+> +	} else {
+> +		*general_bytes_len = 0;
+> +	}
+>  
+>  	nfc_llcp_local_put(local);
+>  
+> -	return local->gb;
+> +	return out_gb;
+>  }
 
+As far as I can see the return value of nfc_llcp_general_bytes() is now
+ignored. And for a bug fix the approach you have taken looks good,
+as the interface provided by nfc_llcp_general_bytes() is only slightly
+modified.
+
+But, FWIIW, I think it would be cleaner if nfc_llcp_general_bytes()
+returned the length, or 0 on error. And the general_bytes_len parameter was
+passed by value rather than reference.
+
+Something like this:
+
+size_t nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb,
+			      size_t gb_max_len, size_t general_bytes_len)
+{
+	...
+
+	if (error_condition)
+		return 0;
+
+	...
+
+	return general_bytes_len;
+}
+
+Perhaps that approach could be considered as a follow-up.
