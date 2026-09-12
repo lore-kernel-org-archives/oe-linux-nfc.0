@@ -1,163 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out28-3.mail.aliyun.com (out28-3.mail.aliyun.com [115.124.28.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D076E429CD3;
-	Sat, 12 Sep 2026 10:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCE92D0C75
+	for <oe-linux-nfc@lists.linux.dev>; Sat, 12 Sep 2026 11:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789208208; cv=none; b=j2C5oKUY0VJnaujHV2W6XWsVc93jLZODlzX84z+gEJupXJw38H8jvr9oUMCUDndP4KxTkndLZj5TDcaGO7Y6g+APCKoeXxigxSh0pbzUviQk1k93AmenaecN7keiGI6AX7qOGZS6sJ/F4lXwSXf5W4K6gTExzjmFUS4uDksKs48=
+	t=1789214256; cv=none; b=k8HjexJkajlfzq3+JjN69KWHsOeAyuY/cg49+zW6bS/ckQ/vBg+ktiHhyKbFtzXbA5xW2FtyGz7uYOPr+riRcoJ5eOuowzuMbJojQh4SKTgjPuxXfVSmUR/ysbt2uzKZ5AgpC5KaKzcxwgQ4cxkkyCyvFKLI23cTVPjpd0w19YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789208208; c=relaxed/simple;
-	bh=gVa1dVjl7V/eqPPObgo8XKv+oAm+cCFhetLkPA10Lxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c51FYlrKVYzG6K9DkcR1ilhczGUz8PW5gMRGsP8dgyL8h1YxoFZ82KZ1iG0y5KATKh1cnIQHJI1TaVxIHLPxE5HpLHKUO4mPTIsKREhFLeKyoaxlQ1U6aLEpXcL2Mu7dMmvc9Hj/ZfdJnulp+qYoTAWbvIN6kgwJ27XS++/5MMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llJaGcJ1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789214256; c=relaxed/simple;
+	bh=oxnaw/S07fLZLNhfUCmG8Jdfft9O1LmkILUr998ltG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWCrAow+l6qEl+s185Tf4Dubli/q82VRhB/9l3NV/uyPvmypccfEsHwikRhHKy6MHpeAKJCeCqJQoSeoIQRW9CYKW9djbMod22hJCa8sHXdKalQTSvgOQ+kpM8fn3ziPyMrElcp0PVp0Fl/5LApwXpFiAebknJzBXHVZInsqBLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=dwoFo4OL; arc=none smtp.client-ip=115.124.28.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llJaGcJ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 926A01F00893;
-	Sat, 12 Sep 2026 10:16:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789208198;
-	bh=40UkVy/O/19XXQwA+1zxlsKkYJUI6RG9Chr/nA1zAsQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=llJaGcJ1COxLfKOwc0Q386Tm3604/ETgnVdFeoEHkKdO+8TkhIC/DuCdlcb08GUUN
-	 a1sgQdcb0YV4Ctz3xxCFkyFjw4R8TsXoKFw0kMPGFM6tpE3V0AblYcS8TJflqQlbQT
-	 WewVIELp50iXoQnTrmq8PcxlFWz7XOcFxuAR03makHK6tLf00ApR2zfU+xPyDUNA0U
-	 WsvljSGsEW4KcE+S77ZcThD4cs1mRDJmidAbs1qYGgcVAuZSy92LSYGnuNkIaeiYtM
-	 XautI4gPueHW8IVGPbJS9FTAnhAr7RmWpCzXFCM4lOAhOdysidXn0rOuLcEn+2LVuS
-	 fcjteLwjj7LcA==
-Date: Sat, 12 Sep 2026 11:16:33 +0100
-From: Simon Horman <horms@kernel.org>
-To: Ren Wei <weir@nebusec.ai>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, david@ixit.cz,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, kees@kernel.org, pengpeng@iscas.ac.cn,
-	raoxu@uniontech.com, rosenp@gmail.com, dddddd@hust.edu.cn,
-	joe@dama.to, ian.ray@gehealthcare.com, kuniyu@google.com,
-	linma@zju.edu.cn, vega@nebusec.ai, rakukuip@gmail.com
-Subject: Re: [PATCH v3 1/1] net: nfc: fix use-after-free in
- nfc_get_local_general_bytes
-Message-ID: <20260912101633.GG48209@horms.kernel.org>
-References: <cover.1788841682.git.rakukuip@gmail.com>
- <3cbaac3bee23f8ff3a3284ed32d347696eb1d208.1788841683.git.rakukuip@gmail.com>
+	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="dwoFo4OL"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1789214244; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=1dmRRpmX7RaifRKwzqGF3Fys4RZt3UY5YzhrH7tJyOg=;
+	b=dwoFo4OL+itgG3gQroTAdkNsgt9ihk5c8IjvRG8PKZFgNsWa1noDldiffr4GVqLd/kvX1zX/AKkHVi/Z/jT0TtNB1WKZ5oiNMkQuHWP3aMeZ06bxsGSddfm5W5rN3Mo6ozQZVBpM/GhMzpScS250/E352Uc7FMLDimQA7xdDj1Y=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1221488|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00565148-0.00223755-0.992111;FP=12569559143964794011|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037071049;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.jC.MeCA_1789214242;
+Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jC.MeCA_1789214242 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Sat, 12 Sep 2026 19:57:23 +0800
+From: Liu Chao <liuc63@xiaopeng.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Liu Chao <liuc63@xiaopeng.com>,
+	stable@vger.kernel.org
+Subject: [PATCH net] nfc: hci: add bounds checking in nfc_hci_create_pipe()
+Date: Sat, 12 Sep 2026 19:57:20 +0800
+Message-ID: <20260912115720.530715-1-liuc63@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3cbaac3bee23f8ff3a3284ed32d347696eb1d208.1788841683.git.rakukuip@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 09, 2026 at 01:19:24PM +0800, Ren Wei wrote:
-> From: Luxiao Xu <rakukuip@gmail.com>
-> 
-> Commit 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by
-> nfc_llcp_find_local") attempted to fix a use-after-free (UAF) issue by
-> invoking nfc_llcp_local_put(local) after accessing local->gb. However,
-> if the reference count drops to zero, local is freed immediately,
-> leading to a use-after-free when callers access the returned pointer.
-> Alternative approaches using dynamic allocation (e.g. kmemdup) introduced
-> memory leaks because callers consistently treat the returned pointer as
-> borrowed memory.
-> 
-> Fix this properly by refactoring nfc_llcp_general_bytes() and
-> nfc_get_local_general_bytes() to accept a caller-provided output buffer
-> (out_gb) and its maximum length (gb_max_len). The general bytes are
-> safely copied into out_gb before calling nfc_llcp_local_put(local),
-> ensuring safe lifetime management without ownership transfer complications.
-> 
-> Update all callers across drivers (microread, pn533, pn544, st21nfca,
-> digital_dep, and nci) to provide their own destination buffers and pass
-> them to nfc_get_local_general_bytes().
-> 
-> Fixes: 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
-> Cc: stable@vger.kernel.org
-> Reported-by: Vega <vega@nebusec.ai>
-> Assisted-by: LLM
-> Signed-off-by: Luxiao Xu <rakukuip@gmail.com>
-> Signed-off-by: Ren Wei <weir@nebusec.ai>
-> ---
-> v3:
->  - Include <net/nfc/nfc.h> in pn533.h to fix build error in uart.c
->    caused by undefined NFC_MAX_GT_LEN.
->  - Restore nci_request() in nci_set_local_general_bytes() to preserve
->    ndev->req_lock synchronization (avoid unlocked __nci_request() via
->    nci_set_config()).
-> v2:
->  - Use caller-provided output buffers to fix UAF instead of dynamic
->    allocation (kmemdup), avoiding memory leaks.
+The "pipe" value comes from the controller ADM_CREATE_PIPE response
+and can be anything in the 0-255 range, while hdev->pipes[] only has
+NFC_HCI_MAX_PIPES (128) entries.  A response carrying a pipe id above
+127 makes the caller, nfc_hci_connect_gate(), write past the end of
+hdev->pipes[].
 
-Overall this patch looks good to me.
-But I'd appreciate it if you could consider my suggestion further below.
+The response length is also not validated before the cast to struct
+hci_create_pipe_resp, so a short response leads to reading past the
+end of the received data.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+The notification path in nfc_hci_cmd_received() already validates both
+the length and the pipe id for the very same structure; do the same
+for the command response path.  Set *result so that the caller does
+not mistake a rejected pipe for success, which is why this differs
+slightly from the NCI side fix, commit 110b43ef0534 ("NFC: nci: Add
+bounds checking in nci_hci_create_pipe()").
 
-...
+Fixes: 118278f20aa8 ("NFC: hci: Add pipes table to reference them with a tuple {gate, host}")
+Cc: stable@vger.kernel.org
+Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+---
+ net/nfc/hci/command.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index dc65c719f35f..24cf212bf3f8 100644
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -635,23 +635,32 @@ static int nfc_llcp_build_gb(struct nfc_llcp_local *local)
->  	return ret;
->  }
->  
-> -u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, size_t *general_bytes_len)
-> +u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb, size_t gb_max_len,
-> +			   size_t *general_bytes_len)
->  {
->  	struct nfc_llcp_local *local;
->  
-> +	if (!out_gb || !general_bytes_len)
-> +		return NULL;
-> +
->  	local = nfc_llcp_find_local(dev);
-> -	if (local == NULL) {
-> +	if (!local) {
->  		*general_bytes_len = 0;
->  		return NULL;
->  	}
->  
->  	nfc_llcp_build_gb(local);
->  
-> -	*general_bytes_len = local->gb_len;
-> +	if (local->gb_len) {
-> +		*general_bytes_len = min_t(size_t, local->gb_len, gb_max_len);
-> +		memcpy(out_gb, local->gb, *general_bytes_len);
-> +	} else {
-> +		*general_bytes_len = 0;
-> +	}
->  
->  	nfc_llcp_local_put(local);
->  
-> -	return local->gb;
-> +	return out_gb;
->  }
+diff --git a/net/nfc/hci/command.c b/net/nfc/hci/command.c
+index af6bacb3b..9c8bcb98b 100644
+--- a/net/nfc/hci/command.c
++++ b/net/nfc/hci/command.c
+@@ -225,10 +225,19 @@ static u8 nfc_hci_create_pipe(struct nfc_hci_dev *hdev, u8 dest_host,
+ 	if (*result < 0)
+ 		return NFC_HCI_INVALID_PIPE;
+ 
++	if (skb->len < sizeof(*resp)) {
++		kfree_skb(skb);
++		*result = -EPROTO;
++		return NFC_HCI_INVALID_PIPE;
++	}
+ 	resp = (struct hci_create_pipe_resp *)skb->data;
+ 	pipe = resp->pipe;
+ 	kfree_skb(skb);
+ 
++	if (pipe >= NFC_HCI_MAX_PIPES) {
++		*result = -EINVAL;
++		return NFC_HCI_INVALID_PIPE;
++	}
+ 	pr_debug("pipe created=%d\n", pipe);
+ 
+ 	return pipe;
 
-As far as I can see the return value of nfc_llcp_general_bytes() is now
-ignored. And for a bug fix the approach you have taken looks good,
-as the interface provided by nfc_llcp_general_bytes() is only slightly
-modified.
+base-commit: e6b6078ea1731b05b3b552497b3bce4bf8b014ae
+-- 
+2.50.1
 
-But, FWIIW, I think it would be cleaner if nfc_llcp_general_bytes()
-returned the length, or 0 on error. And the general_bytes_len parameter was
-passed by value rather than reference.
-
-Something like this:
-
-size_t nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb,
-			      size_t gb_max_len, size_t general_bytes_len)
-{
-	...
-
-	if (error_condition)
-		return 0;
-
-	...
-
-	return general_bytes_len;
-}
-
-Perhaps that approach could be considered as a follow-up.
