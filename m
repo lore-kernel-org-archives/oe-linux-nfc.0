@@ -1,75 +1,46 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-196.mail.aliyun.com (out28-196.mail.aliyun.com [115.124.28.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115B62C21D9
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 13 Sep 2026 04:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160CD3E317B
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 13 Sep 2026 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789273598; cv=none; b=PTVb2RKQMtkAl4XkPuhuOk2JLz46J+6ostxkPAWKxzYqCwGKjSt24ol/XSXV1E1snLKcdWizctq3y0gwyKnzmrZQ5DIK/CdLhVai94RfHuSUIDlDEQ+cb6EJ2WTSBsttZ1IHVWbH3mk+vh3L8aaf+93ulKYqYEbictHGaaZIA5s=
+	t=1789294722; cv=none; b=n9OVmBQULwgO8ve94hbfLki/Ui+CAcwsoAemMwz6OTJezTsVOAuHb4Cpn1q+G3Hi5oZZgFKDl2e+5IHazpujGPbLQTiScyujZAJz/olzRiSSm8AcUpaLDKGY9gzM4BrYpJ3F5Awz/LnxqX6FuE4CVcLI8rEizWQy4rcQt63SaVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789273598; c=relaxed/simple;
-	bh=l0EqM8munegQGAWYoLgSWbJr+elV0QzsYM8QaNsLACM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DzVmRUg/MaYQs2VL/ltAjws+JBmNFenfQYxOcl8mhhcgcUkBfNQXGGVyPa1Q8PLqOEcU1WbSBf8BF+J9oos2nU+uZiSjJqNzHcLz+6Gcwr9e3ytHdZI4QAGGOWbBn+dxKxcwnCoV9yZBorBR94ZMv9lNFRCst4gEREi+rQPmpKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIV6yGLh; arc=none smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789294722; c=relaxed/simple;
+	bh=r4wVVkuqRlfIfMfUPDikHgAKFLkUDgQoiT6wrAjRufk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MZLiviJM8OI1ZVUzw2kgMXNQtyQFvKJ1/udLz5IHKU//J9h1AnnSTf2D3M/0CLSzDVLMtHIg7OmMwSo004o5eHA7Ic45lJ1ZuNn7N/gQEZPuMxL/dReEwfTNsv0hnZ1jcxNK9+bZCSsMXf8ot2nYaIiDHczWiQ4UdX2bRaP/1GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=GTMebT4N; arc=none smtp.client-ip=115.124.28.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIV6yGLh"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-5309ce58730so17829391cf.2
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 12 Sep 2026 21:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789273596; x=1789878396; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aWc5ORGBMLSs59eoqsaA5DPnuqtjSJQmTTKP2X4y/Io=;
-        b=iIV6yGLhI5F6CzGu5s2P39+dW6TtGlcUZ3KsnoakBKXWPtoNxQh6MSFbwz0P7qFeC6
-         hnsM02++vStQnlt4AtvsLJnw9DSM2sC5AKLG5W4g+cktbjEuXtSu+GcWVeaKPjddnn/j
-         /7VSC5/GuIUBIJpW45Ldk/RGQdxjCjiKeTX+TPHmgQduF7ccH3hIoCyBe8wl2FPyR83S
-         Qy/hB1UO09B3f8Oijr/p6p/gJyoqAMe/xrKGQsP4NHvzpUNbgSv89vLoks6ptQ1nuyyv
-         xQzNl2RGmZTDLtFUxtN2RR0aM1Rbxr0c+e235ldXXyvHICPxcv3Zw61Y2YswAISzZ31u
-         7tig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789273596; x=1789878396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aWc5ORGBMLSs59eoqsaA5DPnuqtjSJQmTTKP2X4y/Io=;
-        b=WRKK98z+JUpf4X09xXjMh+KQ4de+MFulqOpKrwKUl5sebmhK2oXhIvedjjfrdSwLIt
-         gQD19rzl5S7xhJmchYscw2SzFcHOtTmDjnLvNo39izhauDCfmFXR7sCkf9X/vIVWNRRp
-         lo11TP7kzcMKka5m3KqMZmDc9F/bh3Jfdl7xAqxN8VD5aiJxDCkkOGKCdFlDNeZBs4js
-         8DjdE+1K4p5tnT3NCKjYDj1GAYo2oka15fmDQlzaz6z5U95cp9SGXTOyKsCqkD1ELnMO
-         z0ND1ZRky5exr/L7XQAGFSj4nhBUxrPOw+FeoVqrLvub70TdOjgWqwN9UGAuF766Yr80
-         Z4hQ==
-X-Forwarded-Encrypted: i=1; AKwUvByrxB4x/H2sEOD9g/2iewUTkap6gxbtri/x4GHxS7gbJWx82fYU8Xi1aMzP39Iq7DHZuCtYYBcDdv0YnRU=@lists.linux.dev
-X-Gm-Message-State: AFuF++m4etkPCXGhMLnxwY+Brgfp4Ld5TOBCHhynfOMeylojyclpGGGF
-	PONkts18LxGur7/uszBEtoS50x8zsqrI8Bc4ySMb7USwTeQIrJS5EJQ=
-X-Gm-Gg: AYBFou26kNZ/5eM6T0FmeLbsrJadrlb1D5yAl1LNZsWC/x0KF18Z4JZ6aRcYJ+8euLD
-	foc/vm0wADGG8XVopT5RE6G/3UAjhLc8ZX1HhSbzSN/ejq751foR10HifZAXcXPaAEWpaamnG/B
-	P6V2+lPHFkRFcgiQOfL6FJNodl2H0VNfLAbnzGn4Dx7SvJJT+e2iP51VxaZ/pTMqyPs3+SRJ1ct
-	qvdXIHbh53BncBJAshSUpDzrLfmBE+kwWPP55qNFnBHQPbJ0C1tD3xVGgD4mezsBVotntTvLWkT
-	xNi03Uj2x9Oz4GvQfl6pPnYUUwaP10VDKvYILU9NLiJG2w8wmsKjGuFYQ8FBc2EbJeM8TzRkGqO
-	mwyceLsiLEXTIlZ58gVxGv1MSJuavFxvQicnx1zroDOHT0BE1IuwEhdV5I/hc4G1feg4SHEYGaU
-	qSnOuOUGp14kBrtio7qL55hbmUqLsA69aFX+c0th1y/vl4bK9/003xp2XL9kiO2V7dAf+3XWqe1
-	z3VEnYm6nTYXH3UN0/meWgc1r0aploJd21ynwYhSeBQ1WzvS+hG6D1n6q3siWWn37SVLnfV6aTC
-	3HyeDNXE+L9l1ZNvF5rsPQ5Owy7i
-X-Received: by 2002:a05:622a:295:b0:530:e01d:6003 with SMTP id d75a77b69052e-530e81ecc85mr78423631cf.49.1789273595966;
-        Sat, 12 Sep 2026 21:26:35 -0700 (PDT)
-Received: from localhost.localdomain ([104.39.73.78])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9120f2033e7sm62784096d6.4.2026.09.12.21.26.34
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 12 Sep 2026 21:26:34 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Mark Greer <mgreer@animalcreek.com>,
-	David Heidelberg <david@ixit.cz>
-Cc: Paul Geurts <paul.geurts@prodrive-technologies.com>,
-	linux-wireless@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="GTMebT4N"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1789294707; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=+26ooWuhqZZHzVkkLL0D9UrBlJ22BeeP2IpYkHGQ+/s=;
+	b=GTMebT4NAWh05phjOp1msDhw1NRSyRyd+Qbz7awsR7AtvKrqDtFwaIW+njl/AWF/Dw7xiLMWP+ZyPH2OCjCLMugLWdZYyCet04wqF13bEaGAaahTjsAJ2nxi674jnKtfw98uRw/zzOIj4kuIx8TnwxD/gl4lbs38+NB6OJK41d0=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07882031|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00494777-0.000972548-0.99408;FP=16767890541788292742|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.jCTU3wv_1789294389;
+Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jCTU3wv_1789294389 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Sun, 13 Sep 2026 18:13:10 +0800
+From: Liu Chao <liuc63@xiaopeng.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	Ilan Elias <ilane@ti.com>,
+	"John W . Linville" <linville@tuxdriver.com>,
 	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] nfc: trf7970a: power down on startup RX gain failure
-Date: Sun, 13 Sep 2026 00:26:25 -0400
-Message-ID: <20260913042625.31296-1-mhun512@gmail.com>
+	Liu Chao <liuc63@xiaopeng.com>,
+	stable@vger.kernel.org
+Subject: [PATCH net] nfc: nci: avoid unbounded skb allocation when max_pkt_payload_len is zero
+Date: Sun, 13 Sep 2026 18:13:09 +0800
+Message-ID: <20260913101309.891633-1-liuc63@xiaopeng.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -79,44 +50,70 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-trf7970a_startup() powers up the device before applying the optional RX
-gain reduction. If the register read or write fails, it returns without
-undoing that power-up. Probe's unwind only drops the separate regulator
-references acquired by probe, leaving the additional VIN enable from
-startup unbalanced. The system resume caller also has no power-down on
-this error.
+nci_queue_tx_data_frags() uses conn_info->max_pkt_payload_len as the
+fragment size.  When that value is zero, frag_len is always zero and
+total_len never decreases.  The loop then allocates skbs without bound:
+none of them are freed inside the loop, they accumulate on frags_q, and
+there is no cond_resched() in the loop body.  A single sendmsg() can
+therefore consume all allocatable memory, and on CONFIG_PREEMPT_NONE it
+occupies the CPU long enough to trip the softlockup watchdog:
 
-Call trf7970a_power_down() before returning the RX gain error to deassert
-the enable GPIOs, release the startup VIN reference and restore the
-powered-off state. Runtime PM has not been enabled yet, so the full
-shutdown helper is not appropriate here. Preserve the original SPI error.
+  watchdog: BUG: soft lockup - CPU#3 stuck for 26s! [kworker/3:1:57]
+  Workqueue: events rawsock_tx_work [nfc]
+  Call Trace:
+   nci_send_data+0x1ca/0x6b0 [nci]
+   nci_transceive+0xbb/0x170 [nci]
+   rawsock_tx_work+0xb5/0x1a0 [nfc]
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+max_pkt_payload_len is taken verbatim from controller-supplied fields,
+with no check for zero:
 
-Fixes: 5d69351820ea ("NFC: trf7970a: Create device-tree parameter for RX gain reduction")
+  ntf.c: conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
+  rsp.c: conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
+
+Reject the zero value in the fragmentation path rather than at the
+assignment sites.  nci_queue_tx_data_frags() is the only place that
+loops, and nci_send_data() takes the non-fragmenting branch only for
+skb->len <= max_pkt_payload_len, which for a zero limit means empty
+skbs alone.  Validating on assignment would not be sufficient either,
+because nci_rf_disc_rsp_packet() allocates ndev->rf_conn_info with
+devm_kzalloc(), so max_pkt_payload_len is already zero before any
+notification arrives.
+
+No legitimate configuration is known to be affected.  Where the NCI
+spec does mandate a zero Max Data Packet Payload Size -- the NFCEE
+Direct RF Interface -- nci_rf_intf_activated_ntf_packet() takes the
+"goto listen" shortcut, bypassing the assignment entirely.
+
+Reproduced with CONFIG_NFC_VIRTUAL_NCI by injecting an
+RF_INTF_ACTIVATED_NTF with max_data_pkt_payload_size set to 0 and then
+sending a data frame on an AF_NFC SEQPACKET socket.
+
+Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
 Cc: stable@vger.kernel.org
-Assisted-by: OpenAI:GPT-5.6
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
 ---
- drivers/nfc/trf7970a.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ net/nfc/nci/data.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-index 60883001f..ddfc58c29 100644
---- a/drivers/nfc/trf7970a.c
-+++ b/drivers/nfc/trf7970a.c
-@@ -1997,8 +1997,10 @@ static int trf7970a_startup(struct trf7970a *trf)
- 		return ret;
+diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+index 4253edea5..b549cef7d 100644
+--- a/net/nfc/nci/data.c
++++ b/net/nfc/nci/data.c
+@@ -114,6 +114,11 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
+ 		goto exit;
+ 	}
  
- 	ret = trf7970a_update_rx_gain_reduction(trf);
--	if (ret)
-+	if (ret) {
-+		trf7970a_power_down(trf);
- 		return ret;
++	if (!conn_info->max_pkt_payload_len) {
++		rc = -EPROTO;
++		goto exit;
 +	}
++
+ 	__skb_queue_head_init(&frags_q);
  
- 	pm_runtime_set_active(trf->dev);
- 	pm_runtime_enable(trf->dev);
+ 	while (total_len) {
+
+base-commit: e6b6078ea1731b05b3b552497b3bce4bf8b014ae
+-- 
+2.50.1
+
