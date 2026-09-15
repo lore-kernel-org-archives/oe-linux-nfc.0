@@ -1,69 +1,65 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazolkn19013078.outbound.protection.outlook.com [52.103.35.78])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazolkn19010017.outbound.protection.outlook.com [52.103.32.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0D94CC27D
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 15 Sep 2026 18:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.35.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2434F37C0ED
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 15 Sep 2026 20:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789498478; cv=fail; b=FVpg7zrbBQ14Q6Vlx9sBvct+Grody9/ild1+tos0EqpeSecQ53tbCziAcgI+O3di5uKLUcwOI0T177F+OBVWKlkFPbLYSf1CFbwLt3K4D0sDlJEAJBGEz3onW7hjCyHmTrWcB6Q9mB+d5HW7MUA/eKU+6Ymido0vtH8rRBDIsbE=
+	t=1789502451; cv=fail; b=uBVmdAO2UzHeX9IoYj/XgkVXNbQlv5GO0Ihc6xCKn3PX1bhKYys6OSjdZSLIW8Axupfc4RQXZmeGNZaElB+r2F7YSeq3q1XmbrmRrDYseloxV/Hq6oH8RBm0dzxIGzli8il7tqeJTfISahD+EtHLlKQEQ9UJbhxGKUn37tuQ2co=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789498478; c=relaxed/simple;
-	bh=3g/GJzvqKUMk9j4vL1puMBP0KjCRaSIj4HV3Gr7jTWI=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=tw6FA7tDpAG5tXmWHty+D+DhlxwtwNliIX38yH9UUvuJbfukBGoS5uRV1Ls5XcdsZGPfsS4dYSvf9KRItIDOEESpLfabcOB3XgOlhIRQcXIwjnT5Ti1HWHAcPgUb/zLUC+gNAIUU+WwmCCgYcUmc8Ln0yByHnJR3ttRIF0tw7sM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=EwpvNRui; arc=fail smtp.client-ip=52.103.35.78
+	s=arc-20240116; t=1789502451; c=relaxed/simple;
+	bh=tIdRY2ud2nL8k4HB6XsVSO3VcLXpsziqDNWchZkRvBc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=E6HEE3tGzR/DDdtceCJT1bqXCj2HXns+y8ZU6Ozsm77w1jjxmGHTdndt4zzjz3vklhhsbX+ElNcui3wKBLhuUeEW5xbcpHBPISYcVuF9p0+aDIg2G5sfB/FeBONovuc1xO5/KR+mArB5n6jAbK6cOnyinT+qEj6AgtWvuetyqbk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk; spf=pass smtp.mailfrom=hotmail.co.uk; dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b=dQcakFNd; arc=fail smtp.client-ip=52.103.32.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="EwpvNRui"
+	dkim=pass (2048-bit key) header.d=HOTMAIL.CO.UK header.i=@HOTMAIL.CO.UK header.b="dQcakFNd"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yyA3EjIoI2or4G/lOheTLgmB2dr/COJAewC/EYfFL+1Fdld4r7JIFzYnq+HNBjKoJ1lZ/Zuum1+sfw9QAMWAGhO47N10LZX+wQQrw0CNYDF8YPSX/PrsSg89JFOEWI8Y4RVHNO0nSIXUSesCvUXuZckfy8MfhIVbb0/SDQfHVSqiNC1sgZuh/iOLx68KIadx9X7Ewts7quEnsigsJOSDZdUVPKFYS/IBeDAoO7/gwBte0cI9addQ/e7GKbB9RNi9riCzvhcR7fLXizYzxhF3Gbcsy1HitdUlzgxSx0o4R6zat37+y5ysC1EIhqV8MfIxjxkjB0HFi59JanIK8JChFA==
+ b=kD7U/wY4OjsJitsJXo4SJcT3INsEL84Ex+XhkJcoX9XY12OeFxLzC6LllW89/qGfxaL0nzgOGMH/aHPETg3CD86woKffvu7X+g+dGN8uxOYdH6nEGC1BauVJ+q0geQMmfXNsdWePPfSe4Qe8n80Pm/wN+5GtOtC8QELpPXvMOYMB0Z9NLXhx+4Ys7wC21btVS80JYtCUiF7JLy4PBQ7pEniQtAA9Td+ZHQQ4IIYfkEWtCIvfzWC0sPWLjS8SHjCZbXe8bfOLBTiNr7uzIiWZHjiOwIcz1UIFpbQ9UqMAc2evwBfnqwDKXe9/68sxp9Sn1vu5pv7WJ+Dlbm+mXt3Umg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IozRiobq81BxsL5XdhKZrOBqQX4kW8gz8BLCjX3oiwo=;
- b=kNXyA/TNhNuzG8j2eNAgAs5k0bLQUx3OKt78vOwjSuXekywbbG+e5iRd7tv9RVVxaBeVyRyofyKh/k052C9qYFnb8rT6pBUZ/B1LwITr8zjBddLqKlFX72hukACivNS6gCxtaPM1Wkf440w3GOgzsAvclKy+vIM3wMXwf+VEwWqN6lRtF6BPDRVGLp86RsWzfEFH/95JW4oM3/kdijLQ46XyNYLGmODAR+zXctwMFVYkRxC5D0iC5qPYi0axEhUnMLiIQ/Slr85GImf7Hkp6OEBch1aynpnPB84uPDADJOtwLYZmFoK/a3+qPnbYyVBPkqfBrG1JK+qlxZIIkKIAZA==
+ bh=AEI7mZYvFzPlGnKyocewi7ZGxtJlFLmi0nc9uC1npDk=;
+ b=Orc2JuxpC4pdDkNACVo0/nd3a+jP4Oh+TX4zCmq6cuo6B4cea37OJX1A722QI42tM30ItujUPWtL7RiCRpDlEyeEpwd3ZDS4Fjavte15jbNK0uvTgQdTUEd/U+IjQG7kaC3RXMdR8GKwL9H+yNM8mo8rYaP+DnJWxdSWEVJ4jPQmGO5ALJhlDQfLTGorB2uGBqYhQCG5nDvgSFVdXOEKuI4xW4AJwDM0WTXqqAz8Nrys2xWPrq9Tfwzqj0tZ8XyLnC3oXyVAguSo7R/JvZ5Uv0EHnjxDDRUdv9slq9YLUqKIaUNFaxc4TGTVYcr74twmfIigiN+3mLdnRgGteEqMuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.CO.UK;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IozRiobq81BxsL5XdhKZrOBqQX4kW8gz8BLCjX3oiwo=;
- b=EwpvNRuikkMhsWaMC9H5sDIz5g4Ln1CPdz4GupKmdZ/+sgM/H3ajUhsAXHSTwatfC4V0DyCwXMrxRRc77RY5hNtXSgFEtIIztfq+cwzZ+siUJZ1FDQwV1qGdoYpv+2LTDw6/QCS7SWyQ1/0hDmSxFtwTj6862MQNsbeRq1PfbKSCst++fY+1oDBud00oJPG0T8Dwm2XIM/HoNCfKJoMbQycYxA0fwrinQ8wYYzYlhGMPFWDmqHoBQ7T7UtEgjOJ15RMPvqIHc/0fZCgXFjMY0bnVc4pr6o8Yf/xMiEzPiDdRFSRusErFD7WdcWVRmXg7LNn7ip1H4rKcDuthUwYYAw==
+ bh=AEI7mZYvFzPlGnKyocewi7ZGxtJlFLmi0nc9uC1npDk=;
+ b=dQcakFNdUa50z1ieOJwf2wsLCmg0maPn/xAM/Z/lI30177PPf3hkPHDBjtOR7T+pFp0cv28nOha27w0F2BBxQ0r0H3ClVUiLtPKT19vP8v1ERFyjLlF5X2J6cwf4P+EdOWCaJAdnT5AcqwMLn1fG0ssSCm1B01UhueKCLxo4GqtmMFScmNoNwHNZ0ddlsoYswt5vSZNo5x4UFb80qZFy4nEU17r6MgYzXBCEAkR14/GiVaQRO7vDTDLxn2ISBO12lFuVtjGU4p3U+2Kz3SRrpDvpeGozhF8NqlPJcVdNvuYaaJYM+LBHr3jcvjoLda6C2j7OVr1PbzV1ExjooSYZ4A==
 Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:344::22)
- by GV1P251MB0954.EURP251.PROD.OUTLOOK.COM (2603:10a6:150:9d::10) with
+ by VI6PPFD881969EE.EURP251.PROD.OUTLOOK.COM (2603:10a6:808:1::168) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Tue, 15 Sep
- 2026 18:54:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.13; Tue, 15 Sep
+ 2026 20:00:47 +0000
 Received: from AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
  ([fe80::2952:d4d0:4ba:8352]) by AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
  ([fe80::2952:d4d0:4ba:8352%3]) with mapi id 15.21.0428.008; Tue, 15 Sep 2026
- 18:54:32 +0000
+ 20:00:47 +0000
 From: Aamir Ahmed <elb12345@hotmail.co.uk>
-To: David Heidelberg <david@ixit.cz>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	"John W. Linville" <linville@tuxdriver.com>,
+To: David Heidelberg <david@ixit.cz>
+Cc: Aamir Ahmed <elb12345@hotmail.co.uk>,
+	linux-nfc@lists.linux.dev,
 	oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aamir Ahmed <elb12345@hotmail.co.uk>,
-	stable@vger.kernel.org
-Subject: [PATCH net v2] nfc: llcp: drop truncated I/RR/RNR PDUs in nfc_llcp_recv_hdlc()
-Date: Tue, 15 Sep 2026 19:54:27 +0100
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nfc: llcp: validate PDU size in nfc_llcp_recv_dm() and nfc_llcp_recv_hdlc()
+Date: Tue, 15 Sep 2026 21:00:43 +0100
 Message-ID:
- <AS8P251MB0001789BBF04B72745C7D96BC8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+ <AS8P251MB0001E064CE83252EED1B5D87C8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.53.0.windows.1
+In-Reply-To: <AS8P251MB0001E8602F36054CDD8979A2C8B32@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+References: <AS8P251MB0001E8602F36054CDD8979A2C8B32@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0316.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:390::20) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO3P123CA0018.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:ba::23) To AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
  (2603:10a6:20b:344::22)
 X-Microsoft-Original-Message-ID:
- <20260915185428.11326-1-elb12345@hotmail.co.uk>
+ <20260915200043.12442-1-elb12345@hotmail.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -72,139 +68,101 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|GV1P251MB0954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ca78685-6175-4bc2-de2e-08df135ac74e
+X-MS-TrafficTypeDiagnostic: AS8P251MB0001:EE_|VI6PPFD881969EE:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1081354-eb69-4d4d-c5bc-08df13640874
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|25010399006|6090799003|25031999004|5072599009|19110799012|4140399003|12121999013|8060799015|24021099003|23021999003|41001999006|15080799012|55001999006|5062599005|37011999003|51005399006|4302099013|440099028|3412199025|26104999009|1602099012|40105399003|2607281247196008|10035399007|1710799026;
+	BCL:0;ARA:14566002|23021999003|15080799012|25031999004|12121999013|25010399006|37011999003|55001999006|24021099003|51005399006|8060799015|6090799003|5072599009|19110799012|40105399003|2607281247196008|1602099012|10035399007|4302099013|440099028|3412199025|26104999009|1710799026;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aWFabDRTL2VTdU93M00xdlp6U1Yvb3VmTlZDZllzalQzMEswdTJMQXY4N2x3?=
- =?utf-8?B?a2wwcy84WHJTbGVoUyt0eGR0cjFJWFcyaU85QWNXak1KYS96OG1YMlpHcVNs?=
- =?utf-8?B?ankyZ2lGMm1tM1VSNTFGVDdhWlVQeUp3Q1pPY3A4NHVBUUE0RFBTbkd5ems0?=
- =?utf-8?B?QTl3MDFBbjl1T3YvUkoyRmpLbkQ3THVUMlFKZTdNMGpxR1pNN0JrUnZOdWhQ?=
- =?utf-8?B?YmoxRW9SeDF3bFBDL3NtT2tmc0dYSmNZQlFVMW1UZjYvMkNBOW52RDRHdHkx?=
- =?utf-8?B?SWl3T2NlM2tKdCs4S0FpNzRGdWR1Rm1UQm10RDdwKzZIU2FVcGRHSVBKTjhv?=
- =?utf-8?B?TDFOYVJxL1JxTmlKN1JJRVgrMURIUGlydzVQL3ZSMVA5a0hIVjNHSFRTcFFt?=
- =?utf-8?B?ZG5Kb01mbTNpeTNndnhCMXNCNndmYWJqNityV1Ura0dIYlVuMnVkbWM2SEtO?=
- =?utf-8?B?aVQvN2pJSHBLKzhhQU9BTUFxOUgrU0VRVlJqUjN1ZXlDZW5zSnZyTEp0Ly96?=
- =?utf-8?B?V3VRUW8zVUloeHk1dGpkaUdLb0xPWUxGWGFFTUl5bU9NV1dkYmR0VTM0aFps?=
- =?utf-8?B?RUo4UjkwQytpOUZjMXM1d0dicnorOWpJMzBQZnNFa2RrQ2dXYmdFekJtT0xG?=
- =?utf-8?B?d3dReFdpM1ZZYWNvbjVacjY2Q0diRnFtY0x4QUlrVE5lSGFPZHEvVDl1KzVC?=
- =?utf-8?B?Nk1pVmdnZnBJTTJOUCt2YlNZNlVMMGpUSVlqb3pSaVJjQk5OTEtCU25abDNZ?=
- =?utf-8?B?M1VqVERKM3JXTWZPYjl4VjJweURzalBkeFN2RGNIN3g2VGdFcnJZcXdTM1R5?=
- =?utf-8?B?alMrWUdZcDgzazc1Y3F1YmlBK2Foa0ZvblBCQTRGU25uajVzWWVxK3R3K3A1?=
- =?utf-8?B?VzQ3QjlxdzA0ZkU5c3Btc3AydEVRaTJlRFFjd3c3OGtWcTVObE1BTFhCN3NN?=
- =?utf-8?B?REk4RFJxdzF6YXVZUUFqbGNQZktsNHVCemlId2dJVzl4Q3JpdUdKMDBxdTRv?=
- =?utf-8?B?MnFid09idXdLaXpJRkFJNXUzYnlXcXgybUpJOWxvOExhMzhIRm5kNnhqdWFW?=
- =?utf-8?B?c2dmY2xIWGFTaDc1RXVYckh4T0VXSURyZ21ncHhYWURuMExkeHpmTFk3MU9s?=
- =?utf-8?B?RHJyZTM4YkR0bXd1ZlVlekdIR1hnU09QSlNjaUNvQW8yU0d6ckhlN0JWZlN6?=
- =?utf-8?B?SUx4V0hKTW1BMzkwN1gxMWVCVHhSa1llOGNrY2xFaGVkZVJ4Ymh6Y05sQ1hU?=
- =?utf-8?B?ZzliMXZNODVZZ2szNjUvNWQ0dkQvOTQ1ZVcvLzhxUXVTOTBmaWZFdXRVN1Rl?=
- =?utf-8?B?WFI4Rnd3c1JLTmpiZzZ4Qmw1dU81MUM2SWpuUlVlREZKTjgybUI3V3FLZDVF?=
- =?utf-8?B?T2syY3JYVTNVZFA4YTRoZWl4cWwzWjV2dVp3bGw4OGZPVUdvbVF5MmtUSW01?=
- =?utf-8?B?T2VHTndGOFJBVnZuUzlLQXE4K0ZlVm9UeVorZnEwY0JXTmNrMW1SQnpwWmJ1?=
- =?utf-8?B?VnNWTXg4NTJ5QkswTjMyRGFWcXdSd1QzTUVzdlppMS9DWGZ5SXJJK0l2SFRK?=
- =?utf-8?B?a0tyMEZ5ZVlyR2R4UzVRQ2JSeUZRYTdsNEpuV0I4OXJuWTNMYXdyUHpqSGli?=
- =?utf-8?B?RjgvUnVWYlJPMGpwTWsvcWE2ZnJTNjI3SWlNSVBkSWM5MUdjYjJmK1dDbTRH?=
- =?utf-8?B?eGhaNmlCSzNhL2FIQ0hkVVBycDVHcjZGOHNLcUJiMnVCUkhhcnNESllRPT0=?=
+	=?utf-8?B?cmVkTU1pMkdjL3ZoaS9VUkROdURsUkZhS0lEZlBDOHJyS0VMRW5mZjFNdGMw?=
+ =?utf-8?B?d2hmVUVoUkVLZmlVT0xEYkJpSVpBV2xHemM3enM5dXhEN0cweForTXR4UXhX?=
+ =?utf-8?B?ODB3NWVmaURtV2hxNWdwajhyWlJDZFVqUEJmZko3Q2VISk5vSVgyakZnb2to?=
+ =?utf-8?B?Q3JWY1JleEw4aU9UaDhGT2tZRGd3TlljQWk0RG5EemlQS0NvWEVYbkVMQjhC?=
+ =?utf-8?B?clFPN1ozMXJlWDlpcHJaelgya083UEVKL1RlQjNWQ2ZEdUJjSUZhODZ0VkZr?=
+ =?utf-8?B?amt5UUF3TVA0ZzQwZWRoZGtLQ2RBUTducWhQbFV1cEpDa1puMEFMWWlTUkVy?=
+ =?utf-8?B?VFFyVkRPcnhuQ2Z1NVBxVlRLeVR5a29EMTB2STR6NDk5OVN5U09md2hwQ3ZR?=
+ =?utf-8?B?MytYYWlkTW1Ga1ZQM2ZQb0lIZ1JXOVNMUXdCUWNjTGpxK0t5dDg3WXI2enFJ?=
+ =?utf-8?B?L2JvMUZTZE14UU9ZQlBnOTVhVVFTYUlHMnBWbUVEOVFyWERNa0VlODl1S3dV?=
+ =?utf-8?B?MGdVZmNRd0hMUGFlNkZwVG4vcHNHejFJR3JpbWlUTWU1MWhHQWtzYUM2MGRj?=
+ =?utf-8?B?R1hnb3g4Q29yYjZOUWFjNjFxdWd0bGkxUVp6MDdzcWp4Z3dSTFZDTCtpUEF2?=
+ =?utf-8?B?QnY3NkFNV2YvVjAzUTZOdGhyTjg3VFJSLzBhd0ZieXVZNi9HckdzM0ovQTlx?=
+ =?utf-8?B?MzdaVXRkZy9xUWFrR1E5eGpJRVpRMkRQVGlQbXRvOW0zdzV2Wlh1QWhXOGsw?=
+ =?utf-8?B?SmUxL1pnNWdKcmZ6bng3ZnlDbk96T1NBT05qN09HSDk4Ny9oNEQ0ajRuSWU1?=
+ =?utf-8?B?dWU0WmZvejZoVW0vUFZ2QVcxaFpZRXZESGxOK0NUTzUrWGNweml0bk1GSUJR?=
+ =?utf-8?B?bUtVeU5BTXZ6OWI0KzdGWlE0djZvaXR3a0NISlJPeEw1Q3djRWpwT2J2b3Rz?=
+ =?utf-8?B?S1J2ZHhpaGJENXlEcGRYTG56UFNSUUtSMm0rRllYUWlCM25DRVNPaGsvWXZX?=
+ =?utf-8?B?dkxiTC94RE5PVlBtTzllMXlBQkh5QUZzMVZibWU0VVI5TnB1dVNLZHdLdWs0?=
+ =?utf-8?B?RHYxbFRNL1QxcUFGcGRoL0tGN0d4QUw4MzFzWFhRYnhIMWFKZjNmSjQwQzFo?=
+ =?utf-8?B?d0I3Ukd4Rk5teTdieU5BR1JZZmQvQmQ2bkRCdDZnZ2hUM2FDSlQwRFJ3Yjht?=
+ =?utf-8?B?bnA5TmRESEdaY0J3UTMySzJxcG5wcWhXU0tFL2FzYmxXMXkra1VxMGZSbFJY?=
+ =?utf-8?B?Zm5jd3FoN0x3MzZaV3lLWFYvWE5TWEUyYlNwNmR3STJHTVNoOGlWNncwb3Bs?=
+ =?utf-8?B?c3J3UXJCajFNWnNVV1lBb21TdWdydlUxNU9WUVVvWDZzbEtFMm1vdGVOMUl1?=
+ =?utf-8?B?VVNZdTI5aUJIeVd4Q0lndDNHTlRSaDV0QzVYalQ5UTVQRUFyZC9iYW5WekRX?=
+ =?utf-8?B?eHlhT3pscW9JSUMvSjFCaTlGZVBSREpFajRlTzZnTUcrVnN5ZGVuQmFqb0FL?=
+ =?utf-8?B?dVVIRktoRDZlK05UMlExSnUxd0xWRm5pVUdXb3NUaWhuM3VIV3AwM3pZcmo5?=
+ =?utf-8?B?Ym9HYjMrekhwcmNRVTBpZ3dJRUZiV3JHWkduMHFZT1RqejFaNVNBT1BVa3l0?=
+ =?utf-8?B?bDdmYUxlb1lZSzBUbFVIb016bERpakE9PQ==?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ky9JcFpXc1c2c1lZSDhXdUJsMW9zTk92bWd6QnVSaXJ4WU9xdG9UdXpvc1p5?=
- =?utf-8?B?KzBiSUo2YmZjTElmT3NxSGR5SWFvVjNIYWx3eDR2ZS9zeHh6U2tzK2ZJSjJk?=
- =?utf-8?B?L1Rwd1VPMExnRC9wTFNCc0hJb0E5TC9EZkZvSFBwRUh0dTNUMk5JUVVFTmZ6?=
- =?utf-8?B?NGpoZXEyM0tOdzB1ZFhqRzFTSEM0TU1KdVhvdXlKUm5seWd4TnRraTRPMlZO?=
- =?utf-8?B?dEhXcm5lZE1UdzJyZFQyMitjcUZZWW9KZTJmV21tVno1S0RzV00vVGxyNHFQ?=
- =?utf-8?B?Tm5Pcnl1ZXlRYUFmdWF4WUNWTXIxaVVCUnNUbkxNWENPb3d3SktUL3VJUDYr?=
- =?utf-8?B?czdRM0orR0paWWdTSVpJSW9YM0VkY0E0dG92aUgrZXIxSnZPb2lldXU3cThk?=
- =?utf-8?B?Tm54R2twcUxqcHR2dEZWenF0Mjd1VC9QMCtDZjZIQ0E2ZjBkMFQ5TFd5L1hw?=
- =?utf-8?B?UHY1bXhGZUFhSml3eWtTSG1uWTljNllEY2RReG1CS1ZQaXljQVVnSkZwS0pF?=
- =?utf-8?B?dDlpaXBNK0pnaEhQam1pM1BwZkdDS3BJcnJLVm12ZkRoNHdrV08wbDdkd0JC?=
- =?utf-8?B?VGJhbHNKb3Z4b0JWS3pFRTRaYitlYkZyYnV2S0NFSlQvNVBYSFV5VFQ2Zllh?=
- =?utf-8?B?R2hyeCt6NkdnWkxIODJScURsV1RET00vRzllSjU3MjdQSDVWVUI4K3FkMThN?=
- =?utf-8?B?YnFPM3E5TkdIYyttaXkwQnFhMW1xWVJYMkZreXVZVGdhdU9WdXg1eUJRR2Qw?=
- =?utf-8?B?TkVLenFuR0xUYTkrNVcrS2pUTnBmVG1tSkZ5R25FdmFheURFWkhpa3Q4eTVQ?=
- =?utf-8?B?eEw5SEcvdVAxbDlTYjdXRnpOV0VtZ1BCSjBLOXhNVU1UUURQVmxwM1Q0WVhl?=
- =?utf-8?B?MjVIY1dMWk1yVGZXdDIrRFJHakdOeUhGbVBHUTU1cVhuUEVFbjQxb2dGWkg3?=
- =?utf-8?B?RVQ2dTFoWDJBRUl2TTlCWFE4ekxvZHVad2FPWktyUVZyaXBoL2tySmtyQmJW?=
- =?utf-8?B?SGZOdGFORUNWWjhQUVI0WlN5RTltWjZ4TWszUFR5RzlJOGNUUmVoQXBkSk1k?=
- =?utf-8?B?VTJETHM0MXlMSVNFZkRYN3c3RFNML2YzVnBFVCtDeTUvby9tMDhOd3dSMTRM?=
- =?utf-8?B?am9qUDhQU0ZIOURhOHFZOWJHM3pwVHhTMzg4YWowb0p4bFVRSkdVUGtLa3Zy?=
- =?utf-8?B?YWNFZkFtd0NVem5uNXNScEhjbnI1cFdWeERjbjZVdldZSlNFci9USlF2SXFW?=
- =?utf-8?B?Ni8rSWxrMjNmMkN3ZnkzbG5OTklCSm5KR25NWk9Wa1Q4NlVXSGZYclprU1Fn?=
- =?utf-8?B?ZkEveWd5TlpCaFZLZ1lTMkpaSy9TMkkzYzJsQVhwL1paTStuZTVzdjBFTHlp?=
- =?utf-8?B?VzBuczliK1lHMXZ0S1hnOEJJYW4wc3ZRczltS2RhbnFpZGJEZ1ZlNG5GZ0ky?=
- =?utf-8?B?eTgza0J0QWUyS1ZLc3VCQVB0ZUZ1Zi82Ymg0eG1JUlJ6N2R5YWRXL0ZkSFFo?=
- =?utf-8?B?Q3J3SUFOZnptRnUzN1ZPSy8vN1NGUFJBU1BiWjFMV2ppNFc0UmV3Q0dWN0Fz?=
- =?utf-8?B?M2xBUDBsY2lja050NmJIOFhRN3lVWmFkM1VtVnlRc2tPZWdRRVR0dUk2Wktn?=
- =?utf-8?B?dGlSLzFNSUpYR1RCaGdNRHNSS01DdWJEaEMvZ2RSRFZudzdRN1VwdWl5NHdP?=
- =?utf-8?B?RDRmZ0VXSHRRc3V0WWhjWHk1N3FKbTlrVFo5RHVPL0lEYS85ZjNWVnJhMjJp?=
- =?utf-8?B?eUgyYjNtSHErQ2tGUTdwWlovQmNOb1ZMZmNienRkVTN0azVWOFFRL0cwek5j?=
- =?utf-8?B?aGUrK0dDS2dKaGg2enJabGdvOXJEbTJmSTFvSjY3djllWSs4RXRob3AxRzFC?=
- =?utf-8?B?SCtIQlE5RFc0RzV3L29YQkIvS05PZDdNQzZIWVpwSHhRamppb0thRU9mYko2?=
- =?utf-8?Q?YCgyNdotjwIE0SKQBZGWMMxIQdMPDN8q?=
+	=?utf-8?B?YWxJZzVac1VYRXEvNWc5UFNnUGVvVDdOQ2N5cDE5ajM3T3hrQS9FU2xyTnYw?=
+ =?utf-8?B?ZFRzSFM5Z0ZSQ1QybnQwS1VjU3JwR1FLcURvdUFyQkFDYk0vZGhDMFhrK25y?=
+ =?utf-8?B?Ylk0bHJmOTB1SFdzTjN5bkFSTDY1U2FiaGtMeUlRZXFkb3lZMFZXVHMxQU1k?=
+ =?utf-8?B?b0N1dVkvMXRPUCt0NEx6dFlMV083dkNERzZDQTA4TnJZVjdyMkU4ejNlMmFR?=
+ =?utf-8?B?ZEM1TURxeko4cWZraXpYWWtDcktIMExrdjZ2b1JJRW9UeWs0OFl2V291S2VQ?=
+ =?utf-8?B?Z1k0Sm0weEw5WGF0Z3NwTTVZUndDd1VKSXpiQ2x1eW9Sd2x5NzF6VnRWSmor?=
+ =?utf-8?B?NTlmMlVYQTlhZGE5TW1vbGhaUXVRS1JIdEgzT0I0Rk9xOG5iRlJWMzlBQSsw?=
+ =?utf-8?B?NVI2bkxhVmxRcFNlR0VJMzhZVEdPRERDUjlabjBGUjkvdTExNVpSQlptdWVk?=
+ =?utf-8?B?eG5hZDFTZlZqbi9iUGhKRXlCSHMvNHNoeWw5c0hlcFRIemVHQjkwcWVNVnRq?=
+ =?utf-8?B?c3ZXbXRHeUNOZEdnMjQ1cFBCcytoNEVGa1lqY1RKbnUxdDZCZDdrTHM5SjVS?=
+ =?utf-8?B?OWNjZjMrVFRNSTlEZ1IzL0ZRYkVvSjYyZFZJa0MwV2o4ZmZIbWNZeHhHd1Rt?=
+ =?utf-8?B?NG1ZN1VwM1Q0V1Z0TlFaNXdmTmhGVWJ4QWsyRzFLTmZ3S1VRRzBkOTlYMWJz?=
+ =?utf-8?B?WlJSSVRKSWxndXZ3SmRVUXNndDhIQUVrS0Z2bGtxWEk5QmdVdmF5QVJYVnRs?=
+ =?utf-8?B?QS84N05hOWRPMGE3S1Zzeml6U1czRE0zM2ZBVklrVE9vbytsTDNZb2xjVUxl?=
+ =?utf-8?B?MnliNk9OdGtPTmduVVU3SWdSQ1k4QUdvOUZ1czJjZERsbS9qNENxV0YyRmk0?=
+ =?utf-8?B?WldFN0krSWp0TXdZSUFaNWVXOVowNjBWSWFZZ0drRmtuSWtwNjFGMEZVd1po?=
+ =?utf-8?B?aEFneWJVcGpybTBrYU5xRHlZYWV5djIyRWtDNStXWTc0M2U0ZDNPTjA1TDRS?=
+ =?utf-8?B?Z0RZbkdNejNKcWFackJSWnFCTUZZSGp0dHRiSWdQWkVuQ1EvR1N2cDJkOE9X?=
+ =?utf-8?B?QkpBbzJKWDNadEQ3SlJTZWp2NkVKdmw2QUJnUkE0bEdONnFGdnMxNTBud1VZ?=
+ =?utf-8?B?WGNyekU4bTNrYTVPMlpGRC9kVzJZRm1hVGhQQ0ZGaDJPYTVBd2VVUFJSM05p?=
+ =?utf-8?B?aE82MVdKSlNVVk84b2plZVJwNU1jQzI5cnpwZ1FTNFQ4SWhiRksyYlBtcDRS?=
+ =?utf-8?B?TTBocXNxMUhNSG1GMEJDalRHei9vb05JaEdxMG5Zb00ySFNvbnNtSTZTN0I3?=
+ =?utf-8?B?c09kamZ3ZFk1dkkvOCt4aVdMN2xad0Z4MlQ1SkFzbGdtM3FYK09TaEI5UFRO?=
+ =?utf-8?B?KzV5NjNkTC80QTVTZ2Npd2NDZ0JiKzR2MFE1OXM5RmlTSFFWRjloZ2N6VGdj?=
+ =?utf-8?B?K2x4Sit4VUFtS0JhVytNQlFNK09LRm1Xb1JBaFdrZkpIMjFjRjBwRXNIVHla?=
+ =?utf-8?B?VVBkMzdwOC8vNE5uMUE4YVBhdCtuZ0lJaWpwR0dUM3V1ZnEvbStjRmZUQ0dq?=
+ =?utf-8?B?a01ReVpQcStOVk9ubEJ1QTJNeUhhT0dHdzR4MFhqUGx2NDJzeWFQNWpnSGd6?=
+ =?utf-8?B?RFB0bXpIWjF0R1h2ZmFPUWVQaUg3a3U4U0JId293MjhIakJ5dEFBcURZZ1RH?=
+ =?utf-8?B?cUk5TlJhSXJEZlZ0aE1mWVNEcUIvMDh3dzEyMTRPYmswbGprREQxb3JZKzJQ?=
+ =?utf-8?B?QXZ6M0NqSDlUd2NuUFRGaEZjcnZxcm5qb2NvSWR5S28zZ3M5NTdFNm5STndU?=
+ =?utf-8?B?eTlYMFg0UnZSSlpKaUt3d3QvemY3TVcyWmVoQnRvcHhqaUNhdFU3WENBa2dH?=
+ =?utf-8?B?SkRrR2d6MkI5QVdBUFhqOVVpZVpmWG82cmVoMmpYWnh4eE5DL3BsNWRneUdH?=
+ =?utf-8?Q?5qF3oLoUy0/4EkZP+VhTqd3i3/frSVHX?=
 X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-fe3f5.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca78685-6175-4bc2-de2e-08df135ac74e
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1081354-eb69-4d4d-c5bc-08df13640874
 X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 18:54:32.7746
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 20:00:47.3092
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P251MB0954
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI6PPFD881969EE
 
-nfc_llcp_recv_hdlc() reads the sequence byte skb->data[2], via
-nfc_llcp_ns()/nfc_llcp_nr(), before any length check. The receive path
-only guarantees the two-byte LLCP header -- __nfc_llcp_recv() checks it
-with pskb_may_pull() and nfc_llcp_recv_agf() admits two-byte inner PDUs
--- so a two-byte I, RR or RNR PDU reads one byte of uninitialised skb
-tailroom. The byte becomes N(R)/N(S); a peer can already set those with
-a well-formed PDU, so this is acting on uninitialised memory, not new
-peer control.
+This version is superseded by v2:
 
-Guard the read with pskb_may_pull(), as commit 95674f506c63 ("nfc: llcp:
-reject PDUs shorter than the LLCP header") did for the two-byte header,
-so the sequence byte is present and linear before it is read. RR and RNR
-PDUs are LLCP_HEADER_SIZE + LLCP_SEQUENCE_SIZE bytes and an I PDU is
-longer, so no valid frame is rejected; a truncated PDU is malformed, so
-return without a DM reply.
+  https://lore.kernel.org/netdev/AS8P251MB0001789BBF04B72745C7D96BC8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM/
 
-Fixes: d646960f7986 ("NFC: Initial LLCP support")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
----
+v2 narrows the fix to nfc_llcp_recv_hdlc() and drops the
+nfc_llcp_recv_dm() hunk, which duplicates Lekë Hapçiu's pending patch:
 
-Notes:
-    v2:
-      - scope to nfc_llcp_recv_hdlc() only; the recv_dm() half duplicated
-        Lekë Hapçiu's pending fix (20260729011547.19191-2-snowwlake@icloud.com)
-      - return silently instead of answering DM(NOCONN) as v1 did, which would
-        close an established peer connection (Sashiko)
-      - guard with pskb_may_pull(), matching commit 95674f506c63
-      - add Assisted-by, target net, Cc the right lists, reword the changelog
-    v1: https://lore.kernel.org/netdev/AS8P251MB0001E8602F36054CDD8979A2C8B32@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM/
-    
-    Built net/nfc/llcp_core.o on v7.3-rc1 with KASAN and W=1, no warnings.
-    No NFC hardware; not runtime-tested.
+  https://lore.kernel.org/netdev/20260729011547.19191-2-snowwlake@icloud.com/
 
- net/nfc/llcp_core.c | 3 +++
- 1 file changed, 3 insertions(+)
+It also addresses the Sashiko review: it no longer replies with
+DM(NOCONN) on a truncated frame, which could close the peer's side of
+an established connection, and it uses pskb_may_pull() so the check
+also covers non-linear skbs.
 
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index cac1b54..c553123 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -1074,6 +1074,9 @@ static void nfc_llcp_recv_hdlc(struct nfc_llcp_local *local,
- 	struct sock *sk;
- 	u8 dsap, ssap, ptype, ns, nr;
- 
-+	if (!pskb_may_pull(skb, LLCP_HEADER_SIZE + LLCP_SEQUENCE_SIZE))
-+		return;
-+
- 	ptype = nfc_llcp_ptype(skb);
- 	dsap = nfc_llcp_dsap(skb);
- 	ssap = nfc_llcp_ssap(skb);
--- 
-2.53.0.windows.1
+Please disregard this version.
 
+Kind Regards
+Aamir A.
