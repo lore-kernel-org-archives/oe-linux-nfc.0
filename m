@@ -1,234 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F8946D0B8;
-	Tue, 15 Sep 2026 12:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789474852; cv=none; b=Uiy7xdIeQTlJHXBEP06Myk/1Myr/l8rM2k/SwcnZTnFYyNwAdanXiVDQlDNvcKkdW7vjtUvyyjEM5pdwEO+wAMa7GZmd311J62Os9sGDkJOK1ZCtTOWcmgBRiLCHlXJZjJAlrkW3erGM72RPuYY3znVjj//MMTJAb2y7Vf3RI+g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789474852; c=relaxed/simple;
-	bh=OBZ6tYCjoCzQR69kl8GIIzWBrngNn/CUNFzlE3260KI=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=psTw+9AtjXpYAeYokgn6Nya6Lp191cVMrAV0Tk5VK0wE9ne+YyEABvX/OO61xjyhUNvfQhCbVda8jdbNfvu1uvCKzoTm585pU7fkg/UtYuQ/o9TQllOsRyC4rIBYmo7ms8djxTgxmeESqIPl+q9Wfw4sBA0L0PSIIa9HvH/ovGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5noZ9Ow; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CDA43990C
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 15 Sep 2026 12:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789476965; cv=pass; b=C4uQrxOvfcn27II0+vCYZ7G8HqwcSoXyU3il5LgCv4X/FlcnpUGMcNp3KPmysjrAb7eUXz/dfiKzenxyRU+cs4T0D6/OIoQS7rMJcIdWYNJhT1kOtckn46CXwRg7eFNGODA8UIYekZbWd8UMLlseuNzmC76cdHap+ZRAixlzxjc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789476965; c=relaxed/simple;
+	bh=zy3iWwmrbCSpNiD1SOUACSNwfEXQHMy05KF69BG6K40=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=jbyqe1bqGaH6iEY/YY2smMCq9EaQS3Joi6XnaH2TH9gqRGyx41i8ApteKIy278PFSciQDiNXgSV7zrlnYDMekCtoEfm6O1xjyeFmLOue8SopFJorYSGpNZLVyq/Q+N4kbR+L5tsH5MDPceJ/l+BydZrKWoaXNjWuFM13ysk2Fbg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M7/2cFI3; arc=pass smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5noZ9Ow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869041F00893;
-	Tue, 15 Sep 2026 12:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789474851;
-	bh=h6IvHvMsrseFQ1El8XWi6NUTZFRq5zGozAsPhP/hNq8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=P5noZ9Ow/g++J/HMImAeosLwuKCjGUHSctFQg5aVn91vklagSOhoVnv/nM38S1Wkc
-	 E+qitYKlrvWQhduRL5MhulGEGQQc42Vbqfe/UEfUGLkjIPmUB+iWab7khz6XpALoK3
-	 ySlxKKNUsOkddgrni4Idm4YEVnxnfsJuApJzbVjiL7tCrHDjOoOFU/0Ly1WxdTbAmq
-	 TtoU4noCp3dN1+pX6rGD0bXb8y5F1vIvfQu0c1lMJs0VOmde7aVTD/Zl/fZLKLPNfX
-	 5OsRkd4SkqyqO4xTCfJCEDb/kuiKsr71t4DNr1R5tOfBeWxFG0fsfkq9KXJE40jlNC
-	 hDdno/HB8zzIQ==
-Subject:
- Re: [PATCH net v2] nfc: digital: check DEP_REQ length before reading DID byte
-From: netdev-bot+sashiko@kernel.org
-To: elb12345@hotmail.co.uk
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 15 Sep 2026 12:20:50 +0000
-Message-ID: <178947485008.22033.3730814162554887880@kernel.org>
-In-Reply-To: =?utf-8?q?=3CAS8P251MB0001F45C42BBD0D16D7B30ABC8BD2=40AS8P251MB?=
- =?utf-8?q?0001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
-References: =?utf-8?q?=3CAS8P251MB0001F45C42BBD0D16D7B30ABC8BD2=40AS8P251MB0?=
- =?utf-8?q?001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M7/2cFI3"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843f22dc83so2283635f8f.1
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 15 Sep 2026 05:56:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789476961; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dodAtMBvCo5jMkuR4NBwmVHDECbClp8SekPODicc5rKEiomHE/u0chOYBG3CkVfQ14
+         H/vUCnBfEeZraPMKNjgIJyUW5pGg3oMoYGy5nTzfx6xXoM7YZfPOdGOKJ6MwlKVNxnM2
+         5Nlhyt0KAascTS9RC/kWGJpGffn+uzHJzAADb7S5ZOaJgLjO9iugW40J1zkNz+yauOxc
+         fQ9weUiQoWhUMMYHSuqM1oTRgIedk1BxubO/Ta7iE2vzVLptxudkPV80abhgUWG76NFY
+         Kt2gpm3tijpVsCkZ/NwpHu9J0mBT/leJ6A84g6d31xT8530NenrvLp3uGAZB9RFwkr0F
+         EYjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=WXTV4FyY9anqTAYSFYoxXYdK7lnjO3FhMIC3LHbJUSU=;
+        fh=kQkK0Bn1gDlgx4sWQJDMNHCmvRhU4/Fs/UyZuc3cYXI=;
+        b=n35W2ELk22NfFJEnDNKIOEqL07Teu3MdlDqc1+dbb52DHAB6/pRXdcFiQbVLtrmLGf
+         4khCEXETNUtgFscp1/3q9S10fep5S0yEY34+gFLrIjQ6ly7biqLLtzt5FvPKeOSR6c/d
+         MDa2lfQuBKxC5UFt60OhyTPuDO1NcWEvM/Wxtbj6KLshNbjrZKn89dmEPaLuKW7CF1bF
+         A5f4v4hyLHkeY/kWnLF6r3utAJrx8y9O6QgdYFAtZN5/VM2ru5MekThwT+WZWyo05ux5
+         2HYm2T8PiQ5XuJQXsVPy0ZoqQgmZwB8R1j7AXVo9B+rRXps+oe1VO43y9bTP6etqx4Hu
+         o2Cg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789476961; x=1790081761; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WXTV4FyY9anqTAYSFYoxXYdK7lnjO3FhMIC3LHbJUSU=;
+        b=M7/2cFI3VBiiMMpWbdEDLUl0EE/uv8Q6BUYdzUGonQlY0MAHaWSAVc51qczbB3wEQP
+         M5a18Uam67FWol8OloS7vwu+8UXjkCg+PRh4NfIwtDBjh+FHkXv6q77TSsKIHnz0bcnM
+         k4mxvxAk0AnWTNYvd0HtGXgbi9QKfI7QijVstbiXDDmrpJZpRh7QOa9HPIiHdYRVI0t/
+         3zrtad+RtNv49F/V5S6sZaRAtXG3VTr6kGs6z0QfAdyTFfqkSur2rZ8NiVIOXfLgssPH
+         OzyhVhKWzA5NCBXiF0YPAdF6ZlUtX17TWjMlfFW+xaE9xH8h5WNKUPtT4fsMrCLdUeHD
+         30xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789476961; x=1790081761;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=WXTV4FyY9anqTAYSFYoxXYdK7lnjO3FhMIC3LHbJUSU=;
+        b=TOLgwW41rJx9wgKmMchpytnXNoYcdxda+x4hys5GbQRkmLU0En+8udqHPE5o9D+Dq9
+         ZKsgd5pteAX6FSm1nNQ1Nqq00PqjTNyLHcQKV01nW9Y0486/baw7/tNFqjgssUfrmd9k
+         LGIGoRSsFEl66FyUd8krRNKzWwkw/hZOlkQwaJdQSiUcEtVSWE8HzUBAT8bWZziZ9Wjr
+         63vHAucyRjua3mybzbUEoexi1JNOu6MwNxYcc1mT7HqeXN0GuIH3m1g9PozVMiHnMjv0
+         ChFeFgKkjVlMXo3onxTv4RhdU6jnYf4ismr9EmFn6RR/vEQoCZjLMt1sbhZtSJdtsO1w
+         DDUw==
+X-Gm-Message-State: AFuF++nFXeB2AG8Occwsc47kSFM2+uG5V4yV++tL7P7AL4umlqL4XJs4
+	wxgOTc2id5GI5XYVgDH7DkNHk0PR/mGOjM3jks/+PvGHFO2wEcrIrM1uLjU7Ap+Js1vGMxUZbVR
+	hh7pejn5juGJ79G/72x+OfALnITX4IrSPgHOcgR68AWlW
+X-Gm-Gg: AYBFou1YjV8V0Z5n2ge0ybVvxbF6T9BNe5REof8Cqkvgh54EHrC3aTDUJZl4izQkKR3
+	KbFfXkCb/CR2AlCf/KT9nbMpiIryrXE5/ZGeJfhljUz6HtVJtYQ0fHJ8RDN8KZe6QndKIvmlQpe
+	XQfnMGOxhnCWc9iagzlWD5zw183n/bW7QBGyEeZvFE79tsVNboCM7R81c902yJx4+mmf9JbJiBi
+	5+EQlNS2uEU7gXbQu5QhWqz89m1Kb7AcwdYSyt+kuBxJqdafsuczFCr0Wq6yIDyBQkMmCaoSdlI
+	APwiXdIBa0CdrA9h8dMyX8m+bWmv5rj7kVpwr5g3bm81btIqauhh8A==
+X-Received: by 2002:a05:6000:2309:b0:487:a3d:1a93 with SMTP id
+ ffacd0b85a97d-4870a3d1aecmr1352224f8f.51.1789476961413; Tue, 15 Sep 2026
+ 05:56:01 -0700 (PDT)
+Received: from 830778650420 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 15 Sep 2026 05:55:59 -0700
+Received: from 830778650420 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 15 Sep 2026 05:55:59 -0700
+From: Ruslan Vagner <rusya92266@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Tue, 15 Sep 2026 05:55:59 -0700
+X-Gm-Features: AcwNN1VQrcYHZ2JBxpdYbCmSv8_f-ycEOmO4PeWfzBdrvEWivfDyQY_L5M1i0jU
+Message-ID: <CAF9RqJ40NjhTk7JzFJ=zQyCGofx4xgEwCX73G_+VYSiga2in-Q@mail.gmail.com>
+Subject: [PATCH] NFC: fix comment typo in i2c drivers
+To: oe-linux-nfc@lists.linux.dev
+Cc: david@ixit.cz, Ruslan Vagner <rusya92266@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider:
+Fix the spelling in comments. No functional change.
 
-Critical: 0 · High: 0 · Medium: 1 (1) · Low: 1
+Signed-off-by: Ruslan Vagner <rusya92266@gmail.com>
+---
+ drivers/nfc/microread/i2c.c | 2 +-
+ drivers/nfc/pn544/i2c.c     | 2 +-
+ drivers/nfc/st21nfca/i2c.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-- [Medium] The patch closes the 1-byte read past valid skb data in
-  digital_tg_recv_dep_req(), but the identical unchecked-read pattern on…
-- [Low] Commit message rationale is factually wrong, and the retained
-  check it justifies is now dead code.
+diff --git a/drivers/nfc/microread/i2c.c b/drivers/nfc/microread/i2c.c
+index f45e883b8730..03dd11271027 100644
+--- a/drivers/nfc/microread/i2c.c
++++ b/drivers/nfc/microread/i2c.c
+@@ -39,7 +39,7 @@ struct microread_i2c_phy {
+ 	struct nfc_hci_dev *hdev;
 
-Pre-existing issues:
-- [Medium] DEP wire-format mismatch for the optional DID byte in the
-  target transmit path.
+ 	int hard_fault;		/*
+-				 * < 0 if hardware error occured (e.g. i2c err)
++				 * < 0 if hardware error occurred (e.g. i2c err)
+ 				 * and prevents normal operation.
+ 				 */
+ };
+diff --git a/drivers/nfc/pn544/i2c.c b/drivers/nfc/pn544/i2c.c
+index 7fde3aefae70..edafa1709f95 100644
+--- a/drivers/nfc/pn544/i2c.c
++++ b/drivers/nfc/pn544/i2c.c
+@@ -169,7 +169,7 @@ struct pn544_i2c_phy {
+ 	int run_mode;
 
---
+ 	int hard_fault;		/*
+-				 * < 0 if hardware error occured (e.g. i2c err)
++				 * < 0 if hardware error occurred (e.g. i2c err)
+ 				 * and prevents normal operation.
+ 				 */
+ };
+diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
+index a4c93ff7c5b0..e760d1813edf 100644
+--- a/drivers/nfc/st21nfca/i2c.c
++++ b/drivers/nfc/st21nfca/i2c.c
+@@ -66,7 +66,7 @@ struct st21nfca_i2c_phy {
+ 	int run_mode;
 
-nfc: digital: check DEP_REQ length before reading DID byte
-
-This reorders the DID check in digital_tg_recv_dep_req() so that the
-resp->len test runs before resp->data[size] is dereferenced, avoiding a
-one byte read past the valid skb data for a 3-byte DEP_REQ with the DID
-bit set in the PFB.
-
-No Link: tags present in the commit header.
-
-A question about this part of the changelog first:
-
->     Reorder the condition so that the length check (resp->len < size + 1)
->     comes first and short-circuits before resp->data[size] is accessed.
->     The existing fallthrough to the later "size > resp->len" check is
->     preserved for the NAD case.
-
-[Severity: Low]
-Is that last sentence accurate?  In digital_tg_recv_dep_req() the NAD
-branch never falls through to the later test, it returns immediately and
-leaves size untouched:
-
-	if (DIGITAL_NFC_DEP_NAD_BIT_SET(pfb)) {
-		rc = -EIO;
-		goto exit;
-	}
-
-	if (size > resp->len) {
-		rc = -EIO;
-		goto exit;
-	}
-
-Also, after this change, can "size > resp->len" ever be true?  Without the
-DID bit size stays at sizeof(struct digital_dep_req_res) and the earlier
-"resp->len < size" test already guaranteed resp->len >= size.  With the DID
-bit the new guard requires resp->len >= size + 1 before size++.  So the
-check that the changelog says is being preserved looks unreachable now.
-
-Could the changelog be reworded to describe what the retained check
-actually covers, and could the check itself be dropped or kept with a
-comment saying why?
-
-> diff --git a/net/nfc/digital_dep.c b/net/nfc/digital_dep.c
-> index 3982fa084737f..ae5407fca12d4 100644
-> --- a/net/nfc/digital_dep.c
-> +++ b/net/nfc/digital_dep.c
-> @@ -1117,12 +1117,12 @@ static void digital_tg_recv_dep_req(struct nfc_digital_dev *ddev, void *arg,
->  	pfb = dep_req->pfb;
->  
->  	if (DIGITAL_NFC_DEP_DID_BIT_SET(pfb)) {
-> -		if (ddev->did && (ddev->did == resp->data[3])) {
-> -			size++;
-> -		} else {
-> +		if (resp->len < size + 1 || !ddev->did ||
-> +		    ddev->did != resp->data[size]) {
->  			rc = -EIO;
->  			goto exit;
->  		}
-> +		size++;
->  	} else if (ddev->did) {
->  		rc = -EIO;
->  		goto exit;
-
-[Severity: Medium]
-Does this leave the same read pattern open in the direct caller?  The
-first DEP_REQ after ATR_RES arrives in digital_tg_send_atr_res_complete(),
-which touches resp->data[0] and then resp->data[2] or resp->data[3] with
-no resp->len check at all before dispatching:
-
-net/nfc/digital_dep.c:digital_tg_send_atr_res_complete() {
-	...
-	offset = 2;
-	if (resp->data[0] == DIGITAL_NFC_DEP_NFCA_SOD_SB)
-		offset++;
-
-	ddev->atn_count = 0;
-
-	if (resp->data[offset] == DIGITAL_CMD_PSL_REQ)
-		digital_tg_recv_psl_req(ddev, arg, resp);
-	else
-		digital_tg_recv_dep_req(ddev, arg, resp);
-}
-
-For a frame shorter than offset + 1 bytes, those reads happen before the
-new guard in digital_tg_recv_dep_req() runs, and the stale byte also picks
-which handler is called.  That short frames do reach this layer is what
-the sibling handler already assumes:
-
-net/nfc/digital_dep.c:digital_tg_recv_atr_req() {
-	...
-	if (!resp->len) {
-		rc = -EIO;
-		goto exit;
-	}
-
-	if (resp->data[0] == DIGITAL_NFC_DEP_NFCA_SOD_SB) {
-	...
-}
-
-The initiator side has the same shape in digital_in_recv_dep_res().  Only
-"resp->len < size" with size == sizeof(struct digital_dep_req_res) is
-validated, then skb_pull(resp, size) leaves resp->len == 0 for a 3-byte
-DEP_RES, and the RTOX path reads resp->data[0]:
-
-net/nfc/digital_dep.c:digital_in_recv_dep_res() {
-	...
-	skb_pull(resp, size);
-	...
-	case DIGITAL_NFC_DEP_PFB_SUPERVISOR_PDU:
-		...
-		if (ddev->atn_count || ddev->nack_count) {
-			PROTOCOL_ERR("14.12.4.4");
-			rc = -EIO;
-			goto error;
-		}
-
-		rtox = DIGITAL_NFC_DEP_RTOX_VALUE(resp->data[0]);
-	...
-}
-
-atn_count and nack_count are both cleared earlier in that same function,
-so the PROTOCOL_ERR("14.12.4.4") test does not block a 3-byte supervisor
-DEP_RES with the timeout bit set, and the value read then feeds
-digital_in_send_rtox().
-
-Since this is a stable-tagged fix for reads past the valid skb data on
-crafted DEP frames, would it make sense to cover these two sites in the
-same series rather than only the DID byte?
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but while looking at the DID
-handling here, the transmit side appears to place the DID byte in a
-different position than the parser above expects.
-
-digital_tg_recv_dep_req() treats the byte right after DIR/CMD/PFB as the
-DID and increments size before skb_pull(), i.e. it expects
-[DIR][CMD][PFB][DID][payload].
-
-digital_tg_send_dep_res() pushes the header onto an skb that already
-holds the payload and then appends the DID with skb_put_data(), which
-extends the tail:
-
-net/nfc/digital_dep.c:digital_tg_send_dep_res() {
-	skb_push(skb, sizeof(struct digital_dep_req_res));
-
-	dep_res = (struct digital_dep_req_res *)skb->data;
-	...
-	if (ddev->did) {
-		dep_res->pfb |= DIGITAL_NFC_DEP_PFB_DID_BIT;
-
-		skb_put_data(skb, &ddev->did, sizeof(ddev->did));
-	}
-	...
-}
-
-So a session that negotiated a non-zero DID (ddev->did = atr_req->did in
-digital_tg_recv_atr_req()) transmits [DIR][CMD][PFB][payload][DID] for
-every non-empty DEP_RES, and digital_send_dep_data_prep() then chains
-that buffer.  digital_tg_send_atn() and digital_tg_send_ack() happen to
-produce the right layout only because their skb is empty when
-skb_put_data() runs.
-
-Is the target really supposed to emit the DID after the payload here, or
-should digital_tg_send_dep_res() reserve the DID byte in the skb_push()
-and write it directly after the PFB?
-
+ 	/*
+-	 * < 0 if hardware error occured (e.g. i2c err)
++	 * < 0 if hardware error occurred (e.g. i2c err)
+ 	 * and prevents normal operation.
+ 	 */
+ 	int hard_fault;
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/AS8P251MB0001F45C42BBD0D16D7B30ABC8BD2%40AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
+2.54.0.windows.1
