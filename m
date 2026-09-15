@@ -1,135 +1,234 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11021088.outbound.protection.outlook.com [40.107.130.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3413093CF
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 14 Sep 2026 13:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789392193; cv=fail; b=gfS/iXKBxeDOq/AekAed47uZM4Tc9TShIuMGUdCBxZ1VX6wl61CUwSfM1xDoBKY2PzZ0un4xuLhcMKUNFFP66pZfKulUq9YG3+ulhO/dkwZzSEtYJ7/Hn9SMG6chQnB/kvHOdc1TIb4Kj8KCYpkh3IEmJrVA/JZStFbo66CIB/Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789392193; c=relaxed/simple;
-	bh=QlKH3ig2xEe2rHVud8RsDxv7DU2o7GK1kttwZI2ebhA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eYXMPGgHgarU8dcroOy09cI4hMJeV/avhQS6hCVvoMOi9OMq4wIOhW3IAr+v2mSkEKVMv/IX8dQO/TJ8c8SUeWD63kDTh68oPjgCppzJ5fHtb0BcWU6ZKo/IT7qn5JeC0kgqXdDmgtE3I/CFwAQNPF5B1Bpa10C3mF7bfhOSK5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com; spf=pass smtp.mailfrom=prodrive-technologies.com; dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b=dBgaGrFS; arc=fail smtp.client-ip=40.107.130.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prodrive-technologies.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prodrive-technologies.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F8946D0B8;
+	Tue, 15 Sep 2026 12:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789474852; cv=none; b=Uiy7xdIeQTlJHXBEP06Myk/1Myr/l8rM2k/SwcnZTnFYyNwAdanXiVDQlDNvcKkdW7vjtUvyyjEM5pdwEO+wAMa7GZmd311J62Os9sGDkJOK1ZCtTOWcmgBRiLCHlXJZjJAlrkW3erGM72RPuYY3znVjj//MMTJAb2y7Vf3RI+g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789474852; c=relaxed/simple;
+	bh=OBZ6tYCjoCzQR69kl8GIIzWBrngNn/CUNFzlE3260KI=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=psTw+9AtjXpYAeYokgn6Nya6Lp191cVMrAV0Tk5VK0wE9ne+YyEABvX/OO61xjyhUNvfQhCbVda8jdbNfvu1uvCKzoTm585pU7fkg/UtYuQ/o9TQllOsRyC4rIBYmo7ms8djxTgxmeESqIPl+q9Wfw4sBA0L0PSIIa9HvH/ovGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5noZ9Ow; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=prodrive-technologies.com header.i=@prodrive-technologies.com header.b="dBgaGrFS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lZQmXI4pGl3ZoNAzQJgcoha/izscX9L2TbTpTL5DlBw4YdRBzYn76E7qzUuBjhtKqc7sFBHxLhzJiMzcEcmslFlEVRnzJCvwBBSaCUTWpl99Y5tAbFsCqKaAJ1MvktEHkDgF2vv/R/eBX+H1FdcOc5ndQipWowaop1/MO1EeKwjCh509X8Wr+1J34zhUqYJ8yBxOTQCO90AyRvWbchu1yQKHVjZMS0zJ4bnQRVxm2f7dPyRUernDezMrUWdgrcR7VH8KWwWqyBbDVa+c01TVdjfu5dRagf/wzFzki91TJlpKLD8i39cpDa3gEGaumf/GYf55Dl59zHuYqrRMTCjoSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fjgWr7uZ1VzY+GJ+kPcCxeZzKHG6O5Ovw68puuG5eas=;
- b=V3H7dBfu1X8Xmn9sGF2t0qCpawAH6PDqo+LVIq6Xgx8zz4y3Tk7dTho5972bmRVWjtykqP6MNogYQ41QFOjIgFstDDqD/9cjR2nKqyz09mOdYmZoAZYp1B+PnkAJk6qwyQM1lf5Q8NgLrjfmND+0rhvHHGNsmYHDR87SP1L1YXJVw2bci21+9XniCJ3Bv81iULitTlF5Sg/+U7Kx/6TjWBt58CEBGXA9PLRyFBWaz+Dtyy2EcoVh1zIU1Cn2x9O0nD097t0xP6MHN836yatDDhUNB37kUvhC77wmICZIrCGkqQ+jaDx/AO2GgIr9dyOiOqOg6js5x5nNeY5+sndpPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 109.94.150.189) smtp.rcpttodomain=animalcreek.com
- smtp.mailfrom=prodrive-technologies.com; dmarc=pass (p=reject sp=reject
- pct=100) action=none header.from=prodrive-technologies.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=prodrive-technologies.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fjgWr7uZ1VzY+GJ+kPcCxeZzKHG6O5Ovw68puuG5eas=;
- b=dBgaGrFSxaR1fdzZMcEL3HV+pepSUxFWUXt/6sdVUxvkzb3ixRbZ5qKplXnIOHWbiKL3/ofswj32I51uAaKEdQwUHZBmakZtlhNUlV0tcAMQDNe9520NtIyc6aswyu/GyU1YPR0k/h867nSAGde2Wu1QIuJ2OH0Cs9Czxih4rhA=
-Received: from AM8P191CA0002.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::7)
- by DB9PR02MB9945.eurprd02.prod.outlook.com (2603:10a6:10:454::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 13:22:56 +0000
-Received: from CPH1EPF00000522.eurprd05.prod.outlook.com
- (2603:10a6:20b:21a:cafe::24) by AM8P191CA0002.outlook.office365.com
- (2603:10a6:20b:21a::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.12 via Frontend Transport; Mon,
- 14 Sep 2026 13:22:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 109.94.150.189)
- smtp.mailfrom=prodrive-technologies.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=prodrive-technologies.com;
-Received-SPF: Pass (protection.outlook.com: domain of
- prodrive-technologies.com designates 109.94.150.189 as permitted sender)
- receiver=protection.outlook.com; client-ip=109.94.150.189;
- helo=webmail.prodrive.nl; pr=C
-Received: from webmail.prodrive.nl (109.94.150.189) by
- CPH1EPF00000522.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.428.7 via Frontend Transport; Mon, 14 Sep 2026 13:22:55 +0000
-Received: from EXCOP01.bk.prodrive.nl (10.1.0.22) by EXCOP01.bk.prodrive.nl
- (10.1.0.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Mon, 14 Sep
- 2026 15:22:54 +0200
-Received: from lnxdevrm02.bk.prodrive.nl (10.1.1.121) by
- EXCOP01.bk.prodrive.nl (10.1.0.22) with Microsoft SMTP Server id 15.2.2562.46
- via Frontend Transport; Mon, 14 Sep 2026 15:22:54 +0200
-Received: from paugeu by lnxdevrm02.bk.prodrive.nl with local (Exim 4.96)
-	(envelope-from <paul.geurts@prodrive-technologies.com>)
-	id 1x66e6-00AVQD-1x;
-	Mon, 14 Sep 2026 15:22:54 +0200
-From: Paul Geurts <paul.geurts@prodrive-technologies.com>
-To: <mhun512@gmail.com>, <mgreer@animalcreek.com>, <david@ixit.cz>
-CC: <linux-wireless@vger.kernel.org>, <oe-linux-nfc@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
-	<ae878000@gmail.com>, Paul Geurts <paul.geurts@prodrive-technologies.com>
-Subject: Re: [PATCH] nfc: trf7970a: power down on startup RX gain failure
-Date: Mon, 14 Sep 2026 15:22:51 +0200
-Message-ID: <20260914132251.2503507-1-paul.geurts@prodrive-technologies.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20260913042625.31296-1-mhun512@gmail.com>
-References: <20260913042625.31296-1-mhun512@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5noZ9Ow"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869041F00893;
+	Tue, 15 Sep 2026 12:20:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789474851;
+	bh=h6IvHvMsrseFQ1El8XWi6NUTZFRq5zGozAsPhP/hNq8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=P5noZ9Ow/g++J/HMImAeosLwuKCjGUHSctFQg5aVn91vklagSOhoVnv/nM38S1Wkc
+	 E+qitYKlrvWQhduRL5MhulGEGQQc42Vbqfe/UEfUGLkjIPmUB+iWab7khz6XpALoK3
+	 ySlxKKNUsOkddgrni4Idm4YEVnxnfsJuApJzbVjiL7tCrHDjOoOFU/0Ly1WxdTbAmq
+	 TtoU4noCp3dN1+pX6rGD0bXb8y5F1vIvfQu0c1lMJs0VOmde7aVTD/Zl/fZLKLPNfX
+	 5OsRkd4SkqyqO4xTCfJCEDb/kuiKsr71t4DNr1R5tOfBeWxFG0fsfkq9KXJE40jlNC
+	 hDdno/HB8zzIQ==
+Subject:
+ Re: [PATCH net v2] nfc: digital: check DEP_REQ length before reading DID byte
+From: netdev-bot+sashiko@kernel.org
+To: elb12345@hotmail.co.uk
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 15 Sep 2026 12:20:50 +0000
+Message-ID: <178947485008.22033.3730814162554887880@kernel.org>
+In-Reply-To: =?utf-8?q?=3CAS8P251MB0001F45C42BBD0D16D7B30ABC8BD2=40AS8P251MB?=
+ =?utf-8?q?0001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+References: =?utf-8?q?=3CAS8P251MB0001F45C42BBD0D16D7B30ABC8BD2=40AS8P251MB0?=
+ =?utf-8?q?001=2EEURP251=2EPROD=2EOUTLOOK=2ECOM=3E?=
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CPH1EPF00000522:EE_|DB9PR02MB9945:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80413bf5-c8e9-4917-ab89-08df126349c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|23010399003|36860700016|376014|10067099003|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	8hu6AzDRWMj4SuY1gunJcr59oY8U8ghyHPHcQ7mBPyIklEatP/PwN5gq13jDy24vxRRqmkLvZ/DTdzk0Fu1mOZtACPfB9V+H95vMkmIVVxgowdGxOuFy0vdelSSAgnpJOc5+Btt/c//ouq+WVr1MFhwg3ZJKsEiIYB4eNHjdwzbKHL8egv/zvz0kLEYrLZa9ljP6vdkT1Mue+/DioX2pQUgoqVCenr1daAeZLwgdS9I7lxJkHjroYFNBSSqSxjcs80ptsM4H5Ru3ARK7bh7b3gxLUXWWz42WIEWzqf8Zg4SZljaovPW2ozZApvAh6SCxxOGP25jUB2mJMSJ5ZYuVjvs3FixDjNUF1vcXrCK4Fh1say3IPOcmgpIVLU27sEadbQj4hrlA8UXNzPGE6wCACiccuckgsXjivWdWke+ALczdU+rnHtMYwDRyOVdqac2qB1KCJxgRPZCLsUKzvwIGxsJ616IR4ahouHd82BAOwC+S8UxZkxZWOeHSRpMQB8zs4YrkoBb9whyOmCCwBldqOjGDwG5Prti55JVTddr7Cmw2kw/ImeZcDY5LDAyULzQRwYtrGaxji3Z1okJvV1S4lolvu83921/noQcBwYfLbtxU0jpxmLppJPVilIQnJfz9abL1ECk1Eu6pkdOu2+waeKyS4clkizrhVmwxfiJS7CI2z3A0p/wqRttJngcgL+KNFVObSihbHsRMnR5LbidwMg==
-X-Forefront-Antispam-Report:
-	CIP:109.94.150.189;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:webmail.prodrive.nl;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(23010399003)(36860700016)(376014)(10067099003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	3oJXxaQkPgG6uyaDIkX+RzqrC8RTLszWOd+MgQLZ6OQlzq99+rZgyxP8EZCN8lZhoXmwrIOIzmdJ7D+iBrzsP7YAOsLZNaZWQvnuKDJ/uGD0nj2EQsu3878FmHc1WjaJIymY/fukIUIMs01erT/Lcnr3CsP74dUR873eT+LTF2CtIldYdNecNsZ16aT+IyNpFi71BnzgvDleUtHh+dQ/HMfgrA7DCeGeoeTArSgQQDRgyCGwcUQ5RC6ApKg+9HVZLEepaEb6O7lw/Mr965bxZwfscvpkkt/fMcThSdby+M6AOqRmJh/QYhY6MN6KS4YSIlNqL1RNSUrIu+LnyW5rL7U8wdAy2IMkxl0VA0VTfCx8wMJRbBkEgmjaLUANeHNwQp073E+0j95crnu8km1ZXKUXFLII/u0fJl1Gyft7pDmcUPbtgA/vkfCb1bwgf58K
-X-OriginatorOrg: prodrive-technologies.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 13:22:55.7899
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80413bf5-c8e9-4917-ab89-08df126349c1
-X-MS-Exchange-CrossTenant-Id: 612607c9-5af7-4e7f-8976-faf1ae77be60
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=612607c9-5af7-4e7f-8976-faf1ae77be60;Ip=[109.94.150.189];Helo=[webmail.prodrive.nl]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CPH1EPF00000522.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB9945
 
-> trf7970a_startup() powers up the device before applying the optional RX
-> gain reduction. If the register read or write fails, it returns without
-> undoing that power-up. Probe's unwind only drops the separate regulator
-> references acquired by probe, leaving the additional VIN enable from
-> startup unbalanced. The system resume caller also has no power-down on
-> this error.
-> 
-> Call trf7970a_power_down() before returning the RX gain error to deassert
-> the enable GPIOs, release the startup VIN reference and restore the
-> powered-off state. Runtime PM has not been enabled yet, so the full
-> shutdown helper is not appropriate here. Preserve the original SPI error.
-> 
-> This issue was identified during our ongoing static-analysis research while
-> reviewing kernel code.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider:
 
-Yes, we should do power_down here indeed.
-Thanks!
+Critical: 0 · High: 0 · Medium: 1 (1) · Low: 1
 
-Reviewed-by: Paul Geurts <paul.geurts@prodrive-technologies.com>
+- [Medium] The patch closes the 1-byte read past valid skb data in
+  digital_tg_recv_dep_req(), but the identical unchecked-read pattern on…
+- [Low] Commit message rationale is factually wrong, and the retained
+  check it justifies is now dead code.
 
-br,
-Paul
+Pre-existing issues:
+- [Medium] DEP wire-format mismatch for the optional DID byte in the
+  target transmit path.
+
+--
+
+nfc: digital: check DEP_REQ length before reading DID byte
+
+This reorders the DID check in digital_tg_recv_dep_req() so that the
+resp->len test runs before resp->data[size] is dereferenced, avoiding a
+one byte read past the valid skb data for a 3-byte DEP_REQ with the DID
+bit set in the PFB.
+
+No Link: tags present in the commit header.
+
+A question about this part of the changelog first:
+
+>     Reorder the condition so that the length check (resp->len < size + 1)
+>     comes first and short-circuits before resp->data[size] is accessed.
+>     The existing fallthrough to the later "size > resp->len" check is
+>     preserved for the NAD case.
+
+[Severity: Low]
+Is that last sentence accurate?  In digital_tg_recv_dep_req() the NAD
+branch never falls through to the later test, it returns immediately and
+leaves size untouched:
+
+	if (DIGITAL_NFC_DEP_NAD_BIT_SET(pfb)) {
+		rc = -EIO;
+		goto exit;
+	}
+
+	if (size > resp->len) {
+		rc = -EIO;
+		goto exit;
+	}
+
+Also, after this change, can "size > resp->len" ever be true?  Without the
+DID bit size stays at sizeof(struct digital_dep_req_res) and the earlier
+"resp->len < size" test already guaranteed resp->len >= size.  With the DID
+bit the new guard requires resp->len >= size + 1 before size++.  So the
+check that the changelog says is being preserved looks unreachable now.
+
+Could the changelog be reworded to describe what the retained check
+actually covers, and could the check itself be dropped or kept with a
+comment saying why?
+
+> diff --git a/net/nfc/digital_dep.c b/net/nfc/digital_dep.c
+> index 3982fa084737f..ae5407fca12d4 100644
+> --- a/net/nfc/digital_dep.c
+> +++ b/net/nfc/digital_dep.c
+> @@ -1117,12 +1117,12 @@ static void digital_tg_recv_dep_req(struct nfc_digital_dev *ddev, void *arg,
+>  	pfb = dep_req->pfb;
+>  
+>  	if (DIGITAL_NFC_DEP_DID_BIT_SET(pfb)) {
+> -		if (ddev->did && (ddev->did == resp->data[3])) {
+> -			size++;
+> -		} else {
+> +		if (resp->len < size + 1 || !ddev->did ||
+> +		    ddev->did != resp->data[size]) {
+>  			rc = -EIO;
+>  			goto exit;
+>  		}
+> +		size++;
+>  	} else if (ddev->did) {
+>  		rc = -EIO;
+>  		goto exit;
+
+[Severity: Medium]
+Does this leave the same read pattern open in the direct caller?  The
+first DEP_REQ after ATR_RES arrives in digital_tg_send_atr_res_complete(),
+which touches resp->data[0] and then resp->data[2] or resp->data[3] with
+no resp->len check at all before dispatching:
+
+net/nfc/digital_dep.c:digital_tg_send_atr_res_complete() {
+	...
+	offset = 2;
+	if (resp->data[0] == DIGITAL_NFC_DEP_NFCA_SOD_SB)
+		offset++;
+
+	ddev->atn_count = 0;
+
+	if (resp->data[offset] == DIGITAL_CMD_PSL_REQ)
+		digital_tg_recv_psl_req(ddev, arg, resp);
+	else
+		digital_tg_recv_dep_req(ddev, arg, resp);
+}
+
+For a frame shorter than offset + 1 bytes, those reads happen before the
+new guard in digital_tg_recv_dep_req() runs, and the stale byte also picks
+which handler is called.  That short frames do reach this layer is what
+the sibling handler already assumes:
+
+net/nfc/digital_dep.c:digital_tg_recv_atr_req() {
+	...
+	if (!resp->len) {
+		rc = -EIO;
+		goto exit;
+	}
+
+	if (resp->data[0] == DIGITAL_NFC_DEP_NFCA_SOD_SB) {
+	...
+}
+
+The initiator side has the same shape in digital_in_recv_dep_res().  Only
+"resp->len < size" with size == sizeof(struct digital_dep_req_res) is
+validated, then skb_pull(resp, size) leaves resp->len == 0 for a 3-byte
+DEP_RES, and the RTOX path reads resp->data[0]:
+
+net/nfc/digital_dep.c:digital_in_recv_dep_res() {
+	...
+	skb_pull(resp, size);
+	...
+	case DIGITAL_NFC_DEP_PFB_SUPERVISOR_PDU:
+		...
+		if (ddev->atn_count || ddev->nack_count) {
+			PROTOCOL_ERR("14.12.4.4");
+			rc = -EIO;
+			goto error;
+		}
+
+		rtox = DIGITAL_NFC_DEP_RTOX_VALUE(resp->data[0]);
+	...
+}
+
+atn_count and nack_count are both cleared earlier in that same function,
+so the PROTOCOL_ERR("14.12.4.4") test does not block a 3-byte supervisor
+DEP_RES with the timeout bit set, and the value read then feeds
+digital_in_send_rtox().
+
+Since this is a stable-tagged fix for reads past the valid skb data on
+crafted DEP frames, would it make sense to cover these two sites in the
+same series rather than only the DID byte?
+
+[Severity: Medium]
+This isn't a bug introduced by this patch, but while looking at the DID
+handling here, the transmit side appears to place the DID byte in a
+different position than the parser above expects.
+
+digital_tg_recv_dep_req() treats the byte right after DIR/CMD/PFB as the
+DID and increments size before skb_pull(), i.e. it expects
+[DIR][CMD][PFB][DID][payload].
+
+digital_tg_send_dep_res() pushes the header onto an skb that already
+holds the payload and then appends the DID with skb_put_data(), which
+extends the tail:
+
+net/nfc/digital_dep.c:digital_tg_send_dep_res() {
+	skb_push(skb, sizeof(struct digital_dep_req_res));
+
+	dep_res = (struct digital_dep_req_res *)skb->data;
+	...
+	if (ddev->did) {
+		dep_res->pfb |= DIGITAL_NFC_DEP_PFB_DID_BIT;
+
+		skb_put_data(skb, &ddev->did, sizeof(ddev->did));
+	}
+	...
+}
+
+So a session that negotiated a non-zero DID (ddev->did = atr_req->did in
+digital_tg_recv_atr_req()) transmits [DIR][CMD][PFB][payload][DID] for
+every non-empty DEP_RES, and digital_send_dep_data_prep() then chains
+that buffer.  digital_tg_send_atn() and digital_tg_send_ack() happen to
+produce the right layout only because their skb is empty when
+skb_put_data() runs.
+
+Is the target really supposed to emit the DID after the payload here, or
+should digital_tg_send_dep_res() reserve the DID byte in the skb_push()
+and write it directly after the PFB?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/AS8P251MB0001F45C42BBD0D16D7B30ABC8BD2%40AS8P251MB0001.EURP251.PROD.OUTLOOK.COM
