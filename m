@@ -1,94 +1,269 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10AB4D6C2D
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 12:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94492519905;
+	Thu, 17 Sep 2026 13:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789647957; cv=none; b=GNwtEEc3jDbjfXZS2Un9Isi2/IHZBw9CpKHQ41VixdrdUhsZjbVnbwfy92eB3egaN0lT0LSzJUB7gWHjnaSmH3QHyJ5bod5BU3zfbdmMF/n/AYHn1oWJFn/cCKj4ff96uV8FV9VlNez/ElmqTuIOV/q3oZCEpHXUpLD2aYgq7pc=
+	t=1789651480; cv=none; b=ZlMY4PkPGkorJrKcT36+NfWOeCQWQOBCf5zRodD+vUt9lI1CIQn5+8dgZcjvA9Ruy3+pTTU17qQ5IBR8guwOIclCPGoPeVwGx7QgZzaBSt7LvEe4+y48jfTiq3bdec5GoNSDDZy43bbGOWhB78OJ23wXblfBvLtrGqUtw8BY9Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789647957; c=relaxed/simple;
-	bh=6AhwryHkCtCla0U2D/jO3hscbmh+77fa9n2niFCK6w8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ljIlUL6PVj140L7p19RlYEANbSDkUu3AEtHGwiPeM6lSNYGFzRsVTTunCLZGVRr1x2IWn1uN765ZmYj11wATglNJtdkZwvv+Zfh9fEXoFJsY/ofO+AlARBHgNE7uPGrMKXFz4I3ht7o9NPfTm/6RmWvUgO4+1mlxUVqElHNJJt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowABXwz083Ktq5XaACA--.43697S2;
-	Thu, 17 Sep 2026 20:25:33 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: david+nfc@ixit.cz
-Cc: linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	mgreer@animalcreek.com,
-	oe-linux-nfc@lists.linux.dev,
-	sameo@linux.intel.com,
-	Wentao Liang <vulab@iscas.ac.cn>,
+	s=arc-20240116; t=1789651480; c=relaxed/simple;
+	bh=8SYrna0h7hy9G1HhESG+hr0L2dZ6q55slGve/8iQ1F4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4ZOox0DugpfIY/gftyE6liLeUNicvJ0jGy1bUmXDtMs2IhxKYdmsnt5WiJJyG91rWT9XkneJW70HhmtZMPmNi7bhE8+u2YZ2VGRZMol7mWU7nW2rzxg7vMxCZY5sqcgwamA9o0xtAUrps3RICYg7ugQWamldBNoGBoHV3W2Z2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXVdw/s1; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXVdw/s1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 017B41F000FF;
+	Thu, 17 Sep 2026 13:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789651478;
+	bh=XVpEaO5zQhrxqsYxXWhqnm9w9AUITsTWiX4MH0lZy7I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dXVdw/s1F4/q5VXDtCvo6NbprcH8bzPeUqgvZptvXozgx5JMBoGFdN9EVcz0kCf1H
+	 SEBI/lm43Q70HsAA+zcGxiSHMtKETUrB6BnQSVbybzMPRy95AQGfqDtLTjEJ1ksA/q
+	 AePTZl0ZpzB0zdM3NBp19SbQnwax/sqRwPlx1zgxn1zRxiAMoEgbOR+sYludXOp+5l
+	 lH9pjOGgVUynoFBvOkCv5PRAvpr84bTmbyoq6PBhAz785ya0AtZPMAw22shz5RszH8
+	 NdnOJlCCoyYjeAzLHRXGd03EegjcJIcZYRNQKp8TbamrVdSJ5oKTm39xveM66TTJh/
+	 h1QDbdz5I2Z2w==
+Date: Thu, 17 Sep 2026 14:24:33 +0100
+From: Simon Horman <horms@kernel.org>
+To: netdev-bot+sashiko@kernel.org
+Cc: liuc63@xiaopeng.com, david@ixit.cz, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	ilane@ti.com, linville@tuxdriver.com, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH] NFC: trf7970a: Fix runtime PM leak in trf7970a_switch_rf_on()
-Date: Thu, 17 Sep 2026 12:25:32 +0000
-Message-Id: <20260917122532.2150988-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH net] nfc: nci: avoid unbounded skb allocation when
+ max_pkt_payload_len is zero
+Message-ID: <20260917132433.GE51261@horms.kernel.org>
+References: <20260913101309.891633-1-liuc63@xiaopeng.com>
+ <178938411495.22033.4311942083485691702@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXwz083Ktq5XaACA--.43697S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrZry8JryxuFyUCw1rCr1xKrg_yoW8JF45pa
-	n2qrW5CFy5ArW7t34UAF4vqa4F93s8trW5C34F9a4Iva1rJFy3ta45JF129F10yr95Zw13
-	tFyIyr47WasYvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBFb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxV
-	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7
-	v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0E0s8F02x267IIx4CEVc8vx2IErcIFxwCY
-	1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48Zr
-	WUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6x
-	kF7I0E14v26rxl6s0DYxBIdaVFxhVjvjDU0xZFpf9x07j0wZcUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRINA2qrq02ZIQABsL
+In-Reply-To: <178938411495.22033.4311942083485691702@kernel.org>
 
-pm_runtime_get_sync() unconditionally increments the runtime PM usage
-counter, so the reference taken at the top of trf7970a_switch_rf_on()
-has to be dropped on every exit path. The two error paths return
-without doing so, and since the chip is left in TRF7970A_ST_RF_OFF they
-are not balanced by trf7970a_switch_rf_off() either.
+On Mon, Sep 14, 2026 at 11:08:34AM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issue(s) to consider:
+> 
+> Critical: 0 · High: 2 (1) · Medium: 0 · Low: 0
 
-Release the reference the same way trf7970a_switch_rf_off() does.
+Hi Lin,
 
-Fixes: e6403b7c756f9 ("NFC: trf7970a: Add pm_runtime support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/nfc/trf7970a.c | 2 ++
- 1 file changed, 2 insertions(+)
+There is an expectation that AI-generated reviews forwarded to
+the netdev ML are responded to. That can take a variety of forms
+including an email response that agrees with or refutes the review,
+or an updated version of the patch with an appropriate changelog.
 
-diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
-index 08c27bb438b5..07bc336c6505 100644
---- a/drivers/nfc/trf7970a.c
-+++ b/drivers/nfc/trf7970a.c
-@@ -1155,12 +1155,14 @@ static int trf7970a_switch_rf_on(struct trf7970a *trf)
- 	if (trf->state != TRF7970A_ST_RF_OFF) {	/* Power on, RF off */
- 		dev_err(trf->dev, "%s - Incorrect state: %d\n", __func__,
- 			trf->state);
-+		pm_runtime_put_autosuspend(trf->dev);
- 		return -EINVAL;
- 	}
- 
- 	ret = trf7970a_init(trf);
- 	if (ret) {
- 		dev_err(trf->dev, "%s - Can't initialize: %d\n", __func__, ret);
-+		pm_runtime_put_autosuspend(trf->dev);
- 		return ret;
- 	}
- 
--- 
-2.34.1
+The expectation is the patch author or submitter handles this.
+But let me try to help by taking a stab at the first approach.
 
+> - [High] Incomplete fix: a controller-supplied
+>   `conn_info->max_pkt_payload_len` of 0 (or 1) is still consumed…
+> - [High] TOCTOU: the new guard reads `conn_info->max_pkt_payload_len`
+>   once (net/nfc/nci/data.c:117) but the fragmentation loop re-reads the…
+
+It seems to me that both of the above are actually a pre-existing issues
+that are not made worse by this patch.
+
+> 
+> Pre-existing issues:
+> - [High] Use-after-free of `struct nci_conn_info`:
+>   `nci_get_conn_info_by_conn_id()` (net/nfc/nci/core.c:43-54) walks…
+
+It seems to me that although this is a pre-existing issue it may
+actually be made worse than this patch.
+
+Overall, my view is that bug fixes for NFC improve it's quality,
+moving things in the right direction. I lean towards none of
+the above warranting blocking the progress of this patch.
+But I would appreciate your input.
+
+> 
+> --
+> 
+> nfc: nci: avoid unbounded skb allocation when max_pkt_payload_len is zero
+> 
+> This adds a check in nci_queue_tx_data_frags() that rejects a
+> conn_info->max_pkt_payload_len of zero with -EPROTO, so the fragmentation
+> loop cannot spin forever allocating skbs.  The commit message explains why
+> the check was placed in the fragmentation path instead of at the two
+> assignment sites in ntf.c and rsp.c.
+> 
+> A few questions below about the placement of the check and about how the
+> field is read.
+> 
+> > diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
+> > index 4253edea5c8db..b549cef7dc2e4 100644
+> > --- a/net/nfc/nci/data.c
+> > +++ b/net/nfc/nci/data.c
+> > @@ -114,6 +114,11 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
+> >  		goto exit;
+> >  	}
+> >  
+> > +	if (!conn_info->max_pkt_payload_len) {
+> > +		rc = -EPROTO;
+> > +		goto exit;
+> > +	}
+> > +
+> 
+> [Severity: High]
+> The commit message says:
+> 
+>   "nci_queue_tx_data_frags() is the only place that loops"
+> 
+> Is that accurate?  nci_hci_send_data() in net/nfc/nci/hci.c also loops over
+> the same field, and it runs before nci_send_data() gets a chance to reject
+> anything:
+> 
+> net/nfc/nci/hci.c:nci_hci_send_data() {
+> 	skb = nci_skb_alloc(ndev, conn_info->max_pkt_payload_len +
+> 			    NCI_DATA_HDR_SIZE, GFP_ATOMIC);
+> 	...
+> 	skb_reserve(skb, NCI_DATA_HDR_SIZE + 2);
+> 	*(u8 *)skb_push(skb, 1) = data_type;
+> 
+> 	do {
+> 		/* If last packet add NCI_HFP_NO_CHAINING */
+> 		if (i + conn_info->max_pkt_payload_len -
+> 		    (skb->len + 1) >= data_len) {
+> 			cb |= NCI_HFP_NO_CHAINING;
+> 			len = data_len - i;
+> 		} else {
+> 			len = conn_info->max_pkt_payload_len - skb->len - 1;
+> 		}
+> 
+> 		*(u8 *)skb_push(skb, 1) = cb;
+> 
+> 		if (len > 0)
+> 			skb_put_data(skb, data + i, len);
+> 
+> 		r = nci_send_data(ndev, conn_info->conn_id, skb);
+> 	...
+> }
+> 
+> skb->len is unsigned int, so i + max_pkt_payload_len - (skb->len + 1) is
+> evaluated unsigned.  With max_pkt_payload_len == 0, i == 0 and skb->len == 1
+> that is 0 - 2 == 0xfffffffe, which is >= any realistic data_len, so the
+> "last packet" branch is always taken and len becomes the whole payload.  The
+> same underflow happens for max_pkt_payload_len == 1.
+> 
+> The skb was only sized for 0 + NCI_DATA_HDR_SIZE plus tx_headroom/tx_tailroom,
+> so the usable tailroom is just the kmalloc/SKB_DATA_ALIGN slack.  Can
+> skb_put_data() then run past skb->end and hit skb_over_panic() -> BUG()
+> before the new check in nci_queue_tx_data_frags() is ever consulted?
+> 
+> The value fed into that arithmetic is stored verbatim in
+> nci_core_conn_create_rsp_packet():
+> 
+> net/nfc/nci/rsp.c:nci_core_conn_create_rsp_packet() {
+> 	...
+> 	if (ndev->cur_params.id == ndev->hci_dev->nfcee_id)
+> 		ndev->hci_dev->conn_info = conn_info;
+> 
+> 	conn_info->conn_id = rsp->conn_id;
+> 	conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
+> 	...
+> }
+> 
+> and the payload length on the other side is user controlled:
+> nfc_genl_se_io() takes NFC_ATTR_SE_APDU as NLA_BINARY with no maximum, and
+> st_nci_se_io() -> nci_hci_send_event() -> nci_hci_send_data() carries it
+> straight into the loop above.  nci_hci_cmd_received() also calls
+> nci_hci_send_data() directly from the rx work.
+> 
+> Would it make more sense to validate at the assignment sites
+> (nci_core_conn_create_rsp_packet() and nci_rf_intf_activated_ntf_packet()),
+> or to additionally fix the arithmetic in nci_hci_send_data()?  A plain
+> != 0 test would still leave the max_pkt_payload_len == 1 underflow in place.
+> 
+> [Severity: High]
+> The new check reads conn_info->max_pkt_payload_len once, but the loop below
+> re-reads the same field on every iteration:
+> 
+> net/nfc/nci/data.c:nci_queue_tx_data_frags() {
+> 	...
+> 	while (total_len) {
+> 		frag_len =
+> 			min_t(int, total_len, conn_info->max_pkt_payload_len);
+> 	...
+> }
+> 
+> The field is a plain __u8 with no READ_ONCE/WRITE_ONCE, no atomic and no
+> lock, and it is written from the rx workqueue with controller-supplied data
+> in nci_rf_intf_activated_ntf_packet() and nci_core_conn_create_rsp_packet().
+> 
+> The reader side is rawsock_tx_work -> nfc_data_exchange() -> nci_transceive()
+> -> nci_send_data() -> nci_queue_tx_data_frags(); the only lock it holds is
+> device_lock(&dev->dev), plus ndev->tx_q.lock after the loop.  The writer side
+> is nci_rx_work() -> nci_ntf_packet()/nci_rsp_packet() -> the assignments, and
+> neither takes device_lock.
+> 
+> CPU0 (rawsock_tx_work)                        CPU1 (nci_rx_work)
+> conn_info = nci_get_conn_info_by_conn_id()
+> if (!conn_info->max_pkt_payload_len)  /* nonzero, passes */
+> frag_len = min_t(int, total_len,
+> 		 conn_info->max_pkt_payload_len);
+>                                               conn_info->max_pkt_payload_len = 0;
+> /* next iteration */
+> frag_len = 0 -> total_len never decreases
+> 
+> Can the store land between the check and a later re-read, leaving the loop in
+> exactly the unbounded nci_skb_alloc(GFP_ATOMIC) state the commit describes?
+> 
+> Would snapshotting the field into a local, e.g.
+> 
+> 	u8 max_len = READ_ONCE(conn_info->max_pkt_payload_len);
+> 
+> and using that for both the validation and the min_t() close the window?
+> 
+> [Severity: High]
+> This isn't a bug introduced by this patch, but the conn_info pointer that the
+> new check dereferences has no lifetime guarantee.
+> nci_get_conn_info_by_conn_id() walks the list with no lock, no RCU and no
+> lockdep assertion:
+> 
+> net/nfc/nci/core.c:nci_get_conn_info_by_conn_id() {
+> 	list_for_each_entry(conn_info, &ndev->conn_info_list, list) {
+> 		if (conn_info->conn_id == conn_id)
+> 			return conn_info;
+> 	}
+> 
+> 	return NULL;
+> }
+> 
+> while the rx work frees the same object immediately, with no grace period:
+> 
+> net/nfc/nci/rsp.c:nci_core_conn_close_rsp_packet() {
+> 	if (status == NCI_STATUS_OK) {
+> 		conn_info = nci_get_conn_info_by_conn_id(ndev,
+> 							 ndev->cur_conn_id);
+> 		if (conn_info) {
+> 			list_del(&conn_info->list);
+> 			if (conn_info == ndev->rf_conn_info)
+> 				ndev->rf_conn_info = NULL;
+> 			devm_kfree(&ndev->nfc_dev->dev, conn_info->dest_params);
+> 			devm_kfree(&ndev->nfc_dev->dev, conn_info);
+> 		}
+> 	}
+> 	...
+> }
+> 
+> nci_rsp_packet() dispatches CORE_CONN_CLOSE_RSP without checking that a
+> matching command was outstanding, and the tx path holds only
+> device_lock(&dev->dev), which the rx worker never takes.  Can an unsolicited
+> CORE_CONN_CLOSE_RSP with status OK for ndev->cur_conn_id free the conn_info
+> while nci_queue_tx_data_frags() is still reading
+> conn_info->max_pkt_payload_len, both in the new check and in the min_t() in
+> the loop?  The list walk itself can also follow a freed node's linkage.
+> 
+> -- 
+> Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260913101309.891633-1-liuc63%40xiaopeng.com
