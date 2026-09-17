@@ -1,92 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADCD3E6DC9;
-	Thu, 17 Sep 2026 11:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10AB4D6C2D
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 12:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789645548; cv=none; b=uyLNK/0NRAsYzvv2r7flgELyKk/ToZ2ZPxLqJDsYYvMj9qnZP/dr2jpNRn6981/UjbYURK5oI0u/A/8XVooLO2+xBtJSoSU5AdHh85wvtH1yYYwvh3XQqX6PzxPNxmJP/IqlJIC2UrfsPT+Hgddy172ReO5yt02s8nEqzqkjJAY=
+	t=1789647957; cv=none; b=GNwtEEc3jDbjfXZS2Un9Isi2/IHZBw9CpKHQ41VixdrdUhsZjbVnbwfy92eB3egaN0lT0LSzJUB7gWHjnaSmH3QHyJ5bod5BU3zfbdmMF/n/AYHn1oWJFn/cCKj4ff96uV8FV9VlNez/ElmqTuIOV/q3oZCEpHXUpLD2aYgq7pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789645548; c=relaxed/simple;
-	bh=/3xFAsixpbLOVmiAeQK4biZ/FbUY9ljCoxm2CgIBQ4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hmFmOw0V9YNmXlXRu0l3j7h/JXND6h40D3ej2SvESEueHCEDDQnswo4bLKCLNdeedQjjlH3j6TDkEFOy5WcoDNI776vFer4ntgkzve7ElTaPDyb5kjsu3OzXWIDD7AG05iYpaDZ3IAKtUXV581sb1TxJ2VTl1Fwf12TrDO4QB+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FjAr3hwt; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FjAr3hwt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC03D1F000FF;
-	Thu, 17 Sep 2026 11:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789645541;
-	bh=0v+tsxXpYqYIhx4Aiu8hayvlXd6sXVZLkcA+EBndX9g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FjAr3hwtoDc25gxTuEmNtgzR50wEOfrVyKXJc/4R50IdpnSbDcCQnTl4D77hSZaNX
-	 z7KjXUslA//XbInacrrCteJQNcrQLt5DhxPmq1ka8hddLXW6BOywZODFMr9J9l2MAZ
-	 qIb+f/HzGyIJzX0O2PV+xwZj1VeimloAYUYudAwA8InD4Js94ThXnp8j8T7zqbG6vQ
-	 ytgkCFvA1on78uHtM6G59ommoGl2D4SyZago/nDovtly86ZOWF6I+nLgzAfTA2e5tJ
-	 VieJeGEM+g9hRpx1L99M9IEXG9QYBS73E1C/KHx+utC87QzkMHQAQPVfk2E7nRsU/2
-	 PRb5svoD8ZdUw==
-Date: Thu, 17 Sep 2026 12:45:35 +0100
-From: Simon Horman <horms@kernel.org>
-To: Aamir Ahmed <elb12345@hotmail.co.uk>
-Cc: David Heidelberg <david@ixit.cz>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	"John W. Linville" <linville@tuxdriver.com>,
-	oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH net v2] nfc: llcp: drop truncated I/RR/RNR PDUs in
- nfc_llcp_recv_hdlc()
-Message-ID: <20260917114535.GZ51261@horms.kernel.org>
-References: <AS8P251MB0001789BBF04B72745C7D96BC8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1789647957; c=relaxed/simple;
+	bh=6AhwryHkCtCla0U2D/jO3hscbmh+77fa9n2niFCK6w8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ljIlUL6PVj140L7p19RlYEANbSDkUu3AEtHGwiPeM6lSNYGFzRsVTTunCLZGVRr1x2IWn1uN765ZmYj11wATglNJtdkZwvv+Zfh9fEXoFJsY/ofO+AlARBHgNE7uPGrMKXFz4I3ht7o9NPfTm/6RmWvUgO4+1mlxUVqElHNJJt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowABXwz083Ktq5XaACA--.43697S2;
+	Thu, 17 Sep 2026 20:25:33 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: david+nfc@ixit.cz
+Cc: linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	mgreer@animalcreek.com,
+	oe-linux-nfc@lists.linux.dev,
+	sameo@linux.intel.com,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] NFC: trf7970a: Fix runtime PM leak in trf7970a_switch_rf_on()
+Date: Thu, 17 Sep 2026 12:25:32 +0000
+Message-Id: <20260917122532.2150988-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <AS8P251MB0001789BBF04B72745C7D96BC8BA2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+X-CM-TRANSID:zQCowABXwz083Ktq5XaACA--.43697S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrZry8JryxuFyUCw1rCr1xKrg_yoW8JF45pa
+	n2qrW5CFy5ArW7t34UAF4vqa4F93s8trW5C34F9a4Iva1rJFy3ta45JF129F10yr95Zw13
+	tFyIyr47WasYvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBFb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxV
+	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7
+	v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0E0s8F02x267IIx4CEVc8vx2IErcIFxwCY
+	1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48Zr
+	WUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6x
+	kF7I0E14v26rxl6s0DYxBIdaVFxhVjvjDU0xZFpf9x07j0wZcUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRINA2qrq02ZIQABsL
 
-On Tue, Sep 15, 2026 at 07:54:27PM +0100, Aamir Ahmed wrote:
-> nfc_llcp_recv_hdlc() reads the sequence byte skb->data[2], via
-> nfc_llcp_ns()/nfc_llcp_nr(), before any length check. The receive path
-> only guarantees the two-byte LLCP header -- __nfc_llcp_recv() checks it
-> with pskb_may_pull() and nfc_llcp_recv_agf() admits two-byte inner PDUs
-> -- so a two-byte I, RR or RNR PDU reads one byte of uninitialised skb
-> tailroom. The byte becomes N(R)/N(S); a peer can already set those with
-> a well-formed PDU, so this is acting on uninitialised memory, not new
-> peer control.
-> 
-> Guard the read with pskb_may_pull(), as commit 95674f506c63 ("nfc: llcp:
-> reject PDUs shorter than the LLCP header") did for the two-byte header,
-> so the sequence byte is present and linear before it is read. RR and RNR
-> PDUs are LLCP_HEADER_SIZE + LLCP_SEQUENCE_SIZE bytes and an I PDU is
-> longer, so no valid frame is rejected; a truncated PDU is malformed, so
-> return without a DM reply.
-> 
-> Fixes: d646960f7986 ("NFC: Initial LLCP support")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
-> ---
-> 
-> Notes:
->     v2:
->       - scope to nfc_llcp_recv_hdlc() only; the recv_dm() half duplicated
->         Lekë Hapçiu's pending fix (20260729011547.19191-2-snowwlake@icloud.com)
->       - return silently instead of answering DM(NOCONN) as v1 did, which would
->         close an established peer connection (Sashiko)
->       - guard with pskb_may_pull(), matching commit 95674f506c63
->       - add Assisted-by, target net, Cc the right lists, reword the changelog
->     v1: https://lore.kernel.org/netdev/AS8P251MB0001E8602F36054CDD8979A2C8B32@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM/
->     
->     Built net/nfc/llcp_core.o on v7.3-rc1 with KASAN and W=1, no warnings.
->     No NFC hardware; not runtime-tested.
+pm_runtime_get_sync() unconditionally increments the runtime PM usage
+counter, so the reference taken at the top of trf7970a_switch_rf_on()
+has to be dropped on every exit path. The two error paths return
+without doing so, and since the chip is left in TRF7970A_ST_RF_OFF they
+are not balanced by trf7970a_switch_rf_off() either.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Release the reference the same way trf7970a_switch_rf_off() does.
+
+Fixes: e6403b7c756f9 ("NFC: trf7970a: Add pm_runtime support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/nfc/trf7970a.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nfc/trf7970a.c b/drivers/nfc/trf7970a.c
+index 08c27bb438b5..07bc336c6505 100644
+--- a/drivers/nfc/trf7970a.c
++++ b/drivers/nfc/trf7970a.c
+@@ -1155,12 +1155,14 @@ static int trf7970a_switch_rf_on(struct trf7970a *trf)
+ 	if (trf->state != TRF7970A_ST_RF_OFF) {	/* Power on, RF off */
+ 		dev_err(trf->dev, "%s - Incorrect state: %d\n", __func__,
+ 			trf->state);
++		pm_runtime_put_autosuspend(trf->dev);
+ 		return -EINVAL;
+ 	}
+ 
+ 	ret = trf7970a_init(trf);
+ 	if (ret) {
+ 		dev_err(trf->dev, "%s - Can't initialize: %d\n", __func__, ret);
++		pm_runtime_put_autosuspend(trf->dev);
+ 		return ret;
+ 	}
+ 
+-- 
+2.34.1
 
