@@ -1,38 +1,72 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A2A5172E1
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 16:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009E74E3221
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 19:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789663124; cv=none; b=MrB1XEzNIKXZqJLWipz/s7hfInt6Y48RG24/tfbW97mOUZXd3G7q4/jL10nZpsqyYP9N2ILiZCZn7fDcH0FkxYxEAhWmclG90QGDEARxnFF0uLWJM6JHMb/l5wl//eb/Z6sSUu5dyZEZiopU8jyjLIEDazU9UOOuR7colmEFSck=
+	t=1789674159; cv=none; b=g56zaDwY+iO9VHd1+j+McTL5FQBr1QwrXnhHrTibJ8l7br1p7tke4OXS0bzJfkAiLuHjh/fpLg7HALUE75bvRJJmWg82M8/nSlFoajFQZZdDJaC964Ja1Gb2xftVOMdbh+u9Rj4t3MDu4Cl9NqAZRFFO0S45RvLA6ZbVDsJa6So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789663124; c=relaxed/simple;
-	bh=fr/IkdQohotmR5vD72R1lIjCkrdugKGtA9TVKxwfkSA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I/akGLM50tRJz+7/X0PKu7SOsKaoIcT4vsAsvn7XrvUUCYrLsd497MTx5kC3rsyvSEMAF8EFhFktheohNiLXgCQZEDC7It3QnIkM6C1uyhS2yLSQqYAIV5ASiAPzUqPN7qVJNTvhGZq851T5AvSGkFiJ+KnuiNJOGOnahMupAWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowACnEDuMF6xq4KKECA--.624S2;
-	Fri, 18 Sep 2026 00:38:36 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: davem@davemloft.net
-Cc: david+nfc@ixit.cz,
-	edumazet@google.com,
-	horms@kernel.org,
-	kuba@kernel.org,
-	linma@zju.edu.cn,
+	s=arc-20240116; t=1789674159; c=relaxed/simple;
+	bh=uhUM/M81d4CXxPFscOxT5I7bnlNnmvtxKPyzZsjpw54=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OYiQMaTB7vTc2lZArg8+JmQtA/LEOBYAEWeJBTNCI80msQBeZxuIeSPqD7+4K2Bu4ovA7dgx8uKGtsIeFiB8xxAU2q5pu46ThW76PCBIg1RgNbnj49Skb+5OW8ZWQdecb5gyU/bqpOxjLy+An/Dj8uPhBhWeKbDOInR9D5shKa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4WZlxcI; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4WZlxcI"
+Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-93910a0cefaso108112485a.2
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 12:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789674155; x=1790278955; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MkY2/FLZ13vCVvKQ7BjBhJgp4fsJ4DBBdsauFSxn6kY=;
+        b=l4WZlxcI7KszQ8b4NeIu8ORJRITvmSU9slbNGiMvUeTrd1bOMO38kuzrEcKCLIRwof
+         OfB8KcYpDlfz/LoOq0nsQzge2jw2ZT+gA9rCPU/cWWHS75L3yKCQpSKFQBohASvEUHSL
+         9x1u3bzuSNMdnvyl1jnbwhTfQjCT2hgxanR59VV7bqX77Ho4/1oVAxmnd7YkI+iGy9hU
+         Ic1PwidFQExAYpKfihObGonNTU32j3WKmmilWu/ww6rO54/Zx2WUY1U0sSv63yRwbrOc
+         +lQxYLhOH8kjFkCsxRMsaKLHWJjPaZk9VdMIpkver8uDpt6ooRL+51ZLYpSOomE/LFO1
+         NPyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789674155; x=1790278955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MkY2/FLZ13vCVvKQ7BjBhJgp4fsJ4DBBdsauFSxn6kY=;
+        b=mG8GgNUVgQJt5fUhrRi+T35rNehsRemDAlvZ+0i7MsJQJM3QOo3mEPV/W4IrVp+UpI
+         pACwrCx3qEgDWl7Hw6SNqqjQJeGhyrqCoBIl+54dYRJuSHKD1zQFnFxeNbMYCflNsXzv
+         UhODwTJb3QtUIyqeU3MUM6lN12l8wvLW0iWtcA8R1qUZFZ3sljzVanlDlo+FLjxf63lE
+         uUim41U8QuO5Ci5yWB5LLr6TCwNvpqY3P3xf887L231E15upECxzcWknja68uFqrxFXa
+         uH+BqYa6ov8+e+zSA9i031BQHfPvixRAT0NEwa1ZfY7K5gzDEnmtt4Y4qpexFM/DYm/X
+         wUzw==
+X-Gm-Message-State: AFuF++l08jJm/3C4lWjgWq+AO/JZAjD+lpF/LMEvtzZjPHz/6KdNVLx6
+	nv9va4BiylH2K316E0joFzb+LSHSFQ3weaRsiz/7LMFO9st30EXDr24=
+X-Gm-Gg: AYBFou3JlQ40tKyhgScaL1zFRn+Nfm0IPt1AsV4Edda71iFilBy4SOnTtN7aOfVO9ML
+	LxjK5W3mMHttmvLWyhIugg/ZjIc3+AHOspSzkaf4rCvxolMGlesqX6Bq63kXi1ULXTo+kqkoyW4
+	+MahfQyjc5RWbneus9m+HvVrsW3bmA1EZq1B5Lpwe2oF509JrRscDa778NMY4xzqRkGJYZxuSN4
+	9yUlmygIOvGrCJFB7CYalHOxsBoYgGyG9syLn9bedCm1z7s1jJeFTvryrMlRJZk5Z514rTuxuWP
+	+IQwIYh8efgfeVD0gBbgKSH/9K/JcZG2bPuMV6SuNhbeQL+PfDwdJ/4UWSq14YpSIHKYWjr6p6B
+	jPs4lPmhmyhGibPV6hpNDfnsOTLB17/glV9sBpx0zEbD6PPTmTidjZSu+hsc/Ripa667obPu0AI
+	/wshPWBpMkObfAmR3FLFZQ0L3RCXrgFw1JSbAhC9MPmipuM6Un/Pj9Mb6y+rnsI4eTqRylDLJ6R
+	PR3kUF8sthZXJyQVN4ZqEb04M8Oh2NFYAOofO0OLv2YCOyqd2sxJB18da9kolQWoDxL1oxGPhfH
+	92Pjduy/JSJDhfXdabs9qZGq5r2PP7zWQhhe
+X-Received: by 2002:a05:620a:438b:b0:93a:1b82:4962 with SMTP id af79cd13be357-93bb79b5b59mr1444714885a.47.1789674155573;
+        Thu, 17 Sep 2026 12:42:35 -0700 (PDT)
+Received: from localhost.localdomain ([104.39.169.225])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93b780cfa78sm524335685a.2.2026.09.17.12.42.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 17 Sep 2026 12:42:34 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	pabeni@redhat.com,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] nfc: llcp: Fix local use-after-free in nfc_llcp_general_bytes()
-Date: Thu, 17 Sep 2026 16:38:36 +0000
-Message-Id: <20260917163836.2162706-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	Ijae Kim <ae878000@gmail.com>,
+	Myeonghun Pak <mhun512@gmail.com>
+Subject: [PATCH] NFC: st21nfca: Release the I2C IRQ before freeing its resources
+Date: Thu, 17 Sep 2026 15:42:33 -0400
+Message-ID: <20260917194233.65921-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -40,65 +74,56 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACnEDuMF6xq4KKECA--.624S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrWUAr4DAFyDur4xur17Wrg_yoW8GFW8pF
-	13Gw15CryjqFWxAr42yr48uasIk342kr4IkayUA3WIkrnxXwn3CFy09ryvvr15KrWkZFyx
-	AFW3Kr1UGw15ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUB01xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
-	87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-	vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x02
-	62kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr
-	1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5byZUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgANA2qr889V6gAAsK
 
-nfc_llcp_general_bytes() drops the reference on the llcp local structure
-with nfc_llcp_local_put() and then still reads local->gb for the return
-value. If that was the last reference, the local structure is freed and
-the read happens on freed memory.
+The threaded IRQ handler accesses pending_skb and passes received frames
+through phy->hdev. During removal, st21nfca_hci_remove() frees the HCI
+device and the LLC state, and pending_skb is also freed before devres
+releases the IRQ. A pending or concurrent interrupt can therefore access
+freed memory. The HCI probe failure path likewise frees pending_skb while
+the IRQ is still registered.
 
-Capture the pointer to the general bytes before dropping the reference
-so the local structure is no longer used after the put.
+Release the managed IRQ before removing the HCI device, waiting for the
+threaded handler to finish. Also release it before freeing pending_skb
+when HCI probing fails, while keeping earlier failures on the path that
+has no registered IRQ to release.
 
-Fixes: 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+This issue was identified during our ongoing static-analysis research
+while reviewing kernel code.
+
+Fixes: 68957303f44a ("NFC: ST21NFCA: Add driver for STMicroelectronics ST21NFCA NFC Chip")
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- net/nfc/llcp_core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nfc/st21nfca/i2c.c |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index db5bc6a878dd..d0f17fbacfee 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -638,6 +638,7 @@ static int nfc_llcp_build_gb(struct nfc_llcp_local *local)
- u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, size_t *general_bytes_len)
+diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
+index a4c93ff7c5b0..894eb100ab5f 100644
+--- a/drivers/nfc/st21nfca/i2c.c
++++ b/drivers/nfc/st21nfca/i2c.c
+@@ -551,10 +551,12 @@ static int st21nfca_hci_i2c_probe(struct i2c_client *client)
+ 			       &phy->hdev,
+ 			       &phy->se_status);
+ 	if (r)
+-		goto out_free;
++		goto out_free_irq;
+ 
+ 	return 0;
+ 
++out_free_irq:
++	devm_free_irq(&client->dev, client->irq, phy);
+ out_free:
+ 	kfree_skb(phy->pending_skb);
+ 	return r;
+@@ -564,6 +566,7 @@ static void st21nfca_hci_i2c_remove(struct i2c_client *client)
  {
- 	struct nfc_llcp_local *local;
-+	u8 *gb;
+ 	struct st21nfca_i2c_phy *phy = i2c_get_clientdata(client);
  
- 	local = nfc_llcp_find_local(dev);
- 	if (local == NULL) {
-@@ -648,10 +649,11 @@ u8 *nfc_llcp_general_bytes(struct nfc_dev *dev, size_t *general_bytes_len)
- 	nfc_llcp_build_gb(local);
++	devm_free_irq(&client->dev, client->irq, phy);
+ 	st21nfca_hci_remove(phy->hdev);
  
- 	*general_bytes_len = local->gb_len;
-+	gb = local->gb;
- 
- 	nfc_llcp_local_put(local);
- 
--	return local->gb;
-+	return gb;
- }
- 
- int nfc_llcp_set_remote_gb(struct nfc_dev *dev, const u8 *gb, u8 gb_len)
+ 	if (phy->powered)
 -- 
-2.34.1
-
+2.47.1
