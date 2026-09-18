@@ -1,207 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out28-220.mail.aliyun.com (out28-220.mail.aliyun.com [115.124.28.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525DA2836A6;
-	Fri, 18 Sep 2026 12:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EC951EDEB
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 18 Sep 2026 18:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789735117; cv=none; b=kw6tpJt2TPjpQlVM1fzzZcQiq6MqynF674xh/EzYfNUlS2rDAN0PRJ79ujxRMj8CE1zqHN5NonUQ4tKABh4SFdkyCTxYyYXym2jNIHVmqsLTxDx0IarTDjBgAXXyYVDit6HwJLXixZNbW5Iaudwg47bsyQ6Jdz7k3pClBZc4QrE=
+	t=1789757550; cv=none; b=TMiy7LSRTIuBLdp9SODbpc1M2Yp0BOCZ67EANSyipmD4ChmUvhLYLJiA6lvZc+rDkIZTgIWGB8P4ZCAhcNnFNxCLRAaX91PTIHaKmvQJobjsD8wl7EmUrg9X43rYqAogxXf4PVbDLrqeex++Wgg+8kBQF+4TRlWl8LOR9ZzehEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789735117; c=relaxed/simple;
-	bh=iYeutQZD6Gk9hpc7D02W+Xmug8i3J61E0WyDI1nrRPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPOecKqFw8VGgRcHDefxejLaEqkfj/8lSNYcnMl2ykbM0zqzb9t1FG02I2FHOf/5ckZrbbCUmAcSELWZhxZrRtcm6JufvEE+Da0y7dzrv9ovhAkK7Hyl6OVMI6HVyjvNWvstgvEer2tRaF+9y0y6FtlAWwCkO8LINe4n+P/WVu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgkelU60; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789757550; c=relaxed/simple;
+	bh=jSplCp608W8zvy/HRNFhJGdjTGJXQewtsjhDhe7O3fk=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ly/o1cmQDKFD06E3Gb9PcfYivBpmytUMWem4ct7L/kvakG5m9Ba1is75yzDzW5bnn0nzEu1xucH9Irq/TDfBe9ZlfLtnMylR6z8fybFUBi1L5DO7dBGzayxLwOlcHIHuciBze7k9ETZrRtbrprJyIKSSMOntTkX5GAc5p9+H97c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=dc+Wqg4n; arc=none smtp.client-ip=115.124.28.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgkelU60"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48DA21F000FF;
-	Fri, 18 Sep 2026 12:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789735116;
-	bh=DGlZyW22wJe57M3Ug03904sWsQaDF2JZcMWEjWw8WtQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dgkelU60004YG6IzlKdKWEjY1QsNBsqRM6/g+hO9vX0nM3L8IHILae7SY0OXlV2iB
-	 6sPwDa/5KLa5BRCwtAxjBROwyXokuCoAQN7ga7RD7IxXj0lOjG6LddIFY22diqYZ5Z
-	 Q5HhjC/lQa8GJwhnpfU78+ryylXNMNoQh6xum0f5syysExvbIsUjqCNBX4fCvIJLLX
-	 Uvusf5RavxZp90klCjUzKkyu0We8Q95OuUy4GR/dNROzuG5Yg6Y0xHFSnLOiDHJah0
-	 4Gn0206KZ0KCKk0f8l+5BZLhBuhLDbRivBUKC1Ne+CHiRUJczBgBIb6ONsLJc10be3
-	 Bqn1q6jDh5oag==
-Date: Fri, 18 Sep 2026 13:38:28 +0100
-From: Simon Horman <horms@kernel.org>
-To: netdev-bot+sashiko@kernel.org
-Cc: liuc63@xiaopeng.com, david@ixit.cz, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	dan.carpenter@linaro.org, oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="dc+Wqg4n"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1789757534; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=HaB/sL6M7ENFIsdooYd7DiubYpOPtvusj4eMYtWGeO4=;
+	b=dc+Wqg4nxJ2yetUsXBBuCQoU1MPE9Yeg6ZZXr/dZfPW0iALZea7/l7AAGnZY+9B2z3on1B/6BtF5FDQNobYqMY2lrJRFM0wHAEUftk1A3vFJJDiVJFBXx8fu2xp2CIp+QWCUgFsqXA416Jvhiyluspw3MGKLBkS6m8Dn30oiiwg=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07598486|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0147701-0.00349097-0.981739;FP=18298854939386791537|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033022149254;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.jH0QdR7_1789757532;
+Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jH0QdR7_1789757532 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Sat, 19 Sep 2026 02:52:13 +0800
+From: Liu Chao <liuc63@xiaopeng.com>
+To: horms@kernel.org,
+	netdev@vger.kernel.org,
+	netdev-bot+sashiko@kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	ilane@ti.com,
+	david@ixit.cz,
+	linville@tuxdriver.com,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH net] nfc: hci: add bounds checking in
- nfc_hci_create_pipe()
-Message-ID: <20260918123828.GI51261@horms.kernel.org>
-References: <20260912115720.530715-1-liuc63@xiaopeng.com>
- <178952042575.22033.9676833200303972344@kernel.org>
+Subject: Re: [PATCH net] nfc: nci: avoid unbounded skb allocation when max_pkt_payload_len is zero
+Date: Sat, 19 Sep 2026 02:49:30 +0800
+Message-ID: <20260918185209.2675909-1-liuc63@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260917132433.GE51261@horms.kernel.org>
+References: <20260913101309.891633-1-liuc63@xiaopeng.com> <178938411495.22033.4311942083485691702@kernel.org> <20260917132433.GE51261@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <178952042575.22033.9676833200303972344@kernel.org>
 
-On Wed, Sep 16, 2026 at 01:00:25AM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue(s) to consider:
+Hi Simon,
 
-Hi Liu,
+Thanks for stepping in. Answering this is on me, and v2, posted
+right after this mail, covers the other form.
 
-There is an expectation that AI-generated reviews forwarded to
-the netdev ML are responded to. That can take a variety of forms
-including an email response that agrees with or refutes the review,
-or an updated version of the patch with an appropriate changelog.
+To your question: no, I don't think any of the three should block
+this patch. The TOCTOU race and the conn_info lifetime problem are
+pre-existing and this patch widens neither. I'd rather fix them in
+follow-ups than fold a lifetime fix into a 5-line bounds check.
 
-The expectation is the patch author or submitter handles this.
-But in order to move things along, in this case I've taken a look over it.
+On the UAF, you wrote that it "may actually be made worse" by
+this patch. I don't see how. The guard adds no dereference the
+loop doesn't already perform: with the check removed, the next
+iteration still reads the same field through the same unlocked
+pointer, and the list walk is unlocked either way. If you have a
+concrete window in mind, please spell it out.
 
-> 
-> Critical: 0 · High: 1 (1) · Medium: 0 (1) · Low: 0
-> 
-> - [High] The patch validates the pipe id inside nfc_hci_create_pipe()
->   only, but the out-of-bounds store the commit message names as the…
-> 
+> - [High] Incomplete fix: a controller-supplied
+>   conn_info->max_pkt_payload_len of 0 (or 1) is still consumed by
+>   nci_hci_send_data() in net/nfc/nci/hci.c ...
+
+Agreed, pre-existing and not made worse by this patch. Sashiko is
+right that "nci_queue_tx_data_frags() is the only place that loops"
+was too broad; nci_hci_send_data() loops over the same field. Two
+scope facts, though: the RF path uses ndev->rf_conn_info (allocated
+in nci_rf_disc_rsp_packet(), limit set from ntf.max_data_pkt_payload_size
+in nci_rf_intf_activated_ntf_packet()), while the HCI path uses
+ndev->hci_dev->conn_info (allocated in
+nci_core_conn_create_rsp_packet(), limit set from
+rsp->max_ctrl_pkt_payload_len). Different objects, so the patch
+doesn't miss the bug it fixes, but the sentence oversold it. v2
+rewords it.
+
+The new check can still reject a zero on the HCI path, but that
+buys little. For non-empty payloads the unsigned underflow in the
+loop above drives len past skb->end into skb_over_panic() -> BUG()
+before nci_send_data() is ever called, and what does reach
+nci_send_data() gets there only after skb_put_data() has run. So
+the path needs its own fix.
+
+That fix belongs where the response is parsed, before the conn_info
+is published. rsp->max_ctrl_pkt_payload_len is available as soon as
+rsp is set up (rsp.c:315); the object is allocated after that, and
+is on ndev->conn_info_list (rsp.c:342) and installed as
+ndev->hci_dev->conn_info (rsp.c:345) before the field is written
+(rsp.c:348). A check at parse time means the object is never
+published, nothing to unwind. A check at the assignment comes too
+late: the object is already linked and already pointed at, and the
+existing error path (free_conn_info, rsp.c:352) only covers the
+pre-list_add allocation failure, with no list_del and no clearing
+of hci_dev->conn_info. A zero there can only be the controller
+reporting a broken limit, so rejecting the response outright is
+the right call.
+
+The RF path is the opposite case. nci_rf_disc_rsp_packet()
+devm_kzallocs rf_conn_info, so zero is its legitimate initial
+state, the "not yet activated" value, not something the controller
+reported. The activation notification can't cover that window, and
+rejecting a zero there only restores it for the next transmitter.
+The reproducer walks exactly this path: RF_DISCOVER_RSP creates
+rf_conn_info, the injected ACTIVATED_NTF stores zero, the target
+still activates, the next data frame spins.
+
+The entry path doesn't help either. nci_send_data() takes the
+non-fragmenting branch only for skb->len <= max_pkt_payload_len,
+so with a zero limit a non-empty frame reaches the fragmentation
+loop no matter what the writers do. The check at the point of use
+covers every producer of a zero limit: initial state, the
+notification, any future writer. That's why it lives there for RF
+and won't for HCI.
+
+The arithmetic in nci_hci_send_data() needs its own fix regardless.
+With max_pkt_payload_len 0 or 1, i + max_pkt_payload_len -
+(skb->len + 1) is evaluated unsigned and wraps, the "last packet"
+branch is always taken, len becomes the whole payload, and
+skb_put_data() runs past skb->end into skb_over_panic() -> BUG()
+instead of merely spinning. A plain != 0 test wouldn't cover that.
+I'll send the arithmetic fix plus the parse-time zero check for
+that path.
+
+> - [High] TOCTOU: the new guard reads conn_info->max_pkt_payload_len
+>   once but the fragmentation loop re-reads it on every iteration.
+
+Agreed, the window is real and pre-existing. I've folded Sashiko's
+snapshot into v2 rather than deferring it: the loop re-reads the
+field either way, so the race itself is old, but the new check
+shouldn't be bypassable by the store it guards. v2 snapshots the
+field once with READ_ONCE() and uses the snapshot for both the
+check and the min_t() bound.
+
 > Pre-existing issues:
-> - [High] Incomplete fix for the same bug class: the ST NFC drivers still
->   index hdev->pipes[NFC_HCI_MAX_PIPES] (128 entries) with a raw…
-> - [Medium] hdev->pipes[] and hdev->gate2pipe[] are mutated from two
->   contexts with no lock in common.
-> 
-> --
-> 
-> nfc: hci: add bounds checking in nfc_hci_create_pipe()
-> 
-> This adds a length check on the ADM_CREATE_PIPE response before casting it
-> to struct hci_create_pipe_resp, and rejects pipe ids at or above
-> NFC_HCI_MAX_PIPES in nfc_hci_create_pipe().  The result code is set so the
-> caller does not treat a rejected pipe as success.
-> 
-> > diff --git a/net/nfc/hci/command.c b/net/nfc/hci/command.c
-> > index af6bacb3ba986..9c8bcb98b9677 100644
-> > --- a/net/nfc/hci/command.c
-> > +++ b/net/nfc/hci/command.c
-> > @@ -225,10 +225,19 @@ static u8 nfc_hci_create_pipe(struct nfc_hci_dev *hdev, u8 dest_host,
-> >  	if (*result < 0)
-> >  		return NFC_HCI_INVALID_PIPE;
-> >  
-> > +	if (skb->len < sizeof(*resp)) {
-> > +		kfree_skb(skb);
-> > +		*result = -EPROTO;
-> > +		return NFC_HCI_INVALID_PIPE;
-> > +	}
-> >  	resp = (struct hci_create_pipe_resp *)skb->data;
-> >  	pipe = resp->pipe;
-> >  	kfree_skb(skb);
-> >  
-> > +	if (pipe >= NFC_HCI_MAX_PIPES) {
-> > +		*result = -EINVAL;
-> > +		return NFC_HCI_INVALID_PIPE;
-> > +	}
-> 
-> [Severity: High]
-> 
-> Does this placement actually cover the store named in the commit message?
-> The changelog says:
-> 
->   "A response carrying a pipe id above 127 makes the caller,
->    nfc_hci_connect_gate(), write past the end of hdev->pipes[]."
-> 
-> But nfc_hci_connect_gate() also receives a pipe id directly as an argument,
-> and in that case nfc_hci_create_pipe() is never called:
-> 
-> net/nfc/hci/command.c:nfc_hci_connect_gate() {
-> 	if (pipe == NFC_HCI_DO_NOT_CREATE_PIPE)
-> 		return 0;
-> 	...
-> 	if (pipe != NFC_HCI_INVALID_PIPE)
-> 		goto open_pipe;
-> 	...
-> open_pipe:
-> 	r = nfc_hci_open_pipe(hdev, pipe);
-> 	...
-> 	hdev->pipes[pipe].gate = dest_gate;
-> 	hdev->pipes[pipe].dest_host = dest_host;
-> 	hdev->gate2pipe[dest_gate] = pipe;
-> }
-> 
-> Only 0x81 (NFC_HCI_DO_NOT_CREATE_PIPE) returns early and 0x80
-> (NFC_HCI_INVALID_PIPE) falls into the create path, so any value in
-> 0x82..0xff takes the goto open_pipe branch and, once the controller ACKs
-> ANY_OPEN_PIPE, writes two bytes at offset 2 * pipe in the 256-byte
-> hdev->pipes[] array.
-> 
-> Can that argument hold an out-of-range value?  The ST driver stores the raw
-> controller byte into init_data:
-> 
-> drivers/nfc/st21nfca/core.c:st21nfca_hci_load_session() {
-> 	...
-> 	hdev->init_data.gates[j].pipe = pipe_info[2];
-> 	...
-> }
-> 
-> hdev->init_data is assigned once in nfc_hci_allocate_device() and is never
-> re-initialized, and the session-id-mismatch branch of
-> hci_dev_session_init() calls nfc_hci_disconnect_all_gates() (which resets
-> gate2pipe[], removing the -EADDRINUSE early return) before replaying those
-> ids:
-> 
-> net/nfc/hci/core.c:hci_dev_session_init() {
-> 	...
-> 	r = nfc_hci_disconnect_all_gates(hdev);
-> 	if (r < 0)
-> 		goto exit;
-> 
-> 	r = hci_dev_connect_gates(hdev, hdev->init_data.gate_count,
-> 				  hdev->init_data.gates);
-> 	...
-> }
-> 
-> net/nfc/hci/core.c:hci_dev_connect_gates() {
-> 	...
-> 	r = nfc_hci_connect_gate(hdev, NFC_HCI_HOST_CONTROLLER_ID,
-> 				 gates->gate, gates->pipe);
-> 	...
-> }
-> 
-> Would it be better to validate at the write site in nfc_hci_connect_gate(),
-> or in a single helper used by both paths, so the out-of-bounds store the
-> changelog describes is actually closed?
+> - [High] Use-after-free of struct nci_conn_info ...
 
-This does seem to be a valid concern and I suggest handling it by add
-validation to nfc_hci_connect_gate() rather than nfc_hci_create_pipe().
+Agreed. Unlocked list walk, devm_kfree() straight from the rx
+worker, and nci_rsp_packet() dispatching CORE_CONN_CLOSE_RSP with
+no outstanding command. The HCI side has the same shape:
+nci_core_conn_close_rsp_packet() clears ndev->rf_conn_info but
+leaves ndev->hci_dev->conn_info (written only at rsp.c:345, never
+cleared) pointing at the freed object. I'll do the lifetime work
+as its own series rather than smuggle it into a 5-line bounds fix.
 
-> 
-> [Severity: High]
-> 
-> This isn't a bug introduced by this patch, but the same two defect classes
-> still exist in the ST NFC drivers, which index the same 128-entry
-> hdev->pipes[] array with a raw controller byte.
+v2 follows this mail with the changelog correction and the
+READ_ONCE() snapshot; the HCI loop gets its own patch after that,
+then the lifetime series.
 
-I think that this is orthogonal to the purpose of this patch and
-should be treated as a separate issue; I don't think it needs
-to affect progress of this patch.
+Thanks,
 
-...
-
-> [Severity: Medium]
-> 
-> This is a pre-existing issue and not something this patch changes, but
-> hdev->pipes[] and hdev->gate2pipe[] are updated from two contexts with no
-> lock in common, which is worth noting since the newly validated pipe id
-> feeds one of them.
-
-Ditto.
-
-...
-
--- 
-pw-bot: changes-requested
+Liu Chao
