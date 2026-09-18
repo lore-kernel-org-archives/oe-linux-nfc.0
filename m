@@ -1,72 +1,77 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009E74E3221
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 19:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAE836195A
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 18 Sep 2026 01:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789674159; cv=none; b=g56zaDwY+iO9VHd1+j+McTL5FQBr1QwrXnhHrTibJ8l7br1p7tke4OXS0bzJfkAiLuHjh/fpLg7HALUE75bvRJJmWg82M8/nSlFoajFQZZdDJaC964Ja1Gb2xftVOMdbh+u9Rj4t3MDu4Cl9NqAZRFFO0S45RvLA6ZbVDsJa6So=
+	t=1789695227; cv=none; b=QQRuF6iytMxaLqjOjYWWjE19fV5SpcMznoDeYRyVcoAGQ71cY11C7P7jBjWiKEJSrrdQSKHCaR1uWay3u6YvtYSlYfQyfA9Y/WVPG4op1qc40WLtRL3P7+R7fY0KVi8KJdBuYdgM9na2QVo1KS4PKbmDFgN6OT9cfyqHFP/668o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789674159; c=relaxed/simple;
-	bh=uhUM/M81d4CXxPFscOxT5I7bnlNnmvtxKPyzZsjpw54=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OYiQMaTB7vTc2lZArg8+JmQtA/LEOBYAEWeJBTNCI80msQBeZxuIeSPqD7+4K2Bu4ovA7dgx8uKGtsIeFiB8xxAU2q5pu46ThW76PCBIg1RgNbnj49Skb+5OW8ZWQdecb5gyU/bqpOxjLy+An/Dj8uPhBhWeKbDOInR9D5shKa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4WZlxcI; arc=none smtp.client-ip=74.125.230.205
+	s=arc-20240116; t=1789695227; c=relaxed/simple;
+	bh=vQ71nP81xJIGLGl+WldFcoeRSyjZOcokzca2ie96Obs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aU1avLHsKKxzpBFWodB43t/UKITcjb+by4fj5EZEdqtY3J2ZNyRvMzZLU/MYATWchxC8Jl/X+t8IsZBEN7uq9eXL4sCK9U5gHktxfty2nJAwc/TLgGV0mNzwQCf0DT499bG4AbIuusvSvZaHm0nA2F+xBfy0zwRUj/VQWlRMTfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pAO8HBnN; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4WZlxcI"
-Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-93910a0cefaso108112485a.2
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 12:42:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pAO8HBnN"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2db22383fe8so1112495ad.2
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 17 Sep 2026 18:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789674155; x=1790278955; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789695225; x=1790300025; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MkY2/FLZ13vCVvKQ7BjBhJgp4fsJ4DBBdsauFSxn6kY=;
-        b=l4WZlxcI7KszQ8b4NeIu8ORJRITvmSU9slbNGiMvUeTrd1bOMO38kuzrEcKCLIRwof
-         OfB8KcYpDlfz/LoOq0nsQzge2jw2ZT+gA9rCPU/cWWHS75L3yKCQpSKFQBohASvEUHSL
-         9x1u3bzuSNMdnvyl1jnbwhTfQjCT2hgxanR59VV7bqX77Ho4/1oVAxmnd7YkI+iGy9hU
-         Ic1PwidFQExAYpKfihObGonNTU32j3WKmmilWu/ww6rO54/Zx2WUY1U0sSv63yRwbrOc
-         +lQxYLhOH8kjFkCsxRMsaKLHWJjPaZk9VdMIpkver8uDpt6ooRL+51ZLYpSOomE/LFO1
-         NPyQ==
+        bh=S3eHLQ4W/b80X19nrEr9wAXnZ5B6H1Ytyc3QQvQncgw=;
+        b=pAO8HBnNvECNfpisAnIU2yjrzn2/sXYI5UgVIEzdVtdzj56kz9pmYCyKetizl+nd4X
+         5jYrYhy8uzE7xjm6Eg2CSbgOKq5XRsJUTO37v+IlI/hEIjMBF9RN+sC3iuCxY0Pceh3B
+         AqwsdqtyMobGvR/K4KKAgakVvhCj+JiUzBa80I1hTNErTmHzlazYyYovXfYxBr4hzU7n
+         12wgTaaBnbS64QqplS4nQ7P4Y3gsSUS1IhqoVPKaaok8ZPDq9FdLwSGUY95AiUQrqx6N
+         BIFmz5lOqErvQHZqSgOZbE+8F7pNrIRf0muimiPu6w8GHPhLpDkNMVAt0WK0MGroV/hl
+         juZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789674155; x=1790278955;
+        d=1e100.net; s=20260707; t=1789695225; x=1790300025;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MkY2/FLZ13vCVvKQ7BjBhJgp4fsJ4DBBdsauFSxn6kY=;
-        b=mG8GgNUVgQJt5fUhrRi+T35rNehsRemDAlvZ+0i7MsJQJM3QOo3mEPV/W4IrVp+UpI
-         pACwrCx3qEgDWl7Hw6SNqqjQJeGhyrqCoBIl+54dYRJuSHKD1zQFnFxeNbMYCflNsXzv
-         UhODwTJb3QtUIyqeU3MUM6lN12l8wvLW0iWtcA8R1qUZFZ3sljzVanlDlo+FLjxf63lE
-         uUim41U8QuO5Ci5yWB5LLr6TCwNvpqY3P3xf887L231E15upECxzcWknja68uFqrxFXa
-         uH+BqYa6ov8+e+zSA9i031BQHfPvixRAT0NEwa1ZfY7K5gzDEnmtt4Y4qpexFM/DYm/X
-         wUzw==
-X-Gm-Message-State: AFuF++l08jJm/3C4lWjgWq+AO/JZAjD+lpF/LMEvtzZjPHz/6KdNVLx6
-	nv9va4BiylH2K316E0joFzb+LSHSFQ3weaRsiz/7LMFO9st30EXDr24=
-X-Gm-Gg: AYBFou3JlQ40tKyhgScaL1zFRn+Nfm0IPt1AsV4Edda71iFilBy4SOnTtN7aOfVO9ML
-	LxjK5W3mMHttmvLWyhIugg/ZjIc3+AHOspSzkaf4rCvxolMGlesqX6Bq63kXi1ULXTo+kqkoyW4
-	+MahfQyjc5RWbneus9m+HvVrsW3bmA1EZq1B5Lpwe2oF509JrRscDa778NMY4xzqRkGJYZxuSN4
-	9yUlmygIOvGrCJFB7CYalHOxsBoYgGyG9syLn9bedCm1z7s1jJeFTvryrMlRJZk5Z514rTuxuWP
-	+IQwIYh8efgfeVD0gBbgKSH/9K/JcZG2bPuMV6SuNhbeQL+PfDwdJ/4UWSq14YpSIHKYWjr6p6B
-	jPs4lPmhmyhGibPV6hpNDfnsOTLB17/glV9sBpx0zEbD6PPTmTidjZSu+hsc/Ripa667obPu0AI
-	/wshPWBpMkObfAmR3FLFZQ0L3RCXrgFw1JSbAhC9MPmipuM6Un/Pj9Mb6y+rnsI4eTqRylDLJ6R
-	PR3kUF8sthZXJyQVN4ZqEb04M8Oh2NFYAOofO0OLv2YCOyqd2sxJB18da9kolQWoDxL1oxGPhfH
-	92Pjduy/JSJDhfXdabs9qZGq5r2PP7zWQhhe
-X-Received: by 2002:a05:620a:438b:b0:93a:1b82:4962 with SMTP id af79cd13be357-93bb79b5b59mr1444714885a.47.1789674155573;
-        Thu, 17 Sep 2026 12:42:35 -0700 (PDT)
-Received: from localhost.localdomain ([104.39.169.225])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93b780cfa78sm524335685a.2.2026.09.17.12.42.34
+        bh=S3eHLQ4W/b80X19nrEr9wAXnZ5B6H1Ytyc3QQvQncgw=;
+        b=ecmGHvidboBVSXhpReOj4suQ68b/Co88I9RnV/2IrHYmttjDlJGKYyW0vaAMIfHLew
+         gqdutSQkIhjOJR2k5pNaQqNocLJoPGR/BH+sd/z1ZsMzIj2BUvC8sBLhCvapAW4iFATy
+         RFUsc5RJ5SG2RxX1b7u4jnW5eZPoRZKOFhz0Q52zxf7pmSavVxqEyal3NciQUCeWlAhh
+         SEycTy9Ikd3iIrn5mZu0AkQMZlM9KjxE84KuCXy+kgWXXuG53Z9pkf/A6Z2kBqd25aWn
+         v75NT2qNqsGKtEc3G4lU1in15h1+6wEGqCe/gz/I2vUAFUaSUJbX8hdzoXyRP4NRXaLa
+         EuLA==
+X-Forwarded-Encrypted: i=1; AKwUvBx4LfO2G/WM4mRbKRovR9XccdT0moTSeKilu+4ysWbUf2eNqyjxelfYBqeb8bgPLA8MpZyewbD1hRt147A=@lists.linux.dev
+X-Gm-Message-State: AFuF++mazrs3d+iPiDZfgu2f427aiBD9DOQTIGGLchFVsE7o7En3c2ne
+	KhqcExCcHqu9vHXwZYxrXr7/JVIKWm3SSPkhOVsDkuVNpriOqsAdRBqc
+X-Gm-Gg: AYBFou3xMGVXDLSi8wNU3ECZqSRxyKBsp2rqQ95LPXBp4PMWAIYu63wdZ1nN4BM6zi3
+	ze8IyjKnq63tGbeyOvpdI9p1Ok+bYveuCC49YlllzD+QHZO6H73NS/ZnY7sw+uX2AWCX48kzgRO
+	8e1ZcWm39fUJ016SIJUVOG9yEwW5gAT+GQ/ZjnuBEVuIR45uBIMnHB1+IwqbIYFMIYK0Qa4Kzly
+	YQdlSu7dy7OA7b45JfUWf0Z1/h+1ADyCsfj9h9Sad2yif7pozCK0ckFZb4XpRxGmz/XelmVBezn
+	qb32W4HXHHlgfRSFcIBiBfok/14Box3tVEXZJ3dn9Iah44zV3TqO8+k4Kfci8PoLODouw8c9LPN
+	fTqd3rdIetg9MEdmQ4/k/6NHtTuFpbUFWPXKFsOP3mHZ9Yki9DjgcRViY0QdK3MaNFDNudqcRes
+	JPaCTHl9MMclau2xMnJoh2MRQHXcIWm0DxUfO86a/ciA/fiodSPFRig4wtzHg+TDwKKeKdq542u
+	NUOPlo/u0YtCJclpE6C18e53PqYObNEftW/EcY=
+X-Received: by 2002:a17:903:2f84:b0:2cf:8131:75e8 with SMTP id d9443c01a7336-2ddb1af51a9mr17366565ad.13.1789695225346;
+        Thu, 17 Sep 2026 18:33:45 -0700 (PDT)
+Received: from localhost.localdomain ([2409:8a1e:2e81:7320:e17f:a362:fc0a:a2ab])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c2872052fsm40520eec.11.2026.09.17.18.33.42
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 17 Sep 2026 12:42:34 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
+        Thu, 17 Sep 2026 18:33:44 -0700 (PDT)
+From: zjamg <ndaugoing@gmail.com>
 To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>,
-	Myeonghun Pak <mhun512@gmail.com>
-Subject: [PATCH] NFC: st21nfca: Release the I2C IRQ before freeing its resources
-Date: Thu, 17 Sep 2026 15:42:33 -0400
-Message-ID: <20260917194233.65921-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	Yuchao Zhang <ndaugoing@gmail.com>
+Subject: [PATCH 0/1] nfc: nci: ignore unexpected CORE_RESET_NTF
+Date: Fri, 18 Sep 2026 09:33:36 +0800
+Message-ID: <20260918013337.82214-1-ndaugoing@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -75,55 +80,59 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The threaded IRQ handler accesses pending_skb and passes received frames
-through phy->hdev. During removal, st21nfca_hci_remove() frees the HCI
-device and the LLC state, and pending_skb is also freed before devres
-releases the IRQ. A pending or concurrent interrupt can therefore access
-freed memory. The HCI probe failure path likewise frees pending_skb while
-the IRQ is still registered.
+From: Yuchao Zhang <ndaugoing@gmail.com>
 
-Release the managed IRQ before removing the HCI device, waiting for the
-threaded handler to finish. Also release it before freeing pending_skb
-when HCI probing fails, while keeping earlier failures on the path that
-has no registered IRQ to release.
+Hello,
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
+This patch addresses an issue in the NCI core stack where an unexpected
+or unsolicited CORE_RESET_NTF packet can prematurely complete unrelated
+in-flight requests with NCI_STATUS_OK and corrupt protocol version state.
 
-Fixes: 68957303f44a ("NFC: ST21NFCA: Add driver for STMicroelectronics ST21NFCA NFC Chip")
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/nfc/st21nfca/i2c.c |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Problem Overview:
+=================
+Commit bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
+added nci_core_reset_ntf_packet() to handle NCI 2.x CORE_RESET
+notifications. When received, it updates ndev->nci_ver and manufacturer
+information, and calls nci_req_complete(ndev, NCI_STATUS_OK).
 
-diff --git a/drivers/nfc/st21nfca/i2c.c b/drivers/nfc/st21nfca/i2c.c
-index a4c93ff7c5b0..894eb100ab5f 100644
---- a/drivers/nfc/st21nfca/i2c.c
-+++ b/drivers/nfc/st21nfca/i2c.c
-@@ -551,10 +551,12 @@ static int st21nfca_hci_i2c_probe(struct i2c_client *client)
- 			       &phy->hdev,
- 			       &phy->se_status);
- 	if (r)
--		goto out_free;
-+		goto out_free_irq;
- 
- 	return 0;
- 
-+out_free_irq:
-+	devm_free_irq(&client->dev, client->irq, phy);
- out_free:
- 	kfree_skb(phy->pending_skb);
- 	return r;
-@@ -564,6 +566,7 @@ static void st21nfca_hci_i2c_remove(struct i2c_client *client)
- {
- 	struct st21nfca_i2c_phy *phy = i2c_get_clientdata(client);
- 
-+	devm_free_irq(&client->dev, client->irq, phy);
- 	st21nfca_hci_remove(phy->hdev);
- 
- 	if (phy->powered)
+Unlike other notification handlers in ntf.c (which validate ndev->state
+before acting), nci_core_reset_ntf_packet() does not verify whether a
+core reset request is actually pending.
+
+If an unsolicited or delayed CORE_RESET_NTF is received:
+1. If another request is currently in-flight (such as CORE_INIT,
+   RF_DISCOVER, or CONN_CREATE), it prematurely completes that request
+   with NCI_STATUS_OK, leading to state desynchronization.
+2. Even when no request is in-flight, it unconditionally overwrites
+   ndev->nci_ver and manufacturer info. Because ndev->nci_ver acts as
+   a parser and packet format selector (e.g., in nci_open_device() and
+   nci_core_init_rsp_packet()), unexpectedly modifying it can cause
+   protocol format confusion.
+
+Solution:
+=========
+Introduce an NCI_RESET_PENDING flag in enum nci_flag to ensure
+CORE_RESET_NTF is only accepted while a reset command is actively
+awaiting it.
+
+Testing:
+========
+Verified with module compilation and checkpatch.pl (0 errors, 0 warnings).
+Empirically confirmed that unsolicited CORE_RESET_NTF packets are safely
+rejected with a warning while legitimate reset sequences continue to
+complete normally.
+
+Thanks,
+Yuchao Zhang
+
+Yuchao Zhang (1):
+  nfc: nci: ignore unexpected CORE_RESET_NTF
+
+ include/net/nfc/nci_core.h |  1 +
+ net/nfc/nci/core.c         |  3 +++
+ net/nfc/nci/ntf.c          |  5 +++++
+ net/nfc/nci/rsp.c          | 15 ++++++++++-----
+ 4 files changed, 19 insertions(+), 5 deletions(-)
+
 -- 
-2.47.1
+2.53.0
