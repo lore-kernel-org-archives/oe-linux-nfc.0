@@ -1,125 +1,207 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C394B4885
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 18 Sep 2026 08:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525DA2836A6;
+	Fri, 18 Sep 2026 12:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789719426; cv=none; b=fpdU3wvUAcpZehvFPNhsYHmsbKdD43TKtyyJuXESA368GYfFajbaFMeoCxK2sLptwmo4jVwZEh3MFotjwsZjXRFmhkT1DiQt1phwL+bXVwHxM32EoWFEwTEVfynU4u2+e+GZNwXh8zsPMybcXMQxwm57TCX8ImH7GS7QWiCFnQo=
+	t=1789735117; cv=none; b=kw6tpJt2TPjpQlVM1fzzZcQiq6MqynF674xh/EzYfNUlS2rDAN0PRJ79ujxRMj8CE1zqHN5NonUQ4tKABh4SFdkyCTxYyYXym2jNIHVmqsLTxDx0IarTDjBgAXXyYVDit6HwJLXixZNbW5Iaudwg47bsyQ6Jdz7k3pClBZc4QrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789719426; c=relaxed/simple;
-	bh=3Vb/Q5gFmB9GEcWuixSJnDg8oOAAOJry8Kj0f4JNoZk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YdvISPzET5LzOhblB52s6hqMfS4U/FI2o7gD4y8JocbfoH+LGK5wim4bLkZJY9Cu0MNfZUkgtZC6wp8Z/cGe5580RQhfRMpaNhIO1HUsGeajKpIzwQ5RTHSuUv0oD2QcZ7WDlilmyvtnNDF4x10en1lefT4jLXoDJDCRpxSb7Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=cSpd28yA; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1789735117; c=relaxed/simple;
+	bh=iYeutQZD6Gk9hpc7D02W+Xmug8i3J61E0WyDI1nrRPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HPOecKqFw8VGgRcHDefxejLaEqkfj/8lSNYcnMl2ykbM0zqzb9t1FG02I2FHOf/5ckZrbbCUmAcSELWZhxZrRtcm6JufvEE+Da0y7dzrv9ovhAkK7Hyl6OVMI6HVyjvNWvstgvEer2tRaF+9y0y6FtlAWwCkO8LINe4n+P/WVu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgkelU60; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="cSpd28yA"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2940ef15d3so55197066b.2
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 18 Sep 2026 01:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1789719422; x=1790324222; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=4kVqeGTAB3R+JJC+QW2Gmsm/OFhxPzA+cRh/xOgn5H4=;
-        b=cSpd28yAfDG+f0RQ5JBpTbe798pQpBUIAnYaquhBFLkAyruVCDp1vj58nE0JiFFYkj
-         wMDQSngQv39B5dNuPIoOWXvbdblprCwlkdKUf0r5V/Zs++ak4FvqXH08boMYyH/ST+Fp
-         aGaYDb2swKqkt7mN7Fe2ZZjCVJ9UCEHlcsmXvuTOPHvbQX0MG7tbCeyur72OUhk8sHzM
-         jc5p1IagwA4eGCrchbSuSf9Lj8yuNQykfZ3XZqyLmlsYZRzFUte7QiXiTZlNOVQqIe7l
-         /0pxpv2mbA8b+HvQrRqO7v25TrhWONNsywqu9VhWYjs2/XGO03b2qGueSzipKfGwOJRf
-         EfjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789719422; x=1790324222;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=4kVqeGTAB3R+JJC+QW2Gmsm/OFhxPzA+cRh/xOgn5H4=;
-        b=fMac+aPDn1NscgcKl3fuTNjkF/nM41sHdzRPtfV6nsNTXlUKmmdYI1RjTD5quxQhih
-         LG5AgAhLsH6LtXGLEwxqUWVNCvbgXhBuM5RZzYZsvqtQu2/7lpOvZX3XVDim/PJWpgIi
-         52nTN4Xbo/Th2d5cwSIvBEhSJwd754sIU4ThqhmOdV6eF+PQGuduP6D5K3nDDnDNh0KP
-         ZHA76b+Yw0PggBnXfuMOZnQ0Rvtfo1jX96L1JuNelOf9GZCJABrlY8l5RSuGN9991m0M
-         +q7Lgd7Gorr6tx2f73XD4/HT7PSF8IynYKdT5GMXXYVkbOhNMBz46qv9vsy8b3gw6y2y
-         jgGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx59JTYr2O2QvjYIBq82l0/Q9gWX9aRLp651try/EQxfwSha0G+rS6t7+iZ6d8LA19KQaVk1NtoJC0TPvg=@lists.linux.dev
-X-Gm-Message-State: AFuF++lsEV2MgwHWkEXaW+ME1Ol3Wwa+fsO5BLWD+CPJ5Rf2R4vD37Y/
-	XIFTZVAzh6UAPDrW3cUy9U1azPnrX1NnYs+cfVdRB2Xva5gkTt6f2kBTEEmwVxLc/mpAEQfLgvf
-	bYq+5
-X-Gm-Gg: AYBFou1yJHirmjtWBQgRW7lzAcO8PiorMy0o8ghBsvs/d9xkzisPqKPnoQABG5jUTxL
-	WdbAOQY7QNooagIO3q/rOeubwNha3V0jaVnJjmDJGQzwlmgapsNakYxrch8TkmQDWkB4p7wr8lY
-	WiaumPE28a/l9cUUrJzKJPaQeZIk7TA6bW1xPrA7Y+IhmhiSiYOQMXvbX7e1YoYQk5k06ld2+RZ
-	5BFrMjw9Ff28wxh06tRdTxNekoXy8uqblvJHmNvx9aw9RW2GVz+j1ZguKXc7wdIKWWf//DsPtcd
-	+F03Vp1cmjXIUU2ZYjmo00Io4XSlOsEeAOjd86oIO4Ak3AweoQB4kRJQvS3EH/IrTgYmYsx7F2R
-	2RfhDSeD5kQMGDd1DaBOfxk98xLXgE0YEK6bNT4lyt09HWhF88qKoJkjXknQ5tq7xS/V0tRQYKZ
-	YYQSzErDdESYDWb2HStH8RQxlscvk86UTD5aEoK5IFCymFJYyCKJEgwUlhlHklbrweQVs+iP1ci
-	uwYuUK69N3tQLJQFFOk8GQvT3MaiIgVV2j5qWfEI9XVg0sHIuFJ
-X-Received: by 2002:a17:907:3cc4:b0:c29:f5d5:5aa0 with SMTP id a640c23a62f3a-c2a159a977bmr170225166b.42.1789719422087;
-        Fri, 18 Sep 2026 01:17:02 -0700 (PDT)
-Received: from [172.16.220.101] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a1bb43a37sm30344066b.23.2026.09.18.01.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 01:17:01 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 18 Sep 2026 10:17:00 +0200
-Subject: [PATCH] nfc: st-nci: Use print_hex_dump_debug() in NDLC_DUMP_SKB()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgkelU60"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48DA21F000FF;
+	Fri, 18 Sep 2026 12:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789735116;
+	bh=DGlZyW22wJe57M3Ug03904sWsQaDF2JZcMWEjWw8WtQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dgkelU60004YG6IzlKdKWEjY1QsNBsqRM6/g+hO9vX0nM3L8IHILae7SY0OXlV2iB
+	 6sPwDa/5KLa5BRCwtAxjBROwyXokuCoAQN7ga7RD7IxXj0lOjG6LddIFY22diqYZ5Z
+	 Q5HhjC/lQa8GJwhnpfU78+ryylXNMNoQh6xum0f5syysExvbIsUjqCNBX4fCvIJLLX
+	 Uvusf5RavxZp90klCjUzKkyu0We8Q95OuUy4GR/dNROzuG5Yg6Y0xHFSnLOiDHJah0
+	 4Gn0206KZ0KCKk0f8l+5BZLhBuhLDbRivBUKC1Ne+CHiRUJczBgBIb6ONsLJc10be3
+	 Bqn1q6jDh5oag==
+Date: Fri, 18 Sep 2026 13:38:28 +0100
+From: Simon Horman <horms@kernel.org>
+To: netdev-bot+sashiko@kernel.org
+Cc: liuc63@xiaopeng.com, david@ixit.cz, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dan.carpenter@linaro.org, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net] nfc: hci: add bounds checking in
+ nfc_hci_create_pipe()
+Message-ID: <20260918123828.GI51261@horms.kernel.org>
+References: <20260912115720.530715-1-liuc63@xiaopeng.com>
+ <178952042575.22033.9676833200303972344@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260918-stnci-ndlc-debug-v1-1-48d370af9c6a@fairphone.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDMBBA4avIrDug8Se1VxEXJhl1iqQloyKId
- zfq8lu8t4NQYBL4JDsEWln45yOyVwJ27PxAyC4aVKqqtM7eKLO3jN5NFh2ZZcDcaFWVhTZalxC
- zf6Cet3vZtI9lMV+y8/WB4zgBGa5/CXQAAAA=
-X-Change-ID: 20260918-stnci-ndlc-debug-3b726547b775
-To: David Heidelberg <david@ixit.cz>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Kristian Brox <isyourbrainfoss@proton.me>, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789719421; l=1184;
- i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=3Vb/Q5gFmB9GEcWuixSJnDg8oOAAOJry8Kj0f4JNoZk=;
- b=aVqV952H3U9RE4pnVYs1xz5MaLGPVT6K6cveb1CJo3CvPPyUkSeZdwykELjdRwogWB6L7Db2D
- q0SaOd5RYEzDSPlDvAIj+bLA5G5NT1n8jKCHnxSq6ZCA8qGBcSxQIkC
-X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
- pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <178952042575.22033.9676833200303972344@kernel.org>
 
-print_hex_dump() will output when just the console log level is set to
->= 7, which is different than the pr_debug() on the line before, which
-will be going through the dynamic debug feature.
+On Wed, Sep 16, 2026 at 01:00:25AM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider:
 
-Use print_hex_dump_debug() to have both prints be controllable via
-dynamic debug.
+Hi Liu,
 
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- drivers/nfc/st-nci/ndlc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is an expectation that AI-generated reviews forwarded to
+the netdev ML are responded to. That can take a variety of forms
+including an email response that agrees with or refutes the review,
+or an updated version of the patch with an appropriate changelog.
 
-diff --git a/drivers/nfc/st-nci/ndlc.c b/drivers/nfc/st-nci/ndlc.c
-index be4808859cfa..89a13a439279 100644
---- a/drivers/nfc/st-nci/ndlc.c
-+++ b/drivers/nfc/st-nci/ndlc.c
-@@ -39,7 +39,7 @@
- #define NDLC_DUMP_SKB(info, skb)                                 \
- do {                                                             \
- 	pr_debug("%s:\n", info);                                 \
--	print_hex_dump(KERN_DEBUG, "ndlc: ", DUMP_PREFIX_OFFSET, \
-+	print_hex_dump_debug("ndlc: ", DUMP_PREFIX_OFFSET,       \
- 			16, 1, skb->data, skb->len, 0);          \
- } while (0)
- 
+The expectation is the patch author or submitter handles this.
+But in order to move things along, in this case I've taken a look over it.
 
----
-base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
-change-id: 20260918-stnci-ndlc-debug-3b726547b775
+> 
+> Critical: 0 · High: 1 (1) · Medium: 0 (1) · Low: 0
+> 
+> - [High] The patch validates the pipe id inside nfc_hci_create_pipe()
+>   only, but the out-of-bounds store the commit message names as the…
+> 
+> Pre-existing issues:
+> - [High] Incomplete fix for the same bug class: the ST NFC drivers still
+>   index hdev->pipes[NFC_HCI_MAX_PIPES] (128 entries) with a raw…
+> - [Medium] hdev->pipes[] and hdev->gate2pipe[] are mutated from two
+>   contexts with no lock in common.
+> 
+> --
+> 
+> nfc: hci: add bounds checking in nfc_hci_create_pipe()
+> 
+> This adds a length check on the ADM_CREATE_PIPE response before casting it
+> to struct hci_create_pipe_resp, and rejects pipe ids at or above
+> NFC_HCI_MAX_PIPES in nfc_hci_create_pipe().  The result code is set so the
+> caller does not treat a rejected pipe as success.
+> 
+> > diff --git a/net/nfc/hci/command.c b/net/nfc/hci/command.c
+> > index af6bacb3ba986..9c8bcb98b9677 100644
+> > --- a/net/nfc/hci/command.c
+> > +++ b/net/nfc/hci/command.c
+> > @@ -225,10 +225,19 @@ static u8 nfc_hci_create_pipe(struct nfc_hci_dev *hdev, u8 dest_host,
+> >  	if (*result < 0)
+> >  		return NFC_HCI_INVALID_PIPE;
+> >  
+> > +	if (skb->len < sizeof(*resp)) {
+> > +		kfree_skb(skb);
+> > +		*result = -EPROTO;
+> > +		return NFC_HCI_INVALID_PIPE;
+> > +	}
+> >  	resp = (struct hci_create_pipe_resp *)skb->data;
+> >  	pipe = resp->pipe;
+> >  	kfree_skb(skb);
+> >  
+> > +	if (pipe >= NFC_HCI_MAX_PIPES) {
+> > +		*result = -EINVAL;
+> > +		return NFC_HCI_INVALID_PIPE;
+> > +	}
+> 
+> [Severity: High]
+> 
+> Does this placement actually cover the store named in the commit message?
+> The changelog says:
+> 
+>   "A response carrying a pipe id above 127 makes the caller,
+>    nfc_hci_connect_gate(), write past the end of hdev->pipes[]."
+> 
+> But nfc_hci_connect_gate() also receives a pipe id directly as an argument,
+> and in that case nfc_hci_create_pipe() is never called:
+> 
+> net/nfc/hci/command.c:nfc_hci_connect_gate() {
+> 	if (pipe == NFC_HCI_DO_NOT_CREATE_PIPE)
+> 		return 0;
+> 	...
+> 	if (pipe != NFC_HCI_INVALID_PIPE)
+> 		goto open_pipe;
+> 	...
+> open_pipe:
+> 	r = nfc_hci_open_pipe(hdev, pipe);
+> 	...
+> 	hdev->pipes[pipe].gate = dest_gate;
+> 	hdev->pipes[pipe].dest_host = dest_host;
+> 	hdev->gate2pipe[dest_gate] = pipe;
+> }
+> 
+> Only 0x81 (NFC_HCI_DO_NOT_CREATE_PIPE) returns early and 0x80
+> (NFC_HCI_INVALID_PIPE) falls into the create path, so any value in
+> 0x82..0xff takes the goto open_pipe branch and, once the controller ACKs
+> ANY_OPEN_PIPE, writes two bytes at offset 2 * pipe in the 256-byte
+> hdev->pipes[] array.
+> 
+> Can that argument hold an out-of-range value?  The ST driver stores the raw
+> controller byte into init_data:
+> 
+> drivers/nfc/st21nfca/core.c:st21nfca_hci_load_session() {
+> 	...
+> 	hdev->init_data.gates[j].pipe = pipe_info[2];
+> 	...
+> }
+> 
+> hdev->init_data is assigned once in nfc_hci_allocate_device() and is never
+> re-initialized, and the session-id-mismatch branch of
+> hci_dev_session_init() calls nfc_hci_disconnect_all_gates() (which resets
+> gate2pipe[], removing the -EADDRINUSE early return) before replaying those
+> ids:
+> 
+> net/nfc/hci/core.c:hci_dev_session_init() {
+> 	...
+> 	r = nfc_hci_disconnect_all_gates(hdev);
+> 	if (r < 0)
+> 		goto exit;
+> 
+> 	r = hci_dev_connect_gates(hdev, hdev->init_data.gate_count,
+> 				  hdev->init_data.gates);
+> 	...
+> }
+> 
+> net/nfc/hci/core.c:hci_dev_connect_gates() {
+> 	...
+> 	r = nfc_hci_connect_gate(hdev, NFC_HCI_HOST_CONTROLLER_ID,
+> 				 gates->gate, gates->pipe);
+> 	...
+> }
+> 
+> Would it be better to validate at the write site in nfc_hci_connect_gate(),
+> or in a single helper used by both paths, so the out-of-bounds store the
+> changelog describes is actually closed?
 
-Best regards,
---  
-Luca Weiss <luca.weiss@fairphone.com>
+This does seem to be a valid concern and I suggest handling it by add
+validation to nfc_hci_connect_gate() rather than nfc_hci_create_pipe().
 
+> 
+> [Severity: High]
+> 
+> This isn't a bug introduced by this patch, but the same two defect classes
+> still exist in the ST NFC drivers, which index the same 128-entry
+> hdev->pipes[] array with a raw controller byte.
+
+I think that this is orthogonal to the purpose of this patch and
+should be treated as a separate issue; I don't think it needs
+to affect progress of this patch.
+
+...
+
+> [Severity: Medium]
+> 
+> This is a pre-existing issue and not something this patch changes, but
+> hdev->pipes[] and hdev->gate2pipe[] are updated from two contexts with no
+> lock in common, which is worth noting since the newly validated pipe id
+> feeds one of them.
+
+Ditto.
+
+...
+
+-- 
+pw-bot: changes-requested
