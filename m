@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7804D3E40E0
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 20 Sep 2026 23:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BDD3E7BBD
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 20 Sep 2026 23:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789945874; cv=none; b=kaYKlyaOf8BaAoZowoRPQRdJ1EdvvSZoNSxsrsSdSOX1ChmE1JNFmDXwjKlPqmDYRrkqj6AZCBk+sF28OY8h71VK9CH/AADwCmyIakVHY7gSpp2HaTTucsKi4vtaSQTjbryUM0rENYy9IaAu/KFlvQovV71EXj4fl31w9bkzWWw=
+	t=1789946833; cv=none; b=LVJTcNgJ/TjnAOikuXw2dzAhreV0jvArFbWVtNX//aBAga5o2+7bhlbf7d/quS4S7xDJZ3FRp9/zz5veImJFl+MezJaybZPCJWdQ05a5NtTWhLhvwq2t8nQjpTES7k5tQXMzDxFdFoiGt9MOp+44dBc8iI9LYfi2hf436HKrjQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789945874; c=relaxed/simple;
-	bh=r/Q7xOGjuhSsTQZ0oQGJPDB1gz9hAO0+rIf6e+nJ67Q=;
+	s=arc-20240116; t=1789946833; c=relaxed/simple;
+	bh=+ZCrD9TfbuBLeSGTKd7X9CvBgPip0rrnQ/QrjwlgDJ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cG7UIv5yNsfvqvV+vyEm9TtAT7pxWZi0NWffWKukZT7C2W3HHv7x0TpDnwGBE5utBg1aw4ImiMMwhESQQzlCBLy43rjRGWNYVSQJ9TTFuT1CmMeM0XbT7QIltzhcgHyUAQPy2iw+tO17sDfVnlhWg+VnfmL3FOmmfjz3eVlYaag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=CZmiS614; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=ZY/rCo2akJdjZWSx7O+E7hp3wQlQJe3thrFhticgfYNurtiEEhtuHVPELHmOUgvmPoTMOnr7HeKyIJVVgtkZ5SWDOzpw+sfo7BhyqnBcxS6fGQe7PHVpae1G/6tEtNgw+SLS7HRJzmco6M0BJ8TXzupHPtmfPQCf7Lv+WzGghi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=gC4iKAdZ; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="CZmiS614"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="gC4iKAdZ"
 Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id C657F53401EA;
-	Mon, 21 Sep 2026 01:11:09 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 31ACE5340694;
+	Mon, 21 Sep 2026 01:27:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1789945869;
+	t=1789946830;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gK9sdeoG0WLes1fBXkVWatZGV3xrtHkH43aqgaARslg=;
-	b=CZmiS614Xlz4b2Gdz0cMTIUxChFaH6ueSVyNEg2RnrL7u/9P+Ir76jx+EviAZn8NnS248L
-	EdWmz06O7CGHcxxKuoKCZIAPrZraLdlppmHjUptZDbiZ8HdynsEv5LQa3Ds+8695HlPQvD
-	8f3XBPoZZJYaEFbVCjLheWmzrqhD/LA=
-Message-ID: <11725791-f4c5-4b8e-b17f-bedc679adbf8@ixit.cz>
-Date: Mon, 21 Sep 2026 01:11:09 +0200
+	bh=S5H8DJugfiQqXqE+zucVCQWOxAjqhPaEgOBGdJavRsI=;
+	b=gC4iKAdZYOde9ceZd/2S8t1hXN7ghMF6WhGKg9OOK9ljzsMz0bKehpirHJ1/y5wTWAyu/G
+	E9TkSsd7M3uK56NdYBoOkRDdJEG664y/du8fo3RAUFBXxzOCmd3vPt5YjyAz/pEH/IarGv
+	xIuJxGkZJUHXCpv3XbXu5l+lnsYsZ0A=
+Message-ID: <532cee91-122f-4c71-9b4b-3c48159f501d@ixit.cz>
+Date: Mon, 21 Sep 2026 01:27:09 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,14 +41,18 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nfc: pn533: fix OOB read in
- pn533_acr122_is_rx_frame_valid()
-To: Deepanshu Kartikey <kartikey406@gmail.com>, johan@kernel.org
-Cc: kuba@kernel.org, error27@gmail.com, gregkh@linuxfoundation.org,
- sameo@linux.intel.com, michael.thalmeier@hale.at,
- oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-References: <20260912040351.15056-1-kartikey406@gmail.com>
+Subject: Re: [PATCH v3 1/1] net: nfc: fix use-after-free in
+ nfc_get_local_general_bytes
+To: Simon Horman <horms@kernel.org>, Ren Wei <weir@nebusec.ai>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, kees@kernel.org, pengpeng@iscas.ac.cn,
+ raoxu@uniontech.com, rosenp@gmail.com, dddddd@hust.edu.cn, joe@dama.to,
+ ian.ray@gehealthcare.com, kuniyu@google.com, linma@zju.edu.cn,
+ vega@nebusec.ai, rakukuip@gmail.com
+References: <cover.1788841682.git.rakukuip@gmail.com>
+ <3cbaac3bee23f8ff3a3284ed32d347696eb1d208.1788841683.git.rakukuip@gmail.com>
+ <20260912101633.GG48209@horms.kernel.org>
 Content-Language: en-US, cs-CZ
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -94,45 +98,71 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20260912040351.15056-1-kartikey406@gmail.com>
+In-Reply-To: <20260912101633.GG48209@horms.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/09/2026 06:03, Deepanshu Kartikey wrote:
-> frame->ccid.datalen is read directly from the USB response frame
-> and used, unchecked, as an index into frame->data[]. A malicious or
-> malfunctioning device can set this field to an arbitrary value,
-> causing the driver to read far outside the received buffer.
+On 12/09/2026 12:16, Simon Horman wrote:
+> On Wed, Sep 09, 2026 at 01:19:24PM +0800, Ren Wei wrote:
+>> From: Luxiao Xu <rakukuip@gmail.com>
+>>
+>> Commit 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by
+>> nfc_llcp_find_local") attempted to fix a use-after-free (UAF) issue by
+>> invoking nfc_llcp_local_put(local) after accessing local->gb. However,
+>> if the reference count drops to zero, local is freed immediately,
+>> leading to a use-after-free when callers access the returned pointer.
+>> Alternative approaches using dynamic allocation (e.g. kmemdup) introduced
+>> memory leaks because callers consistently treat the returned pointer as
+>> borrowed memory.
+>>
+>> Fix this properly by refactoring nfc_llcp_general_bytes() and
+>> nfc_get_local_general_bytes() to accept a caller-provided output buffer
+>> (out_gb) and its maximum length (gb_max_len). The general bytes are
+>> safely copied into out_gb before calling nfc_llcp_local_put(local),
+>> ensuring safe lifetime management without ownership transfer complications.
+>>
+>> Update all callers across drivers (microread, pn533, pn544, st21nfca,
+>> digital_dep, and nci) to provide their own destination buffers and pass
+>> them to nfc_get_local_general_bytes().
+>>
+>> Fixes: 6709d4b7bc2e ("net: nfc: Fix use-after-free caused by nfc_llcp_find_local")
+>> Cc: stable@vger.kernel.org
+>> Reported-by: Vega <vega@nebusec.ai>
+>> Assisted-by: LLM
+>> Signed-off-by: Luxiao Xu <rakukuip@gmail.com>
+>> Signed-off-by: Ren Wei <weir@nebusec.ai>
+>> ---
+
+[...]
+
+> As far as I can see the return value of nfc_llcp_general_bytes() is now
+> ignored. And for a bug fix the approach you have taken looks good,
+> as the interface provided by nfc_llcp_general_bytes() is only slightly
+> modified.
 > 
-> Bound ccid.datalen against the maximum possible ACR122 frame size
-> before using it. This replaces the existing datalen == 0 check,
-> since datalen < 2 already covers that case and additionally
-> rejects datalen == 1, which would still underflow the
-> "datalen - 2" offset used below.
+> But, FWIIW, I think it would be cleaner if nfc_llcp_general_bytes()
+> returned the length, or 0 on error. And the general_bytes_len parameter was
+> passed by value rather than reference.
 > 
-> Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
-> Reported-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=1853daab1a47603d4678
-> Tested-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
-> Assisted-by: Claude (Anthropic)
+> Something like this:
+> 
+> size_t nfc_llcp_general_bytes(struct nfc_dev *dev, u8 *out_gb,
+> 			      size_t gb_max_len, size_t general_bytes_len)
+> {
+> 	...
+> 
+> 	if (error_condition)
+> 		return 0;
+> 
+> 	...
+> 
+> 	return general_bytes_len;
+> }
+> 
+> Perhaps that approach could be considered as a follow-up.
 
-Hello Deepanshu,
-
-thank you for the patch, could you please correct the Assisted-by tag?
-
-See: https://docs.kernel.org/process/coding-assistants.html
+Yes, that would be really great!
 
 Thanks
 David
 
-> Link: https://lore.kernel.org/all/20260906054336.20187-1-kartikey406@gmail.com/T/ [v1]
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> 
-> ---
-> Changes in v2:
-> - Replace the existing "if (!frame->ccid.datalen)" check instead of
->    adding the new bounds check alongside it, since the new check
->    already subsumes it (per Johan Hovold).
-> ---
->   drivers/nfc/pn533/usb.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
