@@ -1,39 +1,39 @@
 Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2A93F7AB7
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 20 Sep 2026 23:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7804D3E40E0
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 20 Sep 2026 23:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789945355; cv=none; b=OXO+ANY3vx9T1HHhuFEvIlZEBw7feqND9TLC9qGoH5dd9StdDN9mID8bJWLc+vJ45iXo6GIHKOycQsBfnCGJj53vvdB2GC9ubtujqKBk5DrWSHR1+kTBBAVQpvIEbTcgUCNT3Q5r3gDztqogd1JBVPJb5dpfIViNP1vyItpDXHk=
+	t=1789945874; cv=none; b=kaYKlyaOf8BaAoZowoRPQRdJ1EdvvSZoNSxsrsSdSOX1ChmE1JNFmDXwjKlPqmDYRrkqj6AZCBk+sF28OY8h71VK9CH/AADwCmyIakVHY7gSpp2HaTTucsKi4vtaSQTjbryUM0rENYy9IaAu/KFlvQovV71EXj4fl31w9bkzWWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789945355; c=relaxed/simple;
-	bh=ihjoM7D2BcOiPrTy053asAyX+JgsRpLuEQH6m2offlA=;
+	s=arc-20240116; t=1789945874; c=relaxed/simple;
+	bh=r/Q7xOGjuhSsTQZ0oQGJPDB1gz9hAO0+rIf6e+nJ67Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eupIFK/3f4zH4t8j3F3hUiAzra9RiDesbz6nZzVMjw2pSyQ4gefI9KCJMm/W4jXp4JNOkNkVS81mQMcn90bmidxkjLa9xkww6Z9PYzxN0P04dJXe+dH+tAwCKaCGCgvvJKFGEbWNyDehmrqqC4reqBCeMoFLBGkn+yPIQBsvdkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Mm4IiGGe; arc=none smtp.client-ip=84.42.129.46
+	 In-Reply-To:Content-Type; b=cG7UIv5yNsfvqvV+vyEm9TtAT7pxWZi0NWffWKukZT7C2W3HHv7x0TpDnwGBE5utBg1aw4ImiMMwhESQQzlCBLy43rjRGWNYVSQJ9TTFuT1CmMeM0XbT7QIltzhcgHyUAQPy2iw+tO17sDfVnlhWg+VnfmL3FOmmfjz3eVlYaag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=CZmiS614; arc=none smtp.client-ip=84.42.129.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Mm4IiGGe"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="CZmiS614"
 Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 360865340699;
-	Mon, 21 Sep 2026 01:02:30 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id C657F53401EA;
+	Mon, 21 Sep 2026 01:11:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1789945350;
+	t=1789945869;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1b2TOb7Uz4K71IwXM8bB3TJBDyr028aAuvtvwxg4Lt4=;
-	b=Mm4IiGGe6LtAx7w+iUPjgvZPobBhhRiOiDEpGKcAxMfCGvAPZzEWyf+p9TgyA9U7Q9Cp7W
-	eO/Cekk6HxoMq9wU9RTQeo9qAquwmyVF25KbUHd+uZ0m2qAePjd58djyRoFc70C6ffPRqt
-	TCofY1uBH7/9BW0RfOFy+W5IvqamdQw=
-Message-ID: <e026f741-3c19-47b2-b731-f257361e471c@ixit.cz>
-Date: Mon, 21 Sep 2026 01:02:29 +0200
+	bh=gK9sdeoG0WLes1fBXkVWatZGV3xrtHkH43aqgaARslg=;
+	b=CZmiS614Xlz4b2Gdz0cMTIUxChFaH6ueSVyNEg2RnrL7u/9P+Ir76jx+EviAZn8NnS248L
+	EdWmz06O7CGHcxxKuoKCZIAPrZraLdlppmHjUptZDbiZ8HdynsEv5LQa3Ds+8695HlPQvD
+	8f3XBPoZZJYaEFbVCjLheWmzrqhD/LA=
+Message-ID: <11725791-f4c5-4b8e-b17f-bedc679adbf8@ixit.cz>
+Date: Mon, 21 Sep 2026 01:11:09 +0200
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -41,12 +41,14 @@ List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: st95hf: validate device-reported response length
- before reading
-To: Tianchu Chen <tianchu.chen@linux.dev>, sameo@linux.intel.com,
- shikha.singh@st.com
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <91f49a98dd42655829b7206f0d64cc31ef9c0e95@linux.dev>
+Subject: Re: [PATCH v2] nfc: pn533: fix OOB read in
+ pn533_acr122_is_rx_frame_valid()
+To: Deepanshu Kartikey <kartikey406@gmail.com>, johan@kernel.org
+Cc: kuba@kernel.org, error27@gmail.com, gregkh@linuxfoundation.org,
+ sameo@linux.intel.com, michael.thalmeier@hale.at,
+ oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
+ syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+References: <20260912040351.15056-1-kartikey406@gmail.com>
 Content-Language: en-US, cs-CZ
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -92,70 +94,45 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <91f49a98dd42655829b7206f0d64cc31ef9c0e95@linux.dev>
+In-Reply-To: <20260912040351.15056-1-kartikey406@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/08/2026 16:55, Tianchu Chen wrote:
-> From: Tianchu Chen <flynnnchen@tencent.com>
+On 12/09/2026 06:03, Deepanshu Kartikey wrote:
+> frame->ccid.datalen is read directly from the USB response frame
+> and used, unchecked, as an index into frame->data[]. A malicious or
+> malfunctioning device can set this field to an arbitrary value,
+> causing the driver to read far outside the received buffer.
 > 
-> st95hf_spi_recv_response() reads a 2-byte header from the device,
-> derives the total response length from it (up to 1025 bytes via the
-> long-frame encoding) and then blindly reads len - 2 more bytes into
-> the caller's buffer, whose size it knows nothing about.
+> Bound ccid.datalen against the maximum possible ACR122 frame size
+> before using it. This replaces the existing datalen == 0 check,
+> since datalen < 2 already covers that case and additionally
+> rejects datalen == 1, which would still underflow the
+> "datalen - 2" offset used below.
 > 
-> Call sites can be overflowed by a device reporting a large length,
-> for example, st95hf_irq_thread_handler() passes the data area of a
-> 280-byte skb.
-> 
-> ST95HF datasheet states "In Reader mode it is possible to receive up to
-> 528 bytes of frame data from VICC and TypeB cards", so technically a bogus
-> NFC tag may trigger the OOB-write if the card-reader's firmware allows
-> large packets.
-> 
-> Add a buff_len parameter and reject a device-reported length that does
-> not fit into the caller's buffer before issuing the second SPI
-> transfer. Also modify callers to pass their real buffer sizes.
-> 
-> Discovered by Atuin - Automated Vulnerability Discovery Engine.
-> 
-> Fixes: cab47333f0f75 ("NFC: Add STMicroelectronics ST95HF driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
-> ---
->   drivers/nfc/st95hf/core.c | 6 ++++--
->   drivers/nfc/st95hf/spi.c  | 7 ++++++-
->   drivers/nfc/st95hf/spi.h  | 2 +-
->   3 files changed, 11 insertions(+), 4 deletions(-)
-> 
+> Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
+> Reported-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=1853daab1a47603d4678
+> Tested-by: syzbot+1853daab1a47603d4678@syzkaller.appspotmail.com
+> Assisted-by: Claude (Anthropic)
 
-Hello Tianchu,
+Hello Deepanshu,
 
-please check and address the Sashiko output.
+thank you for the patch, could you please correct the Assisted-by tag?
 
-Thank you
+See: https://docs.kernel.org/process/coding-assistants.html
+
+Thanks
 David
 
-
-[ ... ]
- > @@ -106,6 +106,11 @@ int st95hf_spi_recv_response(struct st95hf_spi_context 
-*spicontext,
- >  	else
- >  		len += receivebuff[1];
- >
- > +	if (len > buff_len) {
- > +		mutex_unlock(&spicontext->spi_lock);
- > +		return -E2BIG;
- > +	}
- > +
-
-Does this early return path leave the spi chip select (CS) permanently
-asserted?
-
-The first spi transfer uses .cs_change = 1 to keep the chip select active.
-Skipping the second transfer would prevent the chip select from being
-deasserted, potentially deadlocking the device.
-
- >  	/* Now make a transfer to read only relevant bytes */
- >  	tx_takedata.rx_buf = &receivebuff[2];
- >  	tx_takedata.len = len - 2;
+> Link: https://lore.kernel.org/all/20260906054336.20187-1-kartikey406@gmail.com/T/ [v1]
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> 
+> ---
+> Changes in v2:
+> - Replace the existing "if (!frame->ccid.datalen)" check instead of
+>    adding the new bounds check alongside it, since the new check
+>    already subsumes it (per Johan Hovold).
+> ---
+>   drivers/nfc/pn533/usb.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
