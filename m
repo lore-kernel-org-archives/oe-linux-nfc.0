@@ -1,162 +1,187 @@
-Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com [115.124.28.125])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7DD5208AE
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 18 Sep 2026 18:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8027D255F2C;
+	Sun, 20 Sep 2026 07:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789757719; cv=none; b=NL1PjjyBsJVbPVClEut8vuMcZF7sZUpkm4BcCek+upkinAe/TyKjcGh5nxdLq3urNICFVOOquKrlarCnrLgtoEOlkB+KquobbktAv4tYHNKAuJ8iqA999EItsv3P+J1TCavY95Ys4a8ho85KcnjAAp7i67L+CRHVCSsGCANM0o8=
+	t=1789890502; cv=none; b=tGxk2MPGA9lG2zS7KT/nx+kog3SYWTLWcI8lmpgHFSP4sjhPh2D7vwL+JBZwqUHGxpqn9MZkXQthuJCAJkWPQs7A0vJnveI6ZqJQsOtqyRwsJAhDD/hNBJhi770PzPqB7UjAj02qYmiOuwYRvxEBMFbLA72ehMhsD3Y6BjHVSXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789757719; c=relaxed/simple;
-	bh=TkEkOV/UTIbv9coI61MU3VKkRcZ9B9xyYVO+E3VZ1Cg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BLZTeqDVJ5MELyzzf5bq2D3PhDZvsDf0LmmnQyfyWwVhGWzXdQibt+F0flutZR0ESdPIRhDz+LOur+U56dXPwiSDnZ0bUqT6ekyFNSddhabbA3jGFs53T2Q94oh6+iVQjNtBayNwoD6uCjN9aOI/E+S4DKQTN0bcOpeJbY6uEd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=da5ZCPcq; arc=none smtp.client-ip=115.124.28.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	s=arc-20240116; t=1789890502; c=relaxed/simple;
+	bh=lKo/fBHPCwPkEQhwejYaMzZx0KmUwaYcJsPZU4ABglo=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WdMmNx0PjZoWVyJO0sitVTahSj87+abL9sViu31Q08mrGUFfz39She2apYWLiKxR1DZmEG3NkuONvYV1emqEeuT8o6jlAbs5kf+YYmIlObUvT5WOY8OXwn8c6NJVeNiAI82NmgiwhSoo/DLThpJH4aOpjdYoI9A2UZZigkQJJKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgYh3QTp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="da5ZCPcq"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1789757702; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=lgFp/9B42kvQa+Z8zuuYk6q+bpP6I85Dz4+oQQPkRsg=;
-	b=da5ZCPcqgIc/rqbqdv6ItIvjG9Hu6DZyKWw7nm6pgrH/S5fFgKMz2sRIB+TaZDOaEaokcRQMSYlNMIW9BSyMYy0Ka+aL2pUs1u3+cLrb2MyCte62cO/DeO+uXlu0dHaWyDSTLGlTdktZhKQ4dL+lhoeIelLHFM+UprbkIvi4mbU=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07440566|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00347207-0.00176248-0.994765;FP=14173271799656615558|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045220102;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.jH4dkGS_1789757700;
-Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jH4dkGS_1789757700 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Sat, 19 Sep 2026 02:55:01 +0800
-From: Liu Chao <liuc63@xiaopeng.com>
-To: netdev@vger.kernel.org
-Cc: horms@kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	ilane@ti.com,
-	david@ixit.cz,
-	linville@tuxdriver.com,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Liu Chao <liuc63@xiaopeng.com>
-Subject: [PATCH net v2] nfc: nci: avoid unbounded skb allocation when max_pkt_payload_len is zero
-Date: Sat, 19 Sep 2026 02:54:58 +0800
-Message-ID: <20260918185458.2711284-1-liuc63@xiaopeng.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260913101309.891633-1-liuc63@xiaopeng.com>
-References: <20260913101309.891633-1-liuc63@xiaopeng.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgYh3QTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798EE1F000FF;
+	Sun, 20 Sep 2026 07:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789890501;
+	bh=BLmlFgde0QSjxDALyLy9smJnfbZgGpYUkZ3OKMxeQgM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=BgYh3QTpFQeCcN0wMKS7UPAHa15RNDOkVTnhWBm92go7sUgDeatY5cmHFTqxMgEWN
+	 dU6C9QCUuRujz27OQKiE3tUBBXRsuN6rNI7sEV/qdFufzl9CtNFOpwOV1MJHduOMcX
+	 CgNXwQJdlG1r5wm4x8lJXO95PKJgRk54pB0U2ggUqBf0GDnGBKbOv7DpKqYv/lFBMa
+	 hSQ5fojNPOrnTo06lrhuIySVFsEvoXnM0+xgzjXEdw7hbP8A0i1qKgmg2xDYv37ex0
+	 /XytMFp28PrAJ/KD6YsTmMagED985R3o0muwAAHt4yGTOeOQbGNXRL4EVYcMZ5L1w6
+	 9JN6pXtK3STqA==
+Subject:
+ Re: [PATCH] nfc: llcp: Fix socket reference leak in nfc_llcp_recv_ui()
+From: netdev-bot+sashiko@kernel.org
+To: vulab@iscas.ac.cn
+Cc: davem@davemloft.net, david+nfc@ixit.cz, edumazet@google.com,
+ horms@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com,
+ sameo@linux.intel.com, stable@vger.kernel.org
+Date: Sun, 20 Sep 2026 07:48:19 +0000
+Message-ID: <178989049996.2160803.13194045712273112388@kernel.org>
+In-Reply-To: <20260916073424.1971784-1-vulab@iscas.ac.cn>
+References: <20260916073424.1971784-1-vulab@iscas.ac.cn>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-nci_queue_tx_data_frags() uses conn_info->max_pkt_payload_len as the
-fragment size.  When that value is zero, frag_len is always zero and
-total_len never decreases.  The loop then allocates skbs without
-bound: none of them are freed inside the loop, they accumulate on
-frags_q, and there is no cond_resched() in the loop body.  A single
-sendmsg() can therefore consume all allocatable memory, and on
-CONFIG_PREEMPT_NONE it occupies the CPU long enough to trip the
-softlockup watchdog:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-  watchdog: BUG: soft lockup - CPU#3 stuck for 26s! [kworker/3:1:57]
-  Workqueue: events rawsock_tx_work [nfc]
-  Call Trace:
-   nci_send_data+0x1ca/0x6b0 [nci]
-   nci_transceive+0xbb/0x170 [nci]
-   rawsock_tx_work+0xb5/0x1a0 [nfc]
+Critical: 0 (1) · High: 1 · Medium: 0 · Low: 0
 
-max_pkt_payload_len comes straight from controller-supplied fields,
-with no check for zero:
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-  ntf.c: conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
-  rsp.c: conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
+- [High] Incomplete fix: the identical nfc_llcp_sock_get() reference leak
+  remains at the sibling call site in nfc_llcp_recv_connect()…
 
-Reject the zero value in the fragmentation path rather than at the
-assignment sites.  nci_queue_tx_data_frags() is the only place that
-loops over the RF data path's conn_info, and nci_send_data() takes
-the non-fragmenting branch only for skb->len <= max_pkt_payload_len,
-which for a zero limit means empty skbs alone.  Validating on
-assignment would not be sufficient either, because
-nci_rf_disc_rsp_packet() allocates ndev->rf_conn_info with
-devm_kzalloc(), so max_pkt_payload_len is already zero before any
-notification arrives.
+Pre-existing issues:
+- [Critical] Post-handoff SKB access / use-after-free race in
+  nfc_llcp_recv_ui() (net/nfc/llcp_core.c:902-907): the extra SKB…
 
-No legitimate configuration is affected: where the NCI spec does
-mandate a zero Max Data Packet Payload Size -- the NFCEE Direct RF
-Interface -- nci_rf_intf_activated_ntf_packet() takes the "goto
-listen" shortcut, bypassing the assignment entirely.
+--
 
-Snapshot the field once with READ_ONCE() and use the snapshot for
-both the check and the min_t() bound: the rx workqueue updates the
-field without any lock held against this path, so without the
-snapshot the check could validate a value the loop no longer
-consumes.
+nfc: llcp: Fix socket reference leak in nfc_llcp_recv_ui()
 
-nci_hci_send_data() also loops over the same field, but on a
-different conn_info instance (ndev->hci_dev->conn_info) created by
-nci_core_conn_create_rsp_packet(); a zero or one there underflows
-the loop arithmetic and will be addressed in a separate patch.  This
-guards the path carrying the reported bug.
+This splits the combined NULL/socket-type test in nfc_llcp_recv_ui() so that
+the reference taken by nfc_llcp_sock_get() is dropped with
+nfc_llcp_sock_put() when the socket is not a SOCK_DGRAM socket.  Previously
+that branch returned with the reference still held.
 
-Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> index cac1b5487064d..f83196e49d2a6 100644
+> --- a/net/nfc/llcp_core.c
+> +++ b/net/nfc/llcp_core.c
+> @@ -890,8 +890,12 @@ static void nfc_llcp_recv_ui(struct nfc_llcp_local *local,
+>  
+>  	/* We're looking for a bound socket, not a client one */
+>  	llcp_sock = nfc_llcp_sock_get(local, dsap, LLCP_SAP_SDP);
+> -	if (llcp_sock == NULL || llcp_sock->sk.sk_type != SOCK_DGRAM)
+> +	if (!llcp_sock)
+>  		return;
+> +	if (llcp_sock->sk.sk_type != SOCK_DGRAM) {
+> +		nfc_llcp_sock_put(llcp_sock);
+> +		return;
+> +	}
 
----
+[Severity: High]
+Does the same nfc_llcp_sock_get() reference get leaked in
+nfc_llcp_recv_connect(), which is a few lines below this in the same file?
+It has the identical condition shape that is being split apart here:
 
-v1 claimed that nci_queue_tx_data_frags() is "the only place that
-loops" over max_pkt_payload_len.  That holds for the RF data path
-(ndev->rf_conn_info) but was overstated as a blanket claim: the
-Sashiko review of v1 pointed out that nci_hci_send_data() loops over
-the same field as well, albeit on a separate conn_info instance
-(ndev->hci_dev->conn_info) -- pre-existing and unchanged here; it
-will be fixed separately.
+net/nfc/llcp_core.c:nfc_llcp_recv_connect() {
+	if (dsap != LLCP_SAP_SDP) {
+		sock = nfc_llcp_sock_get(local, dsap, LLCP_SAP_SDP);
+		if (sock == NULL || sock->sk.sk_state != LLCP_LISTEN) {
+			reason = LLCP_DM_NOBOUND;
+			goto fail;
+		}
+	...
+fail:
+	/* Send DM */
+	nfc_llcp_send_dm(local, dsap, ssap, reason);
+}
 
-The READ_ONCE() snapshot follows the same review: with the check and
-the loop reading the field independently, a store from the rx
-workqueue in between would let the loop spin on a value the check
-had just rejected.
----
- net/nfc/nci/data.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+The fail: label only sends the DM PDU and returns, so when sock is non-NULL
+but sk_state != LLCP_LISTEN, the reference taken by
+nfc_llcp_sock_get()'s sock_hold(&llcp_sock->sk) is never released.  Every
+other exit of that function (acceptq full, LLCP_SAP_MAX, nfc_llcp_sock_alloc
+failure, nfc_llcp_local_get failure, and the success path) does call
+sock_put(&sock->sk).
 
-diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-index 4253edea5..eeb5260c5 100644
---- a/net/nfc/nci/data.c
-+++ b/net/nfc/nci/data.c
-@@ -104,6 +104,7 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
- 	struct sk_buff_head frags_q;
- 	struct sk_buff *skb_frag;
- 	int frag_len;
-+	u8 max_len;
- 	int rc = 0;
- 
- 	pr_debug("conn_id 0x%x, total_len %d\n", conn_id, total_len);
-@@ -114,11 +115,18 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
- 		goto exit;
- 	}
- 
-+	/* the rx workqueue may update the field concurrently */
-+	max_len = READ_ONCE(conn_info->max_pkt_payload_len);
-+
-+	if (!max_len) {
-+		rc = -EPROTO;
-+		goto exit;
-+	}
-+
- 	__skb_queue_head_init(&frags_q);
- 
- 	while (total_len) {
--		frag_len =
--			min_t(int, total_len, conn_info->max_pkt_payload_len);
-+		frag_len = min_t(int, total_len, max_len);
- 
- 		skb_frag = nci_skb_alloc(ndev,
- 					 (NCI_DATA_HDR_SIZE + frag_len),
+Is that branch reachable from a remote peer?  nfc_llcp_sock_alloc() sets
+
+	llcp_sock->ssap = 0;
+	llcp_sock->dsap = LLCP_SAP_SDP;
+
+and llcp_sock_bind() publishes the socket with
+
+	nfc_llcp_sock_link(&local->sockets, sk);
+	...
+	sk->sk_state = LLCP_BOUND;
+
+so a bound-but-not-listening socket (any bound SOCK_DGRAM socket, or a stream
+socket bound before listen()) matches the lookup key used by
+nfc_llcp_recv_connect(), and a CONNECT PDU aimed at its ssap would leak one
+sk_refcnt per frame received.  Since the socket would then never reach
+llcp_sock_destruct(), does the nfc device reference that destructor releases
+leak as well?  Would it make sense to fix both call sites in one patch?
+
+>  
+>  	/* There is no sequence with UI frames */
+>  	skb_pull(skb, LLCP_HEADER_SIZE);
+
+[Severity: Critical]
+This isn't a bug introduced by this patch, but while looking at
+nfc_llcp_recv_ui() the ordering of the skb reference just after the quoted
+hunk looks racy:
+
+net/nfc/llcp_core.c:nfc_llcp_recv_ui() {
+	skb_pull(skb, LLCP_HEADER_SIZE);
+	if (!sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+		/*
+		 * UI frames will be freed from the socket layer, so we
+		 * need to keep them alive until someone receives them.
+		 */
+		skb_get(skb);
+	...
+}
+
+Can the skb be freed before skb_get() runs?  sock_queue_rcv_skb() links the
+buffer into sk->sk_receive_queue, drops sk_receive_queue.lock and then calls
+sk->sk_data_ready(), so at that point skb->users is still 1 and the buffer is
+already visible to a reader on another cpu:
+
+net/nfc/llcp_sock.c:llcp_sock_recvmsg() {
+	skb = skb_recv_datagram(sk, flags, &err);
+	...
+		kfree_skb(skb);
+}
+
+If that reader dequeues and frees the buffer first, does skb_get() then do
+refcount_inc() on freed memory?
+
+And would nfc_llcp_rx_work() free the same buffer a second time afterwards?
+
+net/nfc/llcp_core.c:nfc_llcp_rx_work() {
+	...
+	kfree_skb(local->rx_pending);
+	local->rx_pending = NULL;
+}
+
+No lock appears to span the handoff here: nfc_llcp_recv_ui() does not hold
+the socket lock, the queue spinlock is released inside
+__sock_queue_rcv_skb() before the wakeup, and the nfc_llcp_sock_get()
+reference only keeps the socket alive, not the skb.  Would taking the
+reference before sock_queue_rcv_skb() and dropping it when queueing fails be
+the safer order?
+
 -- 
-2.50.1
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260916073424.1971784-1-vulab%40iscas.ac.cn
