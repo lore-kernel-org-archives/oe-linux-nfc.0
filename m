@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AD249E12F;
-	Mon, 21 Sep 2026 13:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D64AA1EB;
+	Mon, 21 Sep 2026 14:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789997395; cv=none; b=Lc/g6AvbniTN/u8EHeVCjjZUBFUjz5lzPEPHzMWAl+SsJY//O9MbO9t8HV9JoG34gMJ80QLXxVcakLuGAN64dbcwoorAVnMmTorNBEwNGb0OLnJMp9i3blLKaFTZgm0yK1U7zkOpHHPxA//Z2iiNZmI0H6h+agYXT/RNEBXzUzY=
+	t=1789999738; cv=none; b=dQZdVHpdikSrhPHjIEd1uyZJB17d0zM2wBBczrVYwyJEqSoX1jvTGtxYklZs/B75nYc7VUfsT2NxwPJAourfH/4JbAuYMJkwJIwRYEShNiL0q0VJ/MaWYHLW1RkvUIYNkbEuN2WAN7ZJ4J6try5LVSA4S6KzCvNo2iSKoe1xjdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789997395; c=relaxed/simple;
-	bh=u6LARA2BHHrCOPC4emuepshoPChdUK1N82NLexkUVy0=;
+	s=arc-20240116; t=1789999738; c=relaxed/simple;
+	bh=G9q3i7tqWsB3HK9OoAQ8A3g/zpnIoUQKiZ8DEPL3MOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QcosUBu+70qRC+bXgpH5xNTuJeRlx/JY0KWA7d5RYGpRVtP0/g5E526JqyJvzrEETOeaKKGLSFvKPiBjAT6y6R9iYiH3JVt0J0M++AWpSfa4ykf3oP0JonaAfZN7FasBPcKfcwudFH3OiXwtd99AxLW20AgO6H3jBjs/32MGbRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZG4nHD8q; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bWyRE37529uo0XBD2NomQJOJvpeNFQt2gSCDA5fOvEDRbPxEt4YQgCi+oDyMd710wKeGAEZ21b7lieWyK9Es8mfOtb0b1OynkJYOt6Z69oiO5nn389BNaJu87YTMCYk+jC+KOlZBt/WVlxfFGjUEKnc5gzChC5khpIJrb/bz+nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlA5biMh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZG4nHD8q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002431F000FF;
-	Mon, 21 Sep 2026 13:29:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlA5biMh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FD11F000FF;
+	Mon, 21 Sep 2026 14:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789997394;
-	bh=qo8YLb+8AMgGZ0Mty5fhrFkdYnAyoM7ODfWNEFzbmVI=;
+	s=k20260515; t=1789999736;
+	bh=cbB+ulRwWthQ5iQQXII3rLWdyEpsPLITlFYeU+SNDgA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZG4nHD8qj7ADkpnqSCfe90NiIC8+DJin45KT3zSnT/h6pYILohTUeoHhbXsv+8Cxn
-	 dAojYYm9snY9MihgG2ub6yoeUgnBQZhwbAPK1nVnCtOzrgwU/Zic/wHrCeHfEnLWSI
-	 oeUiZG9I1kr9mRO2TVV+P2ah76+eWujRJ3NDwXNdx0TBLehzI14Dp6t6XkRLxgXdwb
-	 UUBb921UWAB8V7KeHZCtzm8rbtzp85/GWZqIniPQCvDbNwhuXzplPCM7mhAnVqmLXu
-	 Lc//QrVL0hNVilsWkRlnEt1s5cZfG8CzwPfxVKODxW+e8Hu5Vd5dRYln+wJYC/mXfq
-	 bfK3zhY/RyfuA==
-Date: Mon, 21 Sep 2026 14:29:49 +0100
+	b=YlA5biMhBOfZeFi5Yj/ukPxV5f84tQ+VnDekgm20U+L7ge7eMkjVc+fU7seNWV7Cd
+	 pI53zMhWIs8MBkR7ULxtuVIOC5S8e7KPAq3R+dsstPRvkTisu8yiZJt28/tuDu5aBj
+	 24CL5HIbJ/8dyG/8D08PPj7AlLr6UUhjtmSFttP2Ypv4KzpFG9wSxzQhhl0gjht2ls
+	 OtcFj6efkmspj5CPE18/13H38Pnvu2Ihn085V66iYH/3zy5BUKpFcgPNVQzmYEB5It
+	 AFZ9tucnpEXyIHWppyIOLjoFwCqDKJ5ScWUxzlfmDCcy0kWNU2b0vX4VbAppIWg2dn
+	 FHbgWsvNZj2xA==
+Date: Mon, 21 Sep 2026 15:08:52 +0100
 From: Simon Horman <horms@kernel.org>
-To: zjamg <ndaugoing@gmail.com>
+To: Yuchao Zhang <ndaugoing@gmail.com>
 Cc: David Heidelberg <david@ixit.cz>,
-	Christophe Ricard <christophe.ricard@gmail.com>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] nfc: nci: do not process unexpected or invalid
- CORE_CONN_CREATE_RSP
-Message-ID: <20260921132949.GQ13925@horms.kernel.org>
-References: <20260918020412.82878-1-ndaugoing@gmail.com>
- <20260918020412.82878-2-ndaugoing@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] nfc: llcp: reject connect() on sockets not in
+ LLCP_CLOSED state
+Message-ID: <20260921140852.GR13925@horms.kernel.org>
+References: <20260918033920.85025-1-ndaugoing@gmail.com>
+ <20260918033920.85025-2-ndaugoing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -49,86 +48,59 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260918020412.82878-2-ndaugoing@gmail.com>
+In-Reply-To: <20260918033920.85025-2-ndaugoing@gmail.com>
 
-On Fri, Sep 18, 2026 at 10:04:12AM +0800, zjamg wrote:
-> From: Yuchao Zhang <ndaugoing@gmail.com>
+On Fri, Sep 18, 2026 at 11:39:20AM +0800, Yuchao Zhang wrote:
+> When a socket is bound via llcp_sock_bind(), its state transitions to
+> LLCP_BOUND and it is linked into the local->sockets hlist via
+> nfc_llcp_sock_link().
 > 
-> When an NCI_OP_CORE_CONN_CREATE_RSP packet is received,
-> nci_core_conn_create_rsp_packet() parses it and creates a logical
-> connection entry in ndev->conn_info_list.
+> Currently, llcp_sock_connect() only checks if the socket is already
+> connected (LLCP_CONNECTED) or in progress (LLCP_CONNECTING):
 > 
-> However, nci_core_conn_create_rsp_packet() suffers from several issues:
-> 1. It does not verify that a connection creation command is currently
->    pending. An unsolicited or delayed CORE_CONN_CREATE_RSP packet
->    unconditionally creates a rogue connection and calls
->    nci_req_complete(), prematurely completing unrelated in-flight
->    requests.
-> 2. It lacks bounds checking against sizeof(struct nci_core_conn_create_rsp)
->    for the packet payload, leading to potential out-of-bounds reads.
-> 3. It does not validate rsp->conn_id. Dynamic logical connections
->    assigned by the NFCC must not use NCI_STATIC_RF_CONN_ID (0x00) or
->    collide with any existing connection ID.
-> 4. It inserts the new connection at the head of ndev->conn_info_list
->    via list_add(). Because connection lookup (e.g. in nci_tx_work() and
->    nci_data_exchange_complete()) uses first-match semantics, prepending
->    allows a newly created connection with a duplicate ID to shadow the
->    static RF connection or earlier connections.
->    Furthermore, ndev->hci_dev->conn_info is mistakenly updated even
->    when the destination type is not NCI_DESTINATION_NFCEE because
->    cur_params.id and nfcee_id both default to 0.
+> 	if (sk->sk_state == LLCP_CONNECTED) {
+> 		ret = -EISCONN;
+> 		goto error;
+> 	}
+> 	if (sk->sk_state == LLCP_CONNECTING) {
+> 		ret = -EINPROGRESS;
+> 		goto error;
+> 	}
 > 
-> Fix this by:
-> - Adding an NCI_CONN_CREATE_PENDING flag in enum nci_flag to track
->   in-flight connection creation commands, and rejecting unsolicited or
->   delayed responses.
-> - Adding packet length verification before reading payload fields.
-> - Rejecting responses that allocate NCI_STATIC_RF_CONN_ID or duplicate
->   existing connection IDs.
-> - Appending new connections with list_add_tail() instead of list_add().
-> - Restricting ndev->hci_dev->conn_info assignment to NFCEE destination
->   types.
+> Crucially, it does not check for the LLCP_BOUND (or LLCP_LISTEN) state.
+> Previous fixes addressing CVE-2020-25670 / CVE-2020-25673 added the check
+> for LLCP_CONNECTING to prevent duplicate in-flight connection attempts
+> from corrupting the connecting_sockets list. However, they assumed any
+> other non-connected socket was in LLCP_CLOSED, leaving the LLCP_BOUND
+> state window unhandled.
 > 
-> Fixes: 736bb9577407 ("NFC: nci: Support logical connections management")
-> Cc: stable@vger.kernel.org
+> If connect() is invoked on a socket that has already been bound:
+> 1. llcp_sock_connect() silently overwrites llcp_sock->dev and
+>    llcp_sock->local without releasing previous references or freeing the
+>    bound service_name, leading to refcount and memory leaks.
+> 2. The socket remains linked in local->sockets, while llcp_sock_connect()
+>    links it again into local->connecting_sockets via nfc_llcp_sock_link().
+> 3. When connection confirmation (CC) arrives, nfc_llcp_recv_cc() executes:
+> 
+> 	nfc_llcp_sock_unlink(&local->connecting_sockets, sk);
+> 	nfc_llcp_sock_link(&local->sockets, sk);
+> 
+>    Because sk was never unlinked from local->sockets, the head.first of
+>    local->sockets still points to &sk->sk_node. The second
+>    hlist_add_head() sets sk->sk_node.next = sk->sk_node, producing a
+>    self-referential loop. Subsequent traversals of local->sockets
+>    (e.g. nfc_llcp_sock_get(), nfc_llcp_socket_release()) enter an
+>    infinite loop with spinlocks held, resulting in kernel soft-lockups.
+> 4. Furthermore, if connect() specifies a different NFC device index than
+>    bind(), the socket remains linked on device A's socket list while
+>    being assigned to device B, causing cross-device socket confusion.
+> 
+> Fix this by ensuring that llcp_sock_connect() only accepts sockets in the
+> LLCP_CLOSED state, returning -EBADFD otherwise, matching the state check
+> behavior in llcp_sock_bind().
+> 
+> Fixes: d646960f7986 ("NFC: Initial LLCP support")
 > Signed-off-by: Yuchao Zhang <ndaugoing@gmail.com>
-> ---
->  include/net/nfc/nci_core.h |  1 +
->  net/nfc/nci/core.c         |  2 ++
->  net/nfc/nci/rsp.c          | 37 ++++++++++++++++++++++++++++++-------
->  3 files changed, 33 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
-> index 664d5058e66e..a4652ffc173d 100644
-> --- a/include/net/nfc/nci_core.h
-> +++ b/include/net/nfc/nci_core.h
-> @@ -31,6 +31,7 @@ enum nci_flag {
->  	NCI_DATA_EXCHANGE,
->  	NCI_DATA_EXCHANGE_TO,
->  	NCI_UNREG,
-> +	NCI_CONN_CREATE_PENDING,
->  };
 
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Hi,
-
-This patch seems to use a similar mechanism to another patch that
-you recently posted
-
-- [PATCH 1/1] nfc: nci: ignore unexpected CORE_RESET_NTF
-  https://lore.kernel.org/netdev/20260918013337.82214-2-ndaugoing@gmail.com/
-
-I forwarded an AI-generated review in response to that patch
-and I am concerned that this patch has similar issues centred around:
-
-* Use of a single-bit gate, in this case NCI_CONN_CREATE_PENDING, may
-  match against a late-arriving packet for an earlier request
-* Concurrency between a work queue handler and other execution paths
-
-
-As this patch seems related to the one at the link above I would suggest
-either concluding one first.  Or provided any updated versions in the form
-of a patch-set that includes both patches.  And I would suggest the first
-of those options would lead to a faster conclusion.
-
-...
