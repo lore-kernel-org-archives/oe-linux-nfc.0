@@ -1,137 +1,146 @@
-Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1EF32B10B
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 22 Sep 2026 00:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B7E407CD0
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 22 Sep 2026 08:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790037144; cv=none; b=K6zWx/ndq3gANbn2nlFEfARrlCrCU5w6J1+KkwbJPzqE6KkMTjIAV8GCemocnkmfq4O5E3dhUkaz7hFVYvGdx/i1W0uvsDRNM9zssbxT5rEzHa087BsVv+Ao9lGM42owgt3KUngAOV0aZ/FxT18ohM4LhlQ0bu3Mc3I6+0/pMr0=
+	t=1790064483; cv=none; b=iWFT47Ndlr/2UuuA6bhGw3N8di+j34SPjzo6DnwRgvC910tJjROnlqTJwTCk/W1nSnjfBxNxIujVP9GY9NCc85ewZMA3wSGSpIxTy/L0vt+0W1ECIxElMqjXQNvZ2JVf0fWhYmT4cZcJldWfQd28QYism3wBZB1Tj/i1tc8e58s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790037144; c=relaxed/simple;
-	bh=PGA37Aw1uYtTeEO5MjT+1glEXpmvF6LSRdWoyPJdf18=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rvGE8UOnmkC7k7iH8bVVXcjFnOeZkM48m2z8d8Yxg2KfMCIOjrq0OBr95qzc127wUUjqL3B/oEcJMCsB/s7hqqFDGo+bOdBrtkguUedDj4KlBiP6+RREqaBCA5ZKV/PoNfuT/1D/sozG+TNiNg6cxh+VQt1sW4ObI2Jv3BRPX88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-6c18e7d53b9so753133eaf.1
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 21 Sep 2026 17:32:22 -0700 (PDT)
+	s=arc-20240116; t=1790064483; c=relaxed/simple;
+	bh=Xgr9P5NDRohHNy557cU23inSf3q8IPgz3jcsZq7IAqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KmeunM5HZYCua+izH7upxESxPTRJBr90QiZ0KGIq44PJiPCT4JWgo3ywG/WkkgZLdckPsmtU+gEuRwFIjCaS+EE01x6OtyvSPDhMzRaDyteCmxklCIBdW8bwe8xz62Ad/d7s+qaBP27Y2abymqY+m2G7iJ6DUGcKsvzsUqZkzdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OuWTJDI0; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuWTJDI0"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccafb751so3254706a91.2
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 22 Sep 2026 01:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790064471; x=1790669271; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Xgr9P5NDRohHNy557cU23inSf3q8IPgz3jcsZq7IAqg=;
+        b=OuWTJDI0w/y7Yz26kkaGEjOSnuDXl28SMQad3/G/8ALGkRBkLQLQpcvmtbaWqLtEwg
+         aRv9gU0ZeMmfm98+hBDyhxgkYbhJUbO8Qi4lOtC6Nth6B9Q6mpSY2UVKbHWaDoIwRvUC
+         5lSPcfJfWzgIejkSVx1eLSJCgLHeqbws3Z1IAUumDczzeDZBuP7AuLkl7qu/Bnh0r+8k
+         k1VPZmTBp65bI2l+2QJEw0OyNhFfOzdELgsxXuuvR01Ziy/Dg3YgwcEi21Au3EqYjp6Q
+         kiz3sFVNy+eiv0SYUdvDrjbQ0aW482W9Y3wUECgOGn8hzndz83WdyGsaNdsEx3aqrvZZ
+         5FXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790037142; x=1790641942;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20260707; t=1790064471; x=1790669271;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eRdut7bVBSm2SpCHoYzNXZW5bUxoFVvpj0afbTE+wWU=;
-        b=nHfJ++OVl+9OXe7aGI0jw2XpwMpyiq6hL8hJwhh364IFGMc1qVwjI1JLfHhJUZYPkz
-         imvTJT1YpQCXiRv6SUTtKtm0RjVYiJCyMUA7Q+duq1rfKNcM7GhxaqYCt0/GnrwF2tUY
-         vSuHPGM+zCVGZhgtd/zE5xA9iEaQhs5pVPU/VYxkKScUDcNEf+JfVBYF9FVP9gLhjgKE
-         gz0HM1x56JwrCT0Zw0jy+w0VOlq1wtOQthjytk1Lgo7XRhpfYqsNvCyAJfmUL+PQSXL5
-         SvWXO8jpihBFt2gfQ1O6szvPFhY5XJD83Zu4kybwzR9ZLL0h/jNwwTPkbwvr0D96p/Dr
-         uPYg==
-X-Forwarded-Encrypted: i=1; AKwUvBwsN1YkPSSdXqQ5sAv8BcnxxN7qvxYW+TKmlGDvWsA3I/WfrcFM/mZyq4fN+phwlY5eFmFkdJzpso42E1c=@lists.linux.dev
-X-Gm-Message-State: AFuF++lQQ9quM8INaLFjUhhGNro0X6OwpZUGjDRK2IS78jBxAO4W5/S3
-	4Zc8kbD1ubi2lHg21GfWJGWusMyQLXLm5vlergA9xqnByRJIdCAacYgHEGEZYlBWQjPLFMN/NoK
-	dAOOvKdpLyrCO5d5xakQdSohr63M2qPCd/ch64UYTfNh2ioWUQgft2iR7d5w=
+        bh=Xgr9P5NDRohHNy557cU23inSf3q8IPgz3jcsZq7IAqg=;
+        b=q3Wx4iT67ajNaPrl1DOsG19D9VRoxfgzClHANdGvRc9+dRi5/z0BZrEKzVj9W8ISDi
+         j9h1lbzHJVCEAL1TSDeHDHL3CkzON6TOTyJHIUIegDr5+cHUbLWVQ+jlvOtFn+T7cCdL
+         Bu+Op71NwKBo/s3r3FOmp18/Z4ZTafABKAwNGOqwUWaJvJoU2fuHPVVbkUS1axoh0p2M
+         hIbLoFP3ynaFaVY2MzJAoI5Bw9zu5fJ8buABkDwtW8kj/pXvJDRGoItUxGB8z49F/gL5
+         HxS0TH/p4IUA4ZQNMIOLQ6I2KsSNSAvdBTWCCgMlhPEqO6UElDS9cp4xLULdOlrQT20g
+         SI+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxlUWdeJ02HYx9fANUSK641VMq4Qv/keTKYI3+JL4bdRpDeEKCFx4NEGS5OUY1BH9/rh5pFuMvnP3g2LVU=@lists.linux.dev
+X-Gm-Message-State: AFuF++nuSfqXKMr6IzGVo1++ek0pWC/tdc22Tvrw2O2rwUiMQKurbZmk
+	dDwa72QYAxtP4l7icc5NHdNecul7eUDcNiMPkY/rWttJ3OblxdUIbMaL
+X-Gm-Gg: AYBFou0FwUZX4iTL6635QR5z5W6NE3EYe/eUlz2lJbcLl2PCwEewdx4ZbfcP0INMH4Z
+	HEwxXd05UaNBCyepZ8NZKz1jJV9FbXbdB7P3hynZHdsMb7Q7nvKmLAMrli0DHjQjLcicFnSrF+1
+	KyKtjcy/OzQBlkOGgtWvGMer8KL8WEjEb4qdlzQyCzoa0v4khOXu/kPAdupa6gEOy2dpALTF7Pv
+	Is97U85AlUYunv/vYe8xonhbACzEDih0F2WdN6LkPgoAukUY95RCjMYQB8VkE4c2O5jfOw8TRsR
+	9Sr9tOl+OsliYIZ220TURGCj2eEIYM1d0t/R6MWZTgT8soUowivzyBR3nEPFa8b8D7rkLFUiPI1
+	1uXkwKUcu2dNC+Q9iW2kg41x3MFlnHZKaTVN5lXZ6TD3x1O6diwDOVWQ7hTwXaMjtJsIYdww3ox
+	tXpr0ybIHEHQ2McQ0uZjR/WtVpt7lAszacS+xY2QILs30+GmNQdNMkURa/kfGlxl3+NrWFaMSuf
+	tCyEC+5Lg01TooZ5iqrO+s1yDdQShqpNE/ww/EYyXQ5HwJIEA==
+X-Received: by 2002:a17:90b:2e0e:b0:39e:6a7f:eef0 with SMTP id 98e67ed59e1d1-3a0731ef86fmr388880a91.21.1790064470681;
+        Tue, 22 Sep 2026 01:07:50 -0700 (PDT)
+Received: from localhost.localdomain ([2409:8a1e:2e81:7320:c92a:4bc0:f68c:8fc1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a06747204csm3350233a91.11.2026.09.22.01.07.45
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 22 Sep 2026 01:07:48 -0700 (PDT)
+From: Yuchao Zhang <ndaugoing@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: david@ixit.cz,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Yuchao Zhang <ndaugoing@gmail.com>
+Subject: Re: [PATCH 1/1] nfc: nci: ignore unexpected CORE_RESET_NTF
+Date: Tue, 22 Sep 2026 16:07:39 +0800
+Message-ID: <20260922080739.35915-1-ndaugoing@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260921125805.224979-1-horms@kernel.org>
+References: <20260921125805.224979-1-horms@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:16a4:b0:6ba:5f65:6e5c with SMTP id
- 006d021491bc7-6d15b86e2fdmr1299293eaf.42.1790037141831; Mon, 21 Sep 2026
- 17:32:21 -0700 (PDT)
-Date: Mon, 21 Sep 2026 17:32:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab1cc95.3179f8cd.1e36b2.0025.GAE@google.com>
-Subject: [syzbot] [net?] [nfc?] WARNING in nci_unregister_device (2)
-From: syzbot <syzbot+c2d417f06523d8133c6a@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi Simon,
 
-syzbot found the following issue on:
+Thank you (and the sashiko reviewer) for the thorough review.
+The points raised are completely valid and insightful.
 
-HEAD commit:    4982d3552a3b Merge tag 'sound-7.3-rc4' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=126007f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=84649d3ff8d550cb
-dashboard link: https://syzkaller.appspot.com/bug?extid=c2d417f06523d8133c6a
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+1. Regarding FDP firmware update breakage (Severity: High):
+You are absolutely right. In nci_ntf_packet(), returning -EINVAL from
+nci_core_reset_ntf_packet() aborts the dispatch pipeline (goto end), which
+prevents nci_core_ntf_packet() from running driver-specific handlers. In
+drivers/nfc/fdp/fdp.c, the firmware patching path relies on this spontaneous
+CORE_RESET_NTF to wake up info->setup_wq; dropping the packet causes it to
+block indefinitely.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+As suggested, in v2 we drop only the core-level bookkeeping (skipping the
+ndev->nci_ver update and nci_req_complete) and return 0 so that driver-registered
+ops continue to receive the notification.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4982d355.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d2afaea1fac3/vmlinux-4982d355.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/06e82fadea82/bzImage-4982d355.xz
+2. Regarding ntf->reset_trigger (Severity: Medium):
+The reset_trigger field is revision-dependent: in NCI 1.0, CORE_RESET_CMD
+is reported as 0x00 (0x01 is powered-on), while NCI 2.0 defines 0x00 as
+an unrecoverable error and reports CORE_RESET_CMD as 0x02. Hardcoding
+either value would break the other generation of devices, so v2 gates
+the core bookkeeping on NCI_RESET_PENDING alone and only skips power-on
+notifications (trigger 0x01, which means the same in both revisions).
+Power-on notifications never overlap a pending reset in the protocol
+flow, and both revision's command-triggered values reach the flag gate.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c2d417f06523d8133c6a@syzkaller.appspotmail.com
+3. Regarding nci_core_reset_rsp_packet() (Severity: Medium):
+Agreed. nci_core_reset_rsp_packet() now checks whether NCI_RESET_PENDING
+is set before calling nci_req_complete() on non-OK or NCI 1.x responses to avoid
+prematurely completing an unrelated request.
 
-------------[ cut here ]------------
-pwq_busy(pwq)
-WARNING: kernel/workqueue.c:6173 at destroy_workqueue+0x329/0xa30 kernel/workqueue.c:6173, CPU#1: syz.2.490/7238
-Modules linked in:
-CPU: 1 UID: 0 PID: 7238 Comm: syz.2.490 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:destroy_workqueue+0x329/0xa30 kernel/workqueue.c:6173
-Code: 8d 5c 24 68 48 89 d8 48 c1 e8 03 42 80 3c 28 00 0f 85 80 06 00 00 49 8b 44 24 68 48 39 c3 0f 84 84 00 00 00 e8 a8 67 3a 00 90 <0f> 0b 90 48 c7 c6 e0 33 ee 8b 49 8d 96 70 01 00 00 48 c7 c7 80 23
-RSP: 0018:ffffc90024d17d18 EFLAGS: 00010093
-RAX: 0000000000000000 RBX: ffff8880202d5024 RCX: 0000000000000001
-RDX: ffff88802efb0000 RSI: ffffffff81d1b808 RDI: ffff88802efb0000
-RBP: 0000000000000002 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880202d5000
-R13: dffffc0000000000 R14: ffff88802d717000 R15: 0000000000000001
-FS:  000055557a4f1500(0000) GS:ffff8880d5c59000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb058227dac CR3: 00000000259c2000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- nci_unregister_device+0x87/0x330 net/nfc/nci/core.c:1332
- virtual_ncidev_close+0x4b/0xa0 drivers/nfc/virtual_ncidev.c:168
- __fput+0x3ff/0xb50 fs/file_table.c:512
- task_work_run+0x150/0x240 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
- exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
- do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb057f9e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffca775e428 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 00007fb058227da0 RCX: 00007fb057f9e159
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-RBP: 00007fb058227da0 R08: 0000000000000006 R09: 0000000000000000
-R10: 00000000003ff438 R11: 0000000000000246 R12: 0000000000011884
-R13: 00007fb05822609c R14: 00000000000115bd R15: 00007fb058226090
- </TASK>
+4. Regarding NCI 1.x response length check (Severity: Low):
+In v2, we explicitly check skb->len >= sizeof(*rsp) to ensure config_status is
+not read out-of-bounds in pr_debug().
 
+5. Regarding request serialization / stale notifications (Severity: Medium):
+All requests are serialized under ndev->req_lock, and __nci_request() unconditionally
+clears NCI_RESET_PENDING before dropping req_lock. Filtering out power-on notifications
+(trigger 0x01) ensures spontaneous controller power-ups are ignored, while checking and
+clearing the pending flag ensures each command matches at most one notification.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+6. Regarding request generation (Severity: Medium on both questions):
+The NCI protocol gives notifications no request correlation, so a stale
+CORE_RESET_NTF/RSP that is already inside nci_rx_work when a reset times
+out and userspace retries cannot be distinguished from the new attempt's
+own frame: the flag gate and the trigger check narrow the window, but a
+generation identity would require protocol support that does not exist.
+The failure path purges queued frames; only an in-flight worker frame can
+straddle, and the data it carries originates from the same controller.
+If you would prefer, I can add a per-request generation check for the RSP
+path where an identity exists, as a follow-up.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+v2 patch has been sent as reply to this thread.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Yuchao
