@@ -1,95 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F7F4AF169;
-	Mon, 21 Sep 2026 15:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1EF32B10B
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 22 Sep 2026 00:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790003565; cv=none; b=ugnmTl1ugxhuEM2/NrFFoQ65cQyv2E2mForeSrMdsFcjBE4rWq2KmCD+lefDeSB3f0Oxe4FDeXNXrqlTnWfM40H7dwzL1ahox6kUeUdPc/t3tayN/G6jtPSLx2vmKCthKTTPSHDQ5Ij+vlqt+Pwt12Jm5dq3lz+niRxtTYaIvfo=
+	t=1790037144; cv=none; b=K6zWx/ndq3gANbn2nlFEfARrlCrCU5w6J1+KkwbJPzqE6KkMTjIAV8GCemocnkmfq4O5E3dhUkaz7hFVYvGdx/i1W0uvsDRNM9zssbxT5rEzHa087BsVv+Ao9lGM42owgt3KUngAOV0aZ/FxT18ohM4LhlQ0bu3Mc3I6+0/pMr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790003565; c=relaxed/simple;
-	bh=F723jUb4FX3wnPM8/1OM5X8MykUBmpaUpNENj61e5sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cz+Av/EYGziY30i8lQdpxHg6VtEy23ka2MsNZsdIOPDbu0fqWxD+FvicHGYlGweGzFHCCl3pK+XuMLxWMRxuvn0RuIvPIh4Ude7FhGAI2nbBld7h3KoYKTizWlO5qYfnGmNS+U/GDcH9K15VIACv+K3AbCfsY9SvFiYJYNM9peA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZWRhl3p; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZWRhl3p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82271F000FF;
-	Mon, 21 Sep 2026 15:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790003563;
-	bh=/EGmor+rdd8V7CS1kyIpOAdpprLtqx5XjF9/vJmxcJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RZWRhl3pg8o59qzvTFx/lJ+XE1Qdrn5dXre5AL/yLwRFdIpscv9QB0esbtt/MnQnS
-	 VfD1cPA+CTdjjjK1rc6vgw8LrxAdYI77GSDZcyj/HNS5+RRcQV/wFgfPFHKdWlajHB
-	 ah1WepHkASgIFqUEdrhQtr+4RkbCP8A4FxwxkvQvWpCTcIcJ156AlIsybxnCHwOK7C
-	 PZE97TGL5AyRMw07TEhOaSZyB/JF3rRY2N3vYZyyR4MpCRbbTgFSOQN8epZBRKvpN/
-	 mxeoxdCs0NiUUb+E651qVTR9KL6JKb/4I9ru3tNmDZpLAscus1iYNUGMiacFnydlAZ
-	 ZAh5+5vhAknFw==
-Date: Mon, 21 Sep 2026 17:12:40 +0200
-From: krzk@kernel.org
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: horms@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	david+nfc@ixit.cz, davem@davemloft.net, kuba@kernel.org, sameo@linux.intel.com, 
-	oe-linux-nfc@lists.linux.dev
-Subject: Re: [PATCH] nfc: llcp: Fix socket reference leak in
- nfc_llcp_recv_ui()
-Message-ID: <arFJYpnDIpY3VdAr@quoll>
-References: <20260916073424.1971784-1-vulab@iscas.ac.cn>
+	s=arc-20240116; t=1790037144; c=relaxed/simple;
+	bh=PGA37Aw1uYtTeEO5MjT+1glEXpmvF6LSRdWoyPJdf18=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rvGE8UOnmkC7k7iH8bVVXcjFnOeZkM48m2z8d8Yxg2KfMCIOjrq0OBr95qzc127wUUjqL3B/oEcJMCsB/s7hqqFDGo+bOdBrtkguUedDj4KlBiP6+RREqaBCA5ZKV/PoNfuT/1D/sozG+TNiNg6cxh+VQt1sW4ObI2Jv3BRPX88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-6c18e7d53b9so753133eaf.1
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 21 Sep 2026 17:32:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790037142; x=1790641942;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eRdut7bVBSm2SpCHoYzNXZW5bUxoFVvpj0afbTE+wWU=;
+        b=nHfJ++OVl+9OXe7aGI0jw2XpwMpyiq6hL8hJwhh364IFGMc1qVwjI1JLfHhJUZYPkz
+         imvTJT1YpQCXiRv6SUTtKtm0RjVYiJCyMUA7Q+duq1rfKNcM7GhxaqYCt0/GnrwF2tUY
+         vSuHPGM+zCVGZhgtd/zE5xA9iEaQhs5pVPU/VYxkKScUDcNEf+JfVBYF9FVP9gLhjgKE
+         gz0HM1x56JwrCT0Zw0jy+w0VOlq1wtOQthjytk1Lgo7XRhpfYqsNvCyAJfmUL+PQSXL5
+         SvWXO8jpihBFt2gfQ1O6szvPFhY5XJD83Zu4kybwzR9ZLL0h/jNwwTPkbwvr0D96p/Dr
+         uPYg==
+X-Forwarded-Encrypted: i=1; AKwUvBwsN1YkPSSdXqQ5sAv8BcnxxN7qvxYW+TKmlGDvWsA3I/WfrcFM/mZyq4fN+phwlY5eFmFkdJzpso42E1c=@lists.linux.dev
+X-Gm-Message-State: AFuF++lQQ9quM8INaLFjUhhGNro0X6OwpZUGjDRK2IS78jBxAO4W5/S3
+	4Zc8kbD1ubi2lHg21GfWJGWusMyQLXLm5vlergA9xqnByRJIdCAacYgHEGEZYlBWQjPLFMN/NoK
+	dAOOvKdpLyrCO5d5xakQdSohr63M2qPCd/ch64UYTfNh2ioWUQgft2iR7d5w=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260916073424.1971784-1-vulab@iscas.ac.cn>
+X-Received: by 2002:a05:6820:16a4:b0:6ba:5f65:6e5c with SMTP id
+ 006d021491bc7-6d15b86e2fdmr1299293eaf.42.1790037141831; Mon, 21 Sep 2026
+ 17:32:21 -0700 (PDT)
+Date: Mon, 21 Sep 2026 17:32:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab1cc95.3179f8cd.1e36b2.0025.GAE@google.com>
+Subject: [syzbot] [net?] [nfc?] WARNING in nci_unregister_device (2)
+From: syzbot <syzbot+c2d417f06523d8133c6a@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    4982d3552a3b Merge tag 'sound-7.3-rc4' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=126007f9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=84649d3ff8d550cb
+dashboard link: https://syzkaller.appspot.com/bug?extid=c2d417f06523d8133c6a
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4982d355.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d2afaea1fac3/vmlinux-4982d355.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/06e82fadea82/bzImage-4982d355.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c2d417f06523d8133c6a@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+pwq_busy(pwq)
+WARNING: kernel/workqueue.c:6173 at destroy_workqueue+0x329/0xa30 kernel/workqueue.c:6173, CPU#1: syz.2.490/7238
+Modules linked in:
+CPU: 1 UID: 0 PID: 7238 Comm: syz.2.490 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:destroy_workqueue+0x329/0xa30 kernel/workqueue.c:6173
+Code: 8d 5c 24 68 48 89 d8 48 c1 e8 03 42 80 3c 28 00 0f 85 80 06 00 00 49 8b 44 24 68 48 39 c3 0f 84 84 00 00 00 e8 a8 67 3a 00 90 <0f> 0b 90 48 c7 c6 e0 33 ee 8b 49 8d 96 70 01 00 00 48 c7 c7 80 23
+RSP: 0018:ffffc90024d17d18 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: ffff8880202d5024 RCX: 0000000000000001
+RDX: ffff88802efb0000 RSI: ffffffff81d1b808 RDI: ffff88802efb0000
+RBP: 0000000000000002 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880202d5000
+R13: dffffc0000000000 R14: ffff88802d717000 R15: 0000000000000001
+FS:  000055557a4f1500(0000) GS:ffff8880d5c59000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb058227dac CR3: 00000000259c2000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ nci_unregister_device+0x87/0x330 net/nfc/nci/core.c:1332
+ virtual_ncidev_close+0x4b/0xa0 drivers/nfc/virtual_ncidev.c:168
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb057f9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffca775e428 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007fb058227da0 RCX: 00007fb057f9e159
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007fb058227da0 R08: 0000000000000006 R09: 0000000000000000
+R10: 00000000003ff438 R11: 0000000000000246 R12: 0000000000011884
+R13: 00007fb05822609c R14: 00000000000115bd R15: 00007fb058226090
+ </TASK>
 
 
-On Wed, 16 Sep 2026 07:34:24 +0000, Wentao Liang wrote:
-> In nfc_llcp_recv_ui(), nfc_llcp_sock_get() is called to find the bound
-> socket. If the socket type is not SOCK_DGRAM, the function returns
-> directly without releasing the socket reference via nfc_llcp_sock_put(),
-> resulting in a reference count leak.
-> 
-> Add nfc_llcp_sock_put() when the socket type is not SOCK_DGRAM.
-> 
-> Fixes: 968272bf0087 ("NFC: Handle LLCP UI frames")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  net/nfc/llcp_core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-You sent multiple independent patches, to multiple independent
-subsystems. The amount of these patches clearly suggest this was
-AI generated and most likely not tested.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-More importantly, you sent all this work without properly organizing
-relevant patches into patchsets. This makes reviewing difficult
-and might cause multiple reviewers to address the same issue.
-Replying to the entire set is impossible and requires handling each
-patch independently, instead of applying or discarding the set.
-Maintainers also won't see the bigger picture of your work. Quite
-worrying.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-This is on the verge of hostile patch: bomb us with so many
-contributions, we won't be able to handle them in efficient manner,
-like responding ONCE to ask you to slow down.  Considering all this
-is untested and LLM generated, I have even more doubts whether this
-should be considered for review.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Please read kernel documentation BEFORE posting more work. It will
-explain you how to identify subsystems, how to organize your work per
-subsystem, how to document usage of LLM and how what you should not
-do if this was posted in a good faith.
-
-Best regards,
-Krzysztof
-
-
-
+If you want to undo deduplication, reply with:
+#syz undup
