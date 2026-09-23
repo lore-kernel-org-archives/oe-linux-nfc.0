@@ -1,237 +1,176 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FF9477E37
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 23 Sep 2026 09:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C50F3A782D;
+	Wed, 23 Sep 2026 11:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790157387; cv=none; b=AgbLH4rk6ff+GdwgBFhBJ36139FQkbTy+FTOi1xqoufVd3NwSfMFkm9hsz4GEIjT+biifUotaPkVTQZoG2Ac3eEK7HktvEq76NTalAzn2RnOPyRFCw+i5Ds4XwGzhOmInu4dRVcwB9GZ7JI8KSJdrHV3JbCfaHv0fiyiPayhlJk=
+	t=1790161269; cv=none; b=VnK0nRCMQuWtQ6CrmVtsVfRwduIB0KROEwkAgGWwXT0EcCp1DPD91j5rPD1sOmCWKsHuSfkKHtNyYcGKk/QMsFqGNvurGXhZ4lbyLd9+YxFLGUJ4HD2wGKZRWMRKjg9BZvZaWhIBncbB97RtXYtzV0JsBsulNrTsb0wrpfh1ktM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790157387; c=relaxed/simple;
-	bh=QeDdiTMtwUesbn82AMBLpIPVwRVTf/YQzaPCmJaM1Jk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VlxJtMuvGJ14k+lW+tThPsnjD/Iwgo3tns0JrMvwX7eC8Wkt+Hf/KLUJojQ9tRRrIY/CumXKI7lhyVU4T+rFjLlepgvx3qHXRHGqQzSUW16m1DKI0Zassv+id3cx6CouBu3iluGIxTbkgVCbegUeSN8nOm1hqWj4HSomqYfw9/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=RxC1VWu2; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1790161269; c=relaxed/simple;
+	bh=9yll0nn5e5lV+1in9Vhvnllsql337KFRc3hbJLB4hqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUvVZvACiusOLm3LGBdn3j8qJQbeX5acNMCdmrFEt9kZnC5KQwTaTo7/P2KJAuPBdEp6O4dgYKxiG8DPuMB4Xea7MIOv+A3ea9WFHL5wVej4gvKMBGS0Avkmsvul7AlVbgnTTtO7cIiKaWwJAWKYEkJfmb1n8coN/txpEbdZkv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WK+LYWEi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="RxC1VWu2"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id B86525340660;
-	Wed, 23 Sep 2026 11:56:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1790157382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yHwD2yK/eBmxEJX5iEQJpYIdMNbUey1YwWOC0yzq6vQ=;
-	b=RxC1VWu2mKzgGzfLxfoEkmAaegn+i/P8+NepiufV6bPuBPHg03eCT3qKHw3zaJhXhMSfHI
-	IVw+swc0VAJAck2fcCwh3V5WVMnof8ao70+chFFPI8d/6Y6rNYA3HhcG3vi1J9igQSDP2M
-	FqVekT3DC/0OYjEgNbDvjVKc05U3k5o=
-Message-ID: <a2910a0d-06d4-4f7d-ac7f-145633ffec5b@ixit.cz>
-Date: Wed, 23 Sep 2026 11:56:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WK+LYWEi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 239121F0089B;
+	Wed, 23 Sep 2026 11:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790161258;
+	bh=CSemoiGK8C8HIrpj1CQTjAtJI5ZavOEHMhvENOxUUaM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WK+LYWEin48HI9L180eak8SkVQ64uMjyXAc/Cs+xSEk8qWULRn+1VCCWasa+p99kD
+	 m9bDLawyUyN9yU909W7e6OTtyBytFg79fb5XnuibeEPizzJJSb4OfthnsA5trI0QB6
+	 DlGwu+YRS4Hrt8Epg204Ub/aXWkYEVjuqzvdcXZ07gOQoKqGHUvmXtE2I8OeytaUQg
+	 Xhpvv0u5Z0kEjccOApu8CCt0YSUpDgELN3mLEy53KcvOtoRArieIa1dV1wwX+F4gqj
+	 FB7Kunt4TZswebcQSok9lntXrxA+KnR3q1cI9hJzkISTDQjJo6XKk48CHOMdUvqeOy
+	 kCW3Zps0q/XcQ==
+Date: Wed, 23 Sep 2026 12:00:53 +0100
+From: Simon Horman <horms@kernel.org>
+To: Liu Chao <liuc63@xiaopeng.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, ilane@ti.com, david@ixit.cz,
+	linville@tuxdriver.com, oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net v2] nfc: nci: avoid unbounded skb allocation when
+ max_pkt_payload_len is zero
+Message-ID: <20260923110053.GT13925@horms.kernel.org>
+References: <20260913101309.891633-1-liuc63@xiaopeng.com>
+ <20260918185458.2711284-1-liuc63@xiaopeng.com>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nfc: st95hf: validate device-reported response length
- before reading
-To: Tianchu Chen <tianchu.chen@linux.dev>, sameo@linux.intel.com,
- shikha.singh@st.com
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <91f49a98dd42655829b7206f0d64cc31ef9c0e95@linux.dev>
- <fe549eb46f9f666f2778e7c50198528028cf9528@linux.dev>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <fe549eb46f9f666f2778e7c50198528028cf9528@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918185458.2711284-1-liuc63@xiaopeng.com>
 
-On 23/09/2026 10:18, Tianchu Chen wrote:
-> From: Tianchu Chen <flynnnchen@tencent.com>
+On Sat, Sep 19, 2026 at 02:54:58AM +0800, Liu Chao wrote:
+> nci_queue_tx_data_frags() uses conn_info->max_pkt_payload_len as the
+> fragment size.  When that value is zero, frag_len is always zero and
+> total_len never decreases.  The loop then allocates skbs without
+> bound: none of them are freed inside the loop, they accumulate on
+> frags_q, and there is no cond_resched() in the loop body.  A single
+> sendmsg() can therefore consume all allocatable memory, and on
+> CONFIG_PREEMPT_NONE it occupies the CPU long enough to trip the
+> softlockup watchdog:
 > 
-> st95hf_spi_recv_response() reads a 2-byte header from the device,
-> derives the total response length from it (up to 1025 bytes via the
-> long-frame encoding) and then blindly reads len - 2 more bytes into
-> the caller's buffer, whose size it knows nothing about.
+>   watchdog: BUG: soft lockup - CPU#3 stuck for 26s! [kworker/3:1:57]
+>   Workqueue: events rawsock_tx_work [nfc]
+>   Call Trace:
+>    nci_send_data+0x1ca/0x6b0 [nci]
+>    nci_transceive+0xbb/0x170 [nci]
+>    rawsock_tx_work+0xb5/0x1a0 [nfc]
 > 
-> Call sites can be overflowed by a device reporting a large length,
-> for example, st95hf_irq_thread_handler() passes the data area of a
-> 280-byte skb.
+> max_pkt_payload_len comes straight from controller-supplied fields,
+> with no check for zero:
 > 
-> ST95HF datasheet states "In Reader mode it is possible to receive up to
-> 528 bytes of frame data from VICC and TypeB cards", so technically a bogus
-> NFC tag may trigger the OOB-write if the card-reader's firmware allows
-> large packets.
+>   ntf.c: conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
+>   rsp.c: conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
 > 
-> Add a buff_len parameter and clamp the device-reported length that does
-> not fit into the caller's buffer, Also modify callers to pass their
-> real buffer sizes.
+> Reject the zero value in the fragmentation path rather than at the
+> assignment sites.  nci_queue_tx_data_frags() is the only place that
+> loops over the RF data path's conn_info, and nci_send_data() takes
+> the non-fragmenting branch only for skb->len <= max_pkt_payload_len,
+> which for a zero limit means empty skbs alone.  Validating on
+> assignment would not be sufficient either, because
+> nci_rf_disc_rsp_packet() allocates ndev->rf_conn_info with
+> devm_kzalloc(), so max_pkt_payload_len is already zero before any
+> notification arrives.
 > 
-> Note that the clamped transfer must still run rather than bailing
-> out early: the header transfer keeps chip select asserted via
-> cs_change, and only completing a follow-up message lets the SPI
-> core deassert it. The device simply discards the unread bytes
-> at the chip select rising edge, then report the overflow with -E2BIG
-> after the transfer completes.
+> No legitimate configuration is affected: where the NCI spec does
+> mandate a zero Max Data Packet Payload Size -- the NFCEE Direct RF
+> Interface -- nci_rf_intf_activated_ntf_packet() takes the "goto
+> listen" shortcut, bypassing the assignment entirely.
 > 
-> Discovered by Atuin - Automated Vulnerability Discovery Engine.
+> Snapshot the field once with READ_ONCE() and use the snapshot for
+> both the check and the min_t() bound: the rx workqueue updates the
+> field without any lock held against this path, so without the
+> snapshot the check could validate a value the loop no longer
+> consumes.
 > 
-> Fixes: cab47333f0f75 ("NFC: Add STMicroelectronics ST95HF driver")
+> nci_hci_send_data() also loops over the same field, but on a
+> different conn_info instance (ndev->hci_dev->conn_info) created by
+> nci_core_conn_create_rsp_packet(); a zero or one there underflows
+> the loop arithmetic and will be addressed in a separate patch.  This
+> guards the path carrying the reported bug.
+> 
+> Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
 > Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
+> Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+
+A note on process: Please send new patch revisions in new email threads,
+not as a response to an earlier revision. Thanks!
+
+> 
 > ---
-> v2: clamp the payload read to the caller's buffer and let the second
-> SPI transfer complete instead of returning early, so chip select (kept
-> asserted by the header transfer's cs_change) is deasserted by the SPI
-> core; report the overflow with -E2BIG after the transfer completes.
-
-Hello Tianchu,
-
-please never send follow-ups as part of the thread. Always send them as a 
-separate message (otherwise they may get lost and we already have patchwork wich 
-can track the submissions.
-
-Even better, try to use tools such as b4 to submit patches (easier for you, sent 
-in expected format for us).
-
-Thanks
-David
-
 > 
->   drivers/nfc/st95hf/core.c |  6 ++++--
->   drivers/nfc/st95hf/spi.c  | 16 +++++++++++++---
->   drivers/nfc/st95hf/spi.h  |  2 +-
->   3 files changed, 18 insertions(+), 6 deletions(-)
+> v1 claimed that nci_queue_tx_data_frags() is "the only place that
+> loops" over max_pkt_payload_len.  That holds for the RF data path
+> (ndev->rf_conn_info) but was overstated as a blanket claim: the
+> Sashiko review of v1 pointed out that nci_hci_send_data() loops over
+> the same field as well, albeit on a separate conn_info instance
+> (ndev->hci_dev->conn_info) -- pre-existing and unchanged here; it
+> will be fixed separately.
 > 
-> diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
-> index 4d772a308bfff..0fbb60deada23 100644
-> --- a/drivers/nfc/st95hf/core.c
-> +++ b/drivers/nfc/st95hf/core.c
-> @@ -283,7 +283,8 @@ static int st95hf_send_recv_cmd(struct st95hf_context *st95context,
->   		unsigned char st95hf_response_arr[2];
->   
->   		ret = st95hf_spi_recv_response(&st95context->spicontext,
-> -					       st95hf_response_arr);
-> +					       st95hf_response_arr,
-> +					       sizeof(st95hf_response_arr));
->   		if (ret < 0) {
->   			dev_err(dev, "spi error from st95hf_spi_recv_response(), err = 0x%x\n",
->   				ret);
-> @@ -800,7 +801,8 @@ static irqreturn_t st95hf_irq_thread_handler(int irq, void  *st95hfcontext)
->   
->   	mutex_lock(&stcontext->rm_lock);
->   	res_len = st95hf_spi_recv_response(&stcontext->spicontext,
-> -					   skb_resp->data);
-> +					   skb_resp->data,
-> +					   skb_tailroom(skb_resp));
->   	if (res_len < 0) {
->   		dev_err(spidevice, "TISR spi response err = 0x%x\n", res_len);
->   		result = res_len;
-> diff --git a/drivers/nfc/st95hf/spi.c b/drivers/nfc/st95hf/spi.c
-> index ffaf2789c4069..a69f7c5e3695e 100644
-> --- a/drivers/nfc/st95hf/spi.c
-> +++ b/drivers/nfc/st95hf/spi.c
-> @@ -66,7 +66,7 @@ EXPORT_SYMBOL_GPL(st95hf_spi_send);
->   
->   /* Function to Receive command Response */
->   int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
-> -			     unsigned char *receivebuff)
-> +			     unsigned char *receivebuff, int buff_len)
->   {
->   	int len = 0;
->   	struct spi_transfer tx_takedata;
-> @@ -106,9 +106,16 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
->   	else
->   		len += receivebuff[1];
->   
-> -	/* Now make a transfer to read only relevant bytes */
-> +	/*
-> +	 * Now make a transfer to read only relevant bytes, clamped to
-> +	 * the caller's buffer.  The transfer must run even when the
-> +	 * device overreports the length: the header transfer above kept
-> +	 * chip select asserted via cs_change, and only completing this
-> +	 * message lets the SPI core deassert it.  The device discards
-> +	 * the unread bytes at the chip select rising edge.
-> +	 */
->   	tx_takedata.rx_buf = &receivebuff[2];
-> -	tx_takedata.len = len - 2;
-> +	tx_takedata.len = min(len, buff_len) - 2;
->   
->   	spi_message_init(&m);
->   	spi_message_add_tail(&tx_takedata, &m);
-> @@ -122,6 +129,9 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
->   		return ret;
->   	}
->   
-> +	if (len > buff_len)
-> +		return -E2BIG;
-> +
->   	return len;
->   }
->   EXPORT_SYMBOL_GPL(st95hf_spi_recv_response);
-> diff --git a/drivers/nfc/st95hf/spi.h b/drivers/nfc/st95hf/spi.h
-> index 3ab678734c174..443a5053c0128 100644
-> --- a/drivers/nfc/st95hf/spi.h
-> +++ b/drivers/nfc/st95hf/spi.h
-> @@ -45,7 +45,7 @@ int st95hf_spi_send(struct st95hf_spi_context *spicontext,
->   		    enum req_type reqtype);
->   
->   int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
-> -			     unsigned char *receivebuff);
-> +			     unsigned char *receivebuff, int buff_len);
->   
->   int st95hf_spi_recv_echo_res(struct st95hf_spi_context *spicontext,
->   			     unsigned char *receivebuff);
+> The READ_ONCE() snapshot follows the same review: with the check and
+> the loop reading the field independently, a store from the rx
+> workqueue in between would let the loop spin on a value the check
+> had just rejected.
 
+There is a fresh AI-generated review of this patchset at
+https://netdev-ai.bots.linux.dev/sashiko/#/message/20260918185209.2675909-1-liuc63%40xiaopeng.com
+
+It raises a concern that the snapshot may not be broad enough.
+Please take a look.
+
+  The comment documents that the rx workqueue can update the field
+  concurrently, but the only caller still reads the same field of the same
+  conn_info with a plain load, and it is that read which decides whether
+  fragmentation happens at all:
+
+  net/nfc/nci/data.c:nci_send_data() {
+	/* check if the packet need to be fragmented */
+	if (skb->len <= conn_info->max_pkt_payload_len) {
+
+  Should this read be part of the same snapshot?  Two things follow from
+  leaving it as is.  The plain-versus-marked access pair on the field is
+  still KCSAN-reportable, and the decision and the loop can consume
+  different values: if nci_rf_intf_activated_ntf_packet() in
+  net/nfc/nci/ntf.c lowers the limit (255 -> 64, say) right after
+  nci_send_data() read the old value, nci_send_data() queues an
+  unfragmented packet larger than the controller's current maximum, a
+  transition the callee's snapshot cannot observe.  Would snapshotting once
+  in nci_send_data() and passing the validated value down be preferable?
+
+
+It also raises a concern regarding logging.  And while I do agree that the
+logging in question should be rate limited, because it occurs on the data
+path and is controlled by remote data, I am not convinced that it isn't a
+pre-existing problem.
+
+In any case, I think it should been addressed sooner or later.
+
+  Does this new return value make the caller's log line reachable once per
+  transmit attempt?
+
+  net/nfc/nci/data.c:nci_send_data() {
+		rc = nci_queue_tx_data_frags(ndev, conn_id, skb);
+		if (rc) {
+			pr_err("failed to fragment tx data packet\n");
+			goto free_exit;
+
+  Before the patch this input never returned from the helper, so the site
+  was effectively unreachable for it.  With a controller reporting
+  max_pkt_payload_len == 0, every sendmsg() on an NFC raw socket
+  (rawsock_tx_work -> nfc_data_exchange -> nci_transceive -> nci_send_data)
+  now logs a line, and so does every received HCP command, since
+  nci_hci_cmd_received() answers each one with nci_hci_send_data(ndev, pipe,
+  status, NULL, 0) -> nci_send_data().  Neither side is rate limited.
+  Would pr_err_ratelimited(), or a ratelimited message at the new check
+  itself, be a better fit for a controller-data-driven error path?
+
+...
