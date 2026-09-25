@@ -1,46 +1,72 @@
-Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f14.google.com (mail-dy2-f14.google.com [74.125.229.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7914A341C;
-	Fri, 25 Sep 2026 13:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.117.225.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4BF217F27
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 25 Sep 2026 17:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790343796; cv=none; b=j7ZGKGnA+Nw+mUBliBzckFkkKnfxd1dzz7tsyXGJUGnLICIYa6XVubCTBezcEI+i4t2QI4X7Zc2gdI3fMO1BvrjzgvTafX4eBSskA2AtC5hFJR0CWPYJKtFiohFd3UIqTdsejL2CPWK9tKC+IX7JUtd3k2Q6KKgNPPEmPvpDvqM=
+	t=1790359103; cv=none; b=WnzzVx7v60iYqcri83syyv5pS9pF8b9mgyyeVGdnYevBzxmXD75NgkdPIifNE+EyaMFaB2FeEJHPUg9H+6Jbqh9Hox2FB1GfFwFUikab86/IC+7U6D2zMNjhSDm1bqiZD/1S6wIg1dsy1zuQRDjO1/5KPfwP6h9CB/4HXujy94U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790343796; c=relaxed/simple;
-	bh=dTPNVWC3GqDzXoDZiV1+ftHoQtBycIMXju7p5UdkEoU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wse5y4bbrw/YFPeiC6qgeIbmAeRpcVOxTRXJoSg9xXfcjO2uvphEAr6Re53+INuRslVPVYI7t3ZoQsGyTJEbrGVYhvLh1B4m3zTaIkHGwHOZfoUA+xPWZMTTtvs8VsdxF/+i+u3CJYFfPmukLD/a8VxC0hoxAS89ki/C8JtusCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=hW87PTmt; arc=none smtp.client-ip=130.117.225.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+	s=arc-20240116; t=1790359103; c=relaxed/simple;
+	bh=iOZHQT4IOAIyVGF4UgMZZiMxiLFANObxfB3HkuQmwoQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uPBlNzk0rugNW61UmtSOH8/HTewm1WWeXYZUd4vYBEO2RVcmnrX8BVdNc2rgW1VrEgiM492bDcPhsgCUl7JHIXFWHFUkF/nES9710Hyq8UUaf5sPaH1N/FzrldJ1VBDrk+76UCoFK8Jpr7L6Olm+ktM4CAsIe134pO7oh1Q/Xw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESlm/8De; arc=none smtp.client-ip=74.125.229.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="hW87PTmt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=virtuozzo.com; s=relay; h=MIME-Version:Message-ID:Date:Subject:From:
-	Content-Type; bh=yukDxVZM8TYgs/dTZmqHs1ilO4it9VjQAViY7Dxnklg=; b=hW87PTmtfTnK
-	VF2jWpkmT7iq7clKI19FS9dMOaPFqyEQ5p5CVuHcE3hKzd4J6aShHmpl81Tiu4Ia0DbyTZXRkWb0Q
-	agNK5LELQQV847fCkxIUNmBHNo5iT8GB8OOuGVJtpM1Uf6uBNEoi4nhHPiHvwj1lL820w0wXozdUt
-	SRTtkUHTYcI3cY98hSrc34N/fdNmOxvEfrQiy2BTFNEls3ZpdtWr/XDSaVRQ4hdzFO3xzZTbngGsz
-	rem10N3PK2PLuF3m+yG3aNgtJS9E2J4J/tdnSfS/LPkyMgtpb0SDvzfhe7ErjD85kodmtt8p9R4HY
-	J9zdewBuwvYM16WmqS4ycA==;
-Received: from ch-vpn.virtuozzo.com ([130.117.225.6] helo=LekKit-T14)
-	by relay.virtuozzo.com with esmtp (Exim 4.96)
-	(envelope-from <eva.kurchatova@virtuozzo.com>)
-	id 1xA69k-008d8O-0x;
-	Fri, 25 Sep 2026 15:43:04 +0200
-From: Eva Kurchatova <eva.kurchatova@virtuozzo.com>
-To: David Heidelberg <david@ixit.cz>,
-	Bongsu Jeon <bongsu.jeon@samsung.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Eva Kurchatova <eva.kurchatova@virtuozzo.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESlm/8De"
+Received: by mail-dy2-f14.google.com with SMTP id 5a478bee46e88-328664b7528so1042860eec.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 25 Sep 2026 10:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790359100; x=1790963900; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sJ/NQTl1WNpwK1sUwU0K8HlG1PwVQbHpKjHbUF6bYOc=;
+        b=ESlm/8DeCdGhBR01zbq55NCI+rbtL4354fUHOkbCu3go0kmGU08GstC4GNyWi84WUW
+         0XMIMueSmZGMAc7Zg4HXxDfkMA0TiMRwtc6e9ENW5wyKguuT1dW5cMKTtdM1FfvcgTRs
+         hOroiNO7P3YvAvkCHFWuOVlFw2/9Kr4LoHfW9bH4yqNtHqdtNkl+pVjrIQIbXVx4T4QQ
+         1egRuerkwz2bQiqhxlnU9FJScIPM7Y7WorN5YBTK5sadxOfMfit7MieQcjxQHUFcW1Ei
+         r+MXtpUcOdJ8QgotAc3+r05kvBzWkeKpuffuxyZOwuU0RLNlVAR/xUC02DVVzpSKThLl
+         UofQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790359100; x=1790963900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sJ/NQTl1WNpwK1sUwU0K8HlG1PwVQbHpKjHbUF6bYOc=;
+        b=NwZ6Y1iv/6A7skFqGjB1TpKoe7sKw2xlNeeL4FhQxOu8gi62H4nb+g3FA1mpiuo/wa
+         Mv3TRQYo34vKIdu63Lp3PYgcBYYvK3ATjYlpZRSmSJ/WCPVmGo65rq6fqwtDGYIIwbbQ
+         9UbSP3NbHyxce/PDBNlh45cRvLeZ+I4CmWLAnHbb9yYq0PVfA0Afh5bG2eGpa7Ok64nP
+         Que2Yf5Qp6n440GG5iNC4kFd2RQ9zjOLE7WIwnTnZLo4JRzYPoAKomb/Dxoq5aA4F3nR
+         14EbHvJxbWtcejgaT+x9kV5lBEKApPM0RnQZXtdD1HSZdGM21vHsBi8uk3RMBTqn3jb3
+         o9Qw==
+X-Gm-Message-State: AFuF++mWlyD+zE1Hw4qrFQBgHUTM6y0hs3zZxhJaG2fKhrQ1ipsE+oJ0
+	l8oAR/Lfzd7ruWrOMI2p2yyiGVhnljUm4qdacgGvVZOX3KU02QXmnWXbqjGRH8cX
+X-Gm-Gg: AYBFou2SXX4EB9bCgSghQUKM/8KZTX/XgZJHFgyTH03e+34hf1N5q8H0FeEXUGyThoy
+	L/nLzI5p9TljewZ80nyPRqQAkg3uVItVXQtfBbmjbUneW130nk4gMyREO5YKoCW2bgLEupjpIH9
+	TIiyGoIq0agmdnqii+GYLyTbKAUhAoXH5aTN52HaTEW7Z1147P3YWvLo/WNP0qnEw4tmPUrKPdJ
+	KZxCZLxSdNBrWrp3oQTQNTz3NUwRZiInCwrk2LwcauunR+UpkEdPrUWxJu+148hRNilLYsmqei1
+	tGA1FWJ1xrpNDm5JsozUkolwHFm3buKSElozar4086yUc3LQaxkudhyJE34dcB0uxFEbblSjgeX
+	/+zXe0CDaVHGtdOwpqianyRAZHIheH4tZqIufXGGyQOXZqIfw0YE+RgcGTyP/N5qPdm4HMKKkwq
+	dDnRxKgQ/d7oHAhgZmTWlIJ7d58CulGcpVhaZtNJtLk0P0vBgeroZ+P6uSAeiNoRlRAqO44Vilu
+	w==
+X-Received: by 2002:a05:7022:2525:b0:144:f096:4dda with SMTP id a92af1059eb24-146d096d302mr1238633c88.43.1790359098946;
+        Fri, 25 Sep 2026 10:58:18 -0700 (PDT)
+Received: from beelink.. ([187.13.30.172])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145727589sm7005744eec.23.2026.09.25.10.58.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 10:58:18 -0700 (PDT)
+From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+To: david@ixit.cz
+Cc: oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH] selftests/nci: skip when the virtual NCI device is absent
-Date: Fri, 25 Sep 2026 16:41:59 +0300
-Message-ID: <20260925134232.3638500-1-eva.kurchatova@virtuozzo.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+Subject: [PATCH] nfc: nxp-nci: fix IRQ use-after-free in i2c remove
+Date: Fri, 25 Sep 2026 14:58:00 -0300
+Message-ID: <20260925175800.3694044-1-qwe.aldo@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -49,30 +75,34 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All 8 tests fail in setup without CONFIG_NFC_VIRTUAL_NCI.
+nxp_nci_i2c_remove() calls nxp_nci_remove() before free_irq().
+nxp_nci_remove() unregisters the NCI device and frees ndev via
+nci_free_device().  The IRQ handler nxp_nci_i2c_irq_thread_fn()
+dereferences phy->ndev and calls nci_get_drvdata() on it; if the
+interrupt fires between the nxp_nci_remove() and free_irq() calls the
+handler operates on freed memory.
 
-Skip only when the device node is missing, so that a real open()
-failure, EPERM or EBUSY, still fails the test instead of being
-reported as a skip.
+Swap the order: disable the interrupt first with free_irq(), then tear
+down the device.
 
-Signed-off-by: Eva Kurchatova <eva.kurchatova@virtuozzo.com>
+Fixes: 6be88670fc59 ("NFC: nxp-nci_i2c: Add I2C support to NXP NCI driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
 ---
- tools/testing/selftests/nci/nci_dev.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nfc/nxp-nci/i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/nci/nci_dev.c b/tools/testing/selftests/nci/nci_dev.c
-index 07427fa42888..cb567d6f32ed 100644
---- a/tools/testing/selftests/nci/nci_dev.c
-+++ b/tools/testing/selftests/nci/nci_dev.c
-@@ -430,6 +430,8 @@ FIXTURE_SETUP(NCI)
- 	ASSERT_NE(self->fid, -1);
- 
- 	self->virtual_nci_fd = open("/dev/virtual_nci", O_RDWR);
-+	if (self->virtual_nci_fd < 0 && errno == ENOENT)
-+		SKIP(return, "virtual NCI device is not available");
- 	ASSERT_GT(self->virtual_nci_fd, -1);
- 
- 	rc = setsockopt(self->sd, SOL_NETLINK, NETLINK_ADD_MEMBERSHIP, &event_group,
--- 
-2.55.0
+diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
+index XXXXXXX..YYYYYYY 100644
+--- a/drivers/nfc/nxp-nci/i2c.c
++++ b/drivers/nfc/nxp-nci/i2c.c
+@@ -346,8 +346,8 @@ static void nxp_nci_i2c_remove(struct i2c_client *client)
+ {
+ 	struct nxp_nci_i2c_phy *phy = i2c_get_clientdata(client);
 
+-	nxp_nci_remove(phy->ndev);
+ 	free_irq(client->irq, phy);
++	nxp_nci_remove(phy->ndev);
+ }
+
+ static const struct i2c_device_id nxp_nci_i2c_id_table[] = {
