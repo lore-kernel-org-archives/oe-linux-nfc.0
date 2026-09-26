@@ -1,138 +1,256 @@
-Received: from mail-ua2-f42.google.com (mail-ua2-f42.google.com [74.125.226.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994CB4302FC
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 25 Sep 2026 18:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107D12AEE1;
+	Sat, 26 Sep 2026 10:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790362157; cv=none; b=XB2+Tj3P7+OrWFz9ZolgxPtK8Hc2yixRQaUXLP3fVKs3/eOSq8zWWO4ZWVoaEDkV6LJ5bEU4CVNnwg7EMQ0kPkm3D/pQp/hEVEOzRQzMRYgvLrzPAnfurMHLhAJT8kxnhR0MDnTPXumnEZSVipwFzkBWDWuwHe5rvLIiNUqKAJY=
+	t=1790420045; cv=none; b=ZZ5dYbW6V7f5LgM7Q5TWoV0ZJRwp5vCLnvFLPvUE793GdTAwZIDx6JzKaB/MTS2U0tdMwm3pqUcgPSsdPI3parIv78QMhS+0j4g5ZFEp6t06DE3JqPO9AXsUc6couqkOD7yStMBfK43JKYhM5nDhyFENCmJF92zrx6F26xGDCxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790362157; c=relaxed/simple;
-	bh=F8eGUcbXM9YJxxiTRFj1694VCKapoa42uE3eAkq3zP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YyidePKokusxwHQpTFoy3z/kKoAZ6r2ihUi9zZw/Qp9z3tW4DFn5alvsh+0LmMueHkJvZrHWWlY1NTtBFBAMAQ0edUADZCcaFnQiTY722Y6YIxmsFeoifSWBBfxtHoV0muzT2Ruem0zt1dbdC+D4xoRYod5Q822DcI3Z06LBLdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e3y/AqLy; arc=none smtp.client-ip=74.125.226.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790420045; c=relaxed/simple;
+	bh=E8qseG3lAh2Gqznur1fW5a/Q4FQBN75qcS8bPYI94iQ=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CXsaewltEEB75zOHJqODiBx5LAyHG8/JEr9MPoequ27eMieeO0tgKfELrAL9+qygS5nRve0o2RLDQwS2/7lpCiRwb15E0lr4UMk2FV8lWM3jhfes/APRwPHxhP91275Ry2vLb4H/4dPUpBO0gr69fAm5Xlj/TuaitAz6GAgujmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h//5IdTR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e3y/AqLy"
-Received: by mail-ua2-f42.google.com with SMTP id a1e0cc1a2514c-986df7ac62dso459429241.2
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 25 Sep 2026 11:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790362153; x=1790966953; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kiKLmngPsfetWszmPVz9vnjkZ6oUGJcFeK7p9i5ASKU=;
-        b=e3y/AqLy/YmB3TC5qnNKNOblHp0Bfo1KinJ2XU5Ixgq0P80EuMS/C1gEIjvHKOKY/O
-         vlN/+/CAjZ7SNhUBddldnPN18Esu3uZoJ5rueE7/UDpJzeahuAsh2mtoGzGGR1q1j8Ru
-         QWHuOblssVON4V/rG11/TM0NaevRxz+IcslP/x8Wdb9RjSfK8IfNULIXK3T3vzadSkQl
-         5vZq4s6X+oj3tOqrSCBYa/DCx6I4wvwjb8VQiM5bewMNxNKFMosIIXr+C9ZsWxgQqHee
-         XEptkwG9rIZcdR5cRRu3Cj4VLkrDuo7nGnX3K7qIbkBUFCp8qbCNWBOSsH37Wj4XmiJC
-         43dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790362153; x=1790966953;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kiKLmngPsfetWszmPVz9vnjkZ6oUGJcFeK7p9i5ASKU=;
-        b=DkFVx10J8eoOH2iDXrd+XUOkY5YdKuWCNMaBRdZhUE2adQNf0rtGqMd/lBVAKjba+E
-         QW7yWKuNmshVXEq6HG5V2YOqbyIEEZndByvwF/okIsiVQ7PTRmkZt/BevUToYsRHi2XH
-         7fKBryB/kqkFMMQBchwC3ctbBwHlAD4GgQ4iwkdpldjZyPiz4tt+69duMMZMLU76lBhm
-         5IeNY2w2M2Sai5lrttKea53KUooUz2wgfZ5/6hzfveBDaAFMPDPuDAV70FSIFVxBwQfg
-         BvhEYmj0suAPwCRDqky4w+mhl2BYQzyOwZIOpMhrLZgzIwwkSx2lX5D4b0H5eXOD8fy/
-         R0WA==
-X-Forwarded-Encrypted: i=1; AKwUvBx152SvAAF5TyD8tG5unQA6np2OlMSGrgSsltjz+8O+86NkEVqAJDNgdVKboVmkabhhPGpLCKww0IYK4JE=@lists.linux.dev
-X-Gm-Message-State: AFuF++k07X1Z+idHLibNUuq7/WzZF5Cd5Whe8wD5mkyNtvTwdr3E+WwV
-	bZfUC9ea+epMsJR0dedgz1NQdTpQa7zLvnpbtakdhGsVahc0ndFJVZEd
-X-Gm-Gg: AYBFou1E+r6O9n4VG4kRASIK82DqH4vqK9nKOoLVwA0ztf1snvtEmw3L0DjaNJ2WqLO
-	F8XuDCsJZ6A0KIPHuDcshnsWqeCXHIZBwqtYaJh2xgw0UCabH4iZ4J7QQXcg3Ob08wbE9iL6FTZ
-	IRnMdbFCHJjdnwIkLyW58fFwK3Jfj/mcdk9/K5Fn5sElE1oRI/w2+f4ZaA4m440rIbm1inkVMd6
-	SrPt6vwNpyowVvj+Pbq+j6lPrWg64VbyCCcn300egdKSikiASApiYZMhuVv7hQb1dWTj18CUdjC
-	0VF6ZPu/n9v+mE0Mjzyxfc6358NdyLeBl9pgigzets16JRaQO0iOVHBfl9Cyc8AJqHHHftTPr4a
-	U3B3F4knxrDi+NrXaCUJ4i+ZguO/Cre8Xs+jNZWfbhy5FjjqSy1yq5FcrpJs540g19hfeFDI+AE
-	5YVjDf52QNv86yOM3neyGK87zdnwVKQDE5dlhLtzmtQxs1cpoU++cT33hpMsqCBR/vYdocJwbnR
-	A==
-X-Received: by 2002:a05:6102:10c8:b0:7b2:f790:c020 with SMTP id ada2fe7eead31-7b2f790cd9emr639017137.30.1790362152641;
-        Fri, 25 Sep 2026 11:49:12 -0700 (PDT)
-Received: from beelink.. ([187.13.30.172])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9861b029b1dsm3585744241.9.2026.09.25.11.49.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 11:49:12 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: david@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: horms@kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH net v2] nfc: llcp: prevent resource leak on repeated connect after DM
-Date: Fri, 25 Sep 2026 15:48:57 -0300
-Message-ID: <20260925184857.357926-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h//5IdTR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E7E1F000FF;
+	Sat, 26 Sep 2026 10:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790420043;
+	bh=MEUsGDPZJ1etI6bT5VFrdoyo40LYh6UcgGZhMJWLshk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=h//5IdTRClvnADITeggLeepX6FWpE6vTlokvRi4v4s18EVrn6XWy/zlW2KkGFv+pX
+	 qf5mqtW5ylGpRsjaDKIzCBCzlsmYnv2uPu7yDyEdbbC0m71FVpLfao0CxGxNh+kORD
+	 wz2fCMHwUaTE9n1T5MP+Buel2TFPbELHqsCYxFQYW5BfRxJgTzu+lrjs7IGlDkA3jE
+	 b2jaDBS2OX0AswZaeUNRbGmdcJP+pPZCnRy8TUoBIQ5fu5Q4O6H5A0RNsNkpl2dRiE
+	 67jHWIfYC1KJSX710BlGlNlaEyAuW9pAiHpX/VHDCI8PLnFZ9/8l/QUJyX/+9weZsk
+	 qnWhlPTyusrPA==
+Subject:
+ Re: [PATCH v2] nfc: nci: ignore unexpected CORE_RESET_NTF and CORE_RESET_RSP
+From: netdev-bot+sashiko@kernel.org
+To: ndaugoing@gmail.com
+Cc: horms@kernel.org, david@ixit.cz, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Sat, 26 Sep 2026 10:54:01 +0000
+Message-ID: <179042004198.2160803.79590143461584366@kernel.org>
+In-Reply-To: <20260922102144.39689-1-ndaugoing@gmail.com>
+References: <20260922102144.39689-1-ndaugoing@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-A nonblocking connect can return while the socket is still connecting.
-If the peer rejects the connection with a DM PDU, nfc_llcp_recv_dm()
-changes the socket state to LLCP_CLOSED.  A subsequent connect() on that
-socket currently overwrites the previous local, SAP and service name
-without releasing them.  Repeated retries therefore leak local references
-and SAP allocations until no SAPs remain.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Release any resources left on the socket before obtaining resources for a
-new connection.  A closed socket can also retain the device reference held
-by an asynchronous connect, so drop that reference as well.  Bound sockets
-do not hold the device reference, so release it only when reconnecting from
-LLCP_CLOSED.
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-Fixes: d646960f7986 ("NFC: Initial LLCP support")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://lore.kernel.org/all/20260923133339.2518641-1-qwe.aldo@gmail.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
----
-v2: fix author name (v1 was sent with an incorrect From: field)
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-  net/nfc/llcp_sock.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+- [Medium] The NCI_RESET_PENDING gate is evaluated in workqueue context
+  (nci_rx_work() -> nci_rsp_packet()/nci_ntf_packet(),…
+- [Low] The patch adds contradictory reset-trigger semantics in two
+  artifacts of the same commit: include/net/nfc/nci.h:143-146 defines…
 
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 5558d8a..e76361e 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -690,6 +690,23 @@ static int llcp_sock_connect(struct socket *sock, struct sockaddr_unsized *_addr
- 		goto error;
- 	}
- 
-+	if (sk->sk_state == LLCP_CLOSED) {
-+		/* Release resources retained by a previous failed connection. */
-+		if (llcp_sock->local) {
-+			if (llcp_sock->reserved_ssap < LLCP_SAP_MAX)
-+				nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
-+			nfc_llcp_local_put(llcp_sock->local);
-+		}
-+		if (llcp_sock->dev)
-+			nfc_put_device(llcp_sock->dev);
-+		kfree(llcp_sock->service_name);
-+		llcp_sock->local = NULL;
-+		llcp_sock->dev = NULL;
-+		llcp_sock->service_name = NULL;
-+		llcp_sock->service_name_len = 0;
-+		llcp_sock->reserved_ssap = LLCP_SAP_MAX;
-+	}
-+
- 	dev = nfc_get_device(addr->dev_idx);
- 	if (dev == NULL) {
- 		ret = -ENODEV;
+--
+
+nfc: nci: ignore unexpected CORE_RESET_NTF and CORE_RESET_RSP
+
+This adds an NCI_RESET_PENDING flag which is set when CORE_RESET_CMD is
+sent and cleared when the request finishes, and gates the core layer
+handling of CORE_RESET_RSP and CORE_RESET_NTF on that flag.  The intent is
+that an unsolicited or delayed reset packet no longer completes an
+unrelated in-flight request nor overwrites ndev->nci_ver and the
+manufacturer fields.
+
+A couple of questions below.
+
+> diff --git a/include/net/nfc/nci.h b/include/net/nfc/nci.h
+> index 09efcaed7c3f6..2ac45adba0886 100644
+> --- a/include/net/nfc/nci.h
+> +++ b/include/net/nfc/nci.h
+> @@ -140,6 +140,11 @@
+>  #define NCI_RESET_TYPE_KEEP_CONFIG				0x00
+>  #define NCI_RESET_TYPE_RESET_CONFIG				0x01
+>  
+> +/* NCI Reset Triggers */
+> +#define NCI_RESET_TRIGGER_ERROR					0x00
+> +#define NCI_RESET_TRIGGER_POWER_ON				0x01
+> +#define NCI_RESET_TRIGGER_RESET_CMD				0x02
+> +
+
+[Severity: Low]
+Do these new definitions agree with the comment added in
+nci_core_reset_ntf_packet() in the same patch?
+
+Here 0x00 is named NCI_RESET_TRIGGER_ERROR and 0x02 is named
+NCI_RESET_TRIGGER_RESET_CMD, but the new comment in ntf.c says:
+
+	 * revision-dependent (0x00 in NCI 1.0, 0x02 in NCI 2.0), so both
+	 * are let through to the reset-pending gate below instead.
+
+The in-tree selftest tools/testing/selftests/nci/nci_dev.c uses 0x02 as
+the first payload byte of its CORE_RESET_NTF, which matches
+NCI_RESET_TRIGGER_RESET_CMD but not the 0x00 claim.
+
+Also, only NCI_RESET_TRIGGER_POWER_ON is used anywhere;
+NCI_RESET_TRIGGER_ERROR and NCI_RESET_TRIGGER_RESET_CMD have no
+references under net/nfc or drivers/nfc.  Should the unused ones be
+dropped, or should the code actually test for
+NCI_RESET_TRIGGER_RESET_CMD?
+
+Following from that, if a notification with reset_trigger == 0x00 arrives
+while NCI_RESET_PENDING is set, the handler treats it as a successful
+command-triggered reset:
+
+	ndev->nci_ver = ntf->nci_ver;
+	...
+	nci_req_complete(ndev, NCI_STATUS_OK);
+
+Is reporting NCI_STATUS_OK correct for a trigger the header names ERROR?
+
+[ ... ]
+
+> diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+> index 5f46c4b5720f6..5a90591cd9af7 100644
+> --- a/net/nfc/nci/core.c
+> +++ b/net/nfc/nci/core.c
+> @@ -134,6 +134,7 @@ static int __nci_request(struct nci_dev *ndev,
+>  	}
+>  
+>  	ndev->req_status = ndev->req_result = 0;
+> +	clear_bit(NCI_RESET_PENDING, &ndev->flags);
+>  
+>  	return rc;
+>  }
+> @@ -163,6 +164,8 @@ static void nci_reset_req(struct nci_dev *ndev, const void *opt)
+>  {
+>  	struct nci_core_reset_cmd cmd;
+>  
+> +	set_bit(NCI_RESET_PENDING, &ndev->flags);
+> +
+>  	cmd.reset_type = NCI_RESET_TYPE_RESET_CONFIG;
+>  	nci_send_cmd(ndev, NCI_OP_CORE_RESET_CMD, 1, &cmd);
+>  }
+
+[Severity: Medium]
+Is the flag enough to keep a late reset packet from completing a
+different request?
+
+NCI_RESET_PENDING is set and cleared here in process context under
+req_lock, while the gate is evaluated from the rx workqueue
+nci_rx_work() -> nci_rsp_packet()/nci_ntf_packet(), which never takes
+req_lock.  So the gate test, the flag clear and nci_req_complete() are
+three separate steps with respect to the request lifetime:
+
+rx_wq
+nci_core_reset_rsp_packet()
+	if (!test_bit(NCI_RESET_PENDING, &ndev->flags))
+		return;		/* passes, then gets preempted */
+
+process context
+__nci_request()
+	rc = -ETIMEDOUT;
+	ndev->req_status = ndev->req_result = 0;
+	clear_bit(NCI_RESET_PENDING, &ndev->flags);
+
+nci_open_device() then fails and drops req_lock.  Its failure path purges
+cmd_q/rx_q/tx_q and calls ops->close(), but does not flush ndev->rx_wq,
+so the handler above can still be mid-execution while a retry starts a
+new request and sets req_status = NCI_REQ_PEND.  When the handler
+resumes:
+
+	clear_bit(NCI_RESET_PENDING, &ndev->flags);
+	nci_req_complete(ndev, rsp->status);
+
+and nci_req_complete() only checks req_status == NCI_REQ_PEND, with no
+opcode or generation matching, so the new request (CORE_INIT, for
+instance) is completed with NCI_STATUS_OK without any of its fields
+being parsed.
+
+The same window exists in nci_core_reset_ntf_packet() between the
+successful test_and_clear_bit() and nci_req_complete(), so switching the
+response handler to test_and_clear_bit() would not close it.  Would
+evaluating the gate and calling nci_req_complete() under req_lock, or
+matching the completion to the pending opcode, be a better fit than the
+flag?
+
+> diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+> index f5c9a8ab7ec10..57f99bf46a221 100644
+> --- a/net/nfc/nci/ntf.c
+> +++ b/net/nfc/nci/ntf.c
+> @@ -36,7 +36,22 @@ static int nci_core_reset_ntf_packet(struct nci_dev *ndev,
+>  	if (skb->len < sizeof(struct nci_core_reset_ntf))
+>  		return -EINVAL;
+>  
+> -	ntf = (struct nci_core_reset_ntf *)skb->data;
+> +	ntf = (const struct nci_core_reset_ntf *)skb->data;
+> +
+> +	/*
+> +	 * A power-on notification must not update core protocol state nor
+> +	 * complete a pending request.  The CORE_RESET_CMD trigger value is
+> +	 * revision-dependent (0x00 in NCI 1.0, 0x02 in NCI 2.0), so both
+> +	 * are let through to the reset-pending gate below instead.
+> +	 * Return 0 so driver-specific notification hooks can still run.
+> +	 */
+> +	if (ntf->reset_trigger == NCI_RESET_TRIGGER_POWER_ON)
+> +		return 0;
+> +
+> +	if (!test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags)) {
+> +		pr_warn_ratelimited("unexpected CORE_RESET_NTF\n");
+> +		return 0;
+> +	}
+>  
+>  	ndev->nci_ver = ntf->nci_ver;
+>  	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+> diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+> index b0ab4f5acbce8..3a2491497e4b3 100644
+> --- a/net/nfc/nci/rsp.c
+> +++ b/net/nfc/nci/rsp.c
+> @@ -32,14 +32,26 @@ static void nci_core_reset_rsp_packet(struct nci_dev *ndev,
+>  
+>  	pr_debug("status 0x%x\n", rsp->status);
+>  
+> +	/*
+> +	 * If no reset request is pending, ignore unexpected responses to avoid
+> +	 * prematurely completing an unrelated request.
+> +	 */
+> +	if (!test_bit(NCI_RESET_PENDING, &ndev->flags))
+> +		return;
+> +
+> +	if (rsp->status != NCI_STATUS_OK) {
+> +		clear_bit(NCI_RESET_PENDING, &ndev->flags);
+> +		nci_req_complete(ndev, rsp->status);
+> +		return;
+> +	}
+> +
+>  	/* Handle NCI 1.x ver */
+> -	if (skb->len != 1) {
+> -		if (rsp->status == NCI_STATUS_OK) {
+> -			ndev->nci_ver = rsp->nci_ver;
+> -			pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+> -				 rsp->nci_ver, rsp->config_status);
+> -		}
+> +	if (skb->len >= sizeof(*rsp)) {
+> +		ndev->nci_ver = rsp->nci_ver;
+> +		pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+> +			 rsp->nci_ver, rsp->config_status);
+>  
+> +		clear_bit(NCI_RESET_PENDING, &ndev->flags);
+>  		nci_req_complete(ndev, rsp->status);
+>  	}
+>  }
+
 -- 
-2.43.0
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922102144.39689-1-ndaugoing%40gmail.com
