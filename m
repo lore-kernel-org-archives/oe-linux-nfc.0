@@ -1,43 +1,77 @@
-Received: from out28-149.mail.aliyun.com (out28-149.mail.aliyun.com [115.124.28.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f39.google.com (mail-pz2-f39.google.com [74.125.228.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA79E3E024B
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 11:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38EA3EFD1F
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 13:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790510394; cv=none; b=ZFLKwS+PxlG/aPG7AUqTVByLlB8pNyqgY86fq16GfAqTE6fQcI9l7CkTrmj8wXWH/RgNe9fabPVC67XXiTJ0UcZ7K/8XOEen0Cp4jGc+KOuRWSoEqN1W9Ig3kGls4Lizhbf6W8HV04YaTrZsAmtADle5y7nfe3NrJMUWhJiFr2w=
+	t=1790515767; cv=none; b=B5RvekHlW+E82p+ozKGRsy9nbnNk945SZ5XCwZ6g6csy3cFDVyRZ7fa/IQGFEgwQzI2uWakJcecrcIFjl4L7+SkFlRczlpi9q0kUfsj9t2luiwRjKESiacCpUlyUswqQFVixlRbKuGQLSro76Hp2bWUyQ0OW+vLLgtgwHVsnzcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790510394; c=relaxed/simple;
-	bh=fTkVwd2Y7QM/AiOJV9TQhYvcq5o2fo81OnE8HK9d50A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V3+CRmqrzWmt+RYhRWdd/fk155J3+0Df/SGvlEXxwRNVEBkBvkc5agSguMYaevkr91D86Kbg8oZ9Hnu3oMmCSeFSxf1SZKPGjt6avwCUtMob6pGf4cIbUkgH12bEr1IEYEjl/dOszLT/kmuuGap68cnchfkMpuPG2tFVSvlQgHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com; spf=pass smtp.mailfrom=xiaopeng.com; dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b=HVFfyXFi; arc=none smtp.client-ip=115.124.28.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	s=arc-20240116; t=1790515767; c=relaxed/simple;
+	bh=xZjVjFUsRAoAyEig84ujyLNULbs3BHWp05sZ+Ix3PEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YFZKzplHGd67/pDj/f9yWz95hEnb0cUCj+S0ovSyROYQX3/8LsRbZSgt7EcEC3FPQRoXG/NK58hM/0yQ+1Qs7w23rzSfAl+F/P8Ky+LAlJRTEOVfk665N85Nf80CMY7zhygKdvsRiVHVxCHfwWACHGYmuAeiEs0B38QNOC77LDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rOCUXH54; arc=none smtp.client-ip=74.125.228.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xiaopeng.com header.i=@xiaopeng.com header.b="HVFfyXFi"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1790510382; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=PBee7+V8zEKXVMTs+wwTx5B3tNdbnkyFJUEXDrj7INg=;
-	b=HVFfyXFiYfJEvnbdWBKFhqkkPtPHOWGxND2fbSiJ7YhnmUIF+y5ijRxZs7f/XHRJEJbObo6SNN6Jp27hJ2+VmlzPbrCrCCNL6dGwBF2X291mpuPYDyDtjiQm6Ufjg9748+kvB2BiRUz3BrWnq1p1Mm2khAX6Zu2fJhi/t/xXUwo=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07438608|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0132348-0.00388059-0.982885;FP=10282059465953380003|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033022149254;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.jP8tcBj_1790510380;
-Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jP8tcBj_1790510380 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Sun, 27 Sep 2026 19:59:41 +0800
-From: Liu Chao <liuc63@xiaopeng.com>
-To: netdev@vger.kernel.org
-Cc: david@ixit.cz,
-	horms@kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rOCUXH54"
+Received: by mail-pz2-f39.google.com with SMTP id d2e1a72fcca58-880fcd3790bso557239b3a.1
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 06:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790515765; x=1791120565; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QjnjoNM8uOqXSXpGRfVdaY1vT+2XluyhaDrsPcm/knA=;
+        b=rOCUXH54wxjt9BivjEqsKYnelmfm9/X93riqUIqjAGGo3PA93dhtxKCSunxDF+YFyp
+         W+YWGAcGPqjtKcOqKpMrGALrqoi0XLLxr20Eg8HCtYVGtQYkNSM4zjBLprCFwjskrpHz
+         UoaLDOWgQ45cQy/eXPvBU2moK+5eVFp4aA1HFGip0wXzR5DZbge6xFq3VREAJJzSge79
+         5L+HlAMArYdtN0Ar1VBIUX7UKw/pY9Nx1Bb6UHmSVtMdWteykc8gaqQkcg0QyQZ+QYB8
+         xdybwhkI7wgg5OJ+AVJ+pxDUEtlOsGLRrlmF1AybQrTELP6RVmqdJpXkXQOrmSDVAOuK
+         UmTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790515765; x=1791120565;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QjnjoNM8uOqXSXpGRfVdaY1vT+2XluyhaDrsPcm/knA=;
+        b=sRDv4RUwdkJohaABEY6TswWkWPF68WUnUZiICETxQhfHvzgycFHE6Myp5MlROTHXTr
+         lf/fsaFvXeCnFuM38eTN0xKsRM+KZ14F0OA+zC/pvZayUXbMPFOBbaPa3u2WoNz9hi3E
+         YwbRtH9mNbjLtSynX5yR7FV3O8AAtTXwEDJei6eoaFfRgs49b+iToDN8LJnmdKob3dFE
+         +HDS1VaDrIetMGQ+6jIWgwsh4pNYkj8McBMUi3HjhPJGQTQIlI6STgXO7dM51HRMui31
+         Pk7zLlRCE+016VMqqaCRJq3OV2xItAB7fF3c03FJLutH8qfFtArRVJmtRLM0daZNMMC8
+         uEqw==
+X-Forwarded-Encrypted: i=1; AKwUvByRjWrHaRJ5oEL5XWKTNWv2g0dMPY0i6mNlMwjYUJUP6+o+NIn88fb3A7CXqfUqdRWidlMOetgJhKYWpNA=@lists.linux.dev
+X-Gm-Message-State: AFuF++nWxyAbeLfFSjC98pTqnQZCHDR5m4sYqYAeTO4xNOR1sJJI+NR9
+	asc1/9BrRITCDYp5ph/qJtFutdlNWcs5AN0lncGwMtAwarwKiVDseTK/
+X-Gm-Gg: AYBFou1EMhNgB8lkZREc27fz86Ls48Wz5TBhUrtnnYM2kQNeRs2CECmFvlRge51lnDk
+	OllyeZYPR/HEjyYyipTf3ymDov+HC7oBDlRXHzBIb9iZ0DcW+f0EW/6vSK4NdSqNs0qMo+fNcvL
+	gRt7uKuXjRw5m0juza0zCe1hduEpfssQyVtP2OJ+cmwssdoJGMqyS9PLEvQpQeZRof/VoAEQAm7
+	CZswfyvkHuhgBmNbbiOND7iLegUyC7+MaNSSAJbTwTyOG+04+STOLDbtK3y4ocn6epYAM86fa0S
+	ldflWvik3I2/sXxtswiRdJLD8Lw0iVI/GpnO7fNKHTv/djBeHULRP0oNvftf+uazr571DJrDT09
+	lCqeuRgW/7UJzw/KZ1+We8j3zuv4VRocXW32Y8lCnBeV6GZ5IORpA4sfHL1DQdbFmJ6IOZgLKFO
+	nFnX7hQUP8pCoddHRUUF9CGVIVTvJA/WU/JrC3oM0ShbysxOif5w+snzzyFUfrY4iRUWY+3iAb/
+	M8XX4uOrh5+8OnALvxYjhkm+2nvfk5HVNfigyQWA1jYoI2PMg==
+X-Received: by 2002:a05:6a00:390b:b0:874:705d:f659 with SMTP id d2e1a72fcca58-87e9b3b6543mr7973250b3a.39.1790515765121;
+        Sun, 27 Sep 2026 06:29:25 -0700 (PDT)
+Received: from localhost.localdomain ([2409:8a1e:2e81:7320:b0c3:3f9c:4dbd:e098])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feb57a5a6sm2985845b3a.47.2026.09.27.06.29.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 27 Sep 2026 06:29:24 -0700 (PDT)
+From: Yuchao Zhang <ndaugoing@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: David Heidelberg <david@ixit.cz>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
 	oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net v3] nfc: nci: avoid unbounded skb allocation when max_pkt_payload_len is zero
-Date: Sun, 27 Sep 2026 19:59:40 +0800
-Message-ID: <20260927115940.3817019-1-liuc63@xiaopeng.com>
+	stable@vger.kernel.org,
+	Yuchao Zhang <ndaugoing@gmail.com>
+Subject: [PATCH v3] nfc: nci: ignore unexpected CORE_RESET_NTF and CORE_RESET_RSP
+Date: Sun, 27 Sep 2026 21:29:14 +0800
+Message-ID: <20260927132914.24648-1-ndaugoing@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -47,203 +81,249 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-nci_queue_tx_data_frags() uses conn_info->max_pkt_payload_len as the
-fragment size.  When that value is zero, frag_len is always zero and
-total_len never decreases.  The loop then allocates skbs without bound:
-none of them are freed inside the loop, they accumulate on frags_q, and
-there is no cond_resched() in the loop body.  A single sendmsg() can
-therefore consume all allocatable memory, and on CONFIG_PREEMPT_NONE it
-occupies the CPU long enough to trip the softlockup watchdog:
+Commit bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
+added handling of CORE_RESET_NTF in nci_core_reset_ntf_packet(). When
+received, it updates ndev->nci_ver, ndev->manufact_id, and
+ndev->manufact_specific_info, and calls nci_req_complete(ndev,
+NCI_STATUS_OK) to finish the pending reset request.
 
-  watchdog: BUG: soft lockup - CPU#3 stuck for 26s! [kworker/3:1:57]
-  Workqueue: events rawsock_tx_work [nfc]
-  Call Trace:
-   nci_send_data+0x1ca/0x6b0 [nci]
-   nci_transceive+0xbb/0x170 [nci]
-   rawsock_tx_work+0xb5/0x1a0 [nfc]
+However, unlike other notification handlers in ntf.c (which validate
+ndev->state before completing requests), nci_core_reset_ntf_packet()
+does not check whether a core reset request is actually pending.
+If an unsolicited or delayed CORE_RESET_NTF arrives (e.g. after a reset
+command times out or from a misbehaving NFCC), it unconditionally:
+1. Completes whatever request is currently in-flight (such as CORE_INIT,
+   RF_DISCOVER, or CONN_CREATE) with NCI_STATUS_OK, leading to kernel
+   state desynchronization.
+2. Overwrites ndev->nci_ver and manufacturer info. Because
+   ndev->nci_ver is used as a selector for subsequent packet formats
+   and parsers (e.g., in nci_open_device() and nci_core_init_rsp_packet()),
+   unexpectedly modifying it can cause protocol format confusion.
 
-max_pkt_payload_len comes straight from controller-supplied fields with
-no check for zero, and it is read several times along the TX path while
-the rx workqueue can update it without any lock held against this path.
+A similar issue exists in nci_core_reset_rsp_packet(): an unexpected or
+delayed response packet can prematurely complete an unrelated in-flight
+request.
 
-Take a single READ_ONCE() snapshot of the limit in nci_send_data(),
-reject a zero limit there, and pass the snapshot down to
-nci_queue_tx_data_frags().  The fragmentation decision and the
-fragmentation loop then consume the same value, so the loop cannot spin
-on a limit that differs from the one just validated, and no plain read
-of the field is left in nci_send_data() or nci_queue_tx_data_frags().
+Fix this by ensuring CORE_RESET_NTF and CORE_RESET_RSP are only processed
+by the core layer when a reset command is actively awaiting them:
+- Set NCI_RESET_PENDING in nci_reset_req() when sending CORE_RESET_CMD.
+- In nci_core_reset_rsp_packet(), ignore the response if NCI_RESET_PENDING
+  is not set. If set, atomically clear the flag and complete the request
+  on failure or for NCI 1.x (checking skb->len >= sizeof(*rsp)).
+- In __nci_request(), ensure NCI_RESET_PENDING is cleared upon request
+  completion, cancellation, or timeout.
+- In nci_core_reset_ntf_packet(), fail any in-flight reset request if the
+  controller reports an unrecoverable error (0x00), and only process
+  command-triggered notifications (0x02). Non-command triggers (e.g.
+  power-on 0x01 or proprietary triggers) and unexpected notifications
+  return 0 without modifying core state, ensuring driver-specific
+  notification handlers (such as fdp firmware patch handling) still
+  receive them.
+- In nci_core_reset_ntf_packet(), support notifications shorter than 9
+  bytes (e.g. NCI 2.0 frames with manufacturer_specific_len == 0),
+  validating the fixed header length and safely bounding
+  manufact_specific_info reads.
 
-Rejecting the zero limit at the entry of the TX data path covers the RF
-connection as well: ndev->rf_conn_info is allocated with devm_kzalloc(),
-so its max_pkt_payload_len is zero from the moment the object exists and
-only becomes usable when an activation notification assigns a
-controller-supplied value.  Checking where the value is consumed catches
-every producer of a zero limit -- the initial state, the notification,
-and any future writer.
-
-The two producers of the field are annotated with WRITE_ONCE() to match
-the snapshot read; the remaining plain accesses on the HCI path are
-untouched here, since nci_hci_send_data() loops over a different
-conn_info instance (ndev->hci_dev->conn_info) and needs its own fix,
-which is sent separately.
-
-The "failed to fragment tx data packet" print sits on a data path driven
-by controller/remote data and can fire on every transmit once
-fragmentation keeps failing.  Rate-limit it so a misbehaving controller
-cannot flood the log.  Note that with the zero-limit rejection moved into
-nci_send_data(), a rejected zero limit returns before this print, so the
-per-sendmsg flood does not occur through that path.
-
-No legitimate configuration is affected: where the NCI spec does mandate
-a zero Max Data Packet Payload Size -- the NFCEE Direct RF Interface --
-nci_rf_intf_activated_ntf_packet() takes the "goto listen" shortcut,
-bypassing the assignment entirely.
-
-While at it, drop the conn_info lookup in nci_queue_tx_data_frags():
-the caller has already validated the connection, the function now takes
-everything it needs as arguments, and the lookup was the only use of
-conn_info left in it.
-
-Fixes: 6a2968aaf50c ("NFC: basic NCI protocol implementation")
+Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
 Cc: stable@vger.kernel.org
-Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+Signed-off-by: Yuchao Zhang <ndaugoing@gmail.com>
 ---
-Changes in v3:
-  - Snapshot max_pkt_payload_len once in nci_send_data() with
-    READ_ONCE() and pass it down to nci_queue_tx_data_frags(), as
-    suggested by Simon Horman, so the fragmentation decision and the
-    fragmentation loop consume the same value and no plain read of the
-    field remains on this path (review:
-    https://lore.kernel.org/netdev/20260925155040.GP13925@horms.kernel.org/)
-  - Move the zero-limit rejection from nci_queue_tx_data_frags() into
-    nci_send_data(), so the check runs on the same snapshot the loop
-    consumes; this also means a rejected zero limit returns before the
-    "failed to fragment" print rather than triggering it per sendmsg
-  - Annotate the two producers of the field (RF activation NTF and
-    CORE_CONN_CREATE_RSP) with WRITE_ONCE() to match the snapshot read
-  - Drop the now-redundant conn_info lookup in nci_queue_tx_data_frags();
-    the caller already validated the connection
-  - Rate-limit the "failed to fragment tx data packet" print, which sits
-    on a data path driven by remote data, as discussed in the review of
-    the v2 series
-  - Keep the v1/v2 subject so the revision is tracked as the same fix
+v3:
+ - In nci_core_reset_ntf_packet(), do not reject notifications shorter than
+   9 bytes with -EINVAL; instead allow valid short frames (e.g. 2-byte NCI 1.x
+   or 5-byte NCI 2.0 with manufacturer_specific_len == 0), safely cap field
+   reads, and return 0 so driver-registered hooks (such as fdp firmware
+   patching) are not skipped (per Sashiko AI).
+ - Fix trigger semantics: in NCI, CORE_RESET_CMD trigger is 0x02
+   (NCI_RESET_TRIGGER_RESET_CMD). If controller reports an unrecoverable error
+   (0x00, NCI_RESET_TRIGGER_ERROR) while reset is pending, fail the request
+   instead of completing with OK; ignore power-on (0x01) and proprietary
+   triggers at core layer (per Sashiko AI).
+ - In nci_core_reset_rsp_packet(), use test_and_clear_bit(NCI_RESET_PENDING)
+   upon completing the request to consume the flag atomically (per Sashiko AI).
+ - Link to v2: https://lore.kernel.org/netdev/20260922102144.39689-1-ndaugoing@gmail.com/
 
-Changes in v2:
-  - READ_ONCE() snapshot of max_pkt_payload_len in
-    nci_queue_tx_data_frags(): with the check and the loop reading the
-    field independently, a store from the rx workqueue in between
-    could let the loop spin on a value the check had just rejected
----
- net/nfc/nci/data.c | 34 ++++++++++++++++++++--------------
- net/nfc/nci/ntf.c  |  3 ++-
- net/nfc/nci/rsp.c  |  3 ++-
- 3 files changed, 24 insertions(+), 16 deletions(-)
+v2:
+ - Do not abort the notification pipeline on unexpected CORE_RESET_NTF (return 0
+   instead of -EINVAL), preserving driver-level hooks (e.g. fdp firmware
+   patching) per Simon Horman.
+ - Skip power-on notifications (trigger 0x01, identical in NCI 1.0 and 2.0)
+   while gating both NCI 1.0 (0x00) and NCI 2.0 (0x02) command-triggered resets
+   on NCI_RESET_PENDING alone.
+ - Check NCI_RESET_PENDING in nci_core_reset_rsp_packet() to avoid completing
+   unrelated requests on unexpected responses.
+ - Explicitly check skb->len >= sizeof(*rsp) in nci_core_reset_rsp_packet()
+   for NCI 1.x handling.
+ - Link to v1: https://lore.kernel.org/netdev/20260918013337.82214-1-ndaugoing@gmail.com/
 
-diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-index 4253edea5..935e1fe61 100644
---- a/net/nfc/nci/data.c
-+++ b/net/nfc/nci/data.c
-@@ -95,9 +95,9 @@ int nci_conn_max_data_pkt_payload_size(struct nci_dev *ndev, __u8 conn_id)
- EXPORT_SYMBOL(nci_conn_max_data_pkt_payload_size);
+ include/net/nfc/nci.h      |  5 ++++
+ include/net/nfc/nci_core.h |  1 +
+ net/nfc/nci/core.c         |  3 +++
+ net/nfc/nci/ntf.c          | 48 +++++++++++++++++++++++++++++++++-----
+ net/nfc/nci/rsp.c          | 30 ++++++++++++++++++------
+ 5 files changed, 74 insertions(+), 13 deletions(-)
+
+diff --git a/include/net/nfc/nci.h b/include/net/nfc/nci.h
+index 09efcaed7c3f..2ac45adba088 100644
+--- a/include/net/nfc/nci.h
++++ b/include/net/nfc/nci.h
+@@ -140,6 +140,11 @@
+ #define NCI_RESET_TYPE_KEEP_CONFIG				0x00
+ #define NCI_RESET_TYPE_RESET_CONFIG				0x01
  
- static int nci_queue_tx_data_frags(struct nci_dev *ndev,
--				   __u8 conn_id,
--				   struct sk_buff *skb) {
--	const struct nci_conn_info *conn_info;
-+				   __u8 conn_id, struct sk_buff *skb,
-+				   u8 max_pkt_payload_len)
-+{
- 	int total_len = skb->len;
- 	const unsigned char *data = skb->data;
- 	unsigned long flags;
-@@ -108,17 +108,10 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
++/* NCI Reset Triggers */
++#define NCI_RESET_TRIGGER_ERROR					0x00
++#define NCI_RESET_TRIGGER_POWER_ON				0x01
++#define NCI_RESET_TRIGGER_RESET_CMD				0x02
++
+ /* NCI Static RF connection ID */
+ #define NCI_STATIC_RF_CONN_ID					0x00
  
- 	pr_debug("conn_id 0x%x, total_len %d\n", conn_id, total_len);
+diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
+index 664d5058e66e..504ea91ddf27 100644
+--- a/include/net/nfc/nci_core.h
++++ b/include/net/nfc/nci_core.h
+@@ -31,6 +31,7 @@ enum nci_flag {
+ 	NCI_DATA_EXCHANGE,
+ 	NCI_DATA_EXCHANGE_TO,
+ 	NCI_UNREG,
++	NCI_RESET_PENDING,
+ };
  
--	conn_info = nci_get_conn_info_by_conn_id(ndev, conn_id);
--	if (!conn_info) {
--		rc = -EPROTO;
--		goto exit;
--	}
--
- 	__skb_queue_head_init(&frags_q);
+ /* NCI device states */
+diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+index 5f46c4b5720f..5a90591cd9af 100644
+--- a/net/nfc/nci/core.c
++++ b/net/nfc/nci/core.c
+@@ -134,6 +134,7 @@ static int __nci_request(struct nci_dev *ndev,
+ 	}
  
- 	while (total_len) {
--		frag_len =
--			min_t(int, total_len, conn_info->max_pkt_payload_len);
-+		frag_len = min_t(int, total_len, max_pkt_payload_len);
+ 	ndev->req_status = ndev->req_result = 0;
++	clear_bit(NCI_RESET_PENDING, &ndev->flags);
  
- 		skb_frag = nci_skb_alloc(ndev,
- 					 (NCI_DATA_HDR_SIZE + frag_len),
-@@ -171,6 +164,7 @@ static int nci_queue_tx_data_frags(struct nci_dev *ndev,
- int nci_send_data(struct nci_dev *ndev, __u8 conn_id, struct sk_buff *skb)
+ 	return rc;
+ }
+@@ -163,6 +164,8 @@ static void nci_reset_req(struct nci_dev *ndev, const void *opt)
  {
- 	const struct nci_conn_info *conn_info;
-+	u8 max_pkt_payload_len;
- 	int rc = 0;
+ 	struct nci_core_reset_cmd cmd;
  
- 	pr_debug("conn_id 0x%x, plen %d\n", conn_id, skb->len);
-@@ -181,17 +175,29 @@ int nci_send_data(struct nci_dev *ndev, __u8 conn_id, struct sk_buff *skb)
- 		goto free_exit;
- 	}
- 
-+	/* The rx workqueue updates the limit concurrently: snapshot it
-+	 * once and drive both the fragmentation decision and the
-+	 * fragmentation loop from the same value.
-+	 */
-+	max_pkt_payload_len = READ_ONCE(conn_info->max_pkt_payload_len);
++	set_bit(NCI_RESET_PENDING, &ndev->flags);
 +
-+	if (!max_pkt_payload_len) {
-+		rc = -EPROTO;
-+		goto free_exit;
-+	}
-+
- 	/* check if the packet need to be fragmented */
--	if (skb->len <= conn_info->max_pkt_payload_len) {
-+	if (skb->len <= max_pkt_payload_len) {
- 		/* no need to fragment packet */
- 		nci_push_data_hdr(ndev, conn_id, skb, NCI_PBF_LAST);
- 
- 		skb_queue_tail(&ndev->tx_q, skb);
- 	} else {
- 		/* fragment packet and queue the fragments */
--		rc = nci_queue_tx_data_frags(ndev, conn_id, skb);
-+		rc = nci_queue_tx_data_frags(ndev, conn_id, skb,
-+					     max_pkt_payload_len);
- 		if (rc) {
--			pr_err("failed to fragment tx data packet\n");
-+			pr_err_ratelimited("failed to fragment tx data packet\n");
- 			goto free_exit;
- 		}
- 	}
+ 	cmd.reset_type = NCI_RESET_TYPE_RESET_CONFIG;
+ 	nci_send_cmd(ndev, NCI_OP_CORE_RESET_CMD, 1, &cmd);
+ }
 diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index f5c9a8ab7..c818c09f3 100644
+index f5c9a8ab7ec1..81ba6011c027 100644
 --- a/net/nfc/nci/ntf.c
 +++ b/net/nfc/nci/ntf.c
-@@ -856,7 +856,8 @@ static int nci_rf_intf_activated_ntf_packet(struct nci_dev *ndev,
- 		if (!conn_info)
- 			return 0;
+@@ -30,21 +30,57 @@
+ static int nci_core_reset_ntf_packet(struct nci_dev *ndev,
+ 				     const struct sk_buff *skb)
+ {
+-	/* Handle NCI 2.x core reset notification */
+ 	const struct nci_core_reset_ntf *ntf;
  
--		conn_info->max_pkt_payload_len = ntf.max_data_pkt_payload_size;
-+		WRITE_ONCE(conn_info->max_pkt_payload_len,
-+			   ntf.max_data_pkt_payload_size);
- 		conn_info->initial_num_credits = ntf.initial_num_credits;
+-	if (skb->len < sizeof(struct nci_core_reset_ntf))
+-		return -EINVAL;
++	/*
++	 * Return 0 on short or unhandled packets so driver-specific
++	 * notification hooks (such as fdp firmware patching) can still run.
++	 */
++	if (skb->len < 2)
++		return 0;
  
- 		/* set the available credits to initial value */
+-	ntf = (struct nci_core_reset_ntf *)skb->data;
++	ntf = (const struct nci_core_reset_ntf *)skb->data;
++
++	/*
++	 * If the controller reports an unrecoverable error while a reset is
++	 * pending, fail the in-flight reset request.
++	 */
++	if (ntf->reset_trigger == NCI_RESET_TRIGGER_ERROR) {
++		if (test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
++			nci_req_complete(ndev, NCI_STATUS_FAILED);
++		return 0;
++	}
++
++	/*
++	 * Only CORE_RESET_CMD-triggered notifications (0x02) complete a
++	 * pending reset request in NCI 2.0. Power-on (0x01) and proprietary
++	 * triggers (>= 0xA0) must not update core protocol state.
++	 */
++	if (ntf->reset_trigger != NCI_RESET_TRIGGER_RESET_CMD)
++		return 0;
++
++	if (!test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags)) {
++		pr_warn_ratelimited("unexpected CORE_RESET_NTF\n");
++		return 0;
++	}
++
++	if (skb->len < offsetofend(struct nci_core_reset_ntf,
++				   manufacturer_specific_len)) {
++		nci_req_complete(ndev, NCI_STATUS_FAILED);
++		return 0;
++	}
+ 
+ 	ndev->nci_ver = ntf->nci_ver;
+ 	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+ 		 ntf->nci_ver, ntf->config_status);
+ 
+ 	ndev->manufact_id = ntf->manufact_id;
+-	ndev->manufact_specific_info =
+-		__le32_to_cpu(ntf->manufact_specific_info);
++	if (ntf->manufacturer_specific_len >= sizeof(__le32) &&
++	    skb->len >= sizeof(struct nci_core_reset_ntf))
++		ndev->manufact_specific_info =
++			__le32_to_cpu(ntf->manufact_specific_info);
++	else
++		ndev->manufact_specific_info = 0;
+ 
+ 	nci_req_complete(ndev, NCI_STATUS_OK);
+ 
 diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index b0ab4f5ac..c0c689526 100644
+index b0ab4f5acbce..7a3c6bc1a0da 100644
 --- a/net/nfc/nci/rsp.c
 +++ b/net/nfc/nci/rsp.c
-@@ -345,7 +345,8 @@ static void nci_core_conn_create_rsp_packet(struct nci_dev *ndev,
- 			ndev->hci_dev->conn_info = conn_info;
+@@ -32,16 +32,32 @@ static void nci_core_reset_rsp_packet(struct nci_dev *ndev,
  
- 		conn_info->conn_id = rsp->conn_id;
--		conn_info->max_pkt_payload_len = rsp->max_ctrl_pkt_payload_len;
-+		WRITE_ONCE(conn_info->max_pkt_payload_len,
-+			   rsp->max_ctrl_pkt_payload_len);
- 		atomic_set(&conn_info->credits_cnt, rsp->credits_cnt);
+ 	pr_debug("status 0x%x\n", rsp->status);
+ 
+-	/* Handle NCI 1.x ver */
+-	if (skb->len != 1) {
+-		if (rsp->status == NCI_STATUS_OK) {
+-			ndev->nci_ver = rsp->nci_ver;
+-			pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+-				 rsp->nci_ver, rsp->config_status);
+-		}
++	/*
++	 * If no reset request is pending, ignore unexpected responses to avoid
++	 * prematurely completing an unrelated request.
++	 */
++	if (!test_bit(NCI_RESET_PENDING, &ndev->flags))
++		return;
++
++	if (rsp->status != NCI_STATUS_OK) {
++		if (test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
++			nci_req_complete(ndev, rsp->status);
++		return;
++	}
++
++	/* Handle NCI 1.x ver: completed by RSP */
++	if (skb->len >= sizeof(*rsp)) {
++		if (!test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
++			return;
++
++		ndev->nci_ver = rsp->nci_ver;
++		pr_debug("nci_ver 0x%x, config_status 0x%x\n",
++			 rsp->nci_ver, rsp->config_status);
+ 
+ 		nci_req_complete(ndev, rsp->status);
  	}
++
++	/* NCI 2.x ver: status is OK, wait for CORE_RESET_NTF to complete */
+ }
  
+ static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
 -- 
-2.50.1
+2.53.0
 
