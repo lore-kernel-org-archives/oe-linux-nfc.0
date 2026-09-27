@@ -1,329 +1,412 @@
-Received: from mail-pz2-f39.google.com (mail-pz2-f39.google.com [74.125.228.39])
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38EA3EFD1F
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 13:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B463BB661
+	for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 22:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790515767; cv=none; b=B5RvekHlW+E82p+ozKGRsy9nbnNk945SZ5XCwZ6g6csy3cFDVyRZ7fa/IQGFEgwQzI2uWakJcecrcIFjl4L7+SkFlRczlpi9q0kUfsj9t2luiwRjKESiacCpUlyUswqQFVixlRbKuGQLSro76Hp2bWUyQ0OW+vLLgtgwHVsnzcU=
+	t=1790548338; cv=none; b=TQs5RG5XxBEK0TqfM3zrOPCAuXGapLA+nuQR4iM9B7jMnUx6cfIbaN1VTFTn7kOoj/h9W1g8ug9eRU3R7bjF+Kxmw/003Hwm6zKL9ooPhyz5mMs/qzstIrwE+c0neIRdUDOktHDTMTfKyo/hLlG4yYmUGQRKPsIKa/jbm1XO+ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790515767; c=relaxed/simple;
-	bh=xZjVjFUsRAoAyEig84ujyLNULbs3BHWp05sZ+Ix3PEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YFZKzplHGd67/pDj/f9yWz95hEnb0cUCj+S0ovSyROYQX3/8LsRbZSgt7EcEC3FPQRoXG/NK58hM/0yQ+1Qs7w23rzSfAl+F/P8Ky+LAlJRTEOVfk665N85Nf80CMY7zhygKdvsRiVHVxCHfwWACHGYmuAeiEs0B38QNOC77LDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rOCUXH54; arc=none smtp.client-ip=74.125.228.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rOCUXH54"
-Received: by mail-pz2-f39.google.com with SMTP id d2e1a72fcca58-880fcd3790bso557239b3a.1
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 06:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790515765; x=1791120565; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QjnjoNM8uOqXSXpGRfVdaY1vT+2XluyhaDrsPcm/knA=;
-        b=rOCUXH54wxjt9BivjEqsKYnelmfm9/X93riqUIqjAGGo3PA93dhtxKCSunxDF+YFyp
-         W+YWGAcGPqjtKcOqKpMrGALrqoi0XLLxr20Eg8HCtYVGtQYkNSM4zjBLprCFwjskrpHz
-         UoaLDOWgQ45cQy/eXPvBU2moK+5eVFp4aA1HFGip0wXzR5DZbge6xFq3VREAJJzSge79
-         5L+HlAMArYdtN0Ar1VBIUX7UKw/pY9Nx1Bb6UHmSVtMdWteykc8gaqQkcg0QyQZ+QYB8
-         xdybwhkI7wgg5OJ+AVJ+pxDUEtlOsGLRrlmF1AybQrTELP6RVmqdJpXkXQOrmSDVAOuK
-         UmTQ==
+	s=arc-20240116; t=1790548338; c=relaxed/simple;
+	bh=sM6zusQp/PT4jAH7zPJfQhSW1sWz3vNaT1T2t19TrQU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=nst1DBKg1z1aoHFBkXYYKOgo5aPSjbN49b05ERvCm6ujIrVfWIVROgAjVj8VZDfNqd2ZSFeuGr3OdHhxR6xwShN4Kx+0JpATBbsARy0GPuL2UUZJLlrXXmU1kxwcdi7E45r7SUaSINQKj7m+cfQGL58pnVapSKv4OZ+A9VDAghk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4cb254da90eso4611419b6e.0
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 15:32:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790515765; x=1791120565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QjnjoNM8uOqXSXpGRfVdaY1vT+2XluyhaDrsPcm/knA=;
-        b=sRDv4RUwdkJohaABEY6TswWkWPF68WUnUZiICETxQhfHvzgycFHE6Myp5MlROTHXTr
-         lf/fsaFvXeCnFuM38eTN0xKsRM+KZ14F0OA+zC/pvZayUXbMPFOBbaPa3u2WoNz9hi3E
-         YwbRtH9mNbjLtSynX5yR7FV3O8AAtTXwEDJei6eoaFfRgs49b+iToDN8LJnmdKob3dFE
-         +HDS1VaDrIetMGQ+6jIWgwsh4pNYkj8McBMUi3HjhPJGQTQIlI6STgXO7dM51HRMui31
-         Pk7zLlRCE+016VMqqaCRJq3OV2xItAB7fF3c03FJLutH8qfFtArRVJmtRLM0daZNMMC8
-         uEqw==
-X-Forwarded-Encrypted: i=1; AKwUvByRjWrHaRJ5oEL5XWKTNWv2g0dMPY0i6mNlMwjYUJUP6+o+NIn88fb3A7CXqfUqdRWidlMOetgJhKYWpNA=@lists.linux.dev
-X-Gm-Message-State: AFuF++nWxyAbeLfFSjC98pTqnQZCHDR5m4sYqYAeTO4xNOR1sJJI+NR9
-	asc1/9BrRITCDYp5ph/qJtFutdlNWcs5AN0lncGwMtAwarwKiVDseTK/
-X-Gm-Gg: AYBFou1EMhNgB8lkZREc27fz86Ls48Wz5TBhUrtnnYM2kQNeRs2CECmFvlRge51lnDk
-	OllyeZYPR/HEjyYyipTf3ymDov+HC7oBDlRXHzBIb9iZ0DcW+f0EW/6vSK4NdSqNs0qMo+fNcvL
-	gRt7uKuXjRw5m0juza0zCe1hduEpfssQyVtP2OJ+cmwssdoJGMqyS9PLEvQpQeZRof/VoAEQAm7
-	CZswfyvkHuhgBmNbbiOND7iLegUyC7+MaNSSAJbTwTyOG+04+STOLDbtK3y4ocn6epYAM86fa0S
-	ldflWvik3I2/sXxtswiRdJLD8Lw0iVI/GpnO7fNKHTv/djBeHULRP0oNvftf+uazr571DJrDT09
-	lCqeuRgW/7UJzw/KZ1+We8j3zuv4VRocXW32Y8lCnBeV6GZ5IORpA4sfHL1DQdbFmJ6IOZgLKFO
-	nFnX7hQUP8pCoddHRUUF9CGVIVTvJA/WU/JrC3oM0ShbysxOif5w+snzzyFUfrY4iRUWY+3iAb/
-	M8XX4uOrh5+8OnALvxYjhkm+2nvfk5HVNfigyQWA1jYoI2PMg==
-X-Received: by 2002:a05:6a00:390b:b0:874:705d:f659 with SMTP id d2e1a72fcca58-87e9b3b6543mr7973250b3a.39.1790515765121;
-        Sun, 27 Sep 2026 06:29:25 -0700 (PDT)
-Received: from localhost.localdomain ([2409:8a1e:2e81:7320:b0c3:3f9c:4dbd:e098])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feb57a5a6sm2985845b3a.47.2026.09.27.06.29.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 27 Sep 2026 06:29:24 -0700 (PDT)
-From: Yuchao Zhang <ndaugoing@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: David Heidelberg <david@ixit.cz>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Yuchao Zhang <ndaugoing@gmail.com>
-Subject: [PATCH v3] nfc: nci: ignore unexpected CORE_RESET_NTF and CORE_RESET_RSP
-Date: Sun, 27 Sep 2026 21:29:14 +0800
-Message-ID: <20260927132914.24648-1-ndaugoing@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20260707; t=1790548335; x=1791153135;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ak7YetcBkEWxfi+D/Vs28PDHgHcX4ZHuV0e7+B3EhFc=;
+        b=RZGVyeSWIoblGYT0FIwMfH/EW8NjqPu/w9hm1jgopObn2DfgTW+IsQhrcuGapnnAlA
+         Csdq1ge5mNw4g3wM+Qqm4JpW/6EEG8jvO9qXqecBCjw75+2lysSeMw5OnIi6hWwPt6rY
+         DjPLEJ/bFzABk7A3dV82Y/kjaG3YE2Yx2wrvRa/JiEtr+5D+c+41+DwxH0HOkwE4R51a
+         swWKo9L1McINeE+dytKgqTCWC87m7kHDi1YchiD6Ll4/f+JK4pOFHb8TFN4Cxsbdo7qZ
+         NAR94xWl1vQnG/X16h1dcZTdEIgeW3nIWfiMR2bTVD7vyCXafhEx3n1evlTh6puI0cez
+         ULuw==
+X-Forwarded-Encrypted: i=1; AKwUvBw1AGBNIdbR0FIk0d8YCpxr+EvHmlfV9uTWRjyyKY4gd6PKgO6WTRspRk+xu4Kp9XV78lT6q/cdSqYXjg4=@lists.linux.dev
+X-Gm-Message-State: AFuF++ncNvqmM06HnmNlwE0mUySawihS80/QPbk7MfPPLUkVzdJS/TwS
+	34E59UUQfFag1H1ZNXYvs58bTMom7gj19ZWkQ/mwRCQO8ewh5yLqEQLxBzM4rYDMVDyEy/9FrQs
+	xp3rXPFz7rewHztAP4jbzmgNPVdV/jXWNZ/nhnGiVQVu4dTwPHY/l+4QVG2U=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:3082:b0:4ea:8166:e1a1 with SMTP id
+ 5614622812f47-4ea8167052emr1377762b6e.64.1790548335750; Sun, 27 Sep 2026
+ 15:32:15 -0700 (PDT)
+Date: Sun, 27 Sep 2026 15:32:15 -0700
+In-Reply-To: <20260925184857.357926-1-qwe.aldo@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab9996f.80e1c6cc.1e8e5f.0065.GAE@google.com>
+Subject: [syzbot ci] Re: nfc: llcp: prevent resource leak on repeated connect
+ after DM
+From: syzbot ci <syzbot+ci3c472c63e196fe9e@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, qwe.aldo@gmail.com, 
+	sashiko-bot@kernel.org, stable@vger.kernel.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Commit bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
-added handling of CORE_RESET_NTF in nci_core_reset_ntf_packet(). When
-received, it updates ndev->nci_ver, ndev->manufact_id, and
-ndev->manufact_specific_info, and calls nci_req_complete(ndev,
-NCI_STATUS_OK) to finish the pending reset request.
+syzbot ci has tested the following series
 
-However, unlike other notification handlers in ntf.c (which validate
-ndev->state before completing requests), nci_core_reset_ntf_packet()
-does not check whether a core reset request is actually pending.
-If an unsolicited or delayed CORE_RESET_NTF arrives (e.g. after a reset
-command times out or from a misbehaving NFCC), it unconditionally:
-1. Completes whatever request is currently in-flight (such as CORE_INIT,
-   RF_DISCOVER, or CONN_CREATE) with NCI_STATUS_OK, leading to kernel
-   state desynchronization.
-2. Overwrites ndev->nci_ver and manufacturer info. Because
-   ndev->nci_ver is used as a selector for subsequent packet formats
-   and parsers (e.g., in nci_open_device() and nci_core_init_rsp_packet()),
-   unexpectedly modifying it can cause protocol format confusion.
+[v2] nfc: llcp: prevent resource leak on repeated connect after DM
+https://lore.kernel.org/all/20260925184857.357926-1-qwe.aldo@gmail.com
+* [PATCH net v2] nfc: llcp: prevent resource leak on repeated connect after DM
 
-A similar issue exists in nci_core_reset_rsp_packet(): an unexpected or
-delayed response packet can prematurely complete an unrelated in-flight
-request.
+and found the following issues:
+* KASAN: slab-use-after-free Read in llcp_sock_connect
+* KASAN: slab-use-after-free Read in nfc_remove_device
 
-Fix this by ensuring CORE_RESET_NTF and CORE_RESET_RSP are only processed
-by the core layer when a reset command is actively awaiting them:
-- Set NCI_RESET_PENDING in nci_reset_req() when sending CORE_RESET_CMD.
-- In nci_core_reset_rsp_packet(), ignore the response if NCI_RESET_PENDING
-  is not set. If set, atomically clear the flag and complete the request
-  on failure or for NCI 1.x (checking skb->len >= sizeof(*rsp)).
-- In __nci_request(), ensure NCI_RESET_PENDING is cleared upon request
-  completion, cancellation, or timeout.
-- In nci_core_reset_ntf_packet(), fail any in-flight reset request if the
-  controller reports an unrecoverable error (0x00), and only process
-  command-triggered notifications (0x02). Non-command triggers (e.g.
-  power-on 0x01 or proprietary triggers) and unexpected notifications
-  return 0 without modifying core state, ensuring driver-specific
-  notification handlers (such as fdp firmware patch handling) still
-  receive them.
-- In nci_core_reset_ntf_packet(), support notifications shorter than 9
-  bytes (e.g. NCI 2.0 frames with manufacturer_specific_len == 0),
-  validating the fixed header length and safely bounding
-  manufact_specific_info reads.
+Full report is available here:
+https://ci.syzbot.org/series/5e0cb36e-53b9-46fb-95cf-63d7aa556657
 
-Fixes: bcd684aace34 ("net/nfc/nci: Support NCI 2.x initial sequence")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuchao Zhang <ndaugoing@gmail.com>
+***
+
+KASAN: slab-use-after-free Read in llcp_sock_connect
+
+tree:      net
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net.git
+base:      415f2044228cc8b948dc04e079aaa86a4d1aa1d3
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/b9c88e36-7160-4be9-b8c4-0246fd730eef/config
+syz repro: https://ci.syzbot.org/findings/64002827-5231-4183-bfca-0d91bded8543/syz_repro
+
+==================================================================
+BUG: KASAN: slab-use-after-free in kobject_put+0x2a2/0x550 lib/kobject.c:733
+Read of size 1 at addr ffff8881ae430054 by task syz.2.20/5885
+
+CPU: 0 UID: 0 PID: 5885 Comm: syz.2.20 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ kobject_put+0x2a2/0x550 lib/kobject.c:733
+ nfc_put_device net/nfc/nfc.h:103 [inline]
+ llcp_sock_connect+0x2f5/0xc50 net/nfc/llcp_sock.c:701
+ connect_socket net/socket.c:2141 [inline]
+ __sys_connect_file net/socket.c:2166 [inline]
+ __sys_connect+0x316/0x450 net/socket.c:2183
+ __do_sys_connect net/socket.c:2189 [inline]
+ __se_sys_connect net/socket.c:2186 [inline]
+ __x64_sys_connect+0x7a/0x90 net/socket.c:2186
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f012ed9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f012fb8e028 EFLAGS: 00000246 ORIG_RAX: 000000000000002a
+RAX: ffffffffffffffda RBX: 00007f012f025fa0 RCX: 00007f012ed9e159
+RDX: 0000000000000060 RSI: 0000200000000380 RDI: 0000000000000004
+RBP: 00007f012ee3506b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f012f026038 R14: 00007f012f025fa0 R15: 00007fff3cb60738
+ </TASK>
+
+Allocated by task 5885:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x321/0x600 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ nfc_allocate_device+0x129/0x560 net/nfc/core.c:1065
+ nci_allocate_device+0x1da/0x380 net/nfc/nci/core.c:1206
+ virtual_ncidev_open+0x75/0x1a0 drivers/nfc/virtual_ncidev.c:141
+ misc_open+0x2d5/0x350 drivers/char/misc.c:163
+ chrdev_open+0x4d9/0x600 fs/char_dev.c:411
+ do_dentry_open+0x816/0x1380 fs/open.c:996
+ vfs_open+0x3b/0x340 fs/open.c:1101
+ do_open fs/namei.c:4837 [inline]
+ path_openat+0x1443/0x1d60 fs/namei.c:5000
+ do_file_open+0x23e/0x4a0 fs/namei.c:5029
+ do_sys_openat2+0x115/0x200 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5885:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6508 [inline]
+ kfree+0x1c5/0x650 mm/slub.c:6801
+ device_release+0xc4/0x1f0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x222/0x550 lib/kobject.c:737
+ nfc_put_device net/nfc/nfc.h:103 [inline]
+ nfc_llcp_local_put+0xb7/0xe0 net/nfc/llcp_core.c:196
+ llcp_sock_connect+0x2bb/0xc50 net/nfc/llcp_sock.c:698
+ connect_socket net/socket.c:2141 [inline]
+ __sys_connect_file net/socket.c:2166 [inline]
+ __sys_connect+0x316/0x450 net/socket.c:2183
+ __do_sys_connect net/socket.c:2189 [inline]
+ __se_sys_connect net/socket.c:2186 [inline]
+ __x64_sys_connect+0x7a/0x90 net/socket.c:2186
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff8881ae430000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 84 bytes inside of
+ freed 2048-byte region [ffff8881ae430000, ffff8881ae430800)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1ae430
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x57ff00000000040(head|node=1|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 057ff00000000040 ffff888100042000 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 057ff00000000040 ffff888100042000 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 057ff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5818, tgid 5818 (kworker/1:6), ts 69407176292
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7417
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_node_track_caller_noprof+0x548/0x720 mm/slub.c:5545
+ kmalloc_reserve net/core/skbuff.c:637 [inline]
+ __alloc_skb+0x2c1/0x7a0 net/core/skbuff.c:715
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ mld_newpack+0x165/0xcb0 net/ipv6/mcast.c:1810
+ add_grhead net/ipv6/mcast.c:1921 [inline]
+ add_grec+0x119f/0x19d0 net/ipv6/mcast.c:2060
+ mld_send_cr net/ipv6/mcast.c:2185 [inline]
+ mld_ifc_work+0x6f1/0xd60 net/ipv6/mcast.c:2739
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page last free pid 5677 tgid 5677 ts 63170557312 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ free_pages_prepare+0x9eb/0xaf0 mm/page_alloc.c:1463
+ __free_contig_range_common+0x174/0x340 mm/page_alloc.c:7072
+ __free_contig_range mm/page_alloc.c:7117 [inline]
+ free_pages_bulk+0x48/0x120 mm/page_alloc.c:5322
+ vm_area_free_pages mm/vmalloc.c:3461 [inline]
+ vfree+0x231/0x490 mm/vmalloc.c:3510
+ kcov_put kernel/kcov.c:451 [inline]
+ kcov_close+0x28/0x50 kernel/kcov.c:556
+ __fput+0x418/0xa50 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1012
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1155
+ get_signal+0x121b/0x12c0 kernel/signal.c:3112
+ arch_do_signal_or_restart+0xbb/0x860 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop+0x10e/0x770 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff8881ae42ff00: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+ ffff8881ae42ff80: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+>ffff8881ae430000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                 ^
+ ffff8881ae430080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8881ae430100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+***
+
+KASAN: slab-use-after-free Read in nfc_remove_device
+
+tree:      net
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net.git
+base:      415f2044228cc8b948dc04e079aaa86a4d1aa1d3
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/b9c88e36-7160-4be9-b8c4-0246fd730eef/config
+
+==================================================================
+BUG: KASAN: slab-use-after-free in sysfs_remove_file_ns+0x3d/0x70
+Read of size 8 at addr ffff888177b8a048 by task syz.1.3888/17756
+
+CPU: 0 UID: 0 PID: 17756 Comm: syz.1.3888 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150
+ print_address_description+0x55/0x1e0
+ print_report+0x58/0x70
+ kasan_report+0x117/0x150
+ sysfs_remove_file_ns+0x3d/0x70
+ device_del+0x503/0x8f0
+ nfc_remove_device+0xa7/0xc0
+ virtual_ncidev_close+0x56/0x90
+ __fput+0x418/0xa50
+ fput_close_sync+0x11f/0x240
+ __x64_sys_close+0x7e/0x110
+ do_syscall_64+0x166/0x520
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb42af9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb42bdab028 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 00007fb42b226090 RCX: 00007fb42af9e159
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: 00007fb42b03506b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fb42b226128 R14: 00007fb42b226090 R15: 00007fff6f3d29a8
+ </TASK>
+
+Allocated by task 17749:
+ kasan_save_track+0x3e/0x80
+ __kasan_kmalloc+0x93/0xb0
+ __kmalloc_cache_noprof+0x321/0x600
+ nfc_allocate_device+0x129/0x560
+ nci_allocate_device+0x1da/0x380
+ virtual_ncidev_open+0x75/0x1a0
+ misc_open+0x2d5/0x350
+ chrdev_open+0x4d9/0x600
+ do_dentry_open+0x816/0x1380
+ vfs_open+0x3b/0x340
+ path_openat+0x1443/0x1d60
+ do_file_open+0x23e/0x4a0
+ do_sys_openat2+0x115/0x200
+ __x64_sys_openat+0x138/0x170
+ do_syscall_64+0x166/0x520
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 17756:
+ kasan_save_track+0x3e/0x80
+ kasan_save_free_info+0x40/0x50
+ __kasan_slab_free+0x5c/0x80
+ kfree+0x1c5/0x650
+ device_release+0xc4/0x1f0
+ kobject_put+0x222/0x550
+ device_del+0x4cb/0x8f0
+ nfc_remove_device+0xa7/0xc0
+ virtual_ncidev_close+0x56/0x90
+ __fput+0x418/0xa50
+ fput_close_sync+0x11f/0x240
+ __x64_sys_close+0x7e/0x110
+ do_syscall_64+0x166/0x520
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888177b8a000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 72 bytes inside of
+ freed 2048-byte region [ffff888177b8a000, ffff888177b8a800)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x177b88
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x57ff00000000040(head|node=1|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 057ff00000000040 ffff888100042000 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 057ff00000000040 ffff888100042000 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 057ff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd28c0(GFP_NOWAIT|__GFP_IO|__GFP_FS|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5596, tgid 5596 (syz-executor), ts 59551528746
+ post_alloc_hook+0x1f9/0x250
+ get_page_from_freelist+0x2209/0x2280
+ __alloc_frozen_pages_noprof+0x217/0x5a0
+ allocate_slab+0x7d/0x620
+ refill_objects+0x2d5/0x350
+ __pcs_replace_empty_main+0x2c8/0x6c0
+ __kmalloc_node_track_caller_noprof+0x548/0x720
+ pskb_expand_head+0x22c/0x13a0
+ netlink_trim+0x1b3/0x2c0
+ netlink_broadcast_filtered+0x6d/0xea0
+ nlmsg_notify+0xe3/0x1a0
+ rtnetlink_event+0x224/0x270
+ notifier_call_chain+0x1a5/0x3d0
+ netif_set_mac_address+0x393/0x4d0
+ do_setlink+0x9ad/0x4670
+ rtnl_newlink+0x15a3/0x1c30
+page last free pid 15 tgid 15 ts 54085035095 stack trace:
+ __free_frozen_pages+0xc93/0xd90
+ __folio_put+0x4b3/0x590
+ skb_release_data+0x573/0xab0
+ __kfree_skb+0x5d/0x210
+ e1000_clean+0x4ae/0x2bf0
+ __napi_poll+0xaa/0x330
+ net_rx_action+0x61d/0xf50
+ handle_softirqs+0x226/0x860
+ run_ksoftirqd+0x36/0x60
+ smpboot_thread_fn+0x565/0xa70
+ kthread+0x38b/0x480
+ ret_from_fork+0x514/0xb70
+ ret_from_fork_asm+0x1a/0x30
+
+Memory state around the buggy address:
+ ffff888177b89f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888177b89f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888177b8a000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                              ^
+ ffff888177b8a080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888177b8a100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
-v3:
- - In nci_core_reset_ntf_packet(), do not reject notifications shorter than
-   9 bytes with -EINVAL; instead allow valid short frames (e.g. 2-byte NCI 1.x
-   or 5-byte NCI 2.0 with manufacturer_specific_len == 0), safely cap field
-   reads, and return 0 so driver-registered hooks (such as fdp firmware
-   patching) are not skipped (per Sashiko AI).
- - Fix trigger semantics: in NCI, CORE_RESET_CMD trigger is 0x02
-   (NCI_RESET_TRIGGER_RESET_CMD). If controller reports an unrecoverable error
-   (0x00, NCI_RESET_TRIGGER_ERROR) while reset is pending, fail the request
-   instead of completing with OK; ignore power-on (0x01) and proprietary
-   triggers at core layer (per Sashiko AI).
- - In nci_core_reset_rsp_packet(), use test_and_clear_bit(NCI_RESET_PENDING)
-   upon completing the request to consume the flag atomically (per Sashiko AI).
- - Link to v2: https://lore.kernel.org/netdev/20260922102144.39689-1-ndaugoing@gmail.com/
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-v2:
- - Do not abort the notification pipeline on unexpected CORE_RESET_NTF (return 0
-   instead of -EINVAL), preserving driver-level hooks (e.g. fdp firmware
-   patching) per Simon Horman.
- - Skip power-on notifications (trigger 0x01, identical in NCI 1.0 and 2.0)
-   while gating both NCI 1.0 (0x00) and NCI 2.0 (0x02) command-triggered resets
-   on NCI_RESET_PENDING alone.
- - Check NCI_RESET_PENDING in nci_core_reset_rsp_packet() to avoid completing
-   unrelated requests on unexpected responses.
- - Explicitly check skb->len >= sizeof(*rsp) in nci_core_reset_rsp_packet()
-   for NCI 1.x handling.
- - Link to v1: https://lore.kernel.org/netdev/20260918013337.82214-1-ndaugoing@gmail.com/
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
 
- include/net/nfc/nci.h      |  5 ++++
- include/net/nfc/nci_core.h |  1 +
- net/nfc/nci/core.c         |  3 +++
- net/nfc/nci/ntf.c          | 48 +++++++++++++++++++++++++++++++++-----
- net/nfc/nci/rsp.c          | 30 ++++++++++++++++++------
- 5 files changed, 74 insertions(+), 13 deletions(-)
-
-diff --git a/include/net/nfc/nci.h b/include/net/nfc/nci.h
-index 09efcaed7c3f..2ac45adba088 100644
---- a/include/net/nfc/nci.h
-+++ b/include/net/nfc/nci.h
-@@ -140,6 +140,11 @@
- #define NCI_RESET_TYPE_KEEP_CONFIG				0x00
- #define NCI_RESET_TYPE_RESET_CONFIG				0x01
- 
-+/* NCI Reset Triggers */
-+#define NCI_RESET_TRIGGER_ERROR					0x00
-+#define NCI_RESET_TRIGGER_POWER_ON				0x01
-+#define NCI_RESET_TRIGGER_RESET_CMD				0x02
-+
- /* NCI Static RF connection ID */
- #define NCI_STATIC_RF_CONN_ID					0x00
- 
-diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
-index 664d5058e66e..504ea91ddf27 100644
---- a/include/net/nfc/nci_core.h
-+++ b/include/net/nfc/nci_core.h
-@@ -31,6 +31,7 @@ enum nci_flag {
- 	NCI_DATA_EXCHANGE,
- 	NCI_DATA_EXCHANGE_TO,
- 	NCI_UNREG,
-+	NCI_RESET_PENDING,
- };
- 
- /* NCI device states */
-diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
-index 5f46c4b5720f..5a90591cd9af 100644
---- a/net/nfc/nci/core.c
-+++ b/net/nfc/nci/core.c
-@@ -134,6 +134,7 @@ static int __nci_request(struct nci_dev *ndev,
- 	}
- 
- 	ndev->req_status = ndev->req_result = 0;
-+	clear_bit(NCI_RESET_PENDING, &ndev->flags);
- 
- 	return rc;
- }
-@@ -163,6 +164,8 @@ static void nci_reset_req(struct nci_dev *ndev, const void *opt)
- {
- 	struct nci_core_reset_cmd cmd;
- 
-+	set_bit(NCI_RESET_PENDING, &ndev->flags);
-+
- 	cmd.reset_type = NCI_RESET_TYPE_RESET_CONFIG;
- 	nci_send_cmd(ndev, NCI_OP_CORE_RESET_CMD, 1, &cmd);
- }
-diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
-index f5c9a8ab7ec1..81ba6011c027 100644
---- a/net/nfc/nci/ntf.c
-+++ b/net/nfc/nci/ntf.c
-@@ -30,21 +30,57 @@
- static int nci_core_reset_ntf_packet(struct nci_dev *ndev,
- 				     const struct sk_buff *skb)
- {
--	/* Handle NCI 2.x core reset notification */
- 	const struct nci_core_reset_ntf *ntf;
- 
--	if (skb->len < sizeof(struct nci_core_reset_ntf))
--		return -EINVAL;
-+	/*
-+	 * Return 0 on short or unhandled packets so driver-specific
-+	 * notification hooks (such as fdp firmware patching) can still run.
-+	 */
-+	if (skb->len < 2)
-+		return 0;
- 
--	ntf = (struct nci_core_reset_ntf *)skb->data;
-+	ntf = (const struct nci_core_reset_ntf *)skb->data;
-+
-+	/*
-+	 * If the controller reports an unrecoverable error while a reset is
-+	 * pending, fail the in-flight reset request.
-+	 */
-+	if (ntf->reset_trigger == NCI_RESET_TRIGGER_ERROR) {
-+		if (test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
-+			nci_req_complete(ndev, NCI_STATUS_FAILED);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Only CORE_RESET_CMD-triggered notifications (0x02) complete a
-+	 * pending reset request in NCI 2.0. Power-on (0x01) and proprietary
-+	 * triggers (>= 0xA0) must not update core protocol state.
-+	 */
-+	if (ntf->reset_trigger != NCI_RESET_TRIGGER_RESET_CMD)
-+		return 0;
-+
-+	if (!test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags)) {
-+		pr_warn_ratelimited("unexpected CORE_RESET_NTF\n");
-+		return 0;
-+	}
-+
-+	if (skb->len < offsetofend(struct nci_core_reset_ntf,
-+				   manufacturer_specific_len)) {
-+		nci_req_complete(ndev, NCI_STATUS_FAILED);
-+		return 0;
-+	}
- 
- 	ndev->nci_ver = ntf->nci_ver;
- 	pr_debug("nci_ver 0x%x, config_status 0x%x\n",
- 		 ntf->nci_ver, ntf->config_status);
- 
- 	ndev->manufact_id = ntf->manufact_id;
--	ndev->manufact_specific_info =
--		__le32_to_cpu(ntf->manufact_specific_info);
-+	if (ntf->manufacturer_specific_len >= sizeof(__le32) &&
-+	    skb->len >= sizeof(struct nci_core_reset_ntf))
-+		ndev->manufact_specific_info =
-+			__le32_to_cpu(ntf->manufact_specific_info);
-+	else
-+		ndev->manufact_specific_info = 0;
- 
- 	nci_req_complete(ndev, NCI_STATUS_OK);
- 
-diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
-index b0ab4f5acbce..7a3c6bc1a0da 100644
---- a/net/nfc/nci/rsp.c
-+++ b/net/nfc/nci/rsp.c
-@@ -32,16 +32,32 @@ static void nci_core_reset_rsp_packet(struct nci_dev *ndev,
- 
- 	pr_debug("status 0x%x\n", rsp->status);
- 
--	/* Handle NCI 1.x ver */
--	if (skb->len != 1) {
--		if (rsp->status == NCI_STATUS_OK) {
--			ndev->nci_ver = rsp->nci_ver;
--			pr_debug("nci_ver 0x%x, config_status 0x%x\n",
--				 rsp->nci_ver, rsp->config_status);
--		}
-+	/*
-+	 * If no reset request is pending, ignore unexpected responses to avoid
-+	 * prematurely completing an unrelated request.
-+	 */
-+	if (!test_bit(NCI_RESET_PENDING, &ndev->flags))
-+		return;
-+
-+	if (rsp->status != NCI_STATUS_OK) {
-+		if (test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
-+			nci_req_complete(ndev, rsp->status);
-+		return;
-+	}
-+
-+	/* Handle NCI 1.x ver: completed by RSP */
-+	if (skb->len >= sizeof(*rsp)) {
-+		if (!test_and_clear_bit(NCI_RESET_PENDING, &ndev->flags))
-+			return;
-+
-+		ndev->nci_ver = rsp->nci_ver;
-+		pr_debug("nci_ver 0x%x, config_status 0x%x\n",
-+			 rsp->nci_ver, rsp->config_status);
- 
- 		nci_req_complete(ndev, rsp->status);
- 	}
-+
-+	/* NCI 2.x ver: status is OK, wait for CORE_RESET_NTF to complete */
- }
- 
- static u8 nci_core_init_rsp_packet_v1(struct nci_dev *ndev,
--- 
-2.53.0
-
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
