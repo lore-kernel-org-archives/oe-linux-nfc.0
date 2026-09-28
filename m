@@ -1,174 +1,310 @@
-Received: from mail-ua2-f42.google.com (mail-ua2-f42.google.com [74.125.226.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A482277C88
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 28 Sep 2026 03:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3858044E650;
+	Mon, 28 Sep 2026 09:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790567884; cv=none; b=oFi12jcIkeH7WE87ep1H70xHqBdp3Tyubfq4wa/egiWsYb0+Uv3ImA5uH/h+x/3ZhxZqqiq4VVsgwK+d8/jWUpYsIAdCilmJzCqF4EVS9W0hug4ZEJm1SuoOpeGBTYY4kUsMSYDOi0e34K4h1yQcgRYtNbOJH8FbFWFJ/kXbbfU=
+	t=1790589229; cv=none; b=RtW/i5vPuEz4auoK6N3X2/OhxCyuFLeVQ5ITyY+1mHpjeJB+vFc0WxrjB1bleiEw+WOR3b6VSa09XokcK1kirXIHrbJsAobhkiy+oke/Oi4cuwoXB2Z1KE3GTr7DReByN9xYhtIn37SNxQAC7+GqiCKSPuuBesyASZSRI6ftNPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790567884; c=relaxed/simple;
-	bh=RCb84R1Ilbqk/brMo0ozsD4weTDX3UUsJYqs8fer/vM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mOT50B+VZsg5tiXCdlJ7R1Rjj4Ag9W0vstl5ndjFeTNRtuic0Vcw7mffkGm5yaK1g1tlG9LORaMeADIbssa7/fAT3goFyML+U6ocQ83ku3efR/MMRCxNRyrB9ierAOl58QjSUjsU+iYqxOl+YvEqTkkBSpPe4PoKubdqYB5pb/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jru6reZe; arc=none smtp.client-ip=74.125.226.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790589229; c=relaxed/simple;
+	bh=+xb9xcIMrr5OJsLec1M/O2inJ9NcaKtqScgVIVaKxu4=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NG+GlFHmIOrLUIVZOE2ian2wNBXz63vrXpGvQOLcV0vhA1Qv5Qra1eU5Jdn0abDEqlyUoKq4IrGGymsw2GPl5V/LSNmzruVCA0bnDZKWa1i7h9cueQGJmPN6U2RbzAynHcqUhUa8SdNICA2HQkE5/jPjROJAtBfWDb5jLXIUJIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jtll7qva; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jru6reZe"
-Received: by mail-ua2-f42.google.com with SMTP id a1e0cc1a2514c-986df7ac62dso1306634241.2
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 27 Sep 2026 20:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790567882; x=1791172682; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8PRQtLnkGcQLLad/iSnwkqrL/4wKHSNHecCDuETOGrQ=;
-        b=jru6reZeRJEkDwn6UwCqB+dqgP8H/NBJUaybCHzFdRjYiZ5rQgSNTnVLyqVbA+p17j
-         gVcGC71ADoOsKFusZFIdK5/OxvM7njx9XgRog6Z+yaXXUS1hoMWEfYuzF2ALmgzaM2Rx
-         kdXPCuKpZFFg6dT+buHyciUG5nXNj++8QZGU2x+M+wLUxP6t/e/YurHxZDXhahQP+Fwv
-         Z0883zYMnYQUgssuCWzo0MswCpNO1JB98FvimWjtdlACmpLpkf8QGLWUdnSczjzXgqPI
-         WkYLbxsFpLxLkJT3/xqzjs55sU4pDQw67TDN+sC4fwvkyveBikJGzZ1YQDQmeDfwbxJO
-         nrcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790567882; x=1791172682;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8PRQtLnkGcQLLad/iSnwkqrL/4wKHSNHecCDuETOGrQ=;
-        b=iGh86o3YSx/1yf6mX+24kDb2kCpyCWMREEg0R87uKog13Lho/kEzUA8xI2+VKwN2xk
-         peV8DG5133b+lTWOSZveURrod9tjUggy05sTnELUfEXdY+2XDWzlcD8B14hiocWFgotr
-         8p7H3e8UDuDKM9IYZtgarjXmqMu8Pf0ft1OOyaTSjHBClOvw56P5u9QYm//M+rP4NLEI
-         jXytmYB/YF0zWMrbQ/A6zrKmWONPtVtENlvlixC9dUvWf6ETHrympoqqTyTfIrAjTFoq
-         oEtvXgmR7Gi21jSsg+szyVefs7mD+AJF8K1UPyN6ejfOaQI5uokq7pOEG02i2ZCSPKBy
-         Cy0A==
-X-Forwarded-Encrypted: i=1; AKwUvBxbbw6z8AaTcW7wwk/4knvufw2RbV762HWzcu1FcODH2xayBAS5efU3dLabeFPRG3GJagVnRG28y07CHyQ=@lists.linux.dev
-X-Gm-Message-State: AFq9FYIdrRL4e5/vUpBC94LQs7+2I0QG7jHl0tDEljlvmN5+N95vutpH
-	vVV+p8NuhE6DOlbCRLSN2/EzLoI7Rg116+XQBSqmPvWBaxXNEMMVgY1M
-X-Gm-Gg: AYBFou2n+sDuOiITu5Y8BxZHYV1g96HOkG3iV8qo2FUsB4xhlkG/xZFN06O8lO/4kkd
-	75/WTl2KDEo5WQXv+VtzB6p8h7AIYmOKtZczHhbMHNOtBccz8Aeu7GW4RteV0Q2EMgpIACA4MFt
-	AIV+Ac3u3IblvQfgRvqXILhUQaUvF5ff4+9BO05PtUSzvXmzhS9I7kBEEXhzaZQz8vdICSFBFcU
-	zXMS81jqjtHtyK/O+UQM9DQdx0Nq0KSEs5So+TVy5DCrfcSWAAJZh6CaKXOjzdiGGYDjbimYqzA
-	6FjIhoWGdlCXqIF9WR8d6F5pofLzGHcidhCkCXWWC7qfc7Hy3ForPhyMkz5CQG2/mdhQ1zrCJgg
-	Z0nIlqFOmni7QVwnExGAO4Hls8ayByvdo42aWxGXHHZFl9NQnAY9tjCSClDPAh/eYQJatKdzfa8
-	RcyHJtlBKIGC+L+L5Y5b1ThdAiOIlr/mml7yGS6YSYJz3ZmPfDN3d9NWn/S/dVLuE=
-X-Received: by 2002:a05:6102:358d:b0:79e:2b00:b4da with SMTP id ada2fe7eead31-7af1c692c06mr4663990137.6.1790567882180;
-        Sun, 27 Sep 2026 20:58:02 -0700 (PDT)
-Received: from beelink.. ([187.13.30.172])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7b39b15808esm8107452137.5.2026.09.27.20.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 20:58:01 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: david@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: horms@kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+ci3c472c63e196fe9e@syzkaller.appspotmail.com,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH net v3] nfc: llcp: prevent resource leak on repeated connect after DM
-Date: Mon, 28 Sep 2026 00:57:49 -0300
-Message-ID: <20260928035749.2305913-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jtll7qva"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 171431F000FF;
+	Mon, 28 Sep 2026 09:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790589227;
+	bh=LuWhIMowI39Sw9VUbrs0SpvHgk8NlyRSj5QWrKqGrhU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=jtll7qva6lDmxuAdmKyWYcxH5sgpT19wKG3TPR+3+T/d5Ii+5OSa0evt+ytfX8hZT
+	 dnTSCpofI/iyDf0ySV19BKCw22OyfFp4UrT2vo+yiYnFCm1sq4NYheW0nY4CbJi0Wb
+	 7fPpcnInvGIuddgQ0E8i+1HjOPjMb0a2n3LvZXMM/wxuRMuVhRtZBJNf8ax45GRAGl
+	 RbidUH0I67F7uTfL8LxNF4aObEYD6AqZiSX8I2NOkUxmC8IJCJ/22aNp0Su0TYOUiF
+	 gB9CLBLnO5Ys3Om4m7VkUI0oWy8xtTxJ85fANwY9rymxXbwW3yLBRHK4E9LH1GoKNU
+	 /cjVVlahkVZ/w==
+Subject: Re: [PATCH net v2] nfc: llcp: prevent resource leak on repeated
+ connect after DM
+From: netdev-bot+sashiko@kernel.org
+To: qwe.aldo@gmail.com
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ sashiko-bot@kernel.org
+Date: Mon, 28 Sep 2026 09:53:46 +0000
+Message-ID: <179058922656.3145.17540746696102333949@kernel.org>
 In-Reply-To: <20260925184857.357926-1-qwe.aldo@gmail.com>
 References: <20260925184857.357926-1-qwe.aldo@gmail.com>
+X-sashiko-severity: Critical
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-A rejected asynchronous connect leaves a local reference, SAP allocation,
-service name and device reference on a closed socket. Release them before
-retrying connect.
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-The device pointer alone does not prove ownership: bind() puts its
-temporary device reference while retaining the pointer. When device
-teardown closes a bound socket, the retry cleanup would put that device
-again. Clear the pointer when a bound or listening socket becomes closed,
-and after a connected socket's device reference is put. Do the same when
-DM closes a bound or listening socket. A DM rejected connect keeps its
-device reference until the retry cleanup, so retain that put there.
+Critical: 2 · High: 2 (1) · Medium: 0 · Low: 0
 
-Fixes: d646960f7986 ("NFC: Initial LLCP support")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://ci.syzbot.org/findings/64002827-5231-4183-bfca-0d91bded8543/syz_repro
-Cc: stable@vger.kernel.org
-Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
----
-v3: Clear non-owning or already released device pointers on close, while
-    preserving the device put for rejected asynchronous connects.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
- net/nfc/llcp_core.c | 12 +++++++++++-
- net/nfc/llcp_sock.c | 17 +++++++++++++++++
- 2 files changed, 28 insertions(+), 1 deletion(-)
+- [Critical] The new LLCP_CLOSED cleanup in llcp_sock_connect()
+  (net/nfc/llcp_sock.c:725-726, `if (llcp_sock->dev)…
+- [Critical] The new cleanup can release resources that a sleeping
+  blocking connect() still owns.
+- [High] Two paths close a socket but leave it hashed on local->sockets:
+  nfc_llcp_recv_disc() (llcp_core.c:1221-1224), and the default branch…
+- [High] The leak this patch targets is still reachable through bind().
 
-diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index 199543c47eef..6382aacca69a 100644
---- a/net/nfc/llcp_core.c
-+++ b/net/nfc/llcp_core.c
-@@ -95,8 +95,14 @@
- 
- 		nfc_llcp_socket_purge(llcp_sock);
- 
--		if (sk->sk_state == LLCP_CONNECTED)
-+		if (sk->sk_state == LLCP_CONNECTED) {
- 			nfc_put_device(llcp_sock->dev);
-+			llcp_sock->dev = NULL;
-+		} else if (sk->sk_state == LLCP_BOUND ||
-+			   sk->sk_state == LLCP_LISTEN) {
-+			/* bind() already dropped its temporary device reference. */
-+			llcp_sock->dev = NULL;
-+		}
- 
- 		if (sk->sk_state == LLCP_LISTEN) {
- 			struct nfc_llcp_sock *lsk, *n;
-@@ -1330,6 +1336,10 @@
- 	if (connecting)
- 		nfc_llcp_sock_unlink(&local->connecting_sockets, sk);
- 
-+	/* Bound and listening sockets do not own a device reference. */
-+	if (sk->sk_state == LLCP_BOUND || sk->sk_state == LLCP_LISTEN)
-+		llcp_sock->dev = NULL;
-+
- 	sk->sk_err = ENXIO;
- 	sk->sk_state = LLCP_CLOSED;
- 	sk->sk_state_change(sk);
-diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-index 1e5ee4bcde68..9d76c12aee01 100644
---- a/net/nfc/llcp_sock.c
-+++ b/net/nfc/llcp_sock.c
-@@ -713,6 +713,23 @@
- 	if (sk->sk_state == LLCP_CONNECTING) {
- 		ret = -EINPROGRESS;
- 		goto error;
-+	}
-+
-+	if (sk->sk_state == LLCP_CLOSED) {
-+		/* Release resources retained by a previous failed connection. */
-+		if (llcp_sock->local) {
-+			if (llcp_sock->reserved_ssap < LLCP_SAP_MAX)
-+				nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
-+			nfc_llcp_local_put(llcp_sock->local);
-+		}
-+		if (llcp_sock->dev)
-+			nfc_put_device(llcp_sock->dev);
-+		kfree(llcp_sock->service_name);
-+		llcp_sock->local = NULL;
-+		llcp_sock->dev = NULL;
-+		llcp_sock->service_name = NULL;
-+		llcp_sock->service_name_len = 0;
-+		llcp_sock->reserved_ssap = LLCP_SAP_MAX;
- 	}
- 
- 	dev = nfc_get_device(addr->dev_idx);
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the retry
+  scenario the patch targets can crash the kernel.
+
+--
+
+nfc: llcp: prevent resource leak on repeated connect after DM
+
+Before llcp_sock_connect() takes new resources, this patch releases the
+local reference, reserved SAP, service name and device reference still
+held by an LLCP socket in LLCP_CLOSED. It targets a nonblocking connect
+that a DM PDU rejects and that is then retried.
+
+Link: https://lore.kernel.org/all/20260923133339.2518641-1-qwe.aldo@gmail.com/
+
+> diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+> index 1e5ee4bcde684..9d76c12aee011 100644
+> --- a/net/nfc/llcp_sock.c
+> +++ b/net/nfc/llcp_sock.c
+> @@ -715,6 +715,23 @@ static int llcp_sock_connect(struct socket *sock, struct sockaddr_unsized *_addr
+>  		goto error;
+>  	}
+>  
+> +	if (sk->sk_state == LLCP_CLOSED) {
+> +		/* Release resources retained by a previous failed connection. */
+> +		if (llcp_sock->local) {
+> +			if (llcp_sock->reserved_ssap < LLCP_SAP_MAX)
+> +				nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
+> +			nfc_llcp_local_put(llcp_sock->local);
+> +		}
+
+[Severity: Critical]
+Can this release resources that a blocking connect() on the same socket
+still owns?
+
+While sock_wait_state() sleeps it drops the socket lock. The first caller
+keeps local and dev in its own stack frame:
+
+Thread A (blocking connect)
+llcp_sock_connect()
+  sock_wait_state()
+    release_sock(sk);
+    timeo = schedule_timeout(timeo);
+
+rx worker
+nfc_llcp_recv_dm()
+  sk->sk_err = ENXIO;
+  sk->sk_state = LLCP_CLOSED;
+  sk->sk_state_change(sk);
+
+Thread B (same fd, wins lock_sock first)
+llcp_sock_connect()
+  sk_state == LLCP_CLOSED, so:
+    nfc_llcp_put_ssap(llcp_sock->local, llcp_sock->ssap);
+    nfc_llcp_local_put(llcp_sock->local);
+    nfc_put_device(llcp_sock->dev);
+  nfc_get_device(addr->dev_idx) fails with -ENODEV
+
+Thread A
+  lock_sock(sk);
+  err = sock_error(sk);   /* still -ENXIO */
+  goto sock_unlink
+    nfc_llcp_put_ssap(local, llcp_sock->ssap);
+    nfc_llcp_local_put(local);
+    nfc_put_device(dev);
+
+Thread B clears ->local, ->dev and ->reserved_ssap but not ->ssap. Thread
+A then frees the same SAP again, which may already belong to another
+socket. It also drops the local and dev references a second time.
+
+Could the nfc_llcp_local and nfc_dev refcounts underflow here? That would
+free local while it is still on llcp_devices, and free the nfc_dev while
+it is still registered.
+
+Without this patch, thread B's failed connect() left the socket unchanged,
+so each resource was released only once.
+
+> +		if (llcp_sock->dev)
+> +			nfc_put_device(llcp_sock->dev);
+
+[Severity: Critical]
+Does a CLOSED socket with a non-NULL llcp_sock->dev always own an nfc_dev
+reference? That seems true only after a nonblocking connect that a
+DM(REJ/NOBOUND) rejected.
+
+Several existing paths leave the socket in LLCP_CLOSED with llcp_sock->dev
+still set, but with the reference already dropped or never taken.
+
+nfc_llcp_recv_disc() already drops the reference for a connected socket:
+
+	if (sk->sk_state == LLCP_CONNECTED) {
+		nfc_put_device(local->dev);
+		sk->sk_state = LLCP_CLOSED;
+
+nfc_llcp_socket_release() runs from
+nfc_dep_link_down()->nfc_llcp_mac_is_down(), and from local_cleanup() on
+unregister. It drops dev for CONNECTED sockets. It then moves every
+socket, BOUND and LISTEN ones included, to LLCP_CLOSED without clearing
+->dev.
+
+llcp_sock_bind() keeps ->dev as a pointer without holding a reference:
+
+	sk->sk_state = LLCP_BOUND;
+	nfc_put_device(dev);
+
+Child sockets accepted in nfc_llcp_recv_connect() also take a reference.
+DISC or link down later drops it.
+
+connect() only rejects LLCP_CONNECTED and LLCP_CONNECTING, and this
+cleanup runs before the dev_idx lookup. So bind(), then a dep link down,
+then connect() (even with a bogus dev_idx) would call nfc_put_device() on
+a reference the socket does not own.
+
+Doing this on several sockets looks like it can underflow the nfc_dev
+refcount and free the device while it is still registered.
+
+The commit message says:
+
+  "Bound sockets do not hold the device reference, so release it only
+  when reconnecting from LLCP_CLOSED."
+
+Bound sockets do reach LLCP_CLOSED on link down, though.
+llcp_sock_destruct() also assumes the reference is owned only in
+LLCP_CONNECTED:
+
+	if (sk->sk_state == LLCP_CONNECTED)
+		nfc_put_device(llcp_sock->dev);
+
+Would it be safer to drop the reference and clear llcp_sock->dev in
+nfc_llcp_recv_dm(), at the CONNECTING to CLOSED transition, instead of
+guessing ownership from the state here?
+
+> +		kfree(llcp_sock->service_name);
+> +		llcp_sock->local = NULL;
+
+[Severity: High]
+Is the socket always off local->sockets at this point?
+
+nfc_llcp_recv_disc() moves a connected socket to LLCP_CLOSED but leaves it
+on local->sockets. The default branch of nfc_llcp_recv_dm() (any reason
+other than NOBOUND/REJ) also closes the socket without unlinking it.
+
+For such a socket, this block frees the SAP, drops the local reference and
+sets llcp_sock->local = NULL. The rx worker can still find the socket
+through nfc_llcp_sock_get(), and the SAP can be given to another socket.
+
+If connect() then fails early (bad dev_idx, nfc_llcp_find_local()
+failure, dep link down, or target_idx mismatch), llcp_sock_release()
+returns before it unlinks anything:
+
+	local = llcp_sock->local;
+	if (local == NULL) {
+		err = -ENODEV;
+		goto out;
+	}
+
+Wouldn't the orphaned socket stay on local->sockets until a link down or
+unregister? Before this patch, ->local was still set on those early error
+paths, so close() unlinked the socket.
+
+If connect() goes ahead instead, it reaches:
+
+	nfc_llcp_sock_link(&local->connecting_sockets, sk);
+
+At that point sk_node is still linked in local->sockets. Two different
+rwlocks protect the two lists, and both hlists look like they would be
+corrupted.
+
+That double link existed before this patch. Since this change prepares
+CLOSED sockets for reuse, should it also unlink the socket here?
+
+> +		llcp_sock->dev = NULL;
+> +		llcp_sock->service_name = NULL;
+> +		llcp_sock->service_name_len = 0;
+> +		llcp_sock->reserved_ssap = LLCP_SAP_MAX;
+> +	}
+> +
+
+[Severity: High]
+Can the same leak still happen through bind()?
+
+After a DM(REJ/NOBOUND) rejects a nonblocking connect(), the socket is in
+LLCP_CLOSED. It still holds a local reference, a reserved local SAP, the
+kmemdup'd service_name and a dev reference.
+
+llcp_sock_bind() accepts that state:
+
+	if (sk->sk_state != LLCP_CLOSED) {
+		ret = -EBADFD;
+		goto error;
+	}
+
+It then overwrites llcp_sock->dev, ->local, ->service_name, ->ssap and
+->reserved_ssap without releasing the old values. close() later releases
+only what bind() took.
+
+If connect(O_NONBLOCK) -> DM -> bind() -> close() is repeated about 32
+times, wouldn't the local SAPs still run out, so that
+nfc_llcp_get_local_ssap() fails for every client connect on the device?
+
+Could this cleanup become a helper that llcp_sock_bind() also calls?
+
+llcp_raw_sock_bind() has the same pattern of accepting CLOSED and
+overwriting the fields. Raw sockets cannot reach this DM state, though,
+because they use sock_no_connect.
+
+[Severity: High]
+This is a pre-existing issue, not one introduced by this patch. Still, the
+retry path this patch is meant to support can oops the kernel.
+
+nfc_llcp_recv_dm() sets sk->sk_err = ENXIO. Neither connect() nor this
+new cleanup clears it. On a blocking retry, sock_wait_state() checks for a
+pending error before it checks the state again:
+
+	err = sock_error(sk);
+	if (err)
+		break;
+
+Suppose the wakeup came from nfc_llcp_recv_cc(). The socket has already
+moved to local->sockets and is set to LLCP_CONNECTED, but connect() sees
+the stale -ENXIO and takes the sock_unlink path.
+
+That path unlinks the socket from local->sockets while holding the
+connecting_sockets lock. It frees the SAP, sets ->local and ->dev to NULL
+and drops their references. It leaves sk_state at LLCP_CONNECTED.
+
+On close(), llcp_sock_release() sees local == NULL and jumps to out. Then
+llcp_sock_destruct() runs:
+
+	if (sk->sk_state == LLCP_CONNECTED)
+		nfc_put_device(llcp_sock->dev);
+
+At this point llcp_sock->dev is NULL. Doesn't that make put_device()
+dereference a near-NULL address?
+
+Should the stale sk_err be cleared when reconnecting from LLCP_CLOSED?
+
+[ ... ]
+
 -- 
-2.43.0
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260925184857.357926-1-qwe.aldo%40gmail.com
