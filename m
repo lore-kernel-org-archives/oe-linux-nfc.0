@@ -1,151 +1,114 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C7936998A
-	for <oe-linux-nfc@lists.linux.dev>; Fri,  2 Oct 2026 06:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DC04D6C4A
+	for <oe-linux-nfc@lists.linux.dev>; Fri,  2 Oct 2026 18:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790923657; cv=none; b=ufzR/6J2PIx0zIsQBYkVMsbjxZqdswKDq24GswQfyXup5isFpvyyp8N2964Ry/xaKgkZMq9Or8WA3y2cLA7G7+OLpyw2ecgiVXVFbxatRsUsH9TiskbG/Ndb+1enJi7WvWeoNLHVDZyeLmMgDH2VYimxp6zNZpP75PVS9Hdx1Ag=
+	t=1790965616; cv=none; b=mrWQof5z4hYY2ga/MW5mIv7NE97n1QXIEpyxn1e0CDP8DQq7FanpjELmVPQeF7JjPcSgTXRDcJjVWSU1tdrSc7WVWzrgLB8aLRIdLQDGZSwb/a2a2Qd+UVM8/SgHa5v6eOBluAoJp7LxdmTMFHPE7PROhmp1i2wLhHa2jjkzuds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790923657; c=relaxed/simple;
-	bh=gbfPRwZftkck2LO2e16pi2S+G80B/cZ7HKZAN3eCUrg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JdspMS7yssoocLo7gsJ3xCycSovXtYUwWqedWGEMsxx+Q1NZFTmm1WJ9sL09Psc6To+/CRfgmnWJu2xT0VhD8i+OWE/IwkrRDCcA3IdnjemULZrR/eECSf3XObaCmE0aLUqK1KI7tqE1H4ltouDxfqxbkcDfchVCA+ano/GXM/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b28d7ffab1so2587520b6e.1
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 01 Oct 2026 23:47:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790923655; x=1791528455;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+	s=arc-20240116; t=1790965616; c=relaxed/simple;
+	bh=B9d/kmm3izPtvmFc11chF3VEeYuL/uSaRibIHmGk8O4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mXMiMjVNRuNG1bq2dZu+a1SWoc0mIXcFk1lPH8wDq54yAOqzuMEYj9dAXDQMbqIDX+/+PkF+vZ14026OxU72pn/HZiovKrY1dQ158WMuRFLT1k4l211oneNSaKriVVpycOg9ari/BJxF55PdLht1EG9o+FwSxWBbCCY052qmdcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PyzvYfRW; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PyzvYfRW"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffe281cb1so1188495e9.1
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 02 Oct 2026 11:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790965612; x=1791570412; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WSPC3bP+3CDYpVCWkBISelr44X/6ERe8JuUHvSqeuIc=;
-        b=wbODPAig25s0BvCgUKu/6oiexWhTeWGSCITlYidlZaBYsL+FW07WSkTcXUHhgU06ZT
-         6vre6IaUk3Q9S/ekD6eL8rCtItMO3VIrODljvgyEU9CfnbE+luFoqn860MjrXyMzyD0w
-         NEBCk0socC8+rDl2yEG0PFfcf/xmEFy3wdu2eAaMneSfF5PgTZ/EUPnoxOMa0evLhPZe
-         TKptdO8NfytHfutqmMlSrFaLw5mYsYE+0+BEiNDuKtUEdRjPJL8T0k47Pg5gc0wVn3FV
-         TUYLneWpb2oZf1V350rgd+cAEpBGu9cT9DBPMGYc2lheAff6DSo3kQQOzupdUwJ88Q94
-         CJNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxEbTz29R1fQ/pM4vuJCQxVmCg0g03ULpY8MYS6xsa8gFAVU1BV3KX/Euj46LIz/PtK9ErSyRQuefqkDik=@lists.linux.dev
-X-Gm-Message-State: AFuF++kSNdWmfrlj7FkpYvS38ctSgBz9YvVRpbGPUf1TVocOf1g3ey4p
-	o62pVs7nTfZaoailpxVKSLINU6QNVJUuiitwPvuj3fIGyBX/XRfbcAmZADS3Ov1GVA73TQj/K3p
-	wp7cAnvrlP2RccoJ6mfuwQUgWGBVWIC87/F0JDJ02T5GwmXio34DTW/r8u5Q=
+        bh=Tor4k7A1qPaAWjZB5/5Oa+wy8r9Vmav0GNMyiCPqDnE=;
+        b=PyzvYfRWDBnlFFNUZHK8He3mhCefLbmQPrMJxZysCXm6Shsg36cxkqcKfCYWrUr4eI
+         xmARzRlM2KjNpCXU+gCKTp1sro3lxwXX0M9L7577LzDuZi20xRWhG2/rQnfGFvFExXV0
+         DxqLxdP/pfLwM4hFaOZHPEr+xNgcgeAwnkLbK5uLgz8HroIrMozRMowK0y8CrFHuKah3
+         Yzng2JXdNcdOGf9Zog/LbonG+4u4/BfOHBF0aLtGyYomNP1Dh3e+42d5DNjS4cWmSqH2
+         YMo7/8ixUY8E8oXFzEoSMzZrWMSusz6NqergxC9uBW9IkhGSWdgILayy7TYvtpxqfPws
+         5djQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790965612; x=1791570412;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tor4k7A1qPaAWjZB5/5Oa+wy8r9Vmav0GNMyiCPqDnE=;
+        b=Bzko/g2spf/3r25vxzChSf/UvCJmwWsTDY/BFYahIOmHg+bBQa3QSOQ5L/5jXl3OhA
+         kPvQuyaHsPemwLSHuL4F/MPXMB2KVNvsgtJFQjIsnNyX2IDm2Dfh79Qfxg6ziUvuBTkk
+         93P2XKFZbnqvZMo3yP7DXnMfkpC29IGio5mhWVeK9teJ7uMuIghQ96ODWFXbMkK8oRZ/
+         kg9DT4Q8XaBK03H3WgEQxVWvt5Y1c8TfFODBSc9hH5QtVRPkss96TGAi2JDruCCR74GG
+         vLzHbXMlMjtvTpODCtFmYIxReX4XStnP/ThMuJVjq6G61Us71aNZu/SBccaKvtK4mzfG
+         h4qw==
+X-Gm-Message-State: AFuF++nsjdgEeifX8m7mPHVgJ7XQdV57FfGEKN427M1rh5HnDkPHQBJ/
+	Vu/N7haSFqkHiKoQpH+jfqvV4SjR6ZoSf6/v4JmBuQ0YorNQiQM2Ta74
+X-Gm-Gg: AYBFou2HM4Lmzh+JTqMYrAHUgm9ZBAZKHUaRK3BsJ/zNyvWUZ2Wdjzisw+9uOHuCLbC
+	GScwkTEDdVj5gb1SXeNG9EvrCEKq2vwTcwZjbWH+tGsQx9lR7x1AP9QogUfAyjeQRQkgr9VRwby
+	pIUbYfpZwyzaqJSVDmNX7x6ZHrw+kvC3O8moKgXHMRnmJKnVy76tfcmYJR8PDHYdyRyFVuY/IgA
+	BowsPMDCJ0I5QlyNdA3O2yJJIgBBkKyYoxtU+r9vnVD1JHXwPZZsdUr+77uebygjJWUVUOmo7Op
+	R0fLF+WibRPXAPt9t06N918aOmJo1SRTNzx4M3iRVLiNshHmKaCUbJWGWv4Eq/6TjsltZ0uvqNT
+	yDdkSxh8lPdC+2Bhx8tKjpUU9KMdGqyN4kl5tVfnzALQbZKVrcd4ErYmJarDZQyU+gkTjTc0yiH
+	M3CmCOYS3sF1GDWyOKaAUbHzZIBzp8kyGykQUARJgttEOh3b2a8BHhgNseUCtUVD73Dovmammw8
+	vh2fbgA
+X-Received: by 2002:a05:600c:3e05:b0:49c:fc6c:be03 with SMTP id 5b1f17b1804b1-4a0276a0e94mr60145295e9.26.1790965612096;
+        Fri, 02 Oct 2026 11:26:52 -0700 (PDT)
+Received: from [192.168.18.21] ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027741586sm101502055e9.14.2026.10.02.11.26.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 11:26:51 -0700 (PDT)
+Message-ID: <802f1969-f548-434d-8b8d-39f9df6f033e@gmail.com>
+Date: Fri, 2 Oct 2026 21:26:49 +0300
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3a11:b0:4dd:f8bb:e1bd with SMTP id
- 5614622812f47-4f307f07699mr4528250b6e.13.1790923654962; Thu, 01 Oct 2026
- 23:47:34 -0700 (PDT)
-Date: Thu, 01 Oct 2026 23:47:34 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abf5386.f32479dd.202a09.0008.GAE@google.com>
-Subject: [syzbot] [net?] [nfc?] WARNING in nci_rsp_packet
-From: syzbot <syzbot+ebbbf06f152da8ea4716@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
-	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    d266640c6c76 Merge tag 'driver-core-7.3-rc5' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=116eb315580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a820d8842c77560
-dashboard link: https://syzkaller.appspot.com/bug?extid=ebbbf06f152da8ea4716
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-d266640c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7a2c43e9e32e/vmlinux-d266640c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/74034a2af7be/bzImage-d266640c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ebbbf06f152da8ea4716@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-workqueue: cannot queue nci_cmd_work on wq nfc2_nci_cmd_wq
-WARNING: kernel/workqueue.c:2352 at __queue_work+0xdb7/0x1370 kernel/workqueue.c:2351, CPU#3: kworker/u32:0/12
-Modules linked in:
-CPU: 3 UID: 0 PID: 12 Comm: kworker/u32:0 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: nfc2_nci_rx_wq nci_rx_work
-RIP: 0010:__queue_work+0xdbb/0x1370 kernel/workqueue.c:2351
-Code: 00 00 00 fc ff df 49 8d 94 24 70 01 00 00 48 89 f9 48 c1 e9 03 80 3c 01 00 0f 85 84 05 00 00 48 8d 3d 29 43 78 0f 48 8b 75 18 <67> 48 0f b9 3a 48 b8 00 00 00 00 00 fc ff df 48 89 ea 48 c1 ea 03
-RSP: 0000:ffffc900001e7a40 EFLAGS: 00010046
-RAX: dffffc0000000000 RBX: ffff888026cc1000 RCX: 1ffff1100f10e022
-RDX: ffff8880298be170 RSI: ffffffff8ba2d9c0 RDI: ffffffff91486f90
-RBP: ffff8880788700f8 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000200000 R11: 000000000000761b R12: ffff8880298be000
-R13: 1ffff9200003cf52 R14: 0000000000000020 R15: 0000000000000084
-FS:  0000000000000000(0000) GS:ffff888096c55000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000000c3aef55 CR3: 0000000078b7d000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- queue_work_on+0x180/0x1e0 kernel/workqueue.c:2501
- queue_work include/linux/workqueue.h:700 [inline]
- nci_rsp_packet+0x297/0x3420 net/nfc/nci/rsp.c:463
- nci_rx_work+0x29c/0x430 net/nfc/nci/core.c:1579
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	00 00                	add    %al,(%rax)
-   2:	00 fc                	add    %bh,%ah
-   4:	ff                   	lcall  (bad)
-   5:	df 49 8d             	fisttps -0x73(%rcx)
-   8:	94                   	xchg   %eax,%esp
-   9:	24 70                	and    $0x70,%al
-   b:	01 00                	add    %eax,(%rax)
-   d:	00 48 89             	add    %cl,-0x77(%rax)
-  10:	f9                   	stc
-  11:	48 c1 e9 03          	shr    $0x3,%rcx
-  15:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
-  19:	0f 85 84 05 00 00    	jne    0x5a3
-  1f:	48 8d 3d 29 43 78 0f 	lea    0xf784329(%rip),%rdi        # 0xf78434f
-  26:	48 8b 75 18          	mov    0x18(%rbp),%rsi
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  36:	fc ff df
-  39:	48 89 ea             	mov    %rbp,%rdx
-  3c:	48 c1 ea 03          	shr    $0x3,%rdx
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds read in
+ nci_core_reset_rsp_packet()
+To: netdev-bot+sinfo@kernel.org
+Cc: oe-linux-nfc@lists.linux.dev, david@ixit.cz, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260930224940.725976-1-omermetekaya0@gmail.com>
+ <179080888379.31693.9678596349950606516@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?=C3=96mer_Mete_Kaya?= <omermetekaya0@gmail.com>
+In-Reply-To: <179080888379.31693.9678596349950606516@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+On 10/1/26 01:54, netdev-bot+sinfo@kernel.org wrote:
+> Hi!
+> 
+> This is an automated message. This series looks like a fix, but its
+> commit messages seem to be missing some information:
+> 
+>  - How the issue was discovered, e.g. hit in production, hit during
+>    development, syzbot report, manual code inspection, LLM or static
+>    analysis tool scan.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+manual code inspection.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+>  - Whether the issue was actually triggered, or is only theoretical
+>    (e.g. found by code inspection). If it was triggered please include
+>    the symptoms, like the stack trace or error messages.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+theoretical/found by code inspection.
 
-If you want to undo deduplication, reply with:
-#syz undup
+> Please do not repost the series just to address the above. Instead,
+> reply to this email with the missing information, so that reviewers
+> can take it into account. If the series needs another revision for
+> other reasons, please include the information in the commit messages
+> then.
+> 
+> The evaluation is done by an LLM so it may be wrong, if you think
+> that is the case please reply and explain.
+
