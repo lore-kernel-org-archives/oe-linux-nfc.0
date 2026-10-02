@@ -1,153 +1,151 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5434A8435
-	for <oe-linux-nfc@lists.linux.dev>; Thu,  1 Oct 2026 13:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C7936998A
+	for <oe-linux-nfc@lists.linux.dev>; Fri,  2 Oct 2026 06:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790861354; cv=none; b=e5MkeZzVTlc95wr1d/qbW6pGmNKeV5TOGSRGv6b+b2Fo1wOHgVEgEZvnHtKZK4q16jiFBZhuNC1aLAg4o+B58kRVgcFI5+gL0VI1BxCzFLPN3b2FT4rctzQrU8unxSAZ3qvnSOCeZOGkbN44KgRJta83jXDhCKfh3Q+GVlGMW1E=
+	t=1790923657; cv=none; b=ufzR/6J2PIx0zIsQBYkVMsbjxZqdswKDq24GswQfyXup5isFpvyyp8N2964Ry/xaKgkZMq9Or8WA3y2cLA7G7+OLpyw2ecgiVXVFbxatRsUsH9TiskbG/Ndb+1enJi7WvWeoNLHVDZyeLmMgDH2VYimxp6zNZpP75PVS9Hdx1Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790861354; c=relaxed/simple;
-	bh=KpBvRv68yxx08EXLWVK3x95sBLwi6SLW+GcKR0oqMNI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VKqrGvObkO2CxDNLDcqM8+yODNbnjdZncOVFUqd0H0ra2SvLVCwVAAqw6/s9Qam0llirRv3IYi1sPKSqsvoXvSEyAO83DCrmykzOyheAa1BY0xE7sQyH/O6vwaqCYgDKkk7gTCoBMEM0KbIIBXH7S5Ku+tJpuBemNOcl8+cdfSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QacToHBt; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QacToHBt"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d391aso50054195e9.2
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 01 Oct 2026 06:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790861351; x=1791466151; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6AEptEgQP2inlUl9eYZ6E1q3HveZU/W7oAG+SS9vXAs=;
-        b=QacToHBtK902bc3O+IPQBUpiac9iGqjShbXYKPXlp3PGSXF1tJbD4oZO9H5wdfPBNG
-         x2vHxnPrR3C2+GbVnnbPxEfl1QLfFy1Xhpc7XdInkHV3yAKWzTSsATPqrRrEiwY+OX3o
-         gCw1wGj1TUlmz+CTAerFxCjNzr+zsBPH7Gv34lRRAVybaqTiuBNVvETIp/i09uQ84ahl
-         8zgzgPf5JcUkxDieQGhs/fsuvqyihVubTzMFfoNtvZqPmmJAjub6UR4RoFSVms3OZ3eG
-         Eb30e0T5jo5A5iTKUBAuXxySfOEXEyaT8zHlOzxAMqxG03VBIhtgnf/5HhDIeKWFTvwf
-         PVXg==
+	s=arc-20240116; t=1790923657; c=relaxed/simple;
+	bh=gbfPRwZftkck2LO2e16pi2S+G80B/cZ7HKZAN3eCUrg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JdspMS7yssoocLo7gsJ3xCycSovXtYUwWqedWGEMsxx+Q1NZFTmm1WJ9sL09Psc6To+/CRfgmnWJu2xT0VhD8i+OWE/IwkrRDCcA3IdnjemULZrR/eECSf3XObaCmE0aLUqK1KI7tqE1H4ltouDxfqxbkcDfchVCA+ano/GXM/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b28d7ffab1so2587520b6e.1
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 01 Oct 2026 23:47:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790861351; x=1791466151;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6AEptEgQP2inlUl9eYZ6E1q3HveZU/W7oAG+SS9vXAs=;
-        b=upqeRNZBwboHXLy0DhFyQNEUYNtG1VO3A/P7FTfqQSAJl5/pSQprvphtNBP6w9dY1D
-         73VP5wKyWo4L2KOhe+1pg5b8ypR8Uuh60KD1OenaB1f3FAbBZZ3J+mNipCFCZncq7nt1
-         Yj3MkfN6V4bCI2Y1SFJA6jzxVxp4Nc2cEW9NmG9q7BdbAkn7jgRgZkK/8H/KNz4CZX7M
-         LGMhiu+yzM8Sv3QZ95nUuKDXs8NplGlWlnAU7MivuvAEKZ3dFfDzrj2AjedEu+OmDcIe
-         3fn8WdBcyYbRie68xX5xMAIX5PHIV8P0AFfnW4yWdshC3FCfAqRsJcn8yiM/DgBnJUBQ
-         HOMA==
-X-Gm-Message-State: AFuF++n12YGSkUV48FgGmB3CCQXyIGm4uD3CvoerY29o9NEm6O01FsI/
-	ARLPWs1cg2EXOA/wT8sCQzfuFUUH0Q2BLkfoYfAcmApjHxLHSPrub/RV
-X-Gm-Gg: AYBFou1ocLTdNieE/Kde7W/2mwp8URaWJQBie82hwBXED0xWGqeMn0DC0IY5U9mpIiM
-	McK/x1xcJsOP2mJ9zFBilVpGRm4jxEbtIyhzkt4e206aVGeLuMrZzy8A17cIjgbMm3I70Tj54LW
-	kJPVQw7moU6f55dSfjkgKCJI0VUFzJIzCkWWcS7VjeIXSpxEjtanCi1DQvsEtqkVQ/cczM4fAOU
-	YXjBIowNL2XsZxtH6nBMcIjNuNUhtoIpl/mG4QttYNpHwcpZtXTxm2um5oZOZFFMkBr9rTRYM3s
-	gWaQ037jc0kd/E+P1ZNbf3vbudJjhRamx4i43H9qV1d0gmaEEzwQvDEROgXkB7Q4R8kpuE6PqNK
-	iiqllqWHs3jGZK3XElG0zmk2hxmbp5SdN5H+YN5VL05Kly8aQOauDBySCgJaSLviYUy4nruNNEQ
-	PtFDjd82Z4AMxYU+dBNd6zqeewVrUPIo/1QWeABDbP/o43fKY+4JH4eFoXF1x4Hg==
-X-Received: by 2002:a05:600c:3b93:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a01b126e77mr98473445e9.32.1790861350760;
-        Thu, 01 Oct 2026 06:29:10 -0700 (PDT)
-Received: from beelink.. ([187.40.42.21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b0691c4c4sm7249850f8f.22.2026.10.01.06.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 06:29:10 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: horms@kernel.org,
-	david@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: oe-linux-nfc@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+ci3c472c63e196fe9e@syzkaller.appspotmail.com,
-	sashiko-bot@kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Subject: Re: [PATCH net v2] nfc: llcp: prevent resource leak on repeated connect after DM
-Date: Thu,  1 Oct 2026 10:28:53 -0300
-Message-ID: <20261001132853.1468565-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <179058922656.3145.17540746696102333949@kernel.org>
-References: <179058922656.3145.17540746696102333949@kernel.org>
+        d=1e100.net; s=20260707; t=1790923655; x=1791528455;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WSPC3bP+3CDYpVCWkBISelr44X/6ERe8JuUHvSqeuIc=;
+        b=wbODPAig25s0BvCgUKu/6oiexWhTeWGSCITlYidlZaBYsL+FW07WSkTcXUHhgU06ZT
+         6vre6IaUk3Q9S/ekD6eL8rCtItMO3VIrODljvgyEU9CfnbE+luFoqn860MjrXyMzyD0w
+         NEBCk0socC8+rDl2yEG0PFfcf/xmEFy3wdu2eAaMneSfF5PgTZ/EUPnoxOMa0evLhPZe
+         TKptdO8NfytHfutqmMlSrFaLw5mYsYE+0+BEiNDuKtUEdRjPJL8T0k47Pg5gc0wVn3FV
+         TUYLneWpb2oZf1V350rgd+cAEpBGu9cT9DBPMGYc2lheAff6DSo3kQQOzupdUwJ88Q94
+         CJNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxEbTz29R1fQ/pM4vuJCQxVmCg0g03ULpY8MYS6xsa8gFAVU1BV3KX/Euj46LIz/PtK9ErSyRQuefqkDik=@lists.linux.dev
+X-Gm-Message-State: AFuF++kSNdWmfrlj7FkpYvS38ctSgBz9YvVRpbGPUf1TVocOf1g3ey4p
+	o62pVs7nTfZaoailpxVKSLINU6QNVJUuiitwPvuj3fIGyBX/XRfbcAmZADS3Ov1GVA73TQj/K3p
+	wp7cAnvrlP2RccoJ6mfuwQUgWGBVWIC87/F0JDJ02T5GwmXio34DTW/r8u5Q=
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:3a11:b0:4dd:f8bb:e1bd with SMTP id
+ 5614622812f47-4f307f07699mr4528250b6e.13.1790923654962; Thu, 01 Oct 2026
+ 23:47:34 -0700 (PDT)
+Date: Thu, 01 Oct 2026 23:47:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6abf5386.f32479dd.202a09.0008.GAE@google.com>
+Subject: [syzbot] [net?] [nfc?] WARNING in nci_rsp_packet
+From: syzbot <syzbot+ebbbf06f152da8ea4716@syzkaller.appspotmail.com>
+To: davem@davemloft.net, david@ixit.cz, edumazet@google.com, horms@kernel.org, 
+	krzk@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the detailed review.  v3 addresses the device reference
-issues; the remaining points are either pre-existing or need a
-follow-up.  Responding to each finding below.
+Hello,
 
-> [Critical] Can this release resources that a blocking connect() on the
-> same socket still owns?  (Thread A in sock_wait_state, Thread B wins
-> lock_sock and runs cleanup, Thread A unwinds with stale local/dev)
+syzbot found the following issue on:
 
-This is a real concern but pre-existing: the socket lock is dropped
-inside sock_wait_state() and a second connect() on the same fd from
-another thread can race regardless of this patch.  The cleanup does
-not make the window wider -- without it, Thread B's connect() would
-overwrite the fields without releasing anything (the original leak).
-A proper fix for concurrent connect() on the same socket would need
-serialization beyond the socket lock, which is a separate change.
+HEAD commit:    d266640c6c76 Merge tag 'driver-core-7.3-rc5' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=116eb315580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2a820d8842c77560
+dashboard link: https://syzkaller.appspot.com/bug?extid=ebbbf06f152da8ea4716
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
 
-> [Critical] Does a CLOSED socket with non-NULL llcp_sock->dev always
-> own a reference?  bind() keeps dev without a reference;
-> socket_release() drops the connected ref without clearing dev.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-This is what syzbot confirmed and v3 fixes.  v3 clears llcp_sock->dev
-in nfc_llcp_socket_release() after the connected put, and for
-bound/listening sockets that never owned a device reference.  It also
-clears dev in nfc_llcp_recv_dm() for bound/listening sockets before
-setting LLCP_CLOSED.  After v3, the cleanup's if (llcp_sock->dev)
-guard only fires when the socket genuinely owns the reference (the
-rejected async connect case).
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-d266640c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7a2c43e9e32e/vmlinux-d266640c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/74034a2af7be/bzImage-d266640c.xz
 
-The syzbot reproducer for the v2 double-put passes cleanly with v3
-applied (tested with KASAN, 0 reports).
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ebbbf06f152da8ea4716@syzkaller.appspotmail.com
 
-> [High] Is the socket always off local->sockets at this point?
-> Cleanup sets local = NULL without unlinking; socket stays hashed.
+------------[ cut here ]------------
+workqueue: cannot queue nci_cmd_work on wq nfc2_nci_cmd_wq
+WARNING: kernel/workqueue.c:2352 at __queue_work+0xdb7/0x1370 kernel/workqueue.c:2351, CPU#3: kworker/u32:0/12
+Modules linked in:
+CPU: 3 UID: 0 PID: 12 Comm: kworker/u32:0 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: nfc2_nci_rx_wq nci_rx_work
+RIP: 0010:__queue_work+0xdbb/0x1370 kernel/workqueue.c:2351
+Code: 00 00 00 fc ff df 49 8d 94 24 70 01 00 00 48 89 f9 48 c1 e9 03 80 3c 01 00 0f 85 84 05 00 00 48 8d 3d 29 43 78 0f 48 8b 75 18 <67> 48 0f b9 3a 48 b8 00 00 00 00 00 fc ff df 48 89 ea 48 c1 ea 03
+RSP: 0000:ffffc900001e7a40 EFLAGS: 00010046
+RAX: dffffc0000000000 RBX: ffff888026cc1000 RCX: 1ffff1100f10e022
+RDX: ffff8880298be170 RSI: ffffffff8ba2d9c0 RDI: ffffffff91486f90
+RBP: ffff8880788700f8 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000200000 R11: 000000000000761b R12: ffff8880298be000
+R13: 1ffff9200003cf52 R14: 0000000000000020 R15: 0000000000000084
+FS:  0000000000000000(0000) GS:ffff888096c55000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000000c3aef55 CR3: 0000000078b7d000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ queue_work_on+0x180/0x1e0 kernel/workqueue.c:2501
+ queue_work include/linux/workqueue.h:700 [inline]
+ nci_rsp_packet+0x297/0x3420 net/nfc/nci/rsp.c:463
+ nci_rx_work+0x29c/0x430 net/nfc/nci/core.c:1579
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	00 fc                	add    %bh,%ah
+   4:	ff                   	lcall  (bad)
+   5:	df 49 8d             	fisttps -0x73(%rcx)
+   8:	94                   	xchg   %eax,%esp
+   9:	24 70                	and    $0x70,%al
+   b:	01 00                	add    %eax,(%rax)
+   d:	00 48 89             	add    %cl,-0x77(%rax)
+  10:	f9                   	stc
+  11:	48 c1 e9 03          	shr    $0x3,%rcx
+  15:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
+  19:	0f 85 84 05 00 00    	jne    0x5a3
+  1f:	48 8d 3d 29 43 78 0f 	lea    0xf784329(%rip),%rdi        # 0xf78434f
+  26:	48 8b 75 18          	mov    0x18(%rbp),%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  36:	fc ff df
+  39:	48 89 ea             	mov    %rbp,%rdx
+  3c:	48 c1 ea 03          	shr    $0x3,%rdx
 
-Valid concern.  The cleanup should unlink the socket from whichever
-list it is on before clearing ->local.  This is not addressed in v3
-and needs a follow-up patch.  I will send one.
 
-> [High] Can the same leak happen through bind()?
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Yes.  bind() also accepts CLOSED sockets and overwrites the fields.
-The cleanup helper should be called from bind() as well.  Not
-addressed in v3; will include in the follow-up.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-> [High, pre-existing] Stale sk_err = ENXIO from recv_dm not cleared
-> on retry; if recv_cc() races in, connect() unwinds and leaves dev
-> NULL, then destruct dereferences NULL.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Pre-existing and not introduced by this patch.  Clearing sk_err in
-the LLCP_CLOSED cleanup is the right thing to do.  Will include in
-the follow-up.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Summary of what is addressed and what remains:
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-  v3 fixes:
-  - Device reference underflow (syzbot confirmed, KASAN verified)
-
-  Follow-up needed:
-  - Unlink socket from local->sockets/connecting_sockets in cleanup
-  - Call cleanup from bind() as well
-  - Clear stale sk_err on reconnect
-
-I will send the follow-up as a separate patch once v3 is reviewed.
-
-thanks,
-Aldo
+If you want to undo deduplication, reply with:
+#syz undup
