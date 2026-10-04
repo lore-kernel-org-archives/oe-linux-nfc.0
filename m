@@ -1,155 +1,200 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA99353A8A
-	for <oe-linux-nfc@lists.linux.dev>; Sat,  3 Oct 2026 22:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C98D3FA5FA;
+	Sun,  4 Oct 2026 23:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791068399; cv=none; b=jane7xk+Rm+q8Seao6Gh7rkMjex3BiBtSubJum+WMtNhlcHubhYQr1Nih7yBnPJqubk2LN9PDbL5Vl5E4Uch6Umy6K9KC8+6LFVKEOESCLkzYUu1Bm+IHI4DCNOinBlj90hEDOA/bGcrLyyn/6Y+VYAqiKw265efyoOHGfPyoE4=
+	t=1791154940; cv=none; b=EdaufDKGGUmxwn1nDN0BgoWcS/aoBwHOS/9Hti2fA6jx8x044buPwOFoVA81iIHAx86saosnaKzhuk7gpfM+CH8cnHATVwrGd7HAGEWvH+sWhujzsSp6ERjNkrduvhjRtdssPPU4qgp6ZnTO1Hmwg0TAQlWzLC6E+K8LN+Rovkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791068399; c=relaxed/simple;
-	bh=SUutfiwzO/e+2stY1S7H/GwbXbashPZzZ96LlGG+qEY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eJxW7R+c7GehXtsQcS5n/jJjkpxibMI4bNIGga8sjrGjR3pGANrApc+sz5P7yOWS1Vi5S0mlVaCS0b4hHgbpF1cQZ+Qyy5v38HY6moOf+hkP893GyZi1vh2u0VBb57aWmsTcHOQm3k/rvNccbfm1kJQChs/Hk9CPZgMZI6Uh0j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s88vB/il; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791154940; c=relaxed/simple;
+	bh=lCNGoxfJ6gbt1h/Um0ZGsuSNQP8LhKi7UR+AZ9snesM=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oC+lOp8+8GN8H09/UC3tEFOHC04mYDyMELdvOXhUXtYog002lTbHTziEFu0E9LIrywHKCIzDSXzjbE5Io//2zG+VNDoj7Equ+NuXweLvgSjA+wjCt9fduWiAZX1SlPdoxnWPDoC49tcOS4Tjb3rpF9SdvEoaFaRc4ZgDforbJDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhbicqdO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s88vB/il"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b001cd92bso319476f8f.2
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 03 Oct 2026 15:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791068396; x=1791673196; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NovMvuXEi62igDdNspHTToOhEM/m3GWr8IsLt04Y3NU=;
-        b=s88vB/ilNUEIjSt/Ciwkxb5SeaW5+5zUMhO12ZL+sE0UlM6ZZKZsLJUJGPNS9+PRkR
-         Dd5AXVmZ+hkTjzAOuK69XfeeDUpeMXcmlb8d/kdudCtguQ+cAHxnhKHiPTKdj/wumUpM
-         2ASNIDx20svHNGzK8ReHcKzrwNWUbl3vTdM8Bp4pdHZ7MweidrNn7aViRpOuAklNfHlp
-         DO6N1vm4QdBr7/Eqlpt3uqU/aLFCMoyL0Vz/p3oM2y37tm9Xo+UB0epyjZIcUGE5GZm4
-         xV+3HZLdivZhHSoAC+cbNlTphW+UvQxjkYfDKk3qUbZrI4pFrfrqsCuupRKYIoZ9WbK2
-         hh+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791068396; x=1791673196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NovMvuXEi62igDdNspHTToOhEM/m3GWr8IsLt04Y3NU=;
-        b=o7JtZSApOm8heaWnxBz0SgSBs42Qja52LB0d0rN4Oh7NlQQQTUrK+Y86NL+6Tixtti
-         Qh/iPJQ/+acb3tAJU/49e1IEQdZDZFzibkKQId2C+wxbFSQbrpk5zSzhqnk7wMPi0qzN
-         ZgshGIHSVvAbGLd6RrjthXmvZRNfd+S4AJ9iDH9MURib+67q4Es0aMipgISI+7ZrNmCQ
-         iALZ0LzQQ0MR1dt8iVe/dcqP66IR55VBOkBxpXODmbSnYJyuoOSOJI0ZPPjAS/XxppJ7
-         hjQxiXQjjbPG8hF/QMTYJcDKSgiKm+BDsOTWfjZQLwUhHAG1jRh6ZkvdHMQ5mFVNU+Ki
-         j1QA==
-X-Gm-Message-State: AFq9FYKRcMpKG/jkCOEXdDEkjXbYYDYPqcFRXVCx80p1ND6RU2wA/Hbr
-	w36k+F+Qc055DsBDcTLxUjTH1c2/uozMRiDp5UPSrhfUwGKozZeCjKEX
-X-Gm-Gg: AYBFou09xFqnyht1eZMvLvGgmpsX+TuAsqSiDQX2Pk6/5YXlREfL9pIuNcnLKCBePC+
-	BsZpDWhU4HItJ978kpKBFd+fPmieBAIis3Wk58DT+zhKoo7BeNrSdH8Wu1/YJoJE3ZAzfH/uvP6
-	QqfFOTNpKMtHVNyKv0J5T63R53f+o5Wzn4FPHUpDnMkS+fA7alf6KutJ5dyLZbr7NLrAzzgvpRW
-	1cA2G9N/ThXmcDf4cRUggBXI8QJVc6iRtjVOqncYdG3P0sZ/OO7DAqqFUXy51VvFIvXgQfJp5X1
-	4MbfNcL0PD9F6oQgUbuOPxBRdJovmMYsOwJuO4wMqJUK0pj8hC3jmovmqFajknRlpx6A92hD4fW
-	nN//DfUF0vDsnuzOjK1c5MQzWCReRoC/Df5Q5rk4q8lkxlm9kf2373SQ3Aqa3cPrUnvJAnHXoAz
-	Y0K5wv9/myn9YpdD1D8qphUFOM/GH2mJxZjPkVb6BOZf/OTGbbePDRDE4codSzRrroKZnTFGM0N
-	miTlfRRvQMWOFGyUlYOAHrA5pMPSxruOGoPFDFMRNRzXulN8hqfF6dysvXh5n8x56w=
-X-Received: by 2002:a05:6000:2610:b0:48a:f511:e418 with SMTP id ffacd0b85a97d-48c48010c2dmr5226227f8f.38.1791068395569;
-        Sat, 03 Oct 2026 15:59:55 -0700 (PDT)
-Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b383065a4sm13841740f8f.44.2026.10.03.15.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 15:59:55 -0700 (PDT)
-From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
-	Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	raghunathpalla.0209@gmail.com,
-	syzbot+3decf7252f8521fa80ff@syzkaller.appspotmail.com
-Subject: [PATCH] nfc: port100: don't wait forever for a sync command to complete
-Date: Sat,  3 Oct 2026 23:59:52 +0100
-Message-Id: <20261003225952.86316-1-raghunathpalla.0209@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhbicqdO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22B41F00893;
+	Sun,  4 Oct 2026 23:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791154939;
+	bh=Ou3Kn/QKNAyotDEY9AYLl+dL3qiaOM0hudZA+OTObMw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=UhbicqdOQSPNiVfEX3as78TLavcvunea/+iajgFE6+Gm49NS+Pwwx1M5yq8IklTgh
+	 796cgYn5DzAMhRfDtNRosffN1zhhEwsai+XvDYMlAhcbSNR4wWNoiI7xV2MXiovczZ
+	 JhKNze2NCrSlTYlh3XxyuBhQZzuNaqc4Lx5Uz2Zjtw28p1CJK1M/brsTVGn55+/xgZ
+	 0RviHaBni6r6EAe01e8yQFaKoE47X0jTVvod86jciRqyK3qimu8XdzOazXnXxyibl1
+	 xW8fgidFPHCijkVUIeHnEuLS82vufMwJ3wgFgZt+JswyRU2+/dwLIZoKTJ3UDkStnw
+	 hDDPOSnNxzsEg==
+Subject: Re: [PATCH net] nfc: nci: fix out-of-bounds read in
+ nci_core_reset_rsp_packet()
+From: netdev-bot+sashiko@kernel.org
+To: omermetekaya0@gmail.com
+Cc: oe-linux-nfc@lists.linux.dev, david@ixit.cz, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Sun, 04 Oct 2026 23:02:18 +0000
+Message-ID: <179115493823.434549.14381250566135948269@kernel.org>
+In-Reply-To: <20260930224940.725976-1-omermetekaya0@gmail.com>
+References: <20260930224940.725976-1-omermetekaya0@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-port100_send_cmd_sync() sends a command and then sleeps in
-wait_for_completion() until the device answers. There is no timeout,
-so if the device never sends anything back, the caller sleeps forever.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider.
 
-syzbot hit this in probe, with a fake RC-S380 that enumerates fine and
-then never answers GET_COMMAND_TYPE:
+Critical: 0 · High: 1 · Medium: 0 · Low: 2
 
-  INFO: task kworker/0:1:10 blocked for more than 143 seconds.
-  Workqueue: usb_hub_wq hub_event
-   wait_for_completion+0x2ca/0x5e0
-   port100_send_cmd_sync drivers/nfc/port100.c:933 [inline]
-   port100_get_command_type_mask+0x1df/0x3a0 drivers/nfc/port100.c:1018
-   port100_probe+0x694/0xba0 drivers/nfc/port100.c:1549
-   usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Probe runs from hub_event() with the USB device lock held, so it's not
-only this device that gets stuck. The hub worker is stuck too, and so
-is anything else that needs that lock. In the syzbot case the process
-behind the fake device is itself waiting for that lock in
-usbdev_open(), so it can never answer, and the two wait on each other
-for good.
+- [High] The patch breaks the NCI 2.x reset/init handshake.
+- [Low] The new comment in nci_core_reset_rsp_packet() and the commit
+  message both swap the NCI versions.
+- [Low] The commit message overstates the impact of the bug it fixes.
 
-Use wait_for_completion_timeout() instead. If it times out, kill
-in_urb. The command then finishes with an error the normal way,
-through cmd_complete_work. That path still writes to arg, which lives
-on our stack, so wait for it before returning.
+--
 
-I tested this with the syzbot reproducer on next-20261002. Without the
-patch, 5 hub workers and the 5 reproducer processes hang almost right
-away. With it, probe gives up after the timeout ("Could not get
-supported command types"), and the reproducer kept going for 5 minutes
-(177 iterations) with no hung tasks and no KASAN reports.
+nfc: nci: fix out-of-bounds read in nci_core_reset_rsp_packet()
 
-Fixes: 0347a6ab300a ("NFC: port100: Commands mechanism implementation")
-Reported-by: syzbot+3decf7252f8521fa80ff@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3decf7252f8521fa80ff
-Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
----
- drivers/nfc/port100.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+This patch changes nci_core_reset_rsp_packet() so it only reads
+rsp->nci_ver and rsp->config_status when the payload is at least 3 bytes.
+It also adds an early nci_req_complete() and return for 1-byte responses.
+With that, the reset request is completed for every payload length.
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index e769a30b8b5c..2ca593f6c9fd 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -86,6 +86,9 @@ static u8 ack_frame[PORT100_FRAME_ACK_SIZE] = {
- #define PORT100_CMD_STATUS_OK      0x00
- #define PORT100_CMD_STATUS_TIMEOUT 0x80
- 
-+/* Timeout in ms for port100_send_cmd_sync() */
-+#define PORT100_SYNC_CMD_TIMEOUT 5000
-+
- #define PORT100_MDAA_TGT_HAS_BEEN_ACTIVATED_MASK 0x01
- #define PORT100_MDAA_TGT_WAS_ACTIVATED_MASK      0x02
- 
-@@ -930,7 +933,16 @@ static struct sk_buff *port100_send_cmd_sync(struct port100 *dev, u8 cmd_code,
- 		return ERR_PTR(rc);
- 	}
- 
--	wait_for_completion(&arg.done);
-+	if (!wait_for_completion_timeout(&arg.done,
-+					 msecs_to_jiffies(PORT100_SYNC_CMD_TIMEOUT))) {
-+		/*
-+		 * No answer from the device. Kill in_urb so the command
-+		 * completes with an error, and wait for that, since the
-+		 * completion handler still writes to arg.
-+		 */
-+		usb_kill_urb(dev->in_urb);
-+		wait_for_completion(&arg.done);
-+	}
- 
- 	return arg.resp;
- }
+> nfc: nci: fix out-of-bounds read in nci_core_reset_rsp_packet()
+>
+> nci_core_reset_rsp_packet() guards with skb->len != 1 before reading
+> rsp->nci_ver (offset 1) and rsp->config_status (offset 2), but this
+> admits a 2-byte payload where config_status lies one byte past skb->len.
+
+[Severity: Low]
+
+Is "out-of-bounds read" the right description of the old behaviour? For a
+2-byte payload, the only access past skb->len was rsp->config_status. That
+value was only passed to pr_debug():
+
+    pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+             rsp->nci_ver, rsp->config_status);
+
+If DEBUG is not defined and the dynamic debug site is not enabled,
+no_printk() never evaluates the arguments. If it is evaluated, the byte is
+just past skb->len but still inside the skb head allocation. rsp->nci_ver
+at offset 1 is in bounds for a 2-byte payload.
+
+With the Fixes: tag, this framing invites a stable backport of a patch that
+also changes the NCI 2.x reset flow (see below). Could the commit message
+describe the impact more precisely?
+
+> diff --git a/net/nfc/nci/rsp.c b/net/nfc/nci/rsp.c
+> index b0ab4f5acbce8..e52956bf33de8 100644
+> --- a/net/nfc/nci/rsp.c
+> +++ b/net/nfc/nci/rsp.c
+> @@ -32,16 +32,22 @@ static void nci_core_reset_rsp_packet(struct nci_dev *ndev,
+>  
+>  	pr_debug("status 0x%x\n", rsp->status);
+>  
+> -	/* Handle NCI 1.x ver */
+> -	if (skb->len != 1) {
+> -		if (rsp->status == NCI_STATUS_OK) {
+> -			ndev->nci_ver = rsp->nci_ver;
+> -			pr_debug("nci_ver 0x%x, config_status 0x%x\n",
+> -				 rsp->nci_ver, rsp->config_status);
+> -		}
+> -
+> +	/* NCI 2.x reset response carries nci_ver and config_status;
+> +	 * a 1-byte response is the NCI 1.x status-only form.
+> +	 * Require at least 3 bytes before reading those fields.
+> +	 */
+
+[Severity: Low]
+
+Are the protocol versions swapped in this comment? The 3-byte response
+(status, nci_ver, config_status) is the NCI 1.x form. The 1-byte
+status-only response is NCI 2.x, and its version arrives later in
+CORE_RESET_NTF.
+
+The removed comment said "Handle NCI 1.x ver" above the branch that reads
+rsp->nci_ver. nci_core_reset_ntf_packet() in net/nfc/nci/ntf.c is where
+nci_ver gets set for NCI 2.x:
+
+    /* Handle NCI 2.x core reset notification */
+    ...
+    ndev->nci_ver = ntf->nci_ver;
+
+The selftest vectors in tools/testing/selftests/nci/nci_dev.c use the same
+mapping:
+
+    const __u8 nci_reset_rsp[] = {0x40, 0x00, 0x03, 0x00, 0x10, 0x01};
+    const __u8 nci_reset_rsp_v2[] = {0x40, 0x00, 0x01, 0x00};
+
+The commit message has the same mix-up in "The 1-byte (NCI 1.x
+status-only) case".
+
+> +	if (skb->len == 1) {
+>  		nci_req_complete(ndev, rsp->status);
+> +		return;
+>  	}
+
+[Severity: High]
+
+Does this break the NCI 2.x reset sequence? The old code did not complete
+the request on a 1-byte CORE_RESET_RSP. For NCI 2.x, the request stayed
+pending until nci_core_reset_ntf_packet() had set nci_ver, manufact_id and
+manufact_specific_info. That function then calls:
+
+    nci_req_complete(ndev, NCI_STATUS_OK);
+
+With this change, __nci_request(nci_reset_req) in nci_open_device() returns
+as soon as the RSP arrives, before the NTF. nci_open_device() then picks
+the CORE_INIT_CMD format from nci_ver, which is not set yet (it is 0 on
+first open):
+
+    if (ndev->nci_ver & NCI_VER_2_MASK)
+        opt = &nci_init_v2_cmd;
+
+As a result, an NCI 2.x controller gets an NCI 1.x CORE_INIT_CMD.
+nci_core_init_rsp_packet() also uses nci_ver to choose the v1 or v2
+parser, so the CORE_INIT_RSP would go to the v1 parser.
+
+What happens when the late CORE_RESET_NTF arrives? nci_req_complete() only
+checks req_status == NCI_REQ_PEND:
+
+    if (ndev->req_status == NCI_REQ_PEND) {
+        ndev->req_result = result;
+        ndev->req_status = NCI_REQ_DONE;
+        complete(&ndev->req_completion);
+    }
+
+So the NTF's completion would land on the next pending request, either
+ops->setup() or CORE_INIT, before that request's own response has been
+parsed. Every later request/response pair would then be off by one.
+
+The NTF's write to ndev->nci_ver can also now race with the read in
+nci_open_device(). The complete()/wait pair that used to order them is
+gone.
+
+The selftest covers this flow. virtual_dev_open_v2() writes
+nci_reset_rsp_v2 and then nci_reset_ntf, and it expects nci_init_cmd_v2
+next.
+
+The commit message says nci_req_complete() should be "always called
+regardless of payload length". Would it be enough to keep the original
+completion behaviour and just add the skb->len >= 3 check before reading
+rsp->nci_ver and rsp->config_status? A 1-byte RSP with a non-OK status
+could still be completed right away, because no NTF follows it.
+
+[ ... ]
+
 -- 
-2.34.1
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260930224940.725976-1-omermetekaya0%40gmail.com
