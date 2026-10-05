@@ -1,43 +1,43 @@
-Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
+Received: from mail-43102.protonmail.ch (mail-43102.protonmail.ch [185.70.43.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBF1385521
-	for <oe-linux-nfc@lists.linux.dev>; Mon,  5 Oct 2026 20:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E759438AC65
+	for <oe-linux-nfc@lists.linux.dev>; Mon,  5 Oct 2026 20:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791233539; cv=none; b=LaTsVnfM3FAuFCNcQ5IxJlcs/OqO4BPkyGJ6+HzPBD/Np6EtD+29yjMyYrXL1xiqCROCQWp/fbIZbIY9mrSDFdHw5rj4I6OUL/AInGa6a7cEJ9CWApCdabe3P1do9LrY9DhhXDNKW2V/6fRZXdL0Wkn5XYo4qst14p0baiYMwIs=
+	t=1791233540; cv=none; b=FckzKw4PDb78Ageh3j3C/k5lsCdOPC5RI4jqZwYMo9rgHScXYKQVk+VRm8r/F8L9ZwwFG3wOaiCeW6ylmVmdooicoltoC2Qk2LMr9dqOTeCBKCGQRjV+a3NGIWhdNLeyC1qBQAnkktCzDkXgqbCU+Txmup6GrqmQaWTHIMjKyT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791233539; c=relaxed/simple;
-	bh=giNYsJQLixxH/tn3pTRwaEN7a4MZGpONgq1VDU5ZWDo=;
+	s=arc-20240116; t=1791233540; c=relaxed/simple;
+	bh=3biLYym7vGQpoSXoqvf4kLmr25gXZLB/lOyVRb/ctvM=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pzDnGwIZoR07jStdjjXLbANEQwGMMpTkzsNxdAa4ycaUPdbQOvG5HPcx4xxqkqggB3S/E37UNjbOhi2ZAVnmMafeyu2M3gljHDCXS82xVOeR8/Y7EXMovf+MNKXInEI20qCprnp678ZXtwkY3Mbcvxt03Tf1gLtyXQl7EOW1DWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ZIrve9Cp; arc=none smtp.client-ip=109.224.244.16
+	 MIME-Version:Content-Type; b=LLM7+2rkib5aQmu4x36XKc3M/aQXBw5WPJ4Cnllqiw8oCVak6SVod25xeCtNLN+scCaoArA9jWXm8uDR+/dTcxGmeWrbGIxGYu4mZAPxvvD7rEerJ/LXdwcxox22fWjBfmUfxKpvR3UR1qi3YQXoN5gZNpIksg9XdegmQKZszaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=WB2iIX4U; arc=none smtp.client-ip=185.70.43.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ZIrve9Cp"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="WB2iIX4U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1791233522; x=1791492722;
-	bh=giNYsJQLixxH/tn3pTRwaEN7a4MZGpONgq1VDU5ZWDo=;
+	s=protonmail2; t=1791233527; x=1791492727;
+	bh=3biLYym7vGQpoSXoqvf4kLmr25gXZLB/lOyVRb/ctvM=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=ZIrve9Cpum9TvdO3zwWi/zIKbFZESM1CIWRg+EIsiIu2WUtBwOL0XrdIMrVUwFTsw
-	 4brbtmoTPF/MD5oCvTRaYDKhRAb2jAim0SoLyMKFNu75Gz4Y6/XWIfllEOnm8ipYlp
-	 /Di5osgyh8FCgM14A7OVrtBpoIzb9HKTC/uvKShwqj3vTvUY9QRpoEO+cRklYS+jWz
-	 +Wia9VGqJKpduTxQToBbCfQyHLY0EwMgAmSUe4mciN8tgh5Qr2YUIuDiqqn1CQSEId
-	 dhQ4aW50Ig/cDq22CYgKETsdd+SHApC5qo5hgI3dweH3FJJBrDhS+0KEyHbwcxQrAg
-	 YSQkWJvWTqAsQ==
-Date: Mon, 05 Oct 2026 20:51:56 +0000
+	b=WB2iIX4U1quNpTcSKN4up5AQyFB3Oxkyn7MH+R7QxZfP7YQqYFDigr/W9hW8qL++Q
+	 bB0mxFLQy46UV0Nod2auCdhEsyGRG5pQ8LTMb7Ta36fSLOKs7VFVJMzAlLl1eW9byu
+	 OYv23XtyhayFEZuePlxRK7xZ6w1zpI2QoG68Yp231VpvoVWs6KKziB8Adx+CSICMQ3
+	 /4EJgFtBYBFWvW+b+4BKWz5QQrQdNmbly1R3gTgyzl665EX3m3eVQg5/sluzg4rPEl
+	 JjnQEQiuDS0KREPO2FuFRJtcDIiRaurYQOdUhQ1EGNg8BEMn0dhKka56HT/jLLBzT4
+	 rg9qcK2PDNDrg==
+Date: Mon, 05 Oct 2026 20:52:02 +0000
 To: David Heidelberg <david@ixit.cz>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
 From: Kristian Brox <isyourbrainfoss@proton.me>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Luca Weiss <luca.weiss@fairphone.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, Kristian Brox <isyourbrainfoss@proton.me>, Tim auf der Landwehr <tadl-git@taufderl.de>
-Subject: [PATCH v5 3/4] nfc: st-nci: map proprietary RF protocol 0x90 to MIFARE
-Message-ID: <20261005-fp5-st21nfcd-v5-v5-3-7be15a86c61c@proton.me>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Luca Weiss <luca.weiss@fairphone.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, Kristian Brox <isyourbrainfoss@proton.me>, Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [PATCH v5 4/4] arm64: dts: qcom: qcm6490-fairphone-fp5: add ST21NFCD NFC
+Message-ID: <20261005-fp5-st21nfcd-v5-v5-4-7be15a86c61c@proton.me>
 In-Reply-To: <20261005-fp5-st21nfcd-v5-v5-0-7be15a86c61c@proton.me>
 References: <20261005-fp5-st21nfcd-v5-v5-0-7be15a86c61c@proton.me>
 Feedback-ID: 203906395:user:proton
-X-Pm-Message-ID: b8f02c33da1be7e1224d50c41ddd260cf240caf6
+X-Pm-Message-ID: dd6ccd5ffe37ad9a70df7ac726de46ab6a0c595b
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -47,56 +47,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-From: Tim auf der Landwehr <tadl-git@taufderl.de>
+Enable the ST21NFCD on i2c9 (0x08), IRQ TLMM 41, reset TLMM 38
+active-low. Compatible is st,st21nfcd (raw NCI).
 
-ST21NFCD reports MIFARE Classic with proprietary RF protocol 0x90
-(a Classic 4K, and a Classic 1K on the Fairphone 5). That value is
-not an NFC Forum protocol. st_nci_get_rfprotocol() returned 0 for it,
-and nci_add_new_protocol() then drops the tag.
+SYS_CLK is LN_BB_CLK2. VPS_IO is L18B (vreg_l18b). ese-present and
+uicc-present follow the public schematic (NFC_SWP1/SWP2: SWP_SE to
+SIM1, SWP_UICC to SIM2). Reader path is tested; SE/HCE is not.
 
-Map 0x90 to NFC_PROTO_MIFARE_MASK. ISO15693 (0x83) is unchanged.
-
-Signed-off-by: Tim auf der Landwehr <tadl-git@taufderl.de>
 Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
 ---
- drivers/nfc/st-nci/core.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 34 ++++++++++++++++++=
++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nfc/st-nci/core.c b/drivers/nfc/st-nci/core.c
-index d7802434a..d83221566 100644
---- a/drivers/nfc/st-nci/core.c
-+++ b/drivers/nfc/st-nci/core.c
-@@ -15,6 +15,12 @@
- #define DRIVER_DESC "NCI NFC driver for ST_NCI"
+diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm6=
+4/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+index f41ad446a..b028d1bb2 100644
+--- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
++++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+@@ -933,7 +933,23 @@ redriver_ss_in: endpoint {
+ &i2c9 {
+ =09status =3D "okay";
 =20
- #define ST_NCI1_X_PROPRIETARY_ISO15693 0x83
-+/*
-+ * Proprietary RF protocol the controller reports for MIFARE Classic.
-+ * Not an NFC Forum protocol, so it must be mapped here or
-+ * nci_add_new_protocol drops the tag.
-+ */
-+#define ST_NCI1_X_PROPRIETARY_MIFARE 0x90
+-=09/* ST21NFC NFC @ 28 */
++=09nfc@8 {
++=09=09compatible =3D "st,st21nfcd";
++=09=09reg =3D <0x08>;
++
++=09=09interrupts-extended =3D <&tlmm 41 IRQ_TYPE_LEVEL_HIGH>;
++=09=09reset-gpios =3D <&tlmm 38 GPIO_ACTIVE_LOW>;
++
++=09=09pinctrl-0 =3D <&nfc_default>;
++=09=09pinctrl-names =3D "default";
++
++=09=09clocks =3D <&rpmhcc RPMH_LN_BB_CLK2>;
++=09=09vdd-io-supply =3D <&vreg_l18b>;
++
++=09=09ese-present;
++=09=09uicc-present;
++=09};
++
+ =09/* VL53L3 ToF @ 29 */
+ };
 =20
- static int st_nci_init(struct nci_dev *ndev)
- {
-@@ -76,8 +82,14 @@ static int st_nci_send(struct nci_dev *ndev, struct sk_b=
-uff *skb)
- static __u32 st_nci_get_rfprotocol(struct nci_dev *ndev,
- =09=09=09=09=09 __u8 rf_protocol)
- {
--=09return rf_protocol =3D=3D ST_NCI1_X_PROPRIETARY_ISO15693 ?
--=09=09NFC_PROTO_ISO15693_MASK : 0;
-+=09switch (rf_protocol) {
-+=09case ST_NCI1_X_PROPRIETARY_ISO15693:
-+=09=09return NFC_PROTO_ISO15693_MASK;
-+=09case ST_NCI1_X_PROPRIETARY_MIFARE:
-+=09=09return NFC_PROTO_MIFARE_MASK;
-+=09default:
-+=09=09return 0;
-+=09}
- }
+@@ -1462,6 +1478,22 @@ hall_sensor_default: hall-sensor-default-state {
+ =09=09drive-strength =3D <2>;
+ =09=09bias-pull-up;
+ =09};
++
++=09nfc_default: nfc-default-state {
++=09=09reset-pins {
++=09=09=09pins =3D "gpio38";
++=09=09=09function =3D "gpio";
++=09=09=09drive-strength =3D <2>;
++=09=09=09bias-disable;
++=09=09};
++
++=09=09int-pins {
++=09=09=09pins =3D "gpio41";
++=09=09=09function =3D "gpio";
++=09=09=09drive-strength =3D <2>;
++=09=09=09bias-disable;
++=09=09};
++=09};
+ };
 =20
- static int st_nci_prop_rsp_packet(struct nci_dev *ndev,
+ &uart5 {
 
 --=20
 2.55.0
