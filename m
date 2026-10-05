@@ -1,70 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAD9367F58;
-	Mon,  5 Oct 2026 13:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C283F386555
+	for <oe-linux-nfc@lists.linux.dev>; Mon,  5 Oct 2026 20:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791207208; cv=none; b=crYVggdg8RMTv5yUzmef4nIcCGB0UaEmL8f+QXkA2rp+mNOMl2HNwqVvYgOCGhnaRS99P7a2COzmDovNL4JuKa7g/IvkzrabyrvieQanzZMpEXjcoUOUkpLmfKQcmObiDEq99iugJy6LG5sOAiv2VoMxAqhhfxSr6OC6tB20vSs=
+	t=1791233520; cv=none; b=VYi8Ev8U0EfCJ28RuikKZXtI227X+RECbUFiTFdgDrVLrvMw1vU8UqPpFMC0Rr7wmZPRgbP+5tDOst1mEc3l+q2YT0BKHp/8mNhz6Ui6pGMLGhSsXsb5Lc84TYEOif4H5p1oZzwfr6fr8B9GPqXyObvPsZ6IipLX+Fc2mU+xyXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791207208; c=relaxed/simple;
-	bh=gp7PRv3WjAiMJrp0DvXpRvTv3mwC8R3NiezXzUE7FxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WJO5F9rpC9tGjF4HqSDf3zjvOrPxWGveD/MFDQ1SuP5gcxGkqelU+ocq//a26cnB59ZWd1TKPlg60cpZkoiR/W4ZqGrmIJf7YLSKWVInHGCzB+sVp7aNYoBJjj/nwTB1TXCCg6ymTQl5NrJVYCdx2rGvKZn9Jlg+qEPcDQhKLfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6hUQZTm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791233520; c=relaxed/simple;
+	bh=w2Pj/aA+ACoJ4sNLQmplkZrq+uo0XkJzKyEiCfYZGjs=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=V7YsppHbzVVB015jTJQC9KkPoalL8dT4WJYdyEb5hXGrerlCGFfyyygkYJyXYF7nEpFfNuMMICsLA8yjOdltlaZBeH6Zs6Npp4h91fuoOIWEYauA0KPdgox6UEIaUT0kYPqVMGIfLTD5tqVSQaRLt1LvBnOavHSzHOW7iLipomY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=RnO3q848; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6hUQZTm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3729C1F000FF;
-	Mon,  5 Oct 2026 13:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791207206;
-	bh=Z9zRtXHe/J1k/4/9wAeq1n+PwAt+ioXmV3zyjSNrjDw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=d6hUQZTmy582RZL+XJZs4XU8LYvv6PeOlMdPaHw6dKHyMbe3gG96a/oXatFeG/1+f
-	 aA3U6dLtYE/r3nFLP7KB07mjn/1ye+sMEDaYWCDBGFMuxjg5s15cu9MnkswwgjZEG8
-	 f7ikAlJjotYmFSxvW71OBIevW8eOmzhg3VwYKU3AUDqJjmjpp/okxGTvS88qhUYv7h
-	 OflvNVhGM8LvcPuE1J33vtlYlmSyxQA8XySg9DVyahYcpQjavDh3crjYzWgH6GurQP
-	 xxhHjtw/gvh+b3YihgHeh+uR3PBqM7HeEFBKpEW074TIovSRUoLjtVkf5FpkMzfsUJ
-	 6qaGOdNfyB+7Q==
-From: netdev-bot+sinfo@kernel.org
-To: =?utf-8?q?=C3=96mer?= Mete Kaya <omermetekaya0@gmail.com>
-Cc: oe-linux-nfc@lists.linux.dev, david@ixit.cz, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] nfc: nci: fix out-of-bounds read in
- nci_core_reset_rsp_packet()
-Date: Mon, 05 Oct 2026 13:33:25 +0000
-Message-ID: <179120720574.1402591.13582434920799046722@kernel.org>
-In-Reply-To: <20261005132742.324374-1-omermetekaya0@gmail.com>
-References: <20261005132742.324374-1-omermetekaya0@gmail.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="RnO3q848"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1791233507; x=1791492707;
+	bh=6W67tFHd6CiLu3WczG673m8vQK8JeD6Yh/iLbczubAI=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=RnO3q848bpHeIatqJgLCMEcNkOP3wKufhsvlm4thJpKP5RM2sSJxX0jd3SqgnZo5c
+	 CB94MYz11k5/wqNmv6jIwO9kMS58VjoTYhucDbN+vp1oNZORE6tpTJcMEEBXKgAE6r
+	 C96ZivhPgUU9Cq6Jv8KPA/aaOvUmT9gsbpvBqngoabYXBoDfdj2/7nAj9WiqDJZ+0Q
+	 YyDbS6GoOVuM802IUrDE8GFDnpz1f9wGSVxckiM5e2Eo8tj1zU3nh3QO6S/Fad51Ct
+	 sEof4PuhWrv8Ehv6PfIbXsD5no9o7ICFeIjXuEVgT8ZakehIIBNpDh0BSazbHtYfK7
+	 v/4qpYnzaZhdA==
+Date: Mon, 05 Oct 2026 20:51:42 +0000
+To: David Heidelberg <david@ixit.cz>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
+From: Kristian Brox <isyourbrainfoss@proton.me>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Luca Weiss <luca.weiss@fairphone.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, Kristian Brox <isyourbrainfoss@proton.me>, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Tim auf der Landwehr <tadl-git@taufderl.de>, Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [PATCH v5 0/4] nfc: st-nci: Fairphone 5 NFC bring-up (ST21NFCD)
+Message-ID: <20261005-fp5-st21nfcd-v5-v5-0-7be15a86c61c@proton.me>
+Feedback-ID: 203906395:user:proton
+X-Pm-Message-ID: 770e7dd04a105c11704dbf4d72852d48b538ec69
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi!
+This adds NFC on the Fairphone 5 (qcm6490). The board uses an ST21NFCD
+on I2C. That part speaks raw NCI; the current st-nci driver always
+wraps NDLC, so using st,st21nfcb-i2c leaves the adapter unusable.
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+The series adds a st,st21nfcd compatible for the raw-NCI path and the
+Fairphone 5 DT node. Boards that already use st21nfcb / st21nfcc keep
+the NDLC path.
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+A later poll start that times out in "failed to set local general bytes"
+is still unreproduced on this phone.
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by code inspection). If it was triggered please include
-   the symptoms, like the stack trace or error messages.
+Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
+---
+Link to v4:
+https://lore.kernel.org/oe-linux-nfc/20260902-fp5-st21nfcd-v4-v4-0-ded2f1c5=
+01be@proton.me/
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account. If the series needs another revision for
-other reasons, please include the information in the commit messages
-then.
+Changes in v5:
+- Map proprietary RF protocol 0x90 to MIFARE (Tim). On this phone a
+  Classic 1K was accepted as 0x90 and was not dropped.
+- Binding carries Reviewed-by from Krzysztof Kozlowski. DTS carries
+  Reviewed-by from Konrad Dybcio and Abel Vesa. The patch bodies are
+  the v4 patches. The raw-NCI driver change is unchanged.
+- Tim's reference-clock restart and leading-0x7e check were tried on
+  this phone and left out.
 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+---
+Kristian Brox (3):
+      dt-bindings: net: nfc: add st,st21nfcd
+      nfc: st-nci: add raw NCI path for ST21NFCD
+      arm64: dts: qcom: qcm6490-fairphone-fp5: add ST21NFCD NFC
+
+Tim auf der Landwehr (1):
+      nfc: st-nci: map proprietary RF protocol 0x90 to MIFARE
+
+ .../devicetree/bindings/net/nfc/st,st-nci.yaml     | 49 +++++++++----
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 34 ++++++++-
+ drivers/nfc/st-nci/core.c                          | 38 +++++++++-
+ drivers/nfc/st-nci/i2c.c                           | 82 ++++++++++++++++++=
+++--
+ drivers/nfc/st-nci/ndlc.c                          | 27 +++++--
+ drivers/nfc/st-nci/ndlc.h                          |  5 +-
+ drivers/nfc/st-nci/se.c                            |  3 +
+ drivers/nfc/st-nci/spi.c                           |  2 +-
+ drivers/nfc/st-nci/st-nci.h                        |  2 +
+ 9 files changed, 211 insertions(+), 31 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20261005-fp5-st21nfcd-v5-1818d4776267
+
+Best regards,
+-- =20
+Kristian Brox <isyourbrainfoss@proton.me>
+
+
