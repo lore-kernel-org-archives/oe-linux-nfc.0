@@ -1,136 +1,150 @@
-Received: from mta0.migadu.com (out-161.mta0.migadu.com [91.218.175.161])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5952B3845BC
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 12 Oct 2026 18:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61222470E8B
+	for <oe-linux-nfc@lists.linux.dev>; Tue, 13 Oct 2026 02:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791830860; cv=none; b=gseElDtINdEL14X8Dxixp1GYuzOTKxJ09BBMl4aVlelB4NuTBKiOcCR9cJQSp18cMw7YOe6GtH16ji+fVZOuYYFdzY4qBSgLsHbe0ZZdY5JM2Ke6MY0fRNFfp7HYsjmkzmlrSoqs/fZZWniH2dUog5phFy0OpOo420jFfJm4Phw=
+	t=1791860276; cv=none; b=r6BJuQbFSbBVMVbdLbyGay3gHksHRkTJHNiKodWcvmbHk321w9Sinji9U/cZicO19Ra8nPPbjuFlY9YWHODXDV3kx2wwL8dBlWZdXmkzNetQyxq3qXgBXdfmY5ibycOPhgecx3/NKCt8xbOQxjk4lUHDQCFpiqU1BaYY9yE9Mzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791830860; c=relaxed/simple;
-	bh=ijNlhyv4xCTmTbbejLtSuQAfF6caH2RK4q9or0ieFkM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=outEtAGZ8xqi7bTYSLQOugnXUG00OBcpV+AkZSZEIRL8jQtbh1G9izTiMQGMR/cFYNTOUOTf8lFcJxr1tg04W3CFagS10i6wwSYKraBRbkf7qDzCbq8o/rEzTbBcvPx7Yc+E44+oxrfq5ptWIakQ2Fn2J+9UBMdGcbo25ZQgcEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=ZhGqK3aC; arc=none smtp.client-ip=91.218.175.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	s=arc-20240116; t=1791860276; c=relaxed/simple;
+	bh=jFs2ejwyQRoiUFaaaOWLo95jLgIUJD5pi3UvSHe6KKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DT238XN1y5axZTdXEQPCMyOfirNobCaF2P/EwPNaRvpcyEtz4Ct2dXUch+dDnvSLu+26ow08S3T50A24o2MNjUWQOug2u8rpYDoAlAf8GxOP6YkN9t+NCUBOVvvvroamRw54S7oDYbu1/2BaEpKWOFYy2PqG0lQm7uyt1LvpRhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=octane.security; spf=pass smtp.mailfrom=octane.security; dkim=pass (2048-bit key) header.d=octane.security header.i=@octane.security header.b=WeMTlQfj; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=octane.security
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=octane.security
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="ZhGqK3aC"
-X-Envelope-To: oe-linux-nfc@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=ijNlhyv4xCTmTbbejLtSuQAfF6caH2RK4q9or0ieFkM=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791830854; v=1; x=1792435654;
- b=ZhGqK3aC1dEA6AFriFzlD2Uk6O50NhTH/2K58qAsaTd7mFMFOlu5POxCR+JigEyzvGCWQiDS
- vk5o4HHjFh6qaPdGJL47AyXYO3LgvtuNa4GytcrJULEY/pSR3fMSfhv2og6HKefhVqemO9FJvPB
- Vol8ZNoKL/vfXpXMn+34E/KmdzI4X+XcTh+vqMZyax0+RDMOB5GavCFS7kY4slu4IZ5wYH7LBBK
- 6B2EHq0HW5u8aGqg/2o9clsVjr+iUc0kRf3W1547SmPnjYAY0OKplQZ1oqhg2aA92ezHr4bp27P
- k1AOIMo9B1efaHZeVNX677Asu7Vitt1ClXYKYLRopboCw==
-X-Envelope-To: oe-linux-nfc@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id f67ebc8caef7985e;
-	Mon, 12 Oct 2026 18:47:34 +0000
-X-Mizu-Trace-ID: f67ebc8caef7985e
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <a3464be4-bd4d-4590-9804-147e16016a07@packett.cool>
-Date: Mon, 12 Oct 2026 15:47:24 -0300
+	dkim=pass (2048-bit key) header.d=octane.security header.i=@octane.security header.b="WeMTlQfj"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-154e9d2d979so1641694c88.1
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 12 Oct 2026 19:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=octane.security; s=google; t=1791860274; x=1792465074; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VKlzSdYOmHmxNkajBIoZRP6k3zgKUV8Nk9LgZQpvxD8=;
+        b=WeMTlQfju1RC1XkDDkJO2PHn6VhyHbx1LQ/AlqhZ8gOMbEO2VIUNVjqWmyD6932wTo
+         AX87vnIarM8W6m0rANIbRUeh0XE2VS9t3eaI5cQcTJny7fWJFQ6aZVEHNjcLcKuUY4ef
+         PIccLu4IWX6aHuR7+Zpvn97TzmzGt5V+siqWEwJYvvm6csmv9rnkxh7xLTC6l21Fai3E
+         ChGCOPhdNLnoa+Xbn7/AgxNsHrtKJPdUbi0rGjnasbIM9DPvRd0mKMTLs9hVEnTOZIFD
+         Xoc4aPLghZWmWoGIAFfjz69Hiu94dFwPMbtGthPNt7IBhu5SSmQ3RDZHpfvv5nefcIfO
+         GtsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791860274; x=1792465074;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VKlzSdYOmHmxNkajBIoZRP6k3zgKUV8Nk9LgZQpvxD8=;
+        b=bN/VSkdGJq8JrYirfWttdqsjg+1+0UZfJ1RBMqhIOn9lZnJXyQ+iQjcDjwSLERW8ew
+         1CUObpyKjsweTyZQgAMCFoYF5kAiika6OlHWkxMpSsds+90xIy7zWeaN4HmhCJaNxv/z
+         7BXjq5n039G6l1nOgF78J/MRhSdc14Kzfj5+HAJiq+uGaUnzgvCDRzKwpTHq6z9Fle6L
+         o33+sPo/CLLosdcvkntc6oSKD4RNxny9+HFaiPtRr8uj7srkpV1p6Kmmmag0dENEVJF8
+         qW2nceE1FlI0zFPKFyGxQEQv1T2p0si+FKdGcBP6G3+lbYrQMO3a4SLMAEuSwN0XeQyx
+         JZdA==
+X-Forwarded-Encrypted: i=1; AKwUvBxKjR75uL0M8/wPQ81I1ggycCrIA1GGsJlteGTxapLrcDDnqZFwun0D0Vus4xf1iI9ga37ekYSKpepMzFE=@lists.linux.dev
+X-Gm-Message-State: AFq9FYIlOf5Jk94NXHb4316G9RoNpEObFMgDhp0usARxhWg9dfr3jVzF
+	dncsQaqk0vQ28dMBiapz/fcuLorgkuRT2Ve/lpBxNsothwDH0h6PLgSmYPtgICOX3Y8=
+X-Gm-Gg: AYBFou2nnYdfZNzXW/snAFY91TsULeBrPpnQGnKiYg5DshfrFz7hwcorIkJM1i1pao5
+	Wa5RsyFDXazio4zW0DHIZEUO6yyUJJzveY90P7H+ue9tAijs9nYJpW3jKVghibcVdVgHtLh4A7E
+	huxE21uaWA0GpPXcaXLjimyK2T5tQ1t0RVOC5SP29KtT6tPr1VXp3AMEUfQCSaAaIxTtAAZ6t0F
+	FFDENk5B4cqCa1GdCEMq4S65DpSCdhq68S4olDs966oESKwU49QIVSutkV+1XHO7p3dHespwnC4
+	1MLYGIUMp/D7t0DZoo6LoRNI+Hkmxl6tS+ynDXa4+X8CpIjOzem7L47Tsfrw84m+JbDVVVPUKs6
+	ih+DUYnIhqSG7UpKgwVUh1PE0jk7DM+zd366VwGYPxOafO7b2Soe6zRkfJrgbj6LHbBEcgfRbxK
+	IRHDm7XffwQ/duaDjJnc8QLQjUzOXPzhV/ycNp0+jmFeUjPpqr2o/dBYr/Ibk33kxF19/pD1lyr
+	sDeoj22WutcH8dOpX6qAf8R84PBCSl9h2EBMXSeauEGR/pDcWZJVgAG8rUK5RZPEV4DF1L8+Ji2
+	IenBp1W80GKFHA==
+X-Received: by 2002:a05:701b:42d3:20b0:156:d588:c881 with SMTP id a92af1059eb24-16a0adc14acmr15455735c88.2.1791860273055;
+        Mon, 12 Oct 2026 19:57:53 -0700 (PDT)
+Received: from localhost.localdomain ([103.207.175.177])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a1becefdsm34223721c88.7.2026.10.12.19.57.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 12 Oct 2026 19:57:52 -0700 (PDT)
+From: Shubham Antil <shubham@octane.security>
+To: netdev@vger.kernel.org
+Cc: david@ixit.cz,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	cuissard@marvell.com,
+	sameo@linux.intel.com,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	gio@octane.security,
+	Shubham Antil <shubham@octane.security>
+Subject: [PATCH net v5 0/2] nfc: nci: uart: quiesce write_work during teardown
+Date: Tue, 13 Oct 2026 08:27:44 +0530
+Message-ID: <20261013025746.41292-1-shubham@octane.security>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] nfc: st-nci: Fairphone 5 NFC bring-up (ST21NFCD)
-To: Kristian Brox <isyourbrainfoss@proton.me>,
- David Heidelberg <david@ixit.cz>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Luca Weiss <luca.weiss@fairphone.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Tim auf der Landwehr <tadl-git@taufderl.de>,
- Abel Vesa <abel.vesa@oss.qualcomm.com>
-References: <20261005-fp5-st21nfcd-v5-v5-0-7be15a86c61c@proton.me>
-Content-Language: en-US
-From: Val Packett <val@packett.cool>
-In-Reply-To: <20261005-fp5-st21nfcd-v5-v5-0-7be15a86c61c@proton.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This series fixes the NCI UART write-worker teardown ordering without
+blocking the controller reset which nci_unregister_device() may transmit
+during teardown.  It also fixes the Marvell UART state-publication race
+reproduced while exercising that path.
 
-On 10/5/26 5:51 PM, Kristian Brox wrote:
-> This adds NFC on the Fairphone 5 (qcm6490). The board uses an ST21NFCD
-> on I2C. That part speaks raw NCI; the current st-nci driver always
-> wraps NDLC, so using st,st21nfcb-i2c leaves the adapter unusable.
->
-> The series adds a st,st21nfcd compatible for the raw-NCI path and the
-> Fairphone 5 DT node. Boards that already use st21nfcb / st21nfcc keep
-> the NDLC path.
->
-> A later poll start that times out in "failed to set local general bytes"
-> is still unreproduced on this phone.
->
-> Signed-off-by: Kristian Brox <isyourbrainfoss@proton.me>
-> ---
-> Link to v4:
-> https://lore.kernel.org/oe-linux-nfc/20260902-fp5-st21nfcd-v4-v4-0-ded2f1c501be@proton.me/
->
-> Changes in v5:
-> - Map proprietary RF protocol 0x90 to MIFARE (Tim). On this phone a
->    Classic 1K was accepted as 0x90 and was not dropped.
-> - Binding carries Reviewed-by from Krzysztof Kozlowski. DTS carries
->    Reviewed-by from Konrad Dybcio and Abel Vesa. The patch bodies are
->    the v4 patches. The raw-NCI driver change is unchanged.
-> - Tim's reference-clock restart and leading-0x7e check were tried on
->    this phone and left out.
+Patch 1 publishes the Marvell UART back-pointers before NCI device
+registration can expose the device, rolls them back on registration
+failure, and establishes the controller's initial halt state before
+registration.
 
-Hi, I've been trying to enable the st21nfcj on the Motorola Edge 30, 
-which uses the same protocol.
+Patch 2 serializes producers with the write worker's final state handoff.
+The generic close invokes the transport close first, allowing the
+unregister CORE_RESET transmit attempt, then blocks new work and cancels
+the worker before freeing the skbs.  Marvell performs that barrier after
+NCI unregister but before it releases private state.  The failed-open path
+uses the same barrier, and the transport module is held while its open
+callback runs.
 
-These mentioned left-out patches seemed like they would help, but they 
-didn't really. The leading-0x7e check does skip over the "7e 60 00" but 
-is not enough to untangle the desynced mess that starts with "79 3e 59 c0"..
+The tty write-wakeup description has been corrected: a wakeup may queue
+or run immediately before close; it does not run inside the close callback.
+The same spinlock now protects producer scheduling and the worker's final
+SENDING/WAKEUP transition, closing the reported lost-wakeup window.
 
-sendQlen=1 unackQlen=0
-ndlc frame written:
-ndlc: 00000000: 20 00 01 01
-incoming frame:
-ndlc: 00000000: 7e 60 00
-incoming frame:
-ndlc: 00000000: 1f 01 01 20
-rcvQlen=1
-incoming frame:
-ndlc: 00000000: 02 1a 04 04 01 20 92
-rcvQlen=1
-incoming frame:
-ndlc: 00000000: 80 02 03 01 59 c0
-rcvQlen=1
-nci: nci_rx_work: unknown MT 0x4
-incoming frame:
-ndlc: 00000000: 79 3e 59 c0 47 75 00 00 00 01 00 00 61 66 02 7e
-ndlc: 00000010: 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 40
-ndlc: 00000020: 00 01 00 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e
-ndlc: 00000030: 60 00 1f 02 01 20 02 1a 04 04 01 20 92 80 02 03
-ndlc: 00000040: 01 59 c0 79 3e 59 c0 47 75 00 00 00 01 00 00 61
-ndlc: 00000050: 66 02 7e 7e 7e 7e 7e 7e 7e 7e 7e 7e
-rcvQlen=1
-nci: nci_ntf_packet: unknown ntf opcode 0x93e
-nci: __nci_request: wait_for_completion_interruptible_timeout failed 0
+Both ordering issues were found during an LLM-assisted source audit and
+reproduced using a pty-backed NCI UART under KASAN.  With these patches, a
+61-cycle regression run and a 56,690-cycle registration/hangup stress run
+completed without sanitizer reports.
 
-I've tried changing things like interrupt trigger (with rising edge 
-only 1f 01 01 20 arrives, with falling edge nothing) but nothing seems 
-to help. I wonder if anyone has any idea of what might be the actual 
-cause of those strange frames. It's interesting that these two 
-workaround patches were found necessary on one phone but not on another..
+Other concurrency concerns raised during review are outside the scope of
+this teardown series and will be handled separately.
 
-Thanks,
-~val
+---
 
+Changes in v5:
+- Preserve the unregister-time CORE_RESET transmit attempt by closing the
+  transport before starting the generic worker barrier.
+- Quiesce the Marvell worker after NCI unregister and before private-state
+  release.
+- Serialize the worker's final state handoff to prevent a lost wakeup.
+- Correct the tty write-wakeup race description and close-contract comment.
+- Take the module reference before ops.open() and drain work on open
+  failure.
+- Publish and roll back Marvell UART state through transport callbacks.
+- Add the LLM-assisted audit and KASAN discovery details.
+- Keep unrelated concurrency follow-ups outside this series.
+
+v4: https://lore.kernel.org/netdev/20261006115532.72100-1-shubham@octane.security/
+v3: https://lore.kernel.org/netdev/20261002055620.18339-1-shubham@octane.security/
+
+Shubham Antil (2):
+  nfc: nfcmrvl: publish UART state before registration
+  nfc: nci: uart: quiesce write_work during teardown
+
+ drivers/nfc/nfcmrvl/main.c    | 18 +++++--
+ drivers/nfc/nfcmrvl/nfcmrvl.h |  3 ++
+ drivers/nfc/nfcmrvl/uart.c    | 32 +++++++++++--
+ include/net/nfc/nci_core.h    |  3 ++
+ net/nfc/nci/uart.c            | 90 ++++++++++++++++++++++++++++-------
+ 5 files changed, 120 insertions(+), 26 deletions(-)
+
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.43.0
