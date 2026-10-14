@@ -1,71 +1,74 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE5E3A7F51
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 05:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A633AD51C
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 08:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791956488; cv=none; b=H+fR0GZPk9ycbQDFJUn39HDUVtVQP1DFum8A/BvvGD1u+1VdXogzA98CZ2haD8aYRr5lsFnQBZUJj/pFyjjZ7gGPUvqcHKkVM0ku0QSMBxSMBCEwLZnHanAK74418o8W+y1P8kEEcyQr31GXXptmlFZE5SnNz9KUA/xxk+9gF+k=
+	t=1791966779; cv=none; b=c2AW4TNJq93a/4DOzPwNTN9C5xFwyAudjfJf6VICafpBO4GeXnSjd7BRlaW1uyaKQkVUADK2StDZLyLZVJzVm+9ntBC+lkQh0fZRksU1HUfF9jZlBQYgLXvfq+ejtuH9J6N9XzDnIFIWfq05nW3u5GTZ8UdRff0sBt92sqAiJHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791956488; c=relaxed/simple;
-	bh=UiCMp9/mbXDOv9B80OTIXeVoRdGMfKk6pMvkikdtARs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jBgW9nqSpB+bqL4t/I0wFChkpWi60QNnqVGNPlVIqq8cCTC981RR/7bKhDmvykql8dGUlw41EcQ/IEVTC1o4EINoXhYPAglQriK1ApXsPkjNPpUT3mMlPo9i7hyzcsUVjV9/rxxdVXraS5rGWHtDjOfcKbWyGdKgjpAGdUzI/b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jysLP5LN; arc=none smtp.client-ip=74.125.82.48
+	s=arc-20240116; t=1791966779; c=relaxed/simple;
+	bh=QXfv7oHLhUhY9C5cnazY56Fw9rjVwnTel2t+VYCmWpI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e6q+RTSiaYAoiee/x97sbfhP+Y0qIVEXeyzRhobqCDe6x91NQSaJrPDKzHcGgV+nTP0IxGTJI1pMREKD57fm2HRwKjZafa2rWzen9RKwaPmgrhEeZN7jmWwDebcCTzWBmGIRySpsPzuQFkYI++OInkA/xQxju/tw/oeCTtvOFc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rn+Upm6D; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jysLP5LN"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-15ea896ddc8so870254c88.0
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 13 Oct 2026 22:41:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rn+Upm6D"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ab98332238so2090714a91.3
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 01:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791956487; x=1792561287; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791966776; x=1792571576; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/zFJfII781OXM3XVdyaHXmQsNX/Uoncqqxm/Oj8RxVE=;
-        b=jysLP5LN28jO8fQgHdsersnOWlPKj9zJQXjSSU9y3OyE3MkzcWzpJ6FYqW/TJNE3T5
-         xz+hF71ZRnbMtjFYosD1rZ5J3G8LNxK2ruwlWUQ0mvoV1k/TY9GFONreZibu0iLP5Zzm
-         ALvzN36tQUOCP6H4NyY2007iQoz4jAdXTGAWkz061Ndzf9Qxutmefr2MuGaLtkzHkNHJ
-         aVjqQ1TL7Yl6d54AVO/pZqVC5cahTShyglrZrKXJJBszSxdqB6BUwhi+oENE41247+v3
-         zQzzmdHHn+2VLL64HydGqvd0uq4Ic1YpL1+9WEU2Bpllp56JbM27QXhiwCkoPkB3OvLW
-         D6yg==
+        bh=SYPI7OWeVGXSmmHTKBEjUpdac/OQBSSeGCeQqh4Sbw4=;
+        b=Rn+Upm6DPgqh7HWxBUba5bcoL1akUBbB+gMgf1QpmPsww47rA3vLfJVacsmyBtX/7Z
+         rfPsfEN5m0cELG6en9EuZZ5rfONLEMTSiGGTbDgNXE8aAtlVHAnzyhM7JrZq6In2zHJ/
+         0xLasiH3vEQCFsFvxMTHq8aYfqNMOqFWfEaEjYGlwbF+uTRrmbnAN3y+p3dOp0125Xxu
+         RFpJK+sURXm8AAfYlBXizix/1DE6xAnK+XSfpNmGB1GRpeoy+nChBX2JMTZ2/bCI8WKw
+         t4wX/0F3grQhI/oAlcPNTgcysnUm5iNOT5jAyCjG57q4goqm3UNR6zDhdbcGkirneGsm
+         0/nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791956487; x=1792561287;
+        d=1e100.net; s=20260707; t=1791966776; x=1792571576;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/zFJfII781OXM3XVdyaHXmQsNX/Uoncqqxm/Oj8RxVE=;
-        b=snx48y/iH4DX4YfMK2c3aUVrYVLkl4AxdOPelFKh2Fbgl2I0sM6wYJ2EUC9GRP7C28
-         wbvCcmD89bdj96asDcYVZKYag+w29hvJWP+gWG7gLLhPwlCaCbkeYLixWZi8mOGjogUd
-         JD4153BVPRo8b4CbneKFVm2FjXmXiE/mK/SRUK2wf5EdNtsj2loS5hRxOKSEHF6siFGo
-         2e6YrqNwv6Ldp2p+d/WTXQjs/HIHlVyyp19H66aslkhKNbU1G1M/Seagqf8yzEHtKzyn
-         Cq1uzCdAM1/zJjv9keYMbuqbm8TUMBRVH4+k5teg065rbGKnIa/Uuc0bXa38eJyYh3mm
-         3poQ==
-X-Gm-Message-State: AFq9FYJ9PYWudWBSb9BQQQOgJGgjCGIxCSu6YqmISOP94rij19kY3oZB
-	0liCKhoKG09qG8wxXRLfGDM5GUGuTGw9U7ml9ykymUr9mmfEZK72hLgw
-X-Gm-Gg: AYBFou3IjjTC8CWujcjw5tHixI7Zy+O7YpqdlaaoesozwgAfTBoQPOavx9IB6EF4LNO
-	06Rn43PbeuQ+swL1Y7HjI67TJETP5fn08gf4Gqtjkd7l1xyqftdz8+xmJ3aMHMG4c+eeGPwNXzP
-	P0J69WwbuKJQg829S7ZeDJCAPr0JZe5QriIwum4tokKlBZWMpzt1JAryY4vdJyANqT56okJgC/M
-	weddTB5lcNENWv4nd0oiRin0rO9aJnfRs3Vvj78PtYYrFuBGpZYS9Z8aiyjYa1cnCZ0hsGAGf7Q
-	8y2FbIAd+3V4cVYFDk3NAr5sWybS7v65XqfQbeSiXY253zzb0izLOYoIvyuXLcppVEvk2bi1Qkw
-	z2zA1YYh+w5JqbN0XZJR3xfDbwE1mLOBIoQzcUmMFlcPD93Ic1KhteD6+I6JWI3iDEfftr+9ZWl
-	rFA26qIQyVfxw1MHyiMuHVyXLr7RkaGxZvTz15K3dm5Gr822e9ajgwGauWEZKRS5f5vcTNgxC/n
-	uW0tqv9
-X-Received: by 2002:a05:701b:2091:10b0:143:2968:564c with SMTP id a92af1059eb24-16a6043be98mr21192916c88.26.1791956486625;
-        Tue, 13 Oct 2026 22:41:26 -0700 (PDT)
-Received: from Hruday.lan ([2409:4091:903b:c404:eaf9:32de:ddb8:3440])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1699718c547sm42313351c88.3.2026.10.13.22.41.23
+        bh=SYPI7OWeVGXSmmHTKBEjUpdac/OQBSSeGCeQqh4Sbw4=;
+        b=BKY940VaOx4A9to0t6JoOnJ2T10fg83gfTxhFmuQ9VihCMrpi0u5b01VYjdESTxINK
+         gAVklmY2R6nQzRgd0c0zIDPtUMj9fnm/tI1Pou/7ZVQq0G8vyLm+7HuNCMXrRdxv3nSg
+         l+1yGdre41N9WPVOHYy/24sF8xi3GEmCnp4Gm1WlaZPY+RAebkaYTFJXPbRX3QGbyXdF
+         oJ87VCQZicIafvPlkVNC3Orqk5V8AZwllpmJfP26Mx5DUEI1BvQyxNfAAWoOj4dgRfSU
+         K43Lyd5obpfVTiDgGx6d6X4FETAA8d0K3/8wL8XF0tUlR+RdN/fNAj1RdGUNAu7JO7RK
+         o0SA==
+X-Forwarded-Encrypted: i=1; AKwUvBy1biVpgw5Ov3QZ5Mt9YgAA9R3AlcuxzcKJOa2s3UpF/7gTV8vBHukSdc590DycsoxMqsPVzC+m5iCdPx0=@lists.linux.dev
+X-Gm-Message-State: AFq9FYLSQsPaMBdLujIemaVQaHOOLxOckQPDFldegmnym903yAdWOZat
+	y+s8XMyj8Ds9zKkJnoqUt4lP5NWWa6VsyH/DBFjLLtFFa3YTAyg8uAc8
+X-Gm-Gg: AYBFou04IrIm2RbuLRNXG40g0rmLjWtZGAGsuBU2HxuJHkeVfZ2oX6ursmjr+g0S858
+	v/EYO7g69S6XYGEUFvVNnIF505H4mhtD8x6Kk0NTSsbtpIu+uVoGtgwP88MHjKaSWwhqbrj1+zY
+	RVO82Cpm9j5tnxVMz4Vvkf8uCnrIKJllCgL2DtIY89mSMNFJnbnxfJd6DARibw+6MbRwe/+gKrP
+	GNAkwqNtzpNBTiPKntlj9GLsRnYj4u+hmEnCiYam56CLoXaKlIgIuSL7z9Ht1YqrQYzl+dF5jLX
+	Wmz4dsaij2er+e+9avoIzoK8ys9T50FQUvRpG2iAsFs2G0Shz6SfkOEFyAkFDmETms5XNR6njkq
+	5+F3zFlUSGUJcQnDy23qfvp3xe9k+ZiEgLCl/xnMeVhpxJyK9m+0VGH3erdfRjB0/X6N1c8meW4
+	9oCcd36hxVdHDk2o75bWRsbVx4iZo+lZOIhYdObV4yaEsZ+YCQ+uWZAW2PSWDuI/qg1dBhA3c7o
+	Ox/4iVdwg==
+X-Received: by 2002:a17:90a:5184:b0:3ac:17c:6e82 with SMTP id 98e67ed59e1d1-3ac15d46137mr3909722a91.45.1791966775821;
+        Wed, 14 Oct 2026 01:32:55 -0700 (PDT)
+Received: from TheRealOne ([2409:40e1:cc:590c:6073:1121:77d0:14c1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac84dd4907sm61671a91.9.2026.10.14.01.32.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 22:41:26 -0700 (PDT)
-From: Rahul Rao <shreeramrahul94@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com,
-	Rahul Rao <shreeramrahul94@gmail.com>
-Subject: [PATCH] nfc: pn533: fix slab-out-of-bounds read in pn533_recv_frame()
-Date: Wed, 14 Oct 2026 11:10:13 +0530
-Message-ID: <20261014054013.120482-1-shreeramrahul94@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 14 Oct 2026 01:32:55 -0700 (PDT)
+From: Chandradhar Kumar <chandradhar.2003@gmail.com>
+To: David Heidelberg <david@ixit.cz>,
+	Samuel Ortiz <sameo@linux.intel.com>,
+	Michael Thalmeier <michael.thalmeier@hale.at>
+Cc: syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com,
+	Chandradhar Kumar <chandradhar.2003@gmail.com>,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] nfc: pn533: fix slab-out-of-bounds read in pn533_recv_frame()
+Date: Wed, 14 Oct 2026 14:02:36 +0530
+Message-ID: <20261014083239.144506-1-chandradhar.2003@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -74,48 +77,37 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In pn533_recv_frame(), dev->ops->rx_frame_size(skb->data) calculates
-the expected frame length from the frame header, and then
-print_hex_dump_debug() dumps the frame payload.
+pn533_recv_frame() accesses skb->data to check for ACK frames, dump
+the received frame via print_hex_dump_debug(), and validate the frame
+without first verifying that skb->len contains enough bytes for the
+frame header and payload. When a short or truncated USB packet is
+received, this results in a slab-out-of-bounds read in
+hex_dump_to_buffer() or during frame validation.
 
-However, if an incoming USB URB delivers a malformed or truncated packet,
-skb->len may be smaller than the minimum header size or smaller than the
-declared frame length. When inspecting the frame or calling
-print_hex_dump_debug(), this leads to an out-of-bounds read beyond the
-allocated skb buffer.
+Fix this by verifying that skb->len is at least PN533_STD_FRAME_ACK_SIZE
+before checking for an ACK frame, passing skb->len instead of the
+unvalidated rx_frame_size() to print_hex_dump_debug(), and validating
+that skb->len is large enough to hold the frame header and complete
+frame before calling rx_is_frame_valid().
 
-Add sanity checks to verify that:
-1. skb->len is at least dev->ops->rx_header_len before parsing frame sizes.
-2. skb->len is at least frame_size before printing or validating the frame.
-
+Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
 Reported-by: syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com
 Closes: https://syzkaller.appspot.com/bug?extid=93f169a8e7d66864f800
-Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
-Signed-off-by: Rahul Rao <shreeramrahul94@gmail.com>
+Signed-off-by: Chandradhar Kumar <chandradhar.2003@gmail.com>
 ---
- drivers/nfc/pn533/pn533.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/nfc/pn533/pn533.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index b0133e51dce9..6b0005395b95 100644
+index b0133e51dce9..c730a84f1c62 100644
 --- a/drivers/nfc/pn533/pn533.c
 +++ b/drivers/nfc/pn533/pn533.c
-@@ -2178,6 +2178,8 @@ static int pn533_data_exchange_complete(struct pn533 *dev, void *_arg,
-  */
- void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
- {
-+	int frame_size;
-+
- 	if (!dev->cmd)
- 		goto sched_wq;
- 
-@@ -2193,12 +2195,29 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
+@@ -2193,6 +2193,13 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
  		goto sched_wq;
  	}
  
-+	/* Verify skb has enough bytes for the minimum RX header */
-+	if (skb->len < dev->ops->rx_header_len) {
-+		dev_err(dev->dev, "Frame too small (%d bytes)\n", skb->len);
++	if (skb->len < PN533_STD_FRAME_ACK_SIZE) {
++		nfc_err(dev->dev, "Received a too short frame\n");
 +		dev->cmd->status = -EIO;
 +		dev_kfree_skb(skb);
 +		goto sched_wq;
@@ -124,21 +116,21 @@ index b0133e51dce9..6b0005395b95 100644
  	if (pn533_rx_frame_is_ack(skb->data)) {
  		dev_dbg(dev->dev, "%s: Received ACK frame\n", __func__);
  		dev_kfree_skb(skb);
- 		return;
+@@ -2200,9 +2207,12 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
  	}
  
-+	frame_size = dev->ops->rx_frame_size(skb->data);
-+	if (frame_size < 0 || skb->len < frame_size) {
-+		dev_err(dev->dev, "Invalid or truncated frame (len=%d, expected=%d)\n",
-+			skb->len, frame_size);
-+		dev->cmd->status = -EIO;
-+		dev_kfree_skb(skb);
-+		goto sched_wq;
-+	}
-+
  	print_hex_dump_debug("PN533 RX: ", DUMP_PREFIX_NONE, 16, 1, skb->data,
- 			     dev->ops->rx_frame_size(skb->data), false);
+-			     dev->ops->rx_frame_size(skb->data), false);
++			     skb->len, false);
  
+-	if (!dev->ops->rx_is_frame_valid(skb->data, dev)) {
++	if (skb->len < PN533_STD_FRAME_HEADER_LEN + PN533_STD_FRAME_TAIL_LEN ||
++	    skb->len < dev->ops->rx_header_len ||
++	    skb->len < dev->ops->rx_frame_size(skb->data) ||
++	    !dev->ops->rx_is_frame_valid(skb->data, dev)) {
+ 		nfc_err(dev->dev, "Received an invalid frame\n");
+ 		dev->cmd->status = -EIO;
+ 	} else if (!pn533_rx_frame_is_cmd_response(dev, skb->data)) {
 -- 
-2.43.0
+2.56.0
 
