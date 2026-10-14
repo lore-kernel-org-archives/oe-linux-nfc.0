@@ -1,395 +1,270 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93915471D01
-	for <oe-linux-nfc@lists.linux.dev>; Tue, 13 Oct 2026 02:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2C33C3F54;
+	Wed, 14 Oct 2026 02:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791860286; cv=none; b=c/sFDcTGqxKS7BZ70KE3kKnExMmwmV6sj+BI7OU0RYoAYfb897f9uub1M3dpxEKDuVUMyB32rr5cP/cvo85UynJ7NcvU5Q8KsbvUK8uazXT87cJd5IQoD7JZX9QShYKGN/u5oq+CotrKdqgdFpK6BScM0GSMDIaKPggR76acVGI=
+	t=1791946761; cv=none; b=NMq7RoCuQniASR2OEUymactio6Zh+2TvwpUrEBDd20+ODW6v04HkLRXOCs1dy96SzlIxGEE+RfIcTMP5oQAnicWNA+Yqg+DDI5fi0del5Q5ujbXVOquk2eSP31RVTWR7N0GxDa71uNS7n53fVUH2sPhCzTp8VC2udLHVSvsT/SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791860286; c=relaxed/simple;
-	bh=Hmp6kD33CCTxbaHRrfzwTFQCBpL1CL9ksWeMOwmFTb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDQBmyHbXMAPzOWXuZHpZTZwDVeD2dsAFf93zu84niwK7U8SZ3S93TrH8OHmvt5S2DNzIs94D7Qbq3b6lVmTgllx/Yz9TdaRLnKreknRFQwJfkAR528VFtwz60j7apWYoQds0nB+elrtimY7pDgGevSRM60lNwrESePWERhQtbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=octane.security; spf=pass smtp.mailfrom=octane.security; dkim=pass (2048-bit key) header.d=octane.security header.i=@octane.security header.b=GI1JQZZq; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=octane.security
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=octane.security
+	s=arc-20240116; t=1791946761; c=relaxed/simple;
+	bh=QP0kAHnZYMZm9q2NDEtKpKFBAvMXOHavv4R3aBlA060=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KlrlCcizxbeoFj8yt2KQOtPIZL6BjbJaI+AdWlMMwE6vkq+IHFF69Myv9qAaPlEko4jg9GSvGwN2mnPx8kCXfrKE0C35IRLlg9dSCMfFmlFahWx63pV0S94Rum0efcm0yt5pCO1FtgCMe7OZLddZE4P1LfknOaYK0ZnJAcDsVdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkouZ8N3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=octane.security header.i=@octane.security header.b="GI1JQZZq"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-33e6279a1d7so1720399eec.1
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 12 Oct 2026 19:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=octane.security; s=google; t=1791860284; x=1792465084; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qQbi0ubk7/MCTKPm4mHPKxuy2uo+88OVn5fQMncOhr8=;
-        b=GI1JQZZqn5spZugxCKvTyRGjPqJV7KZ5aAi3dvzedZib1AXi3jP60kyAhydPkG9NvA
-         Fv0H/RML4BH3eQvAA5Fie/JRnQjQ1fHXwi2t9vJCz71nBkGWBGehw5ZhC1Cjwm7/LqHt
-         DjNlCUOMDKFpOSAaNI654VKn2n+NEeG9SvVj16FLBZEQnkGI2M0doGL+pAWVkx3TTD5h
-         VH/Up4bAXIviXeV0jUeRX8eBlCQmzPKFK5fRvj6SpzM1baHYZY+YdfJRU4EP6QzUciYn
-         ctx4EJL1jBmJdMLQzamc9tIq+UEFZfYJbjKcfOK9Rvl1ExVP9PzaNu39L5A82Dnrcl9V
-         1pPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791860284; x=1792465084;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qQbi0ubk7/MCTKPm4mHPKxuy2uo+88OVn5fQMncOhr8=;
-        b=awMjEmoWF8zLwHqM31bGYxKYc0Cxewe2UZDU038WvhCxYeoZWFrZPC7PxhuzXftAR0
-         CTjNS5ERlwImJv48gHlZAsxx5sGRfC42aUgxZvfmPjc7m6jX6++rE+9VUMrEYVAXoNkU
-         ATfy+7Kab9yucAbD9qh7GYIy3Mqlo5NU5R6a8CazZKClpXcf3sKddEW0feADG+5Z3xJf
-         6BCiXsv3cO1W/JHxzTzHRpBify3yFJvSPKhkgS7GyES5eGfR3XA+UUVRYfrjVJ1Tab2s
-         GnRg2wYLBfkgQn0YR9n9paEW+8qTXCKWHM+Ko6b7FL13mGhWCsNw+3vLG6oBfX0y1jZ9
-         fa8w==
-X-Forwarded-Encrypted: i=1; AKwUvBxlIUWRu8n5iuyRZqlDKC/QfqgiL70ErLVBOKcOdxWlYkHhGDvlctthSZdzktNTJnRyzVg1JJ5xdPlq5lE=@lists.linux.dev
-X-Gm-Message-State: AFq9FYJJGSM3eGKfSDlXHxF3qjWzWkZQdg4a8aYzF9po8qEhauzsjYqd
-	cQAkSYlxnfY+SgHoIchYFwICZmU3BYIBXfozMcVqoi38G7gt90XdbfJbWBslnzTvnFI=
-X-Gm-Gg: AYBFou0m6M0jiRygqXPGJTZPDSzhdNBXcOEf6hdMZLB2z5cLEhlTVZSm6iCgCoApEyw
-	OnYcfEWwCd4QkgOYpcyaN4I0hq+xmKuno1egZpKCLv3ErZaGBBFsrrAwiVAtjVGx/RxkTGPEsc5
-	wxO67S19IwuTI82q9jp2kp0qP5RtMq/Kx0a2qyBR7zlNcTO5YtF0njojZ93OcN9ssrS3mTIlOgO
-	j1w0VpVPK/4VAVlrHHacZzWDplOIktKydWZApEq4PL5Q7nMWXEh8S1Vm2/+v8snfpDzwCUbIKlV
-	G+3p4sHxaHe49T68FbJYp4GrJMI1mclHTtal4uPRswuC6tW6ComhQyahLr+YdOSyO0XcTR1paan
-	+HS0HCp9mS3w1f3NNHVYnKQc33kYMFKCSMyGgfcjja5DLIFgIgkGhRkIs2xQ8JQj/AEHQ2SPS23
-	gxk8rpPoT8xf4RhO8sRBKrhmAwZfr+iF7rQnWfNvrNh8z86rXHg/APsDYgTvj86BdO3yjle0FDY
-	wZvXxKN9RIGt8W6dChgbHQ2oVxxkwJkqUG4Eayhz2tCGMnGyCPN6kEuBJMS42aZrmPgzT85uVpl
-	sv+T6d88gOQBUg==
-X-Received: by 2002:a05:701b:2910:b0:143:6080:668f with SMTP id a92af1059eb24-16a61789c7cmr15341521c88.7.1791860283446;
-        Mon, 12 Oct 2026 19:58:03 -0700 (PDT)
-Received: from localhost.localdomain ([103.207.175.177])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a1becefdsm34223721c88.7.2026.10.12.19.57.58
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 12 Oct 2026 19:58:02 -0700 (PDT)
-From: Shubham Antil <shubham@octane.security>
-To: netdev@vger.kernel.org
-Cc: david@ixit.cz,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	cuissard@marvell.com,
-	sameo@linux.intel.com,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	gio@octane.security,
-	Shubham Antil <shubham@octane.security>,
-	stable@vger.kernel.org
-Subject: [PATCH net v5 2/2] nfc: nci: uart: quiesce write_work during teardown
-Date: Tue, 13 Oct 2026 08:27:46 +0530
-Message-ID: <20261013025746.41292-3-shubham@octane.security>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261013025746.41292-1-shubham@octane.security>
-References: <20261013025746.41292-1-shubham@octane.security>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkouZ8N3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C926F1F000FF;
+	Wed, 14 Oct 2026 02:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791946759;
+	bh=o5J3qMfu6cuSt5R4zTOTwHH6387Pn2psBV2ewz3WMas=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=EkouZ8N3VC4dn2Df7E0ztWOB9Q6LaUO6IOjze4cjts1QCOFwQ16W79SgtE4Xi0Va9
+	 6K3UdF/GTSljAli0Xu/TLCpNFMCntqUh1j63QQ1HVOXUDsSaOo55odk8GopA7Ibslu
+	 yzDzFy8Ga1R7aVjRzBVxVu6seQWrtCJzoG5JhlqVbXAYZi9HH/eZKFQdSEM+K9R5Gw
+	 HF84tcr12YGPZ+49BNAcOjb4/nvzLl26K9qR+OrK/pTMiGS2zcrPTSQLCbPdGa8Nw6
+	 +Z37r3r1wgvcCPTjFHn6ZBZzLeprJ93M6EOneLvi8ExmkkM51p64bpx2LVN+DfWU+T
+	 qlpq3WEVhqYSw==
+Subject:
+ Re: [PATCH net v5 1/2] nfc: nfcmrvl: publish UART state before registration
+From: netdev-bot+sashiko@kernel.org
+To: shubham@octane.security
+Cc: netdev@vger.kernel.org, david@ixit.cz, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ cuissard@marvell.com, sameo@linux.intel.com, oe-linux-nfc@lists.linux.dev,
+ linux-kernel@vger.kernel.org, gio@octane.security, stable@vger.kernel.org
+Date: Wed, 14 Oct 2026 02:59:18 +0000
+Message-ID: <179194675840.434549.3384038215557625758@kernel.org>
+In-Reply-To: <20261013025746.41292-2-shubham@octane.security>
+References: <20261013025746.41292-2-shubham@octane.security>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-nci_uart_tty_close() releases the active transmit state before ensuring
-write_work has stopped.  A TTY write-wakeup can queue or run that worker
-immediately before close, leaving the worker active while teardown
-proceeds.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Serialize work scheduling and the worker's final state handoff with a
-transmit lock.  Once closing starts, block new scheduling and synchronously
-cancel the worker before freeing its skbs and queue.  Test and clear the
-wakeup bit under the producers' lock.  This prevents a lost wakeup between
-the worker's final test and clearing the sending bit.
+Critical: 0 · High: 0 (3) · Medium: 1 · Low: 0
 
-Keep the transport close callback before the generic stop barrier because
-NCI unregister may transmit a CORE_RESET command.  Require the transport to
-quiesce UART callbacks before releasing its private state; the Marvell UART
-transport does so after NCI unregister and before freeing that state.  Also
-hold the transport module while its open callback runs and apply the same
-worker barrier to the open-error path.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-The teardown ordering issue was found during an LLM-assisted source audit
-and reproduced using a pty-backed NCI UART under KASAN.
+- [Medium] The patch sets the TX-side UART state (nu->drv_data, nu->ndev)
+  before nci_register_device(), but the RX side is still attached late.
 
-Fixes: 9961127d4bce ("NFC: nci: add generic uart support")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM (OpenAI Codex, gpt-5.6-sol)
-Signed-off-by: Shubham Antil <shubham@octane.security>
----
- drivers/nfc/nfcmrvl/main.c    |  7 +++
- drivers/nfc/nfcmrvl/nfcmrvl.h |  1 +
- drivers/nfc/nfcmrvl/uart.c    |  8 ++++
- include/net/nfc/nci_core.h    |  3 ++
- net/nfc/nci/uart.c            | 90 ++++++++++++++++++++++++++++-------
- 5 files changed, 91 insertions(+), 18 deletions(-)
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch
+  leaves it in place: the SPI transport has the same publish-after-…
+- [High] Concern: on the normal teardown paths, nu->drv_data and nu->ndev
+  are never withdrawn.
+- [High] This problem wasn't introduced by this patch, but the USB
+  transport has the same publish-after-registration bug, and it crashes…
 
-diff --git a/drivers/nfc/nfcmrvl/main.c b/drivers/nfc/nfcmrvl/main.c
-index 3d26a54ef51b..45c7d3546b0e 100644
---- a/drivers/nfc/nfcmrvl/main.c
-+++ b/drivers/nfc/nfcmrvl/main.c
-@@ -170,6 +170,8 @@ struct nfcmrvl_private *nfcmrvl_nci_register_dev(enum nfcmrvl_phy phy,
- 	return priv;
- 
- error_fw_dnld_deinit:
-+	if (priv->if_ops->nci_quiesce)
-+		priv->if_ops->nci_quiesce(priv);
- 	nfcmrvl_fw_dnld_deinit(priv);
- 	if (priv->if_ops->nci_unready)
- 		priv->if_ops->nci_unready(priv);
-@@ -186,10 +188,15 @@ void nfcmrvl_nci_unregister_dev(struct nfcmrvl_private *priv)
- 	struct nci_dev *ndev = priv->ndev;
- 
- 	nci_unregister_device(ndev);
-+	if (priv->if_ops->nci_quiesce)
-+		priv->if_ops->nci_quiesce(priv);
-+
- 	if (priv->ndev->nfc_dev->fw_download_in_progress)
- 		nfcmrvl_fw_dnld_abort(priv);
- 
- 	nfcmrvl_fw_dnld_deinit(priv);
-+	if (priv->if_ops->nci_unready)
-+		priv->if_ops->nci_unready(priv);
- 
- 	nci_free_device(ndev);
- 	kfree(priv);
-diff --git a/drivers/nfc/nfcmrvl/nfcmrvl.h b/drivers/nfc/nfcmrvl/nfcmrvl.h
-index 66f8cc06e2d5..3b7483e5aff9 100644
---- a/drivers/nfc/nfcmrvl/nfcmrvl.h
-+++ b/drivers/nfc/nfcmrvl/nfcmrvl.h
-@@ -114,6 +114,7 @@ struct nfcmrvl_if_ops {
- 	int (*nci_send) (struct nfcmrvl_private *priv, struct sk_buff *skb);
- 	void (*nci_ready)(struct nfcmrvl_private *priv);
- 	void (*nci_unready)(struct nfcmrvl_private *priv);
-+	void (*nci_quiesce)(struct nfcmrvl_private *priv);
- 	void (*nci_update_config)(struct nfcmrvl_private *priv,
- 				  const void *param);
- };
-diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
-index d688071f4b26..164896070dfc 100644
---- a/drivers/nfc/nfcmrvl/uart.c
-+++ b/drivers/nfc/nfcmrvl/uart.c
-@@ -61,6 +61,13 @@ static void nfcmrvl_uart_nci_unready(struct nfcmrvl_private *priv)
- 	nu->ndev = NULL;
- }
- 
-+static void nfcmrvl_uart_nci_quiesce(struct nfcmrvl_private *priv)
-+{
-+	struct nci_uart *nu = priv->drv_data;
-+
-+	nci_uart_tx_stop(nu);
-+}
-+
- static void nfcmrvl_uart_nci_update_config(struct nfcmrvl_private *priv,
- 					   const void *param)
- {
-@@ -77,6 +84,7 @@ static const struct nfcmrvl_if_ops uart_ops = {
- 	.nci_send = nfcmrvl_uart_nci_send,
- 	.nci_ready = nfcmrvl_uart_nci_ready,
- 	.nci_unready = nfcmrvl_uart_nci_unready,
-+	.nci_quiesce = nfcmrvl_uart_nci_quiesce,
- 	.nci_update_config = nfcmrvl_uart_nci_update_config
- };
- 
-diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
-index 664d5058e66e..ce0ffe56593a 100644
---- a/include/net/nfc/nci_core.h
-+++ b/include/net/nfc/nci_core.h
-@@ -436,6 +436,7 @@ struct nci_uart;
- 
- struct nci_uart_ops {
- 	int (*open)(struct nci_uart *nci_uart);
-+	/* Quiesce callbacks before releasing transport-private state. */
- 	void (*close)(struct nci_uart *nci_uart);
- 	int (*recv)(struct nci_uart *nci_uart, struct sk_buff *skb);
- 	int (*send)(struct nci_uart *nci_uart, struct sk_buff *skb);
-@@ -452,6 +453,7 @@ struct nci_uart {
- 	/* Dynamic data */
- 	struct nci_dev		*ndev;
- 	spinlock_t		rx_lock;
-+	spinlock_t		tx_lock; /* protects tx_state */
- 	struct work_struct	write_work;
- 	struct tty_struct	*tty;
- 	unsigned long		tx_state;
-@@ -465,5 +467,6 @@ struct nci_uart {
- int nci_uart_register(struct nci_uart *nu);
- void nci_uart_unregister(struct nci_uart *nu);
- void nci_uart_set_config(struct nci_uart *nu, int baudrate, int flow_ctrl);
-+void nci_uart_tx_stop(struct nci_uart *nu);
- 
- #endif /* __NCI_CORE_H */
-diff --git a/net/nfc/nci/uart.c b/net/nfc/nci/uart.c
-index aa20e8603f32..8e54eb1c8712 100644
---- a/net/nfc/nci/uart.c
-+++ b/net/nfc/nci/uart.c
-@@ -33,6 +33,7 @@
- /* TX states  */
- #define NCI_UART_SENDING	1
- #define NCI_UART_TX_WAKEUP	2
-+#define NCI_UART_CLOSING	3
- 
- static struct nci_uart *nci_uart_drivers[NCI_UART_DRIVER_MAX];
- 
-@@ -58,24 +59,59 @@ static inline int nci_uart_queue_empty(struct nci_uart *nu)
- 
- static int nci_uart_tx_wakeup(struct nci_uart *nu)
- {
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nu->tx_lock, flags);
-+	if (test_bit(NCI_UART_CLOSING, &nu->tx_state))
-+		goto unlock;
-+
- 	if (test_and_set_bit(NCI_UART_SENDING, &nu->tx_state)) {
- 		set_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
--		return 0;
-+		goto unlock;
- 	}
- 
- 	schedule_work(&nu->write_work);
- 
-+unlock:
-+	spin_unlock_irqrestore(&nu->tx_lock, flags);
-+
- 	return 0;
- }
- 
-+void nci_uart_tx_stop(struct nci_uart *nu)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nu->tx_lock, flags);
-+	set_bit(NCI_UART_CLOSING, &nu->tx_state);
-+	spin_unlock_irqrestore(&nu->tx_lock, flags);
-+
-+	cancel_work_sync(&nu->write_work);
-+
-+	spin_lock_irqsave(&nu->tx_lock, flags);
-+	clear_bit(NCI_UART_SENDING, &nu->tx_state);
-+	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
-+	spin_unlock_irqrestore(&nu->tx_lock, flags);
-+}
-+EXPORT_SYMBOL_GPL(nci_uart_tx_stop);
-+
- static void nci_uart_write_work(struct work_struct *work)
- {
- 	struct nci_uart *nu = container_of(work, struct nci_uart, write_work);
- 	struct tty_struct *tty = nu->tty;
- 	struct sk_buff *skb;
-+	unsigned long flags;
- 
- restart:
-+	spin_lock_irqsave(&nu->tx_lock, flags);
-+	if (test_bit(NCI_UART_CLOSING, &nu->tx_state)) {
-+		clear_bit(NCI_UART_SENDING, &nu->tx_state);
-+		clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
-+		spin_unlock_irqrestore(&nu->tx_lock, flags);
-+		return;
-+	}
- 	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
-+	spin_unlock_irqrestore(&nu->tx_lock, flags);
- 
- 	if (nu->ops.tx_start)
- 		nu->ops.tx_start(nu);
-@@ -93,48 +129,65 @@ static void nci_uart_write_work(struct work_struct *work)
- 		kfree_skb(skb);
- 	}
- 
--	if (test_bit(NCI_UART_TX_WAKEUP, &nu->tx_state))
--		goto restart;
--
- 	if (nu->ops.tx_done && nci_uart_queue_empty(nu))
- 		nu->ops.tx_done(nu);
- 
-+	spin_lock_irqsave(&nu->tx_lock, flags);
-+	if (!test_bit(NCI_UART_CLOSING, &nu->tx_state) &&
-+	    test_and_clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state)) {
-+		spin_unlock_irqrestore(&nu->tx_lock, flags);
-+		goto restart;
-+	}
- 	clear_bit(NCI_UART_SENDING, &nu->tx_state);
-+	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
-+	spin_unlock_irqrestore(&nu->tx_lock, flags);
- }
- 
- static int nci_uart_set_driver(struct tty_struct *tty, unsigned int driver)
- {
-+	struct nci_uart *template;
- 	struct nci_uart *nu = NULL;
- 	int ret;
- 
- 	if (driver >= NCI_UART_DRIVER_MAX)
- 		return -EINVAL;
- 
--	if (!nci_uart_drivers[driver])
-+	template = nci_uart_drivers[driver];
-+	if (!template)
-+		return -ENOENT;
-+
-+	if (!try_module_get(template->owner))
- 		return -ENOENT;
- 
- 	nu = kzalloc_obj(*nu);
--	if (!nu)
-+	if (!nu) {
-+		module_put(template->owner);
- 		return -ENOMEM;
-+	}
- 
--	memcpy(nu, nci_uart_drivers[driver], sizeof(struct nci_uart));
-+	memcpy(nu, template, sizeof(struct nci_uart));
- 	nu->tty = tty;
- 	skb_queue_head_init(&nu->tx_q);
- 	INIT_WORK(&nu->write_work, nci_uart_write_work);
-+	spin_lock_init(&nu->tx_lock);
- 	spin_lock_init(&nu->rx_lock);
- 
- 	ret = nu->ops.open(nu);
--	if (ret) {
--		kfree(nu);
--		return ret;
--	} else if (!try_module_get(nu->owner)) {
--		nu->ops.close(nu);
--		kfree(nu);
--		return -ENOENT;
--	}
-+	if (ret)
-+		goto err_stop;
-+
- 	tty->disc_data = nu;
- 
- 	return 0;
-+
-+err_stop:
-+	nci_uart_tx_stop(nu);
-+	kfree_skb(nu->tx_skb);
-+	kfree_skb(nu->rx_skb);
-+	skb_queue_purge(&nu->tx_q);
-+	module_put(nu->owner);
-+	kfree(nu);
-+	return ret;
- }
- 
- /* ------ LDISC part ------ */
-@@ -180,17 +233,18 @@ static void nci_uart_tty_close(struct tty_struct *tty)
- 	if (!nu)
- 		return;
- 
-+	/* The transport quiesces callbacks before releasing private state. */
-+	nu->ops.close(nu);
-+	nci_uart_tx_stop(nu);
-+
- 	kfree_skb(nu->tx_skb);
- 	kfree_skb(nu->rx_skb);
- 
- 	skb_queue_purge(&nu->tx_q);
- 
--	nu->ops.close(nu);
- 	nu->tty = NULL;
- 	module_put(nu->owner);
- 
--	cancel_work_sync(&nu->write_work);
--
- 	kfree(nu);
- }
- 
+--
+
+nfc: nfcmrvl: publish UART state before registration
+
+This commit adds nci_ready() and nci_unready() callbacks to
+nfcmrvl_if_ops. nfcmrvl_nci_register_dev() calls nci_ready() before
+nci_register_device(), so the UART transport now sets nu->drv_data,
+nu->ndev and priv->support_fw_dnld before the NCI device is exposed. The
+same function calls nci_unready() if registration fails, and it now calls
+nfcmrvl_chip_halt() before registration.
+
+> diff --git a/drivers/nfc/nfcmrvl/main.c b/drivers/nfc/nfcmrvl/main.c
+> index 6efa832191172..3d26a54ef51b4 100644
+> --- a/drivers/nfc/nfcmrvl/main.c
+> +++ b/drivers/nfc/nfcmrvl/main.c
+> @@ -154,20 +154,25 @@ struct nfcmrvl_private *nfcmrvl_nci_register_dev(enum nfcmrvl_phy phy,
+>  
+>  	nci_set_drvdata(priv->ndev, priv);
+>  
+> +	/* Ensure that controller is powered off before exposing the device. */
+> +	nfcmrvl_chip_halt(priv);
+> +
+> +	if (priv->if_ops->nci_ready)
+> +		priv->if_ops->nci_ready(priv);
+> +
+>  	rc = nci_register_device(priv->ndev);
+
+[Severity: High]
+This is a pre-existing issue and this patch didn't introduce it. The SPI
+transport seems to have the same publish-after-registration problem. spi_ops
+in drivers/nfc/nfcmrvl/spi.c has no .nci_ready, and nfcmrvl_spi_probe()
+still sets its state only after registration returns:
+
+drivers/nfc/nfcmrvl/spi.c:nfcmrvl_spi_probe() {
+    ...
+	drv_data->priv = nfcmrvl_nci_register_dev(NFCMRVL_PHY_SPI,
+						  drv_data, &spi_ops,
+						  &drv_data->spi->dev,
+						  pdata);
+    ...
+	drv_data->priv->support_fw_dnld = true;
+
+	drv_data->nci_spi = nci_spi_allocate_spi(drv_data->spi, 0, 10,
+						 drv_data->priv->ndev);
+    ...
+	init_completion(&drv_data->handshake_completion);
+}
+
+nfc_register_device() calls device_add() before it takes device_lock(). If
+an NFC_CMD_DEV_UP arrives in that window, can this path reach
+nci_spi_send() with drv_data->nci_spi still NULL?
+
+nfc_dev_up()->nci_dev_up()->nci_open_device()->CORE_RESET->nci_cmd_work()
+  ->nfcmrvl_nci_send()->nfcmrvl_spi_nci_send()
+    ->nci_spi_send(drv_data->nci_spi == NULL, ...)
+      hdr[1] = nspi->acknowledge_mode;
+
+The SPI IRQ is also requested before registration. If SPI_INT falls before
+probe finishes, nfcmrvl_spi_int_irq_thread_fn() would call
+nci_spi_read(drv_data->nci_spi) and nfcmrvl_nci_recv_frame(drv_data->priv,
+skb) while both pointers are still NULL.
+
+The I2C transport also sets support_fw_dnld only after registration, in
+nfcmrvl_i2c_probe().
+
+Should SPI implement the new nci_ready hook as well?
+
+[Severity: High]
+This is also a pre-existing issue, not one introduced by this patch. The
+USB transport looks like it has the same window, and there the crash would
+happen in URB completion context. usb_ops has no .nci_ready, and
+nfcmrvl_probe() in drivers/nfc/nfcmrvl/usb.c sets drv_data->priv only after
+registration:
+
+	priv = nfcmrvl_nci_register_dev(NFCMRVL_PHY_USB, drv_data, &usb_ops,
+					&intf->dev, &config);
+	if (IS_ERR(priv))
+		return PTR_ERR(priv);
+
+	drv_data->priv = priv;
+
+An early DEV_UP goes through nfcmrvl_usb_nci_open(), which submits the
+bulk-IN URBs and sets NFCMRVL_USB_BULK_RUNNING. nfcmrvl_bulk_complete()
+guards only on this check:
+
+	if (!test_bit(NFCMRVL_NCI_RUNNING, &drv_data->flags))
+		return;
+
+NFCMRVL_NCI_RUNNING and NFCMRVL_USB_BULK_RUNNING are both bit 1, so the
+guard passes. The handler then does:
+
+		skb = nci_skb_alloc(drv_data->priv->ndev, urb->actual_length,
+				    GFP_ATOMIC);
+
+When the controller answers the CORE_RESET in that window, does this
+dereference a NULL drv_data->priv?
+
+>  	if (rc) {
+>  		nfc_err(dev, "nci_register_device failed %d\n", rc);
+>  		goto error_fw_dnld_deinit;
+>  	}
+
+[ ... ]
+
+> diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
+> index 9aedd168759c7..d688071f4b26d 100644
+> --- a/drivers/nfc/nfcmrvl/uart.c
+> +++ b/drivers/nfc/nfcmrvl/uart.c
+> @@ -44,6 +44,23 @@ static int nfcmrvl_uart_nci_send(struct nfcmrvl_private *priv,
+>  	return nu->ops.send(nu, skb);
+>  }
+>  
+> +static void nfcmrvl_uart_nci_ready(struct nfcmrvl_private *priv)
+> +{
+> +	struct nci_uart *nu = priv->drv_data;
+> +
+> +	priv->support_fw_dnld = true;
+> +	nu->drv_data = priv;
+> +	nu->ndev = priv->ndev;
+> +}
+
+[Severity: Medium]
+This sets the TX-side state before registration. Is the RX side still
+attached too late?
+
+nci_uart_set_driver() in net/nfc/nci/uart.c sets tty->disc_data only after
+nu->ops.open() returns, and open() is the call that exposes the NCI device:
+
+	ret = nu->ops.open(nu);
+	...
+	tty->disc_data = nu;
+
+Until then, nci_uart_tty_receive() drops all incoming data:
+
+	if (!nu || tty != nu->tty)
+		return;
+
+nci_uart_tty_wakeup() also returns early in that window.
+
+nfc_dev_up() holds device_lock() across the whole nci_dev_up() reset
+request. Meanwhile, the registering task waits on device_lock() in
+nfc_register_device(), after device_add(). In the early DEV_UP case this
+patch targets, the CORE_RESET goes out, but the response seems to be lost.
+open() cannot return and set disc_data until the reset request times out.
+
+Would the early DEV_UP then fail with a timeout instead of crashing, with
+the NCIUARTSETDRIVER ioctl stalled for that time? Does tty->disc_data also
+need to be set before the device is exposed?
+
+> +
+> +static void nfcmrvl_uart_nci_unready(struct nfcmrvl_private *priv)
+> +{
+> +	struct nci_uart *nu = priv->drv_data;
+> +
+> +	nu->drv_data = NULL;
+> +	nu->ndev = NULL;
+> +}
+
+[Severity: High]
+This is a pre-existing issue, not one this patch introduced, and the next
+patch in this series ("nfc: nci: uart: quiesce write_work during teardown")
+appears to fix it. The issue: nu->drv_data and nu->ndev are cleared only on
+the registration failure path, never on normal teardown.
+
+In nci_uart_tty_close(), nu->ops.close() runs before write_work is
+cancelled:
+
+	nu->ops.close(nu);
+	nu->tty = NULL;
+	module_put(nu->owner);
+
+	cancel_work_sync(&nu->write_work);
+
+nu->ops.close() reaches nfcmrvl_nci_unregister_dev(), which frees the
+nci_dev and priv without quiescing UART TX. The try_module_get() failure
+path in nci_uart_set_driver() calls nu->ops.close() and kfree(nu) without
+cancelling write_work at all.
+
+Say write_work is pending or running, for example because
+nci_unregister_device()->nci_close_device() sent a CORE_RESET. Could
+nfcmrvl_nci_uart_tx_start() or nfcmrvl_nci_uart_tx_done() then use the
+freed priv, ndev or nu?
+
+The later patch addresses this. It adds an nci_quiesce hook that calls
+nci_uart_tx_stop() and nci_unready() in nfcmrvl_nci_unregister_dev() before
+kfree(priv). It also adds a CLOSING check in nci_uart_tx_wakeup(). Finally,
+it moves nci_uart_tx_stop() earlier in nci_uart_tty_close() and adds it to
+the open error path in nci_uart_set_driver().
+
+> +
+>  static void nfcmrvl_uart_nci_update_config(struct nfcmrvl_private *priv,
+>  					   const void *param)
+>  {
+
+[ ... ]
+
 -- 
-2.43.0
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261013025746.41292-1-shubham%40octane.security
