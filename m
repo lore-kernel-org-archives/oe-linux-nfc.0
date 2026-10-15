@@ -1,74 +1,75 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A633AD51C
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 08:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834B1361951
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 15 Oct 2026 03:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791966779; cv=none; b=c2AW4TNJq93a/4DOzPwNTN9C5xFwyAudjfJf6VICafpBO4GeXnSjd7BRlaW1uyaKQkVUADK2StDZLyLZVJzVm+9ntBC+lkQh0fZRksU1HUfF9jZlBQYgLXvfq+ejtuH9J6N9XzDnIFIWfq05nW3u5GTZ8UdRff0sBt92sqAiJHE=
+	t=1792034357; cv=none; b=LZ80H/Etj2k65/PWnKIQwmoASPv7zLzHM6FAGuJwP1unhmgAqFrOb8lhbN4fwL+JxE/G2zX3Y2E9n2mxMvb8gaRyAjgoIux7x+fmn9Ff/9FlzmvJdAGHN5eyrM5eAB0VEtSM8980z9/jXxroFu9uFt8OfXUDqFa3Q0VCiLGLQyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791966779; c=relaxed/simple;
-	bh=QXfv7oHLhUhY9C5cnazY56Fw9rjVwnTel2t+VYCmWpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e6q+RTSiaYAoiee/x97sbfhP+Y0qIVEXeyzRhobqCDe6x91NQSaJrPDKzHcGgV+nTP0IxGTJI1pMREKD57fm2HRwKjZafa2rWzen9RKwaPmgrhEeZN7jmWwDebcCTzWBmGIRySpsPzuQFkYI++OInkA/xQxju/tw/oeCTtvOFc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rn+Upm6D; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1792034357; c=relaxed/simple;
+	bh=7DkAMSdqs432b5pKGZ5+z0IBkk9S52bp6CXXe3fg5J8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sHrAmiXkNq/5fS52O32OaRYV4ZWgR8+AyUe6DP3Z4gFPckSIdt2j6ASCLz0RakENU7Mwg7jecTet3IRiwJSUuu/RAO9tYLyotdREb4Je2Hr4Lfl6tUhgAmLMIZbHL8yBnfEO0YHM5xGRUaHW10as1NVfsoPxzL306aYYqoD2AUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZvPWs17; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rn+Upm6D"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ab98332238so2090714a91.3
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 01:32:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZvPWs17"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93e7ad9f78dso572709185a.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 14 Oct 2026 20:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791966776; x=1792571576; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SYPI7OWeVGXSmmHTKBEjUpdac/OQBSSeGCeQqh4Sbw4=;
-        b=Rn+Upm6DPgqh7HWxBUba5bcoL1akUBbB+gMgf1QpmPsww47rA3vLfJVacsmyBtX/7Z
-         rfPsfEN5m0cELG6en9EuZZ5rfONLEMTSiGGTbDgNXE8aAtlVHAnzyhM7JrZq6In2zHJ/
-         0xLasiH3vEQCFsFvxMTHq8aYfqNMOqFWfEaEjYGlwbF+uTRrmbnAN3y+p3dOp0125Xxu
-         RFpJK+sURXm8AAfYlBXizix/1DE6xAnK+XSfpNmGB1GRpeoy+nChBX2JMTZ2/bCI8WKw
-         t4wX/0F3grQhI/oAlcPNTgcysnUm5iNOT5jAyCjG57q4goqm3UNR6zDhdbcGkirneGsm
-         0/nw==
+        d=gmail.com; s=20251104; t=1792034354; x=1792639154; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fBJxQj6NIsMthKy4n+dk5f3Do42mZLL4sgV4e8c1TBM=;
+        b=dZvPWs17Tfi18b9eYdIt+rfJ1DLWRfNAHbtwdv7d7erm8/YdJY1/lauLOu1Nj8IhBC
+         euK2re/dicoSDxEQbF+JWIkv5HS4whM7s0VUH2uzpwM7kfC9us+JhyRFmkqDCcA1ANbS
+         iopjPxtCXGsDmaQDlJBhJ35iJoZZ9relKHOd+cJw629si92bQtX90fNVfM1xWqdEsBqT
+         F6eY8sppvK6VBY8baXSqGVFO3/M9jGlcOIPsVd82mc1pWUt4QJbRJZeLf8VzUVbW+aAn
+         h+UqYS8F1+3HyjfeD31gK9EBOzugaia0T4tODOKVZ17NhMFNEJnztYf+ebC4nY27lXDk
+         7H/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791966776; x=1792571576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SYPI7OWeVGXSmmHTKBEjUpdac/OQBSSeGCeQqh4Sbw4=;
-        b=BKY940VaOx4A9to0t6JoOnJ2T10fg83gfTxhFmuQ9VihCMrpi0u5b01VYjdESTxINK
-         gAVklmY2R6nQzRgd0c0zIDPtUMj9fnm/tI1Pou/7ZVQq0G8vyLm+7HuNCMXrRdxv3nSg
-         l+1yGdre41N9WPVOHYy/24sF8xi3GEmCnp4Gm1WlaZPY+RAebkaYTFJXPbRX3QGbyXdF
-         oJ87VCQZicIafvPlkVNC3Orqk5V8AZwllpmJfP26Mx5DUEI1BvQyxNfAAWoOj4dgRfSU
-         K43Lyd5obpfVTiDgGx6d6X4FETAA8d0K3/8wL8XF0tUlR+RdN/fNAj1RdGUNAu7JO7RK
-         o0SA==
-X-Forwarded-Encrypted: i=1; AKwUvBy1biVpgw5Ov3QZ5Mt9YgAA9R3AlcuxzcKJOa2s3UpF/7gTV8vBHukSdc590DycsoxMqsPVzC+m5iCdPx0=@lists.linux.dev
-X-Gm-Message-State: AFq9FYLSQsPaMBdLujIemaVQaHOOLxOckQPDFldegmnym903yAdWOZat
-	y+s8XMyj8Ds9zKkJnoqUt4lP5NWWa6VsyH/DBFjLLtFFa3YTAyg8uAc8
-X-Gm-Gg: AYBFou04IrIm2RbuLRNXG40g0rmLjWtZGAGsuBU2HxuJHkeVfZ2oX6ursmjr+g0S858
-	v/EYO7g69S6XYGEUFvVNnIF505H4mhtD8x6Kk0NTSsbtpIu+uVoGtgwP88MHjKaSWwhqbrj1+zY
-	RVO82Cpm9j5tnxVMz4Vvkf8uCnrIKJllCgL2DtIY89mSMNFJnbnxfJd6DARibw+6MbRwe/+gKrP
-	GNAkwqNtzpNBTiPKntlj9GLsRnYj4u+hmEnCiYam56CLoXaKlIgIuSL7z9Ht1YqrQYzl+dF5jLX
-	Wmz4dsaij2er+e+9avoIzoK8ys9T50FQUvRpG2iAsFs2G0Shz6SfkOEFyAkFDmETms5XNR6njkq
-	5+F3zFlUSGUJcQnDy23qfvp3xe9k+ZiEgLCl/xnMeVhpxJyK9m+0VGH3erdfRjB0/X6N1c8meW4
-	9oCcd36hxVdHDk2o75bWRsbVx4iZo+lZOIhYdObV4yaEsZ+YCQ+uWZAW2PSWDuI/qg1dBhA3c7o
-	Ox/4iVdwg==
-X-Received: by 2002:a17:90a:5184:b0:3ac:17c:6e82 with SMTP id 98e67ed59e1d1-3ac15d46137mr3909722a91.45.1791966775821;
-        Wed, 14 Oct 2026 01:32:55 -0700 (PDT)
-Received: from TheRealOne ([2409:40e1:cc:590c:6073:1121:77d0:14c1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac84dd4907sm61671a91.9.2026.10.14.01.32.51
+        d=1e100.net; s=20260707; t=1792034354; x=1792639154;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fBJxQj6NIsMthKy4n+dk5f3Do42mZLL4sgV4e8c1TBM=;
+        b=qXyjbACgDuuXlXnO9+uVPungBCV44d5mszaFU3nj1dmwAQjAIwMdOooNfqCZ2B5y7l
+         nciwixkUmV3YK0NaIvfjm7/5M2sAhMpj7nitEq7lgEx641G7UZLxo5/Jf63sZm126ZLy
+         PmvLRhtf8Ie0KNI3F4cjfyRPXRnvg9weeyvNycDlfVdE18XL5XCMWsyIZQINqH/fVFyn
+         LSJumb+JFu4dZQYkgqIM1KMC4k+HWybQP6GlsJOfmkPtQTLW0hWzltJD/HUJVgxdLy4x
+         ps1RRqpfSS6HIRX76mU6PgQ55Xokhh4WgoOFqnmUE+nDKUvQtmQOkPWDF2IQ57e33xjS
+         fz5g==
+X-Gm-Message-State: AFq9FYLcg1HasDmFowcg+7DXffCcjvgzEMDS2u+zxEuW+5fwcdr8SQCt
+	PcI7+OfHAKKgMOUQt+AT49vHbc47lVFTpgTtmZQ2/0WfqC1T+PSGIb0=
+X-Gm-Gg: AYBFou1VTEz7jD7wMkaXbfd8c7wP5HSEWLaXAcW6WyOzO0NWGmHEr8xY6ope5Z+aTI4
+	fi/moFRPPNlyHdcOOGCvOLu+fSz6vkWrHeEChQT/pm4CLTGCHiLZc8rzJ8LD8czHyt4YyGyN1xQ
+	snP8B7z+BVrHhXgwrojNR+4BoJ9LKGc8iS7V2WKMZy9AWWbqQRcpGKXeMt2aYOZiOaA+icloP9g
+	dxS/tGXBNGGM8DTyy7cowBjW+PW0Iyp5SPzaMYMeqtX9VM53GRZgAMpbV0twQJFam1K2TxAwjRx
+	uMOdaOjCxDH30Lpl8lN4F1H3D81A5Fh30HGXmaUbF37Z11xVfqUh8mc0kmbVI74z98AQT5IFPFz
+	BUficQVUY2Q+rX18e5NT/PZRl2jLmiQML2F85I8hSOXhu4jS4MTPrZpNTeI0HqJ7ED6p+Eo68Q4
+	bT8x62PuCA5NyTVllce9zxKAhKFhMQKJ3jUM0F7AUAP6TdYcGvkcFwVZm6b+H+MSVe8HfUh3JPU
+	zgW8ffI3Kbv3AfEPNU7eUpmjLkFLfRhWfUtxn146P+Bze6d3mllrbVY7fs0YJ9SkIKazDWON2p1
+	fdwXyxt3Qys+QZVzcJd2FI+V1ewi
+X-Received: by 2002:a05:620a:1a20:b0:93c:e83:6ba4 with SMTP id af79cd13be357-93ebd20e0b5mr2836858985a.25.1792034354184;
+        Wed, 14 Oct 2026 20:19:14 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93ef50095a5sm659924785a.12.2026.10.14.20.19.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 01:32:55 -0700 (PDT)
-From: Chandradhar Kumar <chandradhar.2003@gmail.com>
-To: David Heidelberg <david@ixit.cz>,
+        Wed, 14 Oct 2026 20:19:13 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>,
 	Samuel Ortiz <sameo@linux.intel.com>,
-	Michael Thalmeier <michael.thalmeier@hale.at>
-Cc: syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com,
-	Chandradhar Kumar <chandradhar.2003@gmail.com>,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net] nfc: pn533: fix slab-out-of-bounds read in pn533_recv_frame()
-Date: Wed, 14 Oct 2026 14:02:36 +0530
-Message-ID: <20261014083239.144506-1-chandradhar.2003@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	Eric Lapuyade <eric.lapuyade@linux.intel.com>
+Subject: [PATCH] nfc: pn544: close firmware requests and IRQ before teardown
+Date: Wed, 14 Oct 2026 23:19:11 -0400
+Message-ID: <20261015031911.2746479-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -77,60 +78,123 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pn533_recv_frame() accesses skb->data to check for ACK frames, dump
-the received frame via print_hex_dump_debug(), and validate the frame
-without first verifying that skb->len contains enough bytes for the
-frame header and payload. When a short or truncated USB packet is
-received, this results in a slab-out-of-bounds read in
-hex_dump_to_buffer() or during frame validation.
+The I2C interrupt can queue fw_work after remove has cancelled it, or
+pass a received frame to the HCI device while that device is being freed.
+Releasing the managed IRQ only after remove returns leaves both paths
+active during teardown.
 
-Fix this by verifying that skb->len is at least PN533_STD_FRAME_ACK_SIZE
-before checking for an ACK frame, passing skb->len instead of the
-unvalidated rx_frame_size() to print_hex_dump_debug(), and validating
-that skb->len is large enough to hold the frame header and complete
-frame before calling rx_is_frame_valid().
+Serialize firmware request admission with a driver-local mutex. Close the
+request gate before joining the IRQ and draining firmware work, so a late
+request cannot change the firmware state or report success after the
+worker has been disabled. Do not hold the mutex across either join.
 
-Fixes: 9815c7cf22da ("NFC: pn533: Separate physical layer from the core implementation")
-Reported-by: syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=93f169a8e7d66864f800
-Signed-off-by: Chandradhar Kumar <chandradhar.2003@gmail.com>
+Keep the gate closed until the HCI context is initialized and the IRQ is
+enabled. NFC registration publishes the device before pn544_hci_probe()
+assigns the PHY's HCI pointer, so an earlier firmware request must be
+rejected without modifying the firmware state.
+
+Request the IRQ with IRQF_NO_AUTOEN and enable it after HCI setup. Release
+and synchronize it before disabling firmware work. Complete an aborted
+download while the HCI device is still alive, then remove that device.
+
+This issue was identified as part of our ongoing research while
+reviewing kernel code.
+
+Fixes: 06c660340f1e ("NFC: pn544: i2c: Add firmware download implementation for pn544")
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- drivers/nfc/pn533/pn533.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Compile-tested with GCC 15.2.0, W=1 (x86_64). No runtime testing.
 
-diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-index b0133e51dce9..c730a84f1c62 100644
---- a/drivers/nfc/pn533/pn533.c
-+++ b/drivers/nfc/pn533/pn533.c
-@@ -2193,6 +2193,13 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
- 		goto sched_wq;
- 	}
+ drivers/nfc/pn544/i2c.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nfc/pn544/i2c.c b/drivers/nfc/pn544/i2c.c
+index 7fde3aefae70..057ef481579b 100644
+--- a/drivers/nfc/pn544/i2c.c
++++ b/drivers/nfc/pn544/i2c.c
+@@ -9,6 +9,7 @@
  
-+	if (skb->len < PN533_STD_FRAME_ACK_SIZE) {
-+		nfc_err(dev->dev, "Received a too short frame\n");
-+		dev->cmd->status = -EIO;
-+		dev_kfree_skb(skb);
-+		goto sched_wq;
+ #include <linux/crc-ccitt.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/i2c.h>
+ #include <linux/acpi.h>
+ #include <linux/interrupt.h>
+@@ -153,6 +154,9 @@ struct pn544_i2c_phy {
+ 
+ 	u8 hw_variant;
+ 
++	/* Serializes firmware request admission with probe and removal. */
++	struct mutex fw_download_lock;
++	bool fw_download_enabled;
+ 	struct work_struct fw_work;
+ 	int fw_work_state;
+ 	char firmware_name[NFC_FIRMWARE_NAME_MAXSIZE + 1];
+@@ -522,6 +526,12 @@ static int pn544_hci_i2c_fw_download(void *phy_id, const char *firmware_name,
+ {
+ 	struct pn544_i2c_phy *phy = phy_id;
+ 
++	mutex_lock(&phy->fw_download_lock);
++	if (!phy->fw_download_enabled) {
++		mutex_unlock(&phy->fw_download_lock);
++		return -ENODEV;
 +	}
 +
- 	if (pn533_rx_frame_is_ack(skb->data)) {
- 		dev_dbg(dev->dev, "%s: Received ACK frame\n", __func__);
- 		dev_kfree_skb(skb);
-@@ -2200,9 +2207,12 @@ void pn533_recv_frame(struct pn533 *dev, struct sk_buff *skb, int status)
- 	}
+ 	pr_info("Starting Firmware Download (%s)\n", firmware_name);
  
- 	print_hex_dump_debug("PN533 RX: ", DUMP_PREFIX_NONE, 16, 1, skb->data,
--			     dev->ops->rx_frame_size(skb->data), false);
-+			     skb->len, false);
+ 	strscpy(phy->firmware_name, firmware_name);
+@@ -530,6 +540,7 @@ static int pn544_hci_i2c_fw_download(void *phy_id, const char *firmware_name,
+ 	phy->fw_work_state = FW_WORK_STATE_START;
  
--	if (!dev->ops->rx_is_frame_valid(skb->data, dev)) {
-+	if (skb->len < PN533_STD_FRAME_HEADER_LEN + PN533_STD_FRAME_TAIL_LEN ||
-+	    skb->len < dev->ops->rx_header_len ||
-+	    skb->len < dev->ops->rx_frame_size(skb->data) ||
-+	    !dev->ops->rx_is_frame_valid(skb->data, dev)) {
- 		nfc_err(dev->dev, "Received an invalid frame\n");
- 		dev->cmd->status = -EIO;
- 	} else if (!pn533_rx_frame_is_cmd_response(dev, skb->data)) {
--- 
-2.56.0
-
+ 	schedule_work(&phy->fw_work);
++	mutex_unlock(&phy->fw_download_lock);
+ 
+ 	return 0;
+ }
+@@ -878,6 +889,7 @@ static int pn544_hci_i2c_probe(struct i2c_client *client)
+ 	if (!phy)
+ 		return -ENOMEM;
+ 
++	mutex_init(&phy->fw_download_lock);
+ 	INIT_WORK(&phy->fw_work, pn544_hci_i2c_fw_work);
+ 	phy->fw_work_state = FW_WORK_STATE_IDLE;
+ 
+@@ -906,7 +918,8 @@ static int pn544_hci_i2c_probe(struct i2c_client *client)
+ 
+ 	r = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+ 				      pn544_hci_i2c_irq_thread_fn,
+-				      IRQF_TRIGGER_RISING | IRQF_ONESHOT,
++				      IRQF_TRIGGER_RISING | IRQF_ONESHOT |
++				      IRQF_NO_AUTOEN,
+ 				      PN544_HCI_I2C_DRIVER_NAME, phy);
+ 	if (r < 0) {
+ 		nfc_err(&client->dev, "Unable to register IRQ handler\n");
+@@ -920,6 +933,11 @@ static int pn544_hci_i2c_probe(struct i2c_client *client)
+ 	if (r < 0)
+ 		return r;
+ 
++	enable_irq(client->irq);
++	mutex_lock(&phy->fw_download_lock);
++	phy->fw_download_enabled = true;
++	mutex_unlock(&phy->fw_download_lock);
++
+ 	return 0;
+ }
+ 
+@@ -927,7 +945,12 @@ static void pn544_hci_i2c_remove(struct i2c_client *client)
+ {
+ 	struct pn544_i2c_phy *phy = i2c_get_clientdata(client);
+ 
+-	cancel_work_sync(&phy->fw_work);
++	mutex_lock(&phy->fw_download_lock);
++	phy->fw_download_enabled = false;
++	mutex_unlock(&phy->fw_download_lock);
++
++	devm_free_irq(&client->dev, client->irq, phy);
++	disable_work_sync(&phy->fw_work);
+ 	if (phy->fw_work_state != FW_WORK_STATE_IDLE)
+ 		pn544_hci_i2c_fw_work_complete(phy, -ENODEV);
+ 
