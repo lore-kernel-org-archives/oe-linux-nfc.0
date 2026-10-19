@@ -1,203 +1,417 @@
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ACF3B27D5
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 19 Oct 2026 07:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67845B9219;
+	Mon, 19 Oct 2026 14:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792394497; cv=none; b=akrJc4U4yDS/BOoUu3nF4OKWa5yhJR3TRUJHUKtws9hfKz/RprGy4UL9zGHL+g9rnVc1dgo7BDBys1JSKZRjtk+b4w4zZbb1W+22dyvw3zQkg7FPWBxwJZ2tBZv+zfZM1NpITn7dR9dnsXRmivjh23izv92RWe68PeWoQCx1vq0=
+	t=1792418467; cv=none; b=kkln8Ke5wXk8faeaWvNs/QntAmXSOdXJQN3AcqpTodJz/ZPuuh/qF1Mfe0QvRdViP8tSv5nIjva+Sc+3heXR5mkgxDe4jUMpqXk954R2oVCi7X4Lmcc6P4E7XPFNTvmzDTgICHJiftZRdl1TLTOCD46A1yiT2g68WDaBny4rCUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792394497; c=relaxed/simple;
-	bh=J+ikDTDCmbtUQIwi+DKBRKFitBPkzJpEYsEkGbSinC0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ScVWNXvqxec0HaHxZSmOxJlpjmoTSI+puryH7unpa3N0t7b8htcCI6m3trmZS1ffmVA9fh1PxswUkl/Scgh6rbznJcpeAbDGzTlSn6X6b5jkQM5bUpyFl9VX6ejEtRJp1CYZfqA5q+zt9EB5CSuxWyu+GIlJp1kjBaBvB1JaZu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-48296f34f1dso2096820fac.3
-        for <oe-linux-nfc@lists.linux.dev>; Mon, 19 Oct 2026 00:21:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792394495; x=1792999295;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OJ7gNhisstK80w1yLXNMpjgzLEQFy1c/FvTLYsrhiV4=;
-        b=QKhIKXB3WinH7fySRSKqSK6kF2rnbf730wto/iQqgVzGe4cFMRXDp0O3w4IcoXhTPJ
-         Sm/rQR1tg21jJNErDj7E8c/q4NWKIi9bG9MVJEv+5K28xXfE3EfFcGqL1nvduwDYy1M8
-         EP9mTjfu85DqSJW+ExHp3rwZuWXeHkMe3VPbKNIShN40GgqcKC3iSLYt2Uu0a0iagYhP
-         JDiYbF45IAOM18Jb/gj3Woo754YP1t2cDom4cIoJxxCrtTZiEd19/mHApmF854TJHLHg
-         dzMG2pszv+9mKr4whhngMCHvTISE1jf7w4IDBS+neffMoALnKqzsfGfIKqDFije1ohtT
-         39Ig==
-X-Forwarded-Encrypted: i=1; AKwUvBzj1TsWXVu15yqwXx27Oq35ffbpzqe4UnxRuIIVuMbr18UMUiiCDdhiGEv8me7nbrxJMy7SoJNgcs+64A8=@lists.linux.dev
-X-Gm-Message-State: AFq9FYIzZTfN9vp9pikbvTw4hM1AYimZCwW6mw1l3iS3uzcrnMZV5twZ
-	V6PnJkHejkHSbrPSNhp45rjJ0OyGx2ol1/9wHr7Z3LLtEbCrN1CGxq/XDMuRg9JlTWyNMsninX2
-	sd6eYvKannNwFD1cI73iu0UusPkZQ2ewHERX2WwuJV/pUXmSAIABzQAmksWs=
+	s=arc-20240116; t=1792418467; c=relaxed/simple;
+	bh=3O+2p/byA5q5+JM2GdHGKj30mIYDY/saB/4wzZrmHp8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C47aPB8Dp5TDVo0zbQppmIKXsNgvlzDBLi2Vna0T3sVMoVwWbEn/FaFCecyMT8+bSCJPG+CeJtDfwpOjJ1rPw3n27+Gxt5kU48IXI6uAH5dd9TPe59tXTIIEurWhWxBeXW/H1ovi5VuCFN7ImcnraEPUmH0tN/TU4mrM7YKpY38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXr9DrRu; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXr9DrRu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743E61F000C6;
+	Mon, 19 Oct 2026 14:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792418464;
+	bh=U0IYCG9nCxFnocbQjEcAd92W3Xn3u7y92lU7IboXoQY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=QXr9DrRuRHgwZxeXh9IjolW+j5slb5di00jah7JDYfDAYGLb6PWNMizDgb8KdJTr5
+	 R1QGCxmeHtev/v7r7qQY+edbDFz57cdmPFeFnrHkSpnz4iTJneTIlmAlPqxM/0iUfU
+	 W9apSVBifEjCWA9/4nFmVC0BWDb5Jn2XcCeNqy5Aazr7f7ny69Dd+2GwOzoVxBMYCh
+	 f2BAJTJz5vRQPRZm3YNxLHPjkp0HO2iVLN+2alVDE4EkWxO8MkVQ9j2HsT0iat3QN6
+	 5FHCE2FfANIFdX6kTn5209u/TBaLdCI+2Q/tElS9KS+4mR4Ah6ECxRFpUwLDBsOsY9
+	 9DThsjzS9r5xg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Griffin Kroah-Hartman <griffin@kroah.com>,
+	David Heidelberg <david@ixit.cz>,
+	Carl Lee <carl.lee@amd.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] nfc: nxp-nci: Add remove on IRQ error
+Date: Mon, 19 Oct 2026 09:49:18 -0400
+Message-ID: <20261019135441.1420968-267-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:4fde:b0:4d5:295c:a82e with SMTP id
- 5614622812f47-53cd88053b6mr5513312b6e.59.1792394495177; Mon, 19 Oct 2026
- 00:21:35 -0700 (PDT)
-Date: Mon, 19 Oct 2026 00:21:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad5c4ff.a6d1a155.34a93f.0112.GAE@google.com>
-Subject: [syzbot] [mm?] INFO: rcu detected stall in chrdev_open (7)
-From: syzbot <syzbot+899fe9063fef5929bd90@syzkaller.appspotmail.com>
-To: davem@davemloft.net, david@ixit.cz, edumazet@kernel.org, horms@kernel.org, 
-	kuba@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, pabeni@redhat.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.57
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Griffin Kroah-Hartman <griffin@kroah.com>
 
-syzbot found the following issue on:
+[ Upstream commit 56345cea6a30dc7a1b036d5fb7900434b4a4c5e8 ]
 
-HEAD commit:    24a19b953e2a Linux 7.3-rc7
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16656f15580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=129d675874dbf896
-dashboard link: https://syzkaller.appspot.com/bug?extid=899fe9063fef5929bd90
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Add a call to nxp_nci_remove() in nxp_nci_i2c_probe() when the
+request_threaded_irq() fails.
+Previously, IRQ resources were not being freed upon error.
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c36b6926be3e/disk-24a19b95.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/413d898eaf27/vmlinux-24a19b95.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ada3e66b70fc/bzImage-24a19b95.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+899fe9063fef5929bd90@syzkaller.appspotmail.com
-
-rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-rcu: 	Tasks blocked on level-0 rcu_node (CPUs 0-1): P12985/1:b..l
-rcu: 	(detected by 1, t=10502 jiffies, g=76689, q=368 ncpus=2)
-task:syz.0.1823      state:R  running task     stack:27232 pid:12985 tgid:12984 ppid:5600   task_flags:0x400040 flags:0x00080000
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5533 [inline]
- __schedule+0x1259/0x6920 kernel/sched/core.c:7284
- preempt_schedule_irq+0x4e/0x90 kernel/sched/core.c:7606
- irqentry_exit_to_kernel_mode_preempt include/linux/irq-entry-common.h:468 [inline]
- irqentry_exit_to_kernel_mode include/linux/irq-entry-common.h:539 [inline]
- irqentry_exit+0x205/0xa10 kernel/entry/common.c:167
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:unwind_next_frame+0x17a/0x2090 arch/x86/kernel/unwind_orc.c:510
-Code: ea 03 0f b6 04 02 4c 89 f2 83 e2 07 38 d0 7f 08 84 c0 0f 85 24 0a 00 00 48 89 e9 41 0f b6 45 35 48 ba 00 00 00 00 00 fc ff df <48> c1 e9 03 80 3c 11 00 0f 85 01 18 00 00 4d 8b 7d 48 3c 01 49 83
-RSP: 0018:ffffc9000679f268 EFLAGS: 00000246
-RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffc9000679f320
-RDX: dffffc0000000000 RSI: ffffffff8c625500 RDI: ffffffff8e6af928
-RBP: ffffc9000679f320 R08: 00000000c7ee03ff R09: 0000000000000007
-R10: 0000000000000200 R11: 0000000000000001 R12: ffffc9000679f328
-R13: ffffc9000679f2d8 R14: ffffc9000679f30d R15: ffff88803569cb00
- arch_stack_walk+0x94/0xf0 arch/x86/kernel/stacktrace.c:25
- stack_trace_save+0x8e/0xc0 kernel/stacktrace.c:122
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6509 [inline]
- kfree+0x22b/0x6d0 mm/slub.c:6802
- apply_wqattrs_cleanup kernel/workqueue.c:5592 [inline]
- apply_workqueue_attrs_locked+0x96/0xe0 kernel/workqueue.c:5590
- alloc_and_link_pwqs kernel/workqueue.c:5731 [inline]
- __alloc_workqueue+0x9a7/0x1950 kernel/workqueue.c:5984
- alloc_workqueue_va kernel/workqueue.c:6033 [inline]
- alloc_workqueue_noprof+0xc7/0x130 kernel/workqueue.c:6049
- nci_register_device+0x394/0xb80 net/nfc/nci/core.c:1269
- virtual_ncidev_open+0x141/0x220 drivers/nfc/virtual_ncidev.c:153
- misc_open+0x26d/0x450 drivers/char/misc.c:163
- chrdev_open+0x234/0x6a0 fs/char_dev.c:411
- do_dentry_open+0x6ab/0x14d0 fs/open.c:996
- vfs_open+0x82/0x3f0 fs/open.c:1101
- do_open fs/namei.c:4866 [inline]
- path_openat+0x19fa/0x2440 fs/namei.c:5029
- do_file_open+0x20e/0x430 fs/namei.c:5058
- do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f697c79e1d9
-RSP: 002b:00007f697d6ac028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f697ca25fa0 RCX: 00007f697c79e1d9
-RDX: 0000000000000002 RSI: 0000200000000080 RDI: ffffffffffffff9c
-RBP: 00007f697c835888 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f697ca26038 R14: 00007f697ca25fa0 R15: 00007ffc729ea0a8
- </TASK>
-rcu: rcu_preempt kthread starved for 10502 jiffies! g76689 f0x0 RCU_GP_WAIT_FQS(5) ->state=R ->cpu=1
-rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
-rcu: RCU grace-period kthread stack dump:
-task:rcu_preempt     state:R  running task     stack:27560 pid:17    tgid:17    ppid:2      task_flags:0x208040 flags:0x00080000
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5533 [inline]
- __schedule+0x1259/0x6920 kernel/sched/core.c:7284
- __schedule_loop kernel/sched/core.c:7361 [inline]
- schedule+0xdd/0x2c0 kernel/sched/core.c:7376
- schedule_timeout+0x127/0x280 kernel/time/sleep_timeout.c:99
- rcu_gp_fqs_loop+0x1a9/0x8f0 kernel/rcu/tree.c:2122
- rcu_gp_kthread+0x17a/0x220 kernel/rcu/tree.c:2330
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-rcu: Stack dump where RCU GP kthread last ran:
-CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
-Code: a7 96 02 e9 53 50 03 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 93 48 17 00 fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
-RSP: 0018:ffffc900001a7e00 EFLAGS: 00000242
-RAX: 0000000001ea4ae3 RBX: ffff888020684b00 RCX: ffffffff8bd47235
-RDX: 0000000000000001 RSI: ffffffff8e3e3486 RDI: ffffffff8c625580
-RBP: ffffed10040d0960 R08: 0000000000000001 R09: ffffed10170667bd
-R10: ffff8880b8333deb R11: 0000000000000001 R12: 0000000000000000
-R13: 0000000000000000 R14: 1ffff92000034fc4 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff888122a46000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f38c4787800 CR3: 0000000036854000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- arch_safe_halt arch/x86/include/asm/paravirt.h:62 [inline]
- default_idle+0x9/0x10 arch/x86/kernel/process.c:768
- default_idle_call+0x6c/0xb0 kernel/sched/idle.c:122
- cpuidle_idle_call kernel/sched/idle.c:199 [inline]
- do_idle+0x3ae/0x5b0 kernel/sched/idle.c:355
- cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:454
- start_secondary+0x21d/0x2d0 arch/x86/kernel/smpboot.c:312
- common_startup_64+0x13e/0x158
- </TASK>
-
-
+Assisted-by: gkh_clanker_2000
+Cc: David Heidelberg <david@ixit.cz>
+Cc: Carl Lee <carl.lee@amd.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Ian Ray <ian.ray@gehealthcare.com>
+Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
+Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Ian Ray <ian.ray@gehealthcare.com>
+Link: https://patch.msgid.link/2026070726-observer-fang-9716@gregkh
+Signed-off-by: David Heidelberg <david@ixit.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+LLM Generated explanations, may be completely bogus:
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+I have enough to decide: the probe error path is in this 6.12 tree, the
+leftover NCI device is a real leak, and the three-line cleanup applies
+here.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+## Phase 1: Commit message forensics
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+**Step 1.1: Subject line**
+- Record: `[nfc / nxp-nci]` `[Add]` `call nxp_nci_remove() when IRQ
+  registration fails in I2C probe`
 
-If you want to undo deduplication, reply with:
-#syz undup
+**Step 1.2: Tags**
+- Record:
+  - `Assisted-by: gkh_clanker_2000` (AI-assisted)
+  - `Cc: David Heidelberg`, `Carl Lee`, `Jakub Kicinski`, `Krzysztof
+    Kozlowski`, `Ian Ray`, `Uwe Kleine-König`
+  - `Signed-off-by: Griffin Kroah-Hartman` (author)
+  - `Signed-off-by: Greg Kroah-Hartman`
+  - `Reviewed-by: Ian Ray <ian.ray@gehealthcare.com>`
+  - `Link: https://patch.msgid.link/2026070726-observer-
+    fang-9716@gregkh`
+  - `Signed-off-by: David Heidelberg` (NFC maintainer)
+  - No `Fixes:`, no `Reported-by:`, no `Cc: stable` (absence expected)
+  - Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
+    ...]` markers
+
+**Step 1.3: Body**
+- Record: Claimed bug is that `request_threaded_irq()` failure in
+  `nxp_nci_i2c_probe()` does not clean up. Symptom described as “IRQ
+  resources were not being freed.” Root cause stated as missing
+  `nxp_nci_remove()` after a failed IRQ request. No stack trace, no
+  reproducer, no version range.
+- The “IRQ resources” wording is inaccurate: a failed
+  `request_threaded_irq()` never acquired an IRQ, so there is nothing to
+  `free_irq()`. The real leak is the NCI/NFC device created by the
+  earlier `nxp_nci_probe()` success.
+
+**Step 1.4: Hidden bug fix?**
+- Record: Yes. This is error-path cleanup framed as “Add remove”. It is
+  a real leak/UAF fix, not a feature. The AI-written message understates
+  (and mislabels) the actual leftover object.
+
+## Phase 2: Diff analysis
+
+**Step 2.1: Inventory**
+- Record: `drivers/nfc/nxp-nci/i2c.c` only. ~3 lines added, 1 line
+  changed. Function: `nxp_nci_i2c_probe()`. Surgical single-file error-
+  path change.
+
+**Step 2.2: Code flow**
+- Record: Before: `nxp_nci_probe()` registers an NCI/NFC device, then
+  `request_threaded_irq()`; on failure the driver logs and returns the
+  error. I2C core does **not** call `.remove()`. After: same log, plus
+  `nxp_nci_remove(phy->ndev)` before returning. Only the IRQ-request
+  failure path changes.
+
+**Step 2.3: Bug mechanism**
+- Record: `[Error path / resource leak]` with a follow-on UAF.
+  `nxp_nci_probe()` does `nci_allocate_device()` +
+  `nci_register_device()` (`nfc_register_device()`, three workqueues,
+  rfkill, LLCP, genl “device added”). Those objects are not
+  `devm`-backed. `phy` and `info` **are** `devm_kzalloc`. On probe
+  failure, `really_probe()` → `device_unbind_cleanup()` →
+  `devres_release_all()` frees `info`/`phy` while the registered
+  `nci_dev` still holds `driver_data` pointing at `info`. Opening that
+  leftover NFC device reaches `nxp_nci_open()` → `nci_get_drvdata()` on
+  freed memory.
+
+**Step 2.4: Fix quality**
+- Record: Obviously correct and matches `s3fwrn5_i2c_probe()` in this
+  tree (`goto s3fwrn5_remove` → `s3fwrn5_remove()`). Does not
+  `free_irq()` (correct: IRQ was never taken). Uses the same
+  `nxp_nci_remove()` as `.remove`. On this path `NCI_UP` is unset, so
+  `nci_close_device()` does not call `nxp_nci_close()`; no new deadlock.
+  Regression risk is very low.
+
+## Phase 3: Git history
+
+**Step 3.1: Blame**
+- Record: Missing cleanup is original I2C probe code from
+  `6be88670fc59d5` (“NFC: nxp-nci_i2c: Add I2C support to NXP NCI
+  driver”, Clément Perrochaud, 2015-03-09). `git describe --contains` →
+  `v4.1-rc1~...`. Present for the entire life of this 6.12 tree.
+
+**Step 3.2: Fixes: tag**
+- Record: None. Buggy commit is `6be88670fc59d5`, and `git merge-base
+  --is-ancestor 6be88670fc59d5 HEAD` succeeds.
+
+**Step 3.3: File history**
+- Record: Recent local history is IRQ-trigger work (`78ac2b2f981f6`,
+  `42c445f8dab95`), GPIO sleep, unaligned.h move. No prior fix for this
+  IRQ-fail cleanup. Not a multi-patch series that needs later nxp-nci
+  commits.
+
+**Step 3.4: Author**
+- Record: Griffin Kroah-Hartman; no other nxp-nci commits in this tree.
+  Greg KH SOB. Ian Ray Reviewed-by. David Heidelberg (NFC) took it.
+  Driver is `S: Orphan` in MAINTAINERS.
+
+**Step 3.5: Prerequisites**
+- Record: Needs `nxp_nci_probe()` / `nxp_nci_remove()` / `phy->ndev`,
+  all present in `drivers/nfc/nxp-nci/core.c` here. Standalone.
+
+## Phase 4: Mailing list / external
+
+**Step 4.1: Original discussion**
+- Record: Lore `patch.msgid.link` and `lore.kernel.org` fetches returned
+  403. Recovered from Openwall/LKML:
+  - https://lists.openwall.net/linux-kernel/2026/07/07/1891
+  - https://lkml.iu.edu/hypermail/linux/kernel/2607.0/13842.html
+  - Single `[PATCH]` (not v2/v3). Posted 2026-07-07 to `oe-linux-nfc` /
+    LKML.
+  - Ian Ray: “Nice improvement!” + `Reviewed-by`
+    (https://lkml.iu.edu/hypermail/linux/kernel/2607.0/14256.html). No
+    NAK.
+
+**Step 4.2: Recipients**
+- Record: `oe-linux-nfc`, LKML, David Heidelberg, Carl Lee, Jakub
+  Kicinski, Krzysztof Kozlowski, Ian Ray, Uwe Kleine-König. NFC list +
+  net maintainer CC’d.
+
+**Step 4.3: Bug report**
+- Record: No user/syzbot/bugzilla report. Found as AI-assisted error-
+  path audit.
+
+**Step 4.4: Series / merge**
+- Record: David Heidelberg’s NFC net-next PR 2026-08-17 lists it under
+  **Improvements**, not Fixes: https://lists.openwall.net/linux-
+  kernel/2026/08/17/1882 (based on 7.2-rc7). Sibling Griffin patch:
+  `nfc: mrvl: spi: Unregister dev on allocation fail`. Taken for
+  mainline, not as a `-net` hotfix.
+
+**Step 4.5: Stable list**
+- Record: No stable-thread hit for this subject. UNVERIFIED that nobody
+  later nominated it; lore.kernel.org/stable search was not usable (403
+  / unrelated hits).
+
+## Phase 5: Semantic / call graph
+
+**Step 5.1: Functions**
+- Record: `nxp_nci_i2c_probe()`; calls `nxp_nci_remove()`.
+
+**Step 5.2: Callers**
+- Record: I2C `.probe` via `module_i2c_driver(nxp_nci_i2c_driver)`.
+  Device enumeration / bind / module load. Not IRQ/hot path except that
+  this *is* the IRQ-setup failure arm.
+
+**Step 5.3: Callees**
+- Record: `nxp_nci_remove()` → `nci_unregister_device()` +
+  `nci_free_device()`; optional FW work cancel; `set_mode(COLD)`.
+
+**Step 5.4: Reachability**
+- Record: Yes, from device probe (init/userspace bind). The leftover NFC
+  device is userspace-visible: `nfc_register_device()` does
+  `device_add()` and `nfc_genl_device_added()`. A daemon that opens it
+  after a failed probe hits the UAF. Trigger is `request_threaded_irq()`
+  failure (bad/busy IRQ, ENOMEM), not every boot.
+
+**Step 5.5: Similar patterns**
+- Record: `drivers/nfc/s3fwrn5/i2c.c` already unwinds with
+  `s3fwrn5_remove()` on IRQ failure. `drivers/nfc/st-nci/i2c.c` has the
+  same missing unwind (`devm_request_threaded_irq` fail just logs).
+  `pn533/i2c.c` uses `goto irq_rqst_err`. This is a known probe-pattern
+  bug, not unique to nxp-nci.
+
+## Phase 6: This tree (6.12.111)
+
+**Step 6.1: Buggy code present?**
+- Record: Yes. `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
+  kernelversion` → **6.12.111**. Current `nxp_nci_i2c_probe()` still
+  returns on IRQ failure without `nxp_nci_remove()` (`drivers/nfc/nxp-
+  nci/i2c.c` around the `request_threaded_irq()` call). Introduced v4.1,
+  long before 6.12.
+
+**Step 6.2: Backport difficulty**
+- Record: Clean/trivial. The hunk matches this tree (including Carl Lee
+  ACPI IRQ context already backported as `42c445f8dab95`). Candidate
+  later tree uses `{ .name = "nxp-nci_i2c" }` vs `{ "nxp-nci_i2c" }`
+  here; that is unused context, not the fix.
+
+**Step 6.3: Related fixes already here?**
+- Record: No `git log --grep` hit for “Add remove on IRQ” or
+  `nxp_nci_remove` on the error path. No alternate unwind.
+
+## Phase 7: Subsystem context
+
+**Step 7.1**
+- Record: `[drivers/nfc/nxp-nci]` NXP NCI I2C (PN547/PN548/PN7150).
+  **IMPORTANT/PERIPHERAL**: not core mm/net, but this driver is on real
+  laptops (Lenovo T14s IRQ-storm traffic in 2026). Kconfig:
+  `NFC_NXP_NCI` / `NFC_NXP_NCI_I2C`.
+
+**Step 7.2**
+- Record: Mature (2015); recent churn is IRQ polarity/ACPI, not a
+  rewrite. Orphan.
+
+## Phase 8: Impact and risk
+
+**Step 8.1: Who**
+- Record: Users with NXP NCI over I2C (`CONFIG_NFC_NXP_NCI_I2C`), and
+  only when IRQ request fails during probe.
+
+**Step 8.2: Trigger**
+- Record: Failed `request_threaded_irq()` after successful
+  `nxp_nci_probe()`. Uncommon on healthy firmware, but deterministic
+  when it happens. Unprivileged userspace can then talk to the genl-
+  announced leftover NFC device.
+
+**Step 8.3: Failure mode**
+- Record: Leaked `nci_dev`/`nfc_dev`, three workqueues, rfkill, LLCP;
+  registered NFC node after a failed bind; UAF of `devm` `info`/`phy` if
+  the leftover device is opened. Severity: **HIGH** if hit (UAF/oops),
+  **LOW–MEDIUM** likelihood.
+
+**Step 8.4: Benefit vs risk**
+- Record: Benefit medium for affected hardware (prevents leak + UAF on a
+  failed probe). Risk very low (3 lines, existing teardown, only the
+  already-failed path). Ratio is favorable.
+
+## Phase 9: Synthesis
+
+**Evidence FOR**
+- Real probe error-path leak of a registered NFC/NCI device and
+  associated workqueues.
+- Verified UAF: `device_unbind_cleanup()` frees `devm` `info` while
+  `nci_dev->driver_data` still points at it; `nfc_genl_device_added()`
+  can pull userspace in.
+- Bug present since v4.1; in this 6.12.111 tree unchanged.
+- 3-line, obviously correct unwind; same pattern as `s3fwrn5` here.
+- Reviewed-by Ian Ray; merged by David Heidelberg.
+- Applies cleanly (or with trivial context).
+
+**Evidence AGAINST**
+- Maintainer filed it as a net-next **Improvement**, reviewer said “Nice
+  improvement!” — not treated as a crash fix.
+- Commit message is wrong about “IRQ resources”.
+- AI-assisted, no user/syzbot report in 11 years.
+- Trigger is rare; driver is orphan; NFC is not core.
+- No `Fixes:` (expected, not a veto).
+
+**Unresolved**
+- Could not fetch lore.kernel.org (403). Used Openwall/LKML instead.
+- No usable stable-list discussion found.
+
+**Stable rules**
+1. Obviously correct and tested? **PASS** — 3 lines, existing
+   `nxp_nci_remove()`, Reviewed-by, in NFC pull.
+2. Real bug affecting users? **PASS** — leftover registered NFC device +
+   leak; UAF if opened.
+3. Important (crash/security/corruption/deadlock)? **PASS** — UAF/oops
+   on leftover device; not a hot-path crash, but still a serious failure
+   mode.
+4. Small and contained? **PASS** — one file, ~3 lines.
+5. No new features/APIs? **PASS**.
+6. Applies to this tree? **PASS**.
+
+**Exception category:** none (not a device ID/quirk/DT/build/doc
+exception). It is a normal error-path leak/UAF fix.
+
+The inaccuracy of the commit message and the “improvement” label do not
+change the code: without `nxp_nci_remove()`, a failed IRQ request leaves
+an NFC device registered after `devm` teardown. That is exactly the
+class of probe-path leak stable trees take, and the patch is safe on
+6.12.111.
+
+### What this solves for 6.12 users
+If `nxp_nci_i2c_probe()` fails at `request_threaded_irq()`, 6.12
+currently keeps the NCI/NFC device from `nxp_nci_probe()` and then frees
+the `devm` private data. Userspace can still see that NFC device. The
+patch unregisters and frees it, matching `.remove`.
+
+### Risk vs benefit
+Benefit is avoiding a leak and a reachable UAF on that failure path.
+Risk is negligible: the new call is the same teardown already used on
+unbind, and the device was never brought up (`NCI_UP` clear).
+
+### Concerns
+None that block a backport. Context around ACPI IRQ flags is already in
+this tree. No extra commits required.
+
+Verification:
+- [Phase 1] Parsed tags: AI-assisted; Reviewed-by Ian Ray; David
+  Heidelberg SOB; no Fixes/Reported-by/Cc:stable
+- [Phase 1] Body claims “IRQ resources” leak; code actually cleans the
+  NCI device, not an IRQ
+- [Phase 2] Diff: 3 lines in `nxp_nci_i2c_probe()` adding
+  `nxp_nci_remove(phy->ndev)` on IRQ failure
+- [Phase 2] `nxp_nci_probe()` registers via `nci_register_device()` →
+  `nfc_register_device()` (`device_add`, genl); `nci_allocate_device()`
+  is `kzalloc`, not `devm`
+- [Phase 2] `phy`/`info` are `devm_kzalloc`; `really_probe()` failure
+  path calls `device_unbind_cleanup()` → `devres_release_all()`
+  (verified in `drivers/base/dd.c`)
+- [Phase 2] On this path `nci_close_device()` skips `ops->close` when
+  `NCI_UP` is clear (verified in `net/nfc/nci/core.c`)
+- [Phase 3] Blame: `6be88670fc59d5` (v4.1-rc1); ancestor of HEAD
+- [Phase 3] No existing unwind for this path in this tree
+- [Phase 4] Openwall 2026-07-07 submission; Ian Ray “Nice improvement!”;
+  NFC PR 2026-08-17 lists it under Improvements
+- [Phase 4] UNVERIFIED: lore.kernel.org 403; no stable-list thread found
+- [Phase 5] Sibling `s3fwrn5` already calls remove on IRQ failure; `st-
+  nci` still does not
+- [Phase 6] Local tree 6.12.111; buggy `if (r < 0) nfc_err(...); return
+  r;` still present; `nxp_nci_remove()` exists
+- [Phase 7] Orphan nxp-nci I2C driver; used on real PCs (ACPI IRQ work
+  already in this tree)
+- [Phase 8] Failure: leak + leftover NFC device + UAF if opened; trigger
+  uncommon; fix risk very low
+
+**YES**
+
+ drivers/nfc/nxp-nci/i2c.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
+index a6c08175d9dd9..213d3eea7dd04 100644
+--- a/drivers/nfc/nxp-nci/i2c.c
++++ b/drivers/nfc/nxp-nci/i2c.c
+@@ -326,8 +326,10 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
+ 				 nxp_nci_i2c_irq_thread_fn,
+ 				 irqflags | IRQF_ONESHOT,
+ 				 NXP_NCI_I2C_DRIVER_NAME, phy);
+-	if (r < 0)
++	if (r < 0) {
+ 		nfc_err(&client->dev, "Unable to register IRQ handler\n");
++		nxp_nci_remove(phy->ndev);
++	}
+ 
+ 	return r;
+ }
+-- 
+2.53.0
+
