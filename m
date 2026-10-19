@@ -1,48 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67845B9219;
-	Mon, 19 Oct 2026 14:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2675D3C4D;
+	Mon, 19 Oct 2026 14:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418467; cv=none; b=kkln8Ke5wXk8faeaWvNs/QntAmXSOdXJQN3AcqpTodJz/ZPuuh/qF1Mfe0QvRdViP8tSv5nIjva+Sc+3heXR5mkgxDe4jUMpqXk954R2oVCi7X4Lmcc6P4E7XPFNTvmzDTgICHJiftZRdl1TLTOCD46A1yiT2g68WDaBny4rCUs=
+	t=1792418501; cv=none; b=cxFIYVEuDeNyYaXxXI6+l9iDlfen3NJgainygQFBPn+7w3hBCpRlA6FJUKAvRoN8dfpxopbFCuqeIIohBNk0n10DLrhnff3l/jG64FFqHxy+Oj6abLg7K8SBt5WVccTaqa3O90/KwULAOCAMSIURZ2CbLkOv9NDtPT3Qi6D/tSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418467; c=relaxed/simple;
-	bh=3O+2p/byA5q5+JM2GdHGKj30mIYDY/saB/4wzZrmHp8=;
+	s=arc-20240116; t=1792418501; c=relaxed/simple;
+	bh=PDp5LZvazXyrNB/2aonb8uKGUSGUhcRxBgOuvMtx82k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C47aPB8Dp5TDVo0zbQppmIKXsNgvlzDBLi2Vna0T3sVMoVwWbEn/FaFCecyMT8+bSCJPG+CeJtDfwpOjJ1rPw3n27+Gxt5kU48IXI6uAH5dd9TPe59tXTIIEurWhWxBeXW/H1ovi5VuCFN7ImcnraEPUmH0tN/TU4mrM7YKpY38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXr9DrRu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RQpnbSj2dm+6UvX5a3CzN5vvHbqi1IkhwUiCT91EAH5cp9YXIPZYAMCCx9OZraiLL2G4Xq7SlhUQpScc33J5yvL0kf/uNuTgIH6aeMyKBzP8Ln+2pqB3F7LstJ7Rmu9INgEMZh1szxy7BBHiMMrQeYQZEO0D9Z4LGVTJY39I1Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KnFOqkf4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXr9DrRu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743E61F000C6;
-	Mon, 19 Oct 2026 14:01:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KnFOqkf4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F19F1F000C4;
+	Mon, 19 Oct 2026 14:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418464;
-	bh=U0IYCG9nCxFnocbQjEcAd92W3Xn3u7y92lU7IboXoQY=;
+	s=k20260515; t=1792418498;
+	bh=cTneUewtWVKH46JGXVd6T4WZqiHe8a2SZhide+W0/sA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QXr9DrRuRHgwZxeXh9IjolW+j5slb5di00jah7JDYfDAYGLb6PWNMizDgb8KdJTr5
-	 R1QGCxmeHtev/v7r7qQY+edbDFz57cdmPFeFnrHkSpnz4iTJneTIlmAlPqxM/0iUfU
-	 W9apSVBifEjCWA9/4nFmVC0BWDb5Jn2XcCeNqy5Aazr7f7ny69Dd+2GwOzoVxBMYCh
-	 f2BAJTJz5vRQPRZm3YNxLHPjkp0HO2iVLN+2alVDE4EkWxO8MkVQ9j2HsT0iat3QN6
-	 5FHCE2FfANIFdX6kTn5209u/TBaLdCI+2Q/tElS9KS+4mR4Ah6ECxRFpUwLDBsOsY9
-	 9DThsjzS9r5xg==
+	b=KnFOqkf46yHJzpOCGy0Oj5WgjLCbWHnll4uXk9qMu/KdTqnt9gZD6AngmeHGXAKEF
+	 hK6jtSpHRO9Mlw1jeilSnrr8Brt2OOqKk9CZAvC/cIpUeORhlBDgSwZgjIEGLuoJbw
+	 ULAfPJVLub0QFrhA7Zlulj28EgTjJE6ziPHLK63aHLSnW24ojLmr6z8qhlYvvwRYJq
+	 OK0S1nH9R9GBbfcrm6WOXyvJMuh5ZK1lCqprecJRGD1CsYbCQp2rOmiQZjmFBVjnp6
+	 fPkQXs4kZ7i4k7ov/GRAV7gdiOF1Dzo4pzbkBPLhU92RYrLUr7j+4mBVbhsz3taYFL
+	 Mpw2TfCgLo3fQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Griffin Kroah-Hartman <griffin@kroah.com>,
 	David Heidelberg <david@ixit.cz>,
-	Carl Lee <carl.lee@amd.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] nfc: nxp-nci: Add remove on IRQ error
-Date: Mon, 19 Oct 2026 09:49:18 -0400
-Message-ID: <20261019135441.1420968-267-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] nfc: mrvl: spi: Unregister dev on allocation fail
+Date: Mon, 19 Oct 2026 09:49:42 -0400
+Message-ID: <20261019135441.1420968-291-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -52,366 +47,408 @@ List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Subscribe: <mailto:oe-linux-nfc+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Griffin Kroah-Hartman <griffin@kroah.com>
 
-[ Upstream commit 56345cea6a30dc7a1b036d5fb7900434b4a4c5e8 ]
+[ Upstream commit d832b95697384a2b67f20b35106bbf925358cde9 ]
 
-Add a call to nxp_nci_remove() in nxp_nci_i2c_probe() when the
-request_threaded_irq() fails.
-Previously, IRQ resources were not being freed upon error.
+Call nfcmrvl_nci_unregister_dev() if nci_spi_allocate_spi() fails,
+unwrapping the previous call to nfcmrvl_nci_register_dev() during the
+nfcmrvl_spi_probe() function.
 
-Assisted-by: gkh_clanker_2000
+Assisted-by: gkh-clanker-2000
 Cc: David Heidelberg <david@ixit.cz>
-Cc: Carl Lee <carl.lee@amd.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Ian Ray <ian.ray@gehealthcare.com>
-Cc: "Uwe Kleine-König (The Capable Hub)" <u.kleine-koenig@baylibre.com>
 Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Ian Ray <ian.ray@gehealthcare.com>
-Link: https://patch.msgid.link/2026070726-observer-fang-9716@gregkh
+Link: https://patch.msgid.link/2026070716-crucial-slouchy-b8a9@gregkh
 Signed-off-by: David Heidelberg <david@ixit.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough to decide: the probe error path is in this 6.12 tree, the
-leftover NCI device is a real leak, and the three-line cleanup applies
-here.
+This is a four-line probe error-path fix for a real NULL-deref in the
+Marvell NFC-over-SPI driver. The buggy code is in this 6.12 tree and has
+been there since v4.4.
 
-## Phase 1: Commit message forensics
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-**Step 1.1: Subject line**
-- Record: `[nfc / nxp-nci]` `[Add]` `call nxp_nci_remove() when IRQ
-  registration fails in I2C probe`
+Step 1.1: PARSE THE SUBJECT LINE
+Record: [nfc: mrvl: spi:] [Unregister] [On `nci_spi_allocate_spi()`
+failure, unregister the NCI device previously registered in probe]
 
-**Step 1.2: Tags**
-- Record:
-  - `Assisted-by: gkh_clanker_2000` (AI-assisted)
-  - `Cc: David Heidelberg`, `Carl Lee`, `Jakub Kicinski`, `Krzysztof
-    Kozlowski`, `Ian Ray`, `Uwe Kleine-König`
-  - `Signed-off-by: Griffin Kroah-Hartman` (author)
-  - `Signed-off-by: Greg Kroah-Hartman`
-  - `Reviewed-by: Ian Ray <ian.ray@gehealthcare.com>`
-  - `Link: https://patch.msgid.link/2026070726-observer-
-    fang-9716@gregkh`
-  - `Signed-off-by: David Heidelberg` (NFC maintainer)
-  - No `Fixes:`, no `Reported-by:`, no `Cc: stable` (absence expected)
-  - Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
-    ...]` markers
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+Record: Tags from `d832b95697384` (`git show --format=fuller`):
+- Assisted-by: gkh-clanker-2000 (AI-assisted)
+- Cc: David Heidelberg <david@ixit.cz>
+- Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com> (author)
+- Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+- Link: https://patch.msgid.link/2026070716-crucial-slouchy-b8a9@gregkh
+- Signed-off-by: David Heidelberg <david@ixit.cz> (applied)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable (absence expected)
 
-**Step 1.3: Body**
-- Record: Claimed bug is that `request_threaded_irq()` failure in
-  `nxp_nci_i2c_probe()` does not clean up. Symptom described as “IRQ
-  resources were not being freed.” Root cause stated as missing
-  `nxp_nci_remove()` after a failed IRQ request. No stack trace, no
-  reproducer, no version range.
-- The “IRQ resources” wording is inaccurate: a failed
-  `request_threaded_irq()` never acquired an IRQ, so there is nothing to
-  `free_irq()`. The real leak is the NCI/NFC device created by the
-  earlier `nxp_nci_probe()` success.
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
+Record:
+- Bug: `nfcmrvl_spi_probe()` calls `nfcmrvl_nci_register_dev()`, then
+  `nci_spi_allocate_spi()`, and ignores a NULL return.
+- Symptom: probe still returns 0, so the SPI driver binds with
+  `drv_data->nci_spi == NULL`. The NCI device stays registered.
+  IRQ/`nci_send` then dereference NULL.
+- Version info: none in the message. Introducer is `caf6e49bf6d02e`
+  ("NFC: nfcmrvl: add spi driver"), first in v4.4-rc1.
+- Root cause: missing failure check after `nci_spi_allocate_spi()`. The
+  unregister is required because returning `-ENOMEM` skips
+  `nfcmrvl_spi_remove()`.
 
-**Step 1.4: Hidden bug fix?**
-- Record: Yes. This is error-path cleanup framed as “Add remove”. It is
-  a real leak/UAF fix, not a feature. The AI-written message understates
-  (and mislabels) the actual leftover object.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not disguised. It is an explicit error-path fix: missing
+allocation check plus missing rollback of `nfcmrvl_nci_register_dev()`.
 
-## Phase 2: Diff analysis
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-**Step 2.1: Inventory**
-- Record: `drivers/nfc/nxp-nci/i2c.c` only. ~3 lines added, 1 line
-  changed. Function: `nxp_nci_i2c_probe()`. Surgical single-file error-
-  path change.
+Step 2.1: INVENTORY THE CHANGES
+Record:
+- File: `drivers/nfc/nfcmrvl/spi.c` (+4 / -0)
+- Function: `nfcmrvl_spi_probe()`
+- Scope: single-file surgical error-path fix
 
-**Step 2.2: Code flow**
-- Record: Before: `nxp_nci_probe()` registers an NCI/NFC device, then
-  `request_threaded_irq()`; on failure the driver logs and returns the
-  error. I2C core does **not** call `.remove()`. After: same log, plus
-  `nxp_nci_remove(phy->ndev)` before returning. Only the IRQ-request
-  failure path changes.
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+Record: Current local probe (lines 160–174 of
+`drivers/nfc/nfcmrvl/spi.c`):
 
-**Step 2.3: Bug mechanism**
-- Record: `[Error path / resource leak]` with a follow-on UAF.
-  `nxp_nci_probe()` does `nci_allocate_device()` +
-  `nci_register_device()` (`nfc_register_device()`, three workqueues,
-  rfkill, LLCP, genl “device added”). Those objects are not
-  `devm`-backed. `phy` and `info` **are** `devm_kzalloc`. On probe
-  failure, `really_probe()` → `device_unbind_cleanup()` →
-  `devres_release_all()` frees `info`/`phy` while the registered
-  `nci_dev` still holds `driver_data` pointing at `info`. Opening that
-  leftover NFC device reaches `nxp_nci_open()` → `nci_get_drvdata()` on
-  freed memory.
+```160:174:drivers/nfc/nfcmrvl/spi.c
+        drv_data->priv = nfcmrvl_nci_register_dev(NFCMRVL_PHY_SPI,
+                                                  drv_data, &spi_ops,
+                                                  &drv_data->spi->dev,
+                                                  pdata);
+        if (IS_ERR(drv_data->priv))
+                return PTR_ERR(drv_data->priv);
 
-**Step 2.4: Fix quality**
-- Record: Obviously correct and matches `s3fwrn5_i2c_probe()` in this
-  tree (`goto s3fwrn5_remove` → `s3fwrn5_remove()`). Does not
-  `free_irq()` (correct: IRQ was never taken). Uses the same
-  `nxp_nci_remove()` as `.remove`. On this path `NCI_UP` is unset, so
-  `nci_close_device()` does not call `nxp_nci_close()`; no new deadlock.
-  Regression risk is very low.
+        drv_data->priv->support_fw_dnld = true;
 
-## Phase 3: Git history
+        drv_data->nci_spi = nci_spi_allocate_spi(drv_data->spi, 0, 10,
+                                                 drv_data->priv->ndev);
 
-**Step 3.1: Blame**
-- Record: Missing cleanup is original I2C probe code from
-  `6be88670fc59d5` (“NFC: nxp-nci_i2c: Add I2C support to NXP NCI
-  driver”, Clément Perrochaud, 2015-03-09). `git describe --contains` →
-  `v4.1-rc1~...`. Present for the entire life of this 6.12 tree.
+        /* Init completion for slave handshake */
+        init_completion(&drv_data->handshake_completion);
+        return 0;
+```
 
-**Step 3.2: Fixes: tag**
-- Record: None. Buggy commit is `6be88670fc59d5`, and `git merge-base
-  --is-ancestor 6be88670fc59d5 HEAD` succeeds.
+Before: NULL from `nci_spi_allocate_spi()` is ignored; probe returns 0.
+After: if NULL, call `nfcmrvl_nci_unregister_dev(drv_data->priv)` and
+return `-ENOMEM`.
+Path: probe error path only, after a successful
+`nfcmrvl_nci_register_dev()`.
 
-**Step 3.3: File history**
-- Record: Recent local history is IRQ-trigger work (`78ac2b2f981f6`,
-  `42c445f8dab95`), GPIO sleep, unaligned.h move. No prior fix for this
-  IRQ-fail cleanup. Not a multi-patch series that needs later nxp-nci
-  commits.
+Step 2.3: IDENTIFY THE BUG MECHANISM
+Record:
+- Category: (a) error-path resource leak + (d) memory safety (NULL
+  deref)
+- Mechanism: `nci_spi_allocate_spi()` (`net/nfc/nci/spi.c:124-143`) is
+  `devm_kzalloc()` and returns NULL on failure. The only caller is this
+  probe. IRQ thread `nfcmrvl_spi_int_irq_thread_fn` does
+  `nci_spi_read(drv_data->nci_spi)` with no NULL check;
+  `__nci_spi_read()` then uses `nspi->acknowledge_mode`.
+  `nfcmrvl_spi_nci_send()` / `nfcmrvl_spi_nci_update_config()` likewise
+  dereference `nci_spi`. Returning `-ENOMEM` without unregister would
+  leak the NCI device, GPIO, fw_dnld state, and `kzalloc`'d
+  `nfcmrvl_private` (not devm-managed).
 
-**Step 3.4: Author**
-- Record: Griffin Kroah-Hartman; no other nxp-nci commits in this tree.
-  Greg KH SOB. Ian Ray Reviewed-by. David Heidelberg (NFC) took it.
-  Driver is `S: Orphan` in MAINTAINERS.
+Step 2.4: ASSESS THE FIX QUALITY
+Record: Obviously correct and minimal. Same
+`nfcmrvl_nci_unregister_dev()` already used in `nfcmrvl_spi_remove()`.
+IRQ is `devm_request_threaded_irq`, so it is released on probe failure.
+Regression risk is low. Residual window: IRQ can still fire between
+unregister and devm unwind (same pattern as remove). That is better than
+binding with a permanent NULL `nci_spi`.
 
-**Step 3.5: Prerequisites**
-- Record: Needs `nxp_nci_probe()` / `nxp_nci_remove()` / `phy->ndev`,
-  all present in `drivers/nfc/nxp-nci/core.c` here. Standalone.
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-## Phase 4: Mailing list / external
+Step 3.1: BLAME THE CHANGED LINES
+Record: `git blame` on `drivers/nfc/nfcmrvl/spi.c` lines 160–174: all
+from `caf6e49bf6d02e` (Vincent Cuissard, 2015-10-26), "NFC: nfcmrvl: add
+spi driver". First tagged in v4.4-rc1. Present and unchanged in this
+tree.
 
-**Step 4.1: Original discussion**
-- Record: Lore `patch.msgid.link` and `lore.kernel.org` fetches returned
-  403. Recovered from Openwall/LKML:
-  - https://lists.openwall.net/linux-kernel/2026/07/07/1891
-  - https://lkml.iu.edu/hypermail/linux/kernel/2607.0/13842.html
-  - Single `[PATCH]` (not v2/v3). Posted 2026-07-07 to `oe-linux-nfc` /
-    LKML.
-  - Ian Ray: “Nice improvement!” + `Reviewed-by`
-    (https://lkml.iu.edu/hypermail/linux/kernel/2607.0/14256.html). No
-    NAK.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No Fixes: tag. Introducer identified by blame: `caf6e49bf6d02e`.
+`git merge-base --is-ancestor caf6e49bf6d02e HEAD` → in this tree. `git
+merge-base --is-ancestor d832b95697384 HEAD` → not in this tree.
 
-**Step 4.2: Recipients**
-- Record: `oe-linux-nfc`, LKML, David Heidelberg, Carl Lee, Jakub
-  Kicinski, Krzysztof Kozlowski, Ian Ray, Uwe Kleine-König. NFC list +
-  net maintainer CC’d.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record: Recent local history of `spi.c` is style/DT/SPI-remove-void only
+(`e3c95d56190c9`, `5a478a653b4cc`, `a0386bba70934`). No prior attempt to
+check `nci_spi_allocate_spi()`. Standalone; not patch X/Y. Follow-ups on
+origin/master after this commit are only ID-table style (`777fd2dab4460`
+etc.), not corrections of this fix.
 
-**Step 4.3: Bug report**
-- Record: No user/syzbot/bugzilla report. Found as AI-assisted error-
-  path audit.
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Griffin Kroah-Hartman is not the NFC maintainer. Same-day
+sibling: `56345cea6a30d` "nfc: nxp-nci: Add remove on IRQ error" (same
+AI assist, same applier). This 6.12 MAINTAINERS NFC entry is Krzysztof
+Kozlowski. The commit landed via `Merge tag 'nfc-net-next-20260817'`
+from codeberg.org/linux-nfc (David Heidelberg SOB).
 
-**Step 4.4: Series / merge**
-- Record: David Heidelberg’s NFC net-next PR 2026-08-17 lists it under
-  **Improvements**, not Fixes: https://lists.openwall.net/linux-
-  kernel/2026/08/17/1882 (based on 7.2-rc7). Sibling Griffin patch:
-  `nfc: mrvl: spi: Unregister dev on allocation fail`. Taken for
-  mainline, not as a `-net` hotfix.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: Uses only `nfcmrvl_nci_unregister_dev()` and
+`nci_spi_allocate_spi()`, both present here. `git apply --check` of
+`d832b95697384` on this tree succeeded. Standalone.
 
-**Step 4.5: Stable list**
-- Record: No stable-thread hit for this subject. UNVERIFIED that nobody
-  later nominated it; lore.kernel.org/stable search was not usable (403
-  / unrelated hits).
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
-## Phase 5: Semantic / call graph
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Record: `b4 dig -c d832b95697384` →
+https://patch.msgid.link/2026070716-crucial-slouchy-b8a9@gregkh
+- `b4 dig -a`: v1 only, 2026-07-07, from Greg Kroah-Hartman
+- Saved mbox: only the original patch email; no replies, NAKs, or
+  reviewer-requested Cc: stable
+- Applied as submitted
 
-**Step 5.1: Functions**
-- Record: `nxp_nci_i2c_probe()`; calls `nxp_nci_remove()`.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record: `b4 dig -w` recipients: Greg Kroah-Hartman, oe-linux-
+nfc@lists.linux.dev, linux-kernel@vger.kernel.org, Griffin Kroah-
+Hartman, David Heidelberg. No Reviewed-by. David Heidelberg's SOB is the
+maintainer apply. Krzysztof Kozlowski was not on this patch's To/Cc (he
+was on the sibling nxp-nci patch).
 
-**Step 5.2: Callers**
-- Record: I2C `.probe` via `module_i2c_driver(nxp_nci_i2c_driver)`.
-  Device enumeration / bind / module load. Not IRQ/hot path except that
-  this *is* the IRQ-setup failure arm.
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No Reported-by, bugzilla, or syzbot. No user-filed report found.
+Bug is from code inspection.
 
-**Step 5.3: Callees**
-- Record: `nxp_nci_remove()` → `nci_unregister_device()` +
-  `nci_free_device()`; optional FW work cancel; `set_mode(COLD)`.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Same-day Griffin/Greg NFC error-path patch `56345cea6a30d` for
+nxp-nci. Not a functional dependency. `nci_spi_allocate_spi()` has no
+other callers.
 
-**Step 5.4: Reachability**
-- Record: Yes, from device probe (init/userspace bind). The leftover NFC
-  device is userspace-visible: `nfc_register_device()` does
-  `device_add()` and `nfc_genl_device_added()`. A daemon that opens it
-  after a failed probe hits the UAF. Trigger is `request_threaded_irq()`
-  failure (bad/busy IRQ, ENOMEM), not every boot.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: UNVERIFIED. lore.kernel.org/stable is behind Anubis (bot
+challenge). No stable discussion in the b4 mbox.
 
-**Step 5.5: Similar patterns**
-- Record: `drivers/nfc/s3fwrn5/i2c.c` already unwinds with
-  `s3fwrn5_remove()` on IRQ failure. `drivers/nfc/st-nci/i2c.c` has the
-  same missing unwind (`devm_request_threaded_irq` fail just logs).
-  `pn533/i2c.c` uses `goto irq_rqst_err`. This is a known probe-pattern
-  bug, not unique to nxp-nci.
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-## Phase 6: This tree (6.12.111)
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: `nfcmrvl_spi_probe()` only. Calls added:
+`nfcmrvl_nci_unregister_dev()`.
 
-**Step 6.1: Buggy code present?**
-- Record: Yes. `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
-  kernelversion` → **6.12.111**. Current `nxp_nci_i2c_probe()` still
-  returns on IRQ failure without `nxp_nci_remove()` (`drivers/nfc/nxp-
-  nci/i2c.c` around the `request_threaded_irq()` call). Introduced v4.1,
-  long before 6.12.
+Step 5.2: TRACE CALLERS
+Record:
+- `nfcmrvl_spi_probe` ← `spi_driver.probe` (`nfcmrvl_spi_driver`),
+  device enumeration for `marvell,nfc-spi` / `nfcmrvl_spi`
+- `nfcmrvl_nci_unregister_dev` already called from `nfcmrvl_spi_remove`,
+  and from uart/i2c/usb counterparts
+- IRQ `nfcmrvl_spi_int_irq_thread_fn` is the crash path if `nci_spi` is
+  NULL after a “successful” probe
 
-**Step 6.2: Backport difficulty**
-- Record: Clean/trivial. The hunk matches this tree (including Carl Lee
-  ACPI IRQ context already backported as `42c445f8dab95`). Candidate
-  later tree uses `{ .name = "nxp-nci_i2c" }` vs `{ "nxp-nci_i2c" }`
-  here; that is unused context, not the fix.
+Step 5.3: TRACE CALLEES
+Record: `nfcmrvl_nci_unregister_dev()` (`main.c:182-197`) calls
+`nci_unregister_device`, optional `nfcmrvl_fw_dnld_abort`,
+`nfcmrvl_fw_dnld_deinit`, GPIO free, `nci_free_device`, `kfree(priv)`.
+Appropriate after a successful register.
 
-**Step 6.3: Related fixes already here?**
-- Record: No `git log --grep` hit for “Add remove on IRQ” or
-  `nxp_nci_remove` on the error path. No alternate unwind.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: Probe of DT/SPI Marvell NFC (8897-class). Not a syscall. After a
+buggy successful probe, NFC netlink/userspace I/O and the falling-edge
+IRQ are live. Unprivileged trigger of the OOM itself: no. Crash after
+bind: yes, if the chip asserts SPI_INT or userspace talks to the NFC
+device.
 
-## Phase 7: Subsystem context
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: i2c/usb/uart register last in probe, so they do not have this
+post-register allocation. This SPI path is unique. Same class of NFC
+error-path leaks already in this tree: `8a4d480702b71`, `e204ead35401a`,
+`bb55dc2ae4367`.
 
-**Step 7.1**
-- Record: `[drivers/nfc/nxp-nci]` NXP NCI I2C (PN547/PN548/PN7150).
-  **IMPORTANT/PERIPHERAL**: not core mm/net, but this driver is on real
-  laptops (Lenovo T14s IRQ-storm traffic in 2026). Kconfig:
-  `NFC_NXP_NCI` / `NFC_NXP_NCI_I2C`.
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
-**Step 7.2**
-- Record: Mature (2015); recent churn is IRQ polarity/ACPI, not a
-  rewrite. Orphan.
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes. Tree is 6.12.111 (`p-6.12-3-gc504cf0baa3d8`). Buggy
+sequence is in `drivers/nfc/nfcmrvl/spi.c:169-174`. Introduced v4.4-rc1.
+Fix `d832b95697384` is not an ancestor of HEAD (landed in v7.3-rc1).
 
-## Phase 8: Impact and risk
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply. `git apply --check` succeeded. Later mainline ID-
+table style commits do not touch this hunk.
 
-**Step 8.1: Who**
-- Record: Users with NXP NCI over I2C (`CONFIG_NFC_NXP_NCI_I2C`), and
-  only when IRQ request fails during probe.
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: No equivalent check. `git log --grep` on this path found no
+prior “nci_spi_allocate_spi fails” fix.
 
-**Step 8.2: Trigger**
-- Record: Failed `request_threaded_irq()` after successful
-  `nxp_nci_probe()`. Uncommon on healthy firmware, but deterministic
-  when it happens. Unprivileged userspace can then talk to the genl-
-  announced leftover NFC device.
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 8.3: Failure mode**
-- Record: Leaked `nci_dev`/`nfc_dev`, three workqueues, rfkill, LLCP;
-  registered NFC node after a failed bind; UAF of `devm` `info`/`phy` if
-  the leftover device is opened. Severity: **HIGH** if hit (UAF/oops),
-  **LOW–MEDIUM** likelihood.
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: [drivers/nfc/nfcmrvl] [PERIPHERAL] — Marvell NFC-over-SPI
+(`CONFIG_NFC_MRVL_SPI`), DT compatible `marvell,nfc-spi`. Not core
+mm/net, but a shipped production driver.
 
-**Step 8.4: Benefit vs risk**
-- Record: Benefit medium for affected hardware (prevents leak + UAF on a
-  failed probe). Risk very low (3 lines, existing teardown, only the
-  already-failed path). Ratio is favorable.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Mature/low-churn. Driver added 2015; 6.12 changes are mostly
+style and small fixes. Bug is long-standing, not a new-code race.
 
-## Phase 9: Synthesis
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-**Evidence FOR**
-- Real probe error-path leak of a registered NFC/NCI device and
-  associated workqueues.
-- Verified UAF: `device_unbind_cleanup()` frees `devm` `info` while
-  `nci_dev->driver_data` still points at it; `nfc_genl_device_added()`
-  can pull userspace in.
-- Bug present since v4.1; in this 6.12.111 tree unchanged.
-- 3-line, obviously correct unwind; same pattern as `s3fwrn5` here.
-- Reviewed-by Ian Ray; merged by David Heidelberg.
-- Applies cleanly (or with trivial context).
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Driver-specific / config-specific: `CONFIG_NFC_MRVL_SPI` users
+with Marvell NFC SPI hardware (embedded/ARM boards using `marvell,nfc-
+spi`).
 
-**Evidence AGAINST**
-- Maintainer filed it as a net-next **Improvement**, reviewer said “Nice
-  improvement!” — not treated as a crash fix.
-- Commit message is wrong about “IRQ resources”.
-- AI-assisted, no user/syzbot report in 11 years.
-- Trigger is rare; driver is orphan; NFC is not core.
-- No `Fixes:` (expected, not a veto).
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: `devm_kzalloc(sizeof(struct nci_spi))` failure during probe
+(GFP_KERNEL). Rare except under memory pressure. Not unprivileged-OOM-
+as-exploit in the usual sense; once bound, IRQ or NFC I/O oopses.
 
-**Unresolved**
-- Could not fetch lore.kernel.org (403). Used Openwall/LKML instead.
-- No usable stable-list discussion found.
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record:
+- Failure: kernel oops (NULL `nci_spi` in
+  IRQ/`nci_spi_send`/`nci_spi_read`)
+- Secondary: if probe were failed without unregister, leaked registered
+  NCI device + GPIO + `priv`
+- Severity: HIGH on trigger (oops); trigger likelihood LOW
 
-**Stable rules**
-1. Obviously correct and tested? **PASS** — 3 lines, existing
-   `nxp_nci_remove()`, Reviewed-by, in NFC pull.
-2. Real bug affecting users? **PASS** — leftover registered NFC device +
-   leak; UAF if opened.
-3. Important (crash/security/corruption/deadlock)? **PASS** — UAF/oops
-   on leftover device; not a hot-path crash, but still a serious failure
-   mode.
-4. Small and contained? **PASS** — one file, ~3 lines.
-5. No new features/APIs? **PASS**.
-6. Applies to this tree? **PASS**.
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record:
+- Benefit: medium for affected hardware (prevents oops and a leftover
+  NFC device); population is small
+- Risk: very low (4 lines, established unregister helper, error path
+  only)
+- Ratio: favorable — cheap, obviously correct crash/leak fix
 
-**Exception category:** none (not a device ID/quirk/DT/build/doc
-exception). It is a normal error-path leak/UAF fix.
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
-The inaccuracy of the commit message and the “improvement” label do not
-change the code: without `nxp_nci_remove()`, a failed IRQ request leaves
-an NFC device registered after `devm` teardown. That is exactly the
-class of probe-path leak stable trees take, and the patch is safe on
-6.12.111.
+Step 9.1: COMPILE THE EVIDENCE
+FOR:
+- Real bug in this tree: ignored NULL from `nci_spi_allocate_spi()`,
+  probe returns 0
+- Verified crash path: IRQ and send dereference `nci_spi` with no NULL
+  check
+- Unregister is required once probe fails, matching `remove()`
+- 4 lines, applies cleanly, no new API, no prerequisites
+- Bug present since v4.4
+- Same unregister helper already in this tree (`d270453a0d9ec`
+  reordering already applied)
 
-### What this solves for 6.12 users
-If `nxp_nci_i2c_probe()` fails at `request_threaded_irq()`, 6.12
-currently keeps the NCI/NFC device from `nxp_nci_probe()` and then frees
-the `devm` private data. Userspace can still see that NFC device. The
-patch unregisters and frees it, matching `.remove`.
+AGAINST:
+- Niche SPI NFC driver
+- Trigger is a small GFP_KERNEL alloc failure
+- No Reported-by / syzbot / Tested-by
+- AI-assisted; mailing list thread has no review replies
+- Not a hot path for most 6.12 users
 
-### Risk vs benefit
-Benefit is avoiding a leak and a reachable UAF on that failure path.
-Risk is negligible: the new call is the same teardown already used on
-unbind, and the device was never brought up (`NCI_UP` clear).
+UNRESOLVED:
+- No stable-list discussion (lore Anubis)
+- No public user report of this oops
 
-### Concerns
-None that block a backport. Context around ACPI IRQ flags is already in
-this tree. No extra commits required.
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — logic matches `remove()`;
+   applied upstream by the NFC tree. No extra runtime test evidence.
+2. Fixes a real bug that affects users? PASS — missing alloc check
+   leaves a bound driver with NULL `nci_spi`.
+3. Important issue? PASS — kernel oops on IRQ/send after a failed alloc;
+   also a registered-device leak if probe is failed without rollback.
+   Severity HIGH on trigger, rare.
+4. Small and contained? PASS — +4 lines, one function.
+5. No new features or APIs? PASS
+6. Can apply to the local tree? PASS — `git apply --check` clean; buggy
+   code present
+
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: None (not an ID/quirk/DT/build/docs exception). Qualifies as a
+normal small bugfix.
+
+Step 9.4: MAKE YOUR DECISION
+This is a small, obviously correct error-path fix for a NULL dereference
+that exists in 6.12. Rarity of the alloc failure does not make the oops
+fictional, and the rollback is the same path `remove()` already uses.
+Benefit outweighs risk.
+
+What it solves for stable users: if `nci_spi_allocate_spi()` fails
+during Marvell NFC SPI probe, 6.12 currently treats probe as success.
+The IRQ thread and NCI send path then oops on NULL. The patch fails
+probe with `-ENOMEM` and unregisters the NCI device so
+`priv`/GPIO/`nci_dev` are not left behind.
+
+Risk vs benefit: four lines on an error path; apply is clean; no locking
+or API change. Niche hardware, but the failure mode is a crash, which
+stable is meant to take.
 
 Verification:
-- [Phase 1] Parsed tags: AI-assisted; Reviewed-by Ian Ray; David
-  Heidelberg SOB; no Fixes/Reported-by/Cc:stable
-- [Phase 1] Body claims “IRQ resources” leak; code actually cleans the
-  NCI device, not an IRQ
-- [Phase 2] Diff: 3 lines in `nxp_nci_i2c_probe()` adding
-  `nxp_nci_remove(phy->ndev)` on IRQ failure
-- [Phase 2] `nxp_nci_probe()` registers via `nci_register_device()` →
-  `nfc_register_device()` (`device_add`, genl); `nci_allocate_device()`
-  is `kzalloc`, not `devm`
-- [Phase 2] `phy`/`info` are `devm_kzalloc`; `really_probe()` failure
-  path calls `device_unbind_cleanup()` → `devres_release_all()`
-  (verified in `drivers/base/dd.c`)
-- [Phase 2] On this path `nci_close_device()` skips `ops->close` when
-  `NCI_UP` is clear (verified in `net/nfc/nci/core.c`)
-- [Phase 3] Blame: `6be88670fc59d5` (v4.1-rc1); ancestor of HEAD
-- [Phase 3] No existing unwind for this path in this tree
-- [Phase 4] Openwall 2026-07-07 submission; Ian Ray “Nice improvement!”;
-  NFC PR 2026-08-17 lists it under Improvements
-- [Phase 4] UNVERIFIED: lore.kernel.org 403; no stable-list thread found
-- [Phase 5] Sibling `s3fwrn5` already calls remove on IRQ failure; `st-
-  nci` still does not
-- [Phase 6] Local tree 6.12.111; buggy `if (r < 0) nfc_err(...); return
-  r;` still present; `nxp_nci_remove()` exists
-- [Phase 7] Orphan nxp-nci I2C driver; used on real PCs (ACPI IRQ work
-  already in this tree)
-- [Phase 8] Failure: leak + leftover NFC device + UAF if opened; trigger
-  uncommon; fix risk very low
+- [Phase 1] `git show d832b95697384 --format=fuller`: tags listed above;
+  no Fixes/Reported-by/Cc stable
+- [Phase 1] `make kernelversion` / Makefile: 6.12.111; `git describe
+  HEAD`: p-6.12-3-gc504cf0baa3d8
+- [Phase 2] Read `drivers/nfc/nfcmrvl/spi.c` probe/IRQ/send; confirmed
+  no NULL check on `nci_spi`
+- [Phase 2] Read `net/nfc/nci/spi.c` `nci_spi_allocate_spi`: only
+  failure is `devm_kzalloc` → NULL
+- [Phase 2] Read `nci_spi_read`/`__nci_spi_read`: dereference
+  `nspi->acknowledge_mode` with no NULL guard
+- [Phase 2] Read `nfcmrvl_nci_register_dev`/`unregister_dev`: priv is
+  `kzalloc`, not devm; unregister is the correct rollback
+- [Phase 3] `git blame -L 140,200 drivers/nfc/nfcmrvl/spi.c`: introducer
+  `caf6e49bf6d02e` (2015)
+- [Phase 3] `git describe --contains caf6e49bf6d02e`: v4.4-rc1
+- [Phase 3] `git merge-base --is-ancestor caf6e49bf6d02e HEAD`: yes;
+  `d832b95697384 HEAD`: no
+- [Phase 3] `git describe --contains --match 'v*' d832b95697384`:
+  v7.3-rc1~133^2~2^2~15
+- [Phase 3] `git log origin/master --oneline --grep="Unregister dev on
+  allocation fail" -- drivers/nfc/nfcmrvl/spi.c`: found `d832b95697384`
+- [Phase 4] `b4 dig -c/-a/-w/-m`: v1-only thread, no replies in mbox
+- [Phase 4] lore.kernel.org/stable via curl: Anubis challenge,
+  UNVERIFIED
+- [Phase 5] `git grep nci_spi_allocate_spi`: sole caller is this probe
+- [Phase 6] `git show d832b95697384 -- drivers/nfc/nfcmrvl/spi.c | git
+  apply --check`: clean
+- [Phase 6] `git diff HEAD origin/master -- drivers/nfc/nfcmrvl/spi.c`:
+  only this hunk plus later ID-table style
+- [Phase 8] Failure mode: NULL deref → oops after probe “succeeds”;
+  severity HIGH, trigger LOW
+- UNVERIFIED: whether this SHA was discussed on stable@; no user-visible
+  oops report found
 
 **YES**
 
- drivers/nfc/nxp-nci/i2c.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nfc/nfcmrvl/spi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-index a6c08175d9dd9..213d3eea7dd04 100644
---- a/drivers/nfc/nxp-nci/i2c.c
-+++ b/drivers/nfc/nxp-nci/i2c.c
-@@ -326,8 +326,10 @@ static int nxp_nci_i2c_probe(struct i2c_client *client)
- 				 nxp_nci_i2c_irq_thread_fn,
- 				 irqflags | IRQF_ONESHOT,
- 				 NXP_NCI_I2C_DRIVER_NAME, phy);
--	if (r < 0)
-+	if (r < 0) {
- 		nfc_err(&client->dev, "Unable to register IRQ handler\n");
-+		nxp_nci_remove(phy->ndev);
+diff --git a/drivers/nfc/nfcmrvl/spi.c b/drivers/nfc/nfcmrvl/spi.c
+index 9c8cde1250fb5..dad07c8e13b84 100644
+--- a/drivers/nfc/nfcmrvl/spi.c
++++ b/drivers/nfc/nfcmrvl/spi.c
+@@ -168,6 +168,10 @@ static int nfcmrvl_spi_probe(struct spi_device *spi)
+ 
+ 	drv_data->nci_spi = nci_spi_allocate_spi(drv_data->spi, 0, 10,
+ 						 drv_data->priv->ndev);
++	if (!drv_data->nci_spi) {
++		nfcmrvl_nci_unregister_dev(drv_data->priv);
++		return -ENOMEM;
 +	}
  
- 	return r;
- }
+ 	/* Init completion for slave handshake */
+ 	init_completion(&drv_data->handshake_completion);
 -- 
 2.53.0
 
