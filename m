@@ -1,59 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583771;
-	b=ghLkfcR5hk6FAdydEj8um6Tyz1BreesipbHonqGU9EADP/bI38aSdIYlqEiNKTAGWfsJ
-	 wNV5iyU/Vmv7osxBCOHyyLgAtds6uNehB2wBexzlTiBuc0dQXPg4Y09Vmnxa44/bB9b0m
-	 75m3IoLQacz5gOJ5WPRcvwDmuZu9nZrXh21L2BONpZkpMYDhTRs7LqxKFOv0wG8J+5GVV
-	 TePnw250SPuqobCPJ4sEqaAuBB6CuCDzMXvy9K+OqsbuFT0pXPiRRIYq3vfyPW0DPkQVU
-	 FvmXZsHvPCql612/bKYimWC9cc0WClIepEkwokHRwn2XEWmDdLmW4BrWV+y15YF3dVA==
+	t=1792612498;
+	b=SV16j4F++lGC/hUk1FmIheQA9TtkABAx1NODACcY6jWxJcR+fEVLtKi6iikfokl7eBUa
+	 L3aAU/pQQ+zUJXfdp3uQELy5jIjuG7d4R2p9+XNT1d4wIhnfJUZG2ntsz9NhOgd8KGD0D
+	 bOsBMBQnrrhFUbvUFpyDuADhuNkQpFlPLidCyhQMQ3zijglOThQGRl7UHaRQanmEYYyXj
+	 +EivVfPdFH2pOxIBbLJ3sS06dV51bus2e/y9ZLFIBrUqs0Ud9sHBhR5qHnvuxw1wSMcfU
+	 BctZu2fz6R/2WIi+03iwfoGMiHMVUD/zs6jzKtsTe1+HQiiGij23yFZm97+B7wPr7xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583771;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=BTkJC8s4WBUQSv2ioKOXw+pm/DZEGYvHG+GtGNfDTus=;
-	b=1jpKpkAbE2bj1r6BcA1NWsN6lqVwN6BCxx/HJ2csSxSccXJdU7EeSjivJ2LmwxfzLtzP
-	 qu5xTT2iGPX+hgbc1nW/VLTwXEMApVpVLHGjB/3XZcjxYKeaXlYxUydBLpetwXjNqbQW8
-	 jFbrFuTlbC1NpudVm3hlvPdJbA2H5PNb1nZytox3zQzBdYgrIrlkQraYdXtEwhGNb21Y7
-	 J1x2w1lpYU8vNpnx6GXRXQPmIEM5821YTmJHR1BpCHtZy1mFK6hWbrb7gRauEqfcdzczC
-	 IPIlx3BJlig4dnoytlEyKeyTwgCRH6Y2mY3HR657BZ75g6JKJtTdP7kBPmci36N9zLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792612498;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
+	 Content-Language:To:Cc:Subject:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=oqrOMXr9bxZT6OG+a1XDltt6ny3rlYOpwuSpVrnbS8Y=;
+	b=5SuDDusM1DqIhDjOQFSZQWXHPytx0BTIWptqTqjzPd/5HTR5F5tENxtqJC9JPpztG1Gd
+	 +G2OLoz1iNhRGfUcO0wzo48o/cH/2O4Jmu8rYmSwyv5DwpaPjs1C1trI2/XtMQqLqN4oh
+	 vFFlCkJGIGMFPVVMgy1eGfo9eYsyAys9nAV9DAa0AhkNvZLAXvFPluEVL+Xq0ljI6y4fF
+	 r7nMucCYF3D8SY568A6X4QpMX6xNI82LIzPDyNP2fpenYn3O8NcTydPzN+5oZliFx0srg
+	 3O62iqZerfholYyA5eejdwEOcs21Y+md6QYR7Ha81f372CLEcO04JicG7Z04sl3YnJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lkIrD3F4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjTsaNtE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0EA606A319;
-	Wed, 21 Oct 2026 11:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28E4606A31D
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 21 Oct 2026 19:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lkIrD3F4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C722F1F000C4;
-	Wed, 21 Oct 2026 11:56:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjTsaNtE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518281F000C4;
+	Wed, 21 Oct 2026 19:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583771;
-	bh=BTkJC8s4WBUQSv2ioKOXw+pm/DZEGYvHG+GtGNfDTus=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=lkIrD3F48e8ap5N3y3FBbxPBKmdbtT5xKeij5K2S9jZpLc0x2dMeWkWf4Rmnqp9l+
-	 BYPgS2yiDCzY62xVinrqjkYzuLf/6D3RKksiLEiMOyl56BkPCjURqSOlyVa9d2ugYp
-	 KV5jGgOLkYrylOSq1F6+Lz5xKG2W3pHK/8wnb9kRzl6+bkRCas4qGJYLjIrxl/ZtBG
-	 0eY8OBAyvSJUE+w1Ls4mngKIG2yiyXQRdayzNFkrwTOM20scNS0Gxs1lmxMdYHsXPI
-	 SmV54p6g/zNNxYozOtVYRwaAVniXh2pkX5OI7GeAhNytCoXIfVXh/V129JTygHGoMv
-	 uiI2MI6UTFPcA==
-Subject:
- Re: [PATCH] nfc: pn533: bound the OUT URB wait in pn533_usb_send_frame()
-From: netdev-bot+sashiko@kernel.org
-To: ngocthang2710.1999@gmail.com
-Cc: david@ixit.cz, netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
- linux-kernel@vger.kernel.org, linuxlovemin@yonsei.ac.kr,
- syzbot+1c5368988052dc2d8201@syzkaller.appspotmail.com, kuba@kernel.org
-Date: Wed, 21 Oct 2026 11:56:10 +0000
-Message-ID: <179258377031.3135.2890064388846476479@kernel.org>
-In-Reply-To: <20261019145505.176036-1-ngocthang2710.1999@gmail.com>
-References: <20261019145505.176036-1-ngocthang2710.1999@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1792612497;
+	bh=oqrOMXr9bxZT6OG+a1XDltt6ny3rlYOpwuSpVrnbS8Y=;
+	h=Date:From:To:Cc:Subject;
+	b=CjTsaNtE3jtfQ19tuOrjXRh5VNEeJoXWJ619HN6BYlm7eeOLLS4vhpceGHpt2p8zE
+	 Dz35A0qfMKdw3BsBlizFx4xddmvCEQWfGkEgnN3eiYLxUKIRz89o8iQh7XdIxenj44
+	 ljtwm/SmlAsrWJYjkFh3XkvqNgaaPmv1t2A/PfCGLlZxDg5pJqx54NMox8d7PjrR3X
+	 tgrFpYnVVfmwD7+o/43j9wCYSEWbPdvTveXMObOzqtOWJazMYjLYYiUl4fiAQORQF7
+	 gCbP3N0+HY+jrdVl4cK3lMy2s1oX4TaKbwn2tlGtPezdB2MN42EMyJaM7AehEcMx1e
+	 JxiggkrJo/q4A==
+Message-ID: <38eb16ab-4715-4f6d-9b4b-1e2cf6cfac33@kernel.org>
+Date: Wed, 21 Oct 2026 21:54:53 +0200
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -63,173 +51,82 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+To: Mark Greer <mgreer@animalcreek.com>
+Cc: oe-linux-nfc@lists.linux.dev
+Subject: linux-nfc new repo for workflows
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+Hey Mark,
 
-Critical: 0 · High: 2 · Medium: 1 · Low: 0
+I want to move the Github CI workflows from neard main branch to
+separate repository, because CI just pollutes git history. neard does
+not have much of commits on its own, so more than half of recent changes
+are just "ci" updates.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+It's also logically to have CI development independent of actual code
+releases.
 
-- [High] The patch only bounds the bulk OUT stage, so probe() can still
-  hang forever under the USB device lock.
-- [High] The new -ETIMEDOUT return from pn533_usb_send_frame()
-  (usb.c:188-191) is not unwound correctly when the command was queued.
-- [Medium] The timeout path in pn533_usb_send_frame() (usb.c:188-191)
-  returns -ETIMEDOUT without checking what actually happened to the OUT…
+That's why I need new repo in linux-nfc: neard-workflow:
+https://github.com/linux-nfc/neard-workflow
 
---
+I am not an admin of linux-nfc organisation so I cannot create it,
+therefore maybe you could create it? Or also make me some semi-admin of
+linux-nfc organisation, so I would do it myself.
 
-nfc: pn533: bound the OUT URB wait in pn533_usb_send_frame()
+The new repo would look like:
+https://github.com/krzk/neard-workflow/
+(I split the history of CI commits)
 
-This patch replaces the unbounded wait_for_completion() on the bulk OUT
-URB in pn533_usb_send_frame() with a 5000ms wait_for_completion_timeout().
-When the timeout expires, it kills the URB and returns -ETIMEDOUT. The
-goal is to stop probe() from hanging with the USB device lock held when
-the device never completes the OUT transfer.
+and it seems this approach works correctly:
+https://github.com/krzk/neard/actions/runs/39664604766
 
-Closes: https://syzkaller.appspot.com/bug?extid=1c5368988052dc2d8201
+Best regards,
+Krzysztof
 
-> diff --git a/drivers/nfc/pn533/usb.c b/drivers/nfc/pn533/usb.c
-> index efb07f944fce..569b1915afc9 100644
-> --- a/drivers/nfc/pn533/usb.c
-> +++ b/drivers/nfc/pn533/usb.c
-> @@ -184,7 +184,12 @@ static int pn533_usb_send_frame(struct pn533 *dev,
->  	if (rc)
->  		return rc;
->  
-> -	wait_for_completion(&arg.done);
-> +	/* device may never ack the OUT transfer: don't hang probe() */
-> +	if (!wait_for_completion_timeout(&arg.done, msecs_to_jiffies(5000))) {
-> +		usb_kill_urb(phy->out_urb); /* waits for the handler, so &arg can't outlive us */
-
-[Severity: Medium]
-Can this report a failure for a transfer that actually succeeded? The HCD
-can give back out_urb with status 0 after wait_for_completion_timeout()
-returns 0 but before usb_kill_urb() runs. In that case usb_kill_urb() does
-nothing, and the function still returns -ETIMEDOUT.
-
-__pn533_send_async() or pn533_wq_cmd() then frees the cmd and clears
-dev->cmd, and no in_urb gets submitted. The chip still sends an ACK and a
-response for the command it received. Those would then be read as the
-reply to the next command. That command would fail with -EIO, or get
-stale data if its command code is the same.
-
-The commit message cites usb_bulk_msg() as precedent. Its helper,
-usb_start_wait_urb(), checks the real completion status after the kill:
-
-drivers/usb/core/message.c:usb_start_wait_urb() {
-    ...
-	if (rc <= 0) {
-		usb_kill_urb(urb);
-		if (ctx.status != -ENOENT)
-			retval = ctx.status;
-		else if (rc == 0)
-			retval = -ETIMEDOUT;
-    ...
-}
-
-Could the same be done here? For example, pn533_out_complete() could
-record the URB status in struct pn533_out_arg.
-
-The kill could also land after some max-packet chunks of a multi-packet
-frame have already been accepted. That would leave the chip holding a
-partial frame, or an ACR122 CCID message shorter than dwLength. Should the
-timeout path resync the chip? pn533_usb_abort_cmd() and
-pn533_usb_send_ack() already send an ACK abort frame for non-ACR122
-devices.
-
-> +		phy->out_urb->context = cntx;
-> +		return -ETIMEDOUT;
-
-[Severity: High]
-The commit message says -ETIMEDOUT is something "__pn533_send_async()
-already unwinds". Is that accurate for every caller? It holds for the
-direct send path. A queued command, though, is sent from pn533_wq_cmd(),
-and its error branch looks like this:
-
-drivers/nfc/pn533/pn533.c:pn533_wq_cmd() {
-    ...
-	rc = pn533_send_cmd_frame(dev, cmd);
-	if (rc < 0) {
-		dev->cmd = NULL;
-		dev_kfree_skb(cmd->req);
-		kfree(cmd);
-		return;
-	}
-}
-
-That branch never calls cmd->complete_cb and never clears
-dev->cmd_pending.
-
-Queuing can happen during probe. pn533_wq_cmd_complete() wakes the sync
-waiter before cmd_work runs:
-
-	rc = pn533_send_async_complete(dev);
-	if (rc != -EINPROGRESS)
-		queue_work(dev->wq, &dev->cmd_work);
-
-dev->cmd_pending is only cleared in pn533_wq_cmd(), and only when the
-queue is empty. So the probe thread can issue its next sync command from
-pn533_setup() (for example via pn533_set_configuration()) while
-cmd_pending is still 1. __pn533_send_async() then queues that command
-instead of sending it.
-
-If that command's OUT URB then hits this new timeout, can the probe
-thread get stuck forever in wait_for_completion(&arg.done) inside
-pn533_send_cmd_sync()?
-
-Outside of probe, would async callers leak their complete_cb_context?
-And would cmd_pending stay at 1, so every later command is queued and
-never sent?
-
-Before this patch, the pn533_wq_cmd() error branch was only reachable
-when usb_submit_urb() failed.
-
-> +	}
->  	phy->out_urb->context = cntx;
->  
->  	if (dev->protocol_type == PN533_PROTO_REQ_RESP) {
-
-[Severity: High]
-Does this fully stop probe() from hanging? pn533_out_complete() calls
-complete() for any URB status. Once out_urb completes, nothing here checks
-out_urb->status. The function submits in_urb for the ACK or the response
-and returns 0.
-
-The probe thread then waits here:
-
-drivers/nfc/pn533/pn533.c:pn533_send_cmd_sync() {
-    ...
-	rc = pn533_send_cmd_async(dev, cmd_code, req,
-				  pn533_send_sync_complete, &arg);
-    ...
-	wait_for_completion(&arg.done);
-    ...
-}
-
-That completion is only signalled from cmd_complete_work. cmd_complete_work
-is only queued when in_urb completes, via pn533_recv_ack() or
-pn533_recv_frame(). The USB transport has no command timeout, and
-abort_cmd is only called from the poll and listen paths.
-
-So a device that accepts (or stalls) the bulk OUT transfer but never sends
-anything on bulk IN could still hang this chain:
-
-pn533_usb_probe()
-  pn533_finalize_setup()
-    pn533_get_firmware_version()
-      pn533_send_cmd_sync()
-        wait_for_completion(&arg.done)
-
-That would happen inside hub_event() with the USB device lock held. Isn't
-that the same hang the commit message describes? Would the wait need to be
-bounded, or the command aborted, at the pn533_send_cmd_sync() level
-instead?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261019145505.176036-1-ngocthang2710.1999%40gmail.com
