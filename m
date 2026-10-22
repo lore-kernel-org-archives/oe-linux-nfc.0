@@ -1,47 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792612498;
-	b=SV16j4F++lGC/hUk1FmIheQA9TtkABAx1NODACcY6jWxJcR+fEVLtKi6iikfokl7eBUa
-	 L3aAU/pQQ+zUJXfdp3uQELy5jIjuG7d4R2p9+XNT1d4wIhnfJUZG2ntsz9NhOgd8KGD0D
-	 bOsBMBQnrrhFUbvUFpyDuADhuNkQpFlPLidCyhQMQ3zijglOThQGRl7UHaRQanmEYYyXj
-	 +EivVfPdFH2pOxIBbLJ3sS06dV51bus2e/y9ZLFIBrUqs0Ud9sHBhR5qHnvuxw1wSMcfU
-	 BctZu2fz6R/2WIi+03iwfoGMiHMVUD/zs6jzKtsTe1+HQiiGij23yFZm97+B7wPr7xg==
+	t=1792646582;
+	b=lLVSbll/qAOmujez7GRJIBPce6ET67YYx1pQaTB6eJ4vjgg+63ym4hCZLr1yWvxFk+vL
+	 FBSEGh0Fg+UEV6GyygAq67xYzgnFifLPt9fSrwqGXPUKmREFHo0l6yE10f80oCIrnhgmp
+	 kc0R4c/Db/zFrcubq79A7inesJKM8uHXMzZxPp7fG7dH/Xt/mtdmMJdRT4/0KMwS572eN
+	 TVfsx5sDS7L77l8VTxxu5so4m3uaddBe6Vj3SB4TR+QMCLmi6KXuRBECZEj+j2D80Wlg/
+	 a78NhMdnuBuylMnqvfh7YXzeWDziVEuqb2D26d0ggaSjG4lsQrUuMqE/FKjXX0MocYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792612498;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
-	 Content-Language:To:Cc:Subject:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=oqrOMXr9bxZT6OG+a1XDltt6ny3rlYOpwuSpVrnbS8Y=;
-	b=5SuDDusM1DqIhDjOQFSZQWXHPytx0BTIWptqTqjzPd/5HTR5F5tENxtqJC9JPpztG1Gd
-	 +G2OLoz1iNhRGfUcO0wzo48o/cH/2O4Jmu8rYmSwyv5DwpaPjs1C1trI2/XtMQqLqN4oh
-	 vFFlCkJGIGMFPVVMgy1eGfo9eYsyAys9nAV9DAa0AhkNvZLAXvFPluEVL+Xq0ljI6y4fF
-	 r7nMucCYF3D8SY568A6X4QpMX6xNI82LIzPDyNP2fpenYn3O8NcTydPzN+5oZliFx0srg
-	 3O62iqZerfholYyA5eejdwEOcs21Y+md6QYR7Ha81f372CLEcO04JicG7Z04sl3YnJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792646582;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Organization:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Wh/6asWmSKGdi3c26R5mElDj5bZ90BlIKoUMSONgZRs=;
+	b=zMXM0wtHtejQ//X7QT+ebCODjxJ4CsJvWOte33m4WCl9N9cDLTp3KdPI3uP+AIVTpEZO
+	 0/yHijkTqPTD7NuQFzEhh7rkx5kBp9+zmQiJbz/IAWg70dkqEOaSrFjCKZ23R5vYrBPDA
+	 2Zj3cxG//pyUAso6z9GGrUsdt6h3mKcdJ2uaGYrgMWUwrCMxwt0AV/0yScM0LuM2lNg3x
+	 WDSDPBoV4BnUVMuJslTy0xtSCefQ/ei6QiOAsPvc927ZxzEAwlhy5P5uvjdOxesuQU9mu
+	 SLHFVq9xUbzwuN2rVrJ96R8BjB427ZTXX2eQzLO25TPDrqcvRpqEeWovuoWRp9kpUZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjTsaNtE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=animalcreek.com;
+	spf=pass smtp.mailfrom=animalcreek.com;
+	dkim=pass header.d=animalcreek.com header.i=@animalcreek.com header.a=rsa-sha256 header.s=fm3 header.b=bjLU7gse;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=gBbCg4b6;
+	arc=none smtp.remote-ip=202.12.124.154
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28E4606A31D
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 21 Oct 2026 19:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9121606A319
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 22 Oct 2026 05:23:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9121606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=animalcreek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=animalcreek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjTsaNtE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518281F000C4;
-	Wed, 21 Oct 2026 19:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792612497;
-	bh=oqrOMXr9bxZT6OG+a1XDltt6ny3rlYOpwuSpVrnbS8Y=;
-	h=Date:From:To:Cc:Subject;
-	b=CjTsaNtE3jtfQ19tuOrjXRh5VNEeJoXWJ619HN6BYlm7eeOLLS4vhpceGHpt2p8zE
-	 Dz35A0qfMKdw3BsBlizFx4xddmvCEQWfGkEgnN3eiYLxUKIRz89o8iQh7XdIxenj44
-	 ljtwm/SmlAsrWJYjkFh3XkvqNgaaPmv1t2A/PfCGLlZxDg5pJqx54NMox8d7PjrR3X
-	 tgrFpYnVVfmwD7+o/43j9wCYSEWbPdvTveXMObOzqtOWJazMYjLYYiUl4fiAQORQF7
-	 gCbP3N0+HY+jrdVl4cK3lMy2s1oX4TaKbwn2tlGtPezdB2MN42EMyJaM7AehEcMx1e
-	 JxiggkrJo/q4A==
-Message-ID: <38eb16ab-4715-4f6d-9b4b-1e2cf6cfac33@kernel.org>
-Date: Wed, 21 Oct 2026 21:54:53 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=animalcreek.com header.i=@animalcreek.com header.a=rsa-sha256 header.s=fm3 header.b=bjLU7gse;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=gBbCg4b6
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 207927A00C6
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 22 Oct 2026 01:23:01 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Thu, 22 Oct 2026 01:23:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=animalcreek.com;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1792646580; x=1792732980; bh=Wh/6asWmSKGdi3c26R5mElDj5bZ90BlI
+	KoUMSONgZRs=; b=bjLU7gses3ZE3+nojXjqCp+wL8fPWkDL9MwrABmf24ErtZCP
+	8dEZ+91wqlMcBLNnCDYbjDUMFZ5x9LmXO+6kVtL7HKV126gH9Bu5xa4kUx1eZcoT
+	pmYB813XF6kydgPOEJ6lo7Sp5tiE9g188f0Qr1bmR2dutWigWjXs98YwyOkJDdnv
+	sPa0vla9srEdc++RoJQs5S326ganzVHrCKfm0Z6a/iezPKJmpGdugOzgBcNnO4YP
+	OfrC6VpBbIXJN3R0NQkKpTFw2oET5Qv5M4KIjLPNFb16L73/dBRkiRBOx4kBC66u
+	ExC0pJ7qZ9KgOuZ/c94ZabMiVN4MBPSvFTrRBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792646580; x=
+	1792732980; bh=Wh/6asWmSKGdi3c26R5mElDj5bZ90BlIKoUMSONgZRs=; b=g
+	BbCg4b6wATyg4HNmk9mLDZbO0SUBCpjxw25rvs2fmbYOTED7tVeNPC0gzHYkpqpx
+	AlnDHmlVQEEv7gJkZ9hEskHD9bvaIJxeymc6PN9qZ8CFHnGPmusNYiGzyRSKuD84
+	g84G1frZJUGVBqkjleODYONzeoYFb9z83V0f7mxBrtnJA0EmOtFHLluOvwFhNM0z
+	agRdunc+lFoT1Jx6lrhP44o4iFg169aS1Di6DxwLvUADau4qHFTcwh/w1Yv+lumt
+	+dUqxzhlafro7gsj6TKylnBkYvjIcKrFYIXoocy3//ocIbE9u7LhfBfuNxHcmd2/
+	FYRVBfyZXOuH7is+ZcdgA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=animalcreek.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792646580; d=animalcreek.com;
+	mf=PG1ncmVlckBhbmltYWxjcmVlay5jb20+;
+	rt=PG9lLWxpbnV4LW5mY0BsaXN0cy5saW51eC5kZXY+;
+	s=fm3:rsa-sha256:YZIUmX6ulCKICJHtLN0WJip+Uk+lha+hIMIT8ErU4E2DYJZ
+	Ej2jeU/O1t9RyR/wOJYE/IEz4TK4MQKY2DtNwf1uyeJ7/yZKqui1tlHU4wW13dEc
+	VZLUbrRvbCBbDT0YvWo0NgPfx44kvBrMsO7XsXlRu2ZEj0hDbRcRC+ADxKLzarPn
+	GVl/frKn7WUTkMtXv3gOL8skCUcggqGKaxAuTOtdbYta4bgHuvqNSuh7VqF9KY1S
+	hGQYkTzfxLp/8uwLK2nMpqlydKEAqTCYDcl+y/bIK2uBbza0Uvc3GQaiXyRLrahQ
+	oLiD6yhtqbBW6yhU6y90P0MsEB7EwkLruVgCczg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=15;
+	hn=cc,content-language,content-transfer-encoding,content-type,
+	date,feedback-id,from,in-reply-to,message-id,mime-version,
+	organization,references,subject,to,user-agent;
+Message-Instance: m=1; h=sha256:BJCe62fD6KCaNdGEcIag0EnBglKiot99b/dzZcYAiiU=:G+048sOnAuNj7kmrxzMghYYazA3WTgAlIw013wseLII=;
+X-ME-Sender: <xms:tJ3Zam9PPeUbitWtodzXdtePINo3Oq_kqY4S40BOSy-KFtPuMWXz0A>
+    <xme:tJ3ZauKDnt7EQh754mfJvSKvnrzGJNTMweZPalAxsqOYFrnjYiOoJ_boEYz9j7wjx
+    3_N7pdpzWgUf6QnSjZwki4TuL_rYe3T24rOwzmzooOiKPnuXlI53ng>
+X-ME-Received: <xmr:tJ3ZapY70figuADtYYBlFTWVeQuly1lwnU6aEg1FSlQElKH33vuapK2eedUQQlkCLeDNs1NlKDyPvTSBL2vOZnZXdFaL>
+X-ME-Proxy-Cause: dmFkZTGKPW+t4Tb7eQ+Ewfz4XcNb1brutNGFZ7WxD9xIq8CBVbswlwLcJvzIYG7JHX1A3c
+    zhkVz3EtuaW83M2JekjhxTYFw9pfPIDAf+sddiDcxDarzHqw/M4O8v9PxljsCZVz6GlC4Z
+    iLCiMhTfQmtNFc17I8vlab36LC7xAs5xW05B22wIaUL1/IAQa1XnGWLyS4yON2tJ1cxTf1
+    VvKyBx4PNFfcINfRQ3+uKwQP4lfDQfZRk9SYopPFUxoxX/tgZJ4nN7aMxA8RukfUZzwuJd
+    OvXpFPyriUuBLa326iEBtK2gAYziW4I97NP0yXvq9J5G9TtYLUPp4i+Cy+HPxOGRjtBIY7
+    0uQT66O8ffgE5Nz4xvDfotmRaDyfRxOmgwrnKRKqcq8Gfrz/jnK/cly9UiR6diTjSGYJnt
+    Amp3ZxPYBRvEuaFDTMBAKLVRe8NPQjsbC81+OukhNkyZT/kJknirmvLlbWTKFea1fkqDL8
+    2Rl1DPsIWwbGuLTG7WN1KKrVNwCWrURgdzqmqNv0jp8/Vbf5zjZgcSnHeT2nOXFq6nekEp
+    vlLEi7iUMIg76yDyfWm+oIQtb/xLk5OL7jLXXCp2F0SOujiXRfFj8pyLYrMNhmkYEyo6jF
+    2TanmtyCD6dG0rB069X9ntq9pzEFLc/EbZEitoFjHrgL+EePMGnlCRTvQiDw
+X-ME-Proxy: <xmx:tJ3ZaoKmsdfrEibYiUblLWLN2QqfWsrQkMKElEkIZ9ajwj8oybFKBA>
+    <xmx:tJ3ZavAsdhiiCYZi9Tr8mYG1qwVziEyRRQKM9a1cs4q4kZ47Dsg1xQ>
+    <xmx:tJ3ZalpDgi4FmpHDo3qznNpQa_O8Ol8aGCfbPMG2C_8jpxpkTPtC1Q>
+    <xmx:tJ3ZaiiTxGbcoUhhtF3MgpzeP-iXYMcDvJ4zn3MMEavL-tIHIeUydA>
+    <xmx:tJ3Zana8x2-Mvbzwa1VozCYbzPnY9rD8jSuSr4DoZXSaJyebHlCj29Ft>
+Feedback-ID: i9cc843c7:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Oct 2026 01:23:00 -0400 (EDT)
+Message-ID: <d13f08f1-535d-4750-acd1-623d094b4201@animalcreek.com>
+Date: Wed, 21 Oct 2026 22:22:59 -0700
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -52,81 +120,49 @@ List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-To: Mark Greer <mgreer@animalcreek.com>
+Subject: Re: linux-nfc new repo for workflows
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: oe-linux-nfc@lists.linux.dev
-Subject: linux-nfc new repo for workflows
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
+References: <38eb16ab-4715-4f6d-9b4b-1e2cf6cfac33@kernel.org>
+Content-Language: en-US
+From: Mark Greer <mgreer@animalcreek.com>
+Organization: Animal Creek Technologies, Inc.
+In-Reply-To: <38eb16ab-4715-4f6d-9b4b-1e2cf6cfac33@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hey Mark,
+On 10/21/26 12:54 PM, Krzysztof Kozlowski wrote:
+> Hey Mark,
+> 
+> I want to move the Github CI workflows from neard main branch to
+> separate repository, because CI just pollutes git history. neard does
+> not have much of commits on its own, so more than half of recent changes
+> are just "ci" updates.
+> 
+> It's also logically to have CI development independent of actual code
+> releases.
+> 
+> That's why I need new repo in linux-nfc: neard-workflow:
+> https://github.com/linux-nfc/neard-workflow
+> 
+> I am not an admin of linux-nfc organisation so I cannot create it,
+> therefore maybe you could create it? Or also make me some semi-admin of
+> linux-nfc organisation, so I would do it myself.
+> 
+> The new repo would look like:
+> https://github.com/krzk/neard-workflow/
+> (I split the history of CI commits)
+> 
+> and it seems this approach works correctly:
+> https://github.com/krzk/neard/actions/runs/39664604766
+> 
+> Best regards,
+> Krzysztof
 
-I want to move the Github CI workflows from neard main branch to
-separate repository, because CI just pollutes git history. neard does
-not have much of commits on its own, so more than half of recent changes
-are just "ci" updates.
+Hi Krzysztof.
 
-It's also logically to have CI development independent of actual code
-releases.
+Sure. I have invited you to be a member of the org as an owner.
+Let me know if you have any issues or I did something wrong.
 
-That's why I need new repo in linux-nfc: neard-workflow:
-https://github.com/linux-nfc/neard-workflow
-
-I am not an admin of linux-nfc organisation so I cannot create it,
-therefore maybe you could create it? Or also make me some semi-admin of
-linux-nfc organisation, so I would do it myself.
-
-The new repo would look like:
-https://github.com/krzk/neard-workflow/
-(I split the history of CI commits)
-
-and it seems this approach works correctly:
-https://github.com/krzk/neard/actions/runs/39664604766
-
-Best regards,
-Krzysztof
-
+Mark
+--
