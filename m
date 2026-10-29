@@ -1,64 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793269348;
-	b=IU9kQhrXLxAnDJX9ZEN3sGGmfXxFh/b7D6k/OKzJgDxwu99xQab+6cxFeP6IIGZXSVUD
-	 HNK4DgnD5LXdsVYMwl5gyM/kBylRVHTNT5up4HOOwe5JgNP6xfKh6Um7o/2FFJ5zYjV5W
-	 2Jb4SFUS3gPvjKn6WZPTafh1PdHQtzL0sZGMrZRsM0WL/ithg6mfoM6U69TA5I1GhVUze
-	 MOB32/9n/qMtuCr1ddGmwhfDnAWNRzhYp70F3kI37A+Uo/A5ltR4Dmg63kglji8IZRh9Z
-	 7iaUSrGniMsagxGyNp3noJesF0+hi+LcNYEzkkG/xTV41kkB63oZPcma4ywBM2uPs9A==
+	t=1793288805;
+	b=cJaOO900qkB9hi+WS+22+7dzpKhp4ty5q4CvoG84Mfhv3JI4mCE/7k23p84kUkSQzVJL
+	 nNz+LTuMp3C04hOVvBAIVMjWvWR407FEWQH2Vf4tjJ8c0P3mDiq9WEK+V5R4rY45dlYRv
+	 sck2X+mTHa5I0usii+jec1bJI9aWQTZRNafo9xaT2nwXbr27E9fCyxDb/3Vrwem/d4IYV
+	 CzqwQxLepYbWyeGvJzKI4JZa1cJioYkDoStDHGkzuwmpreXgrzGGGeb4yTtUMc8PsDXc0
+	 HfOTJmeW2u7sxYPityIkWs0mriKN+YZtuYsnnCxDw1EWGp5jEDRDBQ0KAsSmQbGYXSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793269348;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793288805;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WEwZYcuaAT+y33Zr9c1xlmb2GPWDUVDkk4ZHB+IYvgk=;
-	b=lDqLGN5m++Ee2HCXBds95aCllht10FTwNU13mBMF4P+UoYcHNSZ9dDchok4uziAQsAmR
-	 j/drK/XudJWqltPNeKuQ3ouqFhKJE0A9zyvdqrM5OMxl1UoFOU6vLrp71HFLgbMOvMPtj
-	 Xzl3m4+IS/nAWaOS8INwPZT+gouLugvv2FOpdwIyzg8wnpMrx8P+sAjoo2/qINK3veMyW
-	 E6gFrlshZ5WINZkKwly1Y8mvc24FjTK3FNvAGSOGjTV0njwxwQ21pSOWNXrpUvFKjhJ5i
-	 f0cT1Pbe2k3L1Bje1IyfXZ1OeEFnHD2CEkI3mF5uRGfyH31iuhv2bJfq4nA4bJ71VXw==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=H5ui1SwYsBqG5dQjlH/tXv7W7g93TWtSjdulTpaHSwA=;
+	b=vknnGn3mY7j0XbPMe/iFYhPS8XjgCFlPhJTFQh7Ca17tzsMPhESrZ6U6gELnC1uYUQ0P
+	 6f47yYwmIN6Fiy9DcF/PaZToPa07p0kt6q/m/Ax0ams50mKqjZ1lesOCH3BvazpM4Meft
+	 lO1JmoHclUYU93KPxJ12mBvir1t8CdhcoEs8dPICTsuLQ5lvZb3mMAV/1OO3k90MtBh6m
+	 c4DLEVsjoiwglgqTIJtLVFPBo6H383kmaopx32RWC3RwaGtKbjiZ/5npfQieie2TAkPWx
+	 ywac2LVkY7V5fdy/S84I+t8D03Ygt6/UKiVNxM2e4DvKQyBmdR4lgdsSwQbxxIXqC5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPF6fhoF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VRaOye5D;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB94D606A31C;
-	Thu, 29 Oct 2026 10:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85477606A31A;
+	Thu, 29 Oct 2026 15:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPF6fhoF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847EA1F031E2;
-	Thu, 29 Oct 2026 10:22:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VRaOye5D
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD93B1F01816;
+	Thu, 29 Oct 2026 15:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793269347;
-	bh=WEwZYcuaAT+y33Zr9c1xlmb2GPWDUVDkk4ZHB+IYvgk=;
+	s=k20260515; t=1793288805;
+	bh=H5ui1SwYsBqG5dQjlH/tXv7W7g93TWtSjdulTpaHSwA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MPF6fhoFkWfuyQjAe7WGw6laZy2mxakETrlJlKqo4IRk35lXolhaqzyyy9EJwGvAn
-	 pLxk8G19UjPsn0azqFHr/Bqg1Ty9kcG8WAVKDzUcjVYgsUrBZbbCfJ8w0icEkzeWPA
-	 BR9ilbaSCQYnxnn04Zx7j65i6GUQQ453gmNBQAuL/cupDMmlRXwmD2zDgH+ZY41MVb
-	 qjd1hNMhQfkn0VDXqZZ6EeK2joF27g+p9VEaEuBCVZ6NirEbPf5goabuJXyuKqNG3Y
-	 X5SGXqZkX1++SwtKjvR9Qg6PwBBmRH2bucMB35ZXPQ9SNz5EoWQaJWED1bWcb/AS70
-	 mOoN4e3/7VmKg==
-Date: Thu, 29 Oct 2026 10:22:21 +0000
+	b=VRaOye5DnDQ0N8qvBPQwcec4nB/GlcHez5mdDdAXYiDvmc/6eo/K9KcI3vpmLMCG9
+	 n9PryeIhNCHtpJYp+E2JEEcbyqB+Z04HX1dVSbSgroJ8WBlMbzSue3W/+KC2JnkGj5
+	 CYQUl1nVbc3KFdJsrx4hK1heNmGGE8cgEHmRLGgVBaGV0dMonh3r/K0jDC/W4rhZuV
+	 I2pO7dQK0MzPsFBmdNUQpvbMC8eXz/2kRLsZHMalQN3KefslBG9/Lc/qifLpjmomYb
+	 utpWFhwU4xHuXreKRdNekfEBUm6IN0E/+S7wXr8Gw5iW6lzNCb9vTmvtmIcFXJXlgh
+	 xCl/kchQy9CPw==
+Date: Thu, 29 Oct 2026 15:46:40 +0000
 From: Simon Horman <horms@kernel.org>
-To: Yuqi Xu <xuyuqiabc@gmail.com>
-Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
-	David Heidelberg <david@ixit.cz>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	stable@vger.kernel.org, Vega <vega@nebusec.ai>,
-	Ren Wei <weir@nebusec.ai>, xuyq21@lenovo.com,
-	Mark Greer <mgreer@animalcreek.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thierry Escande <thierry.escande@linux.intel.com>,
-	Samuel Ortiz <sameo@linux.intel.com>
-Subject: Re: [PATCH net 1/1] nfc: digital: fix use-after-free in unregister
-Message-ID: <20261029102221.GF257209@horms.kernel.org>
-References: <cover.1791172164.git.xuyuqiabc@gmail.com>
- <1792999448.107874-2-xuyuqiabc@gmail.com>
+To: netdev-bot+sashiko@kernel.org
+Cc: tristmd@gmail.com, david@ixit.cz, davem@davemloft.net,
+	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+	linville@tuxdriver.com, sameo@linux.intel.com,
+	oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	tristan@talencesecurity.com
+Subject: Re: [PATCH net] nfc: llcp: use timer_shutdown_sync to prevent timer
+ rearm
+Message-ID: <20261029154640.GJ257209@horms.kernel.org>
+References: <20261023195409.3532540-1-tristmd@gmail.com>
+ <179308777133.3134.14547624262445573198@kernel.org>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -68,36 +63,119 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1792999448.107874-2-xuyuqiabc@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179308777133.3134.14547624262445573198@kernel.org>
 
-On Mon, Oct 26, 2026 at 03:24:07PM +0800, Yuqi Xu wrote:
-> nfc_digital_unregister_device() cancels its own workqueue items and
-> then frees every queued digital_cmd. A command already submitted to
-> the driver remains the argument of the async completion.
-> digital_send_cmd_complete() can still assign cmd->resp after that
-> object has been freed, which is a use-after-free.
+On Tue, Oct 27, 2026 at 07:56:11AM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider.
 > 
-> Abort the in-flight driver command before reclaiming the queue, and
-> drain the completion work the driver may schedule from abort. Once
-> the nfc device is shutting down, do not queue or submit another
-> command: finishing the aborted one would otherwise hand the next
-> queued command to the driver while it is being freed.
+> Critical: 0 · High: 1 · Medium: 0 · Low: 0
 > 
-> Port100 and nfcsim invoke the digital completion from a private work
-> item, so flush that work before abort returns. trf7970a completes from
-> a delayed timeout work and from its IRQ thread; handle its MD listening
-> state in abort and shutdown, and stop the timer before the device is
-> released. st95hf's IRQ thread can observe that remove already ran and
-> must not call back into the freed command.
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwork
+> know by including "pw-bot: cr" as a separate line at the end of your reply
+> (one such reply per series is enough).
 > 
-> Fixes: 59ee2361c924 ("NFC Digital: Implement driver commands mechanism")
-> Cc: stable@vger.kernel.org
-> Reported-by: Vega <vega@nebusec.ai>
-> Assisted-by: LLM
-> Signed-off-by: Yuqi Xu <xuyuqiabc@gmail.com>
-> Reviewed-by: Ren Wei <weir@nebusec.ai>
+> - [High] The fix is incomplete.
+> 
+> --
+> 
+> nfc: llcp: use timer_shutdown_sync to prevent timer rearm
+> 
+> This commit switches link_timer and sdreq_timer in local_cleanup() from
+> timer_delete_sync() to timer_shutdown_sync(). The goal is to stop the
+> associated work items from re-arming the timers while cancel_work_sync()
+> runs, so that no deferred work runs after kfree(local).
+> 
+> > diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+> > index 74bf817007cf2..a098d72a15ba8 100644
+> > --- a/net/nfc/llcp_core.c
+> > +++ b/net/nfc/llcp_core.c
+> > @@ -173,14 +173,14 @@ static struct nfc_llcp_local *nfc_llcp_local_get(struct nfc_llcp_local *local)
+> >  static void local_cleanup(struct nfc_llcp_local *local)
+> >  {
+> >  	nfc_llcp_socket_release(local, false, ENXIO);
+> > -	timer_delete_sync(&local->link_timer);
+> > +	timer_shutdown_sync(&local->link_timer);
+> >  	skb_queue_purge(&local->tx_queue);
+> >  	cancel_work_sync(&local->tx_work);
+> >  	cancel_work_sync(&local->rx_work);
+> 
+> [Severity: High]
+> Does this fully close the use-after-free described in the commit message?
+> The timers can no longer be re-armed. But tx_work, rx_work, timeout_work
+> and sdreq_timeout_work still use cancel_work_sync(), and that does not
+> stop them from being queued again afterwards.
+> 
+> tx_work is cancelled before rx_work, and nfc_llcp_rx_work() always queues
+> tx_work:
+> 
+> net/nfc/llcp_core.c:nfc_llcp_rx_work() {
+>     ...
+> 	nfc_llcp_rx_skb(local, skb);
+> 
+> 	schedule_work(&local->tx_work);
+>     ...
+> }
+> 
+> Suppose rx_work is running when local_cleanup() reaches
+> cancel_work_sync(&local->rx_work). That cancel waits for it, and in the
+> meantime rx_work queues tx_work again. local_cleanup() then returns and
+> local_release_work() does:
+> 
+> 	local_cleanup(local);
+> 	kfree(local);
+> 
+> Can nfc_llcp_tx_work() then run on the freed local? It would touch
+> local->tx_queue, call nfc_data_exchange(local->dev, ...) and call
+> mod_timer(&local->link_timer). The pending tx_work work_struct inside the
+> freed object would also still be linked on system_wq.
+> 
+> Here is one way rx_work can be running during the final cleanup:
+> 
+> nfc_llcp_data_received()
+>     nfc_llcp_find_local()             /* takes a reference */
+>                                       nfc_llcp_unregister_device()
+>                                           nfc_llcp_remove_local()
+>                                           local_cleanup()
+>                                           nfc_llcp_local_put()
+>     __nfc_llcp_recv()
+>         schedule_work(&local->rx_work)    /* system_wq */
+>     nfc_llcp_local_put()  /* last ref, queues release_work on llcp_wq */
+> 
+> After this, rx_work and release_work run at the same time on different
+> workqueues.
+> 
+> Digital drivers can reach this. nfc_digital_unregister_device() calls
+> nfc_unregister_device() before cancel_work_sync(&ddev->cmd_complete_work).
+> That lets
+> digital_tg_recv_dep_req()->nfc_tm_data_received()->nfc_llcp_data_received()
+> overlap with LLCP teardown. nfc_tm_data_received() checks dep_link_up but
+> not shutting_down.
+> 
+> There is a related path. nfc_llcp_tx_work() passes the raw local pointer
+> to nfc_data_exchange() as the context for nfc_llcp_recv(), and it takes no
+> reference:
+> 
+> 	ret = nfc_data_exchange(local->dev, local->target_idx,
+> 				skb, nfc_llcp_recv, local);
+> 
+> For digital devices, this completion runs from cmd_complete_work, which is
+> only cancelled after nfc_unregister_device(). A late completion goes
+> through nfc_llcp_recv()->__nfc_llcp_recv(), which writes local->rx_pending
+> and calls schedule_work(&local->rx_work). The local it touches may already
+> have been through local_cleanup(), or may already be freed.
+> 
+> Would disable_work_sync() work for the LLCP work items, or at least
+> disabling rx_work before tx_work? That would match what
+> timer_shutdown_sync() does for the timers.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+This does seem to be a legitimate concern.
+
+-- 
+pw-bot: changes-requested
 
