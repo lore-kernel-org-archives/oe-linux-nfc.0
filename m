@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793268592;
-	b=qaKoxIle8jk3eez4qPqnMFGRy91cGPv8MnA/K1krwZZGikzEfb7FVbogOsD9/ZVDBPip
-	 mRBZMNCgsyBmiBKmHUTacbCu+Cp3uk+hX9PRS3hVe1JrDz1ypFjduukVSb+kAJanyVUgf
-	 lRSgODI2nJcRkxaMrl7lScM7T0nwvyctz4CdTrRqf3nxq7v6zLaDAcPnWgaEm4Fl9Rf/b
-	 KpGof147ct1hYBKmGdMR1Z6PHYqdmMD3tnuHYpisxThnftY2bvOsClOKjxwIjbSc04L8X
-	 ZC0YBc/nGQrhyB/wE49gNMhPzukueBQsjrfSXgx8E6xXS267SnIKMWF1s+1VTQKrgBw==
+	t=1793269348;
+	b=IU9kQhrXLxAnDJX9ZEN3sGGmfXxFh/b7D6k/OKzJgDxwu99xQab+6cxFeP6IIGZXSVUD
+	 HNK4DgnD5LXdsVYMwl5gyM/kBylRVHTNT5up4HOOwe5JgNP6xfKh6Um7o/2FFJ5zYjV5W
+	 2Jb4SFUS3gPvjKn6WZPTafh1PdHQtzL0sZGMrZRsM0WL/ithg6mfoM6U69TA5I1GhVUze
+	 MOB32/9n/qMtuCr1ddGmwhfDnAWNRzhYp70F3kI37A+Uo/A5ltR4Dmg63kglji8IZRh9Z
+	 7iaUSrGniMsagxGyNp3noJesF0+hi+LcNYEzkkG/xTV41kkB63oZPcma4ywBM2uPs9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793268592;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793269348;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nxNqgHP3UUpuLSiMHFFX/1xCgm70UtF7AKQcrmX1fpY=;
-	b=fYQJOV33VX3ex4gWJVhyzr3p+DWOAPou8KatYCIMZvTm8nlTUnPMvfBFKPb7htcVal+I
-	 /w+kuQiVgEb2jnC9TrWAXX8a7PuqGOz+RTye9CC21WNrk5KBW8DbfDUMxml0CPje1Y8+p
-	 jaP35RPnab5FJGMunaLkbXs73K1N3dno/Bmsl8T/uvj32CIflKYx5p0954eyPsYlVx3Bk
-	 yxQzdcWOfHts3HNDLmttQknAl2Ehs0SirORozNb1EILR0NB+K1Mm8yHo+rBTGOump9kch
-	 etJ6llEu3hk/onsP0su9rrlyRdrV51995Qvb9h3KnvESEg0Up7VoprfObtgeMDQ8KCg==
+	bh=WEwZYcuaAT+y33Zr9c1xlmb2GPWDUVDkk4ZHB+IYvgk=;
+	b=lDqLGN5m++Ee2HCXBds95aCllht10FTwNU13mBMF4P+UoYcHNSZ9dDchok4uziAQsAmR
+	 j/drK/XudJWqltPNeKuQ3ouqFhKJE0A9zyvdqrM5OMxl1UoFOU6vLrp71HFLgbMOvMPtj
+	 Xzl3m4+IS/nAWaOS8INwPZT+gouLugvv2FOpdwIyzg8wnpMrx8P+sAjoo2/qINK3veMyW
+	 E6gFrlshZ5WINZkKwly1Y8mvc24FjTK3FNvAGSOGjTV0njwxwQ21pSOWNXrpUvFKjhJ5i
+	 f0cT1Pbe2k3L1Bje1IyfXZ1OeEFnHD2CEkI3mF5uRGfyH31iuhv2bJfq4nA4bJ71VXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iYL6nkR2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPF6fhoF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4145B606A31D;
-	Thu, 29 Oct 2026 10:09:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB94D606A31C;
+	Thu, 29 Oct 2026 10:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iYL6nkR2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC9FE1F01825;
-	Thu, 29 Oct 2026 10:09:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MPF6fhoF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847EA1F031E2;
+	Thu, 29 Oct 2026 10:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793268591;
-	bh=nxNqgHP3UUpuLSiMHFFX/1xCgm70UtF7AKQcrmX1fpY=;
+	s=k20260515; t=1793269347;
+	bh=WEwZYcuaAT+y33Zr9c1xlmb2GPWDUVDkk4ZHB+IYvgk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iYL6nkR2kGVEIZgKxnVxk5ATyNVQ/EsyrGT/YLsuiPCj7ieJ1g6uwzlIw9w6h0MtQ
-	 AA9uYCTe55u5TNH0BxeybB+g65eDECrfucb0yJPxrCk47aBvU8lg/J7ZVtmVonG5MT
-	 U8nQrXMxKhHKkYOYc30igEtNrBd/A2jeaDt4BWMPs7jkeFVSw1RHESPzlPpZZQYzJa
-	 h9bl49LXKAmWEPMp54/0qG93a8AYxSXvG3Al7oRW85NUwqo2SBsvhfL1OWdheHt95Q
-	 L5GQWys/h1iSPHd9BxZXkHgc4S7KvXUkaBzC05lcpI27nk7/zJ6Ty4OxTlAUnJESav
-	 ia2qGR0SZ3GLA==
-Date: Thu, 29 Oct 2026 10:09:47 +0000
+	b=MPF6fhoFkWfuyQjAe7WGw6laZy2mxakETrlJlKqo4IRk35lXolhaqzyyy9EJwGvAn
+	 pLxk8G19UjPsn0azqFHr/Bqg1Ty9kcG8WAVKDzUcjVYgsUrBZbbCfJ8w0icEkzeWPA
+	 BR9ilbaSCQYnxnn04Zx7j65i6GUQQ453gmNBQAuL/cupDMmlRXwmD2zDgH+ZY41MVb
+	 qjd1hNMhQfkn0VDXqZZ6EeK2joF27g+p9VEaEuBCVZ6NirEbPf5goabuJXyuKqNG3Y
+	 X5SGXqZkX1++SwtKjvR9Qg6PwBBmRH2bucMB35ZXPQ9SNz5EoWQaJWED1bWcb/AS70
+	 mOoN4e3/7VmKg==
+Date: Thu, 29 Oct 2026 10:22:21 +0000
 From: Simon Horman <horms@kernel.org>
 To: Yuqi Xu <xuyuqiabc@gmail.com>
 Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
@@ -48,11 +48,17 @@ Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	stable@vger.kernel.org, Vega <vega@nebusec.ai>,
-	Ren Wei <weir@nebusec.ai>, xuyq21@lenovo.com
-Subject: Re: [PATCH net 1/1] nfc: llcp: fix use-after-free when purging local
-Message-ID: <20261029100947.GE257209@horms.kernel.org>
-References: <cover.1791171477.git.xuyuqiabc@gmail.com>
- <1792999447.107874-1-xuyuqiabc@gmail.com>
+	Ren Wei <weir@nebusec.ai>, xuyq21@lenovo.com,
+	Mark Greer <mgreer@animalcreek.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thierry Escande <thierry.escande@linux.intel.com>,
+	Samuel Ortiz <sameo@linux.intel.com>
+Subject: Re: [PATCH net 1/1] nfc: digital: fix use-after-free in unregister
+Message-ID: <20261029102221.GF257209@horms.kernel.org>
+References: <cover.1791172164.git.xuyuqiabc@gmail.com>
+ <1792999448.107874-2-xuyuqiabc@gmail.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -64,20 +70,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1792999447.107874-1-xuyuqiabc@gmail.com>
+In-Reply-To: <1792999448.107874-2-xuyuqiabc@gmail.com>
 
 On Mon, Oct 26, 2026 at 03:24:07PM +0800, Yuqi Xu wrote:
-> nfc_llcp_socket_purge() walks local->tx_queue with
-> skb_queue_walk_safe() and unlinks matching skbs. The walk does not
-> hold local->tx_queue.lock. tx_work, the LLCP send path, and other
-> purge or dequeue sites mutate that queue under the lock, so the
-> walker can follow an skb that another CPU has already freed. That
-> is a use-after-free and can corrupt the list.
+> nfc_digital_unregister_device() cancels its own workqueue items and
+> then frees every queued digital_cmd. A command already submitted to
+> the driver remains the argument of the async completion.
+> digital_send_cmd_complete() can still assign cmd->resp after that
+> object has been freed, which is a use-after-free.
 > 
-> Hold the queue lock across the walk, unlink with __skb_unlink(), and
-> free the detached skbs only after the lock is dropped.
+> Abort the in-flight driver command before reclaiming the queue, and
+> drain the completion work the driver may schedule from abort. Once
+> the nfc device is shutting down, do not queue or submit another
+> command: finishing the aborted one would otherwise hand the next
+> queued command to the driver while it is being freed.
 > 
-> Fixes: f31652a58bee ("NFC: Purge LLCP socket Tx queues when being disconnected")
+> Port100 and nfcsim invoke the digital completion from a private work
+> item, so flush that work before abort returns. trf7970a completes from
+> a delayed timeout work and from its IRQ thread; handle its MD listening
+> state in abort and shutdown, and stop the timer before the device is
+> released. st95hf's IRQ thread can observe that remove already ran and
+> must not call back into the freed command.
+> 
+> Fixes: 59ee2361c924 ("NFC Digital: Implement driver commands mechanism")
 > Cc: stable@vger.kernel.org
 > Reported-by: Vega <vega@nebusec.ai>
 > Assisted-by: LLM
