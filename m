@@ -1,94 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793358660;
-	b=Pz9daNq4B+CB0Sz+48kOuO+13AvoWSd8oKh387t+9Z8y9mRwQOJtJT52S799gtAGfQIB
-	 MTc2FU2XiLeheHJ2BALQ0al7gFPSJjI9fwWGo72mK5omR9A9LpvkKcznsN35xC9lFZ1r8
-	 yQZ3iSawURdA3pYrJVydj6+p5SPBxgQ1ooDLPhQwQiS7gXGTi9sJr3BqaJBrt9tUSEGmo
-	 4oc7ZhkLW14eRIzBoyoqEu0snqEemHiDbn9C+0QkNKWARS0xtf/OA2A7veUToJopWGMuY
-	 mU8Rq1Q8xFFDPRv+m0d5G6x6xYeIowQ//2OYI5NeuKSgJwnFKwWiGeJqixSuL5zxdBQ==
+	t=1793358667;
+	b=Zo4GstGugDkGPEhykvQyMumL6U/Jt6tLTsXWT5lWPWsdMa/lLYYSQLdJwliS1401g0+l
+	 4Hf5bHhkGUYx63Wo1rgdCHF3kEFIsKWqA0nlQ0JSQx1QKTZq20SK8BId/lIEKUlSKXD0f
+	 KXr0SPLpOJYjos0AOs58TMLQ6QVNuHXRH01sKvEQBYdLB7bbfcYZL+BE/n3y3fMxfqDM7
+	 TMBU62r6Suqh8zHfvDtsCls/rMx+lRuMFH5ZeGYjpJ3Kjr7bfvF/mr+ZBRZx3aK7/L+b2
+	 hSJVPqTtezBEETZIyvFcKyTsR/Y077xu2BMfTT40A2LdiFs2WC5RdfNzKMEESGA3UDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793358660;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793358667;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=46Vjwa9uE7FzNJRa2W9YmO/vasAer+dAOb58elbr7/s=;
-	b=MH6WBpfKRZRAXsTiUXfeeonK+XbtV956c5ZU2dmkJJBEeIAdnT/CfaN0HnVI7YJ5BFOt
-	 c7iklRl6CpYElfiBeG/hpVrihpFvNcUqnTgksOJMryeHkAb6uFjsr6Vlb2oNmgdgFZtvZ
-	 qlmZ6yqKDGs4V+2dLjAzCJfIladMAfXS1R3Ldd3mSsXROMM0v2xa1SKHKKvP3Bz8k4wdw
-	 /qzWZbScSK2q8Xny2mPpoQI46ZzBXDFJMux/NEBl0mjLf9Jp3FG1f00MldLdM/ytCjslp
-	 VyIRzOLb/QOu8m8wymqq0629+yA70ILpmbWiIN15CzykOjJe1YujrgeWM5/8lUKldwg==
+	bh=+WghCCVj/g7O1H6Bv64tZFo0L+kNuS7zgljqJhCtvfE=;
+	b=Pi2cQoRqQiYcXua1OFwZJ/ZaaL7h9OgDo0shlLEe+H3SbBrW/r3bvnlaYM2zWZ8uaCg4
+	 xH5rUGYQ/KG2cxwpa6lc+Gb5TVc/HGFGoQUV2lJHhuGYR+Tii+kTXrczJXcIpuClWNF3U
+	 41uhiMOakACJtV1bQ+DmDoZltYZnZQumXuh/GoQJnOrYGYK+ZabDxpsN8eWGLef73CwZB
+	 PaNLFunlUWN08utUymxJWqkhTrPZ4ZrGxW+I7JFQaAy3WR/HxD4qrA7rAGdpkqxerqFrQ
+	 tx8DfqTEFt6D/4XZYnhcyCupS/LhnZX/dyrEhcoI6hFPF7VIXVLBuG9Kl7l+hAKBWMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8jRw1BA;
-	arc=none smtp.remote-ip=209.85.222.54
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VtVDAVkB;
+	arc=none smtp.remote-ip=209.85.222.52
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CC8606A31E
-	for <oe-linux-nfc@lists.linux.dev>; Fri, 30 Oct 2026 11:11:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42CC8606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A815760A260B
+	for <oe-linux-nfc@lists.linux.dev>; Fri, 30 Oct 2026 11:11:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A815760A260B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8jRw1BA
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-990703f817fso315035241.1
-        for <oe-linux-nfc@lists.linux.dev>; Fri, 30 Oct 2026 04:11:00 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VtVDAVkB
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9912c61b8b8so303934241.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 30 Oct 2026 04:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793358659; x=1793963459; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793358665; x=1793963465; darn=lists.linux.dev;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=46Vjwa9uE7FzNJRa2W9YmO/vasAer+dAOb58elbr7/s=;
-        b=H8jRw1BAN4CATVRnyQb18N8IUpE7tG7Dcj38CCeU5S831FBaUDNg/PCJGL9GF5ENn6
-         06O1bfrDpPvQ0FW2lnPUQroJcN0Tk9fXssUc+nFysZZaG3S/5LOWTM3evRy/ClENi49J
-         G9Me8hlLV9/8R9vgeJmbDtAFPnKNv+coXvOKXVafZBrvYeEnjX8FQKB2P8G3iZmHcwIb
-         CO2DeQyfvT9GTLTMZNDhJQTifgd4Hi//dLLtaQ0i8HzY7GuR99CeAQdBKoF7OWzpqfFf
-         5N3O44NtZOuzAjdLOWnj7T7NdzWU6V0L5SOVvLiuBE2HCvaYwbnXJnIue4+gQEcw2fb9
-         X3kw==
+        bh=+WghCCVj/g7O1H6Bv64tZFo0L+kNuS7zgljqJhCtvfE=;
+        b=VtVDAVkBHvTs0ijFftWCeXXeMgSl3RQ731prGld7EnYwBJGOQGZfOw38m0ohgqDiu5
+         b6KAEAYeCcW8yXAEsiN6S/VxhCltSc8MCfrhC75hYKwbRF2uWBhXZRjmGiXAzmFS2uHt
+         /cc9CzRoQCltH8Kru9lcQrhMO4QEf67IXPSXLIUpnDj4UI4Oe37QI5dKTgliCwJ/UAhf
+         x5qtP3RvUeCBSvoNjbOu8iFCJiowuP40Ox5kqSniRWK9qzKbStR7hulkVBD7aD3QOei8
+         gW+/mBclPhhIwZmRqAIPsrYBwd7w5VBUaDRayOPfrlmRFLNVj4zdx6iTIIL9JQIIz0Tn
+         1nTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793358659; x=1793963459;
+        d=1e100.net; s=20260707; t=1793358665; x=1793963465;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=46Vjwa9uE7FzNJRa2W9YmO/vasAer+dAOb58elbr7/s=;
-        b=lZFKlGBcOeAmNlFLHSxnKy9GBEDEoqk4yxMqszAP67fSnM0Xe/Lu4zqukdL9qcyCQB
-         4wR4MSzhGFFkPMf4ekXViNi1SFElMJ5A4ZKnZRQoGL1tixHPXiUNDBPimdeHxfzBz7lq
-         GjNhuxKVBP1ySb5lO9fc1A7jcziS/iAE9F1ga+KurqFrDWkLjMT2mSKl8c6Mdwixlh0F
-         sdDNgRXFsm+TT5jUv4AQ9Czw2TR63T/7Ly8AsqvvfGbk8OdOrqI2WPn+y4/31N+J+dSs
-         gvlAahGPPNabbwATxizpQcEY6a5d3JAKrsP3r/7hk7y5o3CAMBvrLkCju0MI5nvOp+7c
-         Z+JQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz1ZsvQs/6rte08zQNUwebRqYvkUoMh8ockwF8SdzJNQCwJ6RU2hwWdY4zVtAief1oueM03mPe9Ri5OTl4=@lists.linux.dev
-X-Gm-Message-State: AFq9FYI6utojj4WRw1rXdrG3hkYVllsyVYK/xJVwuYrO6MaO8mR5z5a5
-	xsOe2oCNB7RP2qkvXELokFS0vlmrFMaemtgKZwq1/7DRlvLnNEpfbFIK
-X-Gm-Gg: AYBFou0kAfW5uk8Aea0o+gsWnPuA5iha6DPRo9+8kOHK8pVPRzAXjqaP1voSIBBSin4
-	AIUDR9U+UqqrsNFlpcItsFR11SZ7QVaK/xqraP7URBCl0Ihuf7yUsFemugamv1JH37pG2plquXL
-	xrHIqBexE2prCq3SGX6kMNy0JWDjVytQtTJ/rLwTxHmmgTHb8X7yScPGvbz0PgpKUEdT54KVvV1
-	FfAjTOiF55zPN9W6JTKDh/6ObGFpMUgs8TLiXSjvoBdDu+vUZ0DBvJCZhUlqoWYSNzE1vh5OsZ8
-	YwyA2NaYSqEz3mtAphrJFSuySOOMjre/+0EANZHB7rLKczJg20rA85NbOlgPh8hDh7Dj4pgZtXJ
-	wtcrnt8Kjiek8IqjWbQmfLQ4SbbK1urZAncYoLWf2VYaJdzDutnWbarBcweBM5UbVs2QG0aYR4H
-	Xk8cxKzanRureNyG5HvxkICXXSvinl/B892f0SXDpDvpTH3+yjXbXwrjo2Li9uglKojsCcmg3d2
-	N4oGvTu4wgZjgA66jwbUjh61hhKYAixH1AwLn9AKS5cqBLFVAMvxwuC4d14oEELG7RnkQZprii5
-	IOhf8n9AkC+wcw4rXCNLcavEok2f+09JMLbgQO4hQlapH0mMNujmKHzFuviRK2q4I36SicY11XX
-	IcgY94y3LjtGejt+LiZ9KzfJ2xj3OixpZlbGlwpKn
-X-Received: by 2002:a05:6102:604b:b0:7cc:25bc:3b27 with SMTP id ada2fe7eead31-7d07226d973mr786120137.5.1793358658951;
-        Fri, 30 Oct 2026 04:10:58 -0700 (PDT)
+        bh=+WghCCVj/g7O1H6Bv64tZFo0L+kNuS7zgljqJhCtvfE=;
+        b=nd2We6MAQpOyyyitFBPKkcHhhjYhw0lmiF+Tyvu6WlTZe3sD52lMOeCtrPzigFmCkz
+         S1jp7G4SX6xmv3glY5esJnZFmsmwl0i7OBR+y04gg+u5WmFfpf0Dhuwtkd3cEAtXyor9
+         OeCJyv2AMQKPNO94d0c9AnNiFOXGBMo0N/om4oOsDNVT0AjjT0E5bKAIiqSpfRXcdM68
+         9sWU25aiN5Wixv7OeyEak7BnSg66PalmbWYP0ShlHKOAk6PJcPF/Dbjdf7uQAC1rd6mr
+         r8fehDA7+86ANHX4ESzPbBQagU+PWImlAgbT9Vwj6Z++HQCWK//32zqPtlLe/W24kzJL
+         ew9A==
+X-Forwarded-Encrypted: i=1; AKwUvBzbf7YrFEHskLV6ike+i/BF5aj9740qMClD1eFoRe9aJ6M8j8TGjfB8K8lWTm1r45+oBBKGlO1nNicSUbc=@lists.linux.dev
+X-Gm-Message-State: AFq9FYLDZnBYBMHQwN8mEIohgtgdZYHFK6+3y3/AZe/atwaR9eXGAlqJ
+	3TAhSTC3WyTMcy6c+CKGHS98pKrG48SihK7jnEVAed9JEvEI1gjUjLr8
+X-Gm-Gg: AYBFou3IlRSa9PRcnzMwmVPHKo0zrusTe7d0Dype8w7A95qLp8DJt4LWGSHxaOccnzs
+	cLIxnCUlx7Ooi8UUK56vvDTGpSqpTEHPinunIT/usgHLAoMyC8Q6DhK6ic1zmti8siYcatESyM/
+	9qfTuI93rnVWwU6kd4wDdwG4sbz7XJXLF5yeSS8YJEyNgE3nWN87vIPjWWHakLf8mLFfUmuqvxP
+	FRy1qecKkmE35eXk3To9QlkMql/8Vu5e1QVjkmZnCuBUoJeRBjlcMrcvq2XUMn6bAqy6tzu4brf
+	uXLEPwigiAAK08RigkiOI/CJ3pAEO6TkA8mcejLmqkhae1MTEq131XzQAV3SW17oOIyySoJEONC
+	emrcOsYXP1bANHhlZvu0VKtLNG92muGLU7HqHIyh1X+wr6Z8Leqg60R0bRMZodzkJQGM8irZ1Z1
+	6s5VyjghSwLnQQP1LGzTHR6gAmkKBZUKDHHA2WziWeqR8iJ++0F8il775ovVyu6CwAU7CJWDUnO
+	LFfp6Wij+1k9ncsmc/8CFl7JokbmaFkTJt/wtc75VtNID0j4qaIvzXDZousF6ZQ7kkC1fCIo6f0
+	u2rrfXS4p7A9TfMm88eEX29/zL3BFMinseopB+qIQBCKLuNstll0sjPQRlAha0yb+sQocCCh146
+	GA1Sa4ASlEgs/OUoCVRuroaSNJcHyyipqSkEQBeez
+X-Received: by 2002:a05:6102:2b85:b0:79e:373e:8216 with SMTP id ada2fe7eead31-7d0723d2480mr1002923137.0.1793358665428;
+        Fri, 30 Oct 2026 04:11:05 -0700 (PDT)
 Received: from 1.0.0.127.in-addr.arpa ([191.34.116.20])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d07754c1b4sm1841044137.4.2026.10.30.04.10.54
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d07754c1b4sm1841044137.4.2026.10.30.04.11.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 04:10:58 -0700 (PDT)
+        Fri, 30 Oct 2026 04:11:05 -0700 (PDT)
 From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 To: David Heidelberg <david@ixit.cz>
 Cc: David S. Miller <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  Simon Horman <horms@kernel.org>, oe-linux-nfc@lists.linux.dev,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net 1/3] nfc: hci: free the skb sent through LLC nop
+Subject: [PATCH net 2/3] nfc: rawsock: free the response skb when the data
+ exchange fails
 Date: Fri, 30 Oct 2026 08:10:42 -0300
-Message-ID: <179335864272.64596.14178706469641120758@gmail.com>
+Message-ID: <179335864272.64596.4931238314416806197@gmail.com>
 In-Reply-To: <179335864271.64596.805818095553030218@gmail.com>
 References: <179335864271.64596.805818095553030218@gmail.com>
 Content-Type: text/plain; charset="utf-8"
@@ -103,51 +104,54 @@ List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-nfc_hci_msg_tx_work() hands each frame to nfc_llc_xmit_from_hci() and
-only frees it if that fails: on success the LLC engine owns it.  SHDLC
-queues the frame and frees it once it is acked, but LLC nop passes it
-straight to the driver's xmit, and the phy write operations of its
-users (the MEI phy of pn544 and microread) copy the data out and leave
-the skb alone, so every frame sent to the controller is leaked.
+rawsock_data_exchange_complete() only frees the skb it is given when
+the exchange succeeded.  But the skb can carry the response even when
+err is set: the HCI core passes it on with the error derived from the
+controller's result code (__nfc_hci_cmd_completion() gives it to the
+callback and does not free it, and hci_transceive_cb() and the pn544,
+st21nfca and microread data exchange callbacks forward it as is), and
+NCI does the same for a frame interface data packet with a non-zero
+status byte.  So each failed exchange on a raw socket leaks an skb, and
+a controller or tag that keeps failing exchanges leaks memory without
+bound.
 
-This was found by LLM-assisted code review and confirmed with a
-test-only module that registers st21nfca with LLC nop on a virtual phy
-and a userspace controller emulator: 20 device up/down cycles leaked
-598 skbuff_head_cache objects, and none with this patch.
+This was found by LLM-assisted code review.
 
-Free the frame in llc_nop_xmit_from_hci() once the driver has sent it.
+Free the skb on the error path too; it is NULL when the error does not
+come with a response (digital, timeouts, device close), and
+kfree_skb() handles that.
 
-Fixes: 8af00d48dc92 ("NFC: Add a nop (passthrough) llc module to llc core")
+Fixes: 23b7869c0fd0 ("NFC: add the NFC socket raw protocol")
 Cc: stable@vger.kernel.org
 Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 Assisted-by: Yaga Agent HackerSec Claude:claude-opus-5-5
 ---
- net/nfc/hci/llc_nop.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ net/nfc/rawsock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/nfc/hci/llc_nop.c b/net/nfc/hci/llc_nop.c
-index f9c826a13..1603e435b 100644
---- a/net/nfc/hci/llc_nop.c
-+++ b/net/nfc/hci/llc_nop.c
-@@ -67,8 +67,17 @@ static void llc_nop_rcv_from_drv(struct nfc_llc *llc, struct sk_buff *skb)
- static int llc_nop_xmit_from_hci(struct nfc_llc *llc, struct sk_buff *skb)
- {
- 	struct llc_nop *llc_nop = nfc_llc_get_data(llc);
-+	int r;
+diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
+index f7d7a599f..74ef3906c 100644
+--- a/net/nfc/rawsock.c
++++ b/net/nfc/rawsock.c
+@@ -156,8 +156,9 @@ static void rawsock_data_exchange_complete(void *context, struct sk_buff *skb,
  
--	return llc_nop->xmit_to_drv(llc_nop->hdev, skb);
-+	/* The driver does not take ownership of the frame (the phy write
-+	 * operations copy it out), and nfc_hci_msg_tx_work() only frees it
-+	 * on error, so it is ours to free once it has been sent.
-+	 */
-+	r = llc_nop->xmit_to_drv(llc_nop->hdev, skb);
-+	if (r == 0)
-+		consume_skb(skb);
-+
-+	return r;
+ 	pr_debug("sk=%p err=%d\n", sk, err);
+ 
++	/* skb may carry the response even when the exchange failed */
+ 	if (err)
+-		goto error;
++		goto error_skb;
+ 
+ 	err = rawsock_add_header(skb);
+ 	if (err)
+@@ -180,7 +181,6 @@ static void rawsock_data_exchange_complete(void *context, struct sk_buff *skb,
+ error_skb:
+ 	kfree_skb(skb);
+ 
+-error:
+ 	rawsock_report_error(sk, err);
+ 	sock_put(sk);
  }
- 
- static const struct nfc_llc_ops llc_nop_ops = {
 -- 
 2.43.0
 
