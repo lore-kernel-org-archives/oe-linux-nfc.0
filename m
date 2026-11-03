@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793663027;
-	b=us1SxY3iv3LaMBKGSuKdL9mQBvpUGqyZwxJfjom6I2bcX9PowqdGhtBZSj4yOOiyELlQ
-	 iGDmYk7tTDUhENIfKp5dU+vaZ68E8gXn2imTiLHG4pRcwpFIF0tMMFTXTfv6UuWwyafbt
-	 hUs6RypgQAqmtdMYL6H/Af0UT3jrddXa1AkXo3wFR1aM+3WosrVzpE7b4t1inf3oeN4Qs
-	 yrYs6tx3xScw7aJICci98u4QEdK8ZzUHCieBHTKMsijcDf7P5lup0EThP9x57uZXpF/mr
-	 lQwcJYMMv/VGGsRNQf1qYqExAkJQOn3ESILkliJZoFMkqq1MacrqhLBhrCZ2cMAIFVw==
+	t=1793674971;
+	b=W5e5dSwnIaxV4JJ7H5IR2WTjojS4te0Rtc9U74Yq6tnXaGnHzwvbmpI5mNjm3zBV+R7/
+	 6nX6MoQl6MdHDwjdB6CML+mcaZRnGn8NtGY07SwovcJd9wH6XQAKS4PfxwakP9hMgo2C6
+	 FAOtG8XCdWOLbCnaEXHRtKHVd3wRjVb1OXlFxi7Llr/JEm4W/aYBLWTBGAQMdmjET+xiQ
+	 6cdMpBVtZc4Dj0WDi68jLUviISsY+SqyKoQbGLk+07DEeOjAuFWRL0cxBDAqQDab8GYq7
+	 jcWOCRITt0vDAcTjkDon7FnY6O11ag/U8YKRIwr4sm4o5QpVA73alinZpmv5YiNG7nQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793663027;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793674971;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=fiY9qWgjrYJMpr6GH8v035SqUvzibVkrP6YYRS1LKkU=;
-	b=v5WIFSQ2MuL6SWJ1BXCXJQe/nZYK7ulrWvsbF1YKolAy+x1A4qkR07fBLgFGv7U7i9JY
-	 R9V1YqfZ62G36svEbSAeEKv2HAN4mYQTryayudvZ+UGf4DkGWRxJQ2lP2JpaBKTEfD3ke
-	 uVTvR2i3Yw2ch3/sPB7aQC++CyxRyTUWheTwgR+1sv70gqDkQFxp63I/1InNI0ozeCvtD
-	 J42hgRcAmkpOx3/DUlxlELz4LxnXo0yFURw5yUm3JHYyiWB0ouDBdCaHQ83exiYW4wMvk
-	 KtrgVWS31ZlrUy56fIZQfdpwbTRLMNQjDs9JVmbcl9vhzfw7qGCCH/R2qluaXN0wF7g==
+	bh=6uWrHIdQA4/I/nNEbaoqtIpWv2r/6R+u8p9kDzTlgDQ=;
+	b=AfT0QEri0aaZjuF73vr3f+K7DM0pcWdb4wFgUnxvSQOcXAKxIEw9JuGWSdAuvU/ckNLE
+	 D8/lg8Ly38WV0IRwrYpQAk0y+EQG6NoVO/PsyduWtEcSm4MVRRuHAVB0WAErjSjFIWMVr
+	 aQMhR0bbAuvDzoUYCgc+HWwixHO6y1zq6svptyHtjnguJG5R5BZZtmTybrqWe6QeuIOGZ
+	 MOwJowdl/cnUWKpIv1kfTj1nJA0rEs4aYLtf4TKiabb5L0HWNZt81BByQmePeo1biZf70
+	 2g5/1shjnmIvHJ57v4Es7CS7b40RbL3WkjDTLhzHEbf5lqC32ei6w2pXGV/SSmIWu+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VV3fldM5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oimnZTFG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AB3606A32C;
-	Mon,  2 Nov 2026 23:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF25606A33B;
+	Tue,  3 Nov 2026 03:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VV3fldM5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F4C1F00A16;
-	Mon,  2 Nov 2026 23:43:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oimnZTFG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1AA61F00A18;
+	Tue,  3 Nov 2026 03:02:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793663026;
-	bh=fiY9qWgjrYJMpr6GH8v035SqUvzibVkrP6YYRS1LKkU=;
+	s=k20260515; t=1793674970;
+	bh=6uWrHIdQA4/I/nNEbaoqtIpWv2r/6R+u8p9kDzTlgDQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=VV3fldM5z0a/KL0QUT1/KwUVd+V4NJI4+aLLAVoHx9IUlR4WMLLKcQbJpBlcyg4kd
-	 zC5ZxwU7AMjjc7OOTD3EOAOIRx5eWjcxDTM6a/ITr+gNMYpdjYTFyAObV3wPhI8jYv
-	 XgOb2E7RIs8wDBVti0Hoh7vCwLAlBwjz1PFm95xXCl4HF10EUkvQ+0wBJM7N9O/tW4
-	 +OEAFEk6FEARhC4t9qgfAAvYOiEZGszZ5+KtlOGT6L5+I6e8vW9Wqt9yv4djVKdujk
-	 AnLucMr7yrt8XDRnoKSKvUuGVrr8uPIS6TEIEu89faW3Uye1+FRRTWE0WiBb8W9pgK
-	 hIzAbhDVw52zQ==
-Subject:
- Re: [PATCH net 3/5] nfc: nci: consume the loopback response exactly once
+	b=oimnZTFGTeJE43fq6q+zP9zhnnO569FfyCYBDdMi/QUj+r8PCev/2tGuRQVgJFyi1
+	 zNn14mwrvWqixU2DGDV9iwX8h4ArR0F/sHQ55MnbFRBseHFWtbO8YSGCiLMK6F0kOT
+	 lsVgCgkYevp8m5X5EnIDj9/XrO3+ARFuwJqjhrTYoEvbzowm1UpQ5yNuZMuBw0FYHL
+	 Z8hN9XmbCKL7t/FEeqTeHmeoBQMTXdYcLspH2sCuPv0OnjVTFpPWNw4v2X7lQn6M+m
+	 SojdJtXleZQd0k3P6KPhdySSYA3MdqRCsKFQJ/3tYVfc1TeFXbM8p3cV/I6aUiYcnh
+	 xt65wV6HMoMjg==
+Subject: Re: [PATCH net] nfc: s3fwrn5: validate the firmware image size
+ against the firmware file
 From: netdev-bot+sashiko@kernel.org
 To: joasantonio108@gmail.com
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, kipreyyy@gmail.com,
- sanghyun.park.cnu@gmail.com, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 02 Nov 2026 23:43:45 +0000
-Message-ID: <179366302585.488856.12804499169587262096@kernel.org>
-In-Reply-To: <179331585573.30322.5511229003943288914@gmail.com>
-References: <179331585573.30322.5511229003943288914@gmail.com>
+Cc: david@ixit.cz, krzk@kernel.org, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 03:02:49 +0000
+Message-ID: <179367496942.488856.4052477180493084885@kernel.org>
+In-Reply-To: <179332800288.52644.4206885352837613064@gmail.com>
+References: <179332800288.52644.4206885352837613064@gmail.com>
 X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -65,10 +65,10 @@ List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 1 potential
 issue(s) to consider.
 
-Critical: 0 · High: 1 · Medium: 2 · Low: 0
+Critical: 0 · High: 1 · Medium: 0 · Low: 0 (1)
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -76,147 +76,121 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [High] nci_nfcc_loopback() (net/nfc/nci/core.c) can still use or write
-  freed memory.
-- [Medium] The patch consumes conn_info->rx_skb only when nci_request()
-  returns NCI_STATUS_OK.
-- [Medium] The read-then-clear the patch adds to nci_nfcc_loopback()
-  (core.c:471-472, `rx_skb = conn_info->rx_skb; conn_info->rx_skb =…
+- [High] The fix is incomplete because the signature offsets and sizes in
+  the firmware header are still not checked.
+
+Pre-existing issues:
+- [Low] struct s3fwrn5_fw_cmd_get_bootinfo_rsp is 12 bytes
+  (hw_version[4], sector_size, page_size, frame_max_size,…
 
 --
 
-nfc: nci: consume the loopback response exactly once
+nfc: s3fwrn5: validate the firmware image size against the firmware file
 
-This patch changes nci_nfcc_loopback() so that, after a successful
-nci_request(), it detaches conn_info->rx_skb before using it. The skb is
-freed if the caller passed no resp pointer, and -EPROTO is returned if the
-request completed without a data packet. The goal is to fix a
-use-after-free and double free that happen when a stray zero-status NCI
-response completes a loopback request.
+This patch adds bounds checks to the s3fwrn5 firmware download path. It
+checks the GET_BOOTINFO response length and rejects an image offset past
+the end of the firmware file. It also checks that sector_size *
+image_sectors, plus the 4 KiB sent per sector, fits in the firmware image
+before the image is hashed and flashed.
 
-> diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
-> index 73e3a96470ace..8e2a755ce2555 100644
-> --- a/net/nfc/nci/core.c
-> +++ b/net/nfc/nci/core.c
+> diff --git a/drivers/nfc/s3fwrn5/firmware.c b/drivers/nfc/s3fwrn5/firmware.c
+> index 9145deec7f6c1..159afb8de7491 100644
+> --- a/drivers/nfc/s3fwrn5/firmware.c
+> +++ b/drivers/nfc/s3fwrn5/firmware.c
+> @@ -93,7 +93,8 @@ static int s3fwrn5_fw_get_bootinfo(struct s3fwrn5_fw_info *fw_info,
+>  		return ret;
+>  
+>  	hdr = (struct s3fwrn5_fw_header *) rsp->data;
+> -	if (hdr->code != S3FWRN5_FW_RET_SUCCESS) {
+> +	if (hdr->code != S3FWRN5_FW_RET_SUCCESS ||
+> +	    rsp->len < S3FWRN5_FW_HDR_SIZE + 10) {
+
+[Severity: Low]
+This is a pre-existing issue, but struct s3fwrn5_fw_cmd_get_bootinfo_rsp
+is 12 bytes:
+
+struct s3fwrn5_fw_cmd_get_bootinfo_rsp {
+	__u8 hw_version[4];
+	__u16 sector_size;
+	__u16 page_size;
+	__u16 frame_max_size;
+	__u16 hw_buffer_size;
+};
+
+The new length check and the existing memcpy() in
+s3fwrn5_fw_get_bootinfo() both use the literal 10. That means
+hw_buffer_size in the on-stack bootinfo in s3fwrn5_fw_setup() is never
+filled in.
+
+Nothing in drivers/nfc/s3fwrn5/ reads hw_buffer_size today, so this has
+no functional effect.
+
+Would it be cleaner to use sizeof(*bootinfo) here? Or a named constant
+that documents a 10-byte wire format?
+
+>  		ret = -EINVAL;
+>  		goto out;
+>  	}
 
 [ ... ]
 
-> @@ -464,8 +464,20 @@ int nci_nfcc_loopback(struct nci_dev *ndev, const void *data, size_t data_len,
->  	ndev->cur_conn_id = conn_id;
->  	r = nci_request(ndev, nci_send_data_req, &loopback_data,
->  			msecs_to_jiffies(NCI_DATA_TIMEOUT));
-> -	if (r == NCI_STATUS_OK && resp)
-> -		*resp = conn_info->rx_skb;
-> +	if (r == NCI_STATUS_OK) {
-
-[Severity: Medium]
-Can a stale rx_skb from an earlier loopback still be returned here?
-
-The rx_skb is only consumed when nci_request() returns NCI_STATUS_OK.
-Nothing clears or frees conn_info->rx_skb before the new request is sent.
-The same is true on the -ETIMEDOUT, -ERESTARTSYS and non-zero status
-paths.
-
-data_exchange_cb is never cleared. nci_data_exchange_complete() checks
-NCI_DATA_EXCHANGE only for the static RF connection:
-
-net/nfc/nci/data.c:nci_data_exchange_complete() {
-    ...
-	if (conn_id == NCI_STATIC_RF_CONN_ID &&
-	    !test_and_clear_bit(NCI_DATA_EXCHANGE, &ndev->flags)) {
-    ...
-}
-
-Suppose loopback #1 times out and its data packet arrives late.
-nci_nfcc_loopback_cb() still stores the packet:
-
-	conn_info->rx_skb = skb;
-
-Suppose loopback #2 is then completed by a stray zero-status response,
-like the CORE_SET_CONFIG_RSP in the commit message. Wouldn't this code
-return the skb from loopback #1 as the reply to loopback #2?
-st_nci_loopback() would then copy that skb's data to userspace.
-
-If the real data for loopback #2 arrives instead, nci_nfcc_loopback_cb()
-overwrites rx_skb without freeing it. Does that leak the late skb?
-
-nci_core_conn_close_rsp_packet() and nci_unregister_device() also drop
-conn_info without freeing any skb still stored in rx_skb.
-
-st21nfca_hci_loopback(), by comparison, clears its rx_skb before it sends.
-Could conn_info->rx_skb be freed and cleared before nci_request() here,
-and on the error paths too?
-
-> +		/* Consume the stored data packet exactly once, see
-> +		 * nci_nfcc_loopback_cb().
-> +		 */
-> +		rx_skb = conn_info->rx_skb;
-> +		conn_info->rx_skb = NULL;
+> @@ -307,6 +308,10 @@ int s3fwrn5_fw_request_firmware(struct s3fwrn5_fw_info *fw_info)
+>  	memcpy(&fw->sig_size, fw->fw->data + 0x18, 4);
+>  
+>  	memcpy(&image_off, fw->fw->data + 0x1C, 4);
+> +	if (image_off > fw->fw->size) {
+> +		release_firmware(fw->fw);
+> +		return -EINVAL;
+> +	}
+>  	fw->image = fw->fw->data + image_off;
+>  	memcpy(&fw->image_sectors, fw->fw->data + 0x20, 4);
+>  
 
 [Severity: High]
-Is conn_info still valid at this point?
+image_off is now checked against fw->fw->size. The signature fields from
+the same header are still used without any range check:
 
-conn_info is looked up before the blocking nci_request() call, and
-ndev->cur_conn_id is set to the loopback conn_id. While the request is
-pending, the NFCC can send an unsolicited CORE_CONN_CLOSE_RSP with
-status 0. nci_rsp_packet() picks the handler by opcode only, and the
-handler does:
-
-net/nfc/nci/rsp.c:nci_core_conn_close_rsp_packet() {
-    ...
-	if (status == NCI_STATUS_OK) {
-		conn_info = nci_get_conn_info_by_conn_id(ndev,
-							 ndev->cur_conn_id);
-		if (conn_info) {
-			list_del(&conn_info->list);
-			...
-			devm_kfree(&ndev->nfc_dev->dev, conn_info->dest_params);
-			devm_kfree(&ndev->nfc_dev->dev, conn_info);
-		}
-	}
-	nci_req_complete(ndev, status);
+drivers/nfc/s3fwrn5/firmware.c:s3fwrn5_fw_request_firmware() {
+	...
+	memcpy(&sig_off, fw->fw->data + 0x14, 4);
+	fw->sig = fw->fw->data + sig_off;
+	memcpy(&fw->sig_size, fw->fw->data + 0x18, 4);
+	...
+	memcpy(&custom_sig_off, fw->fw->data + 0x24, 4);
+	fw->custom_sig = fw->fw->data + custom_sig_off;
+	memcpy(&fw->custom_sig_size, fw->fw->data + 0x28, 4);
+	...
 }
 
-That completes the loopback request with NCI_STATUS_OK. The code above then
-reads rx_skb from freed memory, and with this patch it also writes NULL
-into that memory.
+s3fwrn5_fw_setup() then picks one of the two pairs based on
+s3fwrn5_fw_is_custom(&bootinfo). That depends on hw_version[2], which the
+controller reports in GET_BOOTINFO.
 
-If the slab object has been reused, could the new NULL store corrupt the
-new owner? If the read returns a non-NULL value, st_nci_loopback() would
-read skb->len and skb->data and then call kfree_skb() on it. That is the
-same skb use-after-free and double free the commit message describes.
+The chosen pointer and size (truncated to u16) are then sent to the
+controller:
 
-Would it be safer to look up conn_info again after nci_request() returns,
-or to check that the completing response belongs to this request?
+s3fwrn5_fw_download()
+  s3fwrn5_fw_enter_update_mode(fw_info, hash_data, SHA1_DIGEST_SIZE,
+                               fw_info->sig, fw_info->sig_size)
+    s3fwrn5_fw_prep_msg(fw_info, &msg, S3FWRN5_FW_MSG_DATA, 0,
+                        sig_data, sig_size)
+      skb_put_data(skb, data, len)
 
-[Severity: Medium]
-Can this read-then-clear race with nci_nfcc_loopback_cb()?
+What happens if sig_off + sig_size, or custom_sig_off + custom_sig_size,
+runs past fw->fw->size? Can skb_put_data() then read up to 64 KiB beyond
+the firmware buffer?
 
-These are two plain accesses, and they share no lock with the code that
-stores rx_skb. nci_nfcc_loopback_cb() runs from rx_work and doesn't take
-req_lock:
+Depending on how far the read goes, it would either oops on a guard page
+or unmapped address, or copy nearby kernel memory into the DATA packet
+sent to the controller.
 
-	conn_info->rx_skb = skb;
+The commit message says:
 
-	nci_req_complete(ndev, NCI_STATUS_OK);
+    Check that everything that is hashed and sent lies within the image,
 
-In the case this patch targets, a stray zero-status response completes
-the request first. rx_work can then handle the real loopback data packet
-while the woken caller is in this code:
-
-caller                                rx_work
-rx_skb = conn_info->rx_skb; /* NULL */
-                                      conn_info->rx_skb = skb;
-conn_info->rx_skb = NULL;
-return -EPROTO;
-
-Does that leak the skb stored by the callback? This is also an unlocked
-race on a plain pointer, which KCSAN would report.
-
-> +		if (!rx_skb)
-> +			return -EPROTO;
-
-[ ... ]
+The signature is sent in the same update sequence. Should both signature
+extents also be checked against fw->fw->size here, for example with
+check_add_overflow()?
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/179331585573.30322.4049957541187612575%40gmail.com
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/179332800288.52644.4206885352837613064%40gmail.com
