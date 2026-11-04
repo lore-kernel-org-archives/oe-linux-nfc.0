@@ -1,92 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793773236;
-	b=z0gIHYF1+5jM7Mwo76B9MLI7i2E0s/fGzrFVV1zOTHgm2a44n4k8MYLtY9PDAyv5lNDs
-	 n6h5HyiAaJqwVUtYinyYFd5gz0LPUKoy5Om6AQuIJhlp4x7tZpYHpqBOUrEvPgUwZ751E
-	 gtrTiDjRvtlfFsleJrQO3PeEC7aOQ7k96QCVYlB4/9T/sIECLm6pvls8WYHD2TydG+GmF
-	 HjlplqSaHrF6Gd6snsNMNgu7Bspzr3npS/7VXfEdkoGpNGwDPcWSmU8Cq3c0ESnEK1ykG
-	 +1NFIadNUrw8EzDsimOwinNpUY0yYDghAg68J11Vtgwe5Y2ll3RYjhWLvmHb6EzZnEw==
+	t=1793773239;
+	b=q93NsNuC1ocmZLK38o005GNk1GeOXJ4cMT5ufj8OHFj1SWMmB8URHG2LRkriPKwjgu56
+	 tsK6+ZgW5HLCJgi5KwKbi0xZHa+YeBwj4e3YFk7fyZwS0awKYrUxHL1fLimn8oIn+fu8m
+	 dy5817k5Al/J5Ehf+lcZqlnRBali+lcDyr1bfgj1behofqOcGnlsmMvFfRYHmEi/diax6
+	 NtLFQFfLDUHauFt9X0S3DToohESw0399zaLgfdWIJNxdHGEYfxrse8/vq34nb6G/gfmGZ
+	 uttvyWjtYWIwFFdF2YZztxbd6oywzf2vyjlLcw9RB/6ikB7K/nmEHKWIj9VQrQIOfWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793773236;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793773239;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=V+z8p02HuPEPBTukBBTYVrh63gM4/9qfp3aVcKWZiEI=;
-	b=43gqCA4BdlSwoE5jsFsNbyM2xtRiqasDJ0D4Fl7g/ePKQ+lzQ9rHZe36ldAWSneXgUaa
-	 MvWFFe1J+Yfu07v5QXUTSFr9iU7hsknkCvs4NfcNf7cTogFjpwHHJ7NA6WgYdLTGqypDx
-	 24xNldRxsSj8W0DuLINaTwi+LNAyLWeWy7O6RY4ACGh696MA8Hnv8kE5rzaajyFYPeI8k
-	 D6tULsXCUrkOqvyPfMym6I6S7SYWhKj9QakrSsbBBX0QN1bgZF1zVp1XuxWDXr8yDafXO
-	 IH3BbvXjlvFsP54ChRBPjqDYDHJl9Lef0Drep5Zp7vGGlQvlB9dhGOJRc7VTSFCYpfw==
+	bh=CunNi0WoZeC7/a5MvV/P1anO2Wdj5ACeH4FRxQtP5e0=;
+	b=Fj/yIqQUu7kpBOHEb1XKBZMayQRuQQAZb3HRCEXki+YPX9TQMfVoVfxq7hsdBQnL/jlc
+	 ff8RAPXrdJdBbxM/AYjO4cjsackJDGMMpngc/THwUD9tzwaec4Hld+8NXu1k9ArGFsiqM
+	 CUd52wJotz1LrgWygVxqE6t15UTxBYGDByOVhnFccZ96qBdNEv2/s1j5akKbXoern9r2P
+	 lJQupMJpBU3FJb30nzULV6fc35Lam/E9X5ygRAnSvvRtQBWLIg49Td0Tl+VaMiDx5dDvn
+	 l6hRCtxwQzS2HtWFdIXi0USok4i1dp5dpMxb4Z6IENVv6qqfvRz0JIog+ByJ2X40sCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=octane.security;
 	spf=pass smtp.mailfrom=octane.security;
-	dkim=pass header.d=octane.security header.i=@octane.security header.a=rsa-sha256 header.s=google header.b=HLwLRIfW;
-	arc=none smtp.remote-ip=74.125.82.51
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	dkim=pass header.d=octane.security header.i=@octane.security header.a=rsa-sha256 header.s=google header.b=JeOrrVto;
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D306606A326
-	for <oe-linux-nfc@lists.linux.dev>; Wed,  4 Nov 2026 06:20:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D306606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C19606A328
+	for <oe-linux-nfc@lists.linux.dev>; Wed,  4 Nov 2026 06:20:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91C19606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=octane.security
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=octane.security
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=octane.security header.i=@octane.security header.a=rsa-sha256 header.s=google header.b=HLwLRIfW
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1a8cc11ac42so489662c88.0
-        for <oe-linux-nfc@lists.linux.dev>; Tue, 03 Nov 2026 22:20:35 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=octane.security header.i=@octane.security header.a=rsa-sha256 header.s=google header.b=JeOrrVto
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1a2af4c8d00so873212c88.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 03 Nov 2026 22:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=octane.security; s=google; t=1793773235; x=1794378035; darn=lists.linux.dev;
+        d=octane.security; s=google; t=1793773238; x=1794378038; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V+z8p02HuPEPBTukBBTYVrh63gM4/9qfp3aVcKWZiEI=;
-        b=HLwLRIfWTqERPSfgZGqQxqCClY6Bup66rgYlluo3+6Aty/oSwMjKLTbxTHO9nfmX45
-         AkP+7amvGIxlDlaoGzLbyrwjEFtLlsNeeBkfztsrwMkJe9v98ZmoAceXztSPMMVrE34n
-         njAUFAElHkXJUa/H5g1EfJL2BfHT/MX5Gzell+aabQMq5dkAxa9gI707e+RLtz4QAurr
-         4GPTnszpZF6KtudVURnM/6Pq6JRAeZ2rJDJo9jACpWApr5kdmaatBreMOxfwzkphsdDT
-         AKN4dSVaxX2zxL/VpPsGdc4YcCIl96eUwehviQjnIGJz2oUXTqOFeJ/rT324Coandhtn
-         xkQQ==
+        bh=CunNi0WoZeC7/a5MvV/P1anO2Wdj5ACeH4FRxQtP5e0=;
+        b=JeOrrVtov7QPqzwFy45KlXyT9cOn1hE+6a3wYYCwULvQYyNwDdk084GKtlMfT9bphN
+         b53Z+zxh6QrEQZJBATka2z3NH1hr471+mv7veJAFNfFulabC+vR4lJwhYvphvjtnwPNv
+         Eq0/BoxIYANhdxo7UEaj3Reomzo32Y4MJO+Zo7A1O4ZKr2t0xFaDbaPTBffMqITD+2rl
+         SIBlT9iLHnPdZobH6PHvn7n+lcXbkAAQW2D/uNM28uPvobJ1SUiPejGf7GWsPbuKz3OZ
+         HpXLo8xKHfb/8qNxv8dR6SUntVi1IXG9FxoTBzZrUEe0k5BGCV1Ug7GctzEnwR02YqTu
+         Jh0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793773235; x=1794378035;
+        d=1e100.net; s=20260707; t=1793773238; x=1794378038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V+z8p02HuPEPBTukBBTYVrh63gM4/9qfp3aVcKWZiEI=;
-        b=TAWh/IgTokaHGZNnYbJgSzDjim/KiCAYT7YSiGLhsgUlY7EDIna+qlass5TwmN7Jty
-         b68g4jwDUKDbIo2DQJnMjTn93RAcQNsWQ2EcsjAlfuegh5nt9yemLYqu0Qy+p2GIM9HX
-         +hJpSsHGbpakJY42psh1KJnSW33OEwsa9z3zQ6fFTIsOiamTFqxbPjkxr0xathLytVFS
-         clL6wVzbDPc6nLgBeqI+b7rmRslVYKCRM064tJxV34cF3ZIU0r3l+vT9bx0fc7+ysewf
-         hFGkDE+567RO4XVH7aahoBTQxZ2O7H/sEInL62qpRv2t+LXfwWiEKTNB9V28CAWw6zk1
-         GwVw==
-X-Gm-Message-State: APuU4Z+u8w6pnyrGrS35CTLjv5ltk24DvkzfmzxI0eDFDIMWy0l7ps66
-	K3NkTSFH5elsuat6xSbXr2zLbblhFp1ZDBsCdA2sHD2FFyZ+aM3k/Wt6W/K5cbidABE=
-X-Gm-Gg: AYBFou2oowH1u5oCju6vw2Ft1oSlizSoX4luViVnNAKWLpOMyK7VzFBB2WX+qpfVTqU
-	reC/dyaOfiwrXfnguQ4ld3NhMoWaDVHd/0BtBri1K4tnzPuznTbi+LYjmhZDYwHkYIJosVijVal
-	6YCjkyxE0U62CAJJ+IWHmpj8M2BUCuhoS5E1kqBpu4gjMEpn4ANfg1B7F9Ar4bIL9WaqIV1MxQR
-	FBufKqvmRN45K9SkcYHGz9n/I4+GUGOcxhy+DwW1359hfVDLgKSu+jHzm+mSp3rr1n0/kp2Ptzx
-	o2INqS0UBF5MV4tEeQ84re0E//wYLUJFbvabCGnfhlPTipgRdM8Pv8pQD58E8gGam7m2lNyrfpE
-	6jw+dHMNI+I/QusBe9ZUVODdpMhAKY39oNZsW7N2Gevm216+GRHVxGUA8HlZeJQEonO7WH49ejW
-	qYo4rWHDk9p19SKt20ApdqzkpdKM6JuDZpThVRSUF4beUwM2EnvxZSWvlTDjLYx6xL26fMOAp7q
-	L2gYz3czyLOlHVnN/xo1NxR2vvuBKGc9Hii73XICqm7JCzPKnCQCshInF1ttclJi9/rFDVzdJry
-	yQTL+Umku4GC24U87Hy23zoYWuGOxycgtdLpWRoWDv58CDFoftW/UkSJ5RhvkrhmpWEWKRSSTZO
-	qtwiIaUBuBqBgVZPoSczqI5T3Qhd4uneCQN+8NigKz56lJMc6
-X-Received: by 2002:a05:7022:108c:b0:163:c5eb:d42f with SMTP id a92af1059eb24-1ac574551afmr21038784c88.5.1793773234518;
-        Tue, 03 Nov 2026 22:20:34 -0800 (PST)
+        bh=CunNi0WoZeC7/a5MvV/P1anO2Wdj5ACeH4FRxQtP5e0=;
+        b=XNnwzP92GLUfcmE4XuJHzKWkEuae1chiXnx3AxgZDoFc43dFT5IxUs0hRvRpbDQfXx
+         x2LimE+krzMwGENHTp0968a3Ew/hRoCvi3xCMBh0OfQGok75lAy756kdE7/O6GT1qVl+
+         IYKYw9APGM4IufWbIgbIEh/rmCoSXfd8dD4kgob/rjoBBn7LKiT21i4CEzoZe4/qgiVk
+         iIibH414XYuVdYYIlq6Mm0p+mvDmVG1Fk83pCYjdOYhzz8qAwMu8tGp6rQq2N/+WTC/0
+         uyfdg4gJ60FuyBFYtETE5OB5LxdJpIxNQI/jqk5bd/rhKbBPwUK7GigUfSjFftlK80ox
+         T03w==
+X-Gm-Message-State: APuU4Z/cxwEA7DTuW0t5OSYrsODhTWKiqbnByAkP1kNhE+iTHrtRFd9l
+	kyHdxSBKcbMhQ8lCPu5CIrnfAoPqr08b16/44AhoacgZ7XNHcvbECoQtU/CImaDAC/wsFtA/ZEq
+	7F4YC
+X-Gm-Gg: AYBFou0z6KzLEj/WTHXruVuBJIOLiU5lsqqoYWOC5tKBqr5nP29dZZ3N3ZJNgNvbNSC
+	UcgCJa/uSvqic5h7a/dYWIk7m6SKwu6CnVO8wM0sTPLh0tOiefErnSlje1tUScY1gGMZ9BccC8c
+	89u0HLzpUe9TbGicQ6U1SmVQwV19sh95hfBy/gP6Eo/Qs6csBo0pczSmCrM4DtPBk9jLt4ziyP6
+	1dbwLCcplUFsp9wz+XLfQN4Y8hTKcs31Lwx1khWKdEoEtfiR8zMuGTIv/uOyR2PoxHPY/klbz9b
+	77puq6hokj5mjiWbPet2sN45vWt/cF0An/ROLOlIa8iAs3MWmA1ctpCap+pNdZjJm5jAJl6w+Ei
+	KGLZk8c1sXb+YieG26PEUilpYdANEbEp4r4ZnN8RwlmelpenEcJFVa49Z970bAokxYQAomLfrZj
+	yfHLv2MszQ4k+/vpDZNzMweBL0RBLqazQbTHdEtoJwcZdsHrMlc5o03sbXlrVNYFDojYpyjvzDM
+	8w8Cz5ZfaeDkHyAPdjwhJJ6KVBHI7L3NW4Kq9KgAxVXOUM7kvs5du8XIbobdl0WUe+qQbeF/F2U
+	A+UU3xsB5PUvqUKsg7VpjFbkB6dX84OGw6IGZ5BWF00GzI1w2Nw4gUNYVVV9NFMH6sHHNatTVB5
+	qIsEpznIScvLSKJEtRdMU0wPCRrcgmR9RCjQqqoFDyC4sUXkbBy3VxZu6+bT+UJTrw8rXaQ==
+X-Received: by 2002:a05:701b:4213:20b0:16c:4eef:a526 with SMTP id a92af1059eb24-1ac5a0b430bmr24216913c88.15.1793773237329;
+        Tue, 03 Nov 2026 22:20:37 -0800 (PST)
 Received: from localhost.localdomain ([103.196.55.178])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c69c3fsm4486279c88.20.2026.11.03.22.20.32
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c69c3fsm4486279c88.20.2026.11.03.22.20.34
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Nov 2026 22:20:34 -0800 (PST)
+        Tue, 03 Nov 2026 22:20:36 -0800 (PST)
 From: Shubham Antil <shubham@octane.security>
 To: netdev@vger.kernel.org
 Cc: oe-linux-nfc@lists.linux.dev,
 	david@ixit.cz,
 	horms@kernel.org,
 	gio@octane.security
-Subject: [PATCH net v7 1/3] nfc: nci: uart: serialize driver selection
-Date: Wed,  4 Nov 2026 11:50:24 +0530
-Message-ID: <20261104062026.80599-2-shubham@octane.security>
+Subject: [PATCH net v7 2/3] nfc: nci: uart: quiesce callbacks during teardown
+Date: Wed,  4 Nov 2026 11:50:25 +0530
+Message-ID: <20261104062026.80599-3-shubham@octane.security>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104062026.80599-1-shubham@octane.security>
 References: <20261104062026.80599-1-shubham@octane.security>
@@ -101,305 +102,406 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-NCIUARTSETDRIVER assumes that tty->disc_data remains NULL until a
-transport has been selected.  Two concurrent callers can therefore both
-allocate and register an NCI device for the same line discipline.
+nci_uart_tty_close() releases transport state before ensuring that the
+UART write worker and receive callback have stopped using it.  A write
+wakeup can also race the worker's final TX_WAKEUP test and SENDING handoff.
 
-The transport registry can also be changed while a caller is copying a
-template from it, before the transport module has been pinned.
+The Marvell open path has a related publication window.  It registers the
+NCI device before publishing the UART back-pointers and enabling receive
+callbacks, so an early device-open can use unset transport state or lose
+the controller response.
 
-Allocate one UART context when the line discipline is opened and claim it
-atomically during driver selection.  Protect the transport registry with a
-mutex, take the module reference while holding that mutex, and copy only
-the immutable template fields.  Keep TTY callbacks disabled until the
-transport has finished opening, and unwind the context so a failed
-selection can be retried.  Use acquire/release bit operations for the
-selection claim so a retry observes the completed unwind.  Treat the driver
-number as unsigned before using it to index the registry.
+Serialize transmit scheduling and the worker's final state transition.
+Once quiescing starts, block new work and cancel the worker synchronously.
+Balance tx_start() with tx_done() if teardown catches an active transmit
+burst, and make readiness publication restart an already queued frame.
+
+Publish the Marvell UART state before NCI registration exposes the device
+and roll the state back if registration fails.  On close, detach TTY
+callback admission first but keep transmit available while the transport
+unregisters, so the existing close-time CORE_RESET can still be sent.
+Then stop generic callbacks, halt the controller when a reset GPIO is
+available, and withdraw the UART back-pointers before releasing private
+state.  Apply the same barriers to the failed-open path.
 
 Discovered during an AI-assisted source audit using OpenAI Codex,
 gpt-5.6-sol.  Patch development and test planning used the same assistant.
-Confirmed using an unmodified kernel, a pty-backed user-space NCI
-controller, and two concurrent NCIUARTSETDRIVER ioctls; no error injection
-was used.
+Confirmed with repeated NCI UART registration, device-open, and hangup
+cycles using an unmodified kernel and a pty-backed user-space controller;
+no error injection was used.
 
-With the fix applied, the reproducer passed 100 cycles under KASAN, UBSAN,
-and lockdep, and 50 cycles under strict-mode KCSAN.  No in-tree selftest
-covers the NCI UART line-discipline path.
+With the fix applied, the registration/publication reproducer passed 20
+cycles under KASAN, UBSAN, and lockdep, and 5 cycles under strict-mode
+KCSAN.  Lifecycle testing observed all four expected CORE_RESET commands.
+No physical Marvell controller was available, and no in-tree selftest
+covers this UART path.
 
 Fixes: 9961127d4bce ("NFC: nci: add generic uart support")
+Fixes: e097dc624f78 ("NFC: nfcmrvl: add UART driver")
 Signed-off-by: Shubham Antil <shubham@octane.security>
 ---
- include/net/nfc/nci_core.h |   1 +
- net/nfc/nci/uart.c         | 142 ++++++++++++++++++++++++++-----------
- 2 files changed, 100 insertions(+), 43 deletions(-)
+ drivers/nfc/nfcmrvl/main.c    |  15 ++++-
+ drivers/nfc/nfcmrvl/nfcmrvl.h |   2 +
+ drivers/nfc/nfcmrvl/uart.c    |  28 +++++++--
+ include/net/nfc/nci_core.h    |   5 ++
+ net/nfc/nci/uart.c            | 115 ++++++++++++++++++++++++++++------
+ 5 files changed, 139 insertions(+), 26 deletions(-)
 
-diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
-index 664d5058e..2f542f5c9 100644
---- a/include/net/nfc/nci_core.h
-+++ b/include/net/nfc/nci_core.h
-@@ -454,6 +454,7 @@ struct nci_uart {
- 	spinlock_t		rx_lock;
- 	struct work_struct	write_work;
- 	struct tty_struct	*tty;
-+	unsigned long		flags;
- 	unsigned long		tx_state;
- 	struct sk_buff_head	tx_q;
- 	struct sk_buff		*tx_skb;
-diff --git a/net/nfc/nci/uart.c b/net/nfc/nci/uart.c
-index aa20e8603..529c8cf88 100644
---- a/net/nfc/nci/uart.c
-+++ b/net/nfc/nci/uart.c
-@@ -13,6 +13,7 @@
+diff --git a/drivers/nfc/nfcmrvl/main.c b/drivers/nfc/nfcmrvl/main.c
+index 6efa83219..81c760534 100644
+--- a/drivers/nfc/nfcmrvl/main.c
++++ b/drivers/nfc/nfcmrvl/main.c
+@@ -154,19 +154,24 @@ struct nfcmrvl_private *nfcmrvl_nci_register_dev(enum nfcmrvl_phy phy,
  
- #include <linux/kernel.h>
- #include <linux/init.h>
-+#include <linux/mutex.h>
- #include <linux/types.h>
- #include <linux/fcntl.h>
- #include <linux/interrupt.h>
-@@ -34,7 +35,12 @@
- #define NCI_UART_SENDING	1
- #define NCI_UART_TX_WAKEUP	2
+ 	nci_set_drvdata(priv->ndev, priv);
  
-+/* UART flags */
-+#define NCI_UART_DRIVER_SET	0
-+#define NCI_UART_READY		1
++	/* Ensure that the controller is powered off before exposing it. */
++	nfcmrvl_chip_halt(priv);
 +
- static struct nci_uart *nci_uart_drivers[NCI_UART_DRIVER_MAX];
-+static DEFINE_MUTEX(nci_uart_drivers_lock);
++	if (priv->if_ops->nci_ready)
++		priv->if_ops->nci_ready(priv);
++
+ 	rc = nci_register_device(priv->ndev);
+ 	if (rc) {
+ 		nfc_err(dev, "nci_register_device failed %d\n", rc);
+ 		goto error_fw_dnld_deinit;
+ 	}
  
- static inline struct sk_buff *nci_uart_dequeue(struct nci_uart *nu)
- {
-@@ -102,43 +108,82 @@ static void nci_uart_write_work(struct work_struct *work)
- 	clear_bit(NCI_UART_SENDING, &nu->tx_state);
+-	/* Ensure that controller is powered off */
+-	nfcmrvl_chip_halt(priv);
+-
+ 	nfc_info(dev, "registered with nci successfully\n");
+ 	return priv;
+ 
+ error_fw_dnld_deinit:
++	if (priv->if_ops->nci_quiesce)
++		priv->if_ops->nci_quiesce(priv);
+ 	nfcmrvl_fw_dnld_deinit(priv);
+ error_free_dev:
+ 	nci_free_device(priv->ndev);
+@@ -181,6 +186,9 @@ void nfcmrvl_nci_unregister_dev(struct nfcmrvl_private *priv)
+ 	struct nci_dev *ndev = priv->ndev;
+ 
+ 	nci_unregister_device(ndev);
++	if (priv->if_ops->nci_quiesce)
++		priv->if_ops->nci_quiesce(priv);
++
+ 	if (priv->ndev->nfc_dev->fw_download_in_progress)
+ 		nfcmrvl_fw_dnld_abort(priv);
+ 
+@@ -241,6 +249,7 @@ void nfcmrvl_chip_halt(struct nfcmrvl_private *priv)
+ 	if (priv->config.reset_gpio)
+ 		gpiod_set_value(priv->config.reset_gpio, 1);
+ }
++EXPORT_SYMBOL_GPL(nfcmrvl_chip_halt);
+ 
+ int nfcmrvl_parse_dt(struct device_node *node,
+ 		     struct nfcmrvl_platform_data *pdata)
+diff --git a/drivers/nfc/nfcmrvl/nfcmrvl.h b/drivers/nfc/nfcmrvl/nfcmrvl.h
+index 62fa77d58..5c2a5382c 100644
+--- a/drivers/nfc/nfcmrvl/nfcmrvl.h
++++ b/drivers/nfc/nfcmrvl/nfcmrvl.h
+@@ -112,6 +112,8 @@ struct nfcmrvl_if_ops {
+ 	int (*nci_open) (struct nfcmrvl_private *priv);
+ 	int (*nci_close) (struct nfcmrvl_private *priv);
+ 	int (*nci_send) (struct nfcmrvl_private *priv, struct sk_buff *skb);
++	void (*nci_ready)(struct nfcmrvl_private *priv);
++	void (*nci_quiesce)(struct nfcmrvl_private *priv);
+ 	void (*nci_update_config)(struct nfcmrvl_private *priv,
+ 				  const void *param);
+ };
+diff --git a/drivers/nfc/nfcmrvl/uart.c b/drivers/nfc/nfcmrvl/uart.c
+index 9aedd1687..b7f99cdb4 100644
+--- a/drivers/nfc/nfcmrvl/uart.c
++++ b/drivers/nfc/nfcmrvl/uart.c
+@@ -44,6 +44,27 @@ static int nfcmrvl_uart_nci_send(struct nfcmrvl_private *priv,
+ 	return nu->ops.send(nu, skb);
  }
  
--static int nci_uart_set_driver(struct tty_struct *tty, unsigned int driver)
-+static int nci_uart_set_driver(struct nci_uart *nu, unsigned int driver)
++static void nfcmrvl_uart_nci_ready(struct nfcmrvl_private *priv)
++{
++	struct nci_uart *nu = priv->drv_data;
++
++	priv->support_fw_dnld = true;
++	nu->drv_data = priv;
++	nu->ndev = priv->ndev;
++	nci_uart_set_ready(nu);
++}
++
++static void nfcmrvl_uart_nci_quiesce(struct nfcmrvl_private *priv)
++{
++	struct nci_uart *nu = priv->drv_data;
++
++	nci_uart_rx_stop(nu);
++	nci_uart_tx_stop(nu);
++	nfcmrvl_chip_halt(priv);
++	nu->drv_data = NULL;
++	nu->ndev = NULL;
++}
++
+ static void nfcmrvl_uart_nci_update_config(struct nfcmrvl_private *priv,
+ 					   const void *param)
  {
--	struct nci_uart *nu = NULL;
-+	struct nci_uart *template;
- 	int ret;
+@@ -58,6 +79,8 @@ static const struct nfcmrvl_if_ops uart_ops = {
+ 	.nci_open = nfcmrvl_uart_nci_open,
+ 	.nci_close = nfcmrvl_uart_nci_close,
+ 	.nci_send = nfcmrvl_uart_nci_send,
++	.nci_ready = nfcmrvl_uart_nci_ready,
++	.nci_quiesce = nfcmrvl_uart_nci_quiesce,
+ 	.nci_update_config = nfcmrvl_uart_nci_update_config
+ };
  
- 	if (driver >= NCI_UART_DRIVER_MAX)
- 		return -EINVAL;
+@@ -136,11 +159,6 @@ static int nfcmrvl_nci_uart_open(struct nci_uart *nu)
+ 	if (IS_ERR(priv))
+ 		return PTR_ERR(priv);
  
--	if (!nci_uart_drivers[driver])
--		return -ENOENT;
-+	if (test_and_set_bit_lock(NCI_UART_DRIVER_SET, &nu->flags))
-+		return -EBUSY;
+-	priv->support_fw_dnld = true;
+-
+-	nu->drv_data = priv;
+-	nu->ndev = priv->ndev;
+-
+ 	return 0;
+ }
+ 
+diff --git a/include/net/nfc/nci_core.h b/include/net/nfc/nci_core.h
+index 2f542f5c9..6b938c2b5 100644
+--- a/include/net/nfc/nci_core.h
++++ b/include/net/nfc/nci_core.h
+@@ -436,6 +436,7 @@ struct nci_uart;
+ 
+ struct nci_uart_ops {
+ 	int (*open)(struct nci_uart *nci_uart);
++	/* Quiesce callbacks before releasing transport-private state. */
+ 	void (*close)(struct nci_uart *nci_uart);
+ 	int (*recv)(struct nci_uart *nci_uart, struct sk_buff *skb);
+ 	int (*send)(struct nci_uart *nci_uart, struct sk_buff *skb);
+@@ -452,6 +453,7 @@ struct nci_uart {
+ 	/* Dynamic data */
+ 	struct nci_dev		*ndev;
+ 	spinlock_t		rx_lock;
++	spinlock_t		tx_lock; /* protects tx_state */
+ 	struct work_struct	write_work;
+ 	struct tty_struct	*tty;
+ 	unsigned long		flags;
+@@ -466,5 +468,8 @@ struct nci_uart {
+ int nci_uart_register(struct nci_uart *nu);
+ void nci_uart_unregister(struct nci_uart *nu);
+ void nci_uart_set_config(struct nci_uart *nu, int baudrate, int flow_ctrl);
++void nci_uart_set_ready(struct nci_uart *nu);
++void nci_uart_rx_stop(struct nci_uart *nu);
++void nci_uart_tx_stop(struct nci_uart *nu);
+ 
+ #endif /* __NCI_CORE_H */
+diff --git a/net/nfc/nci/uart.c b/net/nfc/nci/uart.c
+index 529c8cf88..63671ea38 100644
+--- a/net/nfc/nci/uart.c
++++ b/net/nfc/nci/uart.c
+@@ -34,6 +34,7 @@
+ /* TX states  */
+ #define NCI_UART_SENDING	1
+ #define NCI_UART_TX_WAKEUP	2
++#define NCI_UART_CLOSING	3
+ 
+ /* UART flags */
+ #define NCI_UART_DRIVER_SET	0
+@@ -64,24 +65,61 @@ static inline int nci_uart_queue_empty(struct nci_uart *nu)
+ 
+ static int nci_uart_tx_wakeup(struct nci_uart *nu)
+ {
++	unsigned long flags;
 +
-+	mutex_lock(&nci_uart_drivers_lock);
-+	template = nci_uart_drivers[driver];
-+	if (!template || !try_module_get(template->owner)) {
-+		ret = -ENOENT;
-+		goto err_unlock;
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	if (test_bit(NCI_UART_CLOSING, &nu->tx_state) ||
++	    !test_bit_acquire(NCI_UART_READY, &nu->flags))
++		goto unlock;
++
+ 	if (test_and_set_bit(NCI_UART_SENDING, &nu->tx_state)) {
+ 		set_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
+-		return 0;
++		goto unlock;
+ 	}
+ 
+ 	schedule_work(&nu->write_work);
+ 
++unlock:
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
++
+ 	return 0;
+ }
+ 
++void nci_uart_tx_stop(struct nci_uart *nu)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	set_bit(NCI_UART_CLOSING, &nu->tx_state);
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
++
++	cancel_work_sync(&nu->write_work);
++	clear_bit(TTY_DO_WRITE_WAKEUP, &nu->tty->flags);
++
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	clear_bit(NCI_UART_SENDING, &nu->tx_state);
++	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
++}
++EXPORT_SYMBOL_GPL(nci_uart_tx_stop);
++
+ static void nci_uart_write_work(struct work_struct *work)
+ {
+ 	struct nci_uart *nu = container_of(work, struct nci_uart, write_work);
+ 	struct tty_struct *tty = nu->tty;
+ 	struct sk_buff *skb;
++	unsigned long flags;
+ 
+ restart:
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	if (test_bit(NCI_UART_CLOSING, &nu->tx_state)) {
++		clear_bit(NCI_UART_SENDING, &nu->tx_state);
++		clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++		spin_unlock_irqrestore(&nu->tx_lock, flags);
++		return;
 +	}
+ 	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
+ 
+ 	if (nu->ops.tx_start)
+ 		nu->ops.tx_start(nu);
+@@ -99,14 +137,55 @@ static void nci_uart_write_work(struct work_struct *work)
+ 		kfree_skb(skb);
+ 	}
+ 
+-	if (test_bit(NCI_UART_TX_WAKEUP, &nu->tx_state))
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	if (test_bit(NCI_UART_CLOSING, &nu->tx_state)) {
++		clear_bit(NCI_UART_SENDING, &nu->tx_state);
++		clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++		spin_unlock_irqrestore(&nu->tx_lock, flags);
++		if (nu->ops.tx_done)
++			nu->ops.tx_done(nu);
++		return;
++	}
++	if (test_and_clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state)) {
++		spin_unlock_irqrestore(&nu->tx_lock, flags);
+ 		goto restart;
++	}
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
+ 
+ 	if (nu->ops.tx_done && nci_uart_queue_empty(nu))
+ 		nu->ops.tx_done(nu);
+ 
++	spin_lock_irqsave(&nu->tx_lock, flags);
++	if (!test_bit(NCI_UART_CLOSING, &nu->tx_state) &&
++	    test_and_clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state)) {
++		spin_unlock_irqrestore(&nu->tx_lock, flags);
++		goto restart;
++	}
+ 	clear_bit(NCI_UART_SENDING, &nu->tx_state);
++	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++	spin_unlock_irqrestore(&nu->tx_lock, flags);
++}
 +
-+	nu->owner = template->owner;
-+	nu->ops = template->ops;
-+	nu->name = template->name;
-+	nu->driver = template->driver;
-+	mutex_unlock(&nci_uart_drivers_lock);
-+
-+	ret = nu->ops.open(nu);
-+	if (ret)
-+		goto err_module;
-+
++void nci_uart_set_ready(struct nci_uart *nu)
++{
 +	/* Publish transport fields before callbacks observe READY. */
 +	smp_mb__before_atomic();
 +	set_bit(NCI_UART_READY, &nu->flags);
 +
-+	return 0;
++	if (!nci_uart_queue_empty(nu))
++		nci_uart_tx_wakeup(nu);
+ }
++EXPORT_SYMBOL_GPL(nci_uart_set_ready);
 +
-+err_module:
-+	cancel_work_sync(&nu->write_work);
-+	kfree_skb(nu->tx_skb);
-+	nu->tx_skb = NULL;
++void nci_uart_rx_stop(struct nci_uart *nu)
++{
++	spin_lock(&nu->rx_lock);
++	clear_bit(NCI_UART_READY, &nu->flags);
 +	kfree_skb(nu->rx_skb);
 +	nu->rx_skb = NULL;
-+	skb_queue_purge(&nu->tx_q);
-+	clear_bit(NCI_UART_SENDING, &nu->tx_state);
-+	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
-+	module_put(nu->owner);
-+	nu->owner = NULL;
-+	goto err_clear;
-+err_unlock:
-+	mutex_unlock(&nci_uart_drivers_lock);
-+err_clear:
-+	clear_bit_unlock(NCI_UART_DRIVER_SET, &nu->flags);
-+	return ret;
++	spin_unlock(&nu->rx_lock);
 +}
-+
-+/* ------ LDISC part ------ */
-+
-+static int nci_uart_tty_alloc(struct tty_struct *tty)
-+{
-+	struct nci_uart *nu = kzalloc_obj(*nu);
++EXPORT_SYMBOL_GPL(nci_uart_rx_stop);
  
--	nu = kzalloc_obj(*nu);
- 	if (!nu)
- 		return -ENOMEM;
+ static int nci_uart_set_driver(struct nci_uart *nu, unsigned int driver)
+ {
+@@ -136,21 +215,17 @@ static int nci_uart_set_driver(struct nci_uart *nu, unsigned int driver)
+ 	if (ret)
+ 		goto err_module;
  
--	memcpy(nu, nci_uart_drivers[driver], sizeof(struct nci_uart));
+-	/* Publish transport fields before callbacks observe READY. */
+-	smp_mb__before_atomic();
+-	set_bit(NCI_UART_READY, &nu->flags);
++	nci_uart_set_ready(nu);
+ 
+ 	return 0;
+ 
+ err_module:
+-	cancel_work_sync(&nu->write_work);
++	nci_uart_rx_stop(nu);
++	nci_uart_tx_stop(nu);
+ 	kfree_skb(nu->tx_skb);
+ 	nu->tx_skb = NULL;
+-	kfree_skb(nu->rx_skb);
+-	nu->rx_skb = NULL;
+ 	skb_queue_purge(&nu->tx_q);
+-	clear_bit(NCI_UART_SENDING, &nu->tx_state);
+-	clear_bit(NCI_UART_TX_WAKEUP, &nu->tx_state);
++	clear_bit(NCI_UART_CLOSING, &nu->tx_state);
+ 	module_put(nu->owner);
+ 	nu->owner = NULL;
+ 	goto err_clear;
+@@ -173,6 +248,7 @@ static int nci_uart_tty_alloc(struct tty_struct *tty)
  	nu->tty = tty;
  	skb_queue_head_init(&nu->tx_q);
  	INIT_WORK(&nu->write_work, nci_uart_write_work);
++	spin_lock_init(&nu->tx_lock);
  	spin_lock_init(&nu->rx_lock);
  
--	ret = nu->ops.open(nu);
--	if (ret) {
--		kfree(nu);
--		return ret;
--	} else if (!try_module_get(nu->owner)) {
--		nu->ops.close(nu);
--		kfree(nu);
--		return -ENOENT;
--	}
  	tty->disc_data = nu;
-+	tty->receive_room = 65536;
-+
-+	/* Flush any pending characters in the driver */
-+	tty_driver_flush_buffer(tty);
+@@ -213,26 +289,25 @@ static void nci_uart_tty_close(struct tty_struct *tty)
+ {
+ 	struct nci_uart *nu = tty->disc_data;
  
- 	return 0;
- }
- 
--/* ------ LDISC part ------ */
--
- /* nci_uart_tty_open
-  *
-  *     Called when line discipline changed to NCI_UART.
-@@ -156,13 +201,7 @@ static int nci_uart_tty_open(struct tty_struct *tty)
- 	if (!tty->ops->write)
- 		return -EOPNOTSUPP;
- 
+-	/* Detach from the tty */
 -	tty->disc_data = NULL;
--	tty->receive_room = 65536;
 -
--	/* Flush any pending characters in the driver */
--	tty_driver_flush_buffer(tty);
--
--	return 0;
-+	return nci_uart_tty_alloc(tty);
- }
- 
- /* nci_uart_tty_close()
-@@ -180,14 +219,17 @@ static void nci_uart_tty_close(struct tty_struct *tty)
  	if (!nu)
  		return;
  
--	kfree_skb(nu->tx_skb);
--	kfree_skb(nu->rx_skb);
-+	if (test_bit(NCI_UART_DRIVER_SET, &nu->flags)) {
-+		kfree_skb(nu->tx_skb);
-+		kfree_skb(nu->rx_skb);
- 
--	skb_queue_purge(&nu->tx_q);
-+		skb_queue_purge(&nu->tx_q);
++	tty->disc_data = NULL;
 +
+ 	if (test_bit(NCI_UART_DRIVER_SET, &nu->flags)) {
+-		kfree_skb(nu->tx_skb);
+-		kfree_skb(nu->rx_skb);
 +		nu->ops.close(nu);
-+		module_put(nu->owner);
-+	}
  
--	nu->ops.close(nu);
++		nci_uart_rx_stop(nu);
++		nci_uart_tx_stop(nu);
++
++		kfree_skb(nu->tx_skb);
+ 		skb_queue_purge(&nu->tx_q);
+ 
+-		nu->ops.close(nu);
+ 		module_put(nu->owner);
+ 	}
+ 
  	nu->tty = NULL;
--	module_put(nu->owner);
  
- 	cancel_work_sync(&nu->write_work);
+-	cancel_work_sync(&nu->write_work);
+-
+ 	kfree(nu);
+ }
  
-@@ -211,7 +253,8 @@ static void nci_uart_tty_wakeup(struct tty_struct *tty)
- 
- 	clear_bit(TTY_DO_WRITE_WAKEUP, &tty->flags);
- 
--	if (tty != nu->tty)
-+	if (tty != nu->tty ||
-+	    !test_bit_acquire(NCI_UART_READY, &nu->flags))
- 		return;
- 
- 	nci_uart_tx_wakeup(nu);
-@@ -300,7 +343,8 @@ static void nci_uart_tty_receive(struct tty_struct *tty, const u8 *data,
- {
- 	struct nci_uart *nu = tty->disc_data;
- 
--	if (!nu || tty != nu->tty)
-+	if (!nu || tty != nu->tty ||
-+	    !test_bit_acquire(NCI_UART_READY, &nu->flags))
+@@ -348,6 +423,10 @@ static void nci_uart_tty_receive(struct tty_struct *tty, const u8 *data,
  		return;
  
  	spin_lock(&nu->rx_lock);
-@@ -328,13 +372,12 @@ static int nci_uart_tty_ioctl(struct tty_struct *tty, unsigned int cmd,
- 	struct nci_uart *nu = tty->disc_data;
- 	int err = 0;
- 
-+	if (!nu)
-+		return -EBADF;
-+
- 	switch (cmd) {
- 	case NCIUARTSETDRIVER:
--		if (!nu)
--			return nci_uart_set_driver(tty, (unsigned int)arg);
--		else
--			return -EBUSY;
--		break;
-+		return nci_uart_set_driver(nu, (unsigned int)arg);
- 	default:
- 		err = n_tty_ioctl_helper(tty, cmd, arg);
- 		break;
-@@ -370,33 +413,46 @@ static int nci_uart_send(struct nci_uart *nu, struct sk_buff *skb)
- 
- int nci_uart_register(struct nci_uart *nu)
- {
-+	int ret = 0;
-+
- 	if (!nu || !nu->ops.open ||
--	    !nu->ops.recv || !nu->ops.close)
-+	    !nu->ops.recv || !nu->ops.close ||
-+	    (unsigned int)nu->driver >= NCI_UART_DRIVER_MAX)
- 		return -EINVAL;
- 
--	/* Set the send callback */
--	nu->ops.send = nci_uart_send;
--
- 	/* Add this driver in the driver list */
-+	mutex_lock(&nci_uart_drivers_lock);
- 	if (nci_uart_drivers[nu->driver]) {
- 		pr_err("driver %d is already registered\n", nu->driver);
--		return -EBUSY;
-+		ret = -EBUSY;
-+		goto unlock;
- 	}
-+
-+	/* Set the send callback */
-+	nu->ops.send = nci_uart_send;
- 	nci_uart_drivers[nu->driver] = nu;
- 
- 	pr_info("NCI uart driver '%s [%d]' registered\n", nu->name, nu->driver);
- 
--	return 0;
-+unlock:
-+	mutex_unlock(&nci_uart_drivers_lock);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(nci_uart_register);
- 
- void nci_uart_unregister(struct nci_uart *nu)
- {
-+	mutex_lock(&nci_uart_drivers_lock);
-+
- 	pr_info("NCI uart driver '%s [%d]' unregistered\n", nu->name,
- 		nu->driver);
- 
- 	/* Remove this driver from the driver list */
--	nci_uart_drivers[nu->driver] = NULL;
-+	if ((unsigned int)nu->driver < NCI_UART_DRIVER_MAX &&
-+	    nci_uart_drivers[nu->driver] == nu)
-+		nci_uart_drivers[nu->driver] = NULL;
-+
-+	mutex_unlock(&nci_uart_drivers_lock);
- }
- EXPORT_SYMBOL_GPL(nci_uart_unregister);
++	if (!test_bit(NCI_UART_READY, &nu->flags)) {
++		spin_unlock(&nu->rx_lock);
++		return;
++	}
+ 	nci_uart_default_recv_buf(nu, data, count);
+ 	spin_unlock(&nu->rx_lock);
  
 -- 
 2.54.0
