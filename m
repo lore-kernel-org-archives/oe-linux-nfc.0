@@ -1,59 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793705352;
-	b=CFan7sh0ENI81mdNE3KXoxXfbOoDdx8dAr/9iwYChUH4VO3RyH0qGreT/fc+8FNanIsd
-	 lVB0L1F1IvyEjw0Lgl0rulO8WKXbVzg70soLWsg5Svkl10PToJyCt/NYtE/qGtI4utNd3
-	 0AXtAZmp0ceuUkTIPXZq13AxvZfGHcLAsUA/mGGLZ7x1f8lzzUMCLFwYmg3sT98BeR+Aj
-	 w1nIFH/UFtz03XOpX8Bdw6WLandGeVfwZNdgogfQgRslyC/sQUEZ7OB4oZKkW0Ns9tRzY
-	 bND2FQTG78hVU/pJw/+qNN9OveApmhmwjO9wByfP+Ln5m1WtSgZxJILolpn2w/RDnAQ==
+	t=1793759287;
+	b=pNId54CQyCAB5mHE8t2qE2wPQReFpw0brQigF12iM6opupiyVyJgedKNhm0mS4JuXAHZ
+	 CHWJRxAn/NbSxaenB/Vi1t9aKPe8qFtimEs5pagU2FR5IFnH2dfHcxn64Pxnbga/Os2EU
+	 WAcKc23+HZOzEVhCssx/YpBbdWylVYzrox5GQt6S1zqoJ5H36PmN0IbAg7hkaBo1/+KBE
+	 0mYNXP3af1tr+oX/KWf8pBdzETJ+0IlehDMBxD+81j3ci4kenPbTorzqorR8pVQ2SNIMW
+	 O2XvDuNS1/TXD0gH4j/+b4FxwmUX4XFnMNzgxG/VI+O3cutDzZFPOFGB36byDqZ7Osg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793705352;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=J5yxO8lilgc19IuqfuL9Fa6EIhGpaW4Jlrhz7b/ZRXE=;
-	b=MirYWXDUdnBLYJTb7ym9lfw0LfJbSrl7/Vimh/99z31OBeZPqzuJh+i7fN13amesOhYB
-	 fogp6vv0hV0Q57SKx0hl/z40X473X3HqD0d/Jh5TXMNRAt1KfDf2JBMG2ZUzoSlD2GJf6
-	 vOG7woh4w9qZ/x9fO7ehX5dpVPPJJjSetgXcWMLCB38z4XerU3HWFpY9NiUmvaouhmAky
-	 1vLj0bOTfLJBuDaBg+/TxS973P1EnCxwvPqinLhjAMkL+0C4FwotwGUhzlB0bsAUb2cyC
-	 jVgH4vSeqYFLRY8nG+GsmwyzNZvH/NqEFqfG3/qthFFeZicLPFsGYSNY9lfaoGdYHyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793759287;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=ltqfsg/46bD10r6tESWSCXKnk6Dp0VyEEG9CEfn82QI=;
+	b=LJMSpNTSrofKgHlSPSlIf4bx/Xrx/sNdzdeB6DU5WT85VBb5Q/xkBwYSi772Weg6ZTvh
+	 aLtJ9NoTt+2NomXJhtWplIVI3ltIM/UIpMOodCmmoYj52xDP8kpKhEzbXe/rRAkzjHL5c
+	 J3IQ4BYzkxXwVo+/pXa+vBDWWHTjl7rYSsXZW4rzidYltkWRerVNU7y9A6DEOCIz9IjVd
+	 +pRR++E+973z3ItbU2q6ft8UCuAdH8fK9wzq/n8EoGePCpImCKL2BFuDGuKf7AyFwe7Sy
+	 ZLAOJSPrKRXn6j93IM8FAA9aG7jJ4uTXRneOuwtkGzna9cKIxr5MCWY0+1vcfs1cX3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jv4K7HV2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.21
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FD8606A815;
-	Tue,  3 Nov 2026 11:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jv4K7HV2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508211F00ADD;
-	Tue,  3 Nov 2026 11:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793705351;
-	bh=J5yxO8lilgc19IuqfuL9Fa6EIhGpaW4Jlrhz7b/ZRXE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=jv4K7HV2eFB7r3M6sMnFkarUIXko0cUORWLLWFiEOPrPZ1NGdGXMGLwjdw5DhHzTy
-	 ew9ilppd5krjkME3P4f+WXvX16Ws2lY2nsjfUTHK4jR66nV89xkvQ75y5pSUdaV9M9
-	 Bsl7XD9bj7SeL/8uICn6opt9xdNlUdjV3RRUG9K8mzF7dGIdfnY9cPmVxJ70mwb6Y/
-	 lpSgFUqAjADItLdUPsV8wyRDZ5AmUM2BCXseHskATowKdqzGx2OjWz7UHXPshMEjiW
-	 vrWHAvj/B/rAmTNtLcru8K/8JiuTDFoVWnXKhbhCrsp4oI6pHIIOeigx7BD2Sb1Zeh
-	 Otrr5A5py4Iqw==
-Subject: Re: [PATCH net 3/3] nfc: llcp: free the response skb when the data
- exchange fails
-From: netdev-bot+sashiko@kernel.org
-To: joasantonio108@gmail.com
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 03 Nov 2026 11:29:10 +0000
-Message-ID: <179370535090.488856.2461985767393023537@kernel.org>
-In-Reply-To: <179335864272.64596.2156668877648051796@gmail.com>
-References: <179335864272.64596.2156668877648051796@gmail.com>
-X-sashiko-severity: Critical
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC41606A31B
+	for <oe-linux-nfc@lists.linux.dev>; Wed,  4 Nov 2026 02:28:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAC41606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-01 (Coremail) with SMTP id qwCowAB3Zf8xmOpqp5s+AA--.9903S2;
+	Wed, 04 Nov 2026 10:28:01 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: David Heidelberg <david@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: [PATCH] nfc: llcp: drop the socket reference for non-datagram UI frames
+Date: Wed,  4 Nov 2026 02:28:10 +0000
+Message-Id: <20261104022810.1484199-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -63,284 +55,61 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAB3Zf8xmOpqp5s+AA--.9903S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFykWryDKr47uryDury7Awb_yoW8GF1rpa
+	nruw15Cry2qF4xZr1ftF47JFnYkrWIk3yxuF4UA3WIkrs5W3WfW3WjvF4jqr1jyF4kJFWx
+	ZF15KF1ru34DCrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
+	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
+	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x07b7pBhUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgIBA2rqY4LLLAAAsA
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+nfc_llcp_recv_ui() looks the destination socket up with
+nfc_llcp_sock_get(), which takes a socket reference.  Sockets of every
+type are linked into local->sockets, so a bound SOCK_STREAM socket can
+match the lookup.  When the socket is not a SOCK_DGRAM one the function
+returns early without dropping the reference, leaking it for every
+received UI frame sent to such a socket.
 
-Critical: 3 · High: 0 · Medium: 0 (1) · Low: 0
+Split the check and put the reference on the non-datagram path as well.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Fixes: 968272bf0087 ("NFC: Handle LLCP UI frames")
+Cc: stable@vger.kernel.org
+Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ net/nfc/llcp_core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-- [Critical] Double free of the LLCP response skb on digital (NFC-DEP)
-  devices.
-- [Critical] Double free of the raw-socket response skb on digital NFC-
-  DEP targets, caused by the companion commit "nfc: rawsock: free the…
-- [Critical] nfc: rawsock: double free of skb in
-  rawsock_data_exchange_complete()
-
-Pre-existing issues:
-- [Medium] This problem wasn't introduced by this patch, but on ST21NFCA
-  the failed HCI LLCP initiator exchange that the commit message…
-
---
-
-nfc: llcp: free the response skb when the data exchange fails
-
-This patch makes nfc_llcp_recv() free the skb it gets when the data
-exchange reports an error. The commit message says HCI and NCI pass a
-response skb along with the error, so the old early return leaked it. It
-also says the skb is NULL when the error comes without a response.
-
-> diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-> index 74bf817007cf2..f0632a0b94e74 100644
-> --- a/net/nfc/llcp_core.c
-> +++ b/net/nfc/llcp_core.c
-> @@ -1638,6 +1638,8 @@ void nfc_llcp_recv(void *data, struct sk_buff *skb, int err)
->  
->  	if (err < 0) {
->  		pr_err("LLCP PDU receive err %d\n", err);
-> +		/* skb may carry the response even when the exchange failed */
-> +		kfree_skb(skb);
-
-[Severity: Critical]
-The double free isn't in this hunk. The commit message builds on the
-raw socket change earlier in this series ("Like for raw sockets"), and
-that change looks like it can free the response skb twice on digital
-stack devices.
-
-With the rawsock patch applied, rawsock_data_exchange_complete() frees
-the skb whenever err is set:
-
-net/nfc/rawsock.c:rawsock_data_exchange_complete() {
-    ...
-	/* skb may carry the response even when the exchange failed */
-	if (err)
-		goto error_skb;
-    ...
-error_skb:
-	kfree_skb(skb);
-    ...
-}
-
-A raw socket can connect with nfc_protocol = NFC_PROTO_NFC_DEP.
-rawsock_connect() calls nfc_activate_target(), and
-digital_activate_target() stores that value in ddev->curr_protocol.
-After that, every send from rawsock_tx_work() takes this path:
-
-rawsock_tx_work()
-  nfc_data_exchange(..., rawsock_data_exchange_complete, sk)
-    digital_in_send()
-      digital_in_send_dep_req()
-        ... digital_in_recv_dep_res()
-
-digital_in_recv_dep_res() has several protocol error paths that set
-rc < 0 and jump to exit: while resp is still live:
-
-  - a bad SoD length byte
-  - an oversized frame
-  - the NAD bit is set
-  - a NACK is received
-  - an ACK has a PNI mismatch
-  - an ACK arrives with no chaining skb
-
-On each of them it calls the callback and then frees resp itself:
-
-net/nfc/digital_dep.c:digital_in_recv_dep_res() {
-    ...
-exit:
-	data_exch->cb(data_exch->cb_context, resp, rc);
-
-error:
-	kfree(data_exch);
-    ...
-	if (rc)
-		kfree_skb(resp);
-}
-
-So rawsock_data_exchange_complete() frees resp once, and the end of
-digital_in_recv_dep_res() frees it again. The remote NFC-DEP peer
-controls all of these error conditions. A single malformed DEP_RES is
-enough to corrupt memory or crash the kernel.
-
-Before this series, rawsock_data_exchange_complete() did not free the
-skb on error. That makes this a regression, and both patches are
-tagged Cc: stable.
-
-The rawsock commit message says the skb is NULL when the error comes
-without a response, and it lists digital as one of those cases. That
-doesn't match digital_in_recv_dep_res(). It passes a live skb to the
-callback but keeps ownership of it.
-
-Which side is meant to own the skb when err is set? One option is for
-digital_in_recv_dep_res() to pass NULL to the callback on error, as
-digital_in_send_complete() already does. Then HCI, NCI and digital
-would all follow one rule. Could that change go into this series ahead
-of the rawsock and llcp patches? Could the data_exchange_cb_t
-kernel-doc also state the ownership rule?
-
-                 ^^^^
-
-[Severity: Critical]
-Can this free the response skb twice on digital stack devices (port100,
-trf7970a, st95hf, nfcsim)?
-
-On those devices LLCP runs over NFC-DEP. digital_dep_link_up() sets
-ddev->curr_protocol = NFC_PROTO_NFC_DEP, so every LLCP exchange goes
-through:
-
-nfc_llcp_tx_work() / nfc_llcp_send_symm()
-  nfc_data_exchange(..., nfc_llcp_recv, local)
-    digital_in_send()
-      digital_in_send_dep_req()
-
-The exchange then completes in digital_in_recv_dep_res(). That function
-still frees resp after it has called the callback:
-
-net/nfc/digital_dep.c:digital_in_recv_dep_res() {
-    ...
-	rc = digital_skb_pull_dep_sod(ddev, resp);
-	if (rc) {
-		PROTOCOL_ERR("14.4.1.2");
-		goto exit;
-	}
-    ...
-exit:
-	data_exch->cb(data_exch->cb_context, resp, rc);
-
-error:
-	kfree(data_exch);
-    ...
-	if (rc)
-		kfree_skb(resp);
-    ...
-}
-
-With this patch, nfc_llcp_recv() frees resp inside data_exch->cb(). The
-"if (rc) kfree_skb(resp)" at the end then frees the same skb again.
-
-Several other cases also reach exit: with a live resp and rc < 0:
-
-  - resp->len > ddev->local_payload_max (-EMSGSIZE)
-  - the NAD bit is set
-  - a NACK is received
-  - an ACK has a PNI mismatch
-  - an ACK arrives with no ddev->chaining_skb
-
-The remote NFC-DEP peer controls all of these. The SoD length byte is
-checked before the CRC.
-
-The commit message says:
-
-    Free the skb on the error path; it is NULL when the error does not come
-    with a response, and kfree_skb() handles that.
-
-That doesn't seem to hold for digital NFC-DEP. There the error does come
-with a response, but the producer keeps ownership of it.
-
-The producers also disagree with each other:
-
-  - digital_in_send_complete() frees resp and passes NULL on error.
-  - HCI (__nfc_hci_cmd_completion()) and NCI hand ownership to the
-    callback.
-  - digital_in_recv_dep_res() frees resp itself after the callback.
-
-The data_exchange_cb_t kernel-doc in include/net/nfc/nfc.h doesn't say
-who owns the skb when err is set.
-
-Could the producers be made to agree in the same series? For example,
-digital_in_recv_dep_res() could pass NULL on error the way
-digital_in_send_complete() does, or stop freeing resp after it calls the
-callback. This patch is also tagged Cc: stable.
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but does a failed HCI LLCP
-initiator exchange like the one in the commit message still leak the
-response skb on st21nfca?
-
-Take a READER_F target with supported_protocols == NFC_PROTO_NFC_DEP_MASK.
-For it, st21nfca_hci_im_transceive() drops the callback it was given:
-
-drivers/nfc/st21nfca/core.c:st21nfca_hci_im_transceive() {
-    ...
-	case ST21NFCA_RF_READER_F_GATE:
-		if (target->supported_protocols == NFC_PROTO_NFC_DEP_MASK)
-			return st21nfca_im_send_dep_req(hdev, skb);
-    ...
-}
-
-So nfc_llcp_recv() is never reached on this path. The completion goes to
-st21nfca_im_recv_dep_res_cb() instead.
-
-When the controller returns an error result, __nfc_hci_cmd_completion()
-passes both skb and err to that callback and does not free the skb. The
-callback then returns early:
-
-drivers/nfc/st21nfca/dep.c:st21nfca_im_recv_dep_res_cb() {
-    ...
-	if (err != 0)
-		return;
-    ...
-}
-
-Does this leak one skb per failed WR_XCHG_DATA exchange?
-
-[Severity: Critical]
-The commit message builds on the raw socket change ("Like for raw
-sockets"). Is the same double free also reachable through the companion
-commit f50c413847da ("nfc: rawsock: free the response skb when the data
-exchange fails") in this series?
-
-After that commit, rawsock_data_exchange_complete() frees the skb on any
-error:
-
-net/nfc/rawsock.c:rawsock_data_exchange_complete() {
-    ...
-	/* skb may carry the response even when the exchange failed */
-	if (err)
-		goto error_skb;
-    ...
-error_skb:
-	kfree_skb(skb);
-    ...
-}
-
-A SOCK_SEQPACKET raw socket does not need CAP_NET_RAW, and it can connect
-with nfc_protocol = NFC_PROTO_NFC_DEP. digital_activate_target() then just
-stores that value:
-
-	ddev->curr_protocol = protocol;
-
->From then on, raw socket exchanges follow this path:
-
-rawsock_tx_work()
-  nfc_data_exchange()
-    digital_in_send()
-      digital_in_send_dep_req()
-        ... digital_in_recv_dep_res()
-
-A malformed DEP_RES (bad SoD length byte, NAD bit set, NACK, PNI
-mismatch) reaches the exit: label with a live resp.
-rawsock_data_exchange_complete() frees it, and then
-"if (rc) kfree_skb(resp)" in digital_in_recv_dep_res() frees it again.
-
-That commit message also says the skb:
-
-    is NULL when the error does not
-    come with a response (digital, timeouts, device close)
-
-This doesn't seem to match digital NFC-DEP. In the baseline,
-rawsock_data_exchange_complete() did not free the skb on error, so this
-double free would be new with the series.
-
-Should the fix for digital DEP ownership cover the raw socket path too?
-
->  		return;
->  	}
->
-
+diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+index 92fd7e29ec8a..92dbba7d285a 100644
+--- a/net/nfc/llcp_core.c
++++ b/net/nfc/llcp_core.c
+@@ -917,8 +917,12 @@ static void nfc_llcp_recv_ui(struct nfc_llcp_local *local,
+ 
+ 	/* We're looking for a bound socket, not a client one */
+ 	llcp_sock = nfc_llcp_sock_get(local, dsap, LLCP_SAP_SDP);
+-	if (llcp_sock == NULL || llcp_sock->sk.sk_type != SOCK_DGRAM)
++	if (llcp_sock == NULL)
+ 		return;
++	if (llcp_sock->sk.sk_type != SOCK_DGRAM) {
++		nfc_llcp_sock_put(llcp_sock);
++		return;
++	}
+ 
+ 	/* There is no sequence with UI frames */
+ 	skb_pull(skb, LLCP_HEADER_SIZE);
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/179335864271.64596.805818095553030218%40gmail.com
+2.34.1
+
