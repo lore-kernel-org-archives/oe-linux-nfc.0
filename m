@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793759287;
-	b=pNId54CQyCAB5mHE8t2qE2wPQReFpw0brQigF12iM6opupiyVyJgedKNhm0mS4JuXAHZ
-	 CHWJRxAn/NbSxaenB/Vi1t9aKPe8qFtimEs5pagU2FR5IFnH2dfHcxn64Pxnbga/Os2EU
-	 WAcKc23+HZOzEVhCssx/YpBbdWylVYzrox5GQt6S1zqoJ5H36PmN0IbAg7hkaBo1/+KBE
-	 0mYNXP3af1tr+oX/KWf8pBdzETJ+0IlehDMBxD+81j3ci4kenPbTorzqorR8pVQ2SNIMW
-	 O2XvDuNS1/TXD0gH4j/+b4FxwmUX4XFnMNzgxG/VI+O3cutDzZFPOFGB36byDqZ7Osg==
+	t=1793759288;
+	b=LeLJv1aNrrFGY85Wo1ojpth2vLTC/fcYwCcUIkbb4sP+msFvgiTyrs10CAG3zyDHVtan
+	 JE743ziKGW4yJbcBpBL0d94gru2BCNvBpMTUkKZUrvyszi/2qpIyAhCsnALtSCRI6+dR6
+	 NnogYbVnQrq/DRgWmQjm9Vv7JsJypHz/hx/1h08Y3pkll3aCBBFQwAdAlGaWhO0KqVElG
+	 oYgibb+tQjQgy979Rz56xdbGOzx5++wMWwifZOYpqTrreaDQgRFtOqto5Ok2qqeqitys2
+	 WaAbogRrH+e5/w1dsoOiXMiISR3UopfJLrcBtQ7yiwJ3uvecvP8cZRl6RxwWOuabRjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793759287;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793759288;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=ltqfsg/46bD10r6tESWSCXKnk6Dp0VyEEG9CEfn82QI=;
-	b=LJMSpNTSrofKgHlSPSlIf4bx/Xrx/sNdzdeB6DU5WT85VBb5Q/xkBwYSi772Weg6ZTvh
-	 aLtJ9NoTt+2NomXJhtWplIVI3ltIM/UIpMOodCmmoYj52xDP8kpKhEzbXe/rRAkzjHL5c
-	 J3IQ4BYzkxXwVo+/pXa+vBDWWHTjl7rYSsXZW4rzidYltkWRerVNU7y9A6DEOCIz9IjVd
-	 +pRR++E+973z3ItbU2q6ft8UCuAdH8fK9wzq/n8EoGePCpImCKL2BFuDGuKf7AyFwe7Sy
-	 ZLAOJSPrKRXn6j93IM8FAA9aG7jJ4uTXRneOuwtkGzna9cKIxr5MCWY0+1vcfs1cX3g==
+	bh=OHOyST0K68BpqYUM7L2Y2DAO0AOJ5NknSjGQWburvEI=;
+	b=m4S0J804FZNljTYGg+GEQNN3auYdFT0Dhf6zwPTuTqHo8mCNyZSRAztafUg0yS4govAb
+	 +xi2LDRS8lSV6b99iWd1E1Z9UHVov2zwvZexRqRpYLiccPbuVATTrkNf+yEid1ABi1ae+
+	 ICZ2SJImG702hVjR1tzf9cjA0M3OXxbFqWPmaz3SSN6Qch8d+A13aftqxCEZ446OZEfeY
+	 LX+LZqyjvDmaOobNrN0og18Ll4lLmuO4BkMJvk7Iph5va9Z9L3fr6itBVsMy5JECGnhZD
+	 88eIHA8zrpaWt5cVuysSmUL7CLJdr6is46nYvh/armERro2VJA6Qo4xOr0Jya/Jug9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,14 +25,14 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC41606A31B
-	for <oe-linux-nfc@lists.linux.dev>; Wed,  4 Nov 2026 02:28:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAC41606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF59D606A32D
+	for <oe-linux-nfc@lists.linux.dev>; Wed,  4 Nov 2026 02:28:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF59D606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowAB3Zf8xmOpqp5s+AA--.9903S2;
-	Wed, 04 Nov 2026 10:28:01 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAA3YPoymOpqtZs+AA--.30158S2;
+	Wed, 04 Nov 2026 10:28:02 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: David Heidelberg <david@ixit.cz>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -42,9 +42,9 @@ To: David Heidelberg <david@ixit.cz>,
 	Simon Horman <horms@kernel.org>
 Cc: oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org
-Subject: [PATCH] nfc: llcp: drop the socket reference for non-datagram UI frames
-Date: Wed,  4 Nov 2026 02:28:10 +0000
-Message-Id: <20261104022810.1484199-1-vulab@iscas.ac.cn>
+Subject: [PATCH] nfc: llcp: put the socket reference on a refused connection
+Date: Wed,  4 Nov 2026 02:28:11 +0000
+Message-Id: <20261104022811.1484216-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -56,10 +56,10 @@ List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAB3Zf8xmOpqp5s+AA--.9903S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFykWryDKr47uryDury7Awb_yoW8GF1rpa
-	nruw15Cry2qF4xZr1ftF47JFnYkrWIk3yxuF4UA3WIkrs5W3WfW3WjvF4jqr1jyF4kJFWx
-	ZF15KF1ru34DCrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:qwCowAA3YPoymOpqtZs+AA--.30158S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar47CF1fGw1rtw1DKw1xZrb_yoW8Gryxpw
+	nxt3W2k342qF17Ar13tF47Ja4DCanxArWxCFWUA3WIv395Wr4fG3WIq390qr1qyFZaqa47
+	Ar9xKr1UW3s8A3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
 	AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
@@ -73,43 +73,47 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7AFykWryDKr47uryDury7Awb_yoW8GF1rpa
 	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
 	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
 	DU0xZFpf9x07b7pBhUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgIBA2rqY4LLLAAAsA
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMBA2rqY-nHVgAAsT
 
-nfc_llcp_recv_ui() looks the destination socket up with
-nfc_llcp_sock_get(), which takes a socket reference.  Sockets of every
-type are linked into local->sockets, so a bound SOCK_STREAM socket can
-match the lookup.  When the socket is not a SOCK_DGRAM one the function
-returns early without dropping the reference, leaking it for every
-received UI frame sent to such a socket.
+nfc_llcp_recv_connect() finds the listening socket with
+nfc_llcp_sock_get(), which takes a socket reference.  A socket that has
+been bound but not yet put into listen state is also linked into
+local->sockets with dsap set to LLCP_SAP_SDP, so the lookup can return
+it.  In that case the state check fails and the function jumps to fail,
+which only sends a DM; the reference taken by the lookup is never
+dropped.
 
-Split the check and put the reference on the non-datagram path as well.
+Put the reference before jumping to fail on that path.
 
-Fixes: 968272bf0087 ("NFC: Handle LLCP UI frames")
+Fixes: a69f32af86e3 ("NFC: Socket linked list")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- net/nfc/llcp_core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ net/nfc/llcp_core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
-index 92fd7e29ec8a..92dbba7d285a 100644
+index 74bf817007cf..92fd7e29ec8a 100644
 --- a/net/nfc/llcp_core.c
 +++ b/net/nfc/llcp_core.c
-@@ -917,8 +917,12 @@ static void nfc_llcp_recv_ui(struct nfc_llcp_local *local,
+@@ -949,10 +949,15 @@ static void nfc_llcp_recv_connect(struct nfc_llcp_local *local,
  
- 	/* We're looking for a bound socket, not a client one */
- 	llcp_sock = nfc_llcp_sock_get(local, dsap, LLCP_SAP_SDP);
--	if (llcp_sock == NULL || llcp_sock->sk.sk_type != SOCK_DGRAM)
-+	if (llcp_sock == NULL)
- 		return;
-+	if (llcp_sock->sk.sk_type != SOCK_DGRAM) {
-+		nfc_llcp_sock_put(llcp_sock);
-+		return;
-+	}
- 
- 	/* There is no sequence with UI frames */
- 	skb_pull(skb, LLCP_HEADER_SIZE);
+ 	if (dsap != LLCP_SAP_SDP) {
+ 		sock = nfc_llcp_sock_get(local, dsap, LLCP_SAP_SDP);
+-		if (sock == NULL || sock->sk.sk_state != LLCP_LISTEN) {
++		if (sock == NULL) {
+ 			reason = LLCP_DM_NOBOUND;
+ 			goto fail;
+ 		}
++		if (sock->sk.sk_state != LLCP_LISTEN) {
++			reason = LLCP_DM_NOBOUND;
++			sock_put(&sock->sk);
++			goto fail;
++		}
+ 	} else {
+ 		const u8 *sn;
+ 		size_t sn_len;
 -- 
 2.34.1
 
