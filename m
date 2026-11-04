@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776307;
-	b=oMez+1sF034aw9rJFeleBaJWaRFzl69MKQaGrlsGTeAhGrxXqRiXgplSWOBAs5MKlo4C
-	 Cq1E4P2bDEmBMtMv54MbBkQsZi/Jj6xdiUAGOgVljoKzAbYRNn3Ad8ac4rg5OLAdIfyJm
-	 L5Igr1PHGVpr2EgXk5Yiq3iACLUpg9f5sh199Cff29w/5q58xior/oHiyQZ/vTfC56Avh
-	 oJjk1y5GeAJjN5t98+JfDcqeE53wX8ExN28m1JxN6eViOIX4afXqUQn4pKP0rn5sCpqGr
-	 iA8mJsjQeglI1w1oJ04pHrvrorqWmOyV/OXtwWcRNbsZI8fbrjrQweqfuRcNHiWbelw==
+	t=1793776318;
+	b=HEIdKnEhu18tw62jnd/ANLb/ajK0jpPsD7AfYMFe18PdnDO7C/aWK400BV2v8tewFq9k
+	 SmUGBWRVzYTgzeqO4sW8zgeXHL+rBqnUZ3+osYkGh5LkOhouFcVDkAfX7DduwCgzBCV5N
+	 Xy1V8t8Jz1OM5zuTIqPuOU6eDhj7EPOnvm5+NjjLfTdRfKC+XUGEilmXH59vYVcCHvZtm
+	 0eJzwPRDpLgzoLU4Am0fAHYAO5qSkdY23lnaEcedMza7jTnrYbhG3DM1L3UNLqN9LTZnR
+	 MOH90JotlRDs3hHt4rv9g9KhS5as4JO/MX1+cCx4vR4X6QRhVHdJllabWDsYtshkJeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776307;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776318;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BhyrL+gZPz2pormGcY9bduMW+6XwjaguNMO4upbxytE=;
-	b=ygi0JjMawwSVvd9pxIuq0oHkfg1+/+Uzlz2wHSe0IOw3AKzSa6Twts2Ktek2tGf8tGkf
-	 e0QiOnNS2+lry55Btq53BMzv3o4KznhUFikv5jii1kUgabcElROCrIy8uS3YZ82nt+bZ8
-	 ZqQqp5lIpbaGDIU/ibGstLuMLD1DAKwzGjiBROBFu/oVtRMSwCQXF4rV4MsGF1iM87ZWV
-	 ASozrvcqDREGFCLN921lDbyh3vYSIsSiA3PXOYCEvCxubUvrBuwynsR4imEGDDDfHDLD8
-	 uaeI18jBGOe3t8BiOOWl0IxDhfucPcZcMwDY/0HEj350TrmmUIiPJQfm7GMu+Pb7+EQ==
+	bh=67tMf6yvwclmZif6chXBIm4kJBJKenRUKUJwhmdRgps=;
+	b=EOAuIZWsJpxnL7sACoF4AUrxh4f+x/BjX2bxN3MYBIOVXuMVPMoTNI0HxmfmNJDJlL9e
+	 UQ5dvTOWfTW3v/8BcSAI5KfmMi3/hQUl8gHqt0MNf9cg3XuSquWm2SYzgOj21ibtT4u53
+	 sNm7k/xXRq0jW+mpYB5IhLcfzhvDpSTLMnmuCnWGqlJrMTAMUoI9wswjtHq0+gd0Rqux1
+	 djeNne5179fqzYwn4u1gNNKdAGMI2mDqjAB+gNIpCTZfZIaat++vu8ccqjNQvBp401dyU
+	 sI3tIhmjEk6EcPxHfnr97IiijIWFH4FhY0gf4u776kgZrhOdeNm6Ms2GZpp+BG8Rl6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="MCCZ1/2u";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dks6ewJE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5FF606D804;
-	Wed,  4 Nov 2026 07:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9677606A328;
+	Wed,  4 Nov 2026 07:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MCCZ1/2u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 946841F00919;
-	Wed,  4 Nov 2026 07:11:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dks6ewJE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615181F000C1;
+	Wed,  4 Nov 2026 07:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793776307;
-	bh=BhyrL+gZPz2pormGcY9bduMW+6XwjaguNMO4upbxytE=;
+	s=k20260515; t=1793776317;
+	bh=67tMf6yvwclmZif6chXBIm4kJBJKenRUKUJwhmdRgps=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MCCZ1/2u7usMXkzLabkYawkAc+KkLQRh8To1Fn9vaSkbVEyFHAymYWT4D8HPj3dtw
-	 agC9MpD7BaD8o3YByj3BVKd+jm8cDFC7ogJ58zKldT3YrfJkbY0yYYkwECLdq2JDM3
-	 OZEYZK6kc3jmA8JHMaSWBJgJYNWqSuW9VSMr/pbHZkkE6eahyaNKLkfpdL+PhDwa8f
-	 fQ140+iPh1B3du8hSuBLdVeFooHEe8fa51zvf687sruoJMtijtGb4O8/JCvKjMuDDJ
-	 TxV/Wr9+wiOIEGR9xtcEn6nBkp2pzLx25wzlUq4PS/KZVWt1nwet/vuH3kV/sWemPq
-	 s2KbD+tBeDo1w==
-Date: Wed, 4 Nov 2026 08:11:44 +0100
+	b=dks6ewJE+WK6bAYIEDOfm55sLdX5GL3L8d+YyGVFLAutCCcVJzGvMrJrFaTq3M1fd
+	 SpUdABkekK0RDFGu/sc9bt2hayLLUvxVrU/1XNnUZEPHeZCJDlAZENaqyfzj0rwDpD
+	 MlbyL+JpaloTe+cdo4CN+PL1gAbSGFKrH+bNHEgVCjwQrC4JurSAPm7KrksOJ3E64+
+	 KeVBMh3u+0SGao5jrgqVlS+efEf+w1e1MYtd6XTim0sc2oMR9uOPRlkVptSFhaega1
+	 GVTVtFpQWETHEqqmHHrB4v+gG3OZiFCWrpumD5wo6G3rPLlTMBo24/weZdyM230PPU
+	 uK+9qcmajaSPA==
+Date: Wed, 4 Nov 2026 08:11:54 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	oe-linux-nfc@lists.linux.dev, Simon Horman <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Eric Dumazet <edumazet@kernel.org>, David Heidelberg <david@ixit.cz>, 
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH] nfc: llcp: put the socket reference on a refused
- connection
-Message-ID: <20261104-colossal-witty-gerbil-1caad4@quoll>
-References: <20261104022811.1484216-1-vulab@iscas.ac.cn>
+Cc: oe-linux-nfc@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Dumazet <edumazet@kernel.org>, netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH] nfc: llcp: drop the socket reference for non-datagram UI
+ frames
+Message-ID: <20261104-excellent-artificial-finch-b7bd77@quoll>
+References: <20261104022810.1484199-1-vulab@iscas.ac.cn>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -61,27 +61,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104022811.1484216-1-vulab@iscas.ac.cn>
+In-Reply-To: <20261104022810.1484199-1-vulab@iscas.ac.cn>
 
 
-On Wed, 04 Nov 2026 02:28:11 +0000, Wentao Liang wrote:
-> nfc_llcp_recv_connect() finds the listening socket with
-> nfc_llcp_sock_get(), which takes a socket reference.  A socket that has
-> been bound but not yet put into listen state is also linked into
-> local->sockets with dsap set to LLCP_SAP_SDP, so the lookup can return
-> it.  In that case the state check fails and the function jumps to fail,
-> which only sends a DM; the reference taken by the lookup is never
-> dropped.
+On Wed, 04 Nov 2026 02:28:10 +0000, Wentao Liang wrote:
+> nfc_llcp_recv_ui() looks the destination socket up with
+> nfc_llcp_sock_get(), which takes a socket reference.  Sockets of every
+> type are linked into local->sockets, so a bound SOCK_STREAM socket can
+> match the lookup.  When the socket is not a SOCK_DGRAM one the function
+> returns early without dropping the reference, leaking it for every
+> received UI frame sent to such a socket.
 > 
-> Put the reference before jumping to fail on that path.
+> Split the check and put the reference on the non-datagram path as well.
 > 
-> Fixes: a69f32af86e3 ("NFC: Socket linked list")
+> Fixes: 968272bf0087 ("NFC: Handle LLCP UI frames")
 > Cc: stable@vger.kernel.org
 > Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 > ---
->  net/nfc/llcp_core.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  net/nfc/llcp_core.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
 
 Multiple things here:
