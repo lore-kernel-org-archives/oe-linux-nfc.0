@@ -1,80 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793875158;
-	b=eLU7FoHrxXjWXIgzN7ndytmyl+CIkyaUUKyHyvQ/xmIGazHbCsuj3R0CTuaEBn6eYdSR
-	 5598d5h2kIstk61+aJ6iT8tKQhmSvcX5QNxvgDkVR17zsGY+Z5vroCr/0Q/P57UYOtAYn
-	 lABE8s6lAJ5CsgiVaMl7Bing612zeW7yHkjVSI+t5Q+L6sI5UCEpcA8Gmr8z3FuMa4waz
-	 Wuyhm0W7FhnGE3DzbK79n/B7xY4TPAidqKiMHJHV+yUt8tb6kMzWPWCJJTxxnpL/kY65z
-	 f6YarDLq07sTT/Te3LO4VX2FaGYv7vZi2DxvVwuyzaQcDrvCyemfRDywqyT1/jcY+nA==
+	t=1793876297;
+	b=XMp5UtX3lGx4D6UgiIbdb0muPyjcJLN/a8DkoLmK6ECsGXUN/eaImZW4ORANpsYstej4
+	 7cwaBqvCGjoLNV2egs+abshQGMUj53rzz0FihcI0+Ka8x1YCmNqdaJEpmjsKllfP2XxUx
+	 7ZBNzb4xs/XXpZdUd7NSEUc9oIJhvB71gyJYE5QSnWXaamN650GngDHM6Ir5XyonS1tP1
+	 ym7hBGlKE7zhMke70QVdTVa5Bc/lzpawl3jTg9DnM0EAYjCpWGpp7FudeX7Y7nkuRltg+
+	 rWQDllOPv+crOfzEC+loumyFpgkxFnu9OKwEAk3cNTu3YcS4ixf1B3JqYGI70Va/mQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793875158;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876297;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
 	bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
-	b=yUGl+js6bNztyhYAlTcCr1uywBcM4ZYbmGS3h/xmvUyMJX3/YFkregfEvufvUt4EtZR4
-	 WXzxpLYbUe5kLpG7L987kAK/wGiribGyPSi0FWZuVknsD74w8vcjm200uyEobXFxh7KPr
-	 8zl7XbdLEm23q9Oo2DtWg9dEr40KTXzYHLciu0lbcpGPJkVqOi1Xblw3jLuiSL77MhXby
-	 4hlOTCbnMRKjLexFIcZ4wMDosgMavaweqJKrjI7T1lXBG3/ofnekhhBOJJ28w1NByUant
-	 UDQFXO72/4VfWMNtBwqIyBJxrWnnbeWlbSPbO+8pdVL1eA/RdciGzUfmdJDJFW9URsQ==
+	b=pKWFh8UtTHifdYqkZQlV5QemQ4tzUerVsmsuzmYZyNAG5jZHjVy8hs6n3udbAm6wdhmr
+	 BFnfXwVSyfq8QXdzqhZCjLdTyPkIjHn+02Pyi03LM6dnXs6sIcVmvfrNcTSitOkXyy9mY
+	 oG1LpJvvDDM9GuiaZES8MQLQvrj5iHwkDhfWr5pGEbGFtvx2je2HTh9DsdXX0P4I+wA3r
+	 6LD3cnCDmZDtlJz8doWT8qiyrjQdPEj9GqNlpMgwuoKgc31mORIuy8IoRtGP2R6WQDoMT
+	 lfSHoaYiO7CZycIFGwMzgPjfXLvtq0XKES7MKL+gfW+eQbdVF+wQtOIJFZVXYP7JAvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQXsr2X3;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5HcgZR;
+	arc=none smtp.remote-ip=209.85.216.43
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A6A606A326
-	for <oe-linux-nfc@lists.linux.dev>; Thu,  5 Nov 2026 10:39:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89A6A606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F091B606A336
+	for <oe-linux-nfc@lists.linux.dev>; Thu,  5 Nov 2026 10:58:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F091B606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQXsr2X3
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso286615a91.0
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 05 Nov 2026 02:39:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5HcgZR
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3ad787e0593so892842a91.3
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 05 Nov 2026 02:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793875157; x=1794479957; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793876296; x=1794481096; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
         bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
-        b=BQXsr2X3Pr7rAMsgYQOxh24Xj7tM3BbS8n4eOeWHyWQsrxV54qbtLuDEXtFvQ4bp9W
-         D3Ud91cRkrDs1OTxVCagKIopYs1jRxbBG8/bpfO8RPU7EfdNnzqrt09NUHPhlzbu6VsW
-         odpCEnWLejcxCc3eL/0yzlT3WfMn3P7+PjXfqXDSp/1JYz/nFDKN4zFVCd+jtAk5KiGs
-         0EWhDxREcZrYA3SV4e8OBmBRuqPddRinia3t97QMaKK+h9SP98LKo9ugAa5KTqNSu20b
-         zaDCJfMWXLs4p43jSu8uHlWgeFI3e/cajhUIHN/JoBZlbgs6ZJh8A9LUAsfzwyM5pf2Z
-         uwLQ==
+        b=qg5HcgZRidK4WVQeKJ/8knHAiFD3Exk+1g1yriMc80Fkvy/Sl/M3UbW8zELYXZ+krN
+         2z79Qdr8YE4hErZTw0YIJQYuqYGTZhtmQ0bMnoe1N1i0WjeGxbIb3+aKuDqmJXlKGqlp
+         ZPrBynYhNeA5KVbiAX7+/ABK/Lhg9S6L18mqBoSulVaTghHsQPnoCm+5PKeVNsJBh9rp
+         x0LOzCitSCHruWfvuqyJBUG3QnGhi3GkjrrhRZ1AZw+lwVryPexXPE34eXkUm/0EoKDR
+         wAIva4EgTb5yCJQje4siQ1e1eotEQoU2mPHX7YtwazPIcV1HlGo18ZJDvthZgxjABdWJ
+         J9Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793875157; x=1794479957;
+        d=1e100.net; s=20260707; t=1793876296; x=1794481096;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
-        b=kyF41xIH8aHlohPJ2L8fDkN6Sgmzt9X+tmprqe5YkkSr+D/ZIU6CFBmpa2tcvb6r1p
-         Z5TO+K4Flr8dzjznvq/c9eOiluU0HLencMF74uxtYfcgF5Lh9htjexXDpdwrmlY+3P5k
-         XCwHpW/Rn5Vp1mIhZFcy11acyrZmbEhOidYW0DvPK69DGerI0WT+7IMhTV1aL5hm7kTR
-         QnC2khp0ig4wpcw75h/PM4hRCtsdVYi7YFIOKtynjuHxns20ABTunoO2cWbsPbV1NA+1
-         4fwkf9amjak2gOaAY2WlU63sNuiLyNCfyEZIoHPE5GDKmUAFwwqXhYsvxqN29zfzvIQR
-         n2jg==
-X-Gm-Message-State: APuU4Z9qbV+ZZqAMl850b+7unHr8Qom4Xl/EZLN9MQGzTW7FODX2eb5X
-	2Ea1wEJJVCs3rNZscdKZ5Tjxg/m1jKXyM/k7lY7AAnkg62AwCnxIY/zopBqFh5wT
-X-Gm-Gg: AYBFou0Oy2CVWM25Vhs6WCSwAYtQOljrnvCP2gk6utDYzsLSULQ4ir/anvqLHeP2sKP
-	NwOcD3sA4mBTr9YKAGiHT4F/I07IGw6jD0qe6JVkzsckw9ftF6fvQaLKrYOXTWaD2xRrAnzGAvf
-	Ad9+n02us24rYvjdK4psgbVcaiehL77swImqQeHsmzNpDQUTPUUqqQjK09cDVV4qSjje/EthAbo
-	DRs4X0BBqz4wfOqJZI2rgOnYpa/NqOLIYzAuWLhC71ZHrjb3HHE2aVArWoXXMwj8wrimKkOmXZc
-	9psCx56xQRbqEfcKhP361lj5U4tqox+jjGJTQ5K4MGTP6xIvMRruBzxo3Wj7VyQ1sjwo9S6OdU6
-	tuGTowZe7y75q/6WU5Vfllc7xLCH/KjJkPW+j3DKmiMDPk0RZ8EpdW99MntLFFowieUy2cFrs/o
-	acE5/OiDmen0MyA/rLDYu1Wm3orjwJQ4WMJwqt8dp2SvdHrq115p6s02yHhkqEthuZMvPisyYK8
-	j/fSHREQYYy+Ln3RoX7AAANMbALQpTNleQyd8X6kpM6xqM+7JnqEslYUotGSz608ZD2OZlrvhMo
-	6/JmHP1NFDDZ9Lzd24giCt72E0EQNxwE0fvVJxW214XXtzm9kSA8u7nWxdcHNDqE7aPiOQ==
-X-Received: by 2002:a17:90b:5590:b0:3ac:9098:f602 with SMTP id 98e67ed59e1d1-3b0afbedfe6mr1784736a91.6.1793875156797;
-        Thu, 05 Nov 2026 02:39:16 -0800 (PST)
+        b=aAKkZhVi5U6sxGuqcC2ieEta9bRr4ZthaYdKs3jr696iwm/iWX/snBDVuiWkKzIdA3
+         grgApjplptJCzHus5eNgaIs2e2GYRUdOLB4naNS2G8PiVmJOQifpfDwBagUVZL9ny2Mz
+         9m2QdAs/DafCe+5IGK4OUQobfKLLMhwrjkGb7HuXZo51rzeNh7gWmc2tUuuLnAwqRBYV
+         RiJpybXGMuexI/FjdnJLv5JptjNLQl10bZ5h42HNCT5PK5jxCD8a+WYxsKQhJ3w4PtT8
+         rtgp1yYodz3D+jYLbiflxQ5mcL00d8ViPH8V9CoiCAludkZ+r2RfJfm/hMgv50HtS4Ja
+         KhzA==
+X-Gm-Message-State: APuU4Z+FfP9jALrTw058MlIJYo8OSFDgfoFUNW8waCZfXRcaGmEvkwDh
+	pUdQ3p70gw2rkqxYCXmiuhaYQ566WZfH7pos4UW7I1pPz/gvQZvhaobw
+X-Gm-Gg: AYBFou25a259O0570UgEQADk5z2uHQ+p2Uu53Ltx+7X4fzEr0lAEZdmFkQwepvdGhcJ
+	ucYtsDxcHIBB6JQRdvUNsVMDhcYwIIapkqUDFbINh+gfK3qr71naA10mXxwzQI2RFbzwevfpLyn
+	msuZI/wFSZsGvGLXYmOFPlmBScAQhgJ9BP9/yfCBabzJmzhyZ5CsdKypO4Iw2ESOjIRmL1F3Wsp
+	Gp7eB+rD/j+4OE9GpNYpMm4eS8PHVXG4AMoCYEkP8NyLamrgHvD9IxZeZL5YFNElG6dtJqIDEOG
+	M/4DklrCBlB6E6hoZYOdaBFPDNAMSGAWo5RgY8LjuVBGJBX+NfKaMdS+ir8hqYYHFPrS3jdYxC8
+	frh6OBJSn1J4JXRhb3gLSiLZTLovYQdOXCYRLRVNMximQRBfhAdC1ugWI3r2BgRRxnfK9sowWCm
+	v1H8oRj5N7vgaoBFum47v1Cb3Tay2YPKUBVJJyfTit/sq5A+FA5mkWiNVkOXhANo5isL7wUFRHm
+	EiFxWuTU5o/D64jWMoNgg+hb91pOLXmxnXcqrF7IEVCOmFwuWrxxjl+7tOdEpjTDmRSPNIxCswZ
+	KHvpbqXUZ9Yzl0s749ErrGBlAmUepq+haTEl+9EDHxEfodVm
+X-Received: by 2002:a17:90b:518b:b0:3ac:ea3b:f28b with SMTP id 98e67ed59e1d1-3ae897b6653mr14961496a91.24.1793876296249;
+        Thu, 05 Nov 2026 02:58:16 -0800 (PST)
 Received: from hj.. ([163.239.22.29])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb4694a0e0sm2150791a12.20.2026.11.05.02.39.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm3777513a91.16.2026.11.05.02.58.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 02:39:16 -0800 (PST)
+        Thu, 05 Nov 2026 02:58:15 -0800 (PST)
 From: hyunjungg <hj351016@gmail.com>
 To: David Heidelberg <david@ixit.cz>
 Cc: oe-linux-nfc@lists.linux.dev,
@@ -82,8 +82,8 @@ Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Hyunjung Ko <hj351016@gmail.com>
 Subject: [PATCH] nfc: pn533: validate response length before parsing DEP ATR_RES
-Date: Thu,  5 Nov 2026 19:39:03 +0900
-Message-ID: <20261105103903.1440114-1-hj351016@gmail.com>
+Date: Thu,  5 Nov 2026 19:58:05 +0900
+Message-ID: <20261105105805.1450120-1-hj351016@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
