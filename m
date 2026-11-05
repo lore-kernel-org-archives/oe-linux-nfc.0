@@ -1,61 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793872721;
-	b=Pr2IaOhKjmEuU959hSt1POJan+ueZ+/jShl2baWqSF6oHaHyVU2WRhn8cGF/Tniuzl7o
-	 HSyQO9QAsE3PUmjud7hbUm3IRiwAc6Dap7L19voaEncEITrgAHXyVNiurDhdbnQObVqJx
-	 HzqOLg0AhEcjRHKxcLCzZ7IKdXZm4SR5chBfAe/Go4b9sVEbdt6sjLLzlX2ZW5h2szFax
-	 LNucUPZPWehnMEYmw0VCA/KY4FCGS6ElhkvnuGkrdARSDKbsojsaJH/agqmyLBj9snV6J
-	 hEw15Y4AlExpaV/cDSipjS8NYzPW2IdBiLcU0HKuSxJjqBaJFE2nEcibUGziefHwvRw==
+	t=1793875158;
+	b=eLU7FoHrxXjWXIgzN7ndytmyl+CIkyaUUKyHyvQ/xmIGazHbCsuj3R0CTuaEBn6eYdSR
+	 5598d5h2kIstk61+aJ6iT8tKQhmSvcX5QNxvgDkVR17zsGY+Z5vroCr/0Q/P57UYOtAYn
+	 lABE8s6lAJ5CsgiVaMl7Bing612zeW7yHkjVSI+t5Q+L6sI5UCEpcA8Gmr8z3FuMa4waz
+	 Wuyhm0W7FhnGE3DzbK79n/B7xY4TPAidqKiMHJHV+yUt8tb6kMzWPWCJJTxxnpL/kY65z
+	 f6YarDLq07sTT/Te3LO4VX2FaGYv7vZi2DxvVwuyzaQcDrvCyemfRDywqyT1/jcY+nA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793872721;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=muRVNtpHPN8u6TD6ZpfYVyyB4/5pebiG/RBZ2qZUbIA=;
-	b=AfE9SFxa595g7hWYZcayBGy2vKnkRicQ6abRprQRYGH+9sArxW5YCrDsD4vuVghpqEmU
-	 QsOcGJBZK1N8zn0mJeQe5B1gs3jib5YVxda6xJsRTAokSjilElY3+TA94SlDVYD/ZC1tR
-	 TgtsQVGrQXJsRZ0U+eTD4i5ZUGL8OyC8iIA7gIsSDit6WFJogoEs0JS12JqLXbg83aAx3
-	 NotZO2U1SJ/KqZFa9e5hFvqwElJXENgPISZo/E6kcxKSbZPq3eN7CsLxHgdd1W9UevP8r
-	 GAyxZXDgl5qoRYR14ftkj6tgeN+miHBOLYhBhcd+9werF6eNWuu6oz/mY4mXGWQBojg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793875158;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
+	b=yUGl+js6bNztyhYAlTcCr1uywBcM4ZYbmGS3h/xmvUyMJX3/YFkregfEvufvUt4EtZR4
+	 WXzxpLYbUe5kLpG7L987kAK/wGiribGyPSi0FWZuVknsD74w8vcjm200uyEobXFxh7KPr
+	 8zl7XbdLEm23q9Oo2DtWg9dEr40KTXzYHLciu0lbcpGPJkVqOi1Xblw3jLuiSL77MhXby
+	 4hlOTCbnMRKjLexFIcZ4wMDosgMavaweqJKrjI7T1lXBG3/ofnekhhBOJJ28w1NByUant
+	 UDQFXO72/4VfWMNtBwqIyBJxrWnnbeWlbSPbO+8pdVL1eA/RdciGzUfmdJDJFW9URsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dTKJMCls;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQXsr2X3;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6832606A326;
-	Thu,  5 Nov 2026 09:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A6A606A326
+	for <oe-linux-nfc@lists.linux.dev>; Thu,  5 Nov 2026 10:39:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89A6A606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dTKJMCls
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B216F1F000C1;
-	Thu,  5 Nov 2026 09:58:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793872720;
-	bh=muRVNtpHPN8u6TD6ZpfYVyyB4/5pebiG/RBZ2qZUbIA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=dTKJMClsYHnp06jclLbts2Q4zCBaBIqZ4Yc2s92swYekKBG1ruRI0th2GBOll7rxl
-	 AIeYkYXYfD6x+Porhrg5HdPLmndCLYBDT5WuCYwcXf+oat8DZAtEOiOV1DlnI3hmOn
-	 vrWDalfzkPln0aEk6OkFLzwwOLMuMHnR4jCFAoVcmkvSYj7zmTqRrK5D+/Qtzq78Jh
-	 Qcgcg8C0Gph8m5XDmKpSScmir+OC+RkO1cdLzSwjEkOb5fM/bXfhiL9Oh6Zt3ZZxbi
-	 PxvwGlGFPw93PR0FLhO8xw+KMrEJk00O0+oSbLOpUhi8kLdqaSOTbmSLfGktuWufBS
-	 H2ZDSzOSQ+rpQ==
-Subject:
- Re: [PATCH] nfc: rawsock: prevent TX work requeue after socket shutdown
-From: netdev-bot+sashiko@kernel.org
-To: shunsheng1218@gmail.com
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, lauro.venancio@openbossa.org,
- sameo@linux.intel.com, linville@tuxdriver.com, aloisio.almeida@openbossa.org,
- oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 05 Nov 2026 09:58:39 +0000
-Message-ID: <179387271921.488856.11043838083216323158@kernel.org>
-In-Reply-To: <179378590950.74297.14503648624087894519@gmail.com>
-References: <179378590950.74297.14503648624087894519@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQXsr2X3
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso286615a91.0
+        for <oe-linux-nfc@lists.linux.dev>; Thu, 05 Nov 2026 02:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793875157; x=1794479957; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
+        b=BQXsr2X3Pr7rAMsgYQOxh24Xj7tM3BbS8n4eOeWHyWQsrxV54qbtLuDEXtFvQ4bp9W
+         D3Ud91cRkrDs1OTxVCagKIopYs1jRxbBG8/bpfO8RPU7EfdNnzqrt09NUHPhlzbu6VsW
+         odpCEnWLejcxCc3eL/0yzlT3WfMn3P7+PjXfqXDSp/1JYz/nFDKN4zFVCd+jtAk5KiGs
+         0EWhDxREcZrYA3SV4e8OBmBRuqPddRinia3t97QMaKK+h9SP98LKo9ugAa5KTqNSu20b
+         zaDCJfMWXLs4p43jSu8uHlWgeFI3e/cajhUIHN/JoBZlbgs6ZJh8A9LUAsfzwyM5pf2Z
+         uwLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793875157; x=1794479957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lNM3+b6l7cj+vrA9YlqTwqxAWDbif1TufQothTfjcdI=;
+        b=kyF41xIH8aHlohPJ2L8fDkN6Sgmzt9X+tmprqe5YkkSr+D/ZIU6CFBmpa2tcvb6r1p
+         Z5TO+K4Flr8dzjznvq/c9eOiluU0HLencMF74uxtYfcgF5Lh9htjexXDpdwrmlY+3P5k
+         XCwHpW/Rn5Vp1mIhZFcy11acyrZmbEhOidYW0DvPK69DGerI0WT+7IMhTV1aL5hm7kTR
+         QnC2khp0ig4wpcw75h/PM4hRCtsdVYi7YFIOKtynjuHxns20ABTunoO2cWbsPbV1NA+1
+         4fwkf9amjak2gOaAY2WlU63sNuiLyNCfyEZIoHPE5GDKmUAFwwqXhYsvxqN29zfzvIQR
+         n2jg==
+X-Gm-Message-State: APuU4Z9qbV+ZZqAMl850b+7unHr8Qom4Xl/EZLN9MQGzTW7FODX2eb5X
+	2Ea1wEJJVCs3rNZscdKZ5Tjxg/m1jKXyM/k7lY7AAnkg62AwCnxIY/zopBqFh5wT
+X-Gm-Gg: AYBFou0Oy2CVWM25Vhs6WCSwAYtQOljrnvCP2gk6utDYzsLSULQ4ir/anvqLHeP2sKP
+	NwOcD3sA4mBTr9YKAGiHT4F/I07IGw6jD0qe6JVkzsckw9ftF6fvQaLKrYOXTWaD2xRrAnzGAvf
+	Ad9+n02us24rYvjdK4psgbVcaiehL77swImqQeHsmzNpDQUTPUUqqQjK09cDVV4qSjje/EthAbo
+	DRs4X0BBqz4wfOqJZI2rgOnYpa/NqOLIYzAuWLhC71ZHrjb3HHE2aVArWoXXMwj8wrimKkOmXZc
+	9psCx56xQRbqEfcKhP361lj5U4tqox+jjGJTQ5K4MGTP6xIvMRruBzxo3Wj7VyQ1sjwo9S6OdU6
+	tuGTowZe7y75q/6WU5Vfllc7xLCH/KjJkPW+j3DKmiMDPk0RZ8EpdW99MntLFFowieUy2cFrs/o
+	acE5/OiDmen0MyA/rLDYu1Wm3orjwJQ4WMJwqt8dp2SvdHrq115p6s02yHhkqEthuZMvPisyYK8
+	j/fSHREQYYy+Ln3RoX7AAANMbALQpTNleQyd8X6kpM6xqM+7JnqEslYUotGSz608ZD2OZlrvhMo
+	6/JmHP1NFDDZ9Lzd24giCt72E0EQNxwE0fvVJxW214XXtzm9kSA8u7nWxdcHNDqE7aPiOQ==
+X-Received: by 2002:a17:90b:5590:b0:3ac:9098:f602 with SMTP id 98e67ed59e1d1-3b0afbedfe6mr1784736a91.6.1793875156797;
+        Thu, 05 Nov 2026 02:39:16 -0800 (PST)
+Received: from hj.. ([163.239.22.29])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb4694a0e0sm2150791a12.20.2026.11.05.02.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 02:39:16 -0800 (PST)
+From: hyunjungg <hj351016@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hyunjung Ko <hj351016@gmail.com>
+Subject: [PATCH] nfc: pn533: validate response length before parsing DEP ATR_RES
+Date: Thu,  5 Nov 2026 19:39:03 +0900
+Message-ID: <20261105103903.1440114-1-hj351016@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -65,135 +94,71 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+From: Hyunjung Ko <hj351016@gmail.com>
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 1
+pn533_poll_dep_complete() and pn533_in_dep_link_up_complete() cast
+resp->data to a struct pn533_cmd_jump_dep_response and read its fixed
+17-byte header (status, tg, nfcid3t[10], didt, bst, brt, to, ppt)
+without first checking that resp->len covers that header.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On a short or truncated response the handlers read bytes beyond the
+received frame:
 
-- [High] The fix is still racy, so the use-after-free it claims to close
-  remains reachable.
-- [Low] The patch only works on top of commit d793458c45df2a ("nfc:
-  rawsock: cancel tx_work before socket teardown", 2026-03-03), and the…
+  - rsp->status is dereferenced with no minimum-length check;
+  - for a success status, memcpy(nfc_target.nfcid1, rsp->nfcid3t, 10)
+    copies 10 bytes from offset 2, so for resp->len < 12 it reads past
+    the valid response data. Those bytes are then handed to userspace
+    via nfc_targets_found() (netlink), which can disclose stale buffer
+    contents.
 
---
+target_gt_len = resp->len - 17 additionally underflows (it is u8) when
+resp->len < 17. That path is mitigated downstream --
+nfc_set_remote_general_bytes() -> nfc_llcp_set_remote_gb() rejects the
+resulting out-of-range length -- so the subtraction does not by itself
+over-read rsp->gt[]; the fixed-field reads above are unguarded
+regardless.
 
-nfc: rawsock: prevent TX work requeue after socket shutdown
+A valid ATR_RES always carries the full 17-byte fixed header (the
+general bytes, if present, start at offset 17), so reject any response
+shorter than sizeof(*rsp) before parsing it. pn533_rf_complete()-style
+handlers in this file already length-check resp->len before use (e.g.
+the ATR_REQ_GB_OFFSET check in pn533_init_target_complete()).
 
-The patch makes rawsock_data_exchange_complete() check SEND_SHUTDOWN
-under sk_write_queue.lock before it reschedules tx_work. The goal is to
-stop a delayed data-exchange completion from requeueing the work after
-rawsock_release() has started tearing the socket down.
+Found by code review; not reproduced.
 
-> diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
-> index f7d7a599fade7..efdbd512d4600 100644
-> --- a/net/nfc/rawsock.c
-> +++ b/net/nfc/rawsock.c
-> @@ -168,7 +168,13 @@ static void rawsock_data_exchange_complete(void *context, struct sk_buff *skb,
->  		goto error_skb;
->  
->  	spin_lock_bh(&sk->sk_write_queue.lock);
-> -	if (!skb_queue_empty(&sk->sk_write_queue))
-> +	/*
-> +	 * The release path sets SEND_SHUTDOWN before cancel_work_sync():
-> +	 * once it is set, do not requeue tx_work - the socket may be freed
-> +	 * right after the cancel returns.
-> +	 */
+Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
+---
+ drivers/nfc/pn533/pn533.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-[Severity: Low]
-This comment relies on the SEND_SHUTDOWN / cancel_work_sync() block in
-rawsock_release(). That block was added by commit d793458c45df2a ("nfc:
-rawsock: cancel tx_work before socket teardown"). Before that commit,
-rawsock_release() did not set SEND_SHUTDOWN and did not cancel tx_work.
+diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
+--- a/drivers/nfc/pn533/pn533.c
++++ b/drivers/nfc/pn533/pn533.c
+@@ -1309,7 +1309,12 @@ static int pn533_poll_dep_complete(struct pn533 *dev, void *arg,
+ 	memset(&nfc_target, 0, sizeof(struct nfc_target));
 
-The patch only carries:
+ 	rsp = (struct pn533_cmd_jump_dep_response *)resp->data;
 
-    Fixes: 23b7869c0fd08 ("NFC: add the NFC socket raw protocol")
++	if (resp->len < sizeof(*rsp)) {
++		rc = -EINVAL;
++		goto error;
++	}
++
+ 	rc = rsp->status & PN533_CMD_RET_MASK;
+ 	if (rc != PN533_CMD_RET_SUCCESS) {
+ 		/* Not target found, turn radio off */
+@@ -1929,7 +1929,12 @@ static int pn533_in_dep_link_up_complete(struct pn533 *dev, void *arg,
+ 	}
 
-The lines it changes date back to 2011. It would apply cleanly to a
-stable tree that lacks d793458c45df2a, and there the new check would do
-nothing during release.
+ 	rsp = (struct pn533_cmd_jump_dep_response *)resp->data;
 
-Should this have a Fixes: tag for d793458c45df ("nfc: rawsock: cancel
-tx_work before socket teardown"), or at least name it as a prerequisite?
-
-> +	if (!skb_queue_empty(&sk->sk_write_queue) &&
-> +	    !(sk->sk_shutdown & SEND_SHUTDOWN))
->  		schedule_work(&nfc_rawsock(sk)->tx_work);
-
-[Severity: High]
-Is this check actually serialized with the release path? Only the
-completion side takes sk_write_queue.lock here. rawsock_release() sets
-the flag and cancels the work without holding that lock:
-
-net/nfc/rawsock.c:rawsock_release() {
-    ...
-	if (sk->sk_state == TCP_ESTABLISHED) {
-		...
-		sk->sk_shutdown |= SEND_SHUTDOWN;
-		cancel_work_sync(&nfc_rawsock(sk)->tx_work);
-		rawsock_write_queue_purge(sk);
-	}
-
-	sock_orphan(sk);
-	sock_put(sk);
-    ...
-}
-
-Release only takes the lock later, inside rawsock_write_queue_purge().
-
-Can the following interleaving still happen? CPU0 holds the reference
-taken by sock_hold() in rawsock_tx_work():
-
-CPU0 (rawsock_data_exchange_complete)   CPU1 (rawsock_release)
-spin_lock_bh(&sk->sk_write_queue.lock)
-queue non-empty, sk_shutdown == 0
-                                        sk->sk_shutdown |= SEND_SHUTDOWN
-                                        cancel_work_sync(&tx_work)
-                                          tx_work idle, returns at once
-schedule_work(&tx_work) succeeds
-spin_unlock_bh()
-sock_put(sk)
-                                        rawsock_write_queue_purge(sk)
-                                        sock_orphan(sk)
-                                        sock_put(sk)
-                                          last ref, socket freed
-
-If tx_work is neither pending nor running, cancel_work_sync() returns
-right away. __cancel_work_sync() also calls enable_work() before it
-returns, so the later schedule_work() can still queue the work.
-
-rawsock_destruct() does not cancel tx_work, and the queued work holds no
-socket reference. When the worker runs, rawsock_tx_work() would read
-freed memory:
-
-	struct sock *sk = to_rawsock_sk(work);
-	struct nfc_dev *dev = nfc_rawsock(sk)->dev;
-	u32 target_idx = nfc_rawsock(sk)->target_idx;
-	...
-	if (sk->sk_shutdown & SEND_SHUTDOWN) {
-
-Would it close this window to set SEND_SHUTDOWN under sk_write_queue.lock
-in rawsock_release(), before cancel_work_sync()? Then either the
-completion sees the flag, or its schedule_work() ran before release took
-the lock, and cancel_work_sync() will cancel or wait for that work.
-
-Separately, the unlocked read-modify-write of sk->sk_shutdown in
-rawsock_release() races with the plain read here. It also races with the
-plain store in rawsock_report_error():
-
-	sk->sk_shutdown = SHUTDOWN_MASK;
-
-KCSAN would likely report this as a data race. The rest of the
-networking stack accesses sk_shutdown with READ_ONCE()/WRITE_ONCE().
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/179378590950.74297.14503648624087894519%40gmail.com
++	if (resp->len < sizeof(*rsp)) {
++		rc = -EINVAL;
++		goto error;
++	}
++
+ 	rc = rsp->status & PN533_CMD_RET_MASK;
+ 	if (rc != PN533_CMD_RET_SUCCESS) {
+ 		nfc_err(dev->dev,
