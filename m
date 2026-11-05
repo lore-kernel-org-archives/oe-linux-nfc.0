@@ -1,54 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793867028;
-	b=RuZQnVDIoAq1lCgTpIfSST7I8U8ARQEuVzNFeO1hddoBFYLYQFV6K1JQEet1O7fekCye
-	 Y9q+mV3kLEHxONmxKwAe23j03VZBrtegSIT0tSNePzZCnUHxP64IbOWLKOam67pLao/YP
-	 lFcRwa9ypUj9p6ADks4ZELsTdAHcpWwihnEPDOyLFiC/EvarjuUu9VR/uJggXolZt0qrs
-	 G4I4gErQJlmo9vKNloVqW5ZS/sjMq3N+ttY8zm/3pyVebPGlR+E6lLhFg7h2TJDKTp6d5
-	 v55B57KRNUfGxh8+aKCperSfsO6V9x51l5Gtx/3pHyz7NwuRTrrjdwBAsHJXuo/fszw==
+	t=1793872721;
+	b=Pr2IaOhKjmEuU959hSt1POJan+ueZ+/jShl2baWqSF6oHaHyVU2WRhn8cGF/Tniuzl7o
+	 HSyQO9QAsE3PUmjud7hbUm3IRiwAc6Dap7L19voaEncEITrgAHXyVNiurDhdbnQObVqJx
+	 HzqOLg0AhEcjRHKxcLCzZ7IKdXZm4SR5chBfAe/Go4b9sVEbdt6sjLLzlX2ZW5h2szFax
+	 LNucUPZPWehnMEYmw0VCA/KY4FCGS6ElhkvnuGkrdARSDKbsojsaJH/agqmyLBj9snV6J
+	 hEw15Y4AlExpaV/cDSipjS8NYzPW2IdBiLcU0HKuSxJjqBaJFE2nEcibUGziefHwvRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793867028;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=NI1GgIgXNQObAgyI4VamVXZkG9i7zMwG2QWU7SC7WiU=;
-	b=JZNAcPX8+kUG1i+8vpPwk/AmuF7NnxVYgYHu/+qXs5zi27h3n6K7y1br7evol/3skMxv
-	 nvYi/By8o2dRovJ6zfxAUokscuCMuVGMTD/aYx0R2dnZVPv/JKPykfzc54HtLiIVy0Apu
-	 qDNH5PKi1VKaW52ddVuxyAMmWIyAjPXxdHdZJxKhUgXJKshiyrPE8tmssu5R0SuKRyMuY
-	 Hvh4NkP9dpXnlBhAY2jF3ql7mLBVcWHuMmeZtzqKVYeLCwihVXZ1+6vOVCE1H22G76x2o
-	 LNJWyoz8mb9EQc6l/wtwH9LqQ+Qlv9MHEMP2DKpyn0QMe6fL8/RBkRfNw0GUjWt6cVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793872721;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=muRVNtpHPN8u6TD6ZpfYVyyB4/5pebiG/RBZ2qZUbIA=;
+	b=AfE9SFxa595g7hWYZcayBGy2vKnkRicQ6abRprQRYGH+9sArxW5YCrDsD4vuVghpqEmU
+	 QsOcGJBZK1N8zn0mJeQe5B1gs3jib5YVxda6xJsRTAokSjilElY3+TA94SlDVYD/ZC1tR
+	 TgtsQVGrQXJsRZ0U+eTD4i5ZUGL8OyC8iIA7gIsSDit6WFJogoEs0JS12JqLXbg83aAx3
+	 NotZO2U1SJ/KqZFa9e5hFvqwElJXENgPISZo/E6kcxKSbZPq3eN7CsLxHgdd1W9UevP8r
+	 GAyxZXDgl5qoRYR14ftkj6tgeN+miHBOLYhBhcd+9werF6eNWuu6oz/mY4mXGWQBojg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dTKJMCls;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF042606A32F
-	for <oe-linux-nfc@lists.linux.dev>; Thu,  5 Nov 2026 08:23:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF042606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4a41f46d629so2446118b6e.3
-        for <oe-linux-nfc@lists.linux.dev>; Thu, 05 Nov 2026 00:23:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793867026; x=1794471826;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NI1GgIgXNQObAgyI4VamVXZkG9i7zMwG2QWU7SC7WiU=;
-        b=ImnhPQWmyxNaUty01/lcybBHvwP3E9F2Iq3NaYTZu1sEaxjDpd7bOlQ3Q1iTST3WmA
-         gn+vQdDR1lNhcLmmEsS1StLplhCp3H2YDeYIsGOVetPex6d0UDjGpOW7Faf9dZcWjHCp
-         mCKwsP4AGtL2ZGkawmtTKczpqbmxHKE+DlBGiSHali8Cjvzmkm25q049tmbogmIbgaBN
-         fIqMqaJX8q3olBifkrwjwWSFYf4E2S2JSzMnDxJM40gHabhDKluFqwXEhPet+5stTBPU
-         nS+bLLBxd35WerosGAPD7M8qWpHLFxKBU6Hk6nt7LOqC/ZDFZ3JlJMt08dXccGKi+8iK
-         N/yA==
-X-Forwarded-Encrypted: i=1; AKwUvBz94JxJci8dHCkjtXPaDARPJhf9SQ7Wcf3Drk1IgJ3cDg7GJPcffSHkWYkKRwgFC6jn5rEeFPRXSflObBU=@lists.linux.dev
-X-Gm-Message-State: APuU4Z/6lUncQarbp1zwUrHmKIvECY8Vme5KJwBsWAx+MTXG3yeBijJr
-	HMr9wlHtEZUxcQ1XVjmIlVWWXy5JMseKnvZPz3BvpE68f9Adh5wYH8BK36/Jq4HArYzNCRSqePv
-	Brr5JbBJW1t+4MClbEi1Z2Gf/EtdOlvx9SQSpxnkmoRixcPWXCAhm1uO1YzM=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6832606A326;
+	Thu,  5 Nov 2026 09:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dTKJMCls
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B216F1F000C1;
+	Thu,  5 Nov 2026 09:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793872720;
+	bh=muRVNtpHPN8u6TD6ZpfYVyyB4/5pebiG/RBZ2qZUbIA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=dTKJMClsYHnp06jclLbts2Q4zCBaBIqZ4Yc2s92swYekKBG1ruRI0th2GBOll7rxl
+	 AIeYkYXYfD6x+Porhrg5HdPLmndCLYBDT5WuCYwcXf+oat8DZAtEOiOV1DlnI3hmOn
+	 vrWDalfzkPln0aEk6OkFLzwwOLMuMHnR4jCFAoVcmkvSYj7zmTqRrK5D+/Qtzq78Jh
+	 Qcgcg8C0Gph8m5XDmKpSScmir+OC+RkO1cdLzSwjEkOb5fM/bXfhiL9Oh6Zt3ZZxbi
+	 PxvwGlGFPw93PR0FLhO8xw+KMrEJk00O0+oSbLOpUhi8kLdqaSOTbmSLfGktuWufBS
+	 H2ZDSzOSQ+rpQ==
+Subject:
+ Re: [PATCH] nfc: rawsock: prevent TX work requeue after socket shutdown
+From: netdev-bot+sashiko@kernel.org
+To: shunsheng1218@gmail.com
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, lauro.venancio@openbossa.org,
+ sameo@linux.intel.com, linville@tuxdriver.com, aloisio.almeida@openbossa.org,
+ oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 05 Nov 2026 09:58:39 +0000
+Message-ID: <179387271921.488856.11043838083216323158@kernel.org>
+In-Reply-To: <179378590950.74297.14503648624087894519@gmail.com>
+References: <179378590950.74297.14503648624087894519@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -58,218 +65,135 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:e8d4:20b0:564:48f3:df91 with SMTP id
- 5614622812f47-56448f3e1fbmr6077549b6e.12.1793867026656; Thu, 05 Nov 2026
- 00:23:46 -0800 (PST)
-Date: Thu, 05 Nov 2026 00:23:46 -0800
-In-Reply-To: <6acd1c88.a150a118.27e199.0053.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aec3d12.f31022ea.233d2f.0004.GAE@google.com>
-Subject: Re: [syzbot] [nfc?] KASAN: slab-out-of-bounds Read in pn533_recv_frame
-From: syzbot <syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com>
-To: chandradhar.2003@gmail.com, david@ixit.cz, krzk@kernel.org, 
-	linux-kernel@vger.kernel.org, michael.thalmeier@hale.at, 
-	netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, sameo@linux.intel.com, 
-	shreeramrahul94@gmail.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-HEAD commit:    8b7179210b22 Add linux-next specific files for 20261104
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1472fca1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5dad87d6a9d5ee90
-dashboard link: https://syzkaller.appspot.com/bug?extid=93f169a8e7d66864f800
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1641aca1580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c09edd580000
+Critical: 0 · High: 1 · Medium: 0 · Low: 1
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/24dabb992a55/disk-8b717921.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/efb6c59219d5/vmlinux-8b717921.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ced4d906c236/bzImage-8b717921.xz
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+93f169a8e7d66864f800@syzkaller.appspotmail.com
+- [High] The fix is still racy, so the use-after-free it claims to close
+  remains reachable.
+- [Low] The patch only works on top of commit d793458c45df2a ("nfc:
+  rawsock: cancel tx_work before socket teardown", 2026-03-03), and the…
 
-PN533 RX: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-PN533 RX: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-PN533 RX: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-PN533 RX: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-BUG: KASAN: slab-out-of-bounds in hex_dump_to_buffer+0x36c/0xd70 lib/hexdump.c:194
-Read of size 1 at addr ffff888027737a00 by task swapper/1/0
+--
 
-CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
-Call Trace:
- <IRQ>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- hex_dump_to_buffer+0x36c/0xd70 lib/hexdump.c:194
- print_hex_dump+0x16b/0x2b0 lib/hexdump.c:277
- pn533_recv_frame+0x5f6/0x6d0 drivers/nfc/pn533/pn533.c:2202
- __usb_hcd_giveback_urb+0x378/0x540 drivers/usb/core/hcd.c:1658
- dummy_timer+0xa9a/0x4ce0 drivers/usb/gadget/udc/dummy_hcd.c:2051
- __run_hrtimer kernel/time/hrtimer.c:2079 [inline]
- __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2136
- hrtimer_run_softirq+0x1e3/0x2e0 kernel/time/hrtimer.c:2153
- handle_softirqs+0x265/0x8d0 kernel/softirq.c:669
- __do_softirq kernel/softirq.c:703 [inline]
- invoke_softirq kernel/softirq.c:542 [inline]
- __irq_exit_rcu+0xc6/0x220 kernel/softirq.c:786
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1073 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1073
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:finish_task_switch+0x413/0xc60 kernel/sched/core.c:5434
-Code: 04 00 00 41 c7 84 24 20 0e 00 00 00 00 00 00 0f 1f 44 00 00 49 83 c4 48 4c 89 e7 e8 c7 56 89 0a e8 22 92 3a 00 fb 4c 8b 65 c8 <49> 8d bc 24 18 17 00 00 48 89 f8 48 c1 e8 03 42 0f b6 04 30 84 c0
-RSP: 0018:ffffc900001c7be0 EFLAGS: 00000206
-RAX: 000000000008812b RBX: ffff8880b833d3a0 RCX: 8000000000000001
-RDX: 0000000000000000 RSI: ffffffff8e9ef560 RDI: ffffffff8cb01080
-RBP: ffffc900001c7c30 R08: ffffffff91e104bf R09: 1ffffffff23c2097
-R10: dffffc0000000000 R11: fffffbfff23c2098 R12: ffff88801fa99f40
-R13: ffff88801fa99f40 R14: dffffc0000000000 R15: 1ffff11017067a74
- context_switch kernel/sched/core.c:5586 [inline]
- __schedule+0x17e5/0x5830 kernel/sched/core.c:7382
- schedule_idle+0x51/0x90 kernel/sched/core.c:7500
- do_idle+0x4ad/0x540 kernel/sched/idle.c:384
- cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:458
- start_secondary+0x101/0x110 arch/x86/kernel/smpboot.c:312
- common_startup_64+0x13e/0x157
- </TASK>
+nfc: rawsock: prevent TX work requeue after socket shutdown
 
-Allocated by task 0:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3f/0x90 mm/kasan/common.c:79
- unpoison_slab_object mm/kasan/common.c:354 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:380
- kasan_slab_alloc include/linux/kasan.h:257 [inline]
- slab_post_alloc_hook mm/slub.c:4716 [inline]
- slab_alloc_node mm/slub.c:5029 [inline]
- kmem_cache_alloc_node_noprof+0x34f/0x600 mm/slub.c:5101
- kmalloc_reserve net/core/skbuff.c:616 [inline]
- __alloc_skb+0x27a/0x7a0 net/core/skbuff.c:716
- alloc_skb include/linux/skbuff.h:1390 [inline]
- pn533_recv_response+0xc4/0x230 drivers/nfc/pn533/usb.c:65
- __usb_hcd_giveback_urb+0x378/0x540 drivers/usb/core/hcd.c:1658
- dummy_timer+0xa9a/0x4ce0 drivers/usb/gadget/udc/dummy_hcd.c:2051
- __run_hrtimer kernel/time/hrtimer.c:2079 [inline]
- __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2136
- hrtimer_run_softirq+0x1e3/0x2e0 kernel/time/hrtimer.c:2153
- handle_softirqs+0x265/0x8d0 kernel/softirq.c:669
- __do_softirq kernel/softirq.c:703 [inline]
- invoke_softirq kernel/softirq.c:542 [inline]
- __irq_exit_rcu+0xc6/0x220 kernel/softirq.c:786
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1073 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1073
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+The patch makes rawsock_data_exchange_complete() check SEND_SHUTDOWN
+under sk_write_queue.lock before it reschedules tx_work. The goal is to
+stop a delayed data-exchange completion from requeueing the work after
+rawsock_release() has started tearing the socket down.
 
-The buggy address belongs to the object at ffff888027737740
- which belongs to the cache skbuff_small_head of size 704
-The buggy address is located 0 bytes to the right of
- allocated 704-byte region [ffff888027737740, ffff888027737a00)
+> diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
+> index f7d7a599fade7..efdbd512d4600 100644
+> --- a/net/nfc/rawsock.c
+> +++ b/net/nfc/rawsock.c
+> @@ -168,7 +168,13 @@ static void rawsock_data_exchange_complete(void *context, struct sk_buff *skb,
+>  		goto error_skb;
+>  
+>  	spin_lock_bh(&sk->sk_write_queue.lock);
+> -	if (!skb_queue_empty(&sk->sk_write_queue))
+> +	/*
+> +	 * The release path sets SEND_SHUTDOWN before cancel_work_sync():
+> +	 * once it is set, do not requeue tx_work - the socket may be freed
+> +	 * right after the cancel returns.
+> +	 */
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x27734
-head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff888140a9bdc0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000200130013 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff888140a9bdc0 dead000000000100 dead000000000122
-head: 0000000000000000 0000000200130013 00000000f5000000 0000000000000000
-head: 00fff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5650, tgid 5650 (syz-executor223), ts 84263979260
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1874
- prep_new_page+0x22/0xb0 mm/page_alloc.c:1882
- get_page_from_freelist+0x22a1/0x22e0 mm/page_alloc.c:3964
- __alloc_frozen_pages_noprof+0x211/0x450 mm/page_alloc.c:5506
- alloc_slab_page mm/slub.c:3382 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3497
- new_slab mm/slub.c:3548 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7522
- refill_sheaf mm/slub.c:2915 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4807
- alloc_from_pcs mm/slub.c:4883 [inline]
- slab_alloc_node mm/slub.c:5017 [inline]
- kmem_cache_alloc_node_noprof+0x432/0x600 mm/slub.c:5101
- kmalloc_reserve net/core/skbuff.c:616 [inline]
- __alloc_skb+0x27a/0x7a0 net/core/skbuff.c:716
- napi_alloc_skb+0x86/0xaf0 net/core/skbuff.c:856
- page_to_skb+0x240/0x1780 drivers/net/virtio_net.c:880
- receive_mergeable drivers/net/virtio_net.c:2426 [inline]
- receive_buf+0x720/0x1b60 drivers/net/virtio_net.c:2596
- virtnet_receive_packets drivers/net/virtio_net.c:2921 [inline]
- virtnet_receive drivers/net/virtio_net.c:2945 [inline]
- virtnet_poll+0x22bf/0x3100 drivers/net/virtio_net.c:3040
- __napi_poll+0xaa/0x330 net/core/dev.c:7985
- napi_poll net/core/dev.c:8048 [inline]
- net_rx_action+0x61d/0xf50 net/core/dev.c:8205
- handle_softirqs+0x265/0x8d0 kernel/softirq.c:669
-page last free pid 5317 tgid 5317 ts 54559667751 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1416 [inline]
- __free_frozen_pages+0xd1a/0xe10 mm/page_alloc.c:2972
- __slab_free+0x269/0x2c0 mm/slub.c:5922
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:364
- kasan_slab_alloc include/linux/kasan.h:257 [inline]
- slab_post_alloc_hook mm/slub.c:4716 [inline]
- slab_alloc_node mm/slub.c:5029 [inline]
- kmem_cache_alloc_noprof+0x2b4/0x600 mm/slub.c:5043
- vm_area_alloc+0x24/0x140 mm/vma_init.c:36
- __mmap_new_vma mm/vma.c:2765 [inline]
- __mmap_region mm/vma.c:3119 [inline]
- mmap_region+0x18e8/0x2820 mm/vma.c:3201
- do_mmap+0xe0a/0x1300 mm/mmap.c:573
- vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
- ksys_mmap_pgoff+0x4dc/0x760 mm/mmap.c:619
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[Severity: Low]
+This comment relies on the SEND_SHUTDOWN / cancel_work_sync() block in
+rawsock_release(). That block was added by commit d793458c45df2a ("nfc:
+rawsock: cancel tx_work before socket teardown"). Before that commit,
+rawsock_release() did not set SEND_SHUTDOWN and did not cancel tx_work.
 
-Memory state around the buggy address:
- ffff888027737900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff888027737980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff888027737a00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                   ^
- ffff888027737a80: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888027737b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-----------------
-Code disassembly (best guess), 1 bytes skipped:
-   0:	00 00                	add    %al,(%rax)
-   2:	41 c7 84 24 20 0e 00 	movl   $0x0,0xe20(%r12)
-   9:	00 00 00 00 00
-   e:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
-  13:	49 83 c4 48          	add    $0x48,%r12
-  17:	4c 89 e7             	mov    %r12,%rdi
-  1a:	e8 c7 56 89 0a       	call   0xa8956e6
-  1f:	e8 22 92 3a 00       	call   0x3a9246
-  24:	fb                   	sti
-  25:	4c 8b 65 c8          	mov    -0x38(%rbp),%r12
-* 29:	49 8d bc 24 18 17 00 	lea    0x1718(%r12),%rdi <-- trapping instruction
-  30:	00
-  31:	48 89 f8             	mov    %rdi,%rax
-  34:	48 c1 e8 03          	shr    $0x3,%rax
-  38:	42 0f b6 04 30       	movzbl (%rax,%r14,1),%eax
-  3d:	84 c0                	test   %al,%al
+The patch only carries:
 
+    Fixes: 23b7869c0fd08 ("NFC: add the NFC socket raw protocol")
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+The lines it changes date back to 2011. It would apply cleanly to a
+stable tree that lacks d793458c45df2a, and there the new check would do
+nothing during release.
+
+Should this have a Fixes: tag for d793458c45df ("nfc: rawsock: cancel
+tx_work before socket teardown"), or at least name it as a prerequisite?
+
+> +	if (!skb_queue_empty(&sk->sk_write_queue) &&
+> +	    !(sk->sk_shutdown & SEND_SHUTDOWN))
+>  		schedule_work(&nfc_rawsock(sk)->tx_work);
+
+[Severity: High]
+Is this check actually serialized with the release path? Only the
+completion side takes sk_write_queue.lock here. rawsock_release() sets
+the flag and cancels the work without holding that lock:
+
+net/nfc/rawsock.c:rawsock_release() {
+    ...
+	if (sk->sk_state == TCP_ESTABLISHED) {
+		...
+		sk->sk_shutdown |= SEND_SHUTDOWN;
+		cancel_work_sync(&nfc_rawsock(sk)->tx_work);
+		rawsock_write_queue_purge(sk);
+	}
+
+	sock_orphan(sk);
+	sock_put(sk);
+    ...
+}
+
+Release only takes the lock later, inside rawsock_write_queue_purge().
+
+Can the following interleaving still happen? CPU0 holds the reference
+taken by sock_hold() in rawsock_tx_work():
+
+CPU0 (rawsock_data_exchange_complete)   CPU1 (rawsock_release)
+spin_lock_bh(&sk->sk_write_queue.lock)
+queue non-empty, sk_shutdown == 0
+                                        sk->sk_shutdown |= SEND_SHUTDOWN
+                                        cancel_work_sync(&tx_work)
+                                          tx_work idle, returns at once
+schedule_work(&tx_work) succeeds
+spin_unlock_bh()
+sock_put(sk)
+                                        rawsock_write_queue_purge(sk)
+                                        sock_orphan(sk)
+                                        sock_put(sk)
+                                          last ref, socket freed
+
+If tx_work is neither pending nor running, cancel_work_sync() returns
+right away. __cancel_work_sync() also calls enable_work() before it
+returns, so the later schedule_work() can still queue the work.
+
+rawsock_destruct() does not cancel tx_work, and the queued work holds no
+socket reference. When the worker runs, rawsock_tx_work() would read
+freed memory:
+
+	struct sock *sk = to_rawsock_sk(work);
+	struct nfc_dev *dev = nfc_rawsock(sk)->dev;
+	u32 target_idx = nfc_rawsock(sk)->target_idx;
+	...
+	if (sk->sk_shutdown & SEND_SHUTDOWN) {
+
+Would it close this window to set SEND_SHUTDOWN under sk_write_queue.lock
+in rawsock_release(), before cancel_work_sync()? Then either the
+completion sees the flag, or its schedule_work() ran before release took
+the lock, and cancel_work_sync() will cancel or wait for that work.
+
+Separately, the unlocked read-modify-write of sk->sk_shutdown in
+rawsock_release() races with the plain read here. It also races with the
+plain store in rawsock_report_error():
+
+	sk->sk_shutdown = SHUTDOWN_MASK;
+
+KCSAN would likely report this as a data race. The rest of the
+networking stack accesses sk_shutdown with READ_ONCE()/WRITE_ONCE().
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/179378590950.74297.14503648624087894519%40gmail.com
