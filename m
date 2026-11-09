@@ -1,58 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794222550;
-	b=UlGF9RDbp1y8t0UXDhXaG0/2l4oFl7NlYbrUZC15LBDQ233mGkguhUka2j/6IRE2Y9fJ
-	 gEZXZEPKjgMOHJMABS53TePcvrqEv8TBRS2sHF/2GLUZb7u2n0mb+0qmuC4oMWjkFsyvf
-	 YEjigSIVbEUDnpz0TibLMS7tPoZdb+tUl1WI1tnc6EFYmkqPbXUUOyuYvGHEU9BrAceyz
-	 hzjj6R8utgyVMAes+za6e8CS6+tKb2d+gkOq25c8xxsFyTfn/bAx4ia8/c4UUFRP/cpdz
-	 YrVHKX8vPyU1XlhmkRLZZsByfpiyYqLi9ybe/gWiPI+MtdrIySRT/reErEmKtHCmLng==
+	t=1794232529;
+	b=X9M3XYWvTnVrtw2Fr3imFItYmszhYOD1vmqzY0x1oA/l/g2L9G5qwPD+w02aQl82Phvr
+	 PIivufpVLoXBleUuXyxdKEE5gBXbLinzBXPxdUJkv6RM1Yj1S9eQDggY4JVMXj/BZz3rM
+	 daSS7rSsgcyI1F6C8hR/MenMVJxS9+tOfmcWkG2WJZkYV4jAH3Fti5tQ5M0SM1uXy+Obe
+	 Uv0z6d/fygAwlJfbs6bzXou1G7zlvIiOHmMfcDsT3m7efAiZiCpcVsnf1Qp4MNiWrOqY9
+	 wJIeqUQr/+DcjT9yMTmvtE4rLxMDrwG+azuD7GnEcPIUPzxv67Xb6a6ixHRzC86ak7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794222550;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=aOodfZE2ZLJT1tt72r9gxw/AwWXvUZO8hln4ZVGINpQ=;
-	b=oT0VGJEMgO1aFCQLT6MLOiHyhF6UBm11OSy8vzU80uXx/Pe54d7L3henjQOvXQwmBiAN
-	 VPaATArF1LTnNV7aTXzPeHUl91yoUS0eHuNS2xzpX4DI2p9ANS3yQUwXAvVX4aiCak5wO
-	 4S11r+xYP+IbIeVlPcEIZHGjTPQXZnMDiqOYasYGydQyx5JFCbtx7KgvpiEUvuaEy8WXo
-	 uIiIUr1w12wFjQDMOoPnjVG5XHt66uB0/8PihePUhE2k/m6c5pJ4f3G3nzOFQP+WMvyf1
-	 UhomxrrtddeKWcTjQbu29latTY2DC1NWXl8GvOGFi/JA5jvucjxXQryYK9sLE4WmJjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794232529;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Debian-User;
+	bh=Urhk3pQv0WWCXFwDQnJzg2CReRgBNAAQkqsxBvtLHgU=;
+	b=p1RARMAhc4hcKMMZNGh2/tIqlMLV0Nc4rgPp8fapIQJJVXo8U9rhlSZfk8UPdR9+z5gz
+	 vctXoqHOeK1gpybkpScEEJIzPEkqtiuLJ+Nyqqa+vpS8koa3VndPDBvycy8R0xV6FChYB
+	 jackV2MVRdkDWLXHLI01q4MAD+rsd+SoOOASrA7r14jS6V4lSyDr5UvxHRQaX5bgAeBpb
+	 SpILuzRkzNKKLmDGC2Z6UiF/PD3vE5DeN3h0CFEWHWMfc/rkkuGkpDyMnHePCml2aG0GC
+	 MngTbARThx/DaHRPelKe3ZIiJKDiFfqSx/3SMfsc9pPmBJMUgQra9qKiPtdGvnH6Gvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OVy7dpEW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Gz4Mdcek;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C20606A322;
-	Mon,  9 Nov 2026 11:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054E6606A321;
+	Mon,  9 Nov 2026 13:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 054E6606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OVy7dpEW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314141F0089F;
-	Mon,  9 Nov 2026 11:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794222549;
-	bh=aOodfZE2ZLJT1tt72r9gxw/AwWXvUZO8hln4ZVGINpQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=OVy7dpEWlg5/XbJsqYaWzhLgZhXYjImiWD+7BGtQkQS5rpiBB85a1/PQ0PkrxDf5M
-	 wk43LO1COjb2xg+5HPNyr1QkIYNDrIb4eOs7I2Iwq4YwsQMLmMHgC7V6vgkRoLACGI
-	 XWYQ6ahL7CJCsRdAHmQNfr7CCjxQUFxNEKcMeNskzB4OD34KI6XvgWgIHKmydbIRX8
-	 ssM7IQSJdxcajwYHE98J+/58pjYvmhu5SCoPrTsqWhGYHjK4u5Z7GLERW7R5MDTvNp
-	 6EMN6qtTxnTWW04+peDUxv9u1UnMfJDe6DSMt2dITZ31QBgxdt2FcSnef3ArvwiBVi
-	 j3Og+kFrFeKxw==
-Subject:
- Re: [PATCH] nfc: pn533: validate response length before parsing DEP ATR_RES
-From: netdev-bot+sashiko@kernel.org
-To: hj351016@gmail.com
-Cc: david@ixit.cz, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kuba@kernel.org
-Date: Mon, 09 Nov 2026 11:09:08 +0000
-Message-ID: <179422254869.994134.11688036324201956954@kernel.org>
-In-Reply-To: <20261105105805.1450120-1-hj351016@gmail.com>
-References: <20261105105805.1450120-1-hj351016@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Gz4Mdcek
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=Urhk3pQv0WWCXFwDQnJzg2CReRgBNAAQkqsxBvtLHgU=; b=Gz4MdcekBFxwVXqzy4QnM4TA0/
+	scgCEkTPwboRTPW55j9E4U0HS6JZnACpt1miiYtkV2rBmj4LRCv5ZNlY5dHoyn26yKupbP5DzGWfF
+	bwz+v2Jb1hNdOYLadaBmCaaO2AOtUT5sFvaCTMQKvMsMN4JpLo1LMPx1IhF8sOVNhSl7chluDhJBL
+	UbDaeryB3nwHLUAzABSUPRMYctu+vd3KGX7FPt4XWNB8nTA1YIHLKBmz0CnhuOxvTesJulbtlMiky
+	UC2cPgaUlBWF2AToPpemoq5IX8GFkX6u6gtIHXtKThcWfSMx7vf+khNYWlUU5lH35x7xdkQ9+ogme
+	870AelUw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xQPqF-00BfYq-0p;
+	Mon, 09 Nov 2026 13:55:24 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH RESEND v2 0/2] nfc: llcp: Move to .getsockopt_iter
+Date: Mon, 09 Nov 2026 05:50:36 -0800
+Message-Id: <20261109-getsockopt_phase3-v2-0-d0f74c6e0f37@debian.org>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -62,183 +63,97 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALHP8WoC/22NvQ6CMBgAX6X5ZmpKy59MDrI66GiIoeUrVBNK2
+ ko0hHc3oKPr5XI3g0dn0ENJZnA4GW/sACXhEQHVN0OH1LRQEuCMZyxnGe0weKsedgy3sW88Cio
+ SncsUpUAmISIwOtTmtTWvcK4u1ekI9Zf7p7yjCmtwNXvjg3XvbT7Fm//7FH8+U0wZbQuxTzTXK
+ k2TQ4vSNMPOug7qZVk+c0jzL80AAAA=
+X-Change-ID: 20260706-getsockopt_phase3-34f7b5eb3e0b
+To: David Heidelberg <david@ixit.cz>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Eric Dumazet <edumazet@kernel.org>, Eric Dumazet <edumazet@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, sdf.kernel@gmail.com, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3600; i=leitao@debian.org;
+ h=from:subject:message-id; bh=KmyCNgAppzjlVUyp/45pHqKJwpLKu26CS4a6FV1ckhs=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq8dDHO+Q2sGoQcflZ//uFSV9vBWhzELFnwHRLh
+ JK9cskBc1uJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCavHQxwAKCRA1o5Of/Hh3
+ bX+7EACeij6JKi300dvJKWegDxJmJAN2CoUgMdhLX02HkHL1iQzCSq6C8qS6lyaZi34TUv6TznM
+ VN8IswsqY6y0VxHzsIsVk4MIJUrA6an1vlxvFMd/MLho5jyCCh2CttlwlmHnjAX9n4CxWEzozR8
+ KFVUCLs3ZJ6XLbDXYB/nXs8K8PCU+ILqbiY1SQ27PZlpGeYKYtenXIb08iLLyX5fBsmrvRWCsA6
+ cKjcdPVVt8A1bz0Ng0KSohqxmyajKCERi9NbPKkAbBWgikNrA8uhRnTndgM9Kf8iP5RK/uFu2yr
+ oTpYJziWHQw9LmC/8LA7K+gy/heLelM6E0W2V3ZGRQehV9sfbjAgK5OFme+CVIDX+L1ZNYGAckM
+ hfokDfbx6r3ZYzZHSYGnp6U+H4mSrKvJ2yIRBh5tn+BOrNwK2vM5ZEo2YJylvCpG+cg2E/TC97p
+ h9s0dnenkwqTkTkR1cNSWplfur4GsLvfVfef+8k5+R6bWrRH8lcHraWubCho4FtFKe8pogbrRde
+ jMJR0+M8t2/2mLB+cHNxdaaUBcfIOlkZU/Dp7AcaMbQ2d46BMpjmh19JU669bA6yQorso9Xp5/8
+ jVoWhKZxi/+kgX45sJvi8n8pP7T5hJ1KjVM/31nO0J9ELOmuupGqJElerRN/5VhOGoz22Jm/1Sl
+ Db4QbnX7Ppw9dCQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider.
+Continue to convert the protocols to getsockopt_iter callback.
 
-Critical: 0 · High: 1 · Medium: 1 · Low: 2
+Proto llcp is one of the last to be converted, and it was waiting for
+the following fixes to land first, avoiding merge conflicts.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+ * commit 36812527052c ("nfc: llcp: read llcp_sock->local under the
+   socket lock in getsockopt")
+ * commit 99985bfa8336 ("nfc: llcp: avoid userspace overflow on invalid
+   optlen")
 
-- [High] The new length check in pn533_poll_dep_complete() and
-  pn533_in_dep_link_up_complete() (drivers/nfc/pn533/pn533.c) runs…
-- [Medium] pn533_activate_target_nfcdep() in drivers/nfc/pn533/pn533.c
-  parses the ATR_RES returned by PN533_CMD_IN_ATR in the same way as the…
-- [Low] The commit message says 'pn533_rf_complete()-style handlers in
-  this file already length-check resp->len before use (e.g. the…
-- [Low] The patch says it fixes an out-of-bounds read whose bytes reach
-  userspace through nfc_targets_found() (netlink), but it has no Fixes:…
+Now that they have landed, let's move llcp to .getsockopt_iter callback
 
---
+Regarding the whole project migration, this is where we are:
 
-nfc: pn533: validate response length before parsing DEP ATR_RES
+Missing proto_ops migration (as of net-next)
 
-This patch adds a resp->len < sizeof(*rsp) check to
-pn533_poll_dep_complete() and pn533_in_dep_link_up_complete(). The check
-runs before the InJumpForDEP response is parsed as a struct
-pn533_cmd_jump_dep_response. The goal is to stop reads of the 17-byte
-fixed header from going past the end of a short frame.
+net/can/isotp.c:2064                          isotp_ops                  (.getsockopt = isotp_getsockopt)  [1]
+net/can/j1939/socket.c:1375                   j1939_ops                  (.getsockopt = j1939_sk_getsockopt) [1]
+net/ieee802154/socket.c:411                   ieee802154_raw_ops         (.getsockopt = sock_common_getsockopt)
+net/ieee802154/socket.c:987                   ieee802154_dgram_ops       (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1058                       inet_stream_ops            (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1094                       inet_dgram_ops             (.getsockopt = sock_common_getsockopt)
+net/ipv4/af_inet.c:1126                       inet_sockraw_ops           (.getsockopt = sock_common_getsockopt)
+net/ipv6/af_inet6.c:656                       inet6_stream_ops           (.getsockopt = sock_common_getsockopt)
+net/ipv6/af_inet6.c:692                       inet6_dgram_ops            (.getsockopt = sock_common_getsockopt)
+net/ipv6/raw.c:1290                           inet6_sockraw_ops          (.getsockopt = sock_common_getsockopt)
+net/l2tp/l2tp_ip.c:628                        l2tp_ip_ops                (.getsockopt = sock_common_getsockopt)
+net/l2tp/l2tp_ip6.c:757                       l2tp_ip6_ops               (.getsockopt = sock_common_getsockopt)
+net/mptcp/protocol.c:4753                     mptcp_stream_ops           (.getsockopt = sock_common_getsockopt)
+net/mptcp/protocol.c:4862                     mptcp_v6_stream_ops        (.getsockopt = sock_common_getsockopt)
+net/phonet/socket.c:451                       phonet_stream_ops          (.getsockopt = sock_common_getsockopt)
+net/sctp/ipv6.c:1047                          inet6_seqpacket_ops        (.getsockopt = sock_common_getsockopt)
+net/sctp/protocol.c:1106                      inet_seqpacket_ops         (.getsockopt = sock_common_getsockopt)
+net/smc/af_smc.c:3345                         smc_sock_ops               (.getsockopt = smc_getsockopt)
+net/smc/smc_inet.c:36                         smc_inet_stream_ops        (.getsockopt = smc_getsockopt)
+net/smc/smc_inet.c:84                         smc_inet6_stream_ops       (.getsockopt = smc_getsockopt)
 
-> A valid ATR_RES always carries the full 17-byte fixed header (the
-> general bytes, if present, start at offset 17), so reject any response
-> shorter than sizeof(*rsp) before parsing it. pn533_rf_complete()-style
-> handlers in this file already length-check resp->len before use (e.g.
-> the ATR_REQ_GB_OFFSET check in pn533_init_target_complete()).
+Link: https://lore.kernel.org/all/20260507-getsock_two_can-v1-0-3c2ae9edfadc@debian.org/ [1]
 
-[Severity: Low]
-Is this description accurate? pn533_rf_complete() only checks
-IS_ERR(resp), queues poll_work and frees the skb. It never reads
-resp->data and has no resp->len check.
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v2:
+- Rebase on net-next, no code change
+- Link to v1: https://patch.msgid.link/20260708-getsockopt_phase3-v1-0-d8394f2fc554@debian.org
 
-pn533_init_target_complete() does have a real check:
+---
+Breno Leitao (2):
+      nfc: llcp: widen getsockopt value locals to u32
+      nfc: llcp: convert to getsockopt_iter
 
-    if (resp->len < ATR_REQ_GB_OFFSET + 1)
-        return -EINVAL;
+ net/nfc/llcp_sock.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+---
+base-commit: fa5196392691051963726787944db872420dfa75
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
+change-id: 20260706-getsockopt_phase3-34f7b5eb3e0b
 
-Other completion handlers in this file read resp->data without any
-length check. One example is pn533_start_poll_complete():
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
-    nbtg = resp->data[0];
-    tg = resp->data[1];
-    tgdata = &resp->data[2];
-    tgdata_len = resp->len - 2;
-
-pn533_tm_get_data_complete() and pn533_data_exchange_complete() do the
-same.
-
-Could this sentence be reworded or dropped, so it doesn't suggest the rest
-of the file already validates lengths?
-
-> Found by code review; not reproduced.
->
-> Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
-
-[Severity: Low]
-The commit message says stale buffer contents can reach userspace through
-nfc_targets_found(). Should the patch carry Fixes: tags and Cc: stable?
-
-git blame shows the unchecked parsing came from these commits:
-
-  pn533_poll_dep_complete(): 673088fb42d0 ("NFC: pn533: Send ATR_REQ
-  directly for active device detection")
-
-  pn533_in_dep_link_up_complete(): 361f3cb7f9cf ("NFC: DEP link hook
-  implementation for pn533"), with the current rsp cast from
-  13003649b1eb
-
-> diff --git a/drivers/nfc/pn533/pn533.c b/drivers/nfc/pn533/pn533.c
-> index f5a6a7c20d5af..63b6032692184 100644
-> --- a/drivers/nfc/pn533/pn533.c
-> +++ b/drivers/nfc/pn533/pn533.c
-> @@ -1310,6 +1310,11 @@ static int pn533_poll_dep_complete(struct pn533 *dev, void *arg,
->  
->  	rsp = (struct pn533_cmd_jump_dep_response *)resp->data;
->  
-> +	if (resp->len < sizeof(*rsp)) {
-> +		rc = -EINVAL;
-> +		goto error;
-> +	}
-> +
->  	rc = rsp->status & PN533_CMD_RET_MASK;
->  	if (rc != PN533_CMD_RET_SUCCESS) {
->  		/* Not target found, turn radio off */
-
-[Severity: High]
-Does this check also reject failure responses that worked before? The old
-failure path read only rsp->status (resp->data[0]), so it handled a
-failure frame of any length.
-
-pn533_send_async_complete() strips the frame header and tail:
-
-    skb_pull(resp, dev->ops->rx_header_len);
-    skb_trim(resp, resp->len - dev->ops->rx_tail_len);
-
-After that, a status-only InJumpForDEP error reply such as D5 57 <status>
-has resp->len == 1. It now takes the goto error path and returns -EINVAL,
-skipping the "Not target found" branch:
-
-    queue_work(dev->wq, &dev->rf_work);
-
-pn533_wq_rf()->pn533_rf_complete() is the only place that re-queues
-poll_work after a DEP poll attempt. pn533_wq_cmd_complete() ignores the
-callback's return value except for -EINPROGRESS. Doesn't the poll loop
-then stop silently?
-
-In that state poll_mod_count stays non-zero and nfc_dev->polling stays
-true. No targets are reported, and a new NFC_CMD_START_POLL fails with
--EBUSY in nfc_start_poll() until userspace stops polling. The one
-exception is when the current modulation is listen mode
-(cur_mod->len == 0). In that case listen_timer eventually moves polling
-to the next modulation.
-
-Once pn533_start_poll_complete() has set poll_dep, this is the normal
-"no peer in range" path, not an edge case.
-
-pn533_in_dep_link_up_complete() below has the same ordering. A short
-failure reply there now returns -EINVAL before reaching this:
-
-    nfc_err(dev->dev,
-        "Bringing DEP link up failed (error 0x%x)\n", rc);
-
-so the chip's error code is no longer logged.
-
-The commit message says "A valid ATR_RES always carries the full 17-byte
-fixed header", but an error reply is not an ATR_RES. The message also
-doesn't mention any change to the failure path.
-
-Would it work to require resp->len >= 1 before reading status in both
-handlers? The resp->len >= sizeof(*rsp) check could then apply only after
-status is PN533_CMD_RET_SUCCESS.
-
-> @@ -1928,6 +1933,11 @@ static int pn533_in_dep_link_up_complete(struct pn533 *dev, void *arg,
->  
->  	rsp = (struct pn533_cmd_jump_dep_response *)resp->data;
->  
-> +	if (resp->len < sizeof(*rsp)) {
-> +		rc = -EINVAL;
-> +		goto error;
-> +	}
-> +
->  	rc = rsp->status & PN533_CMD_RET_MASK;
->  	if (rc != PN533_CMD_RET_SUCCESS) {
->  		nfc_err(dev->dev,
-
-[Severity: Medium]
-Should pn533_activate_target_nfcdep() get the same fix? This patch leaves
-it unchanged, but it parses the ATR_RES from PN533_CMD_IN_ATR in the same
-way:
-
-    rsp = (struct pn533_cmd_activate_response *)resp->data;
-    rc = rsp->status & PN533_CMD_RET_MASK;
-    ...
-    /* ATR_RES general bytes are located at offset 16 */
-    gt_len = resp->len - 16;
-
-rsp->status is read with no resp->len check. With resp->len == 0, that
-read hits the trimmed DCS byte. The u16 gt_len also wraps when
-resp->len < 16.
-
-nfc_set_remote_general_bytes() narrows the wrapped value to u8, and
-nfc_llcp_set_remote_gb() then rejects it. So the gt[] over-read is
-mitigated, as with the two patched handlers. The unguarded status read
-and the wrap are still there.
-
-The same approach would cover this handler: a resp->len >= 1 check
-before reading status, then a sizeof(*rsp) check after the success test.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105105805.1450120-1-hj351016%40gmail.com
