@@ -1,55 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794417262;
-	b=Fbe+Wpc6fRp5uwiLh2gIaAX9Ax++m3KiLVEvZcuuda7G38IKRRha76J66zhCeJKdveOW
-	 MSO+toQvm6nw0WplnaTGoWYTrC1HjDHJKausTG8jCpLxo6YFQQJJaxoH8R5JZD2klAv9V
-	 gs4GLUW2lvZHDrf5R/bEl/NMX2NaKGBEfwZztisN/Y3yIgBkccbSM8XXrZWDCjRobu5em
-	 h+psj+cDQPLjx4FbO/+y2t9mOXT+8W7/iXHuqwGWugzb9fbHSzvMoWrZExAU5YhzrMEIb
-	 zOqBIv6r2YZ5WNV/gC6jXSkjvCHM0K9ZthfNOPiezS7R8vhPw+YtuTlA6BwK3gHIpxA==
+	t=1794450238;
+	b=BJIwuCd0BGxL4Sy2VOS7njqTOo4Z2LS7u54xXPTkq2ruYS9iRq/Yk5xGfudp9BsRWDT/
+	 MY5wVkslJkcKMXvwuBT2sWFCjL9jC2s/s4P/eCLbdNU0IkfJxqliEh90KgjNmMhCZjKeb
+	 8Msob4Sx6Z5RKY4ua2GX4i/LWrtKNBPu8a4SPk/MCB3/7VkXWhTY+dl7Gv6lowxb+GHRd
+	 G3aUVazCVy6yBlGw0Z9QxC+/KgcFqnJlBR7loqIZ8LBfYZtLXquZvAuF7fvTMhndfKAGD
+	 gUGmYvxK5i56DRXsBhKiHuGxt13gu7qUA8cR5J2KIVC0ATOG3qCwIwoziSUEoyptTmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794417262;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=K0OUanBq+hsQdFZ3wody+MoiBGNzg1aTJa0o6x23ajI=;
-	b=aeHAJpaxUfBNdPPN/care1Yh7kekQ4tK3GfJpdznes4XTfi/U+whcSqxIgglNmPtoJtC
-	 ZpOc1ESMuT0OwQL9f0p3OVGLqMgwDf4OlrHVegoKNkPOJjlOy81urxqMHAXxaO2Rfh/vu
-	 jtQm3mTyPe2+hTxBPkvhclQOpV9iapJ31xQJPvxQSucfWQ/SeGtQLsvtOstoxJ/kwpnSJ
-	 iEv7TYTAHrGqOUqchObyHlQzCFZ47ZYK9mSKty++PLUu5o08bEWmS0r6xD/36O6mBx2R8
-	 zV82Dl6bhHU2Brz64a4BLuZfriT5U6T/hwpAB0ju0MVFMEGIrS3RvbrRkGHpPxMaiDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794450238;
+	h=DMARC-Filter:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=CMs2hiL6dqSvXmpMCUhFT/HCLWI00jj+E7D9u8d37HY=;
+	b=dixnW/76B48jbQvdHKVE0XHcfU1x5SAp/FRppPWSGOO8PFOPigVIrrNiIC2Wpcrwvd+U
+	 E1cQyr7hGF+Ca0+Y3Dz33AvD4m4spPLT4fvX21+KJjG+MIFXNEYx/nHcOegVNP40b5vE7
+	 2JpsRolkPYi8yXebvEPxkagXCTDyYkVY/B0con/3sNJ0eAIJS2ekSLuDuVIEDZ6n9RXWO
+	 zsJoHdfGiNPcc2qdjOh+GeBeIm3fkYv3D4P36S0L3Fe+dvr/70qThxX8HJSxxXDaQy/dw
+	 FYVzxeVsbY7AdqZ3by1tQh8vwydqh3kAXq3bevQrHNPwoeSNiD+mR5z+8b/C41lOGyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nH1JAGr6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=126.com;
+	spf=pass smtp.mailfrom=126.com;
+	dkim=pass header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=ECBexlUT;
+	arc=none smtp.remote-ip=220.197.31.8
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962D8606A31C;
-	Wed, 11 Nov 2026 17:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B99F606A31C
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 12 Nov 2026 02:23:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B99F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nH1JAGr6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8601F00A06;
-	Wed, 11 Nov 2026 17:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794417262;
-	bh=K0OUanBq+hsQdFZ3wody+MoiBGNzg1aTJa0o6x23ajI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nH1JAGr6uuk6lIu20lPUVYJov5jYScxDWYtnf7zo9eE3S2TnUVpVQc2m7yUa9zfRW
-	 toANGDI6xl6733KtFkVbHEqWbuyJzbY8FVIdr3APnt6AqZcoqumlBXYSbKLkLYsw1P
-	 CcMY1JzUpgP5zijw5iCX/+gsy0GKFE/qnGbbYgQ5iSxmndJ8ps+6ycBHs2TmDMIYv5
-	 gLIYpwVCm6ILFKaWWFIjA6PoPkdaqPQjl2mzofBUh7kJm3VAO0tgR612U8Ay3yVipF
-	 wDdoLOZA7LjMOmLJat3dWTiee8OaQrSsgKNBbHxkDHIO5fEKA9x5Ljbm6SdWSUDJ0f
-	 BA19bUmhcxmmQ==
-Date: Wed, 11 Nov 2026 17:14:18 +0000
-From: Simon Horman <horms@kernel.org>
-To: Yaohan Li <shunsheng1218@gmail.com>
-Cc: netdev@vger.kernel.org, david@ixit.cz, davem@davemloft.net,
-	kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com,
-	oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net v2] nfc: rawsock: serialize SEND_SHUTDOWN with the TX
- work requeue
-Message-ID: <20261111171418.GG18859@horms.kernel.org>
-References: <20261105113812.969651-1-shunsheng1218@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=ECBexlUT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=CMs2hiL6dqSvXmpMCUhFT/HCLWI00jj+E7D9u8d37HY=;
+	b=ECBexlUTfMcU0TzeyeHJyBObIRgfVHH9ZR0gINCJCnsug2Cp4UNT/iEyM7AELu
+	++HPY/30SbDlpzGBbsnCLK4KAb/5NJYdGt6RNWEHhBFBsd/UnQhfg1jRwcd5pCMN
+	5bh6cJCv+0izBRSJr1M5OXFEgLIc2hTdKBEyTIWfsXgQw=
+Message-ID: <3b2e263b-6cef-4267-be94-50751dfee494@126.com>
+Date: Thu, 12 Nov 2026 10:23:18 +0800
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -59,108 +51,72 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105113812.969651-1-shunsheng1218@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] nfc: llcp: fix SNL PDU size truncation in
+ nfc_llcp_allocate_snl()
+To: netdev-bot+sinfo@kernel.org
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linkui Xiao <xiaolinkui@kylinos.cn>, Guikun Yang <yangguikun19@qq.com>,
+ stable@vger.kernel.org
+References: <20261111095907.3366028-1-xiaolinkui@126.com>
+ <179439136381.2168702.3784011162899965365@kernel.org>
+Content-Language: en-US
+From: Linkui Xiao <xiaolinkui@126.com>
+In-Reply-To: <179439136381.2168702.3784011162899965365@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_____wD33x8WI_VqBr_FDA--.30825S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tr4DuF1DJr4DWrWfXFy5Jwb_yoW8WF4Dpa
+	yjgrsYy3Z5Jr1xCa18ta1jva4Fq395GFy5Wr45Kr1Y9as8WF1UKrWIgr4Y9a4q9r9Ygw1F
+	vr42grs2yw1qvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZZ2-UUUUU=
+X-CM-SenderInfo: p0ld0z5lqn3xa6rslhhfrp/xtbBlBjmvWr1IxjZqwAA3B
 
-On Thu, Nov 05, 2026 at 07:38:12PM +0800, Yaohan Li wrote:
-> rawsock_release() sets SEND_SHUTDOWN before cancelling tx_work, but it
-> updated the shutdown flag without the write-queue lock that
-> rawsock_data_exchange_complete() holds while it tests the flag and
-> re-queues tx_work.  A deferred completion could pass that check before
-> the flag was set and still schedule the work after cancel_work_sync()
-> had returned; the worker then ran on a socket that was freed right
-> after release dropped its reference.  KASAN reports the
-> slab-use-after-free in rawsock_tx_work().
+Hi,
+
+Thanks for the reminder.
+
+On 2026/11/11 18:02, netdev-bot+sinfo@kernel.org wrote:
+> Hi!
 > 
-> Set SEND_SHUTDOWN under the write-queue lock, so the completion either
-> queues the work before the flag becomes visible (and cancel_work_sync()
-> then covers it) or observes the flag and does not queue.  The
-> completion-side check from the previous submission is kept.
+> This is an automated message. This series looks like a fix, but its
+> commit messages seem to be missing some information:
 > 
-> The remaining requeue window after the cancel-based teardown was
-> previously raised in review of that change (CVE-2026-23372): an
-> asynchronous NFC completion can queue tx_work after
-> cancel_work_sync() has returned.  This change closes that window and
-> does not claim to be the first report of a rawsock teardown
-> use-after-free.
+>   - Whether the issue was actually triggered, or is only theoretical
+>     (e.g. found by LLM and not proven at runtime). If it was triggered
+>     please include the symptoms, like the stack trace or kernel messages.
 > 
-> This issue was found during an AI-assisted source review of the socket
-> release, TX work and deferred data-exchange completion paths.  It was
-> reproduced on a KASAN kernel with a deterministic timing-injection
-> harness for a deferred NFC completion callback: with only the
-> completion-side check, stalling the completion between its shutdown
-> check and schedule_work() while release ran produced seven
-> slab-use-after-free reports in rawsock_tx_work(); with this change the
-> same sequence and the original purge-window injection produce no
-> reports.  The tests run in QEMU with a virtual NFC device; no NFC
-> hardware is involved.
+> Please do not repost the series just to address the above. Instead,
+> reply to this email with the missing information, so that reviewers
+> can take it into account. If the series needs another revision for
+> other reasons, please include the information in the commit messages
+> then.
 > 
-> Link: https://lists.openwall.net/netdev/2026/03/24/271
-> Fixes: d793458c45df ("nfc: rawsock: cancel tx_work before socket teardown")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yaohan Li <shunsheng1218@gmail.com>
-> ---
-> 
-> v2:
-> - Set SEND_SHUTDOWN under the write-queue lock, so a completion that
->   tested the flag before it was visible can no longer requeue tx_work
->   after cancel_work_sync() returned (v1 only added the completion-side
->   check, which left this ordering window open).
-> - Added deterministic A/B testing of that window: stalling the
->   completion between its shutdown check and schedule_work() while
->   release runs reproduces the use-after-free on the v1 code and is
->   clean with this change.
-> - Corrected the Fixes tag to the cancel-based teardown commit and
->   linked the earlier review thread for the remaining window.
-> 
-> v1: https://lore.kernel.org/r/179378590950.74297.14503648624087894519@gmail.com/
+> The evaluation is done by an LLM so it may be wrong, if you think
+> that is the case please reply and explain.
 
-Thanks for the updates.
+This patch is a fix for the issue previously reported here:
 
->  net/nfc/rawsock.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
-> index f7d7a599fade7..dd8401e3402d3 100644
-> --- a/net/nfc/rawsock.c
-> +++ b/net/nfc/rawsock.c
-> @@ -68,12 +68,23 @@ static int rawsock_release(struct socket *sock)
->  		nfc_sock_unlink(&raw_sk_list, sk);
->  
->  	if (sk->sk_state == TCP_ESTABLISHED) {
-> -		/* Prevent rawsock_tx_work from starting new transmits and
-> +		/*
-> +		 * Prevent rawsock_tx_work from starting new transmits and
+Link: 
+https://lore.kernel.org/netdev/tencent_634C55A23C7CCCA3985283BFED46A69C9E09@qq.com/
 
-I don't think there is a need to respin just because of it.
-But if there is a v3 for some other reason then I think the change
-above can be dropped. Perhaps tooling flaged the existing style,
-but it is acceptable for Networking code. And, for many years
-it was required.
+The commit message already includes:
 
->  		 * wait for any in-progress work to finish.  This must happen
->  		 * before the socket is orphaned to avoid a race where
->  		 * rawsock_tx_work runs after the NCI device has been freed.
-> +		 *
-> +		 * Set SEND_SHUTDOWN under the write-queue lock so it is
-> +		 * ordered against rawsock_data_exchange_complete(), which
-> +		 * tests the flag and re-queues tx_work under the same lock:
-> +		 * either the completion queued the work before we take the
-> +		 * lock (cancel_work_sync() below then covers it), or it
-> +		 * sees SEND_SHUTDOWN and does not queue.
->  		 */
-> +		spin_lock_bh(&sk->sk_write_queue.lock);
->  		sk->sk_shutdown |= SEND_SHUTDOWN;
-> +		spin_unlock_bh(&sk->sk_write_queue.lock);
-> +
->  		cancel_work_sync(&nfc_rawsock(sk)->tx_work);
->  		rawsock_write_queue_purge(sk);
->  	}
+Reported-by: Guikun Yang <yangguikun19@qq.com>
+Link: 
+https://lore.kernel.org/netdev/tencent_634C55A23C7CCCA3985283BFED46A69C9E09@qq.com/
 
-...
+To clarify: I did not reproduce this issue at runtime in my testing.
+The problem was identified by code review/static analysis of
+nfc_llcp_allocate_snl(), where the SNL PDU size can be truncated.
+So this is a code-review/static-analysis finding rather than a
+runtime-triggered crash in my environment.
 
-Overall this looks good to me.
+Please let me know if further information is needed. As requested,
+I will not repost the series just to add this clarification.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Thanks,
+Linkui
 
