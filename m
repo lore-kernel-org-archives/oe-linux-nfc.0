@@ -1,66 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.208.142.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794479792;
-	b=HmXH4i8CvultTjrch8PtxwuMz3SXsQ4WIzKqHj1Zvywjk6zfyxxeJ8MASSo+58x/hqOr
-	 HL5Q/nqpaiyYjs/oToUMbUXEGuDLOFa2Upo/Oz8eIoruJMHw9us0iVqLXfKtJHWuYXsEX
-	 BQP+3SKCpdCeQfJQqBdB5kLQxW/Fn3m2E/iTElnIjJt5hxHW9gOP12MlnkAPbVGYGOBHc
-	 Lcoqlaar2s4i2ogNqMlx80n+0BTbuMkV/cQgXHWSLo8ARx9cFx94tQjcWpksd/7pZaHD8
-	 dfaATQHxcX+pFR6oyI+Yc2jDET6CQyKf8zVy+mFSKZD0QWtJk5+PNRqWyuIsrhPvVLw==
+	t=1794481257;
+	b=pv1YzTcKBMsG6Wn97hDfjYQPcqqLIr1N/+rvKYvtTlrZqWquDdXxuemkTZPoS881x0mh
+	 fna7FQkPGDKU/Z4IkANJWCbccMWarDIDqrLDTVWsFtgXPP8UrsL0bjQP5f4trxuxUXyBi
+	 6oqufYF1HA/7MwAuVAccgm5/iTfDP8oNUa/z1okjzUnl9d/CqwNOIdJV0c+rENO6KBoFp
+	 1h00LwjRTWTN5L3zAPsPAW8GcUZa5Bnf4vS9bX09e1B9psbjkQGrvbuHmRHj0GG6f8m4i
+	 3vlknKnKqUjLtuhVr1ZwA9MHu/Z6wPX2eBTUEpyUKwPKMUkbusU7/8zc5XFwBVDzaHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794479792;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=AazEAsk7AgRZJ/1X0wf0AnTfGLKx3ePR+szUy82to1M=;
-	b=e5nRF6gf+ylpn7BgTQk35xwTrCOY5syMyRVYWlKmxT3eTcTl+c7/fJkPj0YKomPBYF+Y
-	 7BFRSLFFQF9LKOFPu28wF+O6bPLnEm2gsIYptkGvHbqAGC4IDYY2WzITyIaEVg8DZPmdv
-	 zJqC1/GKuEjEVoowOV3GinszRTiwPDMUv2dp8xagFg+BR2XO7fQsynJ7VpwifVSEIE5fv
-	 /HiVubk561Xiam9wSEcWhhq7/dvS1/vgrBVHpHp9bFDX2o351eh7fnB/WE5eWDal+IPKY
-	 rdHN0/4lRlSWm6GmwU+RoBRsl+Q+evgQva/PfQGfnYivZIrHuxh9B47V5nNaL3tvu8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794481257;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=L15bPl1z+TmuF5jLbulKy1ru9ueDI4BOgxdDiM49enM=;
+	b=0nuPH1NVvT1wUSSRuJj0BFxXO4zYBfKMdoDp3FyaC93UT4DG4KKG6IaLL1hFMur1GOJP
+	 2JkB5KleMPIWOjbEfdhyy7VUi1GSJcnLpdqqq10AZTkFOSutr/EGZWwl317IfnYd0GvhR
+	 q59vD2VukbVkBWDVmxG/m3RBaJ7wJX/VGaUK7TEDgvHADyAg87ewa4V8HAO6Etg2y1BU7
+	 ifpDATXFYYPU+eEVyvI+/BSkztoLGUPjpWdDoL8ixURkFhDd87IXsRTBSfSEhg9AyTUHX
+	 WETjxpPM4kH9LtZy9lUG0r3TW/Ydlg3vJaRb4HbHI3Ahh+2m2Ddty9qAGJMSzWdtuWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kernelriot.com;
-	spf=pass smtp.mailfrom=kernelriot.com;
-	dkim=pass header.d=kernelriot.com header.i=@kernelriot.com header.a=rsa-sha256 header.s=kr2026 header.b=JigvEjAJ;
-	arc=none smtp.remote-ip=74.208.142.49
-Received: from mail.kernelriot.com (mail.kernelriot.com [74.208.142.49])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HG93I0MV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AD0606A886
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 12 Nov 2026 10:36:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10AD0606A886
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kernelriot.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernelriot.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51684606A33B;
+	Thu, 12 Nov 2026 11:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelriot.com header.i=@kernelriot.com header.a=rsa-sha256 header.s=kr2026 header.b=JigvEjAJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernelriot.com;
-	s=kr2026; t=1794479791;
-	bh=8R17N+nl0pxoL/AYQkf0ULWjSnupGqKL3Jsa9AysHI8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:From;
-	b=JigvEjAJLRaovI4O4d9Slq4P7kjtV8g6cn2D7p+8a3jfMrqt6f6jvNYrb2GtpMdJ9
-	 w8GGjwqqmqSmEx2obPC48sCrciFdlEY4R+au73jjUGELIgyr1QIePQ1cy2WYEtrb5q
-	 SOl4GAjssrXPgoB8EuDsucXYeg6R7oyXd5em0GxQ6iC4gYdW/WgIHXlhoqI8kq+Rsg
-	 xjtqntnKOxqkF/y5zF2jN1cTRSTWPvW9QZs0FMkwkh72k+eCQOGADursHy1c/qAgs2
-	 MIt+qxwMjGzoYASZdO2LKleBAY8rQEue+C/pQv/gaAZpOxcq/b0LLxmlo7thRP+K0C
-	 qr89ahL00oQ3g==
-Received: by mail.kernelriot.com (Postfix, from userid 995)
-	id 1360381A15; Thu, 12 Nov 2026 10:36:31 +0000 (UTC)
-From: Magnus Leatti <magnusleatti@kernelriot.com>
-To: syzbot+9ef743bba3a17c756174@syzkaller.appspotmail.com
-Cc: syzkaller-bugs@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	oe-linux-nfc@lists.linux.dev,
-	David Heidelberg <david@ixit.cz>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: Re: [syzbot] INFO: task hung in rfkill_sync_work
-Date: Thu, 12 Nov 2026 07:36:01 -0300
-Message-ID: <20261112103601.1848657-1-magnusleatti@kernelriot.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <000000000000788a6905f0c06160@google.com>
-References: <000000000000788a6905f0c06160@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HG93I0MV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2211F00A05;
+	Thu, 12 Nov 2026 11:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794481257;
+	bh=L15bPl1z+TmuF5jLbulKy1ru9ueDI4BOgxdDiM49enM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HG93I0MVe39n3RDSb7W8ehFki5M1rlw8aRYeBdvPEVB0a1nl7/qMXCIgzNC+4VyXQ
+	 TfpgiVDWNJSYXsGx4LS5/NUKA4RLAf19EcR4qAAF6GdhXaoUbzwXlBjQfK1h5OevQS
+	 WnO0+bQpoQcMkPJ5N0DF9betT39K6qBIx/Z3HjlasETY+0EUmCeBYPJ3jqYiMNSxVP
+	 1da/N7mPXrVVf1Eh6TpSfc9525/WPsyVVMs0ftgLXokZ/ENbh2Z2c/RtHYS4EzpY1E
+	 vo/xlnLUztiZLQm2RRu5t73YgYu5OC3yjKEv/oRAGTMpQn/wl9Ub84G4jVZ5YO5qJQ
+	 wX6Ntfz/8gnNQ==
+Date: Thu, 12 Nov 2026 12:00:52 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Asdlerto Korry <korryasdlerto@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Tony Luck <tony.luck@intel.com>, "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+	David Heidelberg <david@ixit.cz>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, oe-linux-nfc@lists.linux.dev, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: arm: qcom: Add Samsung Galaxy M52 5G
+Message-ID: <20261112-tough-sparkling-raven-bf33fb@quoll>
+References: <20261111-m52xq-dts-v2-0-063289405882@gmail.com>
+ <20261111-m52xq-dts-v2-1-063289405882@gmail.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -70,27 +64,21 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261111-m52xq-dts-v2-1-063289405882@gmail.com>
 
-Hi,
+On Wed, Nov 11, 2026 at 05:07:45PM +0200, Asdlerto Korry wrote:
+> Document the Samsung Galaxy M52 5G (samsung,m52xq) smartphone, which is
+> based on the Qualcomm SM7325 SoC.
+> 
+> Signed-off-by: Asdlerto Korry <korryasdlerto@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-This looks like the device_lock vs rfkill_global_mutex inversion
-fixed by 1ab526d97a57 ("net: nfc: fix deadlock between
-nfc_unregister_device and rfkill_fop_write"). That fix credited a
-different syzbot report, so this one was never linked to it.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-The report shows one task holding rfkill_global_mutex in
-rfkill_fop_write and waiting for the NFC device lock in nfc_dev_down,
-while another holds that device lock in nfc_unregister_device and
-waits in rfkill_unregister. rfkill_sync_work is stuck behind them.
+Best regards,
+Krzysztof
 
-The C reproducer, 600 s per kernel, x86_64 under QEMU/KVM:
-
-  1ab526d97a57^  hung task report at 60 s
-  1ab526d97a57   no hang
-  9d66f26fefac   no hang (mainline)
-
-#syz fix: net: nfc: fix deadlock between nfc_unregister_device and rfkill_fop_write
-
-Thanks,
-Magnus
