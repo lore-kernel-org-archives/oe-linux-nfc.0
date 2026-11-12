@@ -1,55 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.208.142.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794470577;
-	b=pyfZM5vuOAd9fxifvt94CMJ+J0A+dIu5kp+ih28FC+aDud1O0zjob7zMtam8GTxzvSMt
-	 pLdVTXv7h1dXz/Ui/mouLi99yAB9/iEpO+FNoYgRhC6h0pUURRokGtbjkRDZgeQlm0Wjf
-	 zAJAAKxuTG9mTELTtymsuRUE7+ydIQP01DBn06M/U8lklf/llNOP62qJ4nY9rZyDNClvt
-	 S4YgzwzJLGbPwuPpn6cxHdoFllYMbCfthGf4G22PXxdMIqNEcQQ30TNvoW7kYA8A0Fnmp
-	 sYBE+JHioYjtSNdRQcSoHuuDXaJqf6lsZPickbdpimJvSSUKL/ENJI16kC7p3MLsTWw==
+	t=1794474159;
+	b=BR//hV9w1Sscpu8th0xmp+UtwlitAdtWB03rL3D4c6ms8JKa9p9Xyn2rKd0l7BYPkN5o
+	 7IoJN8abbSD8bK9rPOIfAeQQ8HqeFx2vcInWya8MFr6eRdSGwNZKF4hzjkXvOZimOgBJA
+	 brvYrc9e3fcSkNcpw11OuHNRLd1QGn+wddkOAY08ddLvxnlT3c+osA4/Jz7hWfjlP16E0
+	 QjzXvCOumvzQqQsIjuSxbRQV/z1OVJYt7lppUXNnBgJfkFYQTA8orGpDz6SppGh3WIoSW
+	 l7/PuqMOPhH3SzpaxCJhkE9YKtA3NA5rFgmrdYT2KKMMn+LPpTFHcWsWhC22e0Ie2YQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794470577;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3i4YFhDQqwFRN0eL3c14TmSfVrmtI+Win333xb2+xCE=;
-	b=IKfOFsXZhecO7G4YuFziMRmPj7PIaiYKwuQmPyNSOP4MvSjQGyAUmDubiex1xQC9nC1k
-	 miMpr1mv9mhLyLcNhLwSBl6JN8LRvpLolTf2erJ5vZWdP/vxHnDG3TVYC+leIqvBnFwqw
-	 hFUbGSPAqoWInNiH+Ne2HLPrJ0A++nWERJbNjSd2WR4ThN3aT/0TTAPNQbwG5iPQDQOAp
-	 fsXSN3srV/pmuqWcwHlpOx0sUgEImIOYhULWK7q/FyfRaQB1zh+BliF/h5ShsGep1cqiF
-	 tlVHV4/Szzd/tFP64OyA7Ct9kq8rbjdT9wyGvPkYiZwHtjDTPq58ys51x5Nz0TbiZTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794474159;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=sQTROA+2ZM7HhctIX3ti/nZ/3akeIRzlGS88TA6PMJU=;
+	b=43oQ5+AnPj7zJSHQ6zSBgQM0WjjtPNCXizSB98wIt1FN0g379E3TAEom0qSpjI2b2GIr
+	 2Rw2d7HEajJtn6E4ost5/D3JGt76oMR8xDGCL1vg+QW8E8SboFb5II7N9XbvhC/iEWWxQ
+	 DJv2xfe+HgvQO5ON0FO6KvQDJj9Kv9s1SN5V3mg7mKQ57tuU+JiEUFOFl5ZSvABYHo4Ni
+	 DD/wW+rFqrZW2pXptLcsGBbwsR+jkMUOZz5uhWbMCQXeoCLz6SfYdl1Egvm13nfp29K9R
+	 D8KrCpWWhYJFeck1TwKbgGgEo1BYnOdEVnC4vdznqmQjz16EUxWaVBCH2DEpYxLtFlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RkcHA5+4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=kernelriot.com;
+	spf=pass smtp.mailfrom=kernelriot.com;
+	dkim=pass header.d=kernelriot.com header.i=@kernelriot.com header.a=rsa-sha256 header.s=kr2026 header.b=isBuGvu9;
+	arc=none smtp.remote-ip=74.208.142.49
+Received: from mail.kernelriot.com (mail.kernelriot.com [74.208.142.49])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4373D606A321
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 12 Nov 2026 08:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD25606A332
+	for <oe-linux-nfc@lists.linux.dev>; Thu, 12 Nov 2026 09:02:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FD25606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kernelriot.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernelriot.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RkcHA5+4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3761F00A05;
-	Thu, 12 Nov 2026 08:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794470577;
-	bh=3i4YFhDQqwFRN0eL3c14TmSfVrmtI+Win333xb2+xCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RkcHA5+4+VVCeVaTTlJHrPbulzlLRpWtC6cycEICTduZB96BVQ8ct/AyHqFoSrh/R
-	 ZFxufKVkpslmRQHXQ0UvKh2dIeHj21sa6OU6XaWBAiLS1BZFTjQbkIXzZnxgP3+iAZ
-	 WYJmKDhZ3TOD39fYyf21mIYqUxcj3UJKdmTmQK+NwPC8j+nwnK0vL1CvG3W+HfB4pH
-	 tNZSaOqgHTKMV9eSDgxFHKmvTU02I2EhGyr2Hr0dShxGqWEbosDNMq/lNn+1oH599x
-	 XJWq3U00+6VmmFefNjRLs5N2P1So71gzVrQ/EQySAp9kX8UYoKF0GFLs1HOM25ia6d
-	 a3f0enckfeJKQ==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xRPlm-000000014zB-2XFb;
-	Thu, 12 Nov 2026 09:02:54 +0100
-Date: Thu, 12 Nov 2026 09:02:54 +0100
-From: Johan Hovold <johan@kernel.org>
-To: bin luo <luob87709@gmail.com>
-Cc: oe-linux-nfc@lists.linux.dev, david+nfc@ixit.cz
-Subject: Re: [PATCH] NFC: fix skb ownership on data exchange errors
-Message-ID: <avVyrsYGxh3ONYH8@hovoldconsulting.com>
-References: <CALa7h7FHWZRHxnqEeAUEH=CNs6Y9pnkfPq1LrDHGfyCNaoqAeg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernelriot.com header.i=@kernelriot.com header.a=rsa-sha256 header.s=kr2026 header.b=isBuGvu9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernelriot.com;
+	s=kr2026; t=1794474152;
+	bh=wsxfuSYTb4m26WLN6I++b1kztJk7XRmZPsgFbFQo/OM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:From;
+	b=isBuGvu9e9I43xxC5UdLS2Lhf+K/f44bWFDXYcogt925ZxnGaolkCvK/lu/RgHAzK
+	 0DbXDhs52zZgSbY/o0TVj7MyMO4gb6zN0dslZc+d1gyZB0ey1jVBWKHFCjZk6RIzDC
+	 kpwzfwn1tK9S2rbjOi64/G36UIE/G9UB5K3IkDwwCsXm1i/QWdCtJJOUk9fAhzoUGF
+	 biNpGRlulV7e6IJjQrEBbFzKZQ7tQq5cUDUZWQJOZjVts2tUuDn/euZ5I/NOsmvEJD
+	 +gqtolF/KGpsUDNs6Q1frvMXpa+m9ZhRmpuElB8GOQNYK+0w1ptOyjcwr4zSgYKb9w
+	 y/so5aOT7RoOg==
+Received: by mail.kernelriot.com (Postfix, from userid 995)
+	id 1218081A15; Thu, 12 Nov 2026 09:02:32 +0000 (UTC)
+From: Magnus Leatti <magnusleatti@kernelriot.com>
+To: syzbot+3e3c2f8ca188e30b1427@syzkaller.appspotmail.com
+Cc: syzkaller-bugs@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	David Heidelberg <david@ixit.cz>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: Re: [syzbot] INFO: task hung in nfc_rfkill_set_block
+Date: Thu, 12 Nov 2026 06:02:17 -0300
+Message-ID: <20261112090217.1462672-1-magnusleatti@kernelriot.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <000000000000959f6b05ed853d12@google.com>
+References: <000000000000959f6b05ed853d12@google.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -59,117 +70,24 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALa7h7FHWZRHxnqEeAUEH=CNs6Y9pnkfPq1LrDHGfyCNaoqAeg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 12:50:52PM +0800, bin luo wrote:
-> Hi David and Johan,
-> 
-> Thanks for reviewing the report. I will follow up with this as an ordinary
-> NFC bug fix.
-> 
-> The issue is that a data-exchange completion may pass both a non-NULL
-> response skb and a nonzero error to its callback, but the callback contract
-> does not state who owns the skb in that case. In rawsock,
-> rawsock_data_exchange_complete() jumps directly to its error handling path
-> and never reaches the existing error_skb cleanup. The LLCP completion
-> callback has the same ownership gap: nfc_llcp_recv() logs the error and
-> returns without releasing a non-NULL skb.
-> 
-> I propose to make the rule explicit: ownership of every non-NULL response
-> skb transfers to the callback, irrespective of err. The rawsock and LLCP
-> callbacks then release the skb on their error paths. Digital DEP currently
-> calls the callback and then falls through to cleanup that may free resp
-> again when rc is nonzero; setting resp to NULL immediately after the
-> callback prevents that double-free. The digital_core completion already
-> frees an errored response and passes NULL to its callback. The NCI loopback
-> callback also needs to release skb if its connection lookup fails.
-> 
-> The final five-file patch was built against Linux v7.4-rc1, commit
-> 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4, with the same x86_64
-> NFC_VIRTUAL_NCI, KASAN, and kmemleak configuration used for the baseline.
-> The QEMU TCG guest ran 32 NCI 1.0 MIFARE exchanges with a nonzero data
-> status. Each rawsock create/connect/send/error-receive sequence ran with
-> effective UID 65534 after the root harness had provisioned the virtual NCI
-> device and polling session. All 32 iterations passed. The fixed-kernel
-> serial log contains no kmemleak unreferenced-object records and no KASAN
-> report. The baseline run of the same test recorded 48 kmemleak suspects.
-> This runtime test covers the NCI-to-rawsock path; the Digital DEP and LLCP
-> changes were compile-tested but were not triggered by this QEMU selftest.
-> The NCI loopback cleanup was compiled but that failure branch was not
-> triggered by the QEMU selftest.
-> 
-> For reproduction, the root harness opens /dev/virtual_nci, registers a
-> virtual NCI controller, and starts polling for a MIFARE target. The test then
-> switches its effective UID to 65534, creates an AF_NFC SOCK_SEQPACKET socket,
-> connects to the target, and sends the MIFARE command 30 00. The virtual
-> controller returns the NCI data frame 00 00 02 aa 01: connection id 0, RFU 0,
-> payload length 2, response byte aa, and nonzero data status 01. The guest
-> repeats this as 32 separately initialized virtual-device sessions and runs
-> kmemleak scans afterward. The same test on the baseline produced 47 detailed
-> unreferenced-object records; the fixed run produced none.
-> 
-> The complete proposed change is inline below; no binary attachment is
-> included.Best regards,
-> 
-> Bin Luo
-> University of Electronic Science and Technology of China (UESTC)
+Hi,
 
-Please provide commit message in the common format (problem description
-followed by a short indication on how the patch addresses that written
-in imperative mood).
+This looks like the device_lock vs rfkill_global_mutex inversion
+fixed by 1ab526d97a57 ("net: nfc: fix deadlock between
+nfc_unregister_device and rfkill_fop_write"). That fix credited a
+different syzbot report, so this one was never linked to it.
 
-It's good to mention how you found and tested things but such
-information, along with greetings etc, can also go under the --- line
-below so that they don't end up in the commit logs.
+I ran the C reproducer for 600 s per kernel, x86_64 under QEMU/KVM:
 
-See https://docs.kernel.org/process/submitting-patches.html for details.
+  1ab526d97a57^  hung task report at 91 s (rfkill_sync_work in
+                 nfc_dev_down, nfc_unregister_device in
+                 rfkill_unregister)
+  1ab526d97a57   no hang
+  9d66f26fefac   no hang (mainline)
 
-> Signed-off-by: Bin Luo <luob87709@gmail.com>
-> 
-> ---
->  include/net/nfc/nfc.h | 2 ++
->  net/nfc/nci/core.c    | 1 +
->  net/nfc/rawsock.c     | 5 ++++-
->  net/nfc/llcp_core.c   | 2 ++
->  net/nfc/digital_dep.c | 1 +
->  5 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/net/nfc/nfc.h b/include/net/nfc/nfc.h
-> --- a/include/net/nfc/nfc.h
-> +++ b/include/net/nfc/nfc.h
-> @@ -38,5 +38,7 @@
->   * When a rx or tx package is lost or corrupted or the target gets out
->   * of the operating field, err is -EIO.
-> + * If skb is non-NULL, ownership is transferred to the callback regardless
-> + * of err. Providers must not access or free skb after invoking the callback.
->   */
->  typedef void (*data_exchange_cb_t)(void *context, struct sk_buff *skb,
->   int err);
-> 
-> diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
-> --- a/net/nfc/rawsock.c
-> +++ b/net/nfc/rawsock.c
-> @@ -157,5 +157,8 @@
->   pr_debug("sk=%p err=%d\n", sk, err);
-> 
-> - if (err)
-> - goto error;
-> + if (err) {
-> + if (skb)
-> + kfree_skb(skb);
-> + goto error;
-> + }
+#syz fix: net: nfc: fix deadlock between nfc_unregister_device and rfkill_fop_write
 
-Also note that your patch is whitespace damaged (tabs removed) so
-something is wrong with your email setup.
-
-Try sending the patch to yourself first and make sure you can run
-checkpatch and apply the result using git am.
-
-git-format-patch and git-send-email are useful tools for this.
-
-I believe you should also CC the netdev list.
-
-Johan
+Thanks,
+Magnus
