@@ -1,71 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.206.34.216
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794488361;
-	b=pnE9duWE4gh8N67XYnKsn/VQ0QUPTkXZwz0SNTEhRaAPWTRSmZh1wyojNdxstdqsKCsU
-	 rYIC5TKGT46mRUO+08oRJLQXwhjOm54RYhqWLDIN2z45fZf2piX/1eMcykeH4U28RWlp8
-	 wzRyYYmNzAPooQ2dXKXPeZcAvlKq2Kx+tneNCGqS7/RCKOyG1XoK2itkK8Mn09ZCI7Z0t
-	 wA0+zbIiTJ7Dc3PQscRzpWXNU/38ksNyQ9nO6xfD3+Zed3nsigk+iMwAGnQMGvxHjbqkj
-	 f6FyI4i3l25mp1HkEN1tyTmgyCP7fhUzLDRdvvnLHT2OxDcJXQflyI7dZSQ2TMPlyJA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794488361;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=rbC0uj/R8RYCcgLSwNbabTGaNUN1wHB6/zypxowFP00=;
-	b=uiIXzAHHIbXRSF4wf7mCUQyNXifjlupQrvyDMTvV9vi8LOM4mw8MohPoFzwggrDg+S+d
-	 1FanPhxDeH29GHlDiIwanqwM8k/2YXMIp59grMYSq36xQQlJOlaIv7QFwY57kh3LBRWpH
-	 0yZfdBIdH5GK7bRtfkcVoaRAavWLxLzWR+0Tz5mfnehw9/xvrqqKrFl7CwlfPVCPnEVO/
-	 Vb10DsrJOvHGMoKozQfW5vVCjw295+BpcDrHmPWNHRkUbupeCrm8bFk00AoUVB7NGsBOw
-	 zDIi3qeFLYv64ydEB42zAcXty56FfQ8DMBIYb37RTqaABsGm3bg0GrbCBF6R0sDJ2aw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=gO3ugjsX;
-	arc=none smtp.remote-ip=54.206.34.216
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794490771;
+	b=UfjH7fQ9/pev6eBGaG450Sn9W2DCw0Zu6P2FVFv5eDAtYOs9T2s5ExnIjX4FawdsWvol
+	 BVuOw8H1tqgWo4huD7KkHoMlcOpu9zm59utDmWbvSXMSLiQdKAyaMAv9RPwvVNOKzFqer
+	 cqEhQGy+8JBYBhQTrjQ8o5gYRlZfKgCw6lCdy7NAVmzdU0Z5adwAYJqQ91HA2/e6SmA6I
+	 j88RplwpoBa7FV523y2BZMtsVDw0cZ1jI1+uwmPirIofdMNdGHynENdmMbCFWk08d7chc
+	 yBbVx9ya3Z348qEIaV4qsguwDCDxnlEGFohWXPXVb7lsRR2fnyLVuFT5BLgiDtUAVZQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794490771;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NjeXHJ0/wwse89OwYMk3lb2/lokGK5EV8MiE+1eixis=;
+	b=fvyJHiHULacaOg+CQ9fhirfqHXewQ9ebVuTD8OJ8rgOsco7iQAtqR+qRz2xI25GBrT+Y
+	 8w9+pYjqZa/BnQpZIqTEBnHRvte8cgJ+NmIrkIXqHCJiR7uWhZzccDk0Q5Un6mzg7JKMV
+	 57dGZHoNXlX7E4C6H4kN/cqFDeKGh9LZLKCFvuxVdEbJVpXWPpuQ4sXOrMssreH8rNKzK
+	 eP8hH+5/29JzZuSrInW3GyRFBEbzWiJmMd8mvhh4ONOtGb6BX1IYQkrK1TzC93QTCmJ9v
+	 WsMCm6mG/usii6fTOnP7rKEqLLVh83vhfL/UtDnhrENQNor0691+9gds4npponD9Zog==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qcw3W9V2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725D3606A31C
-	for <oe-linux-nfc@lists.linux.dev>; Thu, 12 Nov 2026 12:59:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 725D3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEE6606A327;
+	Thu, 12 Nov 2026 13:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=gO3ugjsX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794488296;
-	bh=rbC0uj/R8RYCcgLSwNbabTGaNUN1wHB6/zypxowFP00=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=gO3ugjsXniZ/tEryKQaEOBVlWvjA7hrmmWv1m8E7ilw1Wdhm1Hfh2TH2ABtIHrW/+
-	 woUBEIgDMAjq4+MiFg0SCAbQzPcNdV6ryXuixmAmoO7fkz8D/dA3Y8QOqTUuZ3UFMt
-	 AY2FF9neskpJ1ghdSiZlX84VtD1TrjuLgrIr/+fc=
-X-QQ-mid: esmtpgz12t1794488279t300c38f2
-X-QQ-Originating-IP: s7p3bODy86hHuRD0EFL2gaO4sA38kEXvjptkNaYVRMM=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 12 Nov 2026 20:57:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12316763866459756711
-EX-QQ-RecipientCnt: 11
-From: raoxu <raoxu@uniontech.com>
-To: david@ixit.cz
-Cc: luiz.von.dentz@intel.com,
-	pmenzel@molgen.mpg.de,
-	pengpeng@iscas.ac.cn,
-	brgl@kernel.org,
-	raoxu@uniontech.com,
-	sameo@linux.intel.com,
-	christophe.ricard@gmail.com,
-	oe-linux-nfc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] nfc: st-nci: Free received NDLC supervisor frames
-Date: Thu, 12 Nov 2026 20:57:40 +0800
-Message-ID: <09A2C9754909428F+20261112125740.1483464-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qcw3W9V2
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794490770;
+	b=iiOgwpkfqZax2XMydxG3uWruSkw2uKl3ez1jyXYHG2OJORVuaUmRg2wBrUm2itsPLtHh
+	 pkwJnsHRyuuTHa53udQHLP6guRJLOUO2Jc8jhzPDIWl+y0uAkLv2bRCNUk//mEY424Irw
+	 gFUkauLW/GUS1aC1yQftpsdNvDH5P7SyoaNOTrbEKLclI/nigbE37t9pc9bBem58DiAw/
+	 dLTdvyI0m7e8p19JA35iLLqYiLaV085IrtFT6zyRWPPbivNb1IYWxwp5E0ZL6Xkk3wcan
+	 PnQjbILKGnOhttRflqLVuK37TJho068CJ/pW5nC5p46IzMQl5KuKL1OJpD9O9sBnNYA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794490770;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NjeXHJ0/wwse89OwYMk3lb2/lokGK5EV8MiE+1eixis=;
+	b=MkJ6VI+LnEEHIta/E517E1xVgQs61Cq2q71hOkGuV5OC9o68qp+XPsXnik3mgoxrUwkg
+	 Oy03lHVjQEkrDv2aE2mEL+Ie+ubZ9SjUfnlNoAaa50qgcFmFP8Cyijj40OzpU9/GXB7xZ
+	 wB6BSevK7jZVnEmfNokp8Yvw/vHT/yYTBfehU7eYidaZ1dl9wUHHmYidYmyf70DekTxLn
+	 EsIE/G092fhlDqv2cpt/7W6KBH4XVwOdnHn/jyd7iek3UaTL4EoqqGRUK4jLqjMiQnVNC
+	 GjX3o3bzuPTiLN+09Ot6ATSju4ElrbI3miJYaBWXH/pyoPNYhOII9wVXDu2RX7P3rNw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1D8B61F00A10;
+	Thu, 12 Nov 2026 13:39:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794490770;
+	bh=NjeXHJ0/wwse89OwYMk3lb2/lokGK5EV8MiE+1eixis=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=Qcw3W9V21KKKg3qNLdBbWhlwTevkk7pzutkukAPmnO+kWd+begFIiQ1zKRN72Vsmg
+	 zliDLNTfQxaNNQx9jCqWlQMifgRdYq7zxD0jQ7ptiZ85p5p4+xRwOpS4NJgETcaXc2
+	 SEFCl2Ml1ezmVcUMIieKYlsQufzzkX7bZUUyLahrNCv1eldkX3StneN/YI48gbSzx5
+	 DfRIiX4QJAj4xhhTrGlGIooxX6Hv/rjLUQ0Gv/Fsy0Z7GN10wWOioEsn6VQW0uzM2r
+	 hLEAE8orBpjI0+qXbgBi7B7cI4qcNbXmZcUlImQIl2+FqarpR8yCxM0f4VvQ6E4Sv4
+	 6LCJUVt7lR/7A==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 98AC24951A;
+	Thu, 12 Nov 2026 13:39:29 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Thu, 12 Nov 2026 13:39:30 +0000
+Subject: [PATCH net v3 2/2] nfc: st21nfca: prevent double completion of SE
+ APDU request
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -75,89 +83,113 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NPJBszHJHFtbfsl72xuoAyKKyZq2pqHHQ6gARaUWDBW5VSEn8oixxbq3
-	OhG5NKAa9ujzsx15VM+SeH/yBgamAvz6YZFdglTXpELEGLx7ikGNTtcLiSQiNvF6gvKGMRJ
-	J0tRWrqFXctCs62C45NSyRLWcf1GSIoQduruD1LpIKQOYWN1G+z+k/bs3RzEGaTuYfh/MAW
-	gggMXO05C2qKw5VyeSxbYNEQ6TZtWniPYqJdhDehCuB5TbbKjOM9fhnI34U/itbatdc8IvN
-	MMcueHqh5G7E3RqEjG7a6LpFrWEKvmC3vUMfACi1YJGxdTqHAbA62LFMUPoWwVgA1N7i1EE
-	umNlEIS1eaLcD6aLFafzAXM3O7Apo2SHmOLdXX49ydjMdUUc44HhNFFjGWUoovoeBozFu2W
-	4Al6SxAbD2peuUQhmnXPf4UMgtqEtRnU8lpU0MX7UjyBotxISeRZ8CwBJ6P0z7CRfkrmnpC
-	D4qjWYf/pLaJq2btg1vOJ0wrtSvp5/sQdOLUkOeb/9uVLCyxBDVWr0rtxMTT+R7m78LTkit
-	7ctxxNcQvaS1IQZjExiDYmQow3vpZlKOR/Cqt3V/ksKKfr+m6No0jnpqKvVXAQNrxr94xxr
-	EmecE9Ez6Ltot+JodfxF4xUb9KP1pr1Gu0VDezgXhxqU0f+d5TeMfgLrM05nuuYk60xLPLQ
-	Rjle75ainSIr5o/ora2PNvfzrOkesEtKSno8V2U1dnXQUKxzL0G+0TtnwXmsmpw4RdbChPG
-	UXvX9rKxIYxPGBbqHNYsllRL9KBM6t4dKhW0FKGuOKVjW/Nl2OAHC5q8DA5IEfhrF6MqiAE
-	gOWMU2/HGbbZpps/QGF00epLIKsJs5Av+hM2GOZ2KCV4je/xnuF47WItHrwhPl8RyeWZ07D
-	aXxrz6j2Ujbid5Q+vZsKY7n7N2GvtCZ2WDzqRgEnD7+Xq0t9E2qJzpH2gFJzICJtKki2zHj
-	anH73KHHTM/D1mngq3rlvy3Qdq0v5378J2CF7aM4+ASyHv02ulZ/YSBpcacS0x09s+fUV/A
-	xYUPGfVg4yeJeSTbiN0krDE8fqwsCKwY063tYcm8nViWhfVLntbhh6UHoThUk=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261112-st21nfca-v2-v3-2-c81702269e01@gmail.com>
+References: <20261112-st21nfca-v2-v3-0-c81702269e01@gmail.com>
+In-Reply-To: <20261112-st21nfca-v2-v3-0-c81702269e01@gmail.com>
+To: david@ixit.cz, krzk@kernel.org, joasantonio108@gmail.com
+Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, horms@kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794490768; l=3240;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=vqHaopVgmvBm60zL9N9NShO0nqLNUceOzRe4TpLFHXE=;
+ b=aOASxBBDF+J49IECQQPB6r/37593fsh0gpF67cWJQhtGpM6W4vvqwtg8wq87QCpiYLbNpLlNg
+ 5cascdw5MWQA70BDjszptYvxSBe6BEZ3ItpftG8pYyChuSp1Um1mz1t
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
+Content-Transfer-Encoding: 7bit
 
-From: Xu Rao <raoxu@uniontech.com>
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-llt_ndlc_rcv_queue() dequeues each received skb and handles supervisor
-frames locally. The ACK, NACK and WAIT cases neither release that RX skb
-nor transfer ownership to another queue. ACK also overwrites the RX skb
-pointer with the TX skb dequeued from ack_pending_q and frees only the
-latter.
+Use the spinlock added in the previous commit to prevent completing an
+SE APDU request more than once.  Without this, the timeout work handler
+(st21nfca_se_wt_work) and the EVT_TRANSMIT_DATA event handler can both
+invoke the callback for the same request.  The callback frees its
+context, so the second call is a use-after-free followed by a double
+free.
 
-Consequently, normal acknowledged traffic leaks one received skb per ACK,
-and NACK or WAIT responses leak their receive buffers as well. The leaked
-buffers are no longer on rcv_q, so device removal cannot reclaim them.
-Unknown supervisor codes already release their RX skb, and data frames
-transfer ownership to the NCI core.
+Check bwi_active under the lock in both completion paths and only
+complete a request that is still pending.  A response that arrives
+after the timeout still gets its EVT_SE_END_OF_APDU_TRANSFER, as
+before, but no callback.
 
-Use a separate pointer for the acknowledged TX skb and free the RX skb
-after the supervisor switch. Move the existing default-case free to this
-common path so every supervisor frame is released exactly once, without
-changing acknowledgment, retransmission or timer handling.
+Also reject a new SE APDU request in st21nfca_hci_se_io() with -EBUSY
+while one is in progress, instead of overwriting the callback and
+context of the pending request.  The callback is not called in that
+case, so free the context like the -ENODEV path does; nfc_se_io() does
+not free it once the driver has been called.
 
-Fixes: 35630df68d60 ("NFC: st21nfcb: Add driver for STMicroelectronics ST21NFCB NFC chip")
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
-Cc: stable@vger.kernel.org
+Found by LLM-assisted manual code review.
+
+Fixes: 2130fb97fecf ("NFC: st21nfca: Adding support for secure element")
+Cc: Simon Horman <horms@kernel.org>
+Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 ---
- drivers/nfc/st-nci/ndlc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/nfc/st21nfca/se.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nfc/st-nci/ndlc.c b/drivers/nfc/st-nci/ndlc.c
-index be4808859cfa..7164e7c3aabd 100644
---- a/drivers/nfc/st-nci/ndlc.c
-+++ b/drivers/nfc/st-nci/ndlc.c
-@@ -146,7 +146,7 @@ static void llt_ndlc_requeue_data_pending(struct llt_ndlc *ndlc)
-
- static void llt_ndlc_rcv_queue(struct llt_ndlc *ndlc)
+diff --git a/drivers/nfc/st21nfca/se.c b/drivers/nfc/st21nfca/se.c
+index 03a30f797ff8..63a88a61d310 100644
+--- a/drivers/nfc/st21nfca/se.c
++++ b/drivers/nfc/st21nfca/se.c
+@@ -228,6 +228,12 @@ int st21nfca_hci_se_io(struct nfc_hci_dev *hdev, u32 se_idx,
+ 	switch (se_idx) {
+ 	case ST21NFCA_ESE_HOST_ID:
+ 		spin_lock(&info->se_info.se_lock);
++		if (info->se_info.bwi_active) {
++			spin_unlock(&info->se_info.se_lock);
++			/* The callback is not called, see the comment below */
++			kfree(cb_context);
++			return -EBUSY;
++		}
+ 		info->se_info.cb = cb;
+ 		info->se_info.cb_context = cb_context;
+ 		info->se_info.bwi_active = true;
+@@ -269,6 +275,10 @@ static void st21nfca_se_wt_work(struct work_struct *work)
+ 						se_info.timeout_work);
+ 
+ 	spin_lock(&info->se_info.se_lock);
++	if (!info->se_info.bwi_active) {
++		spin_unlock(&info->se_info.se_lock);
++		return;
++	}
+ 	info->se_info.bwi_active = false;
+ 	cb = info->se_info.cb;
+ 	cb_context = info->se_info.cb_context;
+@@ -383,6 +393,7 @@ int st21nfca_apdu_reader_event_received(struct nfc_hci_dev *hdev,
+ 					u8 event, struct sk_buff *skb)
  {
--	struct sk_buff *skb;
-+	struct sk_buff *skb, *pending_skb;
- 	u8 pcb;
- 	unsigned long time_sent;
+ 	int r = 0;
++	bool active;
+ 	se_io_cb_t cb;
+ 	void *cb_context;
+ 	struct st21nfca_hci_info *info = nfc_hci_get_clientdata(hdev);
+@@ -395,6 +406,7 @@ int st21nfca_apdu_reader_event_received(struct nfc_hci_dev *hdev,
+ 		cancel_work_sync(&info->se_info.timeout_work);
+ 
+ 		spin_lock(&info->se_info.se_lock);
++		active = info->se_info.bwi_active;
+ 		info->se_info.bwi_active = false;
+ 		cb = info->se_info.cb;
+ 		cb_context = info->se_info.cb_context;
+@@ -405,7 +417,9 @@ int st21nfca_apdu_reader_event_received(struct nfc_hci_dev *hdev,
+ 		if (r < 0)
+ 			goto exit;
+ 
+-		cb(cb_context, skb->data, skb->len, 0);
++		/* The request may have been completed by the timeout already */
++		if (active)
++			cb(cb_context, skb->data, skb->len, 0);
+ 		break;
+ 	case ST21NFCA_EVT_WTX_REQUEST:
+ 		mod_timer(&info->se_info.bwi_timer, jiffies +
 
-@@ -159,8 +159,8 @@ static void llt_ndlc_rcv_queue(struct llt_ndlc *ndlc)
- 		if ((pcb & PCB_TYPE_MASK) == PCB_TYPE_SUPERVISOR) {
- 			switch (pcb & PCB_SYNC_MASK) {
- 			case PCB_SYNC_ACK:
--				skb = skb_dequeue(&ndlc->ack_pending_q);
--				kfree_skb(skb);
-+				pending_skb = skb_dequeue(&ndlc->ack_pending_q);
-+				kfree_skb(pending_skb);
- 				timer_delete_sync(&ndlc->t1_timer);
- 				timer_delete_sync(&ndlc->t2_timer);
- 				ndlc->t2_active = false;
-@@ -182,9 +182,9 @@ static void llt_ndlc_rcv_queue(struct llt_ndlc *ndlc)
- 					  msecs_to_jiffies(NDLC_TIMER_T1_WAIT));
- 				break;
- 			default:
--				kfree_skb(skb);
- 				break;
- 			}
-+			kfree_skb(skb);
- 		} else if ((pcb & PCB_TYPE_MASK) == PCB_TYPE_DATAFRAME) {
- 			nci_recv_frame(ndlc->ndev, skb);
- 		} else {
---
-2.50.1
+-- 
+2.43.0
+
 
