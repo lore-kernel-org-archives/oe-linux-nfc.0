@@ -1,79 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794504351;
-	b=vaDKNKSG1LqvvvRT/VnVEcbn0F7eEeFbJiTJISrUzROWMHMUtCcrymB4ktYqf4EOBYyb
-	 U5iJb5QtnqefEHziyW5kHL7bJb7gMiQRi+44CyzZmt32uYh07eR4jddJFShRjiTq+w+Ry
-	 6i87mN2453UbfEQ2rRZEfP2ITJEM8YHVq0GKRm5tgUHwcIOyXq9q6SPYtbIogD+OJWwtz
-	 aX2PjcUrroLvk+tEHWnek7DGNi3tt1bt7ihFJdU41TVWPnW0DCfa9Zr5n2rnIj3DPeg/Q
-	 Q+COLyZhoFe0D2/X0o2sOIM7YfrdVsU14O2SLsYhKu4QOsr2RigL4xq5nfI6hv4vyAA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794504351;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=NIrFK24odepEzsKq8775JoP2Ppb3xaqNwDlitT4776Q=;
-	b=1x66DG0zkCIM/5MbyyHaN5F+b5ZC0joIXnXDdw+1SQtWW/zPAFFdQfaotJ5huerRO1wC
-	 2ot5iAkJbl3bPmkFfTUo1YAprfXn7k3SzoZnmLl/Y8fu//Ex8zL/wvRijnTTwr8rRVXLs
-	 6QpOq5AgF5L/eQIBnDeL3hrgbhOWX+vY3qQadN3O6my+kS/qKGb+MhIgB8cBdzbAvDC3q
-	 YQfTv5IubB8v2cXRRsvzaPC9AasGM82n1NaqiQ9l9KikwJ+QEL2BP59HaRFAoyS/Ib1pU
-	 tvK6McJISXdQBEBah++FPoghDtJkHk7PfaLo96AARvBJ7EFehSNctXMYZTe6+Dg65Uw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bp8E1/vW";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794564013;
+	b=f3tTfGnmrXLfnggYgxmNZbgrEb0ix4PZ/bwZ7AZ5QOM6i0QDvAOk0dTEWTxek85NW9lN
+	 3hFYV+ERZxiu2lle25XWEf8b34xAB/lJ7dg1kjH19k5Gx0dkSwmSf7p/CPliVwbXb6nEd
+	 gKc/4WTLNRbPiA1S2NXiJU7yn6AmHAvRkXqXFXH3daeQLJ9AY0BZnsLw2KyQypDdLfzDk
+	 ZCULXvWXNl0uFV+4g01SWJgh11vBXfMmGKmIXJE8TlUFS2A3wEIoL1Iw7mXlx2HMRIZxU
+	 KzmlPbfr0ioQw1chZKH5hGEi5IM9QTx6XS2XXtSOZRG6v0B4JnOu/ipWIBHY2ha6s9g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794564013;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=CZEQVZ6TVB8PXZyirm0oWvsQKQ+yV93wdSIBjZmPOVw=;
+	b=g7qzc+yTROi725US3HFRyDcq2IsgmyrGKRKgvXT/PnjCuUzxCH8vub0jEtyoeSdkUada
+	 3qwyCnCUpzO7GLX2qWgRXv4mUjqbkSCRCtf2+Hdxj+j2hZCF+PbMFmilSN5rDu4hQ/Yaf
+	 i23OMG4xsdZOyyYpr6kwAgvLqHeYCU3ZWj1rMy+aL2/EHWshUa+bzHy3sAs6THau9xOFw
+	 Rz8vKBpmtNA7AfHUN1LDd/7tjTY3VgugR+MYnEYJW8HkP2JZFWolV4Syc8drU8b0a2x3h
+	 Wc2g8bGPaGeWH04Fr9opaBmRR4JM8MuP+fKCxwCpzBJlxa0KdkqvxJWkONrqVeMdgRA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ioh3c7+L;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45778606A32E;
-	Thu, 12 Nov 2026 17:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1232606A337;
+	Fri, 13 Nov 2026 10:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bp8E1/vW
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794504351;
-	b=3tH6fEr11rsVTo9EBj9rIEUKR32SyT8VEzbxBx6yJ6Cmi7z+ljojBGBRgZgfOhFe3Xux
-	 1Fgm3H3wmYClvfK27hHut5F8rNNDWIW0gXpyr2UtuJJBygkkrFsjk65hrhSXcMB7k4SmM
-	 Rk//U/HYQzV1HDnEwyaO2b1/HPrxBdYhJvnffiWxCXavqtu/Ze3rjcM1syztG3YuuFK5H
-	 hZPI6ZWccklWC52CnV1fUEHVgWjX36dhbbzv8FTWaqp3cP4mDWM6kU/u/pNx1YcvHY+ky
-	 DJ86ZK+ogBl/iobqOfsH3Xvm1WDIfqultpnbDV8+Z5dcZWzmSW3e3til3SIY4G3U+tQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794504351;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=NIrFK24odepEzsKq8775JoP2Ppb3xaqNwDlitT4776Q=;
-	b=FXE8dw/ZYVkmPiWFW9k9Pc/54Pu3/IfXtRWPu2vRb3NzmarBxEdB8k5m3Kx6aUUqlXYc
-	 C1xDU+cYcFzeHA0wSLDB4FxnpZ+rUDLos46rjS6lkdltagnn2m3wGv36aT9l/rXkgqvfu
-	 ahRrKHVJacegLItCMHqnv8/aRU/7RgmBdMa3dVBTMFvo21TvB/kznay54vcXzZYu+oSHi
-	 tstjxycHogZFp//wXbyvY+HgzepRQhLtRi7NfMDfh3v/rrIHXXKyfkHYILnCBzjjyNf9q
-	 BSCNiVgxt/zDoVOEGHdQ/2eiX2Hi/2KDY8XfpMloIiiZaz4gymkNF8mobl+MBuEv8TA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 240FA1F000C4;
-	Thu, 12 Nov 2026 17:25:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ioh3c7+L
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA301F000C4;
+	Fri, 13 Nov 2026 10:00:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794504351;
-	bh=NIrFK24odepEzsKq8775JoP2Ppb3xaqNwDlitT4776Q=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=bp8E1/vWEXhWem9ALBZTa89HPSo3JUtY5v05p39wHD7sYLn32N6rnDTtAj/MkVZ2b
-	 aoaQZu3lIKFf055KHQhFN905L3XMgS2uycHuX1ZCwMqNAJo8N4g99JhxexaGPHDCa1
-	 R7IH9XNaYppwNfn8I6ZPTyyc105Qc7aNj+nnPhzIwIkiVYtN45bH4hphBq0W8rhi/2
-	 2ZFXSGqcVaZpUKRrIe2vo+xTftBhOzL+OCONEuZIJq85Mr61HbikxYu1Xh5Z/wzDV1
-	 7VgMcJMWUdLYp12MnhmpZRI93q95ozxcF8dj/AvDQXkNeI++TQme46S4FWQxhR8T6A
-	 vNPHEYYY6/72w==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 7491545A78;
-	Thu, 12 Nov 2026 17:25:49 +0000 (UTC)
-From: Asdlerto Korry via B4 Relay <devnull+korryasdlerto.gmail.com@kernel.org>
-Subject: [PATCH net-next v3 0/2] nfc: s3fwrn5: Add optional pvdd-supply
-Date: Thu, 12 Nov 2026 19:25:48 +0200
-Message-Id: <20261112-m52xq-nfc-netdev-v3-0-725a61ce4148@gmail.com>
+	s=k20260515; t=1794564012;
+	bh=CZEQVZ6TVB8PXZyirm0oWvsQKQ+yV93wdSIBjZmPOVw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ioh3c7+Li4hBvBjUiWmNiOBUipdlGq9BrKY1Gllg/1pwHe4dGrEqLu5Eib4iKE9vs
+	 UA9832q26rizKLXxFqb3g3RKIQUGWCCTjt+/s+xFwcTjDEEg3KR9dCESBg3O3OPw6R
+	 C6ADhMfinEJvPopECOflU3BqH+WfjYGOqM3GKZ9Mb39gFdGTLUx+dYJljEcRcYp2hn
+	 5f8AW0yrwbSj1r832w81nTXfJfKBtgE24MDxl5w1cLa3mmbQUJYbPgU+Jo1lrJ18m2
+	 ghFcegLfOjleLF6tlNqaFnaN7YTQgvJceIomLGKtoE2Y6u2WKM19qo40jfINrRbA3E
+	 ynOw0pUK1sf8g==
+Date: Fri, 13 Nov 2026 10:00:07 +0000
+From: Simon Horman <horms@kernel.org>
+To: Xia Yan <yanxia@cmss.chinamobile.com>
+Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
+	David Heidelberg <david@ixit.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Thierry Escande <thierry.escande@linux.intel.com>,
+	Samuel Ortiz <sameo@linux.intel.com>,
+	Samuel Ortiz <sameo@rivosinc.com>, linux-kernel@vger.kernel.org,
+	yana06070@163.com
+Subject: Re: [PATCH net-next] NFC: digital: fix target leak after Type 1 Tag
+ discovery
+Message-ID: <20261113100007.GI18859@horms.kernel.org>
+References: <20261109031832.37642-1-yanxia@cmss.chinamobile.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -83,63 +64,93 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJz29WoC/x2Myw5AMBAAf0X2bBOtqMeviAO62IOibaSJ+Hcbx
- 0lm5oFAnilAlz3g6ebAhxMo8wzmbXQrIVth0IU2SimNe6XThW6Z0VG0dGNdtJVpJmOssiDZ6Wn
- h9C97EEe8FGF43w88qg5dbAAAAA==
-X-Change-ID: 20261112-m52xq-nfc-netdev-709568b66d1d
-To: Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- Asdlerto Korry <korryasdlerto@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794504348; l=1231;
- i=korryasdlerto@gmail.com; s=20261104; h=from:subject:message-id;
- bh=FPzxZu2nWQWrhcZEqMnLi0tLkX9iDWIfqKNtKI9gkAw=;
- b=gW9J7ls4k0dEC8Q5IvGh+B9T+zT1xb+yXjtYd6yr7gOL8mQ5eU5z7mcN9UIzDmToSCjxzav73
- 3knriemU/c+DKtD0pXO/wE+34P5h5QQQNYha+Pnh0PIGoiKfIBL6S2S
-X-Developer-Key: i=korryasdlerto@gmail.com; a=ed25519;
- pk=RqttIGkm2XZ8NhLQBzPgpXXawOdVa1uODGsk+sagbxs=
-X-Endpoint-Received: by B4 Relay for korryasdlerto@gmail.com/20261104 with
- auth_id=1411
-X-Original-From: Asdlerto Korry <korryasdlerto@gmail.com>
-Reply-To: korryasdlerto@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109031832.37642-1-yanxia@cmss.chinamobile.com>
 
-The Samsung S3FWRN5 NFC chip has a PVDD supply pin. On the Samsung
-Galaxy M52 5G (sm7325) it is fed by a PMIC regulator that is not
-always-on, so the driver has to enable it. These two patches add the
-optional supply to the binding and make the driver enable it before the
-enable GPIO is driven.
+On Mon, Nov 09, 2026 at 03:18:32AM +0000, Xia Yan wrote:
+> digital_in_recv_sens_res() allocates a target for an NFC-A response.
+> For a Type 1 Tag, it calls digital_target_found() synchronously.
+> nfc_targets_found() copies the target into dev->targets.
+> 
+> On success, rc is zero and the callback skips kfree(target).
+> The original allocation is lost when the callback returns.
+> Each completed Type 1 Tag discovery leaks one struct nfc_target.
+> 
+> Free the target after digital_target_found() returns. Clear the pointer
+> to avoid freeing it again on the error path. Keep the target for other
+> tag types, whose discovery continues asynchronously.
+> 
+> Found during a code review of NFC-A target ownership.
+> 
+> Fixes: 2c66daecc409 ("NFC Digital: Add NFC-A technology support")
+> Signed-off-by: Xia Yan <yanxia@cmss.chinamobile.com>
+> ---
+>  net/nfc/digital_technology.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
+> index ae6487c10a25..2d52e390cc67 100644
+> --- a/net/nfc/digital_technology.c
+> +++ b/net/nfc/digital_technology.c
+> @@ -510,10 +510,13 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
+>  		goto exit;
+>  	}
+>  
+> -	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
+> +	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res)) {
+>  		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
+> -	else
+> +		kfree(target);
+> +		target = NULL;
+> +	} else {
+>  		rc = digital_in_send_sdd_req(ddev, target);
+> +	}
+>  
+>  exit:
+>  	dev_kfree_skb(resp);
 
-They were part of the series "arm64: dts: qcom: Add Samsung Galaxy M52
-5G" (v2). As suggested by Krzysztof, they are split out and resent for
-net-next. The DTS patches stay in the Qualcomm series; the DTS node uses
-pvdd-supply only after this binding is merged.
+Thanks Yan,
 
-Changes since v2 (as part of the DTS series):
- - sent as a separate series with the net-next prefix
- - no code changes, Reviewed-by from Krzysztof kept
+I agree this is a bug and that you patch correctly addresses it.
+However, I wonder if it would be cleaner to confine cleanup to
+the exit path, centralising the kfree logic.
 
----
-Asdlerto Korry (2):
-      dt-bindings: net: nfc: samsung,s3fwrn5: Add pvdd-supply
-      nfc: s3fwrn5: i2c: Enable the pvdd supply
+Something like this (compile tested only!):
 
- Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml | 5 +++++
- drivers/nfc/s3fwrn5/i2c.c                                      | 7 +++++++
- 2 files changed, 12 insertions(+)
----
-base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-change-id: 20261112-m52xq-nfc-netdev-709568b66d1d
-
-Best regards,
--- 
-Asdlerto Korry <korryasdlerto@gmail.com>
-
-
+diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
+index ae6487c10a25..94880172f016 100644
+--- a/net/nfc/digital_technology.c
++++ b/net/nfc/digital_technology.c
+@@ -483,6 +483,7 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
+ 				     struct sk_buff *resp)
+ {
+ 	struct nfc_target *target = NULL;
++	bool res_is_t1t = false;
+ 	int rc;
+ 
+ 	if (IS_ERR(resp)) {
+@@ -510,7 +511,8 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
+ 		goto exit;
+ 	}
+ 
+-	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
++	res_is_t1t = DIGITAL_SENS_RES_IS_T1T(target->sens_res);
++	if (res_is_t1t)
+ 		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
+ 	else
+ 		rc = digital_in_send_sdd_req(ddev, target);
+@@ -518,10 +520,11 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
+ exit:
+ 	dev_kfree_skb(resp);
+ 
+-	if (rc) {
++	if (rc || res_is_t1t)
+ 		kfree(target);
++
++	if (rc)
+ 		digital_poll_next_tech(ddev);
+-	}
+ }
+ 
+ int digital_in_send_sens_req(struct nfc_digital_dev *ddev, u8 rf_tech)
