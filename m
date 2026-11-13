@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794564013;
-	b=f3tTfGnmrXLfnggYgxmNZbgrEb0ix4PZ/bwZ7AZ5QOM6i0QDvAOk0dTEWTxek85NW9lN
-	 3hFYV+ERZxiu2lle25XWEf8b34xAB/lJ7dg1kjH19k5Gx0dkSwmSf7p/CPliVwbXb6nEd
-	 gKc/4WTLNRbPiA1S2NXiJU7yn6AmHAvRkXqXFXH3daeQLJ9AY0BZnsLw2KyQypDdLfzDk
-	 ZCULXvWXNl0uFV+4g01SWJgh11vBXfMmGKmIXJE8TlUFS2A3wEIoL1Iw7mXlx2HMRIZxU
-	 KzmlPbfr0ioQw1chZKH5hGEi5IM9QTx6XS2XXtSOZRG6v0B4JnOu/ipWIBHY2ha6s9g==
+	t=1794564531;
+	b=b4j+fl2QWn5Fwi+aFwSInttRQFVO7hbBrrIllu7D3yisAmfBmZvWuFNqFYJ9k6gxE/gw
+	 s9pDmekfwz3rTMGwAhc0p+2imuURXS5MyNV0PvyTeirDaP3cp5FmIH1izKG7v6CAdXN7k
+	 XGMjCOKhIROZI8YcUbVtewb8SQlyOfrdhC3cfiBSXJE9vudd8ZxaMW1fFumfZwdvR5TVo
+	 WPEVBtA0gTmT6+vWXhRdSAxwwVC+4xnOXOjYBfWDiEGx2vMYxMcQjenFSiad6hYtf1Si9
+	 AbgNvr0vaRPvPxb/ICbphJlzZn7yBMa0vM7MtaGPmeHFMqib7tph147z26/9V5IjDow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794564013;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794564531;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=CZEQVZ6TVB8PXZyirm0oWvsQKQ+yV93wdSIBjZmPOVw=;
-	b=g7qzc+yTROi725US3HFRyDcq2IsgmyrGKRKgvXT/PnjCuUzxCH8vub0jEtyoeSdkUada
-	 3qwyCnCUpzO7GLX2qWgRXv4mUjqbkSCRCtf2+Hdxj+j2hZCF+PbMFmilSN5rDu4hQ/Yaf
-	 i23OMG4xsdZOyyYpr6kwAgvLqHeYCU3ZWj1rMy+aL2/EHWshUa+bzHy3sAs6THau9xOFw
-	 Rz8vKBpmtNA7AfHUN1LDd/7tjTY3VgugR+MYnEYJW8HkP2JZFWolV4Syc8drU8b0a2x3h
-	 Wc2g8bGPaGeWH04Fr9opaBmRR4JM8MuP+fKCxwCpzBJlxa0KdkqvxJWkONrqVeMdgRA==
+	bh=A7+cdFdnHLulC8I5vnxAKY144rHW+m5zUKdUuFDknw4=;
+	b=JnPKoPHD9gcE8VtjenJycBEN4BxUUDYiM7uRSBXixBv/c3HCx0rK2Hq7w0Hy1WsfmfZ4
+	 X9vAR/pum6mdV8hR3nvZmWZei7axPcOTnWg09mWZwZsbvz2lqsbDZkPI1U4Z/5TyPyYKz
+	 yfL9MNValGCAfvgStGI4f5idrKXOvX1lEQkj5Id5vimIiOqgZ8EhzrTRNf1OjLzPRihOP
+	 5Hqjr4KXijFxoLsBys2jbo4Sn5uTLtwbpKScMAW9SLCuZ7axzKX3ZtCU3gt5ixGzUL+ki
+	 QP7RvtToc+VxykagLQPdMFgMX1x2s6u+oLR4mlE/dzUukWnNomMNqRNupWQiSCGIQxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ioh3c7+L;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVkhOzVZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1232606A337;
-	Fri, 13 Nov 2026 10:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD96606A887;
+	Fri, 13 Nov 2026 10:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ioh3c7+L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA301F000C4;
-	Fri, 13 Nov 2026 10:00:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QVkhOzVZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE0A1F000C6;
+	Fri, 13 Nov 2026 10:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794564012;
-	bh=CZEQVZ6TVB8PXZyirm0oWvsQKQ+yV93wdSIBjZmPOVw=;
+	s=k20260515; t=1794564531;
+	bh=A7+cdFdnHLulC8I5vnxAKY144rHW+m5zUKdUuFDknw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ioh3c7+Li4hBvBjUiWmNiOBUipdlGq9BrKY1Gllg/1pwHe4dGrEqLu5Eib4iKE9vs
-	 UA9832q26rizKLXxFqb3g3RKIQUGWCCTjt+/s+xFwcTjDEEg3KR9dCESBg3O3OPw6R
-	 C6ADhMfinEJvPopECOflU3BqH+WfjYGOqM3GKZ9Mb39gFdGTLUx+dYJljEcRcYp2hn
-	 5f8AW0yrwbSj1r832w81nTXfJfKBtgE24MDxl5w1cLa3mmbQUJYbPgU+Jo1lrJ18m2
-	 ghFcegLfOjleLF6tlNqaFnaN7YTQgvJceIomLGKtoE2Y6u2WKM19qo40jfINrRbA3E
-	 ynOw0pUK1sf8g==
-Date: Fri, 13 Nov 2026 10:00:07 +0000
+	b=QVkhOzVZgmJB8YGkVo7kPFvhsV195Rk8Y4679MIM9FDnoMf+u3RbaJHh0M0Nth5Bo
+	 3lzWperzFrcfYMLX4F4ioBPcaT7lLe/Mv4+/gs/TpUdN5rkuPEIJfx/CBfKlnJ6AAp
+	 bIJ8MAXhe97zSv3Xn/r6DorHvyhwdGPBiDlkXYl6NhCZt3TAaiWOi+b5ESJvAF0wxq
+	 xHY5JlxGXMqFVeg94Gneh17NknLedhZfqKqhJKIqZ2g6e9ps/5OBdgIQUE1ar52S9o
+	 PuGSmqILF+r6yhFFCVkxLqZaJYCEAOpsfY3l990EOo4h3bYDwreDQ/ZOPIrbWKGNBJ
+	 faOrrX22lbcQw==
+Date: Fri, 13 Nov 2026 10:08:46 +0000
 From: Simon Horman <horms@kernel.org>
 To: Xia Yan <yanxia@cmss.chinamobile.com>
-Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
-	David Heidelberg <david@ixit.cz>,
+Cc: netdev-bot+sinfo@kernel.org, netdev@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev, David Heidelberg <david@ixit.cz>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@kernel.org>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
@@ -53,8 +53,10 @@ Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
 	yana06070@163.com
 Subject: Re: [PATCH net-next] NFC: digital: fix target leak after Type 1 Tag
  discovery
-Message-ID: <20261113100007.GI18859@horms.kernel.org>
+Message-ID: <20261113100846.GJ18859@horms.kernel.org>
 References: <20261109031832.37642-1-yanxia@cmss.chinamobile.com>
+ <179419447430.488859.5809759694387881043@kernel.org>
+ <20261109035234.47231-1-yanxia@cmss.chinamobile.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -66,91 +68,13 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109031832.37642-1-yanxia@cmss.chinamobile.com>
+In-Reply-To: <20261109035234.47231-1-yanxia@cmss.chinamobile.com>
 
-On Mon, Nov 09, 2026 at 03:18:32AM +0000, Xia Yan wrote:
-> digital_in_recv_sens_res() allocates a target for an NFC-A response.
-> For a Type 1 Tag, it calls digital_target_found() synchronously.
-> nfc_targets_found() copies the target into dev->targets.
+On Mon, Nov 09, 2026 at 03:52:34AM +0000, Xia Yan wrote:
+> Hi,
 > 
-> On success, rc is zero and the callback skips kfree(target).
-> The original allocation is lost when the callback returns.
-> Each completed Type 1 Tag discovery leaks one struct nfc_target.
-> 
-> Free the target after digital_target_found() returns. Clear the pointer
-> to avoid freeing it again on the error path. Keep the target for other
-> tag types, whose discovery continues asynchronously.
-> 
-> Found during a code review of NFC-A target ownership.
-> 
-> Fixes: 2c66daecc409 ("NFC Digital: Add NFC-A technology support")
-> Signed-off-by: Xia Yan <yanxia@cmss.chinamobile.com>
-> ---
->  net/nfc/digital_technology.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-> index ae6487c10a25..2d52e390cc67 100644
-> --- a/net/nfc/digital_technology.c
-> +++ b/net/nfc/digital_technology.c
-> @@ -510,10 +510,13 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
->  		goto exit;
->  	}
->  
-> -	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
-> +	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res)) {
->  		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
-> -	else
-> +		kfree(target);
-> +		target = NULL;
-> +	} else {
->  		rc = digital_in_send_sdd_req(ddev, target);
-> +	}
->  
->  exit:
->  	dev_kfree_skb(resp);
+> This was found by code inspection. I haven't triggered it at runtime.
+> nfc_targets_found() copies the target, but the T1T success path returns
+> without freeing the original allocation.
 
-Thanks Yan,
-
-I agree this is a bug and that you patch correctly addresses it.
-However, I wonder if it would be cleaner to confine cleanup to
-the exit path, centralising the kfree logic.
-
-Something like this (compile tested only!):
-
-diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-index ae6487c10a25..94880172f016 100644
---- a/net/nfc/digital_technology.c
-+++ b/net/nfc/digital_technology.c
-@@ -483,6 +483,7 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- 				     struct sk_buff *resp)
- {
- 	struct nfc_target *target = NULL;
-+	bool res_is_t1t = false;
- 	int rc;
- 
- 	if (IS_ERR(resp)) {
-@@ -510,7 +511,8 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- 		goto exit;
- 	}
- 
--	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
-+	res_is_t1t = DIGITAL_SENS_RES_IS_T1T(target->sens_res);
-+	if (res_is_t1t)
- 		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
- 	else
- 		rc = digital_in_send_sdd_req(ddev, target);
-@@ -518,10 +520,11 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- exit:
- 	dev_kfree_skb(resp);
- 
--	if (rc) {
-+	if (rc || res_is_t1t)
- 		kfree(target);
-+
-+	if (rc)
- 		digital_poll_next_tech(ddev);
--	}
- }
- 
- int digital_in_send_sens_req(struct nfc_digital_dev *ddev, u8 rf_tech)
+Thanks. I agree net-next is the right target for this change.
