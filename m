@@ -1,61 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794566071;
-	b=ploeMM3uggvycWCUHTVfiAvwcbdt6PDr6Zx5VuwZF6zmA+3GghK2OtmdM/a4ptNxT/KF
-	 C3ft0lveqwi5Bt+NGsX74s+1mQKJQnnrbeFS8spD9fuVLQnpTOjmeGi3m0w5tZzouqSR5
-	 ui9PkC4FJBtUFIjHiiPRnIiNId86kzE5jIEh/ppe7JVvFMXc5aRRe89pjcAB1MO0lr5T5
-	 /Ro1C6y39Y1ZnF9yuRYzMh2fCVbv3oWIryTAE5T+9655j0HUFvDdT8T0Eo3rBOGGM7KZN
-	 0g2r7DQJnzuEIGceXfCMc3luAYV/pY6yeMg/x/UENIDOZQT16Y86nPbiiwObLPCIwpA==
+	t=1794591075;
+	b=ltltu65wGnv3kWYdhOvBR38YiJs1VWibQjJO1HBzlo/7Q+RPckXrJcrJ4C22xwPI3n5e
+	 qlIj6/X7T2eh9PfWACZucL3hDdtjHD3arVf+cl6dz6eEry1Y1kgDW6w0KgsG51WWVlIQD
+	 FGzSu5qHUENOETz7vfoKmx3XTPx2y2SXsjwV9o/mPx2kcEwsZ7U4lY52Ex8aswQJHU76G
+	 g3EmQBQBtxIdGV2IQ7twwkym747GcoT3W4a8K865CsoS9150m2w5ZjCTAlZJg8HXJsFcC
+	 ck9ujzMMRcmdrWgJ84WOZ9yEJyF9oFPAlvnQjQwDpRRPUa4WfN+2QIfYcttK0mfQpAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794566071;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794591075;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/YmEl9MFZJXUpvQcOVvvVL0ExNudpMN/SkBtuR3ZO8M=;
-	b=BYPCOuHBbyqAjahJbepk7Ke9uEzt/6KZkvjwLBICtoUNhXtmNETc1VzP9CN/aaotnj3n
-	 Vh7NrLjVbtp0LOMBXiPMjX87pIo938COHoc0Z+03oWLxvsqY/zsXjoJubTrZRoA0B4pbV
-	 fJ/lR7bJzWWF1qqIlGTdT4cyhc/H3bWyxyhMY7F9YvhcEoiGLm+29NlU2wjDQWxSnpwUy
-	 2mQCsFJnL0VBEavWtb/KiDNC2xPLSIYyHNVr8ded6twgCsIo1pnXkoqA/59ME2U9M+C33
-	 gh4KTll6gJSnyVWvTNg8y8r7HoC6hcg3kgeVfSBAMVyMMN6jJlYN9jX9LMeHLMlsd/A==
+	bh=fax9dsDLfWgV2bx85EWAVzVfZQhzYfTnApIR7+ezcww=;
+	b=0nG5Q54WBhPf4+O5fJnalW98q9vAnGbRja5ALz9kIO2Ckevy+ICD38O3X4YKzZ5+O9Ya
+	 0kvou0VtRO7jZHzNn01TkG1ZOP/SU/kASnFWPt90S9ycY+6e2QKnBSeLEFp2j9qAB0d0E
+	 /BD9Vv7pknsjJ0z1dGnZq4qQBqlChOpws8hrEkHwq9iuTJkWYEa7jfapaFdOesxBbH1P5
+	 N9/Qo3YnuuuZ6QNNriIgizdAUJyj5JsQHKYNd4oApbdh+FMuoNo+9KDYUPvNkFxxPqtEA
+	 rvxIP9ivDyomS3vHv/O5xS8SoGqoiWfxw2uJSgfrR931Ah41SUllubQKh/BzDyRQ1wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dYzvZ9Vu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JY+usgkm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0CA606A31C;
-	Fri, 13 Nov 2026 10:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522E6606B35A;
+	Fri, 13 Nov 2026 17:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dYzvZ9Vu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C621F000C4;
-	Fri, 13 Nov 2026 10:34:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JY+usgkm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBA921F000C8;
+	Fri, 13 Nov 2026 17:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794566071;
-	bh=/YmEl9MFZJXUpvQcOVvvVL0ExNudpMN/SkBtuR3ZO8M=;
+	s=k20260515; t=1794591075;
+	bh=fax9dsDLfWgV2bx85EWAVzVfZQhzYfTnApIR7+ezcww=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dYzvZ9VuqN0iwIV1Ntjt6pLlZGQ2VfvGi1FQqbo+ihEW+xZEUfxZy+H9+P3yObpGy
-	 0f2LFRss025GXIfk/hZaHQpfPOg5T3Kf43WZpPfXhSvrs+DzqOLV8oCqyLm3P9hF1F
-	 JfxAcP/aBjt2aNTbsvlUJksV9ED0PLbF5mtTU+76dxAiXln5RipbQEjP8ir0htc0+O
-	 GhZWg9p8mD2smMhKo/FaTvcMJyMhHf5LhMSNVA8LYCkPao7yi4Q85f/Deyr2Bfis9j
-	 1dN3BmStapfIYy8XmRI/YGCq0WXpXJnAiGGfm0zFeBG3jFkwIoro3/ZY7PZPOzpVjb
-	 VVHsgM4PmZeTw==
-Date: Fri, 13 Nov 2026 10:34:26 +0000
+	b=JY+usgkmSJ0sLJLH9HT2wyqRGflYj1R+RXQP5D3LzHR+jL9CcljUGgCkmpaTx3moa
+	 HBDKUOmI4viDo9VqgC1+9+1Ry1uXMTgorwmLISYIV6HZ0lPlHvU8di+kpWxmH/IbQy
+	 1nuFj6FvQpSJlB8CMrPhgYyTc02FWQGXGylQrs01iTTyyOwOV4ya4t4BfN473YJtDD
+	 HcKtuWZaXuLRDbWW+c7qbTf+jy1Wd/wArGqm4uX5Y2298Q7Vv2kVmFuQQ2umv7++LG
+	 vOlLLMnNP9vJ9yrwNHLAum3yhv3JZ0rTRPtRoK3y9rOfJZ2y9p4WHTS45jARWBwrDL
+	 XmO2ZvHEio1/A==
+Date: Fri, 13 Nov 2026 17:31:11 +0000
 From: Simon Horman <horms@kernel.org>
-To: Xia Yan <yanxia@cmss.chinamobile.com>
-Cc: netdev@vger.kernel.org, oe-linux-nfc@lists.linux.dev,
-	David Heidelberg <david@ixit.cz>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Thierry Escande <thierry.escande@linux.intel.com>,
-	Samuel Ortiz <sameo@linux.intel.com>,
-	Samuel Ortiz <sameo@rivosinc.com>, linux-kernel@vger.kernel.org,
-	yana06070@163.com
-Subject: Re: [PATCH net-next] NFC: digital: fix target leak after Type 1 Tag
- discovery
-Message-ID: <20261113103426.GK18859@horms.kernel.org>
-References: <20261109031832.37642-1-yanxia@cmss.chinamobile.com>
- <20261113100007.GI18859@horms.kernel.org>
+To: hyunjungg <hj351016@gmail.com>
+Cc: David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] nfc: pn533: bounds-check the ATR_RES response before
+ parsing it
+Message-ID: <20261113173111.GX18859@horms.kernel.org>
+References: <20261109110016.1511307-1-hj351016@gmail.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -67,100 +60,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113100007.GI18859@horms.kernel.org>
+In-Reply-To: <20261109110016.1511307-1-hj351016@gmail.com>
 
-On Fri, Nov 13, 2026 at 10:00:07AM +0000, Simon Horman wrote:
-> On Mon, Nov 09, 2026 at 03:18:32AM +0000, Xia Yan wrote:
-> > digital_in_recv_sens_res() allocates a target for an NFC-A response.
-> > For a Type 1 Tag, it calls digital_target_found() synchronously.
-> > nfc_targets_found() copies the target into dev->targets.
-> > 
-> > On success, rc is zero and the callback skips kfree(target).
-> > The original allocation is lost when the callback returns.
-> > Each completed Type 1 Tag discovery leaks one struct nfc_target.
-> > 
-> > Free the target after digital_target_found() returns. Clear the pointer
-> > to avoid freeing it again on the error path. Keep the target for other
-> > tag types, whose discovery continues asynchronously.
-> > 
-> > Found during a code review of NFC-A target ownership.
-> > 
-> > Fixes: 2c66daecc409 ("NFC Digital: Add NFC-A technology support")
-> > Signed-off-by: Xia Yan <yanxia@cmss.chinamobile.com>
-> > ---
-> >  net/nfc/digital_technology.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-> > index ae6487c10a25..2d52e390cc67 100644
-> > --- a/net/nfc/digital_technology.c
-> > +++ b/net/nfc/digital_technology.c
-> > @@ -510,10 +510,13 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
-> >  		goto exit;
-> >  	}
-> >  
-> > -	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
-> > +	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res)) {
-> >  		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
-> > -	else
-> > +		kfree(target);
-> > +		target = NULL;
-> > +	} else {
-> >  		rc = digital_in_send_sdd_req(ddev, target);
-> > +	}
-> >  
-> >  exit:
-> >  	dev_kfree_skb(resp);
+On Mon, Nov 09, 2026 at 08:00:16PM +0900, hyunjungg wrote:
+> From: Hyunjung Ko <hj351016@gmail.com>
 > 
-> Thanks Yan,
+> pn533_poll_dep_complete(), pn533_in_dep_link_up_complete() and
+> pn533_activate_target_nfcdep() cast resp->data to the fixed ATR_RES
+> header (struct pn533_cmd_jump_dep_response / pn533_cmd_activate_response)
+> and, on a successful response, read nfcid3t[] and compute the general-
+> bytes length as resp->len - sizeof(header). A short response leaves that
+> read past the end of the skb data, an out-of-bounds read; the copied
+> nfcid3t reaches userspace via nfc_targets_found() and netlink.
 > 
-> I agree this is a bug and that you patch correctly addresses it.
-> However, I wonder if it would be cleaner to confine cleanup to
-> the exit path, centralising the kfree logic.
+> Only the success path needs the full fixed header: a no-peer/failure
+> reply is just the status byte, and the existing failure handling (turn
+> the radio off and re-arm polling, or print the error) must keep running
+> for it. So validate resp->len >= sizeof(*rsp) after the status check, on
+> the success path, in all three handlers, before nfcid3t and the general
+> bytes are read.
 > 
-> Something like this (compile tested only!):
+> Found by code review; not reproduced.
 > 
-> diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-> index ae6487c10a25..94880172f016 100644
-> --- a/net/nfc/digital_technology.c
-> +++ b/net/nfc/digital_technology.c
-> @@ -483,6 +483,7 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
->  				     struct sk_buff *resp)
->  {
->  	struct nfc_target *target = NULL;
-> +	bool res_is_t1t = false;
->  	int rc;
->  
->  	if (IS_ERR(resp)) {
-> @@ -510,7 +511,8 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
->  		goto exit;
->  	}
->  
-> -	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
-> +	res_is_t1t = DIGITAL_SENS_RES_IS_T1T(target->sens_res);
-> +	if (res_is_t1t)
->  		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
->  	else
->  		rc = digital_in_send_sdd_req(ddev, target);
-> @@ -518,10 +520,11 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
->  exit:
->  	dev_kfree_skb(resp);
->  
-> -	if (rc) {
+> Fixes: 361f3cb7f9cf ("NFC: DEP link hook implementation for pn533")
+> Fixes: 673088fb42d0 ("NFC: pn533: Send ATR_REQ directly for active device detection")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
+> ---
+> Changes in v2 (thanks to the Sashiko AI review):
+>  - move the length check to the SUCCESS path (after the status check), so
+>    a no-peer/timeout reply (resp->len == 1) still takes the existing
+>    "turn radio off, re-arm polling" / error path instead of returning
+>    -EINVAL and stalling the poll loop
+>  - also guard pn533_activate_target_nfcdep(), the third ATR_RES parser
+>  - add Fixes: tags for the two commits that introduced the parsing
+>  - drop the inaccurate claim that the other handlers already length-check
+>    resp->len (only pn533_init_target_complete() does)
 
-Probably a comment is warranted here. Something like this:
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-	/* Release target on error.
-	 * digital_target_found() does not take ownership of target,
-	 * so also release target if res_is_t1t is true.
-	 */
-
-> +	if (rc || res_is_t1t)
->  		kfree(target);
-> +
-> +	if (rc)
->  		digital_poll_next_tech(ddev);
-> -	}
->  }
->  
->  int digital_in_send_sens_req(struct nfc_digital_dev *ddev, u8 rf_tech)
