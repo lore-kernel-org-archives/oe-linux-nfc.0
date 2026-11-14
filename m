@@ -1,99 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.214.175
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794683009;
-	b=WnyyXtkATjVLF/+Z9+v1frgmaqzaIUaaN0MPbtfI9kjofiigwaEpKqmVda1YBhjuR6RG
-	 pKO+G+hzxraGRPt16AuR+8u7mhjhpAhCZQmsl0gn1vebfhsP2n4BMvIDQwMdVw1agjYab
-	 TbVD22tOh5aR1oiUzlDwvkIbj5hO9W8f+PnHF68eEx6/sV+tbLcXMpCxHiLxiiW1ArAYi
-	 hx4ubMsQ1YjhL8SPMNVdgqWbLSMDWaJZOtiJSaoXbF5Nftdjsj6pcKiQrazPwB3zj1Fjr
-	 UhKWATx3Om5UjONbAAeOBzlOUe7AaWfFk4fYPVgv+eBc8sZJwwUClY6lFhp7mAbEAXA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794683009;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=uSLAZwuyq8QZnVN1hzVXlmJ3iH4sBJRLY1eaDnIkrUc=;
-	b=RJVn5JUV7flhwlieomJeVDMtKefQ4W4XagV08wtv6hb2CbSmq9q1kVTi4T5zqQDNNWLs
-	 e3t3uQPcibvjTUSo4IzSpD4KlahTV8t2U9kmzsG6sFJqdNz1cDKohavyOsr+cIqoQo7L3
-	 LNlblBmS08EY+SQbzrIjWnMoZ6/NHvJ4HieWRscwww8TVLkiSAkvHQVfI+8PjHllhGaSQ
-	 gEmeXx4mpCy7RJqZc7vGfoTGoM8zQBbarCRLI6L+KwzNy6ZtJ7gismdFxa69YIGdc47qt
-	 SMA36IsByO6z5c6SYR3SOtwDs4iQyYQIL24msUWucXAu8A5NaffqkCxYPMrrGz/94kQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AFuOJ60/";
-	arc=fail smtp.remote-ip=209.85.214.175
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794688036;
+	b=dwO3TXmy+256JoisrjOnWMEazVTUgc9mycWL1Yaug1vIQaircUbCSZqq0K1L9YLmLYxP
+	 JDpqRTjHoqnukkiSc/tAun5fatfW3F+tItR+OiNm/+nUwFuLvJE5BQMwfSInpsmkuxoaI
+	 RBVGhwalEsvhVQ3QgOPGxSp3JICRQB+GVJup9RH6xa2ri3j4sV8S5qi8yyxsymjrpPqua
+	 NG+53dZT6JvhifKmRoB5uG9IHMNUTDHXrYWtUvYjZS7EmvUABdpbxTQJ9zZK6PnG6ijBq
+	 cuKMDOJ/zWD/5rZcHJqGYnk9r3tX7Pr2mSSUn+FzelVkFU8kT5YTZQE9ZhrWH9ZdGzg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794688036;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=UbmwYeTyCihJtSZLk63m5z0KzwYndJc2EHWvOsqTpUQ=;
+	b=bg4yVv/Q3qzWPza2CuWZPXQMZkUGrqL5M8v0xt3Fq6PUiFqiX4DWYQLzUlwHl3XAEaCX
+	 tlNAIH6LJGt+4rY1fHRm0zSQ6UgOmpyWDByGMRGRoVbMh8T6Q+DpGoBCAkenXoP9FwHP1
+	 rzeedKcHfMvmnX+IFd/WNSIrgDqEA8sMn9/IDV3Qh07PjaAZrKr84if/6nSpcbqq+5uhY
+	 LGrhgm3geXS7dOYSKRJwm1x0w5penxdlo4vl6hKu4352nWj05ixp/31NgscF7rrwMGM+c
+	 h8tZqR6CwtSKfbafMwMtAGw2rx1pWL3HgSCA2jKXokYle8cuHNgfL98DAHdi9DRYJWA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Lll2v1Vg;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9127606A330
-	for <oe-linux-nfc@lists.linux.dev>; Sat, 14 Nov 2026 19:03:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9127606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27B1606A334;
+	Sat, 14 Nov 2026 20:27:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A27B1606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AFuOJ60/
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ee1b65fdbcso5799705ad.1
-        for <oe-linux-nfc@lists.linux.dev>; Sat, 14 Nov 2026 11:03:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794683008; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qYuBzJUwhKpFo1sfu4sDbmhMZTsY3gI8XqaYx5CbALF1KTRiwoRwbjEwiEjUZDYKim
-         Lo4EkKYkDkbnHloZ3GWifONMlzE27isFg4j7DBcEAuEujC8zLyvcgTzRfyWDcshwR6Ju
-         2KNLXLM2tqUvf234JKWKrNYbM2EodXkIIw1n4PqNjcJJX9LnPrRc/1a77eioC7y3+yrq
-         trYxKA1E2YqPydMbLCiwJqownKQp7pkc1W92bEfgDRm/3cpRd/76s/ZX6ri0zzgx8+nk
-         nt7quB44PycRL3XIf9+DQYWD0mzJsJR1PgppZIvz0nAAj8oWgLcp4RBtzqVPonQ2VWOC
-         jT2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=uSLAZwuyq8QZnVN1hzVXlmJ3iH4sBJRLY1eaDnIkrUc=;
-        fh=rZYS7EZYi25JH+75cSUo/pTlWAxJSWdgCFijYBgQ2bg=;
-        b=IAYbSgNkA3Y2uUS4j0i55EbktZT+O73D9d3tK12I7mhlYjW9XSfJMXxO2q4bpo273S
-         RNUEDxFa4xn4RmWpDt1/SspCnQyBUvd2/SiqdTrnSIE0o/nQhJB5dvSBKYOD4ZFy38Or
-         06FrxH3HBNX3iKiXJcdG5R1RryCPkoTCz0zPP2goUZKCHKkWb1j5vzHdoCmBgKNdR943
-         huy4J6PvFQIIyQGecAO/i9EIiWABomCtyWNJS+TkHnZrPyX32hFJhg1KR0xcQ67kSASF
-         IkzFRNmtS8ziRcGgWjNFjfEPt4YNy3Ca8V5pLzOJC+Kk2u55sSRMLxtw861jtTVMqs/U
-         W0tQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794683008; x=1795287808; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uSLAZwuyq8QZnVN1hzVXlmJ3iH4sBJRLY1eaDnIkrUc=;
-        b=AFuOJ60/OMG0Y8YQsfMwtHVzs2pGyUjh4hNKYcNZiDIb909Uirlztimu9TW4yCJiVM
-         WnGREyu1otaGO6rbCrw2wI7oHbyPoG7dflHpLUF3JNBRX/Jcvj4ct83zpe+oZj/w22AF
-         n00za+/TG1yxLcvFmXfTGQajKzCjB9YymDeCCYTxfBzyfertzKYjvgUqmBmYbG76Nq/O
-         1+U+NqkU/RHVUTlPkQJYpb8jQUsPoRz9kzXuWWxXWH/NprQDjX05O9T7AzDevZnNfhAW
-         a7UWLXasbcYSfNsaixfYQ48V6xuF6nYSJscMiR/vSvKCe5EYjmMxQASzu86Ut9OS56YH
-         bRVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794683008; x=1795287808;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=uSLAZwuyq8QZnVN1hzVXlmJ3iH4sBJRLY1eaDnIkrUc=;
-        b=Vki/xaK9eO8xAG04SWXJhMNZOm75tIgT0HkWA28tJAIhgneSkATJY+1DphjVfsY6mH
-         X/kOsecx8uBW/825Suyxu7NTi+kXeQAO4gQMJGe88jzjLr2bFq/2+NgWObDiYpy7TGEo
-         jjOcgfPMNYoe4KpVy1hZSclJmxd8Hmv76oBEV3iqleipt1xqJQeGdqoGz61J+8IB4mum
-         J/CNyy1zJc+zC95aXb2i/OO59g7DmLgmjW0u4m8dx2zin6T0foShb8mm8ElPVzGfApHT
-         l2eDj6gZmsy441up3gtDQith9tBDdRVeVONypiYcq2t2qnzOnQd5r5ckjgDWFztkIVza
-         KWcg==
-X-Forwarded-Encrypted: i=1; AL+hErEtgSuSE8T+m7FX5VhkOTfQNNEYHrX2cSGMlf2YPlo8wmmXcwX4WWMEJRadB3QCpurrOj6LhnX0KF8Iapw=@lists.linux.dev
-X-Gm-Message-State: APuU4Z9dGkUY3li0+fiD+rLmrIHGmZIKPD6nmgcR2MKZ65Pb+jSKZ7g2
-	6AEzEl/F+iy1hlHc/AB7JFQV8051/bu/squj9dUTpiYg/3IXGhiMNPmvR8mO53daTYKWRmzlt7X
-	f2L8eTru6uo60BQ0g7YQmu8yksJrMfOk9xt0X+g==
-X-Gm-Gg: AYBFou2+xRICUfWP4qbFDC1YPlRwXoVeUQP8ERo3XN2rZyLI0cOLaEx9U7++K5ZDCyE
-	y2e779+LCZN+sbnrGKTjnDhG709Kd3K3ufbm91JuJyZogagcANSUv7nF27yish9OM/MoUHJTNl6
-	Fy10ZifZffmQ3ft7brftu3PDGyhK8YeAFElWzYqVJgTCfcQO0KkJW7ZFElhEh3VCPe3ajoJZOIi
-	itGJiNY49yJm0odJhxJBhSPug3BWKFvx8QwPiiMUphemTKb/a88tAc65Aq2+brEizvQkEhpsakN
-	Ib6V30V93AXFkReV/vpzPzRIE7JVmgSETcPnVspnic3HruEgQyPJN2N0Q9FxbXnukuTRMnwE2ew
-	8RedetoZX/QZQ1qVFQGGUgORcgxbU/xgljPzO
-X-Received: by 2002:a17:902:fd85:b0:2e9:734c:5025 with SMTP id
- d9443c01a7336-2ee0da98dfdmr60035435ad.21.1794683008249; Sat, 14 Nov 2026
- 11:03:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Lll2v1Vg
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=UbmwYeTyCihJtSZLk63m5z0KzwYndJc2EHWvOsqTpUQ=; b=Lll2v1VgC79o9Fes4dZZhe3ORz
+	eQHFmQRElgxX7Tu5xzcxGP7/vNljf6PLPh1EGxc/AD1I1X8ZJkppNH+AEHU4jWnwMHvl76MKTqxAe
+	4Qx4bH6DOxyuGnY5YdMV60Zlx/2jxO0zYkhVepX+QjJlFsdoJAUJ+O95ooMLpf2v/rafUyQ4xvkw0
+	2m2y1pzWNSqMy3qbRMh+piW4ibEYb+oOZ8v8I89rbtlIu0m0BzjRqOwZgtrgVOL1xgijv3cXZBC7n
+	ulw+z870ZwWh2TdeqbPrdaU+Awa1q6BXk1KMWx05apBlmz3vQxFE88Tm+lbWarCp06UGnphrts7qk
+	IMgkh3xA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xSKKx-0000000Giga-2h5V;
+	Sat, 14 Nov 2026 20:26:59 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev,
+	Chas Williams <3chas3@gmail.com>,
+	linux-atm-general@lists.sourceforge.net,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org,
+	Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org,
+	Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	kvm@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org,
+	Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org,
+	Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: [PATCH 02/12] docs: ioctl-number: update sound entries
+Date: Sat, 14 Nov 2026 12:26:40 -0800
+Message-ID: <20261114202653.3113381-3-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261114202653.3113381-1-rdunlap@infradead.org>
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -103,43 +150,86 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-m52xq-nfc-netdev-v3-0-725a61ce4148@gmail.com>
- <20261112-m52xq-nfc-netdev-v3-2-725a61ce4148@gmail.com> <5b31dcc8-8fc4-40ad-8c09-aad8d77965f0@ixit.cz>
-In-Reply-To: <5b31dcc8-8fc4-40ad-8c09-aad8d77965f0@ixit.cz>
-From: Asdlerto Korry <korryasdlerto@gmail.com>
-Date: Sat, 14 Nov 2026 21:03:16 +0200
-X-Gm-Features: AclHuK_Q0fCYoqErL7BMlQPVGQL9gfpYv5yw5VBHiZrfm9MfbMBI5fajd-Czxx4
-Message-ID: <CAARotke1QDxr1XAHZhDBtq8nSqXzrbZk8pmdyy7ceK9ObBHNWw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/2] nfc: s3fwrn5: i2c: Enable the pvdd supply
-To: David Heidelberg <david@ixit.cz>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, oe-linux-nfc@lists.linux.dev, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Update the list of files where sound ioctls are defined and update
+the ranges of function numbers that are used.
 
-thanks for looking into this and for the schematics pointer.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+[Since having multiple maintainers trying to merge these would
+cause some conflicts, it would be more manageable for Jon to
+take all of these through the docs-next tree.]
 
-I don't have schematics for the Galaxy M52 5G, so I can only go by the
-vendor kernel's device tree. Its NFC node describes a single switchable
-supply: PVDD, a GPIO-controlled fixed regulator that the vendor driver
-turns on before enabling the chip. None of VBAT, AVDD, DVDD, PLLVDD or
-TVDD are referenced or controlled there, so on this board they are
-presumably fed from always-on rails that the OS never touches.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
 
-With only pvdd-supply wired up, the chip probes and reads tags fine on
-the M52.
+ Documentation/userspace-api/ioctl/ioctl-number.rst |   12 +++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-I'd rather not add bindings for supplies I can't verify on real
-hardware and that no board would use yet. If a board turns up where
-e.g. AVDD/DVDD are switchable, they could be added then as further
-optional supplies next to pvdd-supply.
-
-Does that sound OK to you?
-
-Thanks,
-Asdlerto
+--- linux-next-20261111.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ linux-next-20261111/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -122,11 +122,14 @@ Code  Seq#    Include File
+ 'A'   00-0F  linux/agpgart.h,                                          conflict!
+              drivers/char/agp/compat_ioctl.h
+ 'A'   00-7F  sound/asound.h                                            conflict!
++'A'   20     sound/pcm.h                                               conflict!
++'A'   20-53  sound/core/pcm_compat.c	                               conflict!
+ 'B'   00-1F  linux/cciss_ioctl.h                                       conflict!
+ 'B'   00-0F  include/linux/pmu.h                                       conflict!
+ 'B'   C0-FF  advanced bbus                                             <mailto:maassen@uni-freiburg.de>
+ 'B'   00-0F  xen/xenbus_dev.h                                          conflict!
+ 'C'   all    linux/soundcard.h                                         conflict!
++'C'   00-68  sound/compress_offload.h                                  conflict!
+ 'C'   01-2F  linux/capi.h                                              conflict!
+ 'C'   F0-FF  drivers/net/wan/cosa.h                                    conflict!
+ 'D'   all    arch/s390/include/asm/dasd.h
+@@ -152,6 +155,7 @@ Code  Seq#    Include File
+ 'H'   01     linux/mei.h                                               conflict!
+ 'H'   02     linux/mei.h                                               conflict!
+ 'H'   03     linux/mei.h                                               conflict!
++'H'   03     sound/core/hwdep_compat.c                                 conflict!
+ 'H'   00-0F  sound/asound.h                                            conflict!
+ 'H'   20-40  sound/asound_fm.h                                         conflict!
+ 'H'   80-8F  sound/sfnt_info.h                                         conflict!
+@@ -160,7 +164,9 @@ Code  Seq#    Include File
+ 'H'   10-1F  sound/hda_hwdep.h                                         conflict!
+ 'H'   40-4F  sound/hdspm.h                                             conflict!
+ 'H'   40-4F  sound/hdsp.h                                              conflict!
++'H'   60-63  sound/scarlett2.h
+ 'H'   90     sound/usb/usx2y/usb_stream.h
++'H'   FC     sound/pci/asihpi/hpios.h                                  conflict!
+ 'H'   00-0F  uapi/misc/habanalabs.h                                    conflict!
+ 'H'   A0     uapi/linux/usb/cdc-wdm.h
+ 'H'   C0-F0  net/bluetooth/hci.h                                       conflict!
+@@ -168,7 +174,7 @@ Code  Seq#    Include File
+ 'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                                 conflict!
+ 'H'   C0-DF  net/bluetooth/bnep/bnep.h                                 conflict!
+ 'H'   F1     linux/hid-roccat.h                                        <mailto:erazor_de@users.sourceforge.net>
+-'H'   F8-FA  sound/firewire.h
++'H'   F8-FE  sound/firewire.h                                          conflict!
+ 'I'   all    linux/isdn.h                                              conflict!
+ 'I'   00-0F  drivers/isdn/divert/isdn_divert.h                         conflict!
+ 'I'   40-4F  linux/mISDNif.h                                           conflict!
+@@ -204,6 +210,8 @@ Code  Seq#    Include File
+ 'S'   80-81  scsi/scsi_ioctl.h                                         conflict!
+ 'S'   82-FF  scsi/scsi.h                                               conflict!
+ 'S'   00-7F  sound/asequencer.h                                        conflict!
++'S'   21-23  sound/core/seq/seq_compat.c                               conflict!
++'S'   60-67  sound/fcp.h                                               conflict!
+ 'T'   all    linux/soundcard.h                                         conflict!
+ 'T'   00-AF  sound/asound.h                                            conflict!
+ 'T'   all    arch/x86/include/asm/ioctls.h                             conflict!
+@@ -219,7 +227,7 @@ Code  Seq#    Include File
+ 'V'   C0     media/si4713.h                                            conflict!
+ 'W'   00-1F  linux/watchdog.h                                          conflict!
+ 'W'   00-1F  linux/wanrouter.h                                         conflict! (pre 3.9)
+-'W'   00-3F  sound/asound.h                                            conflict!
++'W'   00-41  sound/asound.h                                            conflict!
+ 'W'   40-5F  drivers/pci/switch/switchtec.c
+ 'W'   60-61  linux/watch_queue.h
+ 'X'   all    fs/xfs/xfs_fs.h,                                          conflict!
