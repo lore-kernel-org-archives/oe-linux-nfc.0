@@ -1,72 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794705891;
-	b=3RRNaONw387dm82lM3dlG4hfShw8eFlyEx6OTyFYaZnmI4svXxyd0rwOaoOW/Ls+mc+a
-	 tSUJfSZ2H7P7rqmkfPmocBrAAq+1n5o1QK4RxQpZvY7GyMHssSEL37osp9QBcSmJd7X6t
-	 tdkVqVNaEG161/IluCbcArBBHKM6qdb/NJouGyVJVvtTUHsh9yUX519Mv2Qj7skO51Tlc
-	 Sl1zpXw2FTPXqQDtapRAmLux3+YYnXX9vgD8CLNj+tRKd1gpLDO3dIEtUvm2BSHFFhYdP
-	 cJE0Mfpn5khg1jApa6F9yx7SiSO21NjpXuKAPtR5HPSemVJz7pek8UbtXtaAoQbEKXw==
+	t=1794739440;
+	b=277xzkgYI+NjnSzlDWmJ4iR/jHEj3xOxukWjVuH4y6knIt9bbl0rx5SJkT1+AQW0rwG0
+	 gJSv1JQFYtYQM0qzArMZvGL7UVRp5KEIvMfb+uETbB/ktziNPa810exPBt7ONxXFQ3DlC
+	 eBx9o4NjFvgG09UgfV6368GToFhj9Zqslf3QWlnbuSFrkdk/YBh2eme9Nn2EmGZ76qHHU
+	 8wFwpIJXJEM9HRTb+ArF0nMHUvZSeNXext+5Obyyx+6gkWZdspv5ptOR09Yo3nYIzvWfH
+	 Q60SIFPswDTJLXew5TC2aARyivhUMHd2tNiPlwEgP4kmV6YgIB9zZVfS2xAdWaz15cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794705891;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=tEMmLChOiIwNpNXHWX/4+kW3khLpcCfHhJ/NCZNzzsk=;
-	b=p2IZ/aL/DlcBqNOjtb4VEDIyz3gQykY/aOZv5LQRtklUyx1JdtMBDAyOV5EtZdlccDke
-	 G5hD7iMW6xRNVlkwgTSDvM607aHT3ycL1cz9Tw2IylKA2MtkXOKvkwi5NqTYPcJ+n+X0j
-	 VwDHQvJor4ITfDXgkiaqt8X1qqGejHDfjgdJmFBg5saNUCZltf7+tQvKq+7f7NlnGUGeD
-	 jUZEMdtu0LRO4hrC80B2jJoX2QHGeYmG7qtybI+TonScrtMQtXaW0N3dvCygvIA5k0TVj
-	 wKhyXB+GLrjt5SigiirfLlJwpXwek2AwmL0fv70ow9fPr0phdfB4WINRWV0o/I5OB7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794739440;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=M7q3XhZjIgILEi4FdjQiYVSDqbk2Z9+UcwOqPf7M1/A=;
+	b=ODhFZDM+3dq42aAgLvfCsTelp7oJj6C+Odl0Okk7+bgF/B96EAPUqv/pQkzHj9jnmNjj
+	 bvlR9dEkxI1Q1aYBpRgTSCsQ5IzKlAqj9fTMimdY6zhgn4jwvq3K9j3y7fia43dIqF0C+
+	 jXobSIEhKv18K5NkC/vc7pBacAB9bmUhoBBhZxLtiieN40sBUce+M4aOdmrDKv8YbrWJS
+	 bcj4cDRTmFDpXxnvivdbeBothC5wej/W0cF9HyDjAXHQPPgdltYcyrkI2SvEUp0i80Wqq
+	 hJMgirxIcuhqR34eVBxrscrOw0zKHY8vyG13Pmsv7sWEKlKnvNiFmbB+iaT5oG4Fq4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=A15tRyoM;
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B28F606A327
-	for <oe-linux-nfc@lists.linux.dev>; Sun, 15 Nov 2026 01:24:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B28F606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AeUAfFIt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F88606A31D;
+	Sun, 15 Nov 2026 10:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=A15tRyoM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=A15tRyoMpBKbokLfYjSyqFGUCP8idsbscdEmuLEeYrORrwGYM02iOZ3WV3UqvUG3ZVtj6iTWm5fR5
-	 jd3IZDxuCrJmgMD6A4oCn+9Wpq1Emhu7fZM11m2PqlczbVhawv9UBT1/kSa+It3IAy6vt28Wq1iYWK
-	 9SJUSuQur21LNOIw=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee26af909dcdb8-2fe37;
-	Sun, 15 Nov 2026 09:24:44 +0800 (CST)
-X-RM-TRANSID:2ee26af909dcdb8-2fe37
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from [198.18.0.90] (unknown[112.23.105.246])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee16af909daf1f-54b94;
-	Sun, 15 Nov 2026 09:24:44 +0800 (CST)
-X-RM-TRANSID:2ee16af909daf1f-54b94
-From: Xia Yan <yanxia@cmss.chinamobile.com>
-To: netdev@vger.kernel.org,
-    oe-linux-nfc@lists.linux.dev
-Cc: David Heidelberg <david@ixit.cz>,
-    "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@kernel.org>,
-    Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>,
-    Simon Horman <horms@kernel.org>,
-    Thierry Escande <thierry.escande@linux.intel.com>,
-    Samuel Ortiz <sameo@linux.intel.com>,
-    Samuel Ortiz <sameo@rivosinc.com>,
-    linux-kernel@vger.kernel.org,
-    yana06070@163.com
-Subject: [PATCH net-next v2] NFC: digital: fix target leak after Type 1 Tag discovery
-Date: Sun, 15 Nov 2026 01:23:15 +0000
-Message-ID: <1794705795184.22628.49502335540847234602.nfc-t1t-v2@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AeUAfFIt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 169F91F000C6;
+	Sun, 15 Nov 2026 10:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794739440;
+	bh=M7q3XhZjIgILEi4FdjQiYVSDqbk2Z9+UcwOqPf7M1/A=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=AeUAfFItkVVRp5bTvSTFjDeHDYNEYvM4O5BdA7kmULxNkZa9fZu39iCGNwwpZ39B5
+	 iRK65c2cwPH9/yzOG/0qS6+53Z1iU0xJd9+U9KGu1tADbh45FR+RC4TwgTsZFf6auK
+	 Sky1cCxoxLTahy/0BkMewmsDvQ5Z7bN0eGTDUCD/gJ1AindVPej4vM/FJIeBxKlYBE
+	 6h76iPLtsL96F2ILVqeflxIwb7fHYP+wLoqYQ7arMv6A47MuByyed2StJOKSuxWDuE
+	 b41j8345woVKZREpgI/PKXvuCEUMIn1pEGpytoFQ2kuVy55cDtXxp2qkigih3CqZoq
+	 IeFyf11JCqVgQ==
+Subject: Re: [PATCH net] nfc: llcp: fix SNL PDU size truncation in
+ nfc_llcp_allocate_snl()
+From: netdev-bot+sashiko@kernel.org
+To: xiaolinkui@126.com
+Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, xiaolinkui@kylinos.cn,
+ yangguikun19@qq.com, stable@vger.kernel.org
+Date: Sun, 15 Nov 2026 10:43:59 +0000
+Message-ID: <179473943962.2199510.6509653868703486721@kernel.org>
+In-Reply-To: <20261111095907.3366028-1-xiaolinkui@126.com>
+References: <20261111095907.3366028-1-xiaolinkui@126.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -76,75 +64,147 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-digital_in_recv_sens_res() allocates a target for an NFC-A response.
-For a Type 1 Tag, it calls digital_target_found() synchronously.
-nfc_targets_found() copies the target into dev->targets.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-On success, rc is zero and the callback skips kfree(target).
-The original allocation is lost when the callback returns.
-Each completed Type 1 Tag discovery leaks one struct nfc_target.
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 0
 
-Free the target on the exit path, also for a Type 1 Tag:
-digital_target_found() does not take ownership of the target. Keep the
-target for other tag types, whose discovery continues asynchronously.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Found during a code review of NFC-A target ownership.
+- [Medium] The commit message names the wrong trigger and leaves out the
+  real one.
 
-Fixes: 2c66daecc409 ("NFC Digital: Add NFC-A technology support")
-Suggested-by: Simon Horman <horms@kernel.org>
-Signed-off-by: Xia Yan <yanxia@cmss.chinamobile.com>
----
-Changes in v2:
-- Free the target on the exit path and add a comment on target
-  ownership, as suggested by Simon Horman.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch
+  makes it easier to reach.
 
-v1: https://lore.kernel.org/netdev/20261109031832.37642-1-yanxia@cmss.chinamobile.com/
+--
 
- net/nfc/digital_technology.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+nfc: llcp: fix SNL PDU size truncation in nfc_llcp_allocate_snl()
 
-diff --git a/net/nfc/digital_technology.c b/net/nfc/digital_technology.c
-index ae6487c10a25..62d385a49685 100644
---- a/net/nfc/digital_technology.c
-+++ b/net/nfc/digital_technology.c
-@@ -483,6 +483,7 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- 				     struct sk_buff *resp)
- {
- 	struct nfc_target *target = NULL;
-+	bool res_is_t1t = false;
- 	int rc;
- 
- 	if (IS_ERR(resp)) {
-@@ -510,7 +511,8 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- 		goto exit;
- 	}
- 
--	if (DIGITAL_SENS_RES_IS_T1T(target->sens_res))
-+	res_is_t1t = DIGITAL_SENS_RES_IS_T1T(target->sens_res);
-+	if (res_is_t1t)
- 		rc = digital_target_found(ddev, target, NFC_PROTO_JEWEL);
- 	else
- 		rc = digital_in_send_sdd_req(ddev, target);
-@@ -518,10 +520,15 @@ static void digital_in_recv_sens_res(struct nfc_digital_dev *ddev, void *arg,
- exit:
- 	dev_kfree_skb(resp);
- 
--	if (rc) {
-+	/* Release target on error.
-+	 * digital_target_found() does not take ownership of target,
-+	 * so also release target if res_is_t1t is true.
-+	 */
-+	if (rc || res_is_t1t)
- 		kfree(target);
-+
-+	if (rc)
- 		digital_poll_next_tech(ddev);
--	}
- }
- 
- int digital_in_send_sens_req(struct nfc_digital_dev *ddev, u8 rf_tech)
+This commit changes the size accumulator in nfc_llcp_allocate_snl() from
+u16 to size_t, so the SNL PDU allocation size can no longer wrap before
+alloc_skb(). The commit message says the overflow comes from
+nfc_genl_llc_sdreq() building many SDREQ TLVs out of a netlink request.
 
+Link: https://lore.kernel.org/netdev/tencent_634C55A23C7CCCA3985283BFED46A69C9E09@qq.com/
 
+> nfc_genl_llc_sdreq() walks the nested NFC_ATTR_LLC_SDP attributes of a
+> GENL_ADMIN_PERM request, builds one SDREQ TLV per attribute and sums
+> their lengths into the size_t tlvs_len. Each URI is capped at
+> U8_MAX - 4 bytes by nfc_sdp_genl_policy, so every TLV fits in its u8
+> tlv_len, but nothing caps the number of attributes, so tlvs_len can
+> exceed U16_MAX.
+
+[Severity: Medium]
+
+Can this netlink path actually wrap the u16?
+
+nfc_genl_llc_sdreq() only walks a single attribute:
+
+    nla_for_each_nested(attr, info->attrs[NFC_ATTR_LLC_SDP], rem) {
+
+NFC_ATTR_LLC_SDP is one NLA_NESTED attribute, and its nla_len is a
+__u16, so the nested payload is at most 65531 bytes.
+
+Each entry costs at least 8 bytes of nest and URI attribute headers plus
+NLA_ALIGN(uri_len), and it produces a TLV of only uri_len + 3 bytes. With
+uri_len = 251 that comes to about 64014 TLV bytes at most. The
+LLCP_HEADER_SIZE, NFC_HEADER_SIZE, tx_headroom and tx_tailroom that
+nfc_llcp_allocate_snl() adds are small for the in-tree drivers.
+
+The path that does look able to wrap is the remote SDRES one:
+
+nfc_llcp_recv_snl()
+    nfc_llcp_build_sdres_tlv()   /* 4 bytes per 3-byte SDREQ TLV */
+    nfc_llcp_send_snl_sdres(local, &llc_sdres_list, sdres_tlvs_len)
+        nfc_llcp_allocate_snl()
+
+A peer in NFC range can send one SNL PDU packed with 3-byte SDREQ TLVs
+(type, len=1, tid). sdres_tlvs_len then grows to about 4/3 of the frame
+size.
+
+Neither nci_add_rx_data_frag() (via skb_cow_head()) nor
+digital_recv_dep_data_gather() (via skb_copy_expand()) caps the
+reassembled frame. An SNL PDU of about 49 KB would therefore wrap the old
+u16 size and hit skb_over_panic() in nfc_llcp_send_snl_sdres().
+
+The code change fixes both senders, since they share
+nfc_llcp_allocate_snl(). Could the commit message describe the SDRES path
+that an unprivileged remote peer can trigger, instead of the
+GENL_ADMIN_PERM netlink path? As written, it reads as if the bug needs
+CAP_NET_ADMIN to trigger.
+
+> diff --git a/net/nfc/llcp_commands.c b/net/nfc/llcp_commands.c
+> index 80a00938c8696..0a3d66e6cd59f 100644
+> --- a/net/nfc/llcp_commands.c
+> +++ b/net/nfc/llcp_commands.c
+> @@ -542,7 +542,7 @@ static struct sk_buff *nfc_llcp_allocate_snl(struct nfc_llcp_local *local,
+>  {
+>  	struct sk_buff *skb;
+>  	struct nfc_dev *dev;
+> -	u16 size = 0;
+> +	size_t size = 0;
+
+[Severity: High]
+
+This is a pre-existing issue, but now that size no longer wraps, does
+nfc_llcp_recv_snl() leak the llc_sdres_list entries when alloc_skb() fails
+here?
+
+nfc_llcp_send_snl_sdres() returns before the loop that frees the entries:
+
+net/nfc/llcp_commands.c:nfc_llcp_send_snl_sdres() {
+	skb = nfc_llcp_allocate_snl(local, tlvs_len);
+	if (IS_ERR(skb))
+		return PTR_ERR(skb);
+
+	hlist_for_each_entry_safe(sdp, n, tlv_list, node) {
+		skb_put_data(skb, sdp->tlv, sdp->tlv_len);
+
+		hlist_del(&sdp->node);
+
+		nfc_llcp_free_sdp_tlv(sdp);
+	}
+    ...
+}
+
+nfc_llcp_recv_snl() ignores the return value, and the list head is on its
+stack:
+
+net/nfc/llcp_core.c:nfc_llcp_recv_snl() {
+	HLIST_HEAD(llc_sdres_list);
+    ...
+	if (!hlist_empty(&llc_sdres_list))
+		nfc_llcp_send_snl_sdres(local, &llc_sdres_list, sdres_tlvs_len);
+}
+
+Each SDREQ TLV from the peer leaves behind a struct nfc_llcp_sdp_tlv and
+its 4-byte tlv buffer. That is about 72 bytes for every 3 bytes on the
+wire.
+
+Before this change, a frame that needed more than 64 KiB wrapped size and
+panicked. Now alloc_skb() gets the full size, about 4/3 of the frame.
+
+That allocation can fail for costly orders under fragmentation. It always
+fails once the request is above MAX_PAGE_ORDER: on x86-64 with 4 KiB
+pages, that is an SDRES over 4 MiB, from an SNL PDU of about 3 MiB.
+
+Frame reassembly has no cap, so one such frame would leak around 1M
+entries, roughly 72 MB. Repeated frames could drive the system to OOM.
+
+The same leak happens when local->dev is NULL and nfc_llcp_allocate_snl()
+returns -ENODEV.
+
+Should the tlv_list entries be freed on this error path, either in
+nfc_llcp_send_snl_sdres() or in its caller?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111095907.3366028-1-xiaolinkui%40126.com
