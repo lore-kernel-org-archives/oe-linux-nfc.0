@@ -1,85 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794810346;
-	b=HvjbT015J4vfLACbURoi6VWS7B/jhtUKyvAe5JjYnTgA2jlJGvr4Y+/J+6CNCXsLIKvp
-	 x6YmQSeZ+ex/lBwrWM/yfWLekq8RV14kh1+BtBm2fTZNnHtuPsx2+jstd04haJwTLI2If
-	 bPSw6qoRcvLXM/IlmEE9Z2XR72d/5XjxYArWvO/R4nVNjpc5JRCtOrMjglKmYXvi0WUH6
-	 0jxzcgQRT0whS8NWHT4Gt8z6tvQMVuDVEmXVfzDzfGS/nVzX1Pl67zKSDfAt89bLXWmpS
-	 DLAXcmiw4s4TkQxwTZtuH0oUW9e/l1Ti5HGRHYZr6axUmrnXQrrqd/0PqfbsLbaI6oA==
+	t=1794810348;
+	b=VSlcKbN+6vXd0/9umErbzO4onWLA0rE7yg0TETfmnBn5So5sYGtuTJ1Ut1/nICU/ugVU
+	 IPNoh+6Ii4gepQB0OCK0zzaRu0dl3ErWgMx76mFrKbhsSglTB1EDtK/katpzzfBZkV0J4
+	 A+CTFhuN9OCcewRF+DIgkUYX3KV9biuSAqahN65ocPADkh1V6yUklOipYsgrSk6fc1RA4
+	 haLDK0AlV58tSV+D6EbMOowx8kJ5Idz/U0+aQLjBs4mC2OOUgcGg9COwMjq+6XplfACxg
+	 amuEDlgrm5TQufKTEHUZAqj+vpuZc8EJjajFB7mhD1B9L5dDb48Q7289cpiWVNQbqxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794810346;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794810348;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
-	b=hadQgWofKWW0F9CY4LnpVRgDM5XTJwU6NFSiB2mShhV9uZe4gKjCXFVIpnv02znLOewJ
-	 C2jQ49bNVDVhw9Yb6t30fw9JgHzwwPh10W/WKp+dMhXxxUUYb5Pjga7jYiJ3xaybYHm0C
-	 24bLxMTp517mapNnlkq4dofpB467lz9q1iPircrasV/bdRAbzwTYqMcH4fkyyv8YLNi9L
-	 IW3F6EC8utfM1VitHeEHBxCSygU8y8ewHpHZdnaTZyC2Z5ZPKoTnATNtbQvRbWQVopggP
-	 0olYsvD9yxxoU7m9+mX4iNGOEpdZZMMs/hz13ZzzYzH2u/2Ma+KtOmyBDnX/pydv8Iw==
+	bh=UqI2rR4S/NYOEtKkItcu/tRll0s0XIsV9mZE5MtAea8=;
+	b=urxDDg0+XcZzPK9WU2cwSduruoSe35QzNf3PVJGy9+KsEKbTXQVKp0gMpxP7JxXBvhKr
+	 ShEMfqt/SUVJYRRnhhQ+8TSM/02Poytxa+friZRvAmHX/18N2s5Jb4shfGLee9UxmBKWN
+	 56XCf2aT4gzMKXWRPb4BL3zudtkKqRYRvhHiuIA8MVqlFHRm3yRw/kfbmlZc32y8d/SQC
+	 Sgdq/l9zMwy/LXlzBEdE9HLb72YNcv98syjHtyNlSNpGZ8aloGTjLTCViVIj8dbJjONjo
+	 PcnONv+OO14EdeWC4j+lyVfjJPGv3eTwuezcNRJnG6s7LtW8J7iTAOOHpxkOoJAkGIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0Fr1Xtd;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qT8hSapO;
 	arc=none smtp.remote-ip=209.85.221.54
 Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8454D606A31C
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 16 Nov 2026 06:25:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8454D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B200E606A337
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 16 Nov 2026 06:25:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B200E606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0Fr1Xtd
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4922dbcee23so1366027f8f.0
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 15 Nov 2026 22:25:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qT8hSapO
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-498f5fa4f70so3307316f8f.0
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 15 Nov 2026 22:25:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794810345; x=1795415145; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794810346; x=1795415146; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
-        b=J0Fr1XtdR3/Mn/GvVeORZ9TFfQYJXD9kznwW13avEBzg4FTT6QXlGvwfT8sSmGck8/
-         1Q4YOkgewXCWV27+EDuJppmmUV3X21NVC+dytl3YVc2XzuINug00jAa6KM1H3hTxC2jz
-         6fyHytXmHuQhsWl2PXTbs6B7OEX3/mZGQg8nkSVmOq+f9hFodq3XDj2vfM+dgiw/XRJP
-         XprQv6NQB3KP3ovukadsKxL8ScpDNEwaGfcfmbT34Xx6dYEG708Oz0BXtJ8RSmEti8U8
-         Bm+ImxycYw68cGmnGJGxYUe+evIzBcqKQpZ/41xYU0jpvBV+fe/Y0JE6EK41Z3AdgQ0Q
-         LCkg==
+        bh=UqI2rR4S/NYOEtKkItcu/tRll0s0XIsV9mZE5MtAea8=;
+        b=qT8hSapO4qj1+s+HYrSoZh/qOZRMkHPi9PYAlqSnn9UafSzzZ8xCg+xkWKw5sbJEnl
+         PJDnf6OW+BouVQJGa8ndiARO56e6tc8zsWJzCMM8e0BIVeDxxxlmayT6Mi1lltRgWytq
+         zW6XpFWPMsb+oMJ9o8V4mXuVBPuDjkNOrqBzaO0BxuPdanoNM/iKVTmrCUQYwG464+jQ
+         UlutLHjDtJAFcfkZ8yegC79ribKXh1BRs8vMie54KjnCPuXWwsNndpSCm+4W1HwtEcR+
+         Ebx/fNDNXmLAvh0b2eaac5Z/Gc7bdtG/AbCond4/06A/pMizGAzkhrwBCWrLc8svWdPn
+         QzIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794810345; x=1795415145;
+        d=1e100.net; s=20260707; t=1794810346; x=1795415146;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
-        b=RbFNHW0d56+PIoZMzxLtNOPlvucmm6HOJbV91ig6TU1y+rJeuhd2yWYOg/+AMaJaOZ
-         PKSlWgnYpzBg21tBMXpbXjiBK7G/khoEX+dFb7VeRfs/5irM205P1qWHBMco+Fyj3blP
-         MfWq452D+XMmT/Wn5OdkBMbHUTivikQD4Vhei8wSdzh8zH5uY35I41rhtrsJqPeXpget
-         Y3/IrIPkaas/k0D/Q6w+lPzQjIgb87QNo8BULCHpm8ziTtGLbjysDdp5MV5VgmUDn//s
-         3D/OCXRBDerooTzURDWMbC0o4TCDPfPZyZAKmMcgYCJG3aRnpFWTqzkdZ6KoaOxUDnCo
-         fvnQ==
-X-Forwarded-Encrypted: i=1; AL+hErEo4wv6Ltdgo7qXXwsvmRE7jKCYD0wbc8ZvD4qTfvnBBIhh5KTRI9WUopFJ8XSgxFrc1ilM6MtUYRtuesw=@lists.linux.dev
-X-Gm-Message-State: APuU4Z+OozoNt5aBg+65nG5YymxTRpCXLtObt3ztLUwstluT4OJxpo5u
-	ze6B1yQsEQILhOJAxTGckoD8YOX9sQqCf9vpwQVikcW8RrRNClhlm7yw
-X-Gm-Gg: AYBFou2E29YKKNt0K5cGLlxZpyNhFeNvxHJc9LJx7VgM3WVtwsjxowWiJR5E5L2aMT/
-	b18QEewKMYKyTtYuFn1zxiCrhPWj/EXWmJ3Jk01V3Ng3tSMqf++sW9Dt3TB50mjvOuVBmWAmp3r
-	HicxNzmrwO5ZbFozc0r4BtLcu58ZXIY2qvCdvaUQawDwpt3yIn6do43IEP2ZjQVTEH+ExZQWNo2
-	MBUzWRcfbVjZtceM34JlX0SgQWfM9Jt9+JHw7cRcgx6Mm39p2qXfyoOFJUesn0/IeNyM4+UiYCb
-	4uXNoCP8Y8bA8wwymw1kPjczQnxtgo9QU+nVCMAh/nKK7iLvEyW46T7/mO4q7vJZfOuoQBzmBHG
-	jMckUcTMNHzhwktRuSlKMQewxTxh5sMpK6RJQ8SsTlV9LAsKdtCH/xQaG9JKiN/rSfu7bpLdUZR
-	c/NgaBy1U7dxfHdrSCIYvscwBZDw8bLrAIK4AVRSxhIuD/oBaDgSmIrhUAWDqA4gLw/1QHDKpcm
-	HXg86vILK/T4yacCCNr2OiiVvE1O9pzUYbKaX4bFz9LmwmIhZkjSm23hS2kJ5nSp/AwoXJVWPmn
-	SEddC4bk1RFYMRUS
-X-Received: by 2002:a5d:5d04:0:b0:492:7f3b:8cc3 with SMTP id ffacd0b85a97d-49c725e555bmr17386069f8f.29.1794810344684;
-        Sun, 15 Nov 2026 22:25:44 -0800 (PST)
+        bh=UqI2rR4S/NYOEtKkItcu/tRll0s0XIsV9mZE5MtAea8=;
+        b=hIxVTNyCKaJkt2G7iof64zvodgMQi3+9wf+/pFCR2LGhy+b3K78uWBVWjTY+tzFQ0K
+         b9u7p0PcXnMPmygCBDYDfZx/nngXNA7CbQMAl0hXKq0FtgM6laI11YBqfw/q/8nH5m7A
+         oDxwoAhiUKza/HRPgkWgSN1uPVFu7CZR8gJSxLE7GPjeYMG3O/aeCsxLJB2ctMq8NNYB
+         NqOVPUEM0emhhFQHsinWphBTiQWR8nQUO6ybmrqIRNLZJfVdxdgKX7W7nklwKblxBh/b
+         /fARp+A/XBz8tJ6cpsx68rgIYvtMHuQ+S1C3V1agDzVK8ps2PDVwBHilz4QQDo1bhuOY
+         G/Vw==
+X-Forwarded-Encrypted: i=1; AL+hErE+BW99FoFZ2pJ0q6geMaijt/P83nA6b98N1TqHmOBbRo6tCYV7Pa93GHSDqtNHpQTmc9Va3/vyETZlYK4=@lists.linux.dev
+X-Gm-Message-State: APuU4Z8KCgOkF0yqLDZ0MgE0dVZSrRPRGTAPIUbLjHXP90WJ0pMluFY5
+	vbIK9NaXXl/RaJYsyC4+W6xYZAcm9c/ADBZKOd2pP3bzczHFElocjKwB
+X-Gm-Gg: AYBFou1lwcAqjNExZGKwZJqA8ZOM8cNez06HwKQYShQxVRXxKgsKRQGZzTsx02taB8d
+	SBZVNnS64Ogbd3+CL0BJk2rQW2fnND6jiwVzUJmlhfBSY7BvZmdhUQqv2orwCJQrA/h+qz3CRuo
+	vFaLD82WFIeQkfCdJf8xCws3nwe6pkMjYPE9wgvsmTIF5Lcm8oJqwpsVbbpDHAiDwCGcwuIGcEm
+	AUkNMuOgTmfU+xE0P5lsyEnT76qjEK54ijUrqd0DZEkQDipp5muHyf394MwtVa5Og5aU6OcnvmH
+	Dtnj83RfhxhfHPrODqIKc/Hs6gJeAloxM9jgXNkHHagdlI7NBTCRbEWne7Zf36Yx2Y0TP3DgfIR
+	fKj0asuNyvZpV5aBXNK8DudPoRiquswbXvMFUZogjH/0tbrtMa6ctdSx3DZqDhH0SRakV+JdvtY
+	SZyQGJEZ6HjlVeb3n0IO2HLTMnBd8B5f9O0swHmo365nJMYfwdArzC6f4Fs0slJCRvmK1xMK4uh
+	vLzUdSfpXf1SscIacbzJn9SsSvPv2gxVsrvgOIM0GuUzYUtvw1BpQe4JMi3YdBSoF0/2k0hLjcg
+	nLF3fSPbfZd/e/cQ
+X-Received: by 2002:a05:6000:4541:b0:48f:bb86:cc03 with SMTP id ffacd0b85a97d-49c70ed7ff4mr14133514f8f.11.1794810346143;
+        Sun, 15 Nov 2026 22:25:46 -0800 (PST)
 Received: from dl360p ([130.61.107.245])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c609c6451sm21676892f8f.45.2026.11.15.22.25.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c609c6451sm21676892f8f.45.2026.11.15.22.25.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 22:25:44 -0800 (PST)
+        Sun, 15 Nov 2026 22:25:45 -0800 (PST)
 From: Adil Tepe <tadilhusrev@gmail.com>
 X-Google-Original-From: Adil Tepe <adil.tepe@basarsoft.com.tr>
 To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
@@ -97,12 +97,12 @@ Cc: =?UTF-8?q?Adil=20H=C3=BCsrev=20Tepe?= <tadilhusrev@gmail.com>,
 	netdev@vger.kernel.org,
 	oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] nfc: s3fwrn5: support the S3NRN4V variant
-Date: Mon, 16 Nov 2026 09:25:40 +0300
-Message-ID: <20261116062542.275485-1-adil.tepe@basarsoft.com.tr>
+Subject: Re: [PATCH v5 1/6] nfc: s3fwrn5: drop of_match_ptr() from the I2C driver
+Date: Mon, 16 Nov 2026 09:25:41 +0300
+Message-ID: <20261116062542.275485-2-adil.tepe@basarsoft.com.tr>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260811220135.472380-6-jorijnvdgraaf@catcrafts.net>
-References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net> <20260811220135.472380-6-jorijnvdgraaf@catcrafts.net>
+In-Reply-To: <20260811220135.472380-2-jorijnvdgraaf@catcrafts.net>
+References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net> <20260811220135.472380-2-jorijnvdgraaf@catcrafts.net>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -119,85 +119,21 @@ From: Adil Hüsrev Tepe <tadilhusrev@gmail.com>
 
 Hi Jorijn,
 
-I tested this series on a Samsung Galaxy XCover5 (Exynos850), which has
-an S3NRN4V wired to the same lines, so I could exercise the new variant
-path with real hardware and a tag. Patches 1-4 are fine here (separate
-mail). On this patch I hit a hardware-dependent problem with the fixed
-clock-speed byte.
+Tested on a Samsung Galaxy XCover5 (Exynos850) on top of 7.4-rc1: the
+s3fwrn5 I2C driver probes, binds, and does DEV_UP/START_POLL/DEV_DOWN
+cleanly with these preparatory patches applied; the "s3fwrn5_i2c" rename
+and the of_match_ptr() removal cause no regression, and the PVDD supply
+is enabled as expected (NFC is dead without it on this board).
 
-> +/* S3NRN4V single-byte FW_CFG payload; 0x11 selects the 19.2 MHz reference. */
-> +#define NCI_PROP_FW_CFG_CLK_SPEED	0x11
-[...]
-> +int s3fwrn5_nci_clk_cfg(struct s3fwrn5_info *info)
-> +{
-> +	u8 clk_speed = NCI_PROP_FW_CFG_CLK_SPEED;
-> +
-> +	return nci_prop_cmd(info->ndev, NCI_PROP_FW_CFG, 1, &clk_speed);
-> +}
+For patches 1/6, 2/6 and 4/6:
 
-The XCover5 feeds the S3NRN4V a 26 MHz reference (PMU CLKOUT0 -> TCXO),
-not 19.2 MHz. With the byte hardcoded to 0x11 the chip ACKs FW_CFG with
-status 0 -- there is no "failed to configure the reference clock" error --
-but the RF front end is then off-frequency and the reader never sees a
-tag. The failure is completely invisible to host-side polling; only a
-physical tag exposes it.
+Tested-by: Adil Hüsrev Tepe <tadilhusrev@gmail.com>
 
-A/B on the XCover5, same tag held on the antenna, 12 s initiator poll per
-run (NFC_EVENT_TARGETS_FOUND over the netlink 'events' group):
+(3/6 is the binding; I can give Reviewed-by there if useful, but I did
+not write the binding so I'll leave that to the DT maintainers.)
 
-  FW_CFG 0x11 (19.2 MHz, this patch as posted) : no target in 12 s
-  FW_CFG 0x12 (26 MHz, only that byte changed)  : TARGETS_FOUND in ~0.1 s,
-                                                  ISO14443-A, proto 0x10
-
-So the single byte is purely board-dependent: 0x11 is correct for a
-19.2 MHz part like the FP6, 0x12 for a 26 MHz board like this one, and a
-hardcoded value breaks whichever board it does not match.
-
-The driver already holds the reference clock (phy->clk, "failed to get
-clock" in this same patch), so the byte can be derived instead of fixed.
-Something like:
-
-	unsigned long rate = info->phy ? clk_get_rate(phy->clk) : 0;
-	u8 clk_speed;
-
-	switch (rate) {
-	case 19200000: clk_speed = 0x11; break;
-	case 26000000: clk_speed = 0x12; break;
-	default:
-		/* keep the posted default when the rate is unknown */
-		clk_speed = 0x11;
-		break;
-	}
-
-(exact plumbing of the clk handle into s3fwrn5_nci_clk_cfg() is yours to
-decide; the point is the value must follow clk_get_rate(), not a #define).
-
-With that change the XCover5 reads tags reliably, so I'm happy to give a
-Tested-by on a v6 that derives the byte from the clock rate. I did not
-Tested-by this patch as posted because it does not bring up NFC on a
-26 MHz board.
-
-Two smaller observations on this board, neither a blocker:
- - A prop notification 6F-3F arrives during polling and logs
-   "nci_ntf_packet: unsupported ntf opcode 0xf3f" on every poll. A no-op
-   handler would silence it.
- - RF calibration blobs: the driver looks for samsung/s3nrn4v/{hwreg,
-   swreg}.bin; the stock XCover5 firmware ships them as
-   sec_s3nrn4v_{hwreg,swreg}.bin. Just a note for linux-firmware naming;
-   NFC works without them here ("RF calibration data update failed: -2"
-   is non-fatal).
-
-This was tested on 7.4-rc1 (s3fwrn5 sources at
-7.4.0-rc1-00023-gdcb8b91fb779) with patches 1-5 applied, built as
-out-of-tree modules and bound to the S3NRN4V via a runtime DT overlay
-(compatible = "samsung,s3nrn4v", en/wake GPIOs, pvdd 1.8 V, 26 MHz clk).
-
-The clock-rate finding was located with the help of an AI coding
-assistant (Claude Code, Anthropic) during XCover5 mainline bring-up; I
-reviewed, reproduced and verified it on hardware myself.
-
-Thanks for doing this series -- it is most of the way to working on a
-second board.
+The variant patch 5/6 needs a clock-rate fix before it works on this
+26 MHz board -- details in my reply to that patch.
 
 Assisted-by: LLM
 -- Adil Hüsrev Tepe
