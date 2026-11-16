@@ -1,54 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794789923;
-	b=qLqWPv57iyDayy7LXtSsRn+XmtOBrnpDwjV42ld8lBV02gRBbksqAGqSjVND5Vx2xa7V
-	 NFMciI/hKh0eqD95V/2VEv5E8+yvyn347EWhO/Aip7kBk/heJ3TZSjRQlrcObo1GrsJPx
-	 +BeVud5sYggfDiTi+bvYUYSLUjhBtlxD1/ofgppL32Yv7rQh8Hhe+jJoJTrswuobvxdjq
-	 7IyJ60vpC0Kzl0wCGmNSpte1WqVzHkgRil+5usMKNJULFreSXyWh7gGNpnGgpFnN/84GL
-	 3IfzocYyAhDWwOFFjBP5wpN5KDoW+MX7e1dqVYivxn3eCcXqz+ojhvRvy29zy2b06nA==
+	t=1794810346;
+	b=HvjbT015J4vfLACbURoi6VWS7B/jhtUKyvAe5JjYnTgA2jlJGvr4Y+/J+6CNCXsLIKvp
+	 x6YmQSeZ+ex/lBwrWM/yfWLekq8RV14kh1+BtBm2fTZNnHtuPsx2+jstd04haJwTLI2If
+	 bPSw6qoRcvLXM/IlmEE9Z2XR72d/5XjxYArWvO/R4nVNjpc5JRCtOrMjglKmYXvi0WUH6
+	 0jxzcgQRT0whS8NWHT4Gt8z6tvQMVuDVEmXVfzDzfGS/nVzX1Pl67zKSDfAt89bLXWmpS
+	 DLAXcmiw4s4TkQxwTZtuH0oUW9e/l1Ti5HGRHYZr6axUmrnXQrrqd/0PqfbsLbaI6oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794789923;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=;
-	b=XA8jO1bImAyQq652g+O9ysgTK9J0LNpAnQUCF6P0+KREaZyDH97zgP0cbZgKW4QBrVzh
-	 0Szb5+liCTrpnniEQpam4TQzQiTdyPwgIetNUM9e4tp1kPMxcqWFH0c28PXNjacbrUwsE
-	 NrEoBQbjRGB0e4L4wkn8WlGuSvRzbsDtErzZd7ZxcYyMgDPnpeiDYfljqMxAet5pOtv96
-	 cLqrf0F+eYXXk0fH05px2IeetyTx8Dj1dyuHWoOJ4XWJ01Q66b8KC9SyJu8ixbF7dWKfl
-	 T6WkWVOEKaypXGwxu+wOStxtQF8PEqc9/NrnbSp9BZUU3iC23HAQuZnqTYjLOkOYrFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794810346;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
+	b=hadQgWofKWW0F9CY4LnpVRgDM5XTJwU6NFSiB2mShhV9uZe4gKjCXFVIpnv02znLOewJ
+	 C2jQ49bNVDVhw9Yb6t30fw9JgHzwwPh10W/WKp+dMhXxxUUYb5Pjga7jYiJ3xaybYHm0C
+	 24bLxMTp517mapNnlkq4dofpB467lz9q1iPircrasV/bdRAbzwTYqMcH4fkyyv8YLNi9L
+	 IW3F6EC8utfM1VitHeEHBxCSygU8y8ewHpHZdnaTZyC2Z5ZPKoTnATNtbQvRbWQVopggP
+	 0olYsvD9yxxoU7m9+mX4iNGOEpdZZMMs/hz13ZzzYzH2u/2Ma+KtOmyBDnX/pydv8Iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0Fr1Xtd;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A57606A31F;
-	Mon, 16 Nov 2026 00:45:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91A57606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8454D606A31C
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 16 Nov 2026 06:25:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8454D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=; b=Ov44YrtPxUC++hYRNDHSdmdpGW
-	JaxLbFR1NnGayLi7FHLtyTi+He4ZYSfoC7yWmGobJ7E/AIaLAiwDiqmK+og7vdQvnP4EzvIpr462x
-	EDmrhZM3u/N2SWbcqZV+o7jR7R+AN7ZLDYmWxP5FpNx3G+I1qCrQflyake80HiJ9rMKVM/x4eT782
-	9JEn4jhTrQPKUH9n7ugwPApkYe7cQrElzRWPUKP8gRVT9cQSw9rpPJq9AX3iS6GqmzfQn0wqcsM7f
-	leTLxbzdojuK+f/LSdN/KzQKSZ97Y6xYotP0eKRTTUizqT5t8J7W/n/cd6b1FIlVQIvCGZw4VHm9P
-	KD0dlVWg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSkqM-00000000pP7-2dPd;
-	Mon, 16 Nov 2026 00:45:10 +0000
-Message-ID: <bbdb3140-dc5f-4ae1-a5a9-c2e25387409a@infradead.org>
-Date: Sun, 15 Nov 2026 16:45:07 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0Fr1Xtd
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4922dbcee23so1366027f8f.0
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 15 Nov 2026 22:25:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794810345; x=1795415145; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
+        b=J0Fr1XtdR3/Mn/GvVeORZ9TFfQYJXD9kznwW13avEBzg4FTT6QXlGvwfT8sSmGck8/
+         1Q4YOkgewXCWV27+EDuJppmmUV3X21NVC+dytl3YVc2XzuINug00jAa6KM1H3hTxC2jz
+         6fyHytXmHuQhsWl2PXTbs6B7OEX3/mZGQg8nkSVmOq+f9hFodq3XDj2vfM+dgiw/XRJP
+         XprQv6NQB3KP3ovukadsKxL8ScpDNEwaGfcfmbT34Xx6dYEG708Oz0BXtJ8RSmEti8U8
+         Bm+ImxycYw68cGmnGJGxYUe+evIzBcqKQpZ/41xYU0jpvBV+fe/Y0JE6EK41Z3AdgQ0Q
+         LCkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794810345; x=1795415145;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hh+R9vrulIDsL2yY8DhJUoEG2kjxAgVjOVJwnKc/m0g=;
+        b=RbFNHW0d56+PIoZMzxLtNOPlvucmm6HOJbV91ig6TU1y+rJeuhd2yWYOg/+AMaJaOZ
+         PKSlWgnYpzBg21tBMXpbXjiBK7G/khoEX+dFb7VeRfs/5irM205P1qWHBMco+Fyj3blP
+         MfWq452D+XMmT/Wn5OdkBMbHUTivikQD4Vhei8wSdzh8zH5uY35I41rhtrsJqPeXpget
+         Y3/IrIPkaas/k0D/Q6w+lPzQjIgb87QNo8BULCHpm8ziTtGLbjysDdp5MV5VgmUDn//s
+         3D/OCXRBDerooTzURDWMbC0o4TCDPfPZyZAKmMcgYCJG3aRnpFWTqzkdZ6KoaOxUDnCo
+         fvnQ==
+X-Forwarded-Encrypted: i=1; AL+hErEo4wv6Ltdgo7qXXwsvmRE7jKCYD0wbc8ZvD4qTfvnBBIhh5KTRI9WUopFJ8XSgxFrc1ilM6MtUYRtuesw=@lists.linux.dev
+X-Gm-Message-State: APuU4Z+OozoNt5aBg+65nG5YymxTRpCXLtObt3ztLUwstluT4OJxpo5u
+	ze6B1yQsEQILhOJAxTGckoD8YOX9sQqCf9vpwQVikcW8RrRNClhlm7yw
+X-Gm-Gg: AYBFou2E29YKKNt0K5cGLlxZpyNhFeNvxHJc9LJx7VgM3WVtwsjxowWiJR5E5L2aMT/
+	b18QEewKMYKyTtYuFn1zxiCrhPWj/EXWmJ3Jk01V3Ng3tSMqf++sW9Dt3TB50mjvOuVBmWAmp3r
+	HicxNzmrwO5ZbFozc0r4BtLcu58ZXIY2qvCdvaUQawDwpt3yIn6do43IEP2ZjQVTEH+ExZQWNo2
+	MBUzWRcfbVjZtceM34JlX0SgQWfM9Jt9+JHw7cRcgx6Mm39p2qXfyoOFJUesn0/IeNyM4+UiYCb
+	4uXNoCP8Y8bA8wwymw1kPjczQnxtgo9QU+nVCMAh/nKK7iLvEyW46T7/mO4q7vJZfOuoQBzmBHG
+	jMckUcTMNHzhwktRuSlKMQewxTxh5sMpK6RJQ8SsTlV9LAsKdtCH/xQaG9JKiN/rSfu7bpLdUZR
+	c/NgaBy1U7dxfHdrSCIYvscwBZDw8bLrAIK4AVRSxhIuD/oBaDgSmIrhUAWDqA4gLw/1QHDKpcm
+	HXg86vILK/T4yacCCNr2OiiVvE1O9pzUYbKaX4bFz9LmwmIhZkjSm23hS2kJ5nSp/AwoXJVWPmn
+	SEddC4bk1RFYMRUS
+X-Received: by 2002:a5d:5d04:0:b0:492:7f3b:8cc3 with SMTP id ffacd0b85a97d-49c725e555bmr17386069f8f.29.1794810344684;
+        Sun, 15 Nov 2026 22:25:44 -0800 (PST)
+Received: from dl360p ([130.61.107.245])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c609c6451sm21676892f8f.45.2026.11.15.22.25.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 22:25:44 -0800 (PST)
+From: Adil Tepe <tadilhusrev@gmail.com>
+X-Google-Original-From: Adil Tepe <adil.tepe@basarsoft.com.tr>
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	David Heidelberg <david@ixit.cz>
+Cc: =?UTF-8?q?Adil=20H=C3=BCsrev=20Tepe?= <tadilhusrev@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	netdev@vger.kernel.org,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/6] nfc: s3fwrn5: support the S3NRN4V variant
+Date: Mon, 16 Nov 2026 09:25:40 +0300
+Message-ID: <20261116062542.275485-1-adil.tepe@basarsoft.com.tr>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260811220135.472380-6-jorijnvdgraaf@catcrafts.net>
+References: <20260811220135.472380-1-jorijnvdgraaf@catcrafts.net> <20260811220135.472380-6-jorijnvdgraaf@catcrafts.net>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -58,87 +112,92 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
-To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
- oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
- linux-atm-general@lists.sourceforge.net,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
- Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
- Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-2-rdunlap@infradead.org>
- <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Adil Hüsrev Tepe <tadilhusrev@gmail.com>
 
+Hi Jorijn,
 
-On 11/15/26 8:58 AM, David Hildenbrand (Arm) wrote:
-> On 11/14/26 21:26, Randy Dunlap wrote:
->> Add ioctl number entries for test_hmm_uapi and gup_test.
-> 
-> Just curious, why do we care about uapi for test interfaces that never see the
-> light of day in production kernels and their sole purpose is to go a long a
-> dedicated selftest?
+I tested this series on a Samsung Galaxy XCover5 (Exynos850), which has
+an S3NRN4V wired to the same lines, so I could exercise the new variant
+path with real hardware and a tag. Patches 1-4 are fine here (separate
+mail). On this patch I hit a hardware-dependent problem with the fixed
+clock-speed byte.
 
-a. We don't control who builds/runs these tests.
-b. There might be some USB gadget or HID driver running at the same time
-   as these tests.
-c. It's preferable not to have conflicts, so any additions to this file
-   should try to avoid these documented ioctls.
+> +/* S3NRN4V single-byte FW_CFG payload; 0x11 selects the 19.2 MHz reference. */
+> +#define NCI_PROP_FW_CFG_CLK_SPEED	0x11
+[...]
+> +int s3fwrn5_nci_clk_cfg(struct s3fwrn5_info *info)
+> +{
+> +	u8 clk_speed = NCI_PROP_FW_CFG_CLK_SPEED;
+> +
+> +	return nci_prop_cmd(info->ndev, NCI_PROP_FW_CFG, 1, &clk_speed);
+> +}
 
--- 
-~Randy
+The XCover5 feeds the S3NRN4V a 26 MHz reference (PMU CLKOUT0 -> TCXO),
+not 19.2 MHz. With the byte hardcoded to 0x11 the chip ACKs FW_CFG with
+status 0 -- there is no "failed to configure the reference clock" error --
+but the RF front end is then off-frequency and the reader never sees a
+tag. The failure is completely invisible to host-side polling; only a
+physical tag exposes it.
 
+A/B on the XCover5, same tag held on the antenna, 12 s initiator poll per
+run (NFC_EVENT_TARGETS_FOUND over the netlink 'events' group):
+
+  FW_CFG 0x11 (19.2 MHz, this patch as posted) : no target in 12 s
+  FW_CFG 0x12 (26 MHz, only that byte changed)  : TARGETS_FOUND in ~0.1 s,
+                                                  ISO14443-A, proto 0x10
+
+So the single byte is purely board-dependent: 0x11 is correct for a
+19.2 MHz part like the FP6, 0x12 for a 26 MHz board like this one, and a
+hardcoded value breaks whichever board it does not match.
+
+The driver already holds the reference clock (phy->clk, "failed to get
+clock" in this same patch), so the byte can be derived instead of fixed.
+Something like:
+
+	unsigned long rate = info->phy ? clk_get_rate(phy->clk) : 0;
+	u8 clk_speed;
+
+	switch (rate) {
+	case 19200000: clk_speed = 0x11; break;
+	case 26000000: clk_speed = 0x12; break;
+	default:
+		/* keep the posted default when the rate is unknown */
+		clk_speed = 0x11;
+		break;
+	}
+
+(exact plumbing of the clk handle into s3fwrn5_nci_clk_cfg() is yours to
+decide; the point is the value must follow clk_get_rate(), not a #define).
+
+With that change the XCover5 reads tags reliably, so I'm happy to give a
+Tested-by on a v6 that derives the byte from the clock rate. I did not
+Tested-by this patch as posted because it does not bring up NFC on a
+26 MHz board.
+
+Two smaller observations on this board, neither a blocker:
+ - A prop notification 6F-3F arrives during polling and logs
+   "nci_ntf_packet: unsupported ntf opcode 0xf3f" on every poll. A no-op
+   handler would silence it.
+ - RF calibration blobs: the driver looks for samsung/s3nrn4v/{hwreg,
+   swreg}.bin; the stock XCover5 firmware ships them as
+   sec_s3nrn4v_{hwreg,swreg}.bin. Just a note for linux-firmware naming;
+   NFC works without them here ("RF calibration data update failed: -2"
+   is non-fatal).
+
+This was tested on 7.4-rc1 (s3fwrn5 sources at
+7.4.0-rc1-00023-gdcb8b91fb779) with patches 1-5 applied, built as
+out-of-tree modules and bound to the S3NRN4V via a runtime DT overlay
+(compatible = "samsung,s3nrn4v", en/wake GPIOs, pvdd 1.8 V, 26 MHz clk).
+
+The clock-rate finding was located with the help of an AI coding
+assistant (Claude Code, Anthropic) during XCover5 mainline bring-up; I
+reviewed, reproduced and verified it on hardware myself.
+
+Thanks for doing this series -- it is most of the way to working on a
+second board.
+
+Assisted-by: LLM
+-- Adil Hüsrev Tepe
