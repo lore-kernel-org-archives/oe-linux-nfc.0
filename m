@@ -1,91 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794989630;
-	b=bZf17xJbQ86A9lGrxhw6EhejlkUhoE8mYaj2S5PE8PvtP0RBKWBPgkilfGgV36Oc68e5
-	 5n89JjTOA09B5KXY/JT7gcWyL5Kvj5d2RT6Adq4LdvmPKA1Y4SInIeiy4oGDT39mLEGhn
-	 +JgmRonwiDmN76pf4mDVpmDredmfeLQfK1v9QZQARL/z+BxjKaQjeRY3YSrJbx4dW7aCo
-	 XCHjna//6CzaSd50Lt8+97utSDW3YZnS87Bt2LesfFeSII6m9JzvyuXvYT/5CnW1hVXpY
-	 dx4c6Ui2zGPKdkgyArOwRq5U70Q4GK9UgKOtYNjb4JrggmORbfCUkyWFbproc2ARPDw==
+	t=1794989739;
+	b=F2Ngm9/hUG7qYB36rIfxtG5OAanvrTQzg35kyN+0e5XScsyN3xIBGW9HXK6ey4NACZLo
+	 Btn7CXzKh8xV0mXAKYc86MKnvayVzTfUUjp9lmERIWpAJ1DHEicatVe27b5oGJkhv+dRn
+	 +7pU/gQzUpCBaxpuJhz7QOYSEHMCTx13o6rlFquX/1gK9N/bXIYidYA5HAWgeJsr+6qV8
+	 FO3TBd72qT1xo70eKHPm3d3Tvswd9I8h7UML3lD+KBdOPJA8jQAFss2a9MmJPkycfYK3f
+	 YRpIdCw5vj3IWEoE2LpxRSbCxZAL5IinBz0AOqR7NQJZNqnN/2uWk8g1YNLyFUiXZ7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794989630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794989739;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=t4Ktyk770oXAGuQam8qgSxAjxXyC+FyRLT8hbvMUFqo=;
-	b=d7WR6EGvS6/A6aeRU9aSfYKDkCw99hNqXCoQ5fLiCnyWbe5qijKjpPQd6FSIZdIKhOJE
-	 J7Zqq/W/58F22VlCnfPrhutSiwBKDvU8ESBvOYR/Gv1GyWqrVVS84xLNMPHAwJ82nH4uJ
-	 9WkQcWteOBnhKZFmDFzv0Gr0v5hvb7gYtkAly9lfDCKL7t5MUHBdyB+TUDC9g0vfG7q5V
-	 zvoiE9LN14LlFoSHnRpmkV23g+LmbwFRmxEXVJyC4od5nwpegpsnolns3A4Y5qASwC+1S
-	 URtO9NAZor/X90//PJBS7AP/xrQGt9uDXp1Dsn+JbP+udIcONQPq4YCJvQVh/G+tsow==
+	bh=zAfQtk8eiwbEkfy0Jgpn2BwM3DzjkAZf+kJnqwT874Y=;
+	b=g4U2AOSz+7r38y5RO1Bx8xX6nwz6WxEGTnsYgNd8+i6ks6pQBXrkuQKO4MJzNhl/j46K
+	 BvMfz87UhAIYixiyLjEnsCWqDjstW62W971mq7Nr0iNBR/AihrRlkBaSsuQFxj/INgJK1
+	 wkIC5AaHKnWlbZv8Gim14b0ngpQ1g9LlrcEfljOBHLA3H1oV/Ky3SzE7n6fqM8XjzWRK4
+	 OqUUsivQC2PRgKHr5Lml6uADfoIx70XrIYmQyd86pot7Eld2id/Js+RZSP643ab/RuLhq
+	 g4xhsv75JVuIWG9gB17G+nj/+64ljxsitdi69hjAksD7jR1wqXu7XFhmNUWm9ZRi5RQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UZ64VZfE;
-	arc=none smtp.remote-ip=209.85.210.172
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8VmrgBW;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A06606A33B
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 08:13:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48A06606A33B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C162606A337
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 08:15:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C162606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UZ64VZfE
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8b6a88e4341so312145b3a.1
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 00:13:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H8VmrgBW
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b3c9820789so388784a91.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 00:15:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794989629; x=1795594429; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794989739; x=1795594539; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t4Ktyk770oXAGuQam8qgSxAjxXyC+FyRLT8hbvMUFqo=;
-        b=UZ64VZfE+NeY4LXU9HopmRr03keCrd0KcgartdAAcHuJQx8Vdfbu1Fs1hxch/3s8s8
-         50Fqz+Tj5bFbwNdxHyTmmrKK92tRlOdRnsEr79vL5DoVPqmxX1tTVfg3Hcrc5uDe/h6H
-         5MYPfNbVG6j9KaEV4ZiDQKWq03E2vjhbVOZFapDUDlGTSzw0nB80qQLkaIyCv544LmS2
-         e+0C38KvbbK1VQ4JYtnSTG7cYVzz4aEWjKdOWwAanm/6cEyKzSxlLmUHfLpfmkxJSJ01
-         w8Uv9vOPRqvlYYeHmheDMj12X/vLZt1ubihxaBOmWeoh4HJqUWo0DPtJWh0tmO9u5LO/
-         gkAA==
+        bh=zAfQtk8eiwbEkfy0Jgpn2BwM3DzjkAZf+kJnqwT874Y=;
+        b=H8VmrgBWmgBvMS9IBmfv5dsazzl+c4cOa3XQZzzh9ww7IlaAiU+UqVjgpDQo4gBYK6
+         WK7Y3K2HFH8r3Sp6rrJ4SzLVxxHjW77Yx/Utj2s6AcT/vnBD5S0pvLrqd+MCyJbYWlv4
+         ohPz3/254Iz8NM2myNZ0M0Gxc2Xijw+SBzjBUllllus9uWdDRFThUZt0G9stz0LxMOWY
+         4Nc/Zq4yX7qPquhl4vRocq0ajL+aiQsPMg3pYo1szdxwjFMuDyE016ENd8RIfzYBR+VH
+         shKqqgOsNuMefUHq8P81hE6Z1PedNVEiSip/9WAovYcBW12xvf3ngeuUSWe8fIfjFs8w
+         du7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794989629; x=1795594429;
+        d=1e100.net; s=20260707; t=1794989739; x=1795594539;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=t4Ktyk770oXAGuQam8qgSxAjxXyC+FyRLT8hbvMUFqo=;
-        b=1yIYRO9Eh0rGZT5q0Al51vTtIR5hk2Qd+e8bD0rgrHUoUGxpVTK05bTVUwz84n0lyl
-         86+cRfL9XDFsAB5CLbpCrfFDU/IDkcP81qsTck1JxDerD8dnvHs6qYyOB39BQ/GbLDT2
-         o8i9QVgWLgqiArc9uyEl7KdNpNaB6r+Ve4lQOfKgwCDO3KIwQPGKNGyYN4AeyzrP/65b
-         hP4mI5hwHRTZTh9RattGOlhNTb5aKfp1FQPHK9W8xtR6qXcu+saIc5C2LA++hWf9Zcnr
-         kELiM08eD1AorkyMQHK/Q/MFmBIU1bY4/rc0eNsnIV19nMspYrpbTKMmBoETfuwwuo6N
-         HIcQ==
-X-Gm-Message-State: APuU4Z+5H37KJedlRW4EKtprf0uRJ/TbGnkfH5fD93a740SmimDIF+k4
-	1Ia0eS0b7TBi/sjmAW5vNFwo7+6+guwKiuw7tREEGofZmjJ3RttSncBVBmCj6A1LlzsEjQ==
-X-Gm-Gg: AYBFou0AxtiZG8biK2+mcUOvnvaiHqqe0T5+A9h675qtA7XrEBUL1s6h2sICZ9vGAZz
-	aRaZJK5cb5ryTjaG104vvithtHSW0d4hi0n+YnNawsboSt7WanOwMlkqmkCt2r5E5mdOu2s5Cjs
-	rf7MxlWLR9yLt3HKLhOCRrm7adqBlVVyTE5ujzxbiOWnEuJD8XhmaSIrUZsvH6wVKmTPmNYfBYa
-	jbpK/2osWtGve1bzfsKPH8DSNTxn6dpuL6idiJSwA6BsxtvaoIeK9y6/j7QXXnX0O+311/ehRvV
-	N1oc8+C9IQtifDLY5YbJT3ybOUxY4XLefgU5c55Fu6fDxvCLTHVCDcKSWM19zrYGf06nXLZrsnV
-	ZV3X1jRA/HF4bsw++8JIkusiazNes0vZHuoCVVsI/nY522WaLyOjr4EDzEE1hwbt+iHouxJK7bn
-	IA3rreGa7OVCZ6Hb39lbqq6eYnv6MGXDK2MFS5MmvhcTgVnpeXLhLGGS48hFQ7cibYnFRjA0NLN
-	gOwXeE7B93RV8iBHGegStbMRBj4fAGPw2vOlj4O6A5qUZQZAy83d2X7H3XndEbjCAeBYpfoLVIi
-	rsUqx/mGU9GZ3zuhjG8MeEUHWGiLY0fdWIA6QxZDcgyqv80kvRXoSiCp3c4k2d2FK0tEM00yEyQ
-	rr+zVLzptspVV2p2Gf0HQMpVCSGPW3vLh9k8htucOhA3wXZ6Cr/ovpOiHdytZB0Yqz+VAwBzl1f
-	04xHgHj/Y3qMpqTunPvTM=
-X-Received: by 2002:a05:6a00:a28:b0:8b5:9654:d340 with SMTP id d2e1a72fcca58-8c5d42eff9amr1473706b3a.33.1794989629507;
-        Wed, 18 Nov 2026 00:13:49 -0800 (PST)
-Received: from LAPTOP-3B99V33A ([218.194.44.207])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c5cac8fe3csm763993b3a.21.2026.11.18.00.13.47
+        bh=zAfQtk8eiwbEkfy0Jgpn2BwM3DzjkAZf+kJnqwT874Y=;
+        b=UzzN/63Vj8unnTJbVgng8sWoVkz5Ft69Ku0yGBcxpulVYz24zlPfwY0GFhANHr2sQF
+         DNdJGNiluavEUnxfCVzDw/2IyQvHhlLJG7ua+k8KyUaWDmRJN+u58vU3f7hgRbDcugZ9
+         nR9uBxFGoqFVF54RPxDtwhT70yvEehwiwW8It+M7KP3WcfjLQNbvwMU+uOWOVoGmyq9x
+         6ERnxg8WYmGeWBmMB5aTZtIx21qN8DsTY6w9VN3StzXES5E5+zT9x+QEFjDsgSOAeYFk
+         fYSxtziX9PMckaEtSt7fKlfk1cHjSx7f16HxSEMZevOUzvqJMnDDoS+8G000amPVyMRm
+         Ct7w==
+X-Gm-Message-State: APuU4Z+stWkcw8sFVVUAUIJTv4eGTMPLdNG3X9AMlDqyEa1rMIIIb2ex
+	Puy46v1PYh//edZVkLXgGOCtFBB9VofMXyTyb/Haijy8L88O2GDrD1ZXM0Mdzw==
+X-Gm-Gg: AZFdTZeZSYyRU9qH2488WBXSZ78Pzn6HZ3jXG/mB/Tpj3yc5c9VlyJj9Fr/l2f81VzW
+	S8ffxF+WgoNoQHwRH5EPgxridI6CN8CEN73SlIEkqLYLPvffxmODolWEra1mXfNC2SJLGbA6XsE
+	ID9RHSsAJIw3/a6yzUSr+2HiDf3FdiJp28oAmMrb6JP2Lf41v3JFOPix6ObyksuXil5eb781g9O
+	GhoU9bDfSYLR3tv98Q2EJSXIvise9wOjxuAgk1jEvArmL6mFQAWfbN5mIO/ViKMLCqj2/eTKEG3
+	gZqKNOp+0PMaXVZ24oq5gP+OXpVcRu+IVyvu0u3dLRExlf+9rNqt+JdhSRCLJlSBGZairYQGfUc
+	oJdVldmsv3o8JnfCpAjra9HzML7NOhUy1VtdkjlPGoINGhSL7HnMZR/ZTAyju/1hhaQ32tytxQN
+	DyomvMqogebn5UsXO2RAoAz/o5x2HAtJdFWChPjEQQBESvRvfh6T3OXMVN8W5GdyD3u/Qtpi976
+	UBxYGvE9xcOhZYXvgmdZVp5s8z65IiZWUyYBwwHrXZRuFEsWuKx+EaYxkcquiashOnKk7QNVtqn
+	dAEyzi3PeDFdKNqaU3fDFdoFOsVZrtTkYdAgRB8OoEd9k2aXooMzt0oiGaFmR7Yr5q37NogfnBL
+	znqTDz5cetQD17U913ITCnRieGyhkevYcoXIT+aFuKO7GXZXtcPNsvP7qhkxvfMaL1RI=
+X-Received: by 2002:a17:90b:1644:b0:3a7:e11c:4e6e with SMTP id 98e67ed59e1d1-3b3d07cafe2mr2003848a91.59.1794989738657;
+        Wed, 18 Nov 2026 00:15:38 -0800 (PST)
+Received: from LAPTOP-3B99V33A ([240c:c983:10:62b2:fcc9:5a45:8cc1:489d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac2550e1sm8033364a91.3.2026.11.18.00.15.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 00:13:48 -0800 (PST)
+        Wed, 18 Nov 2026 00:15:38 -0800 (PST)
 From: Bin Luo <luob87709@gmail.com>
 To: oe-linux-nfc@lists.linux.dev
 Cc: johan@kernel.org,
 	david+nfc@ixit.cz,
 	netdev@vger.kernel.org,
 	Bin Luo <luob87709@gmail.com>
-Subject: [PATCH] net/nfc: fix skb ownership on data exchange errors
-Date: Wed, 18 Nov 2026 16:13:41 +0800
-Message-ID: <20261118081341.1514-1-luob87709@gmail.com>
+Subject: [PATCH v2] net/nfc: fix skb ownership on data exchange errors
+Date: Wed, 18 Nov 2026 16:15:30 +0800
+Message-ID: <20261118081530.32-1-luob87709@gmail.com>
 X-Mailer: git-send-email 2.51.0.windows.1
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -110,6 +109,18 @@ DEP response pointer after the callback, and release the skb when the
 NCI loopback connection lookup fails.
 
 Signed-off-by: Bin Luo <luob87709@gmail.com>
+
+---
+Built on Linux v7.4-rc1 commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+with NFC_VIRTUAL_NCI, KASAN, and kmemleak enabled. A QEMU TCG guest ran
+32 NCI 1.0 MIFARE exchanges with a nonzero data status. The root harness
+provisioned the virtual controller and polling session; each rawsock
+exchange ran with effective UID 65534. The baseline reported 48 kmemleak
+suspects; the fixed run reported no unreferenced objects and no KASAN
+report.
+
+The runtime test covers NCI-to-rawsock only. It did not trigger the LLCP,
+Digital DEP, or NCI loopback connection-lookup failure paths.
 ---
  include/net/nfc/nfc.h | 2 ++
  net/nfc/digital_dep.c | 1 +
@@ -185,3 +196,6 @@ index f7d7a599f..3bf65b1fb 100644
  
  	err = rawsock_add_header(skb);
  	if (err)
+-- 
+2.51.0.windows.1
+
