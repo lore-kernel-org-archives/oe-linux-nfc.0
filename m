@@ -1,99 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794990240;
-	b=PgSomdZpzjDXYPz8jo5T7kdKk5sex8DdRoYbT/raXJLyb6ErHenWUtP0CNfICEbm7nRI
-	 gKdR9jeZSNA5Oqn6PmhwAHJ7d/OaVsQLNYg+mHls1iIQsyoTsOsQxdDxUUVhFtQ8VeYk5
-	 IpR6eJUk1KFxPobuEjY1J9aTiv4ViL2eMuOtEmAy5/jNBLrZtKV0IrNfxNu85LyzZh9hB
-	 1rvdqd+uTSK/JwSriw78080dKaeA032JASGuroPjWl8oeIj5bmo1YTw02Gc3Q+AVclevQ
-	 /vrMUqelyGmpoX3NxabIxaugmjNy9ZJXqxPu43BW4hXF2PG2CiYoh9tCGG09IqhrHQg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794990240;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794991104;
+	b=wsFJLjURkObs9E1RUEJKZaMkUBBs7G1xbjrAeInbM2qUUQd0mdyfT3Tl7UVyzhc9Z57g
+	 Yd51AOIxrBSHydHERKlq1C4YCd2Ru5i7yGq8jqrAbpXDATy7AgeNf2hSliUqxwzHHl/3L
+	 Ar/fTEKHLBRhXRCqExzOfLqTNk5GNhe+d9jiqfLBxMJbyz421a0oL/l78Pagq5i/jYYqi
+	 Z1aHjak6L8WUzqvFO8tEpuIgooblGefiAbgUG7PhL9SyABuCSId2DxtpDhPhtUTMjNFvP
+	 1S6OSZJpFxjgkIuFJCXYYYK7VctduvpUDoWWJdGqaKsL0z0wi354kdnykDcXPFsml2A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794991104;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=/6/kh5W30HhpdBPfGGAYex3HyQBO9GYAQyqbkb72JOY=;
-	b=GwWu9cx0sliziqLfOxu8sRinQqlbatvViMSlI5UQW8elAsBOWy1FmiNPv40BhOYyk/YI
-	 vFsJlJvrqez6LlpRPb4vRhl1M5W7NqhzTjRA409ZkWrVOAvkPqa2wp/0UkYgH8QBdwriN
-	 xnjnSMBI3c6jrTlLT+xyJux7cLBobSbOy9GSk/NUGNOY108rwcWukxe4gDEWBRRzjUqrD
-	 5ZTlQuruB0fhtehzF9avqVCMJQlih6cQOVU7DT6fxAcHhACli+NawlrlFAXIzcSKZATKl
-	 S+Khgc375JV4upa9OUbEfe/BwkLKn08EfEu4wq1PVLacKtXDaQvLx0aFj17tZavADHw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=vMKeyOZcK3q18Yw2MNqKYKjsEME0sggs4rjvagocBak=;
+	b=ufY3VrpRuqEcEwMuzVViBk26088rkMd9e+OC5pIhskuV0US12Q//5XiQLTbr8o9arIfz
+	 uslv7G1E7NOVOdNYiSp8PGq+RlgTSxqI4wNmeCYJYOiz7x/H2DwIuFiRONrQ5dLL9wxtb
+	 V5/ElfHNnhns62XK3SD7MGShsPOYvfvEGwOJVJpPYYnsLUzgUeyF4AxRTs3Grm11357TR
+	 qU65ZkGFK38jyjhmzQYNoxWHoaq1uEv8PijuQk+JnQqVXDFMqsUTOf2gZRGHp5sVKP5n4
+	 1AjFQ73bcKnAtshMrMEspbWbKW1yzvJfyducBATdosYEI5Agxh75S4DUfnbJesxkHFA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m1NsAkwT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.180
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DFxHh6yL;
+	arc=none smtp.remote-ip=74.125.231.133
+Received: from mail-oo2-f5.google.com (mail-oo2-f5.google.com [74.125.231.133])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20675606A331
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 08:23:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20675606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91F3606A333
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 08:38:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D91F3606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m1NsAkwT
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3ae5ab4fcdcso6768261fa.3
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 00:23:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794990238; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nSRzQxqpYAhq75vGYJK6fPzi0PGmvX6UE7H9VYdmrjKAGqpeSVVkjGg3c6kme4zCmw
-         NrUhtG3eTswTUlVOSQiPltvKkwXsLx34mUT4o6GN/IUJqRjFoBLenSEhddDmTXjO7vLf
-         ZB6DM5YVRhXqzSixekv6eki13tTuE3ucmY4MOubTQe7l30TJ/DLiQBl+7KyNHnhGXP+l
-         hQZaSQyoJ2zOGvq61qi7WUw/a5B2X8AgZ90RyXpjASUWObVP0xYssIGEFOeE80s37nAM
-         rpM4rPah6U4HSOtPpq2zzg5oTL/1G0kjWZkf8WqXg6IYSfGMYuZoiGIFJtv5q/YzP0IP
-         o+tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/6/kh5W30HhpdBPfGGAYex3HyQBO9GYAQyqbkb72JOY=;
-        fh=GcvTHtL77Oklb7ReZs1yGkgb34v09UkaOeSU6c2GvzA=;
-        b=lyaiFSTbKlPwNSl5+MuNNJdEsNRrSLrOipfroesQmAwVpsoXEyJZlw3eoOv4TNncP3
-         bNYWlfdR84q7/fhls3eosB960URb2Cv9yOiHHPqcLQnhuW/eTFjNRBCmOIIBGbGkaT+g
-         6q29eD5pQpokY9tkpZnTdMEXgaxKmHhGxQG+n3jFqyS6fVOfenLRJkVXRGyvuC4nAQ8p
-         yX4YkR3MJvF3bLgEYhEJESSjpFLmRs1OvoWJkTOonr1qH0j77Ni7uvuKvwbugR7mX/TG
-         /9zQDHheLdG7ytuh/C3+7CUyzWh6Yr2kleuH60berUD+L1v/NGSBUXKpWws0I6egqsXq
-         Xgfw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DFxHh6yL
+Received: by mail-oo2-f5.google.com with SMTP id 46e09a7af769-862a05abb95so134666a34.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 18 Nov 2026 00:38:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794990238; x=1795595038; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/6/kh5W30HhpdBPfGGAYex3HyQBO9GYAQyqbkb72JOY=;
-        b=m1NsAkwTYjxJKXnVAiLEIus/LgQzQ1lda2W/bqN6CVNd8n1YGuCVvsUrJQGv1M1ovv
-         ygDhoCgszoIfQaYxmD6m/ovk717WJ5+JHl9H+tBnIR3+uzr6QMebx4mrp4+V65A/HAwf
-         qKMa+J8pPabQEv+vS4nLW0Fm6WH4XfHxbfWGNO4iv+MM4cwtKGqN2By7f44PpGzR8pNL
-         vIvqIwjDAKYDPNqmah9Yexu3p2G7UFGVswuvlsQTn7R2VVXNfgLcRMg5GpciQIBzI4pO
-         K3lN7GMQmFC8Zz61d8q3cBwoRYCe3Tb1eba4FL1SMiFrdc4/13KC0yyRatbk20J2KajM
-         37rw==
+        d=gmail.com; s=20260707; t=1794991103; x=1795595903; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vMKeyOZcK3q18Yw2MNqKYKjsEME0sggs4rjvagocBak=;
+        b=DFxHh6yLm0qKurzIEnTgAeSUfFSNyiY+3/OCobZJjJR60eveZjeVgv/AuNZyW3rlPx
+         QPnKnrcbiYHXr8iZIzNIGyTihq2TYrQ3NAh5gS+sDoQk0XcpPzGWFSSq2aaKUnPY3djp
+         LjwTradxIEyPA8veIuo0M0EJzdExCJ5sa+TLEZ5WuyOgASZ2I8qfM6orx83A1Nn+hwwg
+         GwA3twZaXMP7NbxY1RPTRcHLKneERptVah7ga+t1tzzMH9+99oxHJwWVPCMNWOpEo8wd
+         yXQj//yVRQiJZrV0ajqEDh///s1pNWLuatkXFrpK0gOSzp6aNRu84DK5rhZSWRcQGcij
+         FSxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794990238; x=1795595038;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/6/kh5W30HhpdBPfGGAYex3HyQBO9GYAQyqbkb72JOY=;
-        b=QpDWB8N6WY13z+AY29lNqy+zefcD8UXVAdaqCvmxSHCVSHIpLI7zOCptJlB+jsEfH1
-         xDzhleb1+CZuTbhZ7z3sZ8dBVHqcgPzM9a5Ey4DbDucfRhiE2hxuTTNiu+Vv/FLn4NnF
-         wh2HVhwQQrwijHebdqCmxJII6UfEhmftoiGuHIzjmznrzi11e2FoolKtd/t+atXQIOpi
-         5Utoe+jMR2EYiEDNQdTTQjkwa/scDUWon3ITmr5Ij8muf3LGuAekIWOAfmLIpZep0QQy
-         5Sz+n5aRPVwO1Oh/L3OmBuHVs0jsXuAOQBO6u5B5VvWzBcca24iVIU0dZ5tAl+6Hj5Vw
-         NkiA==
-X-Gm-Message-State: APuU4Z8kltjvKhWbL7Q6PTupHPEH9DLDIXa+nUg1hIoEhq9Z9n+prAtM
-	wJFRc05Dzn3CxA9q1eWJk3/ulYLN0sp/+iGqj+vpX8JRKAc+d3Jd2+g5dpS8BPPvMibWrfBncKP
-	lwXybkXjlVFXa8rAQJbRI6dDVeJ/nFfk=
-X-Gm-Gg: AYBFou0bxZl7k8Cg3Sw1ljQI4WhVfisiozQ+4XTEYPNwwWbImNKEHVSkp+jcWl8tGDm
-	eDdacr07Xa/fg6M1KEuyVYr9uelvslJvqjtz8zUAVwmVPRFab9+PNtlCDC1FCL+7r+ZiKnqCoL4
-	moJqAaNpb/YddYppzYHMAZUBxyXSxIBwoGF/d1YXknXCVmVnU3nMo238KGxx7/6dSga6vnW14VU
-	w7wus9qiq2iOeCP4tJgjFn7Yz9natEa+jnLjRQ9gQjtTnbNvrpKM363hTtjL29Wta+34TgvDn21
-	OU6e/m/jRAO9k/Zp9SH6uYqSpT7VE0rhi788Rbb7iAIwcWnUgUfrInpatFaFrZd4kxqxFCQFFg3
-	35GOmQT+hvdNI3qPulIP2f2QKwN5rcZMieXvTB3ATv6RTrw0Jw4EbtgYIMo6725sw1wLRlB4QOK
-	cncdnh0fGf7lFc2oereashNvM1N01MiuKdqSdRPIC3/qd0JpLOOw1v+yTx3hDuqA==
-X-Received: by 2002:a05:651c:a165:b0:3ac:d178:4fab with SMTP id
- 38308e7fff4ca-3ae670bf950mr5692991fa.15.1794990237903; Wed, 18 Nov 2026
- 00:23:57 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794991103; x=1795595903;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vMKeyOZcK3q18Yw2MNqKYKjsEME0sggs4rjvagocBak=;
+        b=Gf38BmeAds7FxGQfcSUPeiV6v5w1gVjz8wbr5FPlhfibmyeV2UDW50pa0iSbvLfQ0s
+         /caJhjp4NxU5howH3LqVe2JWi+iOVJtLzSEn94aT/eX+KXiqgXdSHrDR/dBZttsHQvla
+         Z1xJnlZ0U/um2aMDbnTQMrMLTSCb1F163S/bkjv3LS7IV4KNBEyEGCad+M0TTgAwUcra
+         HFi4VNDr/lSe7f/781pPAOMHEx/QB+fIsnRSlzDqAAZsVHFLYw1f26uhXiTatR4ytMPV
+         lXLP2kPr0gFCSSdstp93bPPeb7I/2oCjle8nsRW+dttj5UYwzD/aCjTPGnf7zBNfrSfT
+         CkQQ==
+X-Gm-Message-State: APuU4Z8yjG6mKL/4zoEs6eZFWK7dmu6lagy+7lKuG7pP71/yFRcQOaUU
+	0xv8EJca9oKXMZOTkwswvdXcYmN14L9IuOl6kiWG1Ihy6c4+A3tncWPv
+X-Gm-Gg: AYBFou1SwKciWF3kWY3Bzdvb1paYt/r9YLDlZCH7rpaCnhz97q378AQVPr1rz7qlwXo
+	1K5a4PWvS3140WBd0casbKkINmofim23B1grqukV19Opd2Jh0ssloaYKjixUxGzFYlp2HGH7VxH
+	gOJWvxeeurN9ZoZrzOkz3Yfj4Tc9stCxXrY+KwnJaHHwz7Bmk9j1sPoNi83C/8lkFT4malN8AQF
+	BtdJ+d4E8hB2eCyTt1TzDKp7E/Rg2dzVaKZMaol12+Tn9Ib/1r/tbc/2GX8rSjWJWNIG+4D/YHE
+	rEKagPR2CePmQDYdFtemUrBJG0zaJegxFWyBiTsUOiirRRJqtmvUXK4g7UIOSwogKs1K8BwRXot
+	7+SVhELkbNtMO1XTHZoieV+3LTOY0Y63QVGAbarXF7Tu0lEUJq5nTMAE0B+fBva448uBnjgHTCK
+	O87wuIll03j8QCORS9ydKgePDirj7w7IY3HqjSMKhHQv2YI7/9AH9BkkYihhZw7ySOqAV1x5RF6
+	B6CKxThhClKd78nFL2tEBbHnX3gj+aOWHV8sDhqZJUT9P/rZGgKEZ6qs5rMl1mnjR2jRAXLp/Zj
+	PlxxVuQI9ebmSjTHTYBc0ibKyy1CfakskCLYexy4E+b7AIE9LkHewPkXzLRRlq6I0YFMpKLy9JY
+	IUtBidXeDGZEj
+X-Received: by 2002:a05:6820:a70a:20b0:713:da3b:9530 with SMTP id 006d021491bc7-71b187889e8mr789320eaf.44.1794991102733;
+        Wed, 18 Nov 2026 00:38:22 -0800 (PST)
+Received: from localhost.localdomain ([14.22.11.165])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71b1945800asm1516812eaf.5.2026.11.18.00.38.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 00:38:21 -0800 (PST)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: David Heidelberg <david@ixit.cz>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Henry Martin <bsdhenrymartin@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] nfc: llcp: walk the accept queue under the socket lock
+Date: Wed, 18 Nov 2026 16:38:11 +0800
+Message-ID: <20261118083811.1721010-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -103,25 +101,58 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118081530.32-1-luob87709@gmail.com> <179498993525.3291.5601341761915431183@kernel.org>
-In-Reply-To: <179498993525.3291.5601341761915431183@kernel.org>
-From: bin luo <luob87709@gmail.com>
-Date: Wed, 18 Nov 2026 16:23:45 +0800
-X-Gm-Features: AclHuK8tzrXAnBEEnV7izSR1ok85RQGJJb1sS75npmL1o0nlxOXbqqrnO8hfmRg
-Message-ID: <CALa7h7Ges-aY7SrJcODTESgq8q04Ak5a_3ksT1FTjQe8RYzwWg@mail.gmail.com>
-Subject: Re: [PATCH v2] net/nfc: fix skb ownership on data exchange errors
-To: netdev-bot+sinfo@kernel.org
-Cc: oe-linux-nfc@lists.linux.dev, johan@kernel.org, david+nfc@ixit.cz, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+llcp_accept_poll() walks parent->accept_queue and reads each child's
+sk_state without holding the socket lock.  nfc_llcp_accept_dequeue()
+unlinks closed children and drops their creation reference under that
+lock, and the last sock_put() frees the child.
 
-The issue was first identified through manual code inspection during
-our NFC callback-ownership audit. I traced the NCI data-exchange
-completion path into rawsock and found that a non-NULL skb could
-bypass cleanup on the error path. I then reproduced the behavior with
-a QEMU NFC_VIRTUAL_NCI test.
+A poll() racing with accept() therefore reads a freed child:
 
-Best regards,
-Bin Luo
+  BUG: KASAN: slab-use-after-free in llcp_sock_poll+0x440/0x4e0
+  Read of size 1 at addr ffff888112387812 by task poc.bin/528
+  Allocated by task 198:
+   nfc_llcp_sock_alloc
+   nfc_llcp_rx_skb
+  Freed by task 529:
+   __sk_destruct
+   nfc_llcp_accept_dequeue
+
+Take the listener lock around the accept queue walk.
+
+This issue was discovered by Tencent CodeBuddy Security.
+
+Fixes: d646960f7986 ("NFC: Initial LLCP support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+ net/nfc/llcp_sock.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+index 1e5ee4bcde68..3503f1a7a7cc 100644
+--- a/net/nfc/llcp_sock.c
++++ b/net/nfc/llcp_sock.c
+@@ -584,8 +584,16 @@ static __poll_t llcp_sock_poll(struct file *file, struct socket *sock,
+ 
+ 	sock_poll_wait(file, sock, wait);
+ 
+-	if (sk->sk_state == LLCP_LISTEN)
+-		return llcp_accept_poll(sk);
++	if (sk->sk_state == LLCP_LISTEN) {
++		/* nfc_llcp_accept_dequeue() unlinks and frees closed children
++		 * under the listener lock, so the queue can only be walked
++		 * with that lock held.
++		 */
++		lock_sock(sk);
++		mask = llcp_accept_poll(sk);
++		release_sock(sk);
++		return mask;
++	}
+ 
+ 	if (sk->sk_err || !skb_queue_empty_lockless(&sk->sk_error_queue))
+ 		mask |= EPOLLERR |
+-- 
+2.43.7
+
