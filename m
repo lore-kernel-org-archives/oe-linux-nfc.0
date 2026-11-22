@@ -1,79 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795324386;
-	b=qUQChPpexv7+Vo0pjwOcKfT+1Bh0gL0EG3PsuwL7ElxPI+vIfa3y6aMCOS6exAREy2sF
-	 B5vlRD5D4tu53c6Is+4qy2hLrq8VIq1aZ5eTHJxLO8v8DkoI1a9+KSwgEHHwqcRJCHZmt
-	 V0YNVtDXQEUBjH7uL1QfSHIe2UrW2fKs0P83tDHlprNkTp6YLGe928KNUhzyOzM6IUs2+
-	 gMbZIClOfQ2FqdaMufPUXjdtXhzEFjTBGJrVrxmn8umgoDrhvBgduJlwAkyFPriEyqdKl
-	 bDH0ytRCL7BsgYS7VwtEDEvmq6vXYal8Ls/lpvTyEsU90ujVOYaTWvGDKfvG/aYIOHw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795324386;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=BNmjm7j+QCSdIyjhvl8UOXsiskGAvLed6P75UbxH5/k=;
-	b=4rg9k0syWa2lFsYa9Ord0+tduLAzRBbZAAlfbkN5sbwgY18up/HC2J/0MGQw3WEyeQuw
-	 5phgBXedQv1LCia7nsVl1g90Oj2bmY9BTfpYtoTzXXcgwQz3dUOpz9etx3lHBReAUZFPn
-	 o/P9uEEjr5VnzHJ2YRhQC7FNtUw9wArwOR0Ecd6l1qwzqE09RYya9oNePXhhHxFCXilyc
-	 /3aHL7AVSU8DfhqFH5O1h9FYJdUd+RGj9o/gb9Wx5v4/H9wrrIIM5nQdTeG5tGsmRFRhE
-	 4xN015SjXvZICHVnEFdDgz6TKdn2PNveLEaY1aPKX4McUhTjPYbKTj4KfOv0ToF/8LA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKJQ15Ty;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795336242;
+	b=mW4N73JjqVODJ+6xJj2iWGEnSRiHh/Ycns7a703/QM2jFursWWtxLe1OKzP0ctUrV2q1
+	 7P3/VGRdU4fDLr/vfqw4/ngAtvRqD7dY2fC2BYCtMs8j4HNRuAON4EknfdQnHNJ7pKHQi
+	 gkEcaOCjzQs3aBUuh6gpTaE/5PaWN4S2CI1C5lCkv8gVjk38UoxDfZPyak7/OufLGTlyK
+	 4s9AI2xam+OXKJwtH34k3xDsBGVlIfXz/++ABp/VRvThPVjfHlAcUVAhPOMyqn39zJ3on
+	 wmXMnO5864tFsIXApSLQzonQNUrp0fb/yCez+BdFF2k+1/aQfzfS3P2rkxJiEUORFng==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795336242;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=QghZHONbcC8cXlUHYrkvEWHCcbkwipOQI37JigyXCY4=;
+	b=cl8dnhNuW8Qr+JYsinmteI3NRwhcbUUssimmQK4y8GtfoQZ5TCk5p0wPiJKjqQt7ad9T
+	 h/Q8Jet7IfeLVoAiuGpImahGVDPIxeIdHjlFjA97IpFj34YKSTswBkdwypUOjANXbt9xm
+	 fNJicX8NAnBEulk6D+sFdMAbX5SdVs6VRzAs5JsEKG9jtyL4ljiFc2c/1Nu12biRffeTm
+	 7jUtHyPr7AbN3YQX9NrqwWXtk/tCzBygUWxouuEhuwsMzKS/VXK6uErddY0tLBMaNQUPD
+	 d/etFWQDWjrYJj7KDOyqCBXgKsQ3R5SKWI9ABTqkRLUhXHCA3Mo48crTW+fv/SfNxGQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLq5cGQc;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06020606A338;
-	Sun, 22 Nov 2026 05:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8465C606A330;
+	Sun, 22 Nov 2026 08:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKJQ15Ty
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795324385;
-	b=zJE4tYKjqUTWpOor7bnu8NKnecxbGw9vY7bd8KegvVT6/Ubz1I1SRLhIFlokSRKnLxAr
-	 8NubQAkgXaEQNM4zS6BVbDiRpVrZ6ywT8CmtwY3pOZsn935vOmBIdiof275pJ67QEXbXV
-	 zHwzAhlkJblWjthaylFQnUbNHEVgNayAhVE2n7HkLdR1VGTmyCU6nWaJqzEoHs6SVANgG
-	 CHGvVmkrGI/oCbrswdLqLNW6UneLbNKMG1aA+YUq4q+4n1KfTyQ4yA0u+hHbaPyFUvuLC
-	 08NkvEXsu9x+DU/6Fkvxo/FTG0XHGDeOSLDhoBI06YiyXmrq08c39v8Ee3LnyD06GUQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795324385;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=BNmjm7j+QCSdIyjhvl8UOXsiskGAvLed6P75UbxH5/k=;
-	b=17cZuFGP0/hcjIRSY3QYjE+TWYuB9iDKkhHE8NnGzTsVR7iIFHcFdM0G8T0j1zHNEwvR
-	 UpCt3auBzefAsAnj6bDANf5EucdjM1Vo2bOsMhWfsWAq72aPGCUST8zQY0KpdiamHlUPn
-	 /DLTqaKbU35DFsoEeC2o2ueRLSCagteUmV1+GpSXgbNNWyrmZvDlwAd5C4uxGDboEiUXU
-	 d1q31HKl9ALpIgkenuuXr52HpQruIT6nZz1sskw0HhgcE4PL0EtH4V/9Eh9J3pYhOpInA
-	 Zczh5uiYMtBG6CX43z7GQQ5FrAiGEFGMFaq9MXvkVqgkZIMQZQ/Aook9J8MCc+yzGlA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 99AED1F000C0;
-	Sun, 22 Nov 2026 05:13:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLq5cGQc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F8A1F000C4;
+	Sun, 22 Nov 2026 08:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795324385;
-	bh=BNmjm7j+QCSdIyjhvl8UOXsiskGAvLed6P75UbxH5/k=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=mKJQ15Ty33/DZUmYlZ23JYAEWpYcjfcrU+mp4zPDV0OMJZYVH7KjydwHkq2/I/qUd
-	 vRejzisGHvrgJ5uv4yfplzqEyyWQ6ydcYACnWMRmsfJCUGNRP/hX3BEwb3aY0Kvte7
-	 aXqUBsEFIJLLb3SoM3cGRbUHoBNjm/7UqCPQ9nKaUfJSUeX9vkgUHPTWam3j/IVZDi
-	 AxUZbpi9mNh+5FWqDF+pwBH4MGOyhor81yusWhwHB8Ox38E+QtVdMcjGdXj4iQBNnV
-	 eSZ3tRnE+DxltY0g91Vq7JcikOtVM1tYIVZk9PCzEbPcYC8J5LIlyvKa/uW9xBX/RB
-	 zflmGk5KMT1/w==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 2AAD94BEEE;
-	Sun, 22 Nov 2026 05:13:04 +0000 (UTC)
-From: EMCP333 via B4 Relay <devnull+emcp.enser.io@kernel.org>
-Date: Sun, 22 Nov 2026 05:13:02 +0000
-Subject: [PATCH] nfc: nxp-nci: i2c: Do not keep a fault taken in reset
- across power-up
+	s=k20260515; t=1795336242;
+	bh=QghZHONbcC8cXlUHYrkvEWHCcbkwipOQI37JigyXCY4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=iLq5cGQc/vWiTcdo4ee7/AsWiieeWDKdVAvRIW8QInXxgsM2G/SkfO6vWhLfO2szX
+	 QQM/DkM/bCFN4ppMdjxSP+47NFIt/W3A3rqKFDbuIvxIUD/lfQ74aKPMXyXC/KlSuL
+	 HkIfJ3ExOHv4nY/0gnCNGbaB3Q27HqLL4k7BsuCojxg1IJdYnbh1liInuqU0mUOI8h
+	 We3n/c50sXSD1QvXjVz1Ee59Ja5u6TCxbgGIUXQAIyAISNtPdo9eq60AKtErYluED9
+	 I7T5sT0MPymg8sGEbO+sacpjo7ZtX64M8c5GVeMNM2zT1sODezzo5VIlZQ2rQx79MJ
+	 yeOxKhw1c5OEQ==
+Subject: Re: [PATCH] net/nfc: fix skb ownership on data exchange errors
+From: netdev-bot+sashiko@kernel.org
+To: luob87709@gmail.com
+Cc: oe-linux-nfc@lists.linux.dev, johan@kernel.org, david+nfc@ixit.cz,
+ netdev@vger.kernel.org, kuba@kernel.org
+Date: Sun, 22 Nov 2026 08:30:41 +0000
+Message-ID: <179533624147.3135.15529520698659254387@kernel.org>
+In-Reply-To: <20261118081341.1514-1-luob87709@gmail.com>
+References: <20261118081341.1514-1-luob87709@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -83,110 +61,241 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-b4-nxp-nci-cold-fault-v1-1-fad784c73cfe@enser.io>
-X-B4-Tracking: v=1; b=H4sIAN15AmsC/yXMwQ6CMBAE0F8he3bVNoSqv2I8tMtW1pBCWiAkh
- H+nxeObzMwGiaNwgle1QeRFkgwhQ10qoM6GL6O02aDvulFKa3Q1hnXEQII09C16O/cTmof3/DT
- GONtA3o6Rvazn7/vzd5rdj2kqZ6XhbGJ00QbqSlR4W8y1xkga9v0ANA+UVpkAAAA=
-X-Change-ID: 20261122-b4-nxp-nci-cold-fault-78ffe9777ba6
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Cl=C3=A9ment_Perrochaud?= <clement.perrochaud@nxp.com>, 
- Samuel Ortiz <sameo@linux.intel.com>, EMCP333 <emcp@enser.io>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795324382; l=3002;
- i=emcp@enser.io; s=ultron; h=from:subject:message-id;
- bh=mB+rrVjlXf4RV4trPETUOgk0Sb3i1GXtUlZZsMRZRbk=;
- b=yyOeSlKhkgcaNvBbh6HL4cj3paoE+S1FtJkg8tZbr3E5Bg8XymaEKA2rbuZea+1JDEKmrn000
- WSA1891ZlwWCINpxN810Luw5YQYkfUJTJEeOt+i6U65+jaN4bI72+vt
-X-Developer-Key: i=emcp@enser.io; a=ed25519;
- pk=5sG48Lul+Vn7OzXu3VZrCWk5uvEFPYMXYnAV0TZR/tY=
-X-Endpoint-Received: by B4 Relay for emcp@enser.io/ultron with auth_id=1598
-X-Original-From: EMCP333 <emcp@enser.io>
-Reply-To: emcp@enser.io
-Content-Transfer-Encoding: 7bit
 
-From: EMCP333 <emcp@enser.io>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-On a OnePlus 6T (PN553), the controller powers up once after boot and
-never again. Each power-down logs a read error, and every later
-power-up times out:
+Critical: 0 · High: 1 (2) · Medium: 0 · Low: 1
 
-  nxp-nci_i2c 3-0028: NFC: Read failed with error -121
-  nci: __nci_request: wait_for_completion_interruptible_timeout failed 0
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-nxp_nci_close() holds info_lock while it drops EN and sets the mode to
-COLD, and the IRQ thread takes the same lock. An interrupt raised as
-the controller goes into reset is therefore handled after close() has
-finished, in COLD mode, where the IRQ thread treats it as -EREMOTEIO and
-records it in hard_fault. set_mode() clears hard_fault only on entry to
-COLD, which has already happened, so the fault survives into the next
-power-up: nxp_nci_i2c_write() returns it for CORE_RESET without touching
-the bus, and the request times out.
+- [High] The fix is incomplete.
+- [Low] The commit fixes skb leaks that users can hit, but it has no
+  `Fixes:` tag and no `Cc: stable@vger.kernel.org`.
 
-Do not count an interrupt taken while the controller is held in reset
-as a fault, and clear hard_fault on every mode change, since each one
-drives EN/FW and so resets the controller.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but it runs
+  through the rawsock error branch that the patch modifies.
+- [High] This problem wasn't introduced by this patch, but it is in the
+  function the patch changes.
 
-Tested on a OnePlus 6T with this change on the postmarketOS sdm845
-kernel (6.18): five power-up/power-down cycles through the NFC netlink
-interface all succeed, 0.03-0.04 s each, with no read errors. Without
-it, every power-up after the first times out.
+--
 
-The code and this changelog were prepared with the help of an AI coding
-assistant. The submitter has reviewed both and takes responsibility for
+net/nfc: fix skb ownership on data exchange errors
+
+This patch documents that a data_exchange_cb_t callback takes ownership
+of a non-NULL skb regardless of err. It frees the skb on the rawsock and
+LLCP error paths and on the NCI loopback lookup failure, and clears the
+Digital DEP response pointer after the callback is invoked.
+
+> diff --git a/include/net/nfc/nfc.h b/include/net/nfc/nfc.h
+> index bcafab5c53e51..d3c2d67357f1b 100644
+> --- a/include/net/nfc/nfc.h
+> +++ b/include/net/nfc/nfc.h
+> @@ -37,6 +37,8 @@ struct nfc_dev;
+>   *
+>   * When a rx or tx package is lost or corrupted or the target gets out
+>   * of the operating field, err is -EIO.
+> + * If skb is non-NULL, ownership is transferred to the callback regardless
+> + * of err. Providers must not access or free skb after invoking the callback.
+>   */
+>  typedef void (*data_exchange_cb_t)(void *context, struct sk_buff *skb,
+>  								int err);
+
+[Severity: High]
+With this rule the callback owns a non-NULL skb whatever err is. Are
+there other data_exchange_cb_t implementations that still return early
+on error without freeing it?
+
+In drivers/nfc/st21nfca/dep.c, st21nfca_im_recv_atr_res_cb() and
+st21nfca_im_recv_dep_res_cb() both start with:
+
+	if (err != 0)
+		return;
+
+They are registered as the callback to nfc_hci_send_cmd_async() from
+st21nfca_im_send_atr_req() and st21nfca_im_send_dep_req(). When the chip
+answers with a non-OK HCI result, the path is:
+
+nfc_hci_resp_received()
+  __nfc_hci_cmd_completion(hdev, nfc_hci_result_to_errno(result), skb)
+    st21nfca_im_recv_atr_res_cb(ctx, skb, err)  /* or _dep_res_cb */
+      return;
+
+Nothing on that path seems to free the response skb. Is it leaked on
+every failed ATR_REQ or DEP_REQ? In the DEP_REQ case the upper layer also
+never gets a completion.
+
+In net/nfc/nci/hci.c, nci_hci_data_received_cb() has:
+
+	if (err) {
+		nci_req_complete(ndev, err);
+		return;
+	}
+
+nci_add_rx_data_frag() can hand the original skb plus a non-zero err to
+nci_data_exchange_complete() through its "if (status) { err = status;
+goto exit; }" path. This needs NCI_DATA_EXCHANGE to be set when the frame
+arrives, because nci_data_exchange_complete() only calls the callback
+after test_and_clear_bit(NCI_DATA_EXCHANGE) succeeds.
+
+Should this branch call kfree_skb(skb) as well?
+
+The HCI wrapper callbacks hci_transceive_cb() in net/nfc/hci/core.c,
+pn544_hci_data_exchange_cb(), st21nfca_hci_data_exchange_cb() and
+microread_im_transceive_cb() all have a default branch like:
+
+	default:
+		if (err == 0)
+			kfree_skb(skb);
+		break;
+
+That branch only runs with an unexpected async_cb_type. Under the new
+rule, though, wouldn't it leak the skb when err is non-zero?
+
+The subject says this fixes skb ownership on data exchange errors.
+Should these callbacks be converted too?
+
+> diff --git a/net/nfc/digital_dep.c b/net/nfc/digital_dep.c
+> index 968547c306a5d..c7f5378cd12e2 100644
+> --- a/net/nfc/digital_dep.c
+> +++ b/net/nfc/digital_dep.c
+> @@ -882,6 +882,7 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
+>  
+>  exit:
+>  	data_exch->cb(data_exch->cb_context, resp, rc);
+> +	resp = NULL;
+
+[Severity: Low]
+This fixes skb leaks that users can reach: rawsock_data_exchange_complete()
+and nfc_llcp_recv() on NCI or HCI error completions, and
+nci_nfcc_loopback_cb() when the connection lookup fails. Should the
+commit carry Fixes: tags and Cc: stable@vger.kernel.org?
+
+The hunks also depend on each other. Before this patch, the exit: path
+in digital_in_recv_dep_res() with rc != 0 freed resp after the callback:
+
+	if (rc)
+		kfree_skb(resp);
+
+A backport that took only the rawsock and LLCP hunks would turn Digital
+error paths into a double free, for example the NACK bit case
+(rc = -EIO; goto exit;).
+
+Could the commit message say that the resp = NULL change has to go
+together with the rawsock and LLCP frees?
+
+>  
+>  error:
+>  	kfree(data_exch);
+
+[Severity: High]
+This is a pre-existing issue and wasn't introduced by this patch, but it
+is in the function being changed. Several error paths in
+digital_in_recv_dep_res() jump straight to error: and free data_exch
+without ever calling data_exch->cb(). For example:
+
+	if (resp->len < size || dep_res->dir != DIGITAL_NFC_DEP_FRAME_DIR_IN ||
+	    dep_res->cmd != DIGITAL_CMD_DEP_RES) {
+		rc = -EIO;
+		goto error;
+	}
+
+The CRC failure path does the same once the NACK retries run out, or
+when the frame is shorter than 4 bytes:
+
+		PROTOCOL_ERR("14.4.1.6");
+		goto error;
+
+Other cases:
+
+  - the DID bit is set
+  - the I-PDU PNI does not match
+  - digital_in_send_nack(), digital_in_send_atn(),
+    digital_in_send_dep_req(), digital_in_send_saved_skb() or
+    digital_in_send_rtox() fails
+  - the ATN/NACK count or the RTOX value is invalid
+
+Take a raw socket connected to an NFC_DEP target on a Digital driver.
+rawsock_tx_work() does:
+
+	sock_hold(sk);
+	rc = nfc_data_exchange(dev, target_idx, skb,
+			       rawsock_data_exchange_complete, sk);
+
+Only rawsock_data_exchange_complete() drops that reference and clears
+tx_work_scheduled. If the callback never runs, does the socket reference
+leak? If so, rawsock_destruct() never calls nfc_deactivate_target() or
+nfc_put_device(), the target stays active, and later
+nfc_activate_target() calls fail with -EBUSY.
+
+tx_work_scheduled would also stay true, so later sendmsg() calls queue
+data that is never sent.
+
+A remote peer can reach these paths by sending a malformed DEP_RES. The
+resp = NULL added here sits between exit: and error: and does not cover
 them.
 
-Fixes: 6be88670fc59 ("NFC: nxp-nci_i2c: Add I2C support to NXP NCI driver")
-Signed-off-by: EMCP333 <emcp@enser.io>
----
-Also ran on v7.4-rc3 on the same phone, as this exact commit: 5 of 5
-NFC_CMD_DEV_UP/DEV_DOWN cycles over netlink, 0.03-0.04 s each, no -121
-(EREMOTEIO).
----
- drivers/nfc/nxp-nci/i2c.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+[ ... ]
 
-diff --git a/drivers/nfc/nxp-nci/i2c.c b/drivers/nfc/nxp-nci/i2c.c
-index 9eec67c109..1ff8b5a2bb 100644
---- a/drivers/nfc/nxp-nci/i2c.c
-+++ b/drivers/nfc/nxp-nci/i2c.c
-@@ -52,8 +52,11 @@ static int nxp_nci_i2c_set_mode(void *phy_id,
- 	gpiod_set_value_cansleep(phy->gpiod_en, (mode != NXP_NCI_MODE_COLD) ? 1 : 0);
- 	usleep_range(10000, 15000);
- 
--	if (mode == NXP_NCI_MODE_COLD)
--		phy->hard_fault = 0;
-+	/*
-+	 * Each mode change drives EN/FW and resets the controller, so a fault
-+	 * recorded before it no longer applies.
-+	 */
-+	phy->hard_fault = 0;
- 
- 	return 0;
- }
-@@ -222,8 +225,12 @@ static irqreturn_t nxp_nci_i2c_irq_thread_fn(int irq, void *phy_id)
- 		r = nxp_nci_i2c_fw_read(phy, &skb);
- 		break;
- 	case NXP_NCI_MODE_COLD:
--		r = -EREMOTEIO;
--		break;
-+		/*
-+		 * The controller is held in reset, so there is nothing to read.
-+		 * The interrupt can arrive just after EN drops; it is not a bus
-+		 * fault.
-+		 */
-+		goto exit_irq_handled;
- 	}
- 
- 	if (r == -EREMOTEIO) {
+> diff --git a/net/nfc/rawsock.c b/net/nfc/rawsock.c
+> index f7d7a599fade7..3bf65b1fbe255 100644
+> --- a/net/nfc/rawsock.c
+> +++ b/net/nfc/rawsock.c
+> @@ -156,8 +156,11 @@ static void rawsock_data_exchange_complete(void *context, struct sk_buff *skb,
+>  
+>  	pr_debug("sk=%p err=%d\n", sk, err);
+>  
+> -	if (err)
+> +	if (err) {
+> +		if (skb)
+> +			kfree_skb(skb);
+>  		goto error;
+> +	}
 
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 20261122-b4-nxp-nci-cold-fault-78ffe9777ba6
+[Severity: High]
+This is a pre-existing issue and wasn't introduced by this patch, but
+this error branch can get a positive err from the NCI path.
+nci_rx_data_packet() does:
 
-Best regards,
---  
-EMCP333 <emcp@enser.io>
+	nci_add_rx_data_frag(ndev, skb, pbf, conn_id, nci_to_errno(status));
 
+but nci_add_rx_data_frag() declares the last parameter as __u8:
 
+static void nci_add_rx_data_frag(struct nci_dev *ndev,
+				 struct sk_buff *skb,
+				 __u8 pbf, __u8 conn_id, __u8 status)
+
+So a negative errno is truncated to a positive byte. For example,
+-ETIMEDOUT (-110) becomes 146 and is passed on as err.
+
+rawsock_report_error() then does:
+
+	sk->sk_err = -err;
+
+That leaves sk_err at -146, so sock_error() returns +146. In
+rawsock_recvmsg() that value comes back as rc:
+
+	skb = skb_recv_datagram(sk, flags, &rc);
+	if (!skb)
+		return rc;
+
+Doesn't this make an error look like a 146-byte read with no data
+copied?
+
+This affects MIFARE, Jewel, FeliCa and ISO15693 targets on NCI
+controllers whenever the frame status byte is non-zero, for example when
+the tag leaves the field.
+
+Should the status parameter of nci_add_rx_data_frag() be an int?
+
+>  
+>  	err = rawsock_add_header(skb);
+>  	if (err)
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118081341.1514-1-luob87709%40gmail.com
