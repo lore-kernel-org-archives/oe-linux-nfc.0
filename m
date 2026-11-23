@@ -1,57 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795336794;
-	b=TKX/5uAgauGRAYS285JOnlp0DO5oQuXY01a2SqIFjXB1NFMsybV8nVL6Q5m0RAttGOkI
-	 LJUSYcqnuZDJ3Hnuz4tEAPA4gWJcQaRP8We2Dz9OXarA+sDhyWNfM9xIcBmdpBbpfzhDd
-	 r/vpZRFNt+TBtdzpHD2kDL4hnDKw6YVnGF+hgUUHy6oYcLHj2OG2uLq6VN6e8DHY3MXTE
-	 ewWGqPZIckc7g2T2bHM1PXOc8zW89X9nlvUOk/4/x2Xr2AaCtzonpcakInLHWkukSXOzi
-	 naV6n2yLMEQeWtUJnWGGJQ9lU6qDn1Pj4KHkmR8vBGXnBb6hFDFHh2os+2/lVldidGQ==
+	t=1795396454;
+	b=zi5CmbsyWWIP6YcQ/4Fam+GvM7peZZwKt/YIGlQtl/6OKgHMFyzsT15Agz7Vx8bqtkbM
+	 GAq3PTSrvx6U84peo4eUzpgskES8ERlNgm48wOYmNlP6DdI05KxPqn4HVh3h9BIAjslP5
+	 9F/AEk173YcK4hPNj4w7MqeoYvLqQzWfCpMcXtjAvNE8DjnOPnZNjaYteMW7ToVdmwb9K
+	 vFNh63HZdgszbwnqP3GQhw5U3SAqBbUUoYcNeYyp/DR+5S8tTg0UKWqahvnpXXtzztHwQ
+	 O9ZJGDKJY3J/3f0NdVbUCqonjBwR6P0lwAYDanVSSxl/X3i7SI6Uk7gmnyConHSfTVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795336794;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=82tcMrGFYnv3COc/Y81tp4EqEYsTMRAGEcxNCdMHdRc=;
-	b=SkAAruU1vIoOPyLYrukNZ0eLpl0UJQ20IQAiIt8xwVYhwpXIHeYOjwvsABDl0uAArkAp
-	 fCvCvAMQJfsYrf6YQsGUNoSjv100ZdE9L79GCpdWmfN1mtn+SGDclwAD7gn/rQ6Y7jtAy
-	 G3rFUsHZxESTkq+5RkHSXR6do0huN0xLGNPT7jAAHDfrymWN8++0nJtDZ5ClCVK00cfbs
-	 58DpzEXY1knMwPAMUYw/aoDtit34MfWiDkf0/1yYTUJrmk/2wIiybIG/uTygnH6aufuMQ
-	 6Vx3vHEuAbJWdC/5CyyFW8V8TiQDctrq+a642X2dIGlKL4h8UYOEc2T6Jo5j7L/b0jA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396454;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=1nAFz1rE2Zgq0kT2UJ5pKEhQqcU8lxqQXw2MrFx+Nfc=;
+	b=pYZrMBTfNg/tmd5x+6LlDdoeixZlNJ55dAWeRxY8ztf03HR0s7/UdHR9gNKc9N/uWePj
+	 4CkIGVm9AcUqiXxBqwnrsZb+cPSGX6GMJevdtDz5+Ovu5QxGWCZENhHVJp23xUYqrtls0
+	 WiCfI/oIN+MLF2RqmZsp2raJBZnwj1VGeEe8iwJ+o8MrsqTpq+5f3RFNf8mmgpDYOOGnG
+	 pmishOdd7aYSQGCApUZyOAiwFORtgvvtqfZafCILuLUB4GraLHtu4L5eaypgZ1P+Rge2X
+	 6ZhW1/QNp0FrcTvIJ/w0UhpauL/DmjKewRbsub40ZyTUp5IqRzi42cJpfvrkBkDp5QA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qd8eb41b;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5brb9u8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EA7606A335;
-	Sun, 22 Nov 2026 08:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE13606A332;
+	Mon, 23 Nov 2026 01:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qd8eb41b
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AB51F000C4;
-	Sun, 22 Nov 2026 08:39:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5brb9u8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C351F000C0;
+	Mon, 23 Nov 2026 01:14:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795336793;
-	bh=82tcMrGFYnv3COc/Y81tp4EqEYsTMRAGEcxNCdMHdRc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Qd8eb41bJedj+mQUUvTaHt6REHI79qptfzrHrEd1wff4Qydzlbv2mRiTbHCjpNoF0
-	 vGrBaUBc9LN3ietU9JGaIeCfTr7chKK5F8DIWztMidhwFUWGE4S55ndJPK0eG/umHd
-	 JRydsd62Psp6lmOSDiO8tc+DZwQ/KpA5ttU8lKROnhObZYQ9N3Vtg1MFBqn43MRSgV
-	 Lodhbot6dCi1LYHoKZBQC1gUXPYeqjiij5k/2lr8IgufbIk6UzMFvSmxX8dF4Mz1l4
-	 9B5+Ycd/zS77dSSYLAgMLYFWLSGs8ClTy41mV954GSAZ/lyPzypnAmsGVx2AovFbSp
-	 qJjsSQIPfuUrw==
-Subject: Re: [PATCH v2] net/nfc: fix skb ownership on data exchange errors
-From: netdev-bot+sashiko@kernel.org
-To: luob87709@gmail.com
-Cc: oe-linux-nfc@lists.linux.dev, johan@kernel.org, david+nfc@ixit.cz,
- netdev@vger.kernel.org, kuba@kernel.org
-Date: Sun, 22 Nov 2026 08:39:52 +0000
-Message-ID: <179533679278.3135.7201159366500267043@kernel.org>
-In-Reply-To: <20261118081530.32-1-luob87709@gmail.com>
-References: <20261118081530.32-1-luob87709@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795396453;
+	bh=1nAFz1rE2Zgq0kT2UJ5pKEhQqcU8lxqQXw2MrFx+Nfc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=m5brb9u8foWKbi7SrlcdW6nE2yWIS8IEGVU5QHSZYMih+9IEkmiqaNM0lLx2EYbPE
+	 Ene3Ka2hJ1BAvW2vOWqYEoxo49rMX/8KuHKgTHWJQeFE3NrlIrAf3xeYL6VLmMY+/l
+	 ekFXnTI29+zSfV1Cj1JiY8g0iM3LpoM2wMrgHM/4k71UbfvjD94MuJKD4cUZLqKZBp
+	 tapIlLzsw5cg25rKFRJ3Wy6OzHRx9WFNJ4Dy/E+S8IHUzJbf1ziPCMSD/LFgujVS+y
+	 I6gkNfNt8+7zFmlY0xlcmT0RV+dcWLazJhMGzWNLJfBLUPxJ9MdE0Cw4N9AumibzJ+
+	 +Zbi9zcgZuE0w==
+Date: Mon, 23 Nov 2026 01:13:59 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2 11/12] docs: ioctl-number: update platform entries
+Message-ID: <awOTV4kbshpi_cxp@google.com>
+References: <20261119053514.255348-1-rdunlap@infradead.org>
+ <20261119053514.255348-12-rdunlap@infradead.org>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -61,134 +114,20 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119053514.255348-12-rdunlap@infradead.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Wed, Nov 18, 2026 at 09:35:12PM -0800, Randy Dunlap wrote:
+> Update the list of platform/ files where ioctls are defined and update
+> the ranges of function numbers that are used.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> v2: no change
+> 
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 1
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [High] The fix is incomplete.
-- [Low] The commit fixes a user-reachable skb leak in
-  rawsock_data_exchange_complete() (net/nfc/rawsock.c) and changes…
-
---
-
-net/nfc: fix skb ownership on data exchange errors
-
-The commit documents that a data_exchange_cb_t callback takes ownership
-of a non-NULL skb regardless of err. It frees the skb on the rawsock,
-LLCP and NCI loopback error paths. It also stops digital DEP from
-freeing the response after the callback has been invoked.
-
-> diff --git a/include/net/nfc/nfc.h b/include/net/nfc/nfc.h
-> index bcafab5c53e51..d3c2d67357f1b 100644
-> --- a/include/net/nfc/nfc.h
-> +++ b/include/net/nfc/nfc.h
-> @@ -37,6 +37,8 @@ struct nfc_dev;
->   *
->   * When a rx or tx package is lost or corrupted or the target gets out
->   * of the operating field, err is -EIO.
-> + * If skb is non-NULL, ownership is transferred to the callback regardless
-> + * of err. Providers must not access or free skb after invoking the callback.
->   */
->  typedef void (*data_exchange_cb_t)(void *context, struct sk_buff *skb,
->  								int err);
-
-[Severity: High]
-This rule now covers every data_exchange_cb_t implementer. Several
-in-tree callbacks still return on error without freeing the skb. Is the
-fix complete without them?
-
-In net/nfc/nci/hci.c, nci_hci_data_received_cb() is installed as
-conn_info->data_exchange_cb and does:
-
-	if (err) {
-		nci_req_complete(ndev, err);
-		return;
-	}
-
-nci_rx_data_packet() strips a status byte for every conn_id, based on
-the device-wide ndev->target_active_prot. That status ends up in:
-
-nci_rx_data_packet()
-  nci_add_rx_data_frag(..., nci_to_errno(status))
-    nci_data_exchange_complete(ndev, skb, conn_id, err)
-      cb(cb_context, skb, err);
-
-Suppose an NFCC sends an error-status data packet on the HCI conn_id
-while a frame-I/F target is active and an RF transceive is pending.
-Wouldn't that skb leak? This is the same provider path that was tested
-for rawsock.
-
-On the HCI side, nfc_hci_resp_received() calls:
-
-	__nfc_hci_cmd_completion(hdev, nfc_hci_result_to_errno(result), skb);
-
-As a result, every non-OK HCI response reaches the callback registered
-by nfc_hci_send_cmd_async() with both a non-NULL skb and a nonzero err.
-In drivers/nfc/st21nfca/dep.c, st21nfca_im_recv_atr_res_cb() and
-st21nfca_im_recv_dep_res_cb() are registered directly as that callback.
-Both start with:
-
-	if (err != 0)
-		return;
-
-Would every HCI error response during NFC-DEP leak the response skb
-here? For example, a timeout when the peer leaves the field.
-
-Separately, the ST21NFCA_CB_TYPE_READER_F success branch of
-st21nfca_im_recv_atr_res_cb() never frees skb at all.
-
-Four default branches only free on success:
-
-	default:
-		if (err == 0)
-			kfree_skb(skb);
-		break;
-
-They are hci_transceive_cb() in net/nfc/hci/core.c,
-pn544_hci_data_exchange_cb() in drivers/nfc/pn544/pn544.c,
-st21nfca_hci_data_exchange_cb() in drivers/nfc/st21nfca/core.c and
-microread_im_transceive_cb() in drivers/nfc/microread/microread.c. Under
-the new contract, don't these leak skb when err != 0?
-
-nfc_hci_execute_cb() already frees skb on error, so the in-tree
-callbacks end up inconsistent with each other and with the documented
-rule. Should these callbacks be updated in the same patch, or at least
-mentioned in the commit message?
-
-> diff --git a/net/nfc/digital_dep.c b/net/nfc/digital_dep.c
-> index 968547c306a5d..c7f5378cd12e2 100644
-> --- a/net/nfc/digital_dep.c
-> +++ b/net/nfc/digital_dep.c
-> @@ -882,6 +882,7 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
->  
->  exit:
->  	data_exch->cb(data_exch->cb_context, resp, rc);
-> +	resp = NULL;
->  
->  error:
->  	kfree(data_exch);
-
-[Severity: Low]
-This isn't a bug, but should this carry a Fixes: tag and Cc: stable? The
-rawsock_data_exchange_complete() leak can be reached by an unprivileged
-user through an NFC raw socket.
-
-The hunks also depend on each other. The resp = NULL in
-digital_in_recv_dep_res() stops the provider from freeing resp, and the
-rawsock and LLCP hunks make the consumers free it.
-
-A partial backport would either leak or double free the skb. Fixes:
-tags would help stable take the change as one unit.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118081530.32-1-luob87709%40gmail.com
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org> # cros_ec
