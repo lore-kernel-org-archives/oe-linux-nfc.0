@@ -1,80 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795401295;
-	b=oKHglelVXxj2mwYLTr5qAUOpMyMqQ2yLiFEOm56QiFF19DvcL5HjX0rs+OJrHLDI5UDF
-	 qiN/bB048DhGxVg72i4Z+c/qL9C2eE1eOtBYq6oepD+GOE/O2stRzSmpBjgxNZwHiRt5t
-	 hAZxGOJvkHh0av+3U8l144kWUl5rL4DdB1ZqEC4JorVS+MFxaim96d9JxJQnp49iQy5Ri
-	 iCaE3zRJn6i6bag0yxldrj6xdvFK9oe4TxWUy+qrCvJ2FlGEa05nLWY9/CHfE7Uuh3azw
-	 XmtnL0xIdq3cjFuOwtBxkC7NOTc1l6XqrePI8p10VJqzL12IWeqO36jxj2SGQA/E73A==
+	t=1795401329;
+	b=oU91tBBTXqs1K/GDwyz3RTuiN7NpHPTBYwyaJ7rbL9gpNBqzHirJsapdMxev20yuEdCr
+	 hYaSDARPNJ4eydMwSVuM5agNR63ayJRxlBc1m+YMdM/6jxqSJVKKmSp3gymsfU4lHWenz
+	 Mw+9gZuLgaaC70jR6XD2SH5pd1hYTh9k6a7OxMxElT2AoM14+pJv+HZ4pbAkTH5F6szcz
+	 FOro+WRrhL8pKabC9O8jlajUF2YL2sKcua4Yu6Db0qLoLPpnl/3UyW4EeN3x4xB+YnyLX
+	 QVC/jD3N7CIsmbgQ6M7uBboTE1+Tqsq6Pmk1GPmdEvnMx4d57Oh1ny18WbV7NNEW8lA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795401295;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795401329;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=MKus0ZIpKMYnifwBN/xjucnEiMSY0/cmG61Pf4wmF+A=;
-	b=U/Z7va/doAKFuAxAtseluk9mtE4IsdLehLQIXPLdUiAT5oAdYNctdqOaJcxSCdTXn6xf
-	 6eKeBx3W1VvqbiFkAb7vAKTIshG0s5oK5P9GsLLOstrT7My6DZd93GNhKgChaEl4ncZ37
-	 Do3yE5BrYC949TGj2iH7/upiAghwF7oShkW9Asm/UPdrfD2zkGTCRGVaQXsnt97VyZkhx
-	 4wh8x0AZjc5X4hp78wFf3JW/sHXQ60ulsufYFTY978FIAxyrDKvzrsj4cQuLsSi7h3Mrb
-	 FoOQR+nXvPKFC5MLIG8N7arUiaI5x60JMFkefLq47LOFSI51MbsGdqkWUTMOiJkxlAg==
+	bh=V9tZJEHgi9zuzkPjoAHZgtifbl5VP5I7TzEdZTDXpvA=;
+	b=yG/btqMKlx1NAquySFPm0Z3Ry8pjhiShJohjA1LEF12MFIxVCiIxLXK6h5WvnQd7PZHe
+	 jeSAJXggYTdS89IUig87HbHl/BI/7qWAtw3MDIusLYA89iWWYje/3B1ySxzoSiZtiB9fs
+	 b0Hwt1yckn0KoCJum1O9G30c4LAwKs7Ui93AKvuxB/+6KrDrXlEfL72tdspji/WoXYWc8
+	 qgwflPhV0VoYue2YyBNT5mPKVsWLNoj0wP7upkiCLhWNd6JTLBmXYTTEuv4Sdju9SZdmP
+	 pAsqikyMzCNV0LGDZaRgGAL1JA2XgaGqfpiWvI+ofSwCAvjceSlFlP+JI6mgz0ANWDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iiitd.ac.in;
 	spf=pass smtp.mailfrom=iiitd.ac.in;
-	dkim=pass header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=SwgJjOQQ;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	dkim=pass header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b="RZ/9vS2K";
+	arc=none smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466F1606A32A
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:34:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 466F1606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF098606A330
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:35:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF098606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iiitd.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iiitd.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=SwgJjOQQ
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f066274caeso7198645ad.2
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 18:34:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=RZ/9vS2K
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2f045b921caso14368875ad.3
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 18:35:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iiitd.ac.in; s=google; t=1795401295; x=1796006095; darn=lists.linux.dev;
+        d=iiitd.ac.in; s=google; t=1795401328; x=1796006128; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MKus0ZIpKMYnifwBN/xjucnEiMSY0/cmG61Pf4wmF+A=;
-        b=SwgJjOQQOmm1DypiIknHlwzieBCs8m+n4KusyUPQoUH3dXqQHonG0HcYw6axY5JGTw
-         C+XdoZy2V01pUazu8PRqAc4nSGuV4HulRjBkiPjp951cH8F31fhp+DdNX5bJcc5NFVJy
-         QcYMaYSPLlkwllkgpmmivFxNOnt2SkIiZBi1c=
+        bh=V9tZJEHgi9zuzkPjoAHZgtifbl5VP5I7TzEdZTDXpvA=;
+        b=RZ/9vS2KP+9RfUIlXtyVOcc/QQbO5spRI28V9yoEw3a1A9bzXAyk6Bd0oK0bh9uHuD
+         cX/tPjMzwWQmkC6cn5HD42rBOh9Xv+Z+FJpWGQsKeDTi6ZBiep7VDikqarPpRaHUi+Iu
+         F2/3xhz77IN11GZXN3hSmL7UNAH/FPCn63lUo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795401295; x=1796006095;
+        d=1e100.net; s=20260707; t=1795401328; x=1796006128;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MKus0ZIpKMYnifwBN/xjucnEiMSY0/cmG61Pf4wmF+A=;
-        b=lsC0kGuUPzjYKm5kz/hNJ/5db7B3GSYSmP8au1/NX4TlL3meP5zeY5Irm6nZIvrg2/
-         rsfTFMVkmY9E4urPFndP5H3HIVCSEbxqy1p2/24R0U3iryb6h/0i/HvyKHeyqrwJ//al
-         zVvFnW9Tv56W1LHgeTzj//aoam9/3TJgZFt1wE6u5GLIrLAqvfZgJkuFYnrNYlZAAKQf
-         CmUNGN/HtZrC5Xbl6S6spbiLQlRWphPXGBaBqW1wPzGikoZfCmVYQ7QTMw3NuM9tguz9
-         ylBpLvecxLyt9bweAhW/m5xpAyu/Ajg0x4z6ylhqUk1FN6mkknF4uRVMujHxAhKIXvtj
-         6TRg==
-X-Gm-Message-State: APuU4Z+RQEOBgRwL9ww7CWY8SsjVZOi/wS57mawSKNSnHpSGnstc+Lxo
-	nD6/Cii8kXsOJUSsTgnjxMX6MGIbxlzlRWqi3fq2A/1lIuL/4EpEraW23Oa8YY0zfE4=
-X-Gm-Gg: AZFdTZdrVgvDejh6bb0KBxiAil9vq1dJfXsrpavhOSBF0wmqnZw9kQoi2LEjezWlxd8
-	8QA38oz0wzZebKaTJ6d1aR7M3MrQ/1vUhtBQaOKtuXDixEInZFcbvmPxI0dHx/A4CydD8dJr5tm
-	nFnkvpaADurd7qP/9QreBL8rjRyU3iTi768kMQm9mj2jbPUActbRkSWhFFazG1hQeYThd2RIAkT
-	NYOOWhvgkvD+3BOgfL89PAVnlFwn2AC0rIyjOUOgW2g8n0QIHPVA/etQovmy5vdTyWX3OUDAjXv
-	ZqA6ezzTd5k9SMIEzRuxNMVWAtJY9wmYNTkWnaH+sW24VO6z9dixj/rjzpDMwzCnVueRdAnGgH6
-	khWP7ZdKX5KTsy0d7pixLS/+4lNufamu/LV02It8hfMTIp/5qjW5/XoQZxxstUGr6ZsAh+nnp6e
-	/aedkNkCMQX75FObniC7tMpSi/u+knd2Ok2PxwqMj2CAf3W0oIfB3un6TaI3IfV6cGoHkkB+eku
-	Ztj/Twktw6+jgck5b+TTs2oro1hmfpPdBrLj+u/0UedR/CL4idw6Dsk9o+JLGM8hmU3jKLZ32Cq
-	ISnT2b5ch6heI3O115FaXF+pZws3UhDkgieZ2QQ2cGoMpPtQ+4ssTMyLIvT9uRus2yvCmDoSEfk
-	NGYjH/CWnlJtw5f6hs147xPmcnSf/yAAg5pNPL+YCf72fTc6EOuYWoCo87iECWwsU
-X-Received: by 2002:a17:902:e803:b0:2ef:ea94:e04c with SMTP id d9443c01a7336-2f03ef3d413mr102290175ad.3.1795401294648;
-        Sun, 22 Nov 2026 18:34:54 -0800 (PST)
+        bh=V9tZJEHgi9zuzkPjoAHZgtifbl5VP5I7TzEdZTDXpvA=;
+        b=dJ0u1E9+EuLXIomiWIAFJAhSV/VTWqF82S5KD4txA3qbzCyYVmHm01NJFdOTiA7nkp
+         Vn6bwkvtoC+CPMWjULa75rXXZUqm3tYYbENmUN+4emAeD6R6T7GDBbY4I2pFzHIyPh3E
+         aH/BtPIg/XfszCGiWvtZs6e+WZefBTxzq0lOApokatCIeEv7qxkIAoH2khDiGAUBubWg
+         X2X1IeXMTAXogZ9Qk6sQubr/himI2ReZQ4cwZRQ5fEYcEoYxvyl4Q3UyM+CNw5H9ag0u
+         PQPj0h+pVMVc9CUihvJI/rGPAYHRQWCZjmTN6lPW8VA3gZ8F4JV8eP6FOlCDC5CBHCvu
+         4Dwg==
+X-Gm-Message-State: APuU4Z8B42doMgnadAQV9dH2Tk9Vg/4vrcYAudJ66UxaK4gC5FLJyKwL
+	mirv3C0DcKygcnz3VNOKtMyvjKmQLcPagVAqyeXu6Qet0g4XP/RHHrvJnKC1zLpHmtk=
+X-Gm-Gg: AZFdTZfXsqRb3zQhMuw2hvDOyKpAaH3v/F6gGLgiBFqDLNhFi0t8ninTUiVBKc5L/E/
+	eR3hN+8fzJABQhYeJ2o5MWz0eZ4jfKPYbMAo2cpHDTtA2/p09+VtjoM/wfzbYJpu4eacNW1DID2
+	Yn8M1GZ+Tpix77wdyh6sfcLgZLV/GIKfugT14lfci91/WDOQ16yU+n7VDpQJLKLf710WN/QhP/+
+	v4OiNg7qSUSjCl/ogbtJXsjqy42qL4jlR0JaVRCiHNSC8LCDkT7aCN3oh+TVY0odLrVkHdeBS0B
+	GYmm2hBYucuibKidEWr4Z5cNkggl9xLwLnYielXESkKJ4G+44kYjIiQ6mVedSqw1M8XisUD0EE/
+	tHJmaXYwsZhFkJimkM5UakL6stIOyYXlDafu34BM72cI+dfS2aTpg2yXCxc97EhgBVQt8Ib6jhU
+	w+Hy3PPifkhNOqMqmIJxKuYIG3FECkWFOYa9XIXqILhPdOLFgotZ8b8LnKPiJxiCUHUlVo3gx+M
+	st96lQ8jjodwMX1y8jZOH9vwmdIKlTYJ3FMzRT7sb6QRURxSaMtS+RGIKwBqOueusEmVf5KEorQ
+	sOKM6koffa3fpkAy2ebZiW1Ft6Rjs3tQKT3TgtCTQmj8UKxlSc1yPmEOnV1gyEAEG5vQj0YD4a3
+	uQpxDKhlAbwwfGvDrjm0xlCHPh0zESufFz+DfBAU896REcWfXGB6GO+EMvJF7T5/Z5ixzAl0/1X
+	bkvoiKboyGpA==
+X-Received: by 2002:a17:902:d2c6:b0:2ef:f312:b842 with SMTP id d9443c01a7336-2f03f1b426emr100861095ad.46.1795401328203;
+        Sun, 22 Nov 2026 18:35:28 -0800 (PST)
 Received: from iiitd-S2600STB.iiitd.edu.in ([103.25.231.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03ee84027sm44590425ad.7.2026.11.22.18.34.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f1215e2sm44320685ad.63.2026.11.22.18.35.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 18:34:54 -0800 (PST)
+        Sun, 22 Nov 2026 18:35:27 -0800 (PST)
 From: Piyus Kedia <piyus@iiitd.ac.in>
 To: David Heidelberg <david@ixit.cz>,
 	netdev@vger.kernel.org
@@ -82,12 +83,12 @@ Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Kapil Vaswani <kapil@presceralabs.ai>,
 	Piyus Kedia <piyus@iiitd.ac.in>
-Subject: [PATCH net 3/3] net/nfc: nci: do not hand a NULL skb to the nfc core
-Date: Mon, 23 Nov 2026 08:04:46 +0530
-Message-Id: <20261123023446.3350387-2-piyus@iiitd.ac.in>
+Subject: [PATCH net 2/3] net/nfc: llcp: take the skb reference before queueing it to the socket
+Date: Mon, 23 Nov 2026 08:05:19 +0530
+Message-Id: <20261123023519.3350997-2-piyus@iiitd.ac.in>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261123023446.3350387-1-piyus@iiitd.ac.in>
-References: <20261123023446.3350387-1-piyus@iiitd.ac.in>
+In-Reply-To: <20261123023519.3350997-1-piyus@iiitd.ac.in>
+References: <20261123023519.3350997-1-piyus@iiitd.ac.in>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -99,46 +100,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-nci_add_rx_data_frag() frees the skb and clears the local pointer when it
-cannot make room for the data accumulated so far, then falls through to the
-exit path shared with the success case:
+nfc_llcp_recv_ui() and nfc_llcp_recv_hdlc() queue a received frame to an
+LLCP socket and only then take the reference meant to keep it alive:
 
-		if (skb_cow_head(skb, reassembly_len)) {
-			pr_err("error adding room for accumulated rx data\n");
+	if (!sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+		/*
+		 * UI frames will be freed from the socket layer, so we
+		 * need to keep them alive until someone receives them.
+		 */
+		skb_get(skb);
+	} else {
+		pr_err("Receive queue is full\n");
+	}
 
-			kfree_skb(skb);
-			skb = NULL;
-			...
-			err = -ENOMEM;
-			goto exit;
-		}
-	...
-exit:
-	if (ndev->nfc_dev->rf_mode == NFC_RF_TARGET) {
-		/* Data received in Target mode, forward to nfc core */
-		err = nfc_tm_data_received(ndev->nfc_dev, skb);
+sock_queue_rcv_skb() takes over the caller's reference and publishes the
+skb on sk_receive_queue at refcount one, so a concurrent recvmsg() - or
+the socket's own teardown - can dequeue and free it before the skb_get()
+runs.
+The increment then lands in freed memory:
 
-In target mode that NULL reaches nfc_llcp_data_received(), whose own NULL
-test is on the LLCP local and not on the skb, and __nfc_llcp_recv() then
-dereferences it in pskb_may_pull():
+  refcount_t: addition on 0; use-after-free.
+   __refcount_add
+   skb_get
+   nfc_llcp_recv_hdlc
+   nfc_llcp_rx_skb
+   nfc_llcp_recv_agf
+   nfc_llcp_rx_skb
+   nfc_llcp_rx_work
 
-  BUG: KASAN: null-ptr-deref in nfc_llcp_data_received
-  Read of size 4 at addr 0000000000000070 by task kworker/u8:0/13
-   skb_headlen
-   pskb_may_pull_reason
-   pskb_may_pull
-   __nfc_llcp_recv
-   nfc_llcp_data_received
-   nfc_tm_data_received
+  BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb
+  Write of size 4 at addr ffff888055abe5e4 by task kworker/1:2/56
 
-Test the skb before forwarding it.  The other branch,
-nci_data_exchange_complete(), already accepts a NULL skb and reports the
-error to the pending data exchange, so only the target-mode call needs it -
-and returning early instead would leave that exchange uncompleted.
+Both handlers are reached from nfc_llcp_rx_skb(), and the aggregated-frame
+path widens the window by dispatching sub-frames through it in a loop.
 
-A peer reaches the failing branch by growing the reassembly with PBF_CONT
-fragments until the GFP_ATOMIC head expansion for the accumulated length
-cannot be satisfied.
+Take the reference before queueing and release it again when the queueing
+fails.  That is the ownership rule the rest of the tree follows, including
+the raw-socket copy in this same file:
+
+	if (sock_queue_rcv_skb(sk, nskb))
+		kfree_skb(nskb);
+
+sock_queue_rcv_skb() does not free the skb on any of its failure paths, so
+the explicit kfree_skb() balances only the reference taken here.
 
 How this was found: by AI-driven fuzzing built on top of syzkaller.  Its
 analysis was then checked by hand against the code, the fault was
@@ -149,35 +153,62 @@ reproducer with ordinary NFC LLCP traffic unaffected.
 Signed-off-by: Kapil Vaswani <kapil@presceralabs.ai>
 Signed-off-by: Piyus Kedia <piyus@iiitd.ac.in>
 ---
- net/nfc/nci/data.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ net/nfc/llcp_core.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-index 4253edea5..d7597fbd2 100644
---- a/net/nfc/nci/data.c
-+++ b/net/nfc/nci/data.c
-@@ -258,10 +258,17 @@ static void nci_add_rx_data_frag(struct nci_dev *ndev,
+diff --git a/net/nfc/llcp_core.c b/net/nfc/llcp_core.c
+index 74bf81700..e988c95cc 100644
+--- a/net/nfc/llcp_core.c
++++ b/net/nfc/llcp_core.c
+@@ -922,14 +922,16 @@ static void nfc_llcp_recv_ui(struct nfc_llcp_local *local,
  
- exit:
- 	if (ndev->nfc_dev->rf_mode == NFC_RF_TARGET) {
--		/* Data received in Target mode, forward to nfc core */
--		err = nfc_tm_data_received(ndev->nfc_dev, skb);
--		if (err)
--			pr_err("unable to handle received data\n");
-+		/*
-+		 * Data received in Target mode, forward to nfc core.  skb is
-+		 * NULL when the reassembly above could not make room for the
-+		 * accumulated data; there is nothing left to forward and the
-+		 * core would dereference it.
-+		 */
-+		if (skb) {
-+			err = nfc_tm_data_received(ndev->nfc_dev, skb);
-+			if (err)
-+				pr_err("unable to handle received data\n");
-+		}
- 	} else {
- 		nci_data_exchange_complete(ndev, skb, conn_id, err);
+ 	/* There is no sequence with UI frames */
+ 	skb_pull(skb, LLCP_HEADER_SIZE);
+-	if (!sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+-		/*
+-		 * UI frames will be freed from the socket layer, so we
+-		 * need to keep them alive until someone receives them.
+-		 */
+-		skb_get(skb);
+-	} else {
++	/*
++	 * UI frames will be freed from the socket layer, so we need to keep
++	 * them alive until someone receives them.  Take the reference before
++	 * the skb is queued: once it is on the receive queue a concurrent
++	 * recvmsg() may already have freed it.
++	 */
++	skb_get(skb);
++	if (sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+ 		pr_err("Receive queue is full\n");
++		kfree_skb(skb);
  	}
+ 
+ 	nfc_llcp_sock_put(llcp_sock);
+@@ -1136,14 +1138,17 @@ static void nfc_llcp_recv_hdlc(struct nfc_llcp_local *local,
+ 			pr_err("Received out of sequence I PDU\n");
+ 
+ 		skb_pull(skb, LLCP_HEADER_SIZE + LLCP_SEQUENCE_SIZE);
+-		if (!sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+-			/*
+-			 * I frames will be freed from the socket layer, so we
+-			 * need to keep them alive until someone receives them.
+-			 */
+-			skb_get(skb);
+-		} else {
++		/*
++		 * I frames will be freed from the socket layer, so we need to
++		 * keep them alive until someone receives them.  Take the
++		 * reference before the skb is queued: once it is on the
++		 * receive queue a concurrent recvmsg() may already have freed
++		 * it.
++		 */
++		skb_get(skb);
++		if (sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
+ 			pr_err("Receive queue is full\n");
++			kfree_skb(skb);
+ 		}
+ 	}
+ 
 -- 
 2.34.1
 
