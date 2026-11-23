@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795401329;
-	b=eS9sW2XiHa97ZOtDIVV+Plu6KrCUMaIkicwxrFkTPdMKZZ2k2pmBBMGuB2kz7ZEHGTSy
-	 SctFsdvdQ8fuI2WWQLVZM4kK2eNjkSEvaDl4B5cr9+h7vyNRa9KvdXYPVZXKSFDf2ztUM
-	 UJxVpwPaxFis8jYW94GQ3Vt8i7yvYCNWyR+RUL2VvemaK5Ww/JSSSJzViYDGCMqaaAFd4
-	 Yu8Ee7bXXs0XvEYJpNzFv2lMtlr0GT9iVLe22etL51NMVIcl+iM8h5Xx3J1E2ODEzT1bl
-	 W6Z8yjjG+B2+/CNgYj6tZYMIMttrIY+P5NCVcn8YftRUnP07YZslyN588S/9/itNTuQ==
+	t=1795401355;
+	b=lS9T7XFuxIIKFdVRcQPvF5ABpxk66uP+62zfq33E1TDjVW1aDSRsKebBI8XUoGUuD7Hy
+	 lPETOXqdDcwGs5Xdh5BB8NM8zCOvPmXSOHeTlu5MlO1a1DvoKBvQo3tZcP+0KL3Q1cqKV
+	 rjxAcfAzQ32UxO0g4Vi5ZVkjrasHPLBrcknZijuMT6E55ZwN0B/myTEQDrh5TYUUNndKB
+	 F7J+FBrk3H8fKo+lHGrNxirIQftDcLbKUkcNyEUC/fTzTLjyDZjkTRkLssDOS8HZle++1
+	 qqTbOogSVM94MZb79DMlKM7XSZ1Nwg+5ErVUM6OSFVnT8oZIG/mWG/4XyhdvmtwzJ/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795401329;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795401355;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=+EPn2+dOiCjCMUGOzXUCg9W8kUFJdJYMWemu9cFlc1Q=;
-	b=PDoQXqWg4H4DXgXS8kwb4DnlCWH1shi9rtm4ZyUoQO8qExyY6uSNk7aMJL6jh/2/xklj
-	 qnamgaAuuAvRqqBbtbpetdAqhJOhMZ7nAxczZXupBtYRpnKFw233n77Ual/kEXINIbguM
-	 AuLMFytepw7mRcVwA0WFP983Xb8hfcolgwjjY7M9P4NF6U1UElzX0wYQJuyKwwaVV4kle
-	 IQI2DEoqra3FNDLzkHHOSx6CDZvwfVYAYubNzcio9m8xL9iOtgdOvRk115xM8qVc3PKb4
-	 F3H/8P6fBKqBuzG/cq8lQby2WH972fuz2U6FASTZdWGwUhJMZsHiFNWE18OWBs8coUg==
+	bh=Zta3sFkY9ZZMc3gNgFpjOMOV1WUQyr5rBabD1DfSZCg=;
+	b=gJXCFRK9gdXggxA20pHDRYng8DoSXNe0o58nFI3HnQn+sK5zz4TFaL2NJK/+qxV+KpSL
+	 MqS8Owtz/Y2ofgkYFHUw7XwQZrw/RqMQ6E/zDZaE+Y8PXBRqeb3B8mf+sDFGCBJB9v1sA
+	 lPVcYG2u4eBY7sHL6c24iSNU29UeCcr3vqERp5lqEyoavYY1hsmpNi/o0BXSssYK8ElV+
+	 WNHpfiHqODRvTgkQo1ARpHUFsXVFwTjWKgvc3G3x1qmEeNdo5bg6K0iH0fHK0l7Q1r7ld
+	 t+Kxd4lP2gHydHUh8R3+x0IY/d1Uo68ZrCBpBlodYVcrtyW7jx6+TfyF5nNi45bmPeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iiitd.ac.in;
 	spf=pass smtp.mailfrom=iiitd.ac.in;
-	dkim=pass header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=FUn7QrHv;
-	arc=none smtp.remote-ip=209.85.214.179
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	dkim=pass header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=SObFoyqB;
+	arc=none smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25249606A320
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:35:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25249606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1548606A320
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:35:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1548606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iiitd.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iiitd.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=FUn7QrHv
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e9ae391a05so18133185ad.1
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 18:35:25 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=SObFoyqB
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2f05b465cd1so9816755ad.3
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 18:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iiitd.ac.in; s=google; t=1795401325; x=1796006125; darn=lists.linux.dev;
+        d=iiitd.ac.in; s=google; t=1795401354; x=1796006154; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+EPn2+dOiCjCMUGOzXUCg9W8kUFJdJYMWemu9cFlc1Q=;
-        b=FUn7QrHvJA2kXr9r0HdpK2fnbj15/dk8pB2qjVt+MR4RUgetFK3PyrUXxwjLWi3qaN
-         GKsYfJ4JR+82Rc8BRlYmMuB6dBeZrm/6ygjsmc+nHsmyXY8f+qK9/eKJpNP/c2RWuV5F
-         6VbInfy2sBu5AEgOnHWzw2mFniefseIvGEy4g=
+        bh=Zta3sFkY9ZZMc3gNgFpjOMOV1WUQyr5rBabD1DfSZCg=;
+        b=SObFoyqBOFcUOJrmITtEAJ2EIXoKLpVdap/XeHZ4ohU+ifcgtBCXwt0ZdPmVaBoUV1
+         /NxBkTATTdV8UanYrAPfTR8HOwjvQXn+VOmifcjmuqvT5f3YV2jR1tqcawPUjGN5xkpd
+         6t6+3VDEbZuVFK3gqJFrCjFkmdaEVKwz/O+Eo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795401325; x=1796006125;
+        d=1e100.net; s=20260707; t=1795401354; x=1796006154;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+EPn2+dOiCjCMUGOzXUCg9W8kUFJdJYMWemu9cFlc1Q=;
-        b=anenL8baX9ugAhMEw/XK3/U3X6b1Xb0MDza8wY/6xDPTjK060bD19rb41MPM0OcM5A
-         e9+Wvi2WwKH8hhd+2UpKgiGfRP3iJv7Uxm7Rm8NRzXqVFe5irOfCVF1fFhFItIcYdKUn
-         cTmUClTmlWEI1Umm4K9UMRdndwmerBOB68QZB0fZof6oyw+tjV7riFpz4yZn6oUqdFYc
-         VMCiuUi68F0PdU+6uOY9O2FroV4RCJpcyORncBkEzrLdgONtSEzjYoTrF4DTzo0UMGw5
-         HqiM7pWkuVFpIF2PMJB1sWSlySC+2sA5c6tNcdXmPM3yXCeL8ccyfegOa7TGFHHYfD4+
-         Rb/Q==
-X-Gm-Message-State: APuU4Z+bRoFXHE68DgEY3egJKWj2wz/WSaz2baf9Reqo/GmSuKdB7rT5
-	wsIxxBSgTOlakuMxiYUGj47gW5wt7FT154KXUuR2vJODqB/iziz3IQAOiSiPOnELX1qpD1t86an
-	NkaSpymk=
-X-Gm-Gg: AZFdTZfamyc658Qay0MMRNihiickFm1V1fjoWzcB+m0/ERxSZuHDoILVALUzGTKEeKF
-	U0VatRicBNjyjK3KppGUn55eHARHlblJgmwX6VD52q116AALIYgCcbgTjbjqFgSB6LqvIMfFAvW
-	NxohqsSWBqxhoekJ/N+e102X/RSHqinkZRBTCWBKTW7uqcvLoZ7f96PlH8Kg1Paz0SaKtjArM2d
-	2kJyNhheXQ7adQmu6PdnrE2bO6+EmQMtGdwkIVmGm0+9+zxn+QmhMedvrmle7EVo+i8Edzvuyrr
-	BN5QlUaLCzXTzmvNcwnshuBn9cWcmY6cN6VMXD1HnWva5Fhr9uUYCStvyrl6Af1TIyF0LFhUISm
-	i0omZPc5JJj561hYhins3uGbxKSHYN4nY/Lv6c0Yccg8wr2R0L1GmQp5zMtP18eYIGZ8BCZstyS
-	bdmpNRblD8yb6WmNxrq38Y9zcKJlZ6a9mYJhfRhNLQvUlOTU9LIu/CsHklzJAqn3XDIWJXw3DSv
-	/3BfUcL1/WkcPbY2ohlCS3662Qz27Fp0a7V7GIXMqA5ZFb7FhMM56h1h784VVbMeOdrIfQ94FeY
-	CUv/2h/biVsEHRt8zwavEXXQLtEXcs7uLpu+6my5F4mQM4oK86Y6LNPS6Fbi9u5sfKqQLitq5xZ
-	HXI7Z6TQgc41nfeo0ZLT2hOJiAv+5jfDFQnr7ai1/u0TlbHpiiWkaKHtba7TN+g7u
-X-Received: by 2002:a17:902:e88b:b0:2e9:569a:214d with SMTP id d9443c01a7336-2f03f2533abmr67096005ad.43.1795401325369;
-        Sun, 22 Nov 2026 18:35:25 -0800 (PST)
+        bh=Zta3sFkY9ZZMc3gNgFpjOMOV1WUQyr5rBabD1DfSZCg=;
+        b=r/BCvgfdu3zsjISGBaCKgjaRP1kzeD+HWnX5IiTDTXrPhfjhdCkkBGHiGh8PgbdClg
+         7Zp09W/cZpIM1KRzQtrNKVkj0lVPo+gGNU8TqZSRnw+4N+mojlHFhukHIVAsWxo9L97H
+         1kDXev5W8UueUoTGa/AvpJlMlzmRGpSUwx9TpLxljNb2OnNqPLGimKPe7gHFly0XOmaU
+         8XbMIduguMR8ZxuvfWWF2DXOGbGuPNPqiY1T+Aeb4qmEH5+88l9lY7d+BoTe+U57h9tz
+         RdWT4nIhZ95SNz/IOdmtKbfMHN8CGHYbd/4gi6g/n0jLHuqcTjJTa3ion0ldyK4jpwhh
+         Tzvw==
+X-Gm-Message-State: APuU4Z+eqtyvFIHlA9nhdKyQDeOl1VRzf3dxMIoBQ5twt7h8X4hmEzCd
+	VbjFnbTtH5anDw6DyKC3aeTBYyyFd69sG/4vn+jbrwx6P5292ZZbsJI9mospmFeWPws=
+X-Gm-Gg: AZFdTZdYiP6NjkedebUrbJzTwgs2wQyhVwhlnqzO13xVrgXEIwsLwRu66CtOMEQTF8m
+	nlmzxmB2Tug/PnXptQOVwcDmmYK5zXIV5IeNxUlGeGmuwq21QkG4EvBiQJOioh5hVwLj74UR9Gj
+	+shLmivLWVyPKGa7ZNjHxYncu2O2PM/9d5Gu8taT25uMpYLGSIa6gCXdPIuyL2t4sxNK69cDnfz
+	SABBO4KkF58qwFvQXqYhexPz6hJgoY2YiiVVsgodbeiP+Gs6oj+c2DMQUBIoyBASE/JE9+B9xZe
+	5y8wl4Y35GuvgN0fiAsz7Xnr6EwruZubyW7pUjHyT0qKdd6wGqpwMOuEDxFXgQiZA1rdSZ2TgMl
+	ldfvJi/QVO7/pYOBl86AiUaCBTSj1j+z3w7Kx8d8AakGfg+HQQ5AijqHKgMCtBWAVwKW6VPe1qW
+	kXm7UkQH7DaTsG5jXFdDxhlqInLKL0W3n5qepU3EchDr5teqmLTq9O93E0k0NanMIbPcxLj/1BJ
+	1j0tOT3krcJbrmd9SkLaSEOiTpwxti8o9WSfsjg6n9NHaCsFD4429pkqttlyYzuSAn4tdskL/vn
+	A9lVSlCba++1nnYkvE6bMhCZNfJSF9CnsUZJ7GT4QWVQkug0LL/MSgYP+upOET8MO3/dgS8MIGf
+	RGhbQXoqgxo8teDlI2s6lXTkzIceSfZ/Ka1jZa/wv/A+/UKnVuhU3w7mBN9p6v9pE
+X-Received: by 2002:a17:903:32ce:b0:2ef:ed25:514a with SMTP id d9443c01a7336-2f03f16ac68mr91947455ad.44.1795401354275;
+        Sun, 22 Nov 2026 18:35:54 -0800 (PST)
 Received: from iiitd-S2600STB.iiitd.edu.in ([103.25.231.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f1215e2sm44320685ad.63.2026.11.22.18.35.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120282sm43609925ad.59.2026.11.22.18.35.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 18:35:24 -0800 (PST)
+        Sun, 22 Nov 2026 18:35:53 -0800 (PST)
 From: Piyus Kedia <piyus@iiitd.ac.in>
 To: David Heidelberg <david@ixit.cz>,
 	netdev@vger.kernel.org
 Cc: oe-linux-nfc@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Kapil Vaswani <kapil@presceralabs.ai>
-Subject: [BUG] net/nfc: LLCP takes the skb reference after queueing it to the socket, so a concurrent recvmsg() frees it first
-Date: Mon, 23 Nov 2026 08:05:18 +0530
-Message-Id: <20261123023519.3350997-1-piyus@iiitd.ac.in>
+Subject: [BUG] net/nfc: a 16-bit truncation in nfc_llcp_allocate_snl() overruns the SNL response skb and BUGs the kernel
+Date: Mon, 23 Nov 2026 08:05:47 +0530
+Message-Id: <20261123023548.3351531-1-piyus@iiitd.ac.in>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -97,172 +96,160 @@ Content-Transfer-Encoding: 8bit
 
 Hello,
 
-nfc_llcp_recv_ui() and nfc_llcp_recv_hdlc() queue a received frame to an
-LLCP socket and only then call skb_get() on it.  Between those two steps the
-skb is on sk_receive_queue at refcount one and a concurrent recvmsg() can
-dequeue and free it, so the skb_get() increments freed memory.
+nfc_llcp_allocate_snl() accumulates its allocation size in a u16 while the
+length it is given is a size_t.  An SNL PDU carrying enough SDREQ TLVs makes
+that sum wrap, the response skb is allocated far too small, and
+nfc_llcp_send_snl_sdres() then puts the full TLV list into it: skb_put()
+trips skb_over_panic() and the kernel BUGs.
 
 Reproduced on net.git main at af6737b90668 ("net: af_key: fix use-after-free
-in dump_sp()"), 7.4.0-rc3-01164, with KASAN, at both sites.  A patch is in
-the next mail of this thread.
+in dump_sp()"), 7.4.0-rc3-01164, with KASAN.  A patch is in the next mail of
+this thread.
 
 
 1. Root cause
 
-net/nfc/llcp_core.c, nfc_llcp_recv_ui() (and the same shape in
-nfc_llcp_recv_hdlc()):
+net/nfc/llcp_commands.c, nfc_llcp_allocate_snl():
 
-	/* There is no sequence with UI frames */
-	skb_pull(skb, LLCP_HEADER_SIZE);
-	if (!sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
-		/*
-		 * UI frames will be freed from the socket layer, so we
-		 * need to keep them alive until someone receives them.
-		 */
-		skb_get(skb);
-	} else {
-		pr_err("Receive queue is full\n");
+	struct sk_buff *skb;
+	struct nfc_dev *dev;
+	u16 size = 0;                           <-- u16
+	...
+	size += LLCP_HEADER_SIZE;
+	size += dev->tx_headroom + dev->tx_tailroom + NFC_HEADER_SIZE;
+	size += tlv_length;                     <-- tlv_length is a size_t
+
+	skb = alloc_skb(size, GFP_KERNEL);
+
+The caller is net/nfc/llcp_core.c, nfc_llcp_recv_snl(), which walks the TLVs
+of a received SNL PDU and builds one SDRES TLV for every SDREQ it finds:
+
+	case LLCP_TLV_SDREQ:
+		...
+add_snl:
+		sdp = nfc_llcp_build_sdres_tlv(tid, sap);
+		if (sdp == NULL)
+			goto exit;
+
+		sdres_tlvs_len += sdp->tlv_len;
+		hlist_add_head(&sdp->node, &llc_sdres_list);
+
+and at the end passes the accumulated length:
+
+	if (!hlist_empty(&llc_sdres_list))
+		nfc_llcp_send_snl_sdres(local, &llc_sdres_list, sdres_tlvs_len);
+
+The accounting on this side is exact - every entry added to the list also
+adds its length - so the list and sdres_tlvs_len always agree.  What does
+not agree is the u16 inside the allocator.
+
+An inbound SDREQ TLV costs three bytes (type, length, tid, with an empty
+service name), and the SDRES it produces is four, so sdres_tlvs_len is four
+thirds of the PDU's TLV area.  About 48 KiB of SDREQs therefore pushes it
+past 65535.  nfc_llcp_send_snl_sdres() then walks the list regardless:
+
+	hlist_for_each_entry_safe(sdp, n, tlv_list, node) {
+		skb_put_data(skb, sdp->tlv, sdp->tlv_len);
+
+		hlist_del(&sdp->node);
+
+		nfc_llcp_free_sdp_tlv(sdp);
 	}
 
-sock_queue_rcv_skb() does not take a reference of its own: __sock_queue_rcv_skb()
-calls skb_set_owner_r() and skb_queue_tail(), taking over the reference the
-caller holds.  The moment it returns, the skb is visible on the receive
-queue and whoever reads the socket owns it.  A reader that gets there first
-dequeues and frees it, and the skb_get() that was meant to keep it alive
-then operates on a freed object:
-
-	refcount_t: addition on 0; use-after-free.
-
-The comment above the call describes the intent correctly - the socket layer
-will free it, so a reference is needed - but the reference has to exist
-before the skb is published, not after.
-
-The intended final state is unchanged by taking it earlier: the caller
-(nfc_llcp_rx_skb(), via nfc_llcp_rx_work() or nfc_llcp_recv_agf()) drops its
-own reference with kfree_skb() when the dispatch returns, leaving the socket
-queue holding the last one.
+With 16400 SDREQs the accumulated length is 65600, which truncates to 64,
+and the skb that should have held 64 KiB holds none of it.
 
 
-2. Both sites, and why the aggregated-frame path finds it so easily
+2. How the PDU gets large enough
 
-	nfc_llcp_recv_ui()    net/nfc/llcp_core.c:930   (SOCK_DGRAM, UI frames)
-	nfc_llcp_recv_hdlc()  net/nfc/llcp_core.c:1144  (SOCK_STREAM, I frames)
+The NCI data path reassembles fragments before the LLCP layer sees them
+(net/nfc/nci/data.c, nci_add_rx_data_frag()), so the PDU that reaches
+nfc_llcp_recv_snl() is not limited to one NCI packet: a sequence of
+PBF_CONT fragments accumulates into one skb, and the final fragment
+delivers it.  The reproducer uses 64 KiB fragments.
 
-Both are reached from nfc_llcp_rx_skb().  nfc_llcp_recv_agf() splits an
-aggregated frame and dispatches each sub-PDU through nfc_llcp_rx_skb() in a
-loop, freeing each one immediately afterwards:
-
-		new_skb = nfc_alloc_recv_skb(pdu_len, GFP_KERNEL);
-		...
-		skb_put_data(new_skb, skb->data, pdu_len);
-
-		nfc_llcp_rx_skb(local, new_skb);
-
-		kfree_skb(new_skb);
-
-so one AGF PDU delivers many frames to the socket back to back, which is
-what makes the window easy to hit from userspace.
-
-The same file already uses the correct ownership rule for the raw-socket
-copy a few hundred lines above:
-
-	if (sock_queue_rcv_skb(sk, nskb))
-		kfree_skb(nskb);
+The LLCP MIU negotiated for I-frames does not bound this path; SNL is
+handled directly out of the receive skb by nfc_llcp_rx_skb(), and
+nfc_llcp_recv_snl() walks whatever linear area that skb has.
 
 
 3. KASAN reports
 
-net.git main, 7.4.0-rc3-01164-gaf6737b90668, KASAN.
+net.git main, 7.4.0-rc3-01164-gaf6737b90668, KASAN (full log attached as
+kasan-nfc-snl-skb-over-panic-mainline-7.4-rc3.txt):
 
-The I-frame site (kasan-nfc-llcp-hdlc-skb-uaf-mainline-7.4-rc3.txt):
-
-  BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb+0x17b3/0x34a0
-  Write of size 4 at addr ffff888055abe5e4 by task kworker/1:2/56
-   kasan_check_range
-   nfc_llcp_rx_skb            <-- __refcount_inc, skb_get, nfc_llcp_recv_hdlc
-   nfc_llcp_rx_skb            <-- the AGF loop's inner dispatch
-   process_scheduled_works
-
-  (rx_skb+0x17b3 resolves to skb_get at include/linux/skbuff.h:2004,
-   inlined by nfc_llcp_recv_hdlc at net/nfc/llcp_core.c:1144.)
-
-The UI-frame site (kasan-nfc-llcp-ui-skb-uaf-mainline-7.4-rc3.txt):
-
-  BUG: KASAN: slab-use-after-free in nfc_llcp_rx_skb+0x3a5/0x34a0
-  Write of size 4 at addr ffff888055973724 by task kworker/1:3/2203
-
-  (rx_skb+0x3a5 resolves to skb_get at include/linux/skbuff.h:2004,
-   inlined by nfc_llcp_recv_ui at net/nfc/llcp_core.c:930.)
-
-On 7.3.1, where net/ is built without inlining, the same two reproducers
-name the refcount helpers directly - once on the increment and once on the
-matching decrement, depending on which side of the race loses:
-
-  refcount_t: addition on 0; use-after-free.
-   __refcount_add
-   skb_get
-   nfc_llcp_recv_hdlc
-   nfc_llcp_rx_skb
-   nfc_llcp_recv_agf
+  skbuff: skb_over_panic: text:ffffffff87e134e6 len:382 put:4
+          head:ffff88801d2016c0 data:ffff88801d2016c4 tail:0
+  kernel BUG at net/core/skbuff.c:215!
+  Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+  Workqueue: events nfc_llcp_rx_work
+  RIP: 0010:skb_over_panic+0xcd/0xd0
+   skb_put
+   skb_put_data
+   nfc_llcp_send_snl_sdres
+   nfc_llcp_recv_snl
    nfc_llcp_rx_skb
    nfc_llcp_rx_work
+   process_scheduled_works
 
-  BUG: KASAN: slab-use-after-free in __refcount_sub_and_test
+"put:4" is one SDRES TLV; the skb had no tailroom left for it.
 
-(kasan-nfc-llcp-{hdlc,ui}-skb-uaf-7.3.1.txt.)
+The same reproducer on 7.3.1 gives the identical BUG at the line that
+skb_over_panic() occupies in that tree (skbuff.c:214,
+kasan-nfc-snl-skb-over-panic-7.3.1.txt).
 
 
 4. Impact
 
-A four-byte increment on freed slab memory, with the value and the timing
-controlled by an unprivileged reader of the LLCP socket: it is the same
-primitive as any refcount-on-freed-object bug, and the freed skb can be
-reallocated between the free and the increment.  The decrement side can also
-land on a reallocated object, which is what the __refcount_sub_and_test
-report above shows.
+A kernel BUG() in a workqueue context: the machine panics with
+panic_on_oops, and otherwise the worker thread is killed with the LLCP
+local's locks still held, which wedges the NFC stack.
 
-Reachable by whoever can deliver LLCP frames to the device (an NFC peer, or
-a local process owning an NFC device) together with any local process able
-to read the corresponding LLCP socket.
+The overflow itself never writes past the allocation, because skb_put()
+checks before copying - this is a denial of service rather than memory
+corruption.  It is reachable by whoever can deliver an SNL PDU to an NFC
+device: an NFC peer over the air, or a local process that owns an NFC
+device able to inject target-mode data.  No capability check stands between
+a peer's PDU and this path.
 
 
-5. Reproducers
+5. Reproducer
 
-nfc_llcp_hdlc_skb_uaf.c and nfc_llcp_ui_skb_uaf.c in this directory (sent
-off-list on request).  Each brings up a virtual NCI device, binds an LLCP
-socket, and then races frame delivery against recvmsg().  Both fault within
-a few seconds on both trees.
+nfc_llcp_snl_sdres_overflow.c in this directory (sent off-list on request;
+see the note at the end).  It brings up a virtual NCI device, answers the
+kernel's bring-up commands, activates target mode, then delivers an SNL PDU
+of 16400 SDREQ TLVs across PBF_CONT fragments.  It BUGs the kernel within a
+second on both trees.
 
 
 6. Suggested fix
 
-Take the reference before the skb is published, and drop it again if the
-queueing fails - sock_queue_rcv_skb() frees nothing on any of its failure
-paths, so the extra kfree_skb() balances exactly the reference taken here:
+Hold the size in a size_t, so the value that reaches alloc_skb() is the one
+the caller computed:
 
-	+	skb_get(skb);
-	+	if (sock_queue_rcv_skb(&llcp_sock->sk, skb)) {
-	+		pr_err("Receive queue is full\n");
-	+		kfree_skb(skb);
-	+	}
+	-	u16 size = 0;
+	+	size_t size = 0;
 
-at both sites.  The patch follows in this thread.  Checkpatch is clean.
+A request that large can now fail the allocation instead of wrapping, and
+both callers of nfc_llcp_allocate_snl() already handle the IS_ERR() return.
+
+The patch follows in this thread.  Checkpatch is clean.
 
 
 7. What was and was not checked
 
-Checked: both sites fault on net.git main under KASAN; the patched kernel is
-clean on both reproducers; the refcount accounting with the patch applied
-ends in the same state as the original intent (socket queue holds the last
-reference, the dispatcher's kfree_skb() drops its own); ordinary LLCP
-datagram and stream traffic still delivers with the patch applied;
-net/nfc/llcp_core.c is byte-identical between 7.3.1 and af6737b90668.
+Checked: the fault reproduces on net.git main under KASAN; the patched
+kernel is clean on the same reproducer; ordinary LLCP traffic (SYMM, CONNECT,
+I-frames, an SDREQ/SDRES exchange of a few TLVs) still works with the patch
+applied; net/nfc/llcp_commands.c and net/nfc/llcp_core.c are byte-identical
+between 7.3.1 and af6737b90668, so nothing in between changes this path.
 
-Not checked: real hardware; an over-the-air peer.
+Not checked: real hardware - all of this is on a virtual NCI device under
+QEMU.  We have not tried to drive the path from an over-the-air peer.
 
-No Fixes: tag is given: both sites date from the original LLCP receive
-implementation and our clone of net.git does not reach that commit.  Happy
-to add exact tags if you would like them.
+No Fixes: tag is given: the u16 has been in nfc_llcp_allocate_snl() since
+the SNL support was added, and our clone of net.git does not reach that
+commit.  Happy to add the exact tag if you would like one.
 
 This was found by AI-driven fuzzing built on top of syzkaller; its analysis
 was then checked by hand against the code and every claim above was
