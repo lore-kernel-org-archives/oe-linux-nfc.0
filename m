@@ -1,98 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795415608;
-	b=gRjAjTtsEqvp+SQXj2HDIUwKjOACx5HgYANGTfmaKH61Ml4a++jvY/Oo060m4a7zV9C4
-	 m1Ih0Wpv+iPI8g5FzuHw+F+OzDUoicXLwNlRnXIymYf8wHsiIY1pDY5lJBYNN2f+ltybf
-	 tT0Zh2H9ugHQOkAy8lKK9cgRTtmgeW0RulAX7JK4CF/WfyNL+qvDsXFNyWD6RFX+W6HPC
-	 4+7ZPtbpZ8F6B1lH4qwT9tNMwSwqHN/sl9+y66sbg/2zjddwCP4Dj+ghd2vyGvGc650vt
-	 FYI/J2d+W1m2N/j8YVVlXwyAVCKxVGqPsAeY31fJcSImtN/otbjOIGKu7e4Gz5Grw8w==
+	t=1795448234;
+	b=xafaIFc9+u/zn9rAmtUAzn7shabDXGzPC1bwLFB15xg/6AWnTHwv247FmxpEOqN/1A+a
+	 GJ65/72ncYKLZTYEw/TNTEKhoBQ1oF+jMaOowosMPYuLdlbWKCNU2hlflPWzmQtwjuFGz
+	 Bye9itpfMctRL1v9izA9M+r5wddz9NhTharkYuxT87zSZySF8gS5wtA7IYO7098OtU/9p
+	 G/QWoCaSTUlmi1nDV9/1mmeqqWl8R+2s3beZ29EZPCsxH4kQUz2annzLAOQ7nSrtnMH6r
+	 b3eZCwY4XUYVdbj0A2Jrqqv58CyNk26wUBURzvRBU/f5jQyqdNz8ExNBtfpKf172lwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795415608;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448234;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=6mnZfOSkxDepY2i0f378cTykfqpzL6KhJuIK0Wt6zEk=;
-	b=MBTYSwLMbA8+TJhZttl3mlxIlATgDbvBKMDjgSvQezzKnze36eNrnAsg47E8LZKkyp2D
-	 P0InQFLT4gkICf2rkEyQCrMV7+anJ1/nkgalo6WCXzUnPwswU2T+z0VQO7e9oaiW0yL2M
-	 DwNGA9tIqxTIvn2DOnU2SQx1Egp3PwLHQmnPF0HgEbpkvykFgFiZjFxYq2CjZK/nZ7lqz
-	 cEzmGDrR9MCunCiWjJVRl1EkhCZmNRg42wePJTvq88h2gxcVLxsvC0Z/1ajkcndb/tr1B
-	 0/BOH9Sj1TJBhdsOnuuj905zjVs3KXi7cWBdGbScIl9GImRK+RPV5ckcPGJysmZ0tDg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=rF0mx83XmYPM2qNwRzWvVTGOMjzCPdNgkj+Hi/DwTQk=;
+	b=tb/sAdHTN6Fdw9mLUPTyPoTG11C2TmlJTwBJwXhkLDhRvnJ/nf0JboH1y5N3ZzP8uby0
+	 kN5SqkeIoGZUuHUK3dYFBGAFsMnGwiV3ShwsvNZYAiAS2Yw/Mh9R8wpeEcJ2zwBZEMh5O
+	 Z6i+pOQF+DT1xP/GNnJGrCIc8Uj/ybixQkPF2lNFI07Y+ltNDCvbOBrmEHTAyVvkvv4f+
+	 3UXOYJ6hCCoVKjt0e0LE1HBBj0oRJNHbZSKM41b0jQJOGSmNvHWFNxbkeqS/VluFwQA+e
+	 EUd7Vtkgh3K3WW2g3FoQLUsj+LIdy0Rz+5O1ekm2Zn4S22gf9LZ69WuGLQsURIlQE7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nKVNnWD+;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="isGPFmK/";
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F0B606A31A
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 06:33:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0F0B606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53E2606A31E
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 15:37:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B53E2606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nKVNnWD+
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3869f03af6aso1985445eec.1
-        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 22:33:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=isGPFmK/
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b40a522c00so369878a91.3
+        for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 07:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795415607; x=1796020407; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795448233; x=1796053033; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6mnZfOSkxDepY2i0f378cTykfqpzL6KhJuIK0Wt6zEk=;
-        b=nKVNnWD+exYg9krQ2p+EZAXREAxjFB2Ts4pjjfxBd11WZX8TDaTCMjoiRsYhjhfr8C
-         GX3K/REuW0u16pG2/RE+70AZApEnST1HkzG4Vs3PUvpWMJQ1jYKOPsE4LEey8YEsXqoE
-         0qKV8kTzKTiEf7nHXIZTT46PXMxL9sElBkFA2LFyKOR1wuCkncHaqCMlNs7WxgAw8Z6J
-         r5ZEyan9cb22J2MEu+bdapXRH8M9uemCxFL1hCUPoVBWO3+SLfQPV4KdTsXT9xho363p
-         CROZUgLwwprBDB3A+quUalB6mwJjksNZUPxOnkWKbZhUh5W5/jXwpUvpBC01WD+i62wB
-         sSjA==
+        bh=rF0mx83XmYPM2qNwRzWvVTGOMjzCPdNgkj+Hi/DwTQk=;
+        b=isGPFmK/AlwUSggnBI0kHs4tIhemwSuAqIzIqX3kdTz2DgbS7CwxcNJNNVsYHmVhIZ
+         O9RsSd4oLLfHXL16PHaAdnlN6QypuuoqhioDKcbDUaWtELeGeHkJooJoTz1Whh1rF2a6
+         n7NU1HYMGfLkalU1aR/82vS7TneBQ1OfDSzR6w3XYPksAe1U1baABKMcAtLtWQvgJP5i
+         lKKkbjJ+YrsMAFsBxPMS1XyQvZLBLxJmTUHybQpyYiFCUKhAlx5h8aig8P5WriIbovxq
+         vr9ISFNUHT2Pe2pkuPIcX3LM2Naa7j3qBgYWyiHcuzFe1GiPfHX1HaXV/RMpV1nj2wcn
+         CmWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795415607; x=1796020407;
+        d=1e100.net; s=20260707; t=1795448233; x=1796053033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6mnZfOSkxDepY2i0f378cTykfqpzL6KhJuIK0Wt6zEk=;
-        b=LY3butKbMDNk+XQoRuY3jJuMy4KbKWee3H05RgcFu20klAQNP01lQtxVgcUB6iWQG9
-         VvU5NhZER0r56hyy67gDEgzHQmR/s6njEMOJBuMM1l0qk6AGuzni4oIsU/RIDEx4LMGH
-         dtWtKOBa0rhyYUMIQFV5ck/0cJycZKAyL/+dh/HdijI57S8sxCK5G8UqcYiTSTYLhBhG
-         NB+OkOm+2gYhK13x0redlGXhHT3UEhpHvpdrZEGwMMou28tsqwSpiV/54J7Lgx1WMIb7
-         Y2zrIAPAyfNNWoreAXmD9ErGyEWokCbypGvIjdeug+YfIIMN3ZOWxRR14IbuqNJDuBE9
-         lkoA==
-X-Gm-Message-State: APuU4Z8uK9cw79M8vUMvvKdBDnOOwwyPf00rzLWL9jpEAbaN+wym8COy
-	wHPwDy2fndyttS+nOgNeqMED1+jnwSjJi5GQ/TFFkIDxHw6IqBSbWpfnyNVkEuxOd5Q/nPLv
-X-Gm-Gg: AZFdTZcdlDYBoGl+Zr0tppjfpKtkT4JMFXHdlX0PBYudNOZxTmxYvQNNYAUOEYd+rqS
-	NRKVPiJtgYDk8s3zPQQ7Xm+iw9pSFZv8n7487TxnwrvveVUMTDGndnr9gxGYAPFUiSZbDKgdh/n
-	ydiO168gcGb90Ukoy4s3dSIV1/72KuObm14+ZEvZhIob1UIXyk+J+QirGQQ0x61EUTf0hbvJCbT
-	c+cBHgL7ItYFWEWwOfTaywEf/cfCjZ+Rtt6rLqzWMCfwTCrvOF0BrkgMxJC3QirmLnRojI7dmUN
-	y1NNg38KlgBC03g7bOr7fVp8U5CfQbNQMpCfaJupT/V/6bGLXdMofjgDYfwBH4vG2TVYauWzh33
-	j+gwE/czXdHzUUzAdzef6Yk4M88RZkcVKSV7YWW0OlW1vALOAtobILKTARTL7RlKPee9UtKEFQY
-	gtEyJXgMtqruEcvYfDXXDCqFQgtQMToDmcawSNSampUszHGTu6eGzD3WFlyPJF5eFX2M1robtzp
-	lZ7Oq3+f76uC3tz1PnGpVvfv/6mXtC39qOxwWBj0uCCnyq/6vazfa12zT1v3K7pJralL6p4u1Wr
-	tIByp9U5I4vRJV50/u4Lhf5FKNshKGDQJsVyN3Iv7ZQGTz8MwilKPx7rm7czQqlJIMLWjTo/2xK
-	lubghmVosIhtXdmMTyIUFee3v+pEo5L0K/dQFQUo/AI6er4yV8YRujL4HeuTZtq4qMwd024CUUk
-	GilYWJdCg1S3ozdIook851rSziDcOyw67J+46Mg8bbVdcac00viTLfFwA/DXtpL7DD
-X-Received: by 2002:a05:693c:68dc:b0:384:244b:12ed with SMTP id 5a478bee46e88-384b11ec95amr13052915eec.3.1795415606797;
-        Sun, 22 Nov 2026 22:33:26 -0800 (PST)
-Received: from LAPTOP-3B99V33A (ec2-47-129-70-252.ap-southeast-1.compute.amazonaws.com. [47.129.70.252])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385d2b93dd9sm35452817eec.24.2026.11.22.22.33.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 22:33:26 -0800 (PST)
-From: "Bin Luo (University of Electronic Science and Technology of China)" <luob87709@gmail.com>
-To: oe-linux-nfc@lists.linux.dev
-Cc: johan@kernel.org,
-	david@ixit.cz,
-	kuba@kernel.org,
-	netdev@vger.kernel.org,
-	"Bin Luo (University of Electronic Science and Technology of China)" <luob87709@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 2/2] nfc: preserve NCI data status error codes
-Date: Mon, 23 Nov 2026 14:33:10 +0800
-Message-ID: <20261123063310.1267-3-luob87709@gmail.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <20261123063310.1267-1-luob87709@gmail.com>
-References: <20261123063310.1267-1-luob87709@gmail.com>
+        bh=rF0mx83XmYPM2qNwRzWvVTGOMjzCPdNgkj+Hi/DwTQk=;
+        b=hk/8DydU6XqBLF+FuYHMY+RTwf8CAuI8GUpUhmRrOBH+y0oTwd4aPQ2E+qJQ5mADOT
+         Bwv2f7LdzAceQe9KUZb56v9jzJsA+MeBAsrqaUfl8wu5iLrQLk+5hk5yRv0n7KF+I9BC
+         hQ7GElOFi0R8YYW1/13b6ooka9LuY0pAIu/96mpwxn9pVOUkmJK9HMohPc3CMcaMreTM
+         Kf75EaqU8TiobiKcbwD9zbBOy40QtYmiTmts9UqhGaWBDuwTsAXCUSnNY4XHYshonVds
+         fQivFBb/lXowaHswhMl8AxjQkz2je2wWRVqz7pEKqV0GIIt7B17hPDYoZ3WvlxgJPGWC
+         Ggcg==
+X-Forwarded-Encrypted: i=1; AL+hErFHiimP2O/w/5vgd/Tc/Pnj80aF6MS+R4Ph4/52eobHQQIjG4fL3JNa/eIi2QuN1S9CHBdtmihAaCIsiXM=@lists.linux.dev
+X-Gm-Message-State: APuU4Z9/AecR1vdFDy6YAYUBuadmEDmDaTPCxFTk6Tq1HbQr546i7B48
+	uUgEBmIj1gNcnDdTbAqOiL+Srvc+YigJ2mgj8fGXJ9hIqai1Vd+zI3vr
+X-Gm-Gg: AZFdTZeTiZNk72ZG6niCV8m1rwTxpsdxiVkulRo2ri2jwqjw6RvvxzBswgn+mfqNYTq
+	rsvxJ48HQs4LN2cgabTmmQpcSkDihW+nELUBP8qC5tI8EWOw5W7/6uf1Qn4l87A7vx37laiCmi4
+	EzACtlu1nzmWc6iPQo5aXVZHQb0lZK6V7i7zwKl9fMpdi9Tdfru7QxMvVixR4IeAF7dwqEnWOwc
+	r+A/wgSKu/5D5O1V57qkZtmZbhB2ov9kmC/Hph1v+ZV5Hh1dmXzkpQrxg2GyIMvG/es2QMSeDxi
+	Aa5XyRrdl2FOiN14RQTHGZ6aRaO5nTcjvezhSXEb/vr45ybiXO4ijgY2Niel/4OgCBCKbtaTcmZ
+	XbwBYrAGSG4Z3WwqW9FDUwy4KH5MmOHLZdVkqwSE0efufjUYN2eqIdzrY1AKhKoiDqv0/ZVX746
+	ZYJ8peGeoQAzTZYMH2NgdgJCzrNZTU2DhkHPpeHNq/B2bqnETMj0aOo/pfG6k1SFD1Pq/NUdgO1
+	rnpOS7u3/ZVUhXI2rakMV68q51q5w/cbJ86VEmwtzrBrdRbPM6xOfUOgHp2ny6JnDoQKTGx8mXR
+	cZ7KBUUlIULnX+a6gqK7NjzJydUl5TZepzUnOLAb
+X-Received: by 2002:a17:90b:3d8d:b0:3ab:a188:b898 with SMTP id 98e67ed59e1d1-3b41c80b970mr17701792a91.2.1795448233074;
+        Mon, 23 Nov 2026 07:37:13 -0800 (PST)
+Received: from gmail.com ([36.112.205.124])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde797af60dsm4050341a12.29.2026.11.23.07.37.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 23 Nov 2026 07:37:12 -0800 (PST)
+From: Ziyu Zhang <ziyuzhang201@gmail.com>
+To: ian.ray@gehealthcare.com,
+	david@ixit.cz
+Cc: clement.perrochaud@nxp.com,
+	sameo@linux.intel.com,
+	oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	ziyuzhang201@gmail.com,
+	baijiaju1990@gmail.com
+Subject: Re: [PATCH v2] NFC: nxp-nci: fix deadlock between firmware download and IRQ handler
+Date: Mon, 23 Nov 2026 23:36:34 +0800
+Message-Id: <20261123153634.66973-1-ziyuzhang201@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <b707c629-97a7-4766-955b-64a2a7626004@ixit.cz>
+References: <b707c629-97a7-4766-955b-64a2a7626004@ixit.cz>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -104,42 +105,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-nci_to_errno() returns negative errno values for nonzero data-status
-bytes. Passing that value to nci_add_rx_data_frag() through a __u8
-parameter truncates the errno and changes it to an unrelated positive
-value before the completion callback receives it.
+Hi Ian and David,
 
-Keep the error parameter as int so the original errno reaches the
-completion path unchanged.
+Thanks for the patch and review.
 
-Fixes: 98ff416f97c5 ("NFC: nci: Add status byte management in case of error.")
+For the timeout/late-response race David pointed out, I suggest checking
+info->mode at the start of nxp_nci_fw_work(), after taking info_lock.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Bin Luo (University of Electronic Science and Technology of China) <luob87709@gmail.com>
+On timeout, nxp_nci_fw_work_complete() sets the mode to NXP_NCI_MODE_COLD
+and releases the firmware while the worker holds info_lock. When the
+work queued by a late response runs after this cleanup, the mode check
+makes it exit before accessing the released firmware data.
+
+The diff below combines Ian's unlock/wait/relock fix with this additional
+check and applies to the original code before v2.
+
+I have not fixed the other two issues yet. I think these would be best addressed in separate
+patches.
+
+Signed-off-by: Ziyu Zhang <ziyuzhang201@gmail.com>
 ---
-v3:
-- Split the signed NCI status errno correction into a separate patch.
+ drivers/nfc/nxp-nci/firmware.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- net/nfc/nci/data.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+diff --git a/drivers/nfc/nxp-nci/firmware.c b/drivers/nfc/nxp-nci/firmware.c
+index a953397..33193fe 100644
+--- a/drivers/nfc/nxp-nci/firmware.c
++++ b/drivers/nfc/nxp-nci/firmware.c
+@@ -154,8 +154,10 @@ static int nxp_nci_fw_send(struct nxp_nci_info *info)
+ 		if (fw_info->fw)
+ 			schedule_work(&fw_info->work);
+ 	} else {
++		mutex_unlock(&info->info_lock);
+ 		completion_rc = wait_for_completion_interruptible_timeout(
+ 			&fw_info->cmd_completion, NXP_NCI_FW_ANSWER_TIMEOUT);
++		mutex_lock(&info->info_lock);
+ 		if (completion_rc == 0)
+ 			return -ETIMEDOUT;
+ 	}
+@@ -174,6 +176,9 @@ void nxp_nci_fw_work(struct work_struct *work)
+ 
+ 	mutex_lock(&info->info_lock);
+ 
++	if (info->mode != NXP_NCI_MODE_FW)
++		goto out_unlock;
++
+ 	r = fw_info->cmd_result;
+ 	if (r < 0)
+ 		goto exit_work;
+@@ -190,6 +195,7 @@ void nxp_nci_fw_work(struct work_struct *work)
+ exit_work:
+ 	if (r < 0 || fw_info->size == 0)
+ 		nxp_nci_fw_work_complete(info, r);
++out_unlock:
+ 	mutex_unlock(&info->info_lock);
+ }
+ 
+-- 
+2.34.1
 
-diff --git a/net/nfc/nci/data.c b/net/nfc/nci/data.c
-index 3bbebb950..4a2326a33 100644
---- a/net/nfc/nci/data.c
-+++ b/net/nfc/nci/data.c
-@@ -213,13 +213,11 @@ EXPORT_SYMBOL(nci_send_data);
- 
- static void nci_add_rx_data_frag(struct nci_dev *ndev,
- 				 struct sk_buff *skb,
--				 __u8 pbf, __u8 conn_id, __u8 status)
-+				 __u8 pbf, __u8 conn_id, int err)
- {
- 	int reassembly_len;
--	int err = 0;
- 
--	if (status) {
--		err = status;
-+	if (err) {
- 		kfree_skb(ndev->rx_data_reassembly);
- 		ndev->rx_data_reassembly = NULL;
- 		goto exit;
