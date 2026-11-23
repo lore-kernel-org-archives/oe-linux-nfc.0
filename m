@@ -1,56 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795399963;
-	b=LNy6bi/UdtWVmQeycSKJeD7HU9ULRNjyC619831+qzFWljypttqjlOX9oqn6V14wTLGD
-	 dG3aqW9iXn7sElCLh0gptGsSFxBEmrVQFZsFpZdkQYVugbuPAXHKXR1ct3NlZ6kodoEvB
-	 USOJb4+yW8MvsS2tu3M8Xfeg14RAeVUbuC+zHheignlSymHNYaV01HCjS0don47LVZJBz
-	 vKuMxArJsX+SdSg58f+1NDE2mGDgdI/5/TKNrp+2s8zrroJgfrOQsHwBY2meEda0CaC7U
-	 Ls68zVri7V5Zi73DAXXMb8AKUNuB6RdU3fUWI6m9nUYK55xdMFVVVPUUNLv12r38VMQ==
+	t=1795401295;
+	b=Gr1Wmd0uMctlyCCuAVd/BeoLAGg5y6PHWIcOZpo9nq1EjSMNdZAkloAJQ+q0I1MmciKw
+	 3f6vyFCNMbAP+g70ry/1sjLIIH3KdEfYhnUFKsCDioeMJ90nTx2iMoVWMUic1heLv5vxq
+	 QWJ2LUgGjoEPP9txQp2SaaY1cNg9EBXryITmIgx+EPsD0l0GDOK7Ulq+hkZ+29Nzm/Qd2
+	 K+mmFjBKVjCiDZoyxRM6e+Itfq0PmCvnMZz+1ZCWlW/idt1cjiLfErTcWvbyj8GW5v6Qi
+	 BrMCeVkCY9Vfm74gB3f9KH4+goMat2eXaZ5eFqYcbYhaYyMfyBfpM3TyqPlLBOcCDWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795399963;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=LhhnpK/PlLWovez2c7y+KG05tfOfXBnjt/Ro2hrq1us=;
-	b=oRSYpIZOVfY6rgBagPjQo3NGanSpPnyIr11u9BwbKx39CuMWjSmFkadi/ohBgiwpjCio
-	 HyPvdCP56XnTrNd2Zoy+Ag2b7XCECUhaJzzYNIhiC7TrlxhWqGYj5I6AMrWWPU4sKAUSZ
-	 Y90FDZkiVVgzmCxmdCFb3SaxUMB0pU9W0i+cyyeQlw8a1SpoNcuEHXODqOy8Tfw4Wg0Ye
-	 lV7T/yj7E3iwM2YJwWiV4wQyHe9uwXtcXYF3MXl0AsIXEtZUtRmEj/8gsO/4x9SeGNDUt
-	 fDKSmsIU6oiZLCh2L+6/4EKeclEq2fQQdrcAsxnniv+cnqpzW0TeFw7lk7DdmkU8D/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795401295;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=4Oc64KSmd4BfTK59u2VDQ0x7zgg8Szh+LnQVeqvI2Iw=;
+	b=3yZPDX6poOOEUf/UyIbbosRPsdoOWA1jnGBQ/TBAb29xdA2I2ETc92SjuoH/gteHfhT7
+	 kiVvJnezu4OlKVx03Tulo9Am5mdMJgK/Pgko0tH8ypLFNo5SFV5NzNsqavQnqHLdbxL+t
+	 FZF7TRTzKpsQ5o+tPoVG9HN+aMrYCSvV3tVzdFRO4iEDV2TueUaRVR7A0r6vplgELv7JX
+	 pr9Kljt7K9r3qfrybikX5jMyiAer9qhSoSlTNeAtcHtWrQ9fYhecPwr8idR7yYNnV54aJ
+	 nq9jEDlQEqq9B0uXDuKYkW/kBoNt/iRNCKlcBjavASFlMcJ71nCvnY3boR2ah932HRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ixit.cz;
-	spf=pass smtp.mailfrom=ixit.cz;
-	dkim=pass header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=r4wZzS24;
-	arc=none smtp.remote-ip=84.42.129.46
-Received: from ixit.cz (ixit.cz [84.42.129.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=iiitd.ac.in;
+	spf=pass smtp.mailfrom=iiitd.ac.in;
+	dkim=pass header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=gCni3MoI;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73D0606A31A
-	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:12:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B73D0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B83606A31A
+	for <oe-linux-nfc@lists.linux.dev>; Mon, 23 Nov 2026 02:34:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89B83606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iiitd.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iiitd.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=r4wZzS24
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 926755340102;
-	Mon, 23 Nov 2026 03:12:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1795399954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LhhnpK/PlLWovez2c7y+KG05tfOfXBnjt/Ro2hrq1us=;
-	b=r4wZzS24rRH2WvFfR01xXWNwLjHNZiDi9dr0d63sGVO2bv9vkZSc1pLQadSctorZsCSvS/
-	CvVX8yevhN0M8dTsZgckWjaZhg/OJRS9GOaOaKogUCVquitWfwQMjqJgwUoqCFxu4keqRY
-	p04+DS8wAdhpM7oUZn9Uc92XDyUMIcs=
-Message-ID: <2e4a2767-ab88-4255-88d5-335cbafe90b3@ixit.cz>
-Date: Mon, 23 Nov 2026 03:12:34 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=iiitd.ac.in header.i=@iiitd.ac.in header.a=rsa-sha256 header.s=google header.b=gCni3MoI
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f02f04a426so22693565ad.1
+        for <oe-linux-nfc@lists.linux.dev>; Sun, 22 Nov 2026 18:34:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=iiitd.ac.in; s=google; t=1795401292; x=1796006092; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4Oc64KSmd4BfTK59u2VDQ0x7zgg8Szh+LnQVeqvI2Iw=;
+        b=gCni3MoILL7vBGKu2mhIzVqn0dRlsZbMjR3rrweji3owp6H2ID4ZJu6ls6b/EpE3cB
+         ZSRCLbrAXi2WslOzBgB4msm9QKmoolSgsh+jqZRdUTkzX32jn3V/phA2aIu+Bmb+DPDn
+         JS4tB3iBsrHg/HxVSCwvMDfG+zksVqLrJ4eeE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795401292; x=1796006092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4Oc64KSmd4BfTK59u2VDQ0x7zgg8Szh+LnQVeqvI2Iw=;
+        b=h3he9+4qRkbYjBCL6ZEXnRbNQ4Gnshzm/kD1igxbGAw4ywPYshgGNa7VrAgaF/Hgjd
+         EaoYNvJ/mIRVdnmi5GyAPWx+zp/3ywFk6maqPaAbYe7JedtmBJb6hwOw7dz5V21s4tCA
+         lqvAMx4AoiSYCjEVNHztKgcLouh+Fuhk+Y/uxfVcUYfecn0ACR74AgzqMYqJC4DSZ39F
+         VkturNzXiCZFF7wYGMRsaf6Zi0uJp3QnXCxO5LysDHRoGD1QT6nfM1Qm531ZqFwgwllQ
+         IyZsVuKy8Gt9hjWYhHgNVNyBO2s7d/Qnav7S9OwsxtinKbJ5mIVvuhuok5UFABl4EbDx
+         /6uQ==
+X-Gm-Message-State: APuU4Z8FsEv9eRKMZ7CXEVxIio79emteDlOggqoX59G8HqYxJsC7l9v/
+	TJ+2MZE4wmTsirYLGZ5vahEGz5ZrWCS+qqYu1c0DEnN3t8wqWBD6KTCbYX1A2Kbb778=
+X-Gm-Gg: AZFdTZdMwhEmQ2Rz0hswoFP/riUs0VQPzSdrCfk8/PlyUNPrmW3LMp/vO8cn3cds6uO
+	CfI8lmOIzYTVzrc3uVyOKozFO7s9eH6C64zZuqIaqHhygWyuByz56xva412b9nGWzA9bFIkHTCm
+	2m+Y1lnDQOlJiejG2EOxHTqqHPCsAGi141OmdleA4cc+TWbpcVC28Ipw6x1/e9c7N0dUlAq/4No
+	ZRNVtR0It84MT8xS+Fmc9NSKoJ5DVrngequryw1bBlIzjWeEQGrQrC9fSL0GjhyrsJlHhvs+w1Y
+	sVJJlwJEqhmPB0L3aO8wvYaDwoL9hAZGi+yGum53NKlJuzlC80YoFukQVjbCeTA30npHqEkHkDC
+	YbjjUHWRil90rEYV/9QtuYpxm7G9ffqruab6XXZFvKLqKhnbq4eOkIFmPp/yDfrSu4Z2X+9M3DP
+	iwiAAatgbDfSXGFBNTg2LASCNaJ64PZS+fkJn/+LUovj8A/ZfuFKxHDgt0ENCkABxNNq0uwxUZU
+	uvg8Fp3WUdiqMYm8SWGQgPperyb7ZEejv0ZwF0k20Hd59p0t5+UHaPeDTNZ05qv0uPG2EtHiUUD
+	vm6fTE9rGvvYkKHkyLC515bM75pvIM94ApKubwMZUBWYAsPBBz6v3CiRT5kRJl6f5v1aYKRcQHE
+	5OdJhH64+YF5YkNXAQiDx98GNME0IbrQOoYNBZQpKaURlaHAb0EjHeHbGNE49A/5L
+X-Received: by 2002:a17:903:1aed:b0:2f0:a814:de43 with SMTP id d9443c01a7336-2f0a814e02amr695025ad.57.1795401291903;
+        Sun, 22 Nov 2026 18:34:51 -0800 (PST)
+Received: from iiitd-S2600STB.iiitd.edu.in ([103.25.231.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03ee84027sm44590425ad.7.2026.11.22.18.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 18:34:51 -0800 (PST)
+From: Piyus Kedia <piyus@iiitd.ac.in>
+To: David Heidelberg <david@ixit.cz>,
+	netdev@vger.kernel.org
+Cc: oe-linux-nfc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kapil Vaswani <kapil@presceralabs.ai>
+Subject: [BUG] net/nfc: nci_add_rx_data_frag() hands a NULL skb to the nfc core when the reassembly cannot grow
+Date: Mon, 23 Nov 2026 08:04:45 +0530
+Message-Id: <20261123023446.3350387-1-piyus@iiitd.ac.in>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -60,103 +92,164 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nfc: nxp-nci: i2c: Do not keep a fault taken in reset
- across power-up
-To: emcp@enser.io
-Cc: oe-linux-nfc@lists.linux.dev, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Cl=C3=A9ment_Perrochaud?= <clement.perrochaud@nxp.com>,
- Samuel Ortiz <sameo@linux.intel.com>
-References: <20261122-b4-nxp-nci-cold-fault-v1-1-fad784c73cfe@enser.io>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20261122-b4-nxp-nci-cold-fault-v1-1-fad784c73cfe@enser.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/11/2026 06:13, EMCP333 via B4 Relay wrote:
-> From: EMCP333 <emcp@enser.io>
-> 
-> On a OnePlus 6T (PN553), the controller powers up once after boot and
-> never again. Each power-down logs a read error, and every later
-> power-up times out:
-> 
->    nxp-nci_i2c 3-0028: NFC: Read failed with error -121
->    nci: __nci_request: wait_for_completion_interruptible_timeout failed 0
-> 
-> nxp_nci_close() holds info_lock while it drops EN and sets the mode to
-> COLD, and the IRQ thread takes the same lock. An interrupt raised as
-> the controller goes into reset is therefore handled after close() has
-> finished, in COLD mode, where the IRQ thread treats it as -EREMOTEIO and
-> records it in hard_fault. set_mode() clears hard_fault only on entry to
-> COLD, which has already happened, so the fault survives into the next
-> power-up: nxp_nci_i2c_write() returns it for CORE_RESET without touching
-> the bus, and the request times out.
-> 
-> Do not count an interrupt taken while the controller is held in reset
-> as a fault, and clear hard_fault on every mode change, since each one
-> drives EN/FW and so resets the controller.
-> 
-> Tested on a OnePlus 6T with this change on the postmarketOS sdm845
-> kernel (6.18): five power-up/power-down cycles through the NFC netlink
-> interface all succeed, 0.03-0.04 s each, with no read errors. Without
-> it, every power-up after the first times out.
-> 
-> The code and this changelog were prepared with the help of an AI coding
-> assistant. The submitter has reviewed both and takes responsibility for
-> them.
-> 
-> Fixes: 6be88670fc59 ("NFC: nxp-nci_i2c: Add I2C support to NXP NCI driver")
-> Signed-off-by: EMCP333 <emcp@enser.io>
-Thank you for your contribution, sadly I would need you to use a real name 
-following the [1]
+Hello,
 
-|| using a known identity (sorry, no anonymous contributions.)
+nci_add_rx_data_frag() frees the skb and sets the local pointer to NULL when
+it cannot make room for the data accumulated so far, and then falls through
+to the exit path it shares with the success case.  In target mode that NULL
+is passed to nfc_tm_data_received(), and the LLCP receive path dereferences
+it.
 
-Thanks
-David
+Reproduced on net.git main at af6737b90668 ("net: af_key: fix use-after-free
+in dump_sp()"), 7.4.0-rc3-01164, with KASAN.  A patch is in the next mail of
+this thread.
 
-[1] https://docs.kernel.org/process/submitting-patches.html
+
+1. Root cause
+
+net/nfc/nci/data.c, nci_add_rx_data_frag():
+
+	if (ndev->rx_data_reassembly) {
+		reassembly_len = ndev->rx_data_reassembly->len;
+
+		/* first, make enough room for the already accumulated data */
+		if (skb_cow_head(skb, reassembly_len)) {
+			pr_err("error adding room for accumulated rx data\n");
+
+			kfree_skb(skb);
+			skb = NULL;              <-- cleared here
+
+			kfree_skb(ndev->rx_data_reassembly);
+			ndev->rx_data_reassembly = NULL;
+
+			err = -ENOMEM;
+			goto exit;               <-- and carried into the exit path
+		}
+	...
+exit:
+	if (ndev->nfc_dev->rf_mode == NFC_RF_TARGET) {
+		/* Data received in Target mode, forward to nfc core */
+		err = nfc_tm_data_received(ndev->nfc_dev, skb);
+		if (err)
+			pr_err("unable to handle received data\n");
+	} else {
+		nci_data_exchange_complete(ndev, skb, conn_id, err);
+	}
+
+nfc_tm_data_received() does not test the skb (its only NULL test is on
+dev->dep_link_up), nfc_llcp_data_received() tests the LLCP local and not the
+skb, and __nfc_llcp_recv() then dereferences it:
+
+	static void __nfc_llcp_recv(struct nfc_llcp_local *local, struct sk_buff *skb)
+	{
+		if (!pskb_may_pull(skb, LLCP_HEADER_SIZE)) {
+
+pskb_may_pull() reads skb->len, which is offset 0x70 on this build - the
+address in the report below.
+
+The other branch is already correct: nci_data_exchange_complete() accepts a
+NULL skb (it prints "len %d" as `skb ? skb->len : 0` and passes it to the
+callback with the error), which is how the pending data exchange learns the
+fragment was lost.
+
+
+2. How the failing branch is reached
+
+skb_cow_head() has to fail, and the length it is asked for is the
+accumulated reassembly:
+
+	reassembly_len = ndev->rx_data_reassembly->len;
+	if (skb_cow_head(skb, reassembly_len)) {
+
+A peer controls that length.  Each PBF_CONT fragment is appended to
+ndev->rx_data_reassembly, and the next fragment's head must then be expanded
+by the whole accumulated size with a GFP_ATOMIC allocation inside
+pskb_expand_head().  Growing the reassembly to a few hundred KiB with
+PBF_CONT fragments and then sending one more makes the expansion fail
+reliably rather than occasionally - the reproducer does exactly this, with
+64 KiB fragments, and faults on the first run every time.
+
+
+3. KASAN report
+
+net.git main, 7.4.0-rc3-01164-gaf6737b90668, KASAN (full log attached as
+kasan-nfc-nci-null-skb-mainline-7.4-rc3.txt):
+
+  BUG: KASAN: null-ptr-deref in nfc_llcp_data_received+0x93
+  Read of size 4 at addr 0000000000000070 by task kworker/u8:0/13
+  Workqueue: nfc2_nci_rx_wq nci_rx_work
+   skb_headlen             include/linux/skbuff.h:2527
+   pskb_may_pull_reason    include/linux/skbuff.h:2860
+   pskb_may_pull           include/linux/skbuff.h:2875
+   __nfc_llcp_recv         net/nfc/llcp_core.c:1625
+   nfc_llcp_data_received  net/nfc/llcp_core.c:1657
+   nfc_tm_data_received
+   nci_add_rx_data_frag
+   nci_rx_work
+
+The same reproducer on 7.3.1 gives the same fault named one frame deeper
+(null-ptr-deref in skb_headlen, kasan-nfc-nci-null-skb-7.3.1.txt), because
+net/ is built there without inlining.
+
+
+4. Impact
+
+A NULL dereference in the NCI receive workqueue: an oops that kills the
+worker and, with panic_on_oops, the machine.  It is a denial of service, not
+a corruption - address 0x70 is not mappable on any supported configuration.
+
+Reachable by whoever can deliver NCI target-mode data to the device: an NFC
+peer over the air, or a local process owning an NFC device.  The only extra
+condition is memory pressure the same peer creates by choosing the
+reassembly length.
+
+
+5. Reproducer
+
+nfc_nci_reassembly_null_skb.c in this directory (sent off-list on request).
+It brings up a virtual NCI device, activates target mode, accumulates a
+large reassembly with PBF_CONT fragments and then sends the final fragment.
+
+
+6. Suggested fix
+
+Test the skb before forwarding it, leaving the other branch alone:
+
+	+		if (skb) {
+	+			err = nfc_tm_data_received(ndev->nfc_dev, skb);
+	+			if (err)
+	+				pr_err("unable to handle received data\n");
+	+		}
+
+Returning early from the failure site instead would be smaller, but it would
+skip nci_data_exchange_complete() in initiator mode and leave a pending data
+exchange uncompleted, so the test belongs in the target-mode branch.
+
+The patch follows in this thread.  Checkpatch is clean.
+
+
+7. What was and was not checked
+
+Checked: the fault reproduces on net.git main under KASAN; the patched
+kernel is clean on the same reproducer; nci_data_exchange_complete() handles
+a NULL skb on every path (verified by reading it, not by inference);
+ordinary NCI fragment reassembly still delivers with the patch applied;
+net/nfc/nci/data.c is byte-identical between 7.3.1 and af6737b90668.
+
+Not checked: real hardware; an over-the-air peer.  We also did not audit the
+other callers of nfc_tm_data_received() (pn533, pn544, st21nfca, microread,
+digital_dep) for the same pattern - they pass skbs they own, but we have not
+tested them.
+
+No Fixes: tag is given: the NULL assignment dates from the NCI reassembly
+support and our clone of net.git does not reach that commit.  Happy to add
+the exact tag if you would like one.
+
+This was found by AI-driven fuzzing built on top of syzkaller; its analysis
+was then checked by hand against the code and every claim above was
+reproduced.
+
+Kapil Vaswani
+Piyus Kedia
