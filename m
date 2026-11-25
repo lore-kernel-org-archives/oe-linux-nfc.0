@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795645470;
-	b=xpPtPNAsNSjOU7DT5HoZIwnwKOVICYegbUf/gU6HnYFtThKhhXu+l0iXW3R071KPcGr6
-	 sv/ToJ6+zR1Vqvn0fuj45veYd/oUfkT2uGDk5vcoeNChEqjzmTaOROaAg3B+tEFnB3PgW
-	 MgM6IFTFXX0gh0S6gDStM+OONhWMbhMwUjV92bnVTUkOIo/I/MJM5cf4+OFBFFtDNBDlQ
-	 4IXs1Y+wSmm6GwJ2+P25qtwpeuSrCnQ8T76NyoInfYHLQdTOHgzKyPDGokyWCS1Xdat8J
-	 iP9DBnncqd/tUpU+GqXACTNjsLCmiXuG/8RDn1inMp/y5KYNsevIjpxOPEyUEeMXcMg==
+	t=1795645473;
+	b=rabWnxQKmdtkQlngTlGIF0bzqaZIiGxuP3RnRgjfZSGtrqbIYrY0s/5M9QEswXsAC2ey
+	 fKjey7PYgqBN2PMaLf57D2zHi2okM2AGdhY3Nf3ED5PIZEb1RlJAbeUk9cJUhSd3CQ7kU
+	 PQm/T48vFNW8W8MGZupi0gfwNK8h68FAi0MqrfLVrrtvk+becho3yqLBI3EvnXsLWrLHh
+	 MBXbIw00Yh7mS9o9aYx7U9SXM27OxaBjGzRM2klN8JTu/cOra8giprutLTBePS2Wm6GNG
+	 5KRlHpRSNBUnDqxMsBssDP0C48D2Mk8J81dcZTzKWhwiCuRoahXC2RZyZKoRI3lQZcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795645470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795645473;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=YDYS9n9lT5gSkIV69W1btVTMHd2XxfQrN36gTu5mxFk=;
-	b=XCcIfj8dzWPqBa1FeLQhrw6aZWPTXk1BSMF75iC27B8uSyUjG6tTbpYZir186hHScRLI
-	 MEYIwZsfJxdcj4mVvO7q2O+p3EwuwRzbbI3oNfEKXtXb+Mn2Sf55p5UVizgx51K9WGGTP
-	 tt9Wg6u0pV9tTFBC5y4dFWu7NlEyZHTgsm05RxUGebni64+jDaB4mI4/Vzn6GHEWGAtYZ
-	 Vx3WeaOq6Ls8rfynNQnFgEqNGcNIqZX4fNTPlx4Wojb4pEZuWpj3YDr1cSFd08L3Hz+ns
-	 9U1vVNCZHcIyiccjp6iyfslG95oOE49ftbLP4+r4c8zBZereFvafYG51xzgXdDoBYXw==
+	bh=DuZqLd0vHMeJXiMehSGkBOlcmKTFco/So2rHwAIx94g=;
+	b=EgkDN78S4FTNmRtufD1PKiogAFHqtANWTxSKTPAQVsAKHu3GO1w1L75Kjao7WUtO7NDg
+	 u8NdkO4fDItEB/alNSx9UhkcgF0Wwi3EBk6BKjkkSrRa6nQTR3hdxfMJ7CvWYFKt0sjwB
+	 KxYCA9n9edZJxhE5MqKXrY9RlAYIH8P+pWH3Jkp4rdp3FUOgam9bTrTCAsE1sr18lWWMp
+	 qvhIhhjNC2/KyTd1StpfUzqGT4c34dS7rTaH1FNak5s6rEZW0+cCWJDxP5mP25YZOXnx0
+	 +gcum1bgH/xYcGJaOMtt6WiN1dSniAfXJGvu+lk6MjPgeWQsMLXdhW9ryXkFTC6Nffw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--elkin.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=DFDn8rfa;
-	arc=none smtp.remote-ip=74.125.82.197
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="eIp/rrhf";
+	arc=none smtp.remote-ip=74.125.82.199
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B459606A337
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 22:24:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B459606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF06606A685
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 22:24:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBF06606A685
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elkin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=DFDn8rfa
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-382af5cfc58so1802325eec.0
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 14:24:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eIp/rrhf
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-386c3309469so2315554eec.0
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 14:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795645469; x=1796250269; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1795645472; x=1796250272; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YDYS9n9lT5gSkIV69W1btVTMHd2XxfQrN36gTu5mxFk=;
-        b=DFDn8rfau3E30FZXhyKn1tK/fRbFuogif0eiImgHPmOYkuGkSODwBAYiPweyCUszK/
-         Z8+jNGVPLW3B1QryRYGP4+jY0+aRfKsPvE6JWIM6bjaVL/4o8yAn9xzp5NoPM7zMe6a6
-         gItvvGS91/NNwiC7zdyAppsTh1cMHipbJmCwD4X5BywtMhgjsNl23tXUyGToDDesEnSC
-         gBnEsAUnd8V0OsSbppT9CUENUKYNSZQoVXckwSqtb3ZWljIf6AHxlKz9YBzQczWBD25O
-         8hTNVYQEusjGNC5j0OatstfmSB1HFiEMsrXtZsQTxuuQrmTs/7TEFWG25HTMb7PWxtqa
-         k9UQ==
+        bh=DuZqLd0vHMeJXiMehSGkBOlcmKTFco/So2rHwAIx94g=;
+        b=eIp/rrhfu6cm9NzURnzciuLGVWJWfllOmX9rLezerInfOvKkuleMXrvgxVqc1AhHFr
+         8La0ZDfAe3fXbz1E5pjKF/GVH5Ldqdp9TcH54PX2JbYo6ABROQpN8M6kpi6+A8bhar9/
+         Jvb66rPCFjjg6LBhr4fxBXNA0LoA9ufqZtUxmkVb+U0xgqdL74CIvkIwOmKnevTKbtYy
+         zu+jNoXzYYx/z0Vz9AN7WTZJvQ4041rq2Wq3NhZ+87Vg++14SgnLU9FBJxv7XD7CssMw
+         ts8RwehOK+DUM1uB3CojJ5OHKnrkRgrhppc80GTP292W3Cm/03Md2KVvw6j79MjgZ1Ci
+         B04A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795645469; x=1796250269;
+        d=1e100.net; s=20260707; t=1795645472; x=1796250272;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YDYS9n9lT5gSkIV69W1btVTMHd2XxfQrN36gTu5mxFk=;
-        b=JbRM6DZ0DK4ZdXU82ciDvUMmwSVfFIXCl1TKSHcADz02BWWR4uIo/2Oo0iG1YSsO6Y
-         dtCi4ZZ//4ITMwAo9ODaLHd6iMTBl4uf8AFPWpZdYTYvJfR4u8WYVi+ko5176nPndbHP
-         /ACtN3dbIZD3g1W42xhug2EOwQiBgcge/ZkhOwXafMB82gWzYuGUZINwO3l9gO9I11t6
-         tAf7eTjgHkzYCl2/oOyWBr8vLJ97n7DgS3s35JFCDLSPIUqas0zlHKe8a+sHi6SB1Pll
-         BrRdT7mwmOV0aQb7iJxm6rwnvXhIReCsvioZPxXkX4NLHV6JhkKYQcwx3u3Epjd6oHee
-         MDeg==
-X-Forwarded-Encrypted: i=1; AL+hErFS2reUlDRYMfTvrA/oBFwQnmyPth/r4TMxmMva1lJt5YJJ1S1iVPwkQXRHwBXI6XwKLLI+Ag+YpiX6kec=@lists.linux.dev
-X-Gm-Message-State: APuU4Z8/I5NEEOuEyab53l1SOXEZrCtOtwV0Tf8B95N8oDwVI0CZFHPE
-	AO0m+9bfp/S6WmGVJB7NRyHQjbKfK2BxvRVOkJPCyncjk9U6VfK+J2tQoBsP7svykiTGBs2TTCq
-	Cow==
-X-Received: from dybsl8.prod.google.com ([2002:a05:7301:7308:b0:379:1aaf:7a27])
- (user=elkin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:460f:b0:386:c850:1f25
- with SMTP id 5a478bee46e88-386c8502211mr5715418eec.21.1795645468936; Wed, 25
- Nov 2026 14:24:28 -0800 (PST)
-Date: Wed, 25 Nov 2026 22:22:57 +0000
+        bh=DuZqLd0vHMeJXiMehSGkBOlcmKTFco/So2rHwAIx94g=;
+        b=ShkRnOMPO+NCl5nYDS6QL8NSYTzxEFsHQYf5/3YQP1p9VEDRvZxvEsjAV2RiHdqeKw
+         VmqnTmZrUFhlDzGPjbcf0JEVkpC1PD5naydxAxipSFGn9FNssLsNWRccxrh/ntzKHCVU
+         qM5t4XKfPiOTKZ4W8NomShriiumUpG+QAwZxxf0Py6+9bbscxgK6w0DBcybK64jUtuoC
+         jNxOk0lM89k2J4zdcHwFHZl/WVIM5jaxFjDYA6w5qHKXR1XW9c0s0jXAqzN4VM6CnKLI
+         gm7oX+Xnx1fA44QiFcghGKUd/G56Hp+QLr+Fr8lPTB6iINSUHDM0FmIZkj4ToSF1D5C4
+         EzLg==
+X-Forwarded-Encrypted: i=1; AL+hErEFVPrEawhXxYcunrmxhDlJ8tD9uMBNfY+69QSNs09FIoN73XkYBnWtZMKpQ9vc1ba1v30DGgft0NQybxM=@lists.linux.dev
+X-Gm-Message-State: APuU4Z97mhaY7oC8VmSE0RRH2uhLVuKOnSD/tbxLzXNUynPMRoLz9213
+	ezTwHbCHP0Vx+lOxJb90J3OeBXYEGy2O7tjhRsVIpql3yfDF/7JUZ1JhAdMFfku6s833Dpm+cxv
+	wHA==
+X-Received: from dycuf5.prod.google.com ([2002:a05:7300:105:b0:386:9be5:2d95])
+ (user=elkin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:de44:b0:375:c5e1:931d
+ with SMTP id 5a478bee46e88-3857073ebabmr19368154eec.25.1795645471570; Wed, 25
+ Nov 2026 14:24:31 -0800 (PST)
+Date: Wed, 25 Nov 2026 22:22:58 +0000
 In-Reply-To: <20261125222300.1438398-1-elkin@google.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261125222300.1438398-1-elkin@google.com>
 X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
-Message-ID: <20261125222300.1438398-3-elkin@google.com>
-Subject: [PATCH net 2/4] nfc: st95hf: use DMA-safe buffers for SPI transfers
+Message-ID: <20261125222300.1438398-4-elkin@google.com>
+Subject: [PATCH net 3/4] nfc: st95hf: validate async tag response frame lengths
 From: Elkin Cruz <elkin@google.com>
 To: David Heidelberg <david@ixit.cz>, Nathan Chancellor <nathan@kernel.org>
 Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
@@ -91,15 +91,15 @@ Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>
 	Elkin Cruz <elkin@google.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-st95hf_spi_send(), st95hf_spi_recv_response(), and
-st95hf_spi_recv_echo_res() pass stack-allocated buffers from core.c and
-spi.c directly to spi_sync(), violating kernel DMA safety requirements
-on DMA-capable SPI controllers and CONFIG_VMAP_STACK kernels.
+st95hf_irq_thread_handler(), st95hf_error_handling(), and
+st95hf_response_handler() index into skb_resp->data and subtract CRC
+lengths in skb_trim() without verifying that the received frame is long
+enough. Short responses from a tag or controller can underflow offsets
+or read past the received frame.
 
-Use kmemdup() in st95hf_spi_send(), spi_write_then_read() in
-st95hf_spi_recv_echo_res(), and DMA-cacheline-isolated cmd_buf and
-rx_buf members (via __dma_from_device_group_begin/end) in
-struct st95hf_spi_context for st95hf_spi_recv_response().
+Run st95hf_error_handling() before checking WTX_REQ_FROM_TAG, require
+res_len >= 4 for WTX handling, and validate minimum frame lengths before
+indexing CRC/RATS fields or trimming skb_resp.
 
 This issue was found while trying out new Clang static analysis checks for
 kernel bug classes. The finding was triaged and fixed, and this commit
@@ -111,180 +111,87 @@ Fixes: cab47333f0f7 ("NFC: Add STMicroelectronics ST95HF driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Elkin Cruz <elkin@google.com>
 ---
- drivers/nfc/st95hf/spi.c | 52 +++++++++++++++++++++-------------------
- drivers/nfc/st95hf/spi.h | 10 ++++++++
- 2 files changed, 37 insertions(+), 25 deletions(-)
+ drivers/nfc/st95hf/core.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nfc/st95hf/spi.c b/drivers/nfc/st95hf/spi.c
-index a6599d65a3bf..8bd7eccc34d3 100644
---- a/drivers/nfc/st95hf/spi.c
-+++ b/drivers/nfc/st95hf/spi.c
-@@ -14,13 +14,18 @@ int st95hf_spi_send(struct st95hf_spi_context *spicontext,
- 		    int datalen,
- 		    enum req_type reqtype)
- {
--	struct spi_message m;
--	int result = 0;
- 	struct spi_device *spidev = spicontext->spidev;
- 	struct spi_transfer tx_transfer = {
--		.tx_buf = buffertx,
- 		.len = datalen,
- 	};
-+	unsigned char *tx_buf;
-+	struct spi_message m;
-+	int result = 0;
-+
-+	tx_buf = kmemdup(buffertx, datalen, GFP_KERNEL);
-+	if (!tx_buf)
-+		return -ENOMEM;
-+	tx_transfer.tx_buf = tx_buf;
+diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
+index d7ac7ede1259..ead0c342996c 100644
+--- a/drivers/nfc/st95hf/core.c
++++ b/drivers/nfc/st95hf/core.c
+@@ -667,6 +667,8 @@ static int st95hf_error_handling(struct st95hf_context *stcontext,
+ 	switch (stcontext->current_rf_tech) {
+ 	case NFC_DIGITAL_RF_TECH_106A:
+ 		if (stcontext->sendrcv_trflag == TRFLAG_NFCA_STD_FRAME_CRC) {
++			if (res_len < 3)
++				return -EIO;
+ 			error_byte = skb_resp->data[res_len - 3];
+ 			if (error_byte & ST95HF_NFCA_CRC_ERR_MASK) {
+ 				/* CRC error occurred */
+@@ -678,6 +680,8 @@ static int st95hf_error_handling(struct st95hf_context *stcontext,
+ 		break;
+ 	case NFC_DIGITAL_RF_TECH_106B:
+ 	case NFC_DIGITAL_RF_TECH_ISO15693:
++		if (res_len < 1)
++			return -EIO;
+ 		error_byte = skb_resp->data[res_len - 1];
+ 		if (error_byte & ST95HF_NFCB_CRC_ERR_MASK) {
+ 			/* CRC error occurred */
+@@ -714,7 +718,7 @@ static int st95hf_response_handler(struct st95hf_context *stcontext,
  
- 	mutex_lock(&spicontext->spi_lock);
- 
-@@ -35,6 +40,7 @@ int st95hf_spi_send(struct st95hf_spi_context *spicontext,
- 	spi_message_add_tail(&tx_transfer, &m);
- 
- 	result = spi_sync(spidev, &m);
-+	kfree(tx_buf);
- 	if (result) {
- 		dev_err(&spidev->dev, "error: sending cmd to st95hf using SPI = %d\n",
- 			result);
-@@ -69,12 +75,11 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
- 			     unsigned char *receivebuff,
- 			     size_t max_len)
- {
--	unsigned char readdata_cmd = ST95HF_COMMAND_RECEIVE;
- 	struct spi_device *spidev = spicontext->spidev;
- 	struct spi_transfer tx_takedata;
- 	struct spi_transfer t[2] = {
--		{ .tx_buf = &readdata_cmd, .len = 1 },
--		{ .rx_buf = receivebuff, .len = 2, .cs_change = 1 },
-+		{ .len = 1 },
-+		{ .len = 2, .cs_change = 1 },
- 	};
- 	struct spi_message m;
- 	int len = 0;
-@@ -85,6 +90,10 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
- 
- 	mutex_lock(&spicontext->spi_lock);
- 
-+	spicontext->cmd_buf = ST95HF_COMMAND_RECEIVE;
-+	t[0].tx_buf = &spicontext->cmd_buf;
-+	t[1].rx_buf = spicontext->rx_buf;
-+
- 	/* First spi transfer to know the length of valid data */
- 	spi_message_init(&m);
- 	spi_message_add_tail(&t[0], &m);
-@@ -102,12 +111,13 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
- 	len = 2;
- 
- 	/* Support of long frame */
--	if (receivebuff[0] & 0x60)
--		len += (((receivebuff[0] & 0x60) >> 5) << 8) | receivebuff[1];
-+	if (spicontext->rx_buf[0] & 0x60)
-+		len += (((spicontext->rx_buf[0] & 0x60) >> 5) << 8) |
-+		       spicontext->rx_buf[1];
- 	else
--		len += receivebuff[1];
-+		len += spicontext->rx_buf[1];
- 
--	if (len > max_len) {
-+	if (len > max_len || len > ST95HF_MAX_RESPONSE_BUFFER_SIZE) {
- 		dev_err(&spidev->dev, "spi_recv_resp, invalid response len = %d\n",
- 			len);
- 		memset(&tx_takedata, 0x0, sizeof(struct spi_transfer));
-@@ -120,21 +130,23 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
- 
- 	/* Now make a transfer to read only relevant bytes */
- 	memset(&tx_takedata, 0x0, sizeof(struct spi_transfer));
--	tx_takedata.rx_buf = &receivebuff[2];
-+	tx_takedata.rx_buf = &spicontext->rx_buf[2];
- 	tx_takedata.len = len - 2;
- 
- 	spi_message_init(&m);
- 	spi_message_add_tail(&tx_takedata, &m);
- 
- 	ret = spi_sync(spidev, &m);
--
--	mutex_unlock(&spicontext->spi_lock);
- 	if (ret) {
- 		dev_err(&spidev->dev, "spi_recv_resp, data read error = %d\n",
- 			ret);
-+		mutex_unlock(&spicontext->spi_lock);
- 		return ret;
+ 	/* check if it is case of RATS request reply & FWI is present */
+ 	if (nfcddev->curr_protocol == NFC_PROTO_ISO14443 && cb_arg->rats &&
+-	    (skb_resp->data[1] & RATS_TB1_PRESENT_MASK)) {
++	    skb_len >= 4 && (skb_resp->data[1] & RATS_TB1_PRESENT_MASK)) {
+ 		if (skb_resp->data[1] & RATS_TA1_PRESENT_MASK)
+ 			stcontext->fwi =
+ 				(skb_resp->data[3] & TB1_FWI_MASK) >> 4;
+@@ -736,13 +740,20 @@ static int st95hf_response_handler(struct st95hf_context *stcontext,
+ 	/* Remove CRC bytes only if received frames data has an eod (CRC) */
+ 	switch (stcontext->current_rf_tech) {
+ 	case NFC_DIGITAL_RF_TECH_106A:
+-		if (stcontext->sendrcv_trflag == TRFLAG_NFCA_STD_FRAME_CRC)
++		if (stcontext->sendrcv_trflag == TRFLAG_NFCA_STD_FRAME_CRC) {
++			if (skb_len < 5)
++				return -EIO;
+ 			skb_trim(skb_resp, (skb_len - 5));
+-		else
++		} else {
++			if (skb_len < 3)
++				return -EIO;
+ 			skb_trim(skb_resp, (skb_len - 3));
++		}
+ 		break;
+ 	case NFC_DIGITAL_RF_TECH_106B:
+ 	case NFC_DIGITAL_RF_TECH_ISO15693:
++		if (skb_len < 3)
++			return -EIO;
+ 		skb_trim(skb_resp, (skb_len - 3));
+ 		break;
+ 	}
+@@ -815,7 +826,11 @@ static irqreturn_t st95hf_irq_thread_handler(int irq, void  *st95hfcontext)
+ 		goto end;
  	}
  
-+	memcpy(receivebuff, spicontext->rx_buf, len);
-+	mutex_unlock(&spicontext->spi_lock);
+-	if (skb_resp->data[2] == WTX_REQ_FROM_TAG) {
++	result = st95hf_error_handling(stcontext, skb_resp, res_len);
++	if (result)
++		goto end;
 +
- 	return len;
- }
- EXPORT_SYMBOL_GPL(st95hf_spi_recv_response);
-@@ -143,21 +155,11 @@ int st95hf_spi_recv_echo_res(struct st95hf_spi_context *spicontext,
- 			     unsigned char *receivebuff)
- {
- 	unsigned char readdata_cmd = ST95HF_COMMAND_RECEIVE;
--	struct spi_transfer t[2] = {
--		{.tx_buf = &readdata_cmd, .len = 1,},
--		{.rx_buf = receivebuff, .len = 1,},
--	};
--	struct spi_message m;
- 	struct spi_device *spidev = spicontext->spidev;
--	int ret = 0;
-+	int ret;
++	if (res_len >= 4 && skb_resp->data[2] == WTX_REQ_FROM_TAG) {
+ 		/* Request for new FWT from tag */
+ 		result = st95hf_handle_wtx(stcontext, true, skb_resp->data[3]);
+ 		if (result)
+@@ -826,10 +841,6 @@ static irqreturn_t st95hf_irq_thread_handler(int irq, void  *st95hfcontext)
+ 		return IRQ_HANDLED;
+ 	}
  
- 	mutex_lock(&spicontext->spi_lock);
+-	result = st95hf_error_handling(stcontext, skb_resp, res_len);
+-	if (result)
+-		goto end;
 -
--	spi_message_init(&m);
--	spi_message_add_tail(&t[0], &m);
--	spi_message_add_tail(&t[1], &m);
--	ret = spi_sync(spidev, &m);
--
-+	ret = spi_write_then_read(spidev, &readdata_cmd, 1, receivebuff, 1);
- 	mutex_unlock(&spicontext->spi_lock);
- 
- 	if (ret)
-diff --git a/drivers/nfc/st95hf/spi.h b/drivers/nfc/st95hf/spi.h
-index 840f55f82899..6fbace4412d9 100644
---- a/drivers/nfc/st95hf/spi.h
-+++ b/drivers/nfc/st95hf/spi.h
-@@ -9,6 +9,7 @@
- #ifndef __LINUX_ST95HF_SPI_H
- #define __LINUX_ST95HF_SPI_H
- 
-+#include <linux/dma-mapping.h>
- #include <linux/spi/spi.h>
- 
- /* Basic ST95HF SPI CMDs */
-@@ -17,6 +18,7 @@
- #define ST95HF_COMMAND_RECEIVE	0x2
- 
- #define ST95HF_RESET_CMD_LEN	0x1
-+#define ST95HF_MAX_RESPONSE_BUFFER_SIZE	280
- 
- /*
-  * structure to contain st95hf spi communication specific information.
-@@ -25,12 +27,20 @@
-  * @done: completion structure to wait for st95hf response
-  *	for synchronous calls.
-  * @spi_lock: mutex to allow only one spi transfer at a time.
-+ * @cmd_buf: DMA-safe buffer for command byte.
-+ * @rx_buf: DMA-safe buffer for response transfers.
-  */
- struct st95hf_spi_context {
- 	bool req_issync;
- 	struct spi_device *spidev;
- 	struct completion done;
- 	struct mutex spi_lock;
-+	__dma_from_device_group_begin(cmd);
-+	u8 cmd_buf;
-+	__dma_from_device_group_end(cmd);
-+	__dma_from_device_group_begin(rx);
-+	u8 rx_buf[ST95HF_MAX_RESPONSE_BUFFER_SIZE];
-+	__dma_from_device_group_end(rx);
- };
- 
- /* flag to differentiate synchronous & asynchronous spi request */
+ 	result = st95hf_response_handler(stcontext, skb_resp, res_len);
+ 	if (result)
+ 		goto end;
 -- 
 2.56.1.839.g22a8290db9-goog
 
