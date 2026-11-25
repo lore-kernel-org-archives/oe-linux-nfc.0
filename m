@@ -1,59 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.68
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508984;
-	b=MXUwo0mCXm26UDce5AyX/FQNmg9SPoTL3oFyNm0omAtcW6ljvd95VcLAw7HGe/ew+ql3
-	 KhjdZMsmlHk8Tjlnd4Pcgrw3lVqDz5Mx3r1uUUy6qXyuAYzIQ8fC43Pidg/8ajag557N/
-	 Gtl1gCJHBwizzJVgpgOZytZS5QmkTLZaW6YWvigoHLBsdiNi8vjnHICq/El9krxnl5ryA
-	 lj04Cr7dyL/gTbSTQm7paTcx/hnbXwCqwnIMjBZNSx/IV3gYRsM2waoRgyimcw1joTCpW
-	 /bkbRvGXV604HfoW4pTwmiZiiGVtnk9kstl7rXWrcmzU2icvzJ7XgMTIpzff61wNN8g==
+	t=1795575461;
+	b=BmilVdS1MSRJEssfcoZ6u/CUqcL90B44QkElSvLiSx/q98zGTWkj7pe2vyv9jowkD2p4
+	 Qmr1S20PJX6bjFBUw9NI14JMrS8jorlYStTwJtN1VXa/9/4GXZMR1j/kcuePmkBjweoum
+	 adOyq4LvnDGaLl1rPNXPV+tgkr2rXH1INNCpDZxV7HtZb2XC6pzeWaoITbucrHyBgBcHK
+	 4OBaJpOhvJXGRDiJk+NL9v3w6Tfx6s0ljXFYlhfyYtRmEAHS7txRLmwrFWDrZgIhLhiLt
+	 DiZ6X1wKFBSJaSNG6EAQjYHPnXgxsWokcJJREUE9yL21n2iimkpMAJyKstoZm764DTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508984;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=7CedIZqW8uK1+Z6TUaHzLF+svnPdCe1eL2kyZtyrFhM=;
-	b=r5VOyLPHYULUtcwyAlOgjoXWzNr9DPoxeWK9drrNQN+md4NDKqAHf3CiyGoRmoFwhJz0
-	 K7AlZV34epYPr1qEKpwO2Tuyxc6CbSpiw7CRSvHf7XnV+w0y0Sd4+unKY4zB/0gM54wIL
-	 j6+3zY82ZQ5kEzlUC67Hh/chjq2Hbl6Jc0I7kRbkN/0NmpF+8ociN32277j9S1z4sc821
-	 KHiGs9Dez4LzBV76knKHI0FcDQnUqaHj3BSIo5EaPkJ/gkKpZjf/mzrM+ILdwINqQe/1E
-	 pp1FzXqr6uaRB3+aVzO+W86MRZfmMCUMS1D+9PF7ZIdyVjG1H/JpGmllLQW2RpCIMMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795575461;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=SwOZibvAccnxBelZH8y949wCLqVF2LXLaAyvhlz6UsE=;
+	b=Uq5bqIMgkTPcoMiMverI18aAgdamQ3dVDauAu+WadxrtIMbA/FPwn3yA8cLm0iY15Ltd
+	 Os7u88vYIVQO/ONwFAEVHfvn/5G00n4eHTRXTpCSi+2HK/H6iqvEKkybOdIYjZZGFuX35
+	 KqtWTXttQCb3xI/OWRgmvGuOqFRpuTh/ceBCccqzqEpxTAfojiMriXDYUyQhB/9kuUZzk
+	 nrEBYFB56ps11Tk8Yz5atRpbOikvTeSHkohePtD1jOuEoZBD7W7rLkdQ4YDrE+L+iiHOo
+	 wJhiCtCmCF5nvfcBMJjza7sznqJpF4E6yTzHY4OdYR1iATF/DbJb0HEsZHRUDKcuNeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yv4B1IO8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PUWIvr1d;
+	arc=none smtp.remote-ip=209.85.210.68
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84288606A31E;
-	Tue, 24 Nov 2026 08:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518CB606A323
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 02:57:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 518CB606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yv4B1IO8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580EF1F000C4;
-	Tue, 24 Nov 2026 08:29:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795508983;
-	bh=7CedIZqW8uK1+Z6TUaHzLF+svnPdCe1eL2kyZtyrFhM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Yv4B1IO8X+uV5oGuT//cJjpUkkEKqNgiRFkdPjU2IsqEtGzTBaGCcRdA9YlB4d0sZ
-	 MJeFwEBxqS11LLlV7G80+VQKaZbmwy1JZ5vlh7q+MyeLrVZK8/xZd6G/wRlthn7a0Z
-	 fbU+dRRdGQKxLa6hyBMmvanLXLRis9ECu8nXK8vhH+WEyZCHOQF1NATBNqtNKOuo+F
-	 QN33vB0rDcYqzrH6H6N7O3Y2uCO5r6dU40oM2ISFaHMsS9m5nLOun0/biCFN2It3KQ
-	 /YG10f3+TylA3V9xy57eH+f09QLWK8EwhXMBT13acd26oSdE3Io+nI782Bsn86SgIF
-	 zulAcPUEHyJUw==
-Subject:
- Re: [PATCH net] nfc: llcp: fix double put of nfc_dev on interrupted connect
-From: netdev-bot+sashiko@kernel.org
-To: bsdhenrymartin@gmail.com
-Cc: david@ixit.cz, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, oe-linux-nfc@lists.linux.dev,
- netdev@vger.kernel.org, stable@vger.kernel.org
-Date: Tue, 24 Nov 2026 08:29:42 +0000
-Message-ID: <179550898290.3135.6710394263567960134@kernel.org>
-In-Reply-To: <20261120081354.4098856-1-bsdhenrymartin@gmail.com>
-References: <20261120081354.4098856-1-bsdhenrymartin@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PUWIvr1d
+Received: by mail-ot1-f68.google.com with SMTP id 46e09a7af769-862df509d48so4108004a34.0
+        for <oe-linux-nfc@lists.linux.dev>; Tue, 24 Nov 2026 18:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795575460; x=1796180260; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SwOZibvAccnxBelZH8y949wCLqVF2LXLaAyvhlz6UsE=;
+        b=PUWIvr1dnsCTxxhKowmlDog5rVNAc9EcYqtie4Uh4bvvo+DrPjPns7rg+wa838En7y
+         lwOWPFqvH0Uh5GFLImHssVereu9qehcqDQlQBo39WzsqE+y5qSgNSvDIBTm1wrMua2Iq
+         rX/UyGEw4/O62URMo3Zjj3wLWm5mXuVM/gxkImp7++ct+mQo8OJnVUFpDj248h/493Gz
+         BWMWKbvphO+YiYD6s5cSoi++ePQVr1aQi4enGITyjzwfoCD5iq/+4qD85UO04plHE31M
+         bwT2meQ1FEahKGwbYoYrl3Wg68j3Cv8+7xJde4slEqkfKbPlZDXuTy9DjPQAtcvN9ixK
+         HZqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795575460; x=1796180260;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SwOZibvAccnxBelZH8y949wCLqVF2LXLaAyvhlz6UsE=;
+        b=cp6hc7ePFCl9u8OZeKNoIhkWmXntQYKWLpUplm3LenDJiKb1q9hDVlTESOEvDGFCM6
+         EkBXTiD+4DJl3igzK2kuS0l7C7ifflYxkjCBPGxV/hkf52X3mrL4Oi4xkxV1nHHW1Cew
+         7r3Ypx+K/hN1VBOpnVmx/RKyrUIoTEBZOcJciAW6OcjTcli/EPTVJb6YpubFjI1DSb2b
+         MY0RaE/iIuEBs4aP1TWI8FFA+7cq3i8p0zyCr8EAARZGEZ1YmJVm8CTFI/TQBUDUtCOk
+         Q73znJFRn8/zENVhDASy0+9uYXWJGt91CuIATY+PIVK8l6ucR9jENsNA7Q08oH1UV0cl
+         Kfiw==
+X-Gm-Message-State: APuU4Z+JmxQG3PmILli2yT4dTTKX1CfBAzAaqGIlLt8HJe4VsQ1pEbOG
+	SIaHO9IMCT0DlVF1ed7c7mXkAb0fGiRn3E2yehwPVWNZ4HDIs1XB8AUh
+X-Gm-Gg: AZFdTZevuSr4ILHrsbupT/bHqwUaSCwkA/44f5kB3Q8Addq5HnPT3+c7SeaB6EHIYT5
+	K3MU/PrB7Bd+88btTQfx6IQUeqSrxScP2gkzfzs9fUOJWcaMJVAqjWyZzwxBgimAbUZylMOb9k9
+	CcJPJPH26NiEiXHfSsvQszEEC3ABoS4ujaYls7gz3wRroGAlz8OJTCVtRQTUQjGLboYxVPmnl+B
+	UvD4s7Z2cV+IL00g/0ZpPCtSWFNbmvmfm6rBTbnKdeohvU5ZIeFYFNBY+xlicvEq5lt/3K1KhyS
+	lKBGGMejZX6GOmHWPrqaAfnrEeRLQmxPnfp9SaQD4+6Gfi8IFVMRA/SNqi0oJNI+kpAujn81usX
+	2kfOB+alHyo0ZcWh5NaUPDIexw3qWKyjbT0l2S6IAnKbNUkoNZz1Ey0qo3YzxO0EBnkWMl2TeeJ
+	/u/ZgZzo8AfdKt9eeyQ/Com3HD0e8t/m4cO14djHhIptP1sVyHH6Zw9XfpSEadvEcPFyBaynSwk
+	o9pjEQVjN9xWxJOm9ugSgHWQpbKlbpMa94CN871rjv1MFF1NSTEIUUghpWrRE1w/64IhTgYEc0R
+	eoom/xnHArFV3gRL+COTxysQOUvSJuNt5dRiAADlJeH7hCk/6IP5PbOvYhETIN5lRuVo
+X-Received: by 2002:a05:6830:640d:b0:862:c21e:4f75 with SMTP id 46e09a7af769-863091e1e95mr13456344a34.15.1795575460166;
+        Tue, 24 Nov 2026 18:57:40 -0800 (PST)
+Received: from localhost.localdomain ([14.116.239.36])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86322db2d1asm10701384a34.4.2026.11.24.18.57.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 18:57:38 -0800 (PST)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: david@ixit.cz
+Cc: oe-linux-nfc@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edumazet@kernel.org,
+	horms@kernel.org,
+	Henry Martin <bsdhenrymartin@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH nfc v2] nfc: llcp: walk the accept queue under the socket lock
+Date: Wed, 25 Nov 2026 10:57:30 +0800
+Message-ID: <20261125025730.383142-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -63,304 +97,64 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 6 potential
-issue(s) to consider.
+llcp_accept_poll() walks parent->accept_queue and reads each child's
+sk_state without holding the socket lock.  nfc_llcp_accept_dequeue()
+unlinks closed children and drops their creation reference under that
+lock, and the last sock_put() frees the child.
 
-Critical: 0 · High: 3 · Medium: 2 · Low: 1
+A poll() racing with accept() therefore reads a freed child:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+  BUG: KASAN: slab-use-after-free in llcp_sock_poll+0x440/0x4e0
+  Read of size 1 at addr ffff888112387812 by task poc.bin/528
+  Allocated by task 198:
+   nfc_llcp_sock_alloc
+   nfc_llcp_rx_skb
+  Freed by task 529:
+   __sk_destruct
+   nfc_llcp_accept_dequeue
 
-- [High] The fix is incomplete.
-- [High] The patch adds an nfc_dev refcount leak.
-- [High] The new early return in llcp_sock_connect() (socket on
-  local->sockets, state not CONNECTED, ret = -ERESTARTSYS/-EINTR/-ENXIO)…
-- [Medium] The commit message gets the failure mechanism wrong and makes
-  false claims about ownership.
-- [Medium] The ownership heuristic is also fooled by bind() followed by
-  connect().
-- [Low] The comment added in llcp_sock_connect() says the 'dev/local
-  references now belong to the socket.
+Take the listener lock around the accept queue walk.
 
---
+This issue was discovered by Tencent CodeBuddy Security.
 
-nfc: llcp: fix double put of nfc_dev on interrupted connect
+Fixes: d646960f7986 ("NFC: Initial LLCP support")
+Cc: stable@vger.kernel.org
+Reviewed-by: Eric Dumazet <edumazet@kernel.org>
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+v1 was posted to netdev without a target prefix; netdev does not take
+nfc patches, so repost to the nfc tree as [PATCH nfc].  No code change.
 
-This patch changes the interrupted-wait error path in llcp_sock_connect().
-When the socket is found linked on local->sockets, the nfc_dev and local
-references taken by connect() are no longer unwound. A new helper,
-llcp_sock_on_local_sockets(), treats list membership as meaning that the
-CC handler has claimed the socket.
+v1: https://lore.kernel.org/netdev/20261118083811.1721010-1-bsdhenrymartin@gmail.com/
 
-> While the socket waits for the peer, nfc_llcp_recv_cc() can already
-> have claimed it: the CC handler moves the socket from
-> connecting_sockets to local->sockets and the reference now belongs to
-> the socket. It is dropped exactly once, by nfc_llcp_recv_disc() or by
-> llcp_sock_destruct().
+ net/nfc/llcp_sock.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-[Severity: Medium]
-Is this description of the failure complete? A CC frame on its own does
-not seem able to make sock_wait_state() return an error.
-nfc_llcp_recv_cc() sets LLCP_CONNECTED under lock_sock(). After
-schedule_timeout(), the loop takes the lock again and checks the state
-before it reaches signal_pending():
-
-net/nfc/llcp_sock.c:sock_wait_state() {
-	while (sk->sk_state != state) {
-		...
-		if (signal_pending(current)) {
-			err = sock_intr_errno(timeo);
-			break;
-		}
-
-		release_sock(sk);
-		timeo = schedule_timeout(timeo);
-		lock_sock(sk);
-		...
-	}
-}
-
-So the double put seems to need a CC followed by something that drops
-the CONNECTED-state dev reference and takes the socket out of
-LLCP_CONNECTED, such as nfc_llcp_recv_disc() or nfc_llcp_socket_release().
-
-The "dropped exactly once" list also leaves out two functions:
-
-nfc_llcp_socket_release() calls nfc_put_device() for CONNECTED sockets.
-
-nfc_llcp_recv_dm() closes a claimed socket without dropping the
-reference.
-
-> Check whether the CC handler already claimed the socket - it is the
-> only path that links a connecting socket into local->sockets - and
-> leave the references with the socket in that case.
-
-Is "the only path" accurate? llcp_sock_bind() also links sk into
-local->sockets and sets LLCP_BOUND, and llcp_sock_connect() does not
-reject LLCP_BOUND.
-
-The commit message also doesn't explain the new "if (sk->sk_state ==
-LLCP_CONNECTED) ret = 0;" branch. sock_wait_state() only returns an
-error while CONNECTED if sk_err was already set. Which case is that
-branch meant to handle?
-
-> diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
-> index 1e5ee4bcde684..22b2f65e984a4 100644
-> --- a/net/nfc/llcp_sock.c
-> +++ b/net/nfc/llcp_sock.c
-> @@ -683,6 +683,36 @@ static int llcp_sock_release(struct socket *sock)
->  	return err;
->  }
->  
-> +/**
-> + * llcp_sock_on_local_sockets() - check if a socket was claimed by a CC
-> + * @local: the LLCP local the socket connected on
-> + * @sk: the socket to look up
-> + *
-> + * nfc_llcp_recv_cc() moves a connecting socket to local->sockets when the
-> + * peer answers with a CC frame.  Only that path links a connecting socket
-> + * into local->sockets, so membership doubles as "the peer claimed the
-> + * socket".  The caller must hold lock_sock().
-
-[Severity: Medium]
-Can bind() followed by connect() make this helper return true when no
-CC has arrived?
-
-llcp_sock_bind():
-	nfc_llcp_sock_link(&local->sockets, sk);
-	...
-	sk->sk_state = LLCP_BOUND;
-
-llcp_sock_connect() only rejects LLCP_CONNECTED and LLCP_CONNECTING, so
-a bound socket goes on to:
-
-	nfc_llcp_sock_link(&local->connecting_sockets, sk);
-
-This links the same sk_node a second time. That hlist double link is
-older than this patch. But because local->sockets still reaches sk_node,
-llcp_sock_on_local_sockets() finds sk.
-
-If a signal interrupts sock_wait_state() before any CC arrives, the new
-code takes goto out. It returns -ERESTARTSYS or -EINTR with the socket
-still in LLCP_CONNECTING.
-
-The nfc_dev reference taken by connect() is then never dropped, because
-llcp_sock_destruct() only puts it for LLCP_CONNECTED. connect() also
-overwrote llcp_sock->local, so the local reference taken by bind() leaks.
-Before this patch, the error path unwound both references taken by
-connect().
-
-> + *
-> + * Return: true if @sk is linked in local->sockets.
-> + */
-
-[ ... ]
-
-> @@ -781,9 +811,27 @@ static int llcp_sock_connect(struct socket *sock, struct sockaddr_unsized *_addr
->  
->  	ret = sock_wait_state(sk, LLCP_CONNECTED,
->  			      sock_sndtimeo(sk, flags & O_NONBLOCK));
-> -	if (ret && ret != -EINPROGRESS)
-> +	if (ret) {
-> +		if (ret == -EINPROGRESS)
-> +			goto out;
-> +
-> +		/* If the CC frame was processed while we slept, recv_cc()
-> +		 * moved the socket to local->sockets and the dev/local
-> +		 * references now belong to the socket.  They are dropped by
-> +		 * nfc_llcp_recv_disc() or llcp_sock_destruct(); unwinding
-> +		 * them on this error path would put the nfc_dev reference
-> +		 * obtained above a second time.
-> +		 */
-
-[Severity: Low]
-Does this comment correctly say who releases these references?
-nfc_llcp_recv_disc() only drops the dev reference, and never the local
-kref:
-
-	if (sk->sk_state == LLCP_CONNECTED) {
-		nfc_put_device(local->dev);
-		...
-
-The local reference is only released through
-llcp_sock_destruct()->nfc_llcp_sock_free()->nfc_llcp_local_put().
-llcp_sock_destruct() drops the dev reference only when sk_state is
-LLCP_CONNECTED.
-
-nfc_llcp_socket_release() also drops the dev reference for CONNECTED
-sockets, and the comment doesn't mention it.
-
-> +		if (llcp_sock_on_local_sockets(local, sk)) {
-> +			if (sk->sk_state == LLCP_CONNECTED)
-> +				ret = 0;
-> +			goto out;
-> +		}
-
-[Severity: High]
-Does this leak the nfc_dev reference if the peer sends a CC and then a
-DM?
-
-Say rx_work handles a CC and then a DM whose reason is not
-LLCP_DM_NOBOUND or LLCP_DM_REJ, before the connecting thread gets
-lock_sock() back. nfc_llcp_recv_dm() takes the default branch and finds
-the socket on local->sockets with nfc_llcp_sock_get(). It then does:
-
-	sk->sk_err = ENXIO;
-	sk->sk_state = LLCP_CLOSED;
-	sk->sk_state_change(sk);
-
-It doesn't call nfc_put_device(), and it leaves sk on local->sockets.
-
-sock_wait_state() then returns -ENXIO from sock_error().
-llcp_sock_on_local_sockets() returns true and the state isn't
-CONNECTED, so we goto out and skip put_dev. Later, llcp_sock_destruct()
-skips the put as well:
-
-	if (sk->sk_state == LLCP_CONNECTED)
-		nfc_put_device(llcp_sock->dev);
-
-Before this patch, this sequence went to sock_unlink and the reference
-was dropped once. Does the nfc_dev now stay pinned for good?
-
-[Severity: High]
-What state is the socket in when this path returns an error with
-sk_state not CONNECTED?
-
-The socket stays linked on local->sockets in LLCP_CLOSED. It still holds
-llcp_sock->local, the reserved ssap and the kmemdup'd service_name.
-
-For example, take a CC followed by a DISC with non-zero SAPs.
-nfc_llcp_recv_disc() puts dev and sets LLCP_CLOSED, but leaves sk on
-local->sockets. A signal then makes sock_wait_state() return
-sock_intr_errno(timeo). With the default sk_sndtimeo of
-MAX_SCHEDULE_TIMEOUT, that is -ERESTARTSYS.
-
-Now suppose the syscall is restarted or userspace retries. The entry
-checks in llcp_sock_connect() only reject LLCP_CONNECTED and
-LLCP_CONNECTING, so the second call goes ahead. It overwrites
-llcp_sock->local, dev, ssap, reserved_ssap and service_name, which leaks
-the old local reference, the ssap reservation and the service_name
-buffer. It then does:
-
-	nfc_llcp_sock_link(&local->connecting_sockets, sk);
-
-sk_add_node() calls hlist_add_head() on sk_node without any check, and
-sk_node is still linked in local->sockets. Can this corrupt both
-local->sockets and connecting_sockets, and lead to a use-after-free on
-later list walks?
-
-Before this patch, this error path went through sock_unlink, so a
-restarted connect() started from a clean socket. A similar double link
-already exists if userspace reconnects after a normal connect plus
-DISC. Here, though, a remote peer and an ordinary signal create the
-state, and the kernel's own syscall restart triggers the corruption.
-
-> +
->  		goto sock_unlink;
-> +	}
-
-[Severity: High]
-Can the double put still happen through nfc_llcp_socket_release()?
-
-That function takes sockets off local->sockets with
-nfc_llcp_sock_list_pop(), which only holds the list write lock, not
-lock_sock():
-
-nfc_llcp_sock_list_pop()
-	write_lock(&l->lock);
-	sk = sk_head(&l->head);
-	if (sk) {
-		sock_hold(sk);
-		sk_del_node_init(sk);
-	}
-
-Then, for each socket it pops:
-
-	if (sk->sk_state == LLCP_CONNECTED)
-		nfc_put_device(llcp_sock->dev);
-	...
-	if (err)
-		sk->sk_err = err;
-	sk->sk_state = LLCP_CLOSED;
-
-So holding lock_sock() in llcp_sock_connect() doesn't keep list
-membership stable. That also contradicts "The caller must hold
-lock_sock()" in the new kernel-doc.
-
-There are two ways to get here while connect() sleeps after the CC was
-handled:
-
-rx_work: nfc_llcp_recv_disc() with dsap == 0 and ssap == 0
-  nfc_dep_link_down()
-    nfc_llcp_mac_is_down()
-      nfc_llcp_socket_release(local, true, 0)
-
-nfc_llcp_unregister_device()
-  local_cleanup()
-    nfc_llcp_socket_release(local, false, ENXIO)
-
-Either way, the socket's dev reference is dropped and sk is no longer on
-any list. In the unregister case, sock_error() returns -ENXIO and no
-signal is needed. In the DISC(0,0) case, the state is CLOSED, so the
-wait continues until a signal returns -ERESTARTSYS or -EINTR.
-
-llcp_sock_on_local_sockets() then returns false, we goto sock_unlink,
-and put_dev calls nfc_put_device(dev) a second time. Isn't that the same
-kref underflow and nfc_dev use-after-free that the commit message
-describes?
-
-Would tracking ownership of the references explicitly work better here
-than inferring it from list membership?
-
->  
-> +out:
->  	release_sock(sk);
->  
->  	return ret;
-
+diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+index 1e5ee4bcde68..3503f1a7a7cc 100644
+--- a/net/nfc/llcp_sock.c
++++ b/net/nfc/llcp_sock.c
+@@ -584,8 +584,16 @@ static __poll_t llcp_sock_poll(struct file *file, struct socket *sock,
+ 
+ 	sock_poll_wait(file, sock, wait);
+ 
+-	if (sk->sk_state == LLCP_LISTEN)
+-		return llcp_accept_poll(sk);
++	if (sk->sk_state == LLCP_LISTEN) {
++		/* nfc_llcp_accept_dequeue() unlinks and frees closed children
++		 * under the listener lock, so the queue can only be walked
++		 * with that lock held.
++		 */
++		lock_sock(sk);
++		mask = llcp_accept_poll(sk);
++		release_sock(sk);
++		return mask;
++	}
+ 
+ 	if (sk->sk_err || !skb_queue_empty_lockless(&sk->sk_error_queue))
+ 		mask |= EPOLLERR |
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261120081354.4098856-1-bsdhenrymartin%40gmail.com
+2.43.7
+
