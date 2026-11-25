@@ -1,72 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795645425;
-	b=X4OKNOS0O9p6qmao0o2su5TR2vDTLsq6SWDjMafTR+DE6l4QHkaRnAWm8OoXArBxZh+0
-	 dcN5Ygz8EJiI7dXLAP/51suwrWUyZJh/cT1AGiYBML7Y+t1AZ71ewv9hHh8oiTsz8J9C5
-	 9hU3dBLobZtFrjGTwvtxKLEb5IrfLXdZmxBrFeiTDgRzTqgRCtSYtcD+u5n/51gNuPkqg
-	 o9C941S1rO9nIf6Tj6Dctgp5kZ7V6zqjRkrVxLS3d8mjdHX8pPobD4p9tmSWgIgptkepO
-	 4knfoSpQqH+3WqV9oc+J+UT04uSWRF4u+DZRat/GU9MnmsY563+sv36Qs1jzsRoYdpQ==
+	t=1795645428;
+	b=tVp8GWgQUwd3rf0yOhsWfdphWhoaw+wlPhwLdo23oS9QR1ZNq9qBXlzWbJK7JNC0boKS
+	 jYFkpJUbFdlJZ8I6iHsQbf3I2cm+VAs1A3h9GGJeuA9RyOKpK8ZunqxG9FMWd+SplCuhr
+	 gBDW3cYuM25Qx3mNRy67dp3uYmJFiyDOqFrC5QKyf/6yhTgb3i0ggQnPb2GNYcFK5LPj8
+	 sPyBawUgjYacMYaJV4c30S0toGsI302gkaIeCqbE+Nf/BdsLmy2k6Pw+1Jolx2IwBiRUc
+	 s1uEe8m1g2zabFD56wVZJHSOP7tuK0LF+aClpeSm+n+aV+mwae8Rhpnqk1z6+vsS7eA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795645425;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795645428;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=3b33X25rJkg/st5uBmBh5JOgmQ+U8JpPJF9za8o/02E=;
-	b=B4Ffh7lCi/MmXg+TSujS2SSfzg3Jif5qCnlWcOIyQEBBbaBYWUnSRgMoSn5wVLFI8kq3
-	 OsYqS5Tv1OMn0rDyVAwjhEjx/MiUu3JK+SOT2VVMveOpVrWN9BWdaskG9FJzs/1WtBVWx
-	 1SsSIWGFjZxWr9ArWXbVR5a6oEiv8qhvuc4g8TUOehirVl6M7WYna8c3/ImwDdEhuRj4g
-	 q1O/15YEJt89g9GVJ+6sWI376MYpXHjibDy1XvbjugdCHXMTg1WbABSGxfPoRAlnuPbrH
-	 5x1W696Sz1XycyrnAVm5SLLaJzvZ6qWXkYlqoPk0dg9s0zO6j/8CPC8L82ES0Eh9sWg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=/tS6CVqz0bwQhURF3f4/c8xLuOeYAnVMzoUdEwuEpSs=;
+	b=l+FO8iQsANLXJ3az0yVUvQJxqd2PBZ/R/mvMR7ppadpXPuyuDslzz3WWO3LfCYmlCao+
+	 6ygKvzosi7wTedClH6Er9V5KPxrnGG8wjfyt1u3GpU6J4z+b+lzTCks5D2OkzOFW+rk0p
+	 SxgdtNeDfD0FLdmPyQud6CrV6lz/EUlmYbeJ/kv5zpqAgTlqn5F9VsYLKn7V+ZfPS8XTn
+	 agAzu4xu61qhqCi87qak2x4c0X0263vTuMMEJUHAgYKlFfYFUlngnhi169Iead4kxqsen
+	 bv+2Xff9HmeM/c5qpVOUUR+qkw+L4IJ8WksdDLVIWsUhiJnPONqU9Xai4ORcCvZ93kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--elkin.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o3DtiZSf;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=CDov0XuG;
 	arc=none smtp.remote-ip=74.125.82.200
 Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0D4606A321
-	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 22:23:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C0D4606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB8F606A32A
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 22:23:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADB8F606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elkin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o3DtiZSf
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-341eff9e381so9498682eec.1
-        for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 14:23:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=CDov0XuG
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-341eff9e381so9498701eec.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 14:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795645424; x=1796250224; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3b33X25rJkg/st5uBmBh5JOgmQ+U8JpPJF9za8o/02E=;
-        b=o3DtiZSf+eDYNix1Ztij2OJVDQQ/grr2tqxTxhP7KMe2nFiuHF7MhrUQBVxUcaQK+C
-         3W2Ri6lwlSfHMCwQLzUYWnpkRKM+tLYnnNGB7nobDMKI/9dk/dtDKMNu/PhZbgIcOnTW
-         Uflk8HaYa0yOSpDX7TRabeymUxLkn1jqfUWMXaJVksrFacf0IHY06Z3sBlqRLKduHxvX
-         Ltzr4bZQgZ3XAeyly6v5iHF872qN0wP8w7A7iScPDAOC3kyDDw7tXyw4yehYD3bip//D
-         9xQZnI4DOL7cTCEL90w5UGQLwxPlm9Szqt9Oc8+nNm7nNjBjw9gkqc/Kbfl0ZhROjCI7
-         LYHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795645424; x=1796250224;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1795645426; x=1796250226; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3b33X25rJkg/st5uBmBh5JOgmQ+U8JpPJF9za8o/02E=;
-        b=i4hicCD0MC3V1f76vIOWfMM2cxc02lNtsw7ToeW+qsoRU7Qtcq+QUbeALsSOz93EUD
-         6CzeCCe6rQJkfRtW5gVkwq2XZZ4ySttaiju53mQyEas49KA2ieH/rAgP5fNNPFQGWHoc
-         DdpoBxmboREHzxAMg33a8NVF8KQ4Q1mX/8IWNKgxmPhhjkrhQQE18tjC/+Zok8liibWp
-         KwLp3u3GaNowsMMMOQH074WlMmYzPtlPunhmYDEcfnUdKu9jExzezmUS0KTDW82U02PB
-         9V+NuB5BYG2H1gZMxGr3cCR0OZT4LH3xMhoeQ9sauzwB3E9b8gunfL8zWZHyIHKWCRvD
-         RY9g==
-X-Forwarded-Encrypted: i=1; AL+hErFIEhE7nGtppq/t4hjnxOAokH1vFgbFpMp/2XL+NZY8WLc5nhy3p7LArrihIJTwQxAeE4KZlAtGaN5Otc4=@lists.linux.dev
-X-Gm-Message-State: APuU4Z9HIfbMNY8jb8KoByELUHWvjNxJVzgvZ5ICDGs0WXUMx6k7ItTa
-	p97cYiiMfDVqr57F7RP4iZBgqHIqcjzAdXno5pZ4djdIraoBjGM6mAbHKI+qjtiHkA9NBXOBoiH
-	KHQ==
-X-Received: from dyx17.prod.google.com ([2002:a05:693c:8211:b0:378:1191:3e95])
- (user=elkin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:d587:b0:381:d92e:ecab
- with SMTP id 5a478bee46e88-3856f25884emr17872862eec.11.1795645423958; Wed, 25
- Nov 2026 14:23:43 -0800 (PST)
-Date: Wed, 25 Nov 2026 22:22:55 +0000
+        bh=/tS6CVqz0bwQhURF3f4/c8xLuOeYAnVMzoUdEwuEpSs=;
+        b=CDov0XuGOCKQP92H97+K6wrMYOnfmqpxkmUPj2kvwcg35xueZDkoG5/xQhK9bhvSwQ
+         qdnJA4xmJtSUdOZgSaFW5cuGvLcaCQOx9CLMGVyX7NWqLEiNBum5LEs+rHXS72qyiYjy
+         ldhqXOn188X/LMgFX4fHQgTn2T6ENx2CBPlCuqwFjsAB/ID8zjKBD4ZuZDHjR4JdhRnF
+         9u6MCP7nvHr5zn56P571HNYAQQ51cP6olG50hnT/yZef5+azs8NRuuUty6FjVn/Fo3JV
+         CmRmn2sAfZXQra22mEcZjWYuNzEsISwvT0YR2rmK3rpYsAfScaIFbR9tWqLewjJg8i8X
+         MyzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795645426; x=1796250226;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/tS6CVqz0bwQhURF3f4/c8xLuOeYAnVMzoUdEwuEpSs=;
+        b=tWnK+zwYFj4Ez+sh74IVCKB6pVmgxUJEs1vHGfK7bhUU3v9FU4KDgsIP0Der0YfxtZ
+         LpBmm/bUghUGF86aB88ahtYJhYc8nnEBJy9Y8UKvphigeCTAeuHGMFZC5rPb7OmWuXNB
+         wUsax8mnd5HZm7nMt+hsfe0zJEEfprCipY0p/nn4MjwTrHdbytahPDzeBSPj1bLFEryj
+         xK3rztXFJZHOwrXIvk4EPKI/D1L6QRsXJVTe+5kWZVwMx+UC7j0KsYRDI/ykfT4OIw1o
+         zKWb0CLI0dXPvKT1hTaaueVX24EARLQJdv7FkFcuJ9PQd68w0tZKRMeZf6DFrgJmrz0J
+         EhJQ==
+X-Forwarded-Encrypted: i=1; AL+hErGvXOURxfuvmNyP8zfntfTIGVpOr5vVldZQtIMfTlpfNSsC/KIOT/lwJhhGwmMxl2EJzo/gNCQqMIQEs3c=@lists.linux.dev
+X-Gm-Message-State: APuU4Z8zYaLG+LflRojYU7CaDQq9rEiq0S6aJ3YuMW45e3KDSQOpiyZv
+	7ZizwuvpXKJ+BOh0+XRZPMtvOmPJ+pVDfSNHozIYiXNHt9ZV2kLQoOGrfjqbYWBISoIziplRc8v
+	GlQ==
+X-Received: from dyblz33.prod.google.com ([2002:a05:7301:1621:b0:34c:9660:9612])
+ (user=elkin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:d205:b0:36a:1f8:a56e
+ with SMTP id 5a478bee46e88-3856fe564a1mr19200647eec.23.1795645425499; Wed, 25
+ Nov 2026 14:23:45 -0800 (PST)
+Date: Wed, 25 Nov 2026 22:22:56 +0000
+In-Reply-To: <20261125222300.1438398-1-elkin@google.com>
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -76,37 +79,138 @@ List-Unsubscribe: <mailto:oe-linux-nfc+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
+References: <20261125222300.1438398-1-elkin@google.com>
 X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
-Message-ID: <20261125222300.1438398-1-elkin@google.com>
-Subject: [PATCH net 0/4] nfc: st95hf: fix SPI receive bounds, DMA safety, and
- teardown UAF
+Message-ID: <20261125222300.1438398-2-elkin@google.com>
+Subject: [PATCH net 1/4] nfc: st95hf: bound SPI receive length in st95hf_spi_recv_response()
 From: Elkin Cruz <elkin@google.com>
 To: David Heidelberg <david@ixit.cz>, Nathan Chancellor <nathan@kernel.org>
 Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
 	Justin Stitt <justinstitt@google.com>, oe-linux-nfc@lists.linux.dev, llvm@lists.linux.dev, 
 	linux-kernel@vger.kernel.org, irogers@google.com, 
-	Elkin Cruz <elkin@google.com>
+	Elkin Cruz <elkin@google.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-I am trying out new Clang static analysis checks for kernel bug
-classes, and they flagged this code as possibly buggy. The findings
-were triaged/fixed and commit descriptions were drafted with help of AI,
-then checked against linux-next (not runtime-tested on hardware).
+st95hf_spi_recv_response() computes up to 1025 bytes of response length
+from the 2-byte SPI header and reads the payload directly into
+receivebuff without checking the destination buffer capacity. A
+malformed or unexpected response overflows the 2-byte stack buffer in
+st95hf_send_recv_cmd() or the 280-byte skb buffer in
+st95hf_irq_thread_handler().
 
-Thanks,
-Elkin
+Pass the destination buffer capacity max_len to
+st95hf_spi_recv_response() and reject lengths exceeding max_len with
+-EMSGSIZE after deasserting chip-select via an empty trailing transfer.
 
-Elkin Cruz (4):
-  nfc: st95hf: bound SPI receive length in st95hf_spi_recv_response()
-  nfc: st95hf: use DMA-safe buffers for SPI transfers
-  nfc: st95hf: validate async tag response frame lengths
-  nfc: st95hf: fix probe init order and remove teardown UAF
+This issue was found while trying out new Clang static analysis checks for
+kernel bug classes. The finding was triaged and fixed, and this commit
+description was drafted with the help of AI, then verified by code
+inspection and compile-tested against linux-next (not reproduced and not
+runtime-tested on hardware).
 
- drivers/nfc/st95hf/core.c | 151 +++++++++++++++++++++-----------------
- drivers/nfc/st95hf/spi.c  |  75 +++++++++++--------
- drivers/nfc/st95hf/spi.h  |  13 +++-
- 3 files changed, 140 insertions(+), 99 deletions(-)
+Fixes: cab47333f0f7 ("NFC: Add STMicroelectronics ST95HF driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Elkin Cruz <elkin@google.com>
+---
+ drivers/nfc/st95hf/core.c |  6 ++++--
+ drivers/nfc/st95hf/spi.c  | 31 ++++++++++++++++++++++---------
+ drivers/nfc/st95hf/spi.h  |  3 ++-
+ 3 files changed, 28 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/nfc/st95hf/core.c b/drivers/nfc/st95hf/core.c
+index dcc9e53815ca..d7ac7ede1259 100644
+--- a/drivers/nfc/st95hf/core.c
++++ b/drivers/nfc/st95hf/core.c
+@@ -283,7 +283,8 @@ static int st95hf_send_recv_cmd(struct st95hf_context *st95context,
+ 		unsigned char st95hf_response_arr[2];
+ 
+ 		ret = st95hf_spi_recv_response(&st95context->spicontext,
+-					       st95hf_response_arr);
++					       st95hf_response_arr,
++					       sizeof(st95hf_response_arr));
+ 		if (ret < 0) {
+ 			dev_err(dev, "spi error from st95hf_spi_recv_response(), err = 0x%x\n",
+ 				ret);
+@@ -800,7 +801,8 @@ static irqreturn_t st95hf_irq_thread_handler(int irq, void  *st95hfcontext)
+ 
+ 	mutex_lock(&stcontext->rm_lock);
+ 	res_len = st95hf_spi_recv_response(&stcontext->spicontext,
+-					   skb_resp->data);
++					   skb_resp->data,
++					   MAX_RESPONSE_BUFFER_SIZE);
+ 	if (res_len < 0) {
+ 		dev_err(spidevice, "TISR spi response err = 0x%x\n", res_len);
+ 		result = res_len;
+diff --git a/drivers/nfc/st95hf/spi.c b/drivers/nfc/st95hf/spi.c
+index ffaf2789c406..a6599d65a3bf 100644
+--- a/drivers/nfc/st95hf/spi.c
++++ b/drivers/nfc/st95hf/spi.c
+@@ -66,21 +66,22 @@ EXPORT_SYMBOL_GPL(st95hf_spi_send);
+ 
+ /* Function to Receive command Response */
+ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
+-			     unsigned char *receivebuff)
++			     unsigned char *receivebuff,
++			     size_t max_len)
+ {
+-	int len = 0;
+-	struct spi_transfer tx_takedata;
+-	struct spi_message m;
+-	struct spi_device *spidev = spicontext->spidev;
+ 	unsigned char readdata_cmd = ST95HF_COMMAND_RECEIVE;
++	struct spi_device *spidev = spicontext->spidev;
++	struct spi_transfer tx_takedata;
+ 	struct spi_transfer t[2] = {
+-		{.tx_buf = &readdata_cmd, .len = 1,},
+-		{.rx_buf = receivebuff, .len = 2, .cs_change = 1,},
++		{ .tx_buf = &readdata_cmd, .len = 1 },
++		{ .rx_buf = receivebuff, .len = 2, .cs_change = 1 },
+ 	};
+-
++	struct spi_message m;
++	int len = 0;
+ 	int ret = 0;
+ 
+-	memset(&tx_takedata, 0x0, sizeof(struct spi_transfer));
++	if (max_len < 2)
++		return -EINVAL;
+ 
+ 	mutex_lock(&spicontext->spi_lock);
+ 
+@@ -106,7 +107,19 @@ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
+ 	else
+ 		len += receivebuff[1];
+ 
++	if (len > max_len) {
++		dev_err(&spidev->dev, "spi_recv_resp, invalid response len = %d\n",
++			len);
++		memset(&tx_takedata, 0x0, sizeof(struct spi_transfer));
++		spi_message_init(&m);
++		spi_message_add_tail(&tx_takedata, &m);
++		spi_sync(spidev, &m);
++		mutex_unlock(&spicontext->spi_lock);
++		return -EMSGSIZE;
++	}
++
+ 	/* Now make a transfer to read only relevant bytes */
++	memset(&tx_takedata, 0x0, sizeof(struct spi_transfer));
+ 	tx_takedata.rx_buf = &receivebuff[2];
+ 	tx_takedata.len = len - 2;
+ 
+diff --git a/drivers/nfc/st95hf/spi.h b/drivers/nfc/st95hf/spi.h
+index 3ab678734c17..840f55f82899 100644
+--- a/drivers/nfc/st95hf/spi.h
++++ b/drivers/nfc/st95hf/spi.h
+@@ -45,7 +45,8 @@ int st95hf_spi_send(struct st95hf_spi_context *spicontext,
+ 		    enum req_type reqtype);
+ 
+ int st95hf_spi_recv_response(struct st95hf_spi_context *spicontext,
+-			     unsigned char *receivebuff);
++			     unsigned char *receivebuff,
++			     size_t max_len);
+ 
+ int st95hf_spi_recv_echo_res(struct st95hf_spi_context *spicontext,
+ 			     unsigned char *receivebuff);
 -- 
 2.56.1.839.g22a8290db9-goog
 
