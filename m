@@ -1,143 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.128
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795587248;
-	b=SIlA5fVExroXKkAR0BeUJtaKH0FyZ0L3rWTuVrSxptXE6iQK+HFeP1gIfbRo9SWIyqPe
-	 C3LnHl1JunimOfGbEmEM8Fop6wMD3BvzhZS6YF3rHjJUjadR47c5eDZp/RkoXRw7iE3bL
-	 mNiu79p6MIoxzPbUtrUBKLgkiiXpuawSQgsJqGP9hw9+tlhvLe1xofdxMfGRDqRBPC55t
-	 jvl3+TNhPILwn10AL+vzhAuKwO8URKUhmh9PbMdJeHzZsvWdIlRCUI1lKQVxZ9LuZYayK
-	 D+esXD3sj4oUB/oTkQuF9frqkDLzkwnWqdCPyJLc4++WOLlHvRQZmvoWmw/IAxoqsag==
+	t=1795594037;
+	b=KnKT57U1zvtbKaBd743nF4+z0aa1f1kwpG8Xr04DQSWhtdzL9lrBvoRpwt4Jw4KSz20r
+	 N0/8n/YQrhdh6ALk9qscYvjs2KaYOs+zck0x4uZMTF/g43KEF4EFNKbX6edyVW7U6W1a2
+	 EAPdoRlLySu5zSTSY0A7p3e3yFkUqp9WeFH5lxjXwZnGHAMty5/hiaHoGh8gIAo/w12EE
+	 O8h0nK8gXABemjM57TLXAL2/H8d8S/C717CgoI7bzHpVuVfcSOjRc6u3Ia6Ez/jGi46w8
+	 VpiQ4ghJUQ3vzMxMae/YRasom19P1ImtQYIwakJoo5zo92KI1yOshqDk3m/rEgRv/Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795587248;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=HbuCV21suICAifmMr+QiJxglk35NFZTKGTKkvkyuZyo=;
-	b=ULQGKdWG9UsKSEaw7qgjSUvuefvvxbkBnYt3KNggoCkQryWSWyqCDZfQZp/7ZjvXNY0U
-	 GOGyAXyioTR42KYePuZVMGbn1g75+0ZFZRxFz964lZuENdApKv/LdmqDX4leDGV4NuIMw
-	 d/qC7ahWHwbSg2RTllFTrjv4mI+/GBcA+6lRBP3iYGvR2/wSqAYSyqWfyUBVfydo1fi5K
-	 3lQ/QckxgIhmfIxvYEFz8fozXzCDJzAMTjAvr7c+LiP8XARZPiV8EyUyUeEgxw5QZB6uQ
-	 aqpshaHOvBLbhccUPa1juwzzHxZ2tiu/XG1zoz0hx1/RsMZDQhDCTuEI65G+EoLrCBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594037;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=gGgY/g42kXiEi9hKkVOcPMTngxVYNDDV66irTK01U44=;
+	b=strLPkZlOhSTDu+Z1uiXDFgM/CEleuPlcVII7F13mB2nzbkpfg+zW3W0ucM07KBBZV2v
+	 tcmnwwUo6Us6AUPW4H0ystFqUU/TeHwvDfTBBDYjkH7pEtkYQwRhWWP3/2oqx/2j5FzeI
+	 9IHC4W1aRFakOGi+l6jQczDpa6A/YrT/ntgVcMS3v+R25BHZxGDJqPrdJvIKM9ekPBz+O
+	 HfFNA89Zr+KzrMDiSnAnI8D7lAA5+XLh70g/+eMeAolO9jXZ4SDuKJg04fUE+7pWWpmKK
+	 nCIVnSlbV6SWjqZghtroaMk5szsKwh4LQCyvcnbYKUWdJPFyKHwVyh2XS76x63Apw2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=t0N3QvZj;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fMXcVlN2;
+	arc=none smtp.remote-ip=74.125.227.128
+Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E49606D31B;
-	Wed, 25 Nov 2026 06:14:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16E49606D31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94279606A31E
+	for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 08:07:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94279606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=t0N3QvZj
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=HbuCV21suICAifmMr+QiJxglk35NFZTKGTKkvkyuZyo=; b=t0N3QvZj67sXAElPcQDRfFEeFC
-	Ry87q/HKHnd9AflpeJ6sdyDtMOspDD6dk2kaKcGI09Doxg/kOyBkkDwuQF/GwL+aUcraRQSMAI4gq
-	vaqJWlOuO16ACJ+hVxBTQvxMm6w7klhtRvz5Yuyb/9as7/epd7p8KXoZozPJ9vin16Qwnte6KAQDZ
-	B28OGP5xhj8FWN6iqYyBJVLmdncGI4T/+eayqDgNpmb6Hw4RS8zBiBjrlpxInv3X7OrcCLrJYK19C
-	NoN6ftlIGZXNkThIXdUqXsPtWw01Bnj1QiVeCmRzeFE66JRwhcWdPaXrSAfBriLmxjvU5NlxFqa4l
-	D51u5MqA==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6Gd-00000008Wvh-05Wr;
-	Wed, 25 Nov 2026 06:14:07 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fMXcVlN2
+Received: by mail-pj2-f0.google.com with SMTP id d9443c01a7336-2efd15c7545so19319975ad.1
+        for <oe-linux-nfc@lists.linux.dev>; Wed, 25 Nov 2026 00:07:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795594036; x=1796198836; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gGgY/g42kXiEi9hKkVOcPMTngxVYNDDV66irTK01U44=;
+        b=fMXcVlN2FD18H6ppE7yoxdkgLcUgmpB3Fq9ZfXj0I+y1eHhGzVPgAPGhnhINc81J70
+         aeCjdxESy11FbvIxjhBoITqovKxPgV3CO5vpghNMjicCQWiTFoOh1evuo6vi7gf3lGdw
+         rkcTUEkBTrv5Tllqb5cuqlhbEBMXwG9NKTWbSy2/5TweyNW90WfDVsyFChePE+bV2zqj
+         DhzU5sM1R9HLOTmmYevBg6TeA15pCD6oaL9UTWpFNXEDhyta/5JedSAUg2PZTp44NKs7
+         K8ybUzjCCJsksFZWrZBPJyWhmAArdS6oKlz9QwI5oWssfXTw6mGkATk2+TOWvGeaqPN7
+         HPbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795594036; x=1796198836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gGgY/g42kXiEi9hKkVOcPMTngxVYNDDV66irTK01U44=;
+        b=i/24NPtCz3A5wb5/bfIuZC5+mVRzO/2iinEkVqvOgHxwqoMESPzTrm7D2nyl3G+qyD
+         BZ4k07JEVfH+dtZNrCFOQ8rwi4jFsT7P521G+1PZdDOFG22TfDJgV9kwT3DJP8WbMo7u
+         wK+fGgQQ17wRUWwK3cLFQ5NYuSIDzhmnsoI+/0hfdHxLACBaf/5ysjOsH4Ehmq1HkAqN
+         s0u/14V4ot0pddQuJKjmnYng4bUNVu1I2iNcwT+Rrx0HJgpU5cU2b7Z0w6jXGxLrLxH9
+         D5j8f2vS6qpv9QL9SZGZjcqskd1BzXv7p2e0PZuGERd1LJMjaCplzFHYLUwV1CKfJ53R
+         PBvg==
+X-Gm-Message-State: APuU4Z9jeE9TVMmSNzFhemKES3XTgYF3MGkNMAKOEJ0gwpbtOoZCAI5L
+	RXvZA8CZL/+AM/aN0zwVPqjR3frRaZ3IJkVxX09lRVlRQyHajvS8qAFi
+X-Gm-Gg: AZFdTZfxWKHwo5wms6sui7abcSd6CKka0WBxHK2+MIFuAOtElBiyIisDt7RU+N3G0Em
+	Y9FBc/kfS3CaizkE5Eg0oKJKyVdam8DzHEtJLdgSgkmQbAfkZeZxaqucll3Gyi/o4PJvTqCmKJ5
+	JfDyn/HFqdYLyl69Mweg5NOos6K9JLAX3MQerFuerdzyDDqZCMe9RgC27vKLNn46vn+VSXsRiYL
+	mfExk8oUaRbFptSzmDVUXMR/Ocuv3AFEZmuh9WNgvlSfiGVCc7WpEvcGW9ALEEZSKJt6fP4nyRi
+	4McFwXiRaWjlTftVVFxZvxQ4Z7cZGs/KOw2TRRTqUEkcPZ7IwfkUntCy3hgkg/WXPLLDgSCnGXI
+	QX1fx6b882UZziUYKxgz16JDJsniR1iR1QJoLJdlynLCaoaIDgX+xkyEn8q9nSw+nhHY0SkWZg9
+	BdNS6yVSI6g1JE/iiiRsN8Ntt2zp519XkjO65nBaZKT3lQ3+smekSDJcFFEUif65ivaIF1fJz40
+	s97KfMHyvqEUt86isCpO/F0PpkGikC8fxKYL46xP6zoRyD8j/kC2iwan0qhsYSqJUFbgNPmqVYU
+	u9krirQCGd4upzadv90o7vArb1tS1efAP83AOyNQ4vCaT5WoxoSKRfI84Jp1npFUnHAvv/OkVxA
+	H
+X-Received: by 2002:a17:902:ef4e:b0:2f0:4ebf:84e5 with SMTP id d9443c01a7336-2f04ebf8708mr162770625ad.45.1795594035760;
+        Wed, 25 Nov 2026 00:07:15 -0800 (PST)
+Received: from BSDHENRYMA-PC1.localdomain ([43.132.141.18])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1a74sm83444005ad.12.2026.11.25.00.07.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 00:07:14 -0800 (PST)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: david@ixit.cz,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org
+Cc: oe-linux-nfc@lists.linux.dev,
 	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v3 10/12] docs: ioctl-number: update FS entries
-Date: Tue, 24 Nov 2026 22:13:37 -0800
-Message-ID: <20261125061340.3402300-11-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
+	Henry Martin <bsdhenrymartin@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH nfc v3] nfc: llcp: reject bind and connect while the socket is still linked
+Date: Wed, 25 Nov 2026 16:07:06 +0800
+Message-ID: <20261125080706.648722-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
 List-Id: <oe-linux-nfc.lists.linux.dev>
 List-Post: <mailto:oe-linux-nfc@lists.linux.dev>
@@ -149,88 +102,84 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update the list of files where filesystem ioctls are defined and update
-the ranges of function numbers that are used.
+llcp_sock_connect() only rejects LLCP_CONNECTED and LLCP_CONNECTING, so a
+socket that is still linked in local->sockets can be linked a second time
+into local->connecting_sockets.  That covers bound and listening sockets,
+and sockets that a peer moved to LLCP_CLOSED with DISC or DM.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Both lists use sk->sk_node.  When the peer answers with CC,
+nfc_llcp_recv_cc() removes the node from the connecting list and links it
+back into local->sockets, where the stale bind-time entry makes the node
+point to itself.  Every later sk_for_each() over local->sockets then spins
+forever with the read lock held, which pins the CPU and stalls RCU, and
+the socket is never freed.
+
+The same stale-link case reaches llcp_sock_bind(): nfc_llcp_recv_disc()
+and the non-connecting branch of nfc_llcp_recv_dm() move a socket to
+LLCP_CLOSED without unlinking it, and bind() only checked sk_state, so
+it would link sk_node into local->sockets a second time.
+
+Reject connect() and bind() while sk_node is still linked.  A socket
+has to be closed before it can be connected or bound again.
+
+Reproduced on v7.4-rc3 as uid 1000: a soft lockup / RCU stall in
+nfc_llcp_sock_from_sn() while walking local->sockets.
+
+This issue was discovered by Tencent CodeBuddy Security.
+
+Link: https://lore.kernel.org/all/20261009092338.3146149-1-bsdhenrymartin@gmail.com/
+Fixes: a69f32af86e3 ("NFC: Socket linked list")
+Cc: stable@vger.kernel.org
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
 ---
-v2: address sashiko review comment (ext4 00-2F range referred to
-    the wrong file name)
-v3: rebase
+v2 -> v3: apply the same sk_hashed() guard to llcp_sock_bind(): a socket
+          that a peer moved to LLCP_CLOSED with DISC or DM stays linked
+          in local->sockets, and bind() only checked sk_state, so it
+          could link sk_node a second time (reported by sashiko's
+          review of v2).
+v1 -> v2: reject any socket that is still hashed (sk_hashed) instead of only
+          LLCP_BOUND, covering bind()+listen()+connect() and sockets left
+          linked after DISC/DM.
+---
+ net/nfc/llcp_sock.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
+index 1e5ee4bcde684..c12170dde8401 100644
+--- a/net/nfc/llcp_sock.c
++++ b/net/nfc/llcp_sock.c
+@@ -86,6 +86,15 @@ static int llcp_sock_bind(struct socket *sock, struct sockaddr_unsized *addr, in
+ 		goto error;
+ 	}
+ 
++	/* A peer can move a connected socket to LLCP_CLOSED with DISC or
++	 * DM while it stays linked in local->sockets.  Binding such a
++	 * socket would link sk_node a second time and corrupt the list.
++	 */
++	if (sk_hashed(sk)) {
++		ret = -EBADFD;
++		goto error;
++	}
++
+ 	dev = nfc_get_device(llcp_addr.dev_idx);
+ 	if (dev == NULL) {
+ 		ret = -ENODEV;
+@@ -714,6 +723,15 @@ static int llcp_sock_connect(struct socket *sock, struct sockaddr_unsized *_addr
+ 		ret = -EINPROGRESS;
+ 		goto error;
+ 	}
++	/* A socket that is still linked in local->sockets must not be linked
++	 * into local->connecting_sockets as well: both lists use sk_node, and
++	 * the CC handler links the node back into local->sockets, which turns
++	 * the stale entry into a self-loop.
++	 */
++	if (sk_hashed(sk)) {
++		ret = -EISCONN;
++		goto error;
++	}
+ 
+ 	dev = nfc_get_device(addr->dev_idx);
+ 	if (dev == NULL) {
+-- 
+2.53.0
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: "Theodore Ts'o" <tytso@mit.edu>
-Cc: linux-ext4@vger.kernel.org
-Cc: Mike Marshall <hubcap@omnibond.com>
-Cc: devel@lists.orangefs.org
-Cc: Paulo Alcantara <pc@manguebit.org>
-Cc: Namjae Jeon <linkinjeon@kernel.org>
-Cc: linux-cifs@vger.kernel.org
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Chao Yu <chao@kernel.org>
-Cc: linux-f2fs-devel@lists.sourceforge.net
-
- Documentation/userspace-api/ioctl/ioctl-number.rst |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
---- linux-next-20261123.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261123/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -185,6 +185,7 @@ Code  Seq#    Include File
- 'I'   all    linux/isdn.h                                              conflict!
- 'I'   00-0F  drivers/isdn/divert/isdn_divert.h                         conflict!
- 'I'   40-4F  linux/mISDNif.h                                           conflict!
-+'I'   00     linux/inotify.h
- 'K'   all    linux/kd.h
- 'L'   00-1F  linux/loop.h                                              conflict!
- 'L'   10-21  drivers/scsi/mpt3sas/mpt3sas_ctl.h                        conflict!
-@@ -274,7 +275,7 @@ Code  Seq#    Include File
- 'f'   00-1F  linux/ext2_fs.h                                           conflict!
- 'f'   00-1F  linux/ext3_fs.h                                           conflict!
- 'f'   00-0F  fs/jfs/jfs_dinode.h                                       conflict!
--'f'   00-0F  fs/ext4/ext4.h                                            conflict!
-+'f'   00-2F  fs/ext4/ext4.h, uapi/linux/ext4.h                         conflict!
- 'f'   00-0F  linux/fs.h                                                conflict!
- 'f'   00-0F  fs/ocfs2/ocfs2_fs.h                                       conflict!
- 'f'   13-27  linux/fscrypt.h
-@@ -299,6 +300,7 @@ Code  Seq#    Include File
- 'k'   00-0F  linux/spi/spidev.h                                        conflict!
- 'k'   00-05  video/kyro.h                                              conflict!
- 'k'   10-17  linux/hsi/hsi_char.h                                      HSI character device
-+'k'   01-0F  fs/orangefs/protocol.h                                    <mailto:devel@lists.orangefs.org>
- 'l'   00-3F  linux/tcfs_fs.h                                           transparent cryptographic file system
-                                                                        <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
- 'l'   40-7F  linux/udf_fs_i.h                                          in development:
-@@ -372,7 +374,7 @@ Code  Seq#    Include File
- 0x92  00-0F  drivers/usb/mon/mon_bin.c
- 0x93  60-7F  linux/auto_fs.h
- 0x94  all    fs/btrfs/ioctl.h                                          Btrfs filesystem
--             and linux/fs.h                                            some lifted to vfs/generic
-+0x94  all    linux/fs.h                                                some lifted from Btrfs to vfs/generic
- 0x97  00-7F  fs/ceph/ioctl.h                                           Ceph file system
- 0x99  00-0F                                                            537-Addinboard driver
-                                                                        <mailto:buk@buks.ipn.de>
-@@ -440,7 +442,7 @@ Code  Seq#    Include File
- 0xCC  00-0F  drivers/misc/ibmvmc.h                                     pseries VMC driver
- 0xCD  01     linux/reiserfs_fs.h                                       Dead since 6.13
- 0xCE  01-02  uapi/linux/cxl_mem.h                                      Compute Express Link Memory Devices
--0xCF  02     fs/smb/client/cifs_ioctl.h
-+0xCF  01-0F  fs/smb/client/cifs_ioctl.h                                <mailto:linux-cifs@vger.kernel.org>
- 0xDD  00-3F                                                            ZFCP device driver see drivers/s390/scsi/
-                                                                        <mailto:aherrman@de.ibm.com>
- 0xE5  00-3F  linux/fuse.h
-@@ -449,6 +451,7 @@ Code  Seq#    Include File
- 0xEF  00-0F  uapi/linux/ntfs.h                                         NTFS
- 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                       sisfb
- 0xF3  00-3F  video/sisfb.h                                             <mailto:thomas@winischhofer.net>
-+0xF5  01-1F  uapi/linux/f2fs.h                                         <mailto:linux-f2fs-devel@lists.sourceforge.net>
- 0xF6  all                                                              LTTng Linux Trace Toolkit Next Generation
-                                                                        <mailto:mathieu.desnoyers@efficios.com>
- 0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                      AMD HSMP EPYC system management interface driver
