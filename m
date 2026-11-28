@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795875220;
-	b=D7YyUApjgDi7ZqXJWY1Uod/aDqDvD8O7ZpbIFrb99sRnGHPSjooT7d45dWSzBczBArYh
-	 weevEe2ZIvDcfEOjKi0Lj7Ooz4suuux+Vo5iqTN5yQG66VcNGjLzxzTmi0WuGVhQ/oeN+
-	 sgL0sAtv6uGhA0B13ogPDvadSy4wplcdljaFtXFa1be9DhfuhiWIa+zvRe3R2UlbrM3Gt
-	 LyyInZZYM1pFTLnBNOf+ZgR8Ao/6B+8B/PKLm63vYFdHHmBSfVK1yyJV1HdOLDzmrVoVR
-	 SpqfA+MCRexXAuQ+NUm/hV67HbzfCBFCDS5vlqpb/N7QmlyKB9nfDVmTbM5EC2+Er4g==
+	t=1795875221;
+	b=vdRhvqG9RKv72eWvGokPAwNfvyeWM4BlLV3i0v1CYUPbLvvGBwQxdvtDO8bi17ZaoRCZ
+	 oWzIGkPBZmJUl/1yzRkmTc41c1JYuqYy+EzChLvuMF/yAEkW+N96kxFl7CfKq3geEGsQn
+	 GpqaC0orXYNXsIxOtBbLewJ8HW/Yi/gh2yET67+vivlGe+fza4VUla3Z+5/rH9xvMPMha
+	 /17ahiRZZ1z8uakYJ4Qz92/2L636voNY6viYVRJFglFqAsakGcwTxn3p6N7pkRy0+N8hC
+	 BDCIlqP613fxo5adeRk8+0BlTkVweFHvlGrVdXPBspYYnwkfW33cl2CheMaDEO3+x6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795875220;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795875221;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=MfbJlqAYuqKvbh4oLT4dnNJ370gx6Q2LecWWnOcU8gg=;
-	b=gckBJ1FYYqq3E6Zvh6Ui8j5FMd+3kMdFN21U58Kgmn9EdQuU9V6M4LQnQN402tiejWoB
-	 kqS+amaAU9W5IrPgGvBPJVJ162UvJIncNDZhfz+pLDv8YX3J3xFLgJe1TrWUgOTOg7I0r
-	 rvnTNHFg+ZNtoXbTJOgVzNt6CTZlJkhX6WFnDVmpsgJ6Rmjv8i+A/gFIhoLsH0HkZGIH6
-	 Rd0t8htpFrZl6+v7H3N1Ht7wPwTs+mejupIokTVkqLesg4v4bd9AySJB4QJ90AyC0i89o
-	 hGVM9rdJnje9mxPVpCHA9VhcaLeD99hbiP1F/OQsBpRIyLLIOcrbhip9hN9h7hS7mcg==
+	bh=GYrgUyRVneZDfW/CyAAKO17GPac2XqtRmzjmqW0C5S8=;
+	b=lXshZCdCpHTy/4zNIuXnT7rVpoqAtGIOQKYCKBQai0Qu6xa13YfZj3g1gZPuaDVg6Wa8
+	 /wepih/nOYySL4GaALxfy8giydEo1EAsGWczEF5rz+tWus8sSKP058JA6Z6dhHXw5aMjB
+	 D9Qc69RZcq+v7a6jIq/6kQSHj/PDZ9pltGZMddCuQVjKNe6fCfmeya2/M04gTkdzf62dv
+	 rBubJKBo3aLEdpEzEba3cvVw6a+NccP4bFrTtqIZcdKqvHIOItBYPuWfiKgcBpDeZrJec
+	 VqLrWpk0tkGcHzSyIgIETUUGAt4WcfV54AbTmyiLhj+7s0QGXXPOTFNVIc+pNdxdD0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YO5zEZ+1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aToQ2ykk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7703A606A32A;
-	Sat, 28 Nov 2026 14:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B3E606A329;
+	Sat, 28 Nov 2026 14:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YO5zEZ+1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE8E1F000C1;
-	Sat, 28 Nov 2026 14:13:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aToQ2ykk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B780B1F000C1;
+	Sat, 28 Nov 2026 14:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795875220;
-	bh=MfbJlqAYuqKvbh4oLT4dnNJ370gx6Q2LecWWnOcU8gg=;
+	s=k20260515; t=1795875221;
+	bh=GYrgUyRVneZDfW/CyAAKO17GPac2XqtRmzjmqW0C5S8=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=YO5zEZ+1c4/CzlC5UYJ3zk0w3xEVn0YJRu3Ejo+G8fZ0dMyTZe1DUVfu2JvYRUN5M
-	 yLngGxUdpqt7mJVQKJrMtHielcP1OmIzbgrsj4A1tFS+afi82LeY+wTtzlxBm0XVwA
-	 rr41oq+6eXjDDfuThgkPaoY9mtOA0ZqBKIicp9lzvb3+nX8yt6aAWfSIoT/Ez0bBlf
-	 ih8dBPlBueCBB6IqRWy9GwCxVN3ig2gmwy9lDncxaOTC8Ww1OV0WoWcuFqtnb69T+W
-	 UW/H9oqc/iD6Ddt7kRbrGNHrv5Q7gWVx+NKlmWdoFqR6efhIU1jP4MsAi7jLrRSiTD
-	 2P3VGOkIFtaLg==
-Subject: Re: [PATCH v5 3/5] nfc: digital: complete DEP data exchange on
- terminal errors
+	b=aToQ2ykkHEMZCV1S2ccctBJPGk1ZjBEiQNJMszQkh+mZrm8i6PfPk7HQaOBR8Q5Kj
+	 dMXarQSiInR6AmV4KFXLs5w3RWJBIEnOHBhUZ0kG1Au0IFG6RcEvUWK7k2ASIb8lJK
+	 8BTehyI8gGxNecLCzBwH+anjAui/UHdZM2rVxc3VydEnvXJX2zygcY5SjhFg3tD7dV
+	 VGKCiRb/8TnlHxzpV+9j0jeoAfBU4PeN4AA+ssGrlNMFGdWdIIvFB0vB26h6qtlLfv
+	 oJ0YGWw5rhKI9mMnsFhyH9PCrmpE4JT2v4x9ASdoh6+YNXeeX9slkgr2pPnId4tSdP
+	 UaHcygVuWosbA==
+Subject: Re: [PATCH v5 4/5] nfc: nci: drop stale rx_data_reassembly on errors,
+ timeout, and close
 From: netdev-bot+sashiko@kernel.org
 To: luob87709@gmail.com
 Cc: oe-linux-nfc@lists.linux.dev, johan@kernel.org, david@ixit.cz,
  kuba@kernel.org, netdev@vger.kernel.org, stable@vger.kernel.org
-Date: Sat, 28 Nov 2026 14:13:39 +0000
-Message-ID: <179587521936.3135.8436597074279524607@kernel.org>
-In-Reply-To: <20261127134029.1813-4-luob87709@gmail.com>
-References: <20261127134029.1813-4-luob87709@gmail.com>
-X-sashiko-severity: Medium
+Date: Sat, 28 Nov 2026 14:13:40 +0000
+Message-ID: <179587522029.3135.18031920907160557003@kernel.org>
+In-Reply-To: <20261127134029.1813-5-luob87709@gmail.com>
+References: <20261127134029.1813-5-luob87709@gmail.com>
+X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: oe-linux-nfc@lists.linux.dev
@@ -63,10 +63,10 @@ List-Owner: <mailto:oe-linux-nfc+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 5 potential
 issue(s) to consider.
 
-Critical: 0 (1) · High: 0 · Medium: 2 · Low: 0
+Critical: 0 · High: 1 · Medium: 2 · Low: 2
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -74,233 +74,243 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] The commit message calls the removed `if (rc)
-  kfree_skb(resp);` in digital_in_recv_dep_res() "redundant".
-- [Medium] The commit message says that after the change "data_exch->cb()
-  is always invoked" for DEP data exchanges.
-
-Pre-existing issues:
-- [Critical] This problem wasn't introduced by this patch, but the ACK-
-  PDU branch of digital_in_recv_dep_res() can be reached while RX…
+- [High] nci_close_device() (net/nfc/nci/core.c) now frees
+  ndev->rx_data_reassembly at lines 629-634, after…
+- [Medium] The commit says it stops stale reassembly bytes from surviving
+  a close/reopen cycle, but it only frees ndev->rx_data_reassembly in…
+- [Medium] nci_core_conn_intf_error_ntf_packet()
+  (net/nfc/nci/ntf.c:135-137) now drops ndev->rx_data_reassembly on…
+- [Low] The patch changes the early `return 0` in the already-down branch
+  of nci_close_device() (net/nfc/nci/core.c:585) to `goto flush_rx`.
+- [Low] The From:/Signed-off-by: names do not match.
 
 --
 
-nfc: digital: complete DEP data exchange on terminal errors
+nfc: nci: drop stale rx_data_reassembly on errors, timeout, and close
 
-This patch changes the terminal error branches in digital_in_recv_dep_res()
-to jump to the exit label instead of the error label, so data_exch->cb() is
-called. It also removes the trailing kfree_skb(resp) on error, because the
-callback now owns any non-NULL resp.
+This patch frees and clears ndev->rx_data_reassembly in four cases where
+a data exchange ends: a nonzero data status, CORE_INTERFACE_ERROR_NTF, a
+data exchange timeout, and device close. The goal is to stop a partial
+NCI_PBF_CONT fragment from being leaked or prepended to later data.
 
-> diff --git a/net/nfc/digital_dep.c b/net/nfc/digital_dep.c
-> index 968547c306a5d..cd6eff01235f8 100644
-> --- a/net/nfc/digital_dep.c
-> +++ b/net/nfc/digital_dep.c
-> @@ -703,7 +703,7 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
->
->  			rc = digital_in_send_nack(ddev, data_exch);
->  			if (rc)
-> -				goto error;
-> +				goto exit;
->
->  			return;
->  		} else if ((rc == -ETIMEDOUT) &&
+> Signed-off-by: Bin Luo (University of Electronic Science and Technology of China) <luob87709@gmail.com>
 
-[Severity: Medium]
-The commit message says errors are routed "so data_exch->cb() is always
-invoked". Does that still hold after a retry like this one has been queued?
+[Severity: Low]
+This isn't a bug, but the author and Signed-off-by names don't match.
 
-All of these go through digital_in_send_cmd() -> digital_send_cmd():
+The author name is recorded as the bare email address,
+"luob87709@gmail.com <luob87709@gmail.com>". The Signed-off-by name is
+"Bin Luo (University of Electronic Science and Technology of China)".
 
-  digital_in_send_nack()
-  digital_in_send_atn()
-  digital_in_send_rtox()
-  digital_in_send_saved_skb()
-  digital_in_send_ack()
-  digital_in_send_dep_req()
+checkpatch reports this as FROM_SIGN_OFF_MISMATCH. Could this be resent
+with a proper From: header and a plain "Bin Luo <luob87709@gmail.com>"
+sign-off? The other patches in this series have the same metadata.
 
-digital_send_cmd() only queues the command and returns 0, so this path
-returns and waits for the next response.
+> diff --git a/net/nfc/nci/core.c b/net/nfc/nci/core.c
+> index efd4e5e0290d4..f832251589f33 100644
+> --- a/net/nfc/nci/core.c
+> +++ b/net/nfc/nci/core.c
+> @@ -582,7 +582,7 @@ static int nci_close_device(struct nci_dev *ndev)
+>  						   ndev->cur_conn_id,
+>  						   -ENODEV);
+>  		mutex_unlock(&ndev->req_lock);
+> -		return 0;
+> +		goto flush_rx;
+>  	}
 
-If the driver's send fails later, digital_wq_cmd() drops the command
-without calling cmd->cmd_cb:
+[Severity: Low]
+Before this patch, the already-down branch of nci_close_device() returned
+here without touching rx_wq. With the goto, it now also runs
+flush_workqueue(ndev->rx_wq) and then takes req_lock a second time. This
+branch is mostly reached from nci_unregister_device() when the device is
+already down.
 
-net/nfc/digital_core.c:digital_wq_cmd() {
-    ...
-	pr_err("in_send_command returned err %d\n", rc);
+The commit message says:
 
-	mutex_lock(&ddev->cmd_lock);
-	list_del(&cmd->queue);
-	mutex_unlock(&ddev->cmd_lock);
+  - In nci_close_device() after flush_workqueue(ndev->rx_wq) on both
+    close paths, guarded by req_lock and !NCI_UP.
 
-	kfree_skb(cmd->req);
-	kfree(cmd->mdaa_params);
-	kfree(cmd);
-    ...
+It doesn't say that the rx_wq flush is new on the down path.
+
+The change looks harmless, because destroy_workqueue() drains rx_wq right
+after this during unregister. Could the commit message still mention
+this behaviour change, since the patch is tagged for stable?
+
+>  
+>  	/* Drop RX and TX queues */
+> @@ -622,9 +622,17 @@ static int nci_close_device(struct nci_dev *ndev)
+>  
+>  	mutex_unlock(&ndev->req_lock);
+>  
+> +flush_rx:
+>  	/* rx_work may take req_lock via nci_deactivate_target */
+>  	flush_workqueue(ndev->rx_wq);
+>  
+> +	mutex_lock(&ndev->req_lock);
+> +	if (!test_bit(NCI_UP, &ndev->flags)) {
+> +		kfree_skb(ndev->rx_data_reassembly);
+> +		ndev->rx_data_reassembly = NULL;
+> +	}
+> +	mutex_unlock(&ndev->req_lock);
+
+[Severity: High]
+Can this free ndev->rx_data_reassembly while nci_add_rx_data_frag() is
+still using it?
+
+Holding req_lock here doesn't keep rx_work out. The chain
+nci_rx_work()->nci_rx_data_packet()->nci_add_rx_data_frag() reads,
+copies from, frees and reassigns ndev->rx_data_reassembly without ever
+taking req_lock.
+
+The flush before this also doesn't stop rx_work from being queued again.
+In nci_recv_frame(), the flag test and the queueing are not atomic with
+respect to close:
+
+net/nfc/nci/core.c:nci_recv_frame() {
+	if (!ndev || (!test_bit(NCI_UP, &ndev->flags) &&
+	    !test_bit(NCI_INIT, &ndev->flags))) {
+		kfree_skb(skb);
+		return -ENXIO;
+	}
+
+	/* Queue frame for rx worker thread */
+	skb_queue_tail(&ndev->rx_q, skb);
+	queue_work(ndev->rx_wq, &ndev->rx_work);
+	...
 }
 
-digital_unregister_device(), by contrast, does notify the issuer:
+The normal close path sets NCI_INIT again while
+__nci_request(nci_reset_req) runs. Could this sequence happen?
 
-	if (cmd->cmd_cb)
-		cmd->cmd_cb(ddev, cmd->cb_context, ERR_PTR(-ENODEV));
+CPU1 (driver rx path)
+nci_recv_frame()
+    passes the NCI_INIT test during the reset request
+    <preempted>
 
-In that case digital_in_recv_dep_res() never runs again for the exchange.
-data_exch is leaked and data_exch->cb() is never called.
+CPU2
+nci_close_device()
+    clear_bit(NCI_INIT, &ndev->flags);
+    ...
+    flush_workqueue(ndev->rx_wq);
 
-For rawsock, this looks like the same hang the commit message describes.
-The sock_hold() taken in rawsock_tx_work() is never dropped, and
-tx_work_scheduled stays set.
+CPU1
+    skb_queue_tail(&ndev->rx_q, skb);
+    queue_work(ndev->rx_wq, &ndev->rx_work);
 
-This needs an in_send_cmd() failure from the driver. Examples are trf7970a
-returning -EIO, -EBUSY or -ECANCELED, or a port100 USB submit failure.
+rf_conn_info survives close, so the requeued rx_work accepts a data
+packet on conn 0. It then runs nci_add_rx_data_frag() while CPU2 does
+this:
 
-Is a matching change needed in digital_wq_cmd(), calling cmd->cmd_cb with
-ERR_PTR(rc), to close this completely? If not, could the commit message
-be narrowed?
+    mutex_lock(&ndev->req_lock);
+    if (!test_bit(NCI_UP, &ndev->flags)) {
+        kfree_skb(ndev->rx_data_reassembly);
+
+That could result in:
+
+- a use-after-free in the memcpy() from rx_data_reassembly->data
+- a double kfree_skb() of rx_data_reassembly
+- a fragment stored after the close-time free, which survives into the
+  next open (the stale data problem this patch is meant to fix)
+
+virtual_ncidev_write() calls nci_recv_frame() without a lock and without
+checking vdev->running. That lets userspace on /dev/virtual_nci time
+frames against close.
+
+Before this patch, only two places touched this field. One was rx_work,
+which is single-threaded. The other was nci_free_device(), which runs
+after destroy_workqueue().
+
+[Severity: Medium]
+Does this cover a reopen after nci_open_device() fails?
+
+The init failure branch of nci_open_device() purges the queues and calls
+ops->close(). It doesn't flush rx_wq or drop rx_data_reassembly:
+
+net/nfc/nci/core.c:nci_open_device() {
+	...
+	} else {
+		/* Init failed, cleanup */
+		skb_queue_purge(&ndev->cmd_q);
+		skb_queue_purge(&ndev->rx_q);
+		skb_queue_purge(&ndev->tx_q);
+
+		ndev->ops->close(ndev);
+		ndev->flags &= BIT(NCI_UNREG);
+	}
+	...
+}
+
+nci_recv_frame() accepts frames while NCI_INIT is set. rf_conn_info for
+conn 0 is created on CORE_INIT_RSP and persists. So nci_add_rx_data_frag()
+can store a CONT data fragment that arrives during init.
+
+Suppose a later init step then fails (post_setup, init_complete_req, or a
+timeout). dev_up stays false and nfc_dev_down() returns -EALREADY, so
+nci_close_device() and this new cleanup never run.
+
+Nothing clears the buffer on the next successful open either. The first
+data packet in initiator or target mode would then be reassembled on top
+of the stale fragment.
+
+Could the init failure branch flush rx_wq and drop the buffer? Another
+option is to drop it once at the start of nci_open_device().
+
+> +
+>  	return 0;
+>  }
 
 [ ... ]
 
-> @@ -847,7 +847,7 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
->  					     ddev->chaining_skb,
->  					     ddev->data_exch);
->  		if (rc)
-> -			goto error;
-> +			goto exit;
->
->  		goto free_resp;
->
-
-[Severity: Critical]
-This isn't a bug introduced by this patch, but this branch is being
-touched. Can a remote target reach this ACK PDU branch while RX chaining
-is in progress, rather than TX chaining?
-
-The only guard before the digital_in_send_dep_req() call is:
-
-		if (!ddev->chaining_skb) {
-			PROTOCOL_ERR("14.12.4.3");
-			rc = -EIO;
-			goto exit;
-		}
-
-This accepts any chaining buffer. During RX reassembly,
-digital_recv_dep_data_gather() stores the receive buffer in the same
-field:
-
-	if (DIGITAL_NFC_DEP_MI_BIT_SET(pfb) && (!ddev->chaining_skb)) {
-		ddev->chaining_skb =
-			nfc_alloc_recv_skb(8 * ddev->local_payload_max,
-					   GFP_KERNEL);
-
-nfc_alloc_recv_skb() reserves only 1 byte of headroom, and
-skb_copy_expand() keeps it:
-
-	total_size = size + 1;
-	skb = alloc_skb(total_size, gfp);
-
-	if (skb)
-		skb_reserve(skb, 1);
-
-A target could do the following:
-
-  1) Reply to a DEP_REQ with an I-PDU that has MI set and the correct PNI.
-     The initiator allocates the RX chaining skb and sends an ACK
-     carrying curr_nfc_dep_pni.
-  2) Reply with a DEP_RES ACK PDU using that PNI.
-
-All the checks pass, and digital_in_send_dep_req() then runs this on the
-RX buffer:
-
-	skb_push(skb, sizeof(struct digital_dep_req_res));
-
-Would this push 3 bytes into 1 byte of headroom and hit
-skb_under_panic() -> BUG()?
-
-There is a second issue. ddev->data_exch is only written in
-digital_send_dep_data_prep():
-
-		ddev->chaining_skb = skb;
-		ddev->data_exch = data_exch;
-
-It is never cleared, including when the exit label does kfree(data_exch).
-On this path it would be NULL or point to an earlier exchange that has
-already been freed.
-
-Even without the headroom problem, the queued command would carry a stale
-or NULL cb_context. Wouldn't the next digital_in_recv_dep_res() then call
-data_exch->cb() through freed memory or a NULL pointer, while the current
-exchange's data_exch is orphaned?
-
-> @@ -883,7 +883,6 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
->  exit:
->  	data_exch->cb(data_exch->cb_context, resp, rc);
->
-> -error:
->  	kfree(data_exch);
->
->  	kfree_skb(ddev->chaining_skb);
-> @@ -892,9 +891,6 @@ static void digital_in_recv_dep_res(struct nfc_digital_dev *ddev, void *arg,
->  	kfree_skb(ddev->saved_skb);
->  	ddev->saved_skb = NULL;
->
-> -	if (rc)
-> -		kfree_skb(resp);
-> -
->  	return;
->
->  free_resp:
+> diff --git a/net/nfc/nci/ntf.c b/net/nfc/nci/ntf.c
+> index f5c9a8ab7ec10..3ca1009ecb335 100644
+> --- a/net/nfc/nci/ntf.c
+> +++ b/net/nfc/nci/ntf.c
+> @@ -132,6 +132,10 @@ static int nci_core_conn_intf_error_ntf_packet(struct nci_dev *ndev,
+>  
+>  	pr_debug("status 0x%x, conn_id %d\n", ntf->status, ntf->conn_id);
+>  
+> +	/* drop partial rx data packet */
+> +	kfree_skb(ndev->rx_data_reassembly);
+> +	ndev->rx_data_reassembly = NULL;
+> +
 
 [Severity: Medium]
-The commit message describes this as dropping "the redundant
-kfree_skb(resp)". Is "redundant" accurate for the series as posted?
+Should this drop be limited to the connection that owns the partial
+message?
 
-The earlier patch "net/nfc: fix skb ownership on data exchange errors"
-changed rawsock_data_exchange_complete() and nfc_llcp_recv() to free a
-non-NULL skb when err != 0:
+CORE_INTERFACE_ERROR_NTF reports an error on one logical connection,
+ntf->conn_id. The reassembly buffer is shared by the static RF connection
+and the dynamic HCI/NFCEE connections, which use
+nci_hci_data_received_cb() as their data_exchange_cb.
 
-net/nfc/rawsock.c:rawsock_data_exchange_complete() {
-    ...
-	if (err) {
-		if (skb)
-			kfree_skb(skb);
-		goto error;
-	}
-    ...
+Consider this sequence:
+
+1. The NFCC sends a CONT segment on RF conn 0, which is stored in
+   rx_data_reassembly.
+2. The NFCC sends CORE_INTERFACE_ERROR_NTF for a different HCI/NFCEE
+   connection, and this code frees the RF partial message.
+3. The NFCC sends the LAST segment on conn 0.
+   nci_add_rx_data_frag() finds no reassembly and treats the tail as a
+   complete frame.
+
+In target mode, the truncated tail is passed on with no error:
+
+net/nfc/nci/data.c:nci_add_rx_data_frag() {
+	...
+	if (ndev->nfc_dev->rf_mode == NFC_RF_TARGET) {
+		/* Data received in Target mode, forward to nfc core */
+		err = nfc_tm_data_received(ndev->nfc_dev, skb);
+	...
 }
 
-That patch does not touch net/nfc/digital_dep.c. Neither does "nfc: pn533:
-clear resp after queueing to avoid double free".
+So LLCP would receive a truncated PDU. In initiator mode, the same
+notification also clears NCI_DATA_EXCHANGE, so the tail is mostly
+dropped rather than delivered.
 
-So at both of those intermediate commits, the existing goto exit paths
-that carry a non-NULL resp with rc != 0 free resp twice. One malformed
-DEP_RES frame is enough:
-
-digital_in_recv_dep_res()
-  digital_skb_pull_dep_sod() returns -EIO
-  goto exit
-  data_exch->cb(data_exch->cb_context, resp, -EIO)
-    rawsock_data_exchange_complete()
-      kfree_skb(skb)
-  if (rc) kfree_skb(resp)    <- second free
-
-The same applies to these paths:
-
-  - the -EMSGSIZE check
-  - the NAD bit check
-  - the ACK PDU checks for the NACK bit, a PNI mismatch and a missing
-    chaining_skb
-
-The reverse case also breaks. If this patch is backported to stable
-without the ownership patch, the callbacks there don't free on error.
-Wouldn't resp then leak on every terminal error path, including the ones
-that already went to exit before this patch?
-
-Both patches carry Cc: stable, but this one only has Fixes: 7d0911c02fa2
-and no dependency note.
-
-Could this be squashed into the ownership patch? Alternatively, could the
-commit message say that this removal is required by that patch, and note
-the dependency for stable?
+nci_rf_deactivate_ntf_packet() can drop the buffer unconditionally
+because RF deactivation ends the whole RF interface. This notification
+is per connection. Could the drop first check ntf->conn_id, for example
+against NCI_STATIC_RF_CONN_ID or ndev->cur_conn_id?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261127134029.1813-1-luob87709%40gmail.com
